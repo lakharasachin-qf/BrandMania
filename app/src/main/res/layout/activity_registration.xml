@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme_material_theme"
+    android:background="@drawable/reg_screen"
+    android:layout_height="match_parent"
+    tools:context=".Activity.RegistrationActivity">
+    <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/creatAccount"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:textColor="@color/colorNavText"
+        android:textSize="@dimen/_20sdp"
+        android:fontFamily="@font/inter_extrabold"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_height="wrap_content"></TextView>
+    <LinearLayout
+    android:layout_above="@+id/submitBtn"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/userNameTextLayout"
+        style="@style/RegistrationTextInputLayoutStyle"
+        android:layout_width="match_parent"
+        app:errorEnabled="true"
+        
+        android:textColorHint="#fff"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:hint="First Name"
+        app:hintTextColor="@color/colorNavText"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/firstName"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:singleLine="true"
+            android:textColor="@color/colorNavText"
+            android:inputType="textCapWords"
+            android:textSize="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lastNameTextLayout"
+        style="@style/RegistrationTextInputLayoutStyle"
+        android:layout_width="match_parent"
+        app:errorEnabled="true"
+        android:textColorHint="#fff"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:hint="Last Name"
+        app:hintTextColor="@color/colorNavText"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lastName"
+            android:textCursorDrawable="@drawable/cursordesign"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:singleLine="true"
+            android:textColor="@color/colorNavText"
+            android:inputType="textCapWords"
+            android:textSize="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailIdTextLayout"
+        style="@style/RegistrationTextInputLayoutStyle"
+        android:layout_width="match_parent"
+        app:errorEnabled="true"
+        android:textColorHint="#fff"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:hint="Email Id"
+        app:hintTextColor="@color/colorNavText"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailId"
+            android:textColor="@color/colorNavText"
+            android:textColorHint="#fff"
+            android:textCursorDrawable="@drawable/cursordesign"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:singleLine="true"
+            android:textSize="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
+    <ImageView
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_90sdp"
+        android:id="@+id/submitBtn"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:src="@drawable/ic_right_arrow"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/regroundbackground"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"></ImageView>
+</RelativeLayout>
+</layout>

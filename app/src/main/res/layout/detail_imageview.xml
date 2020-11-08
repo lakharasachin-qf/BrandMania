@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ShowLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                >
+
+                <androidx.cardview.widget.CardView
+                    android:foregroundGravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/viewSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_350sdp">
+                    <ImageView
+                        android:layout_marginStart="-100dp"
+                        android:background="@drawable/bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_350sdp"></ImageView>
+
+
+
+                        <ImageView
+                            android:id="@+id/CloseImg"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:padding="@dimen/_4sdp"
+                            android:src="@drawable/ic_outline_close_24" />
+
+
+                        <com.github.chrisbanes.photoview.PhotoView
+                            android:id="@+id/fullImageViewer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/CloseImg"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/placeholder" />
+
+                        <com.github.chrisbanes.photoview.PhotoView
+                            android:id="@+id/fullImageViewer3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/CloseImg"
+                            android:layout_gravity="center"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/placeholder"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/fullImageViewer2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/CloseImg"
+                            android:layout_gravity="center"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/placeholder"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editBtn"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="-35dp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:elevation="@dimen/_10sdp"
+                android:fontFamily="@font/poppins_light"
+                android:paddingTop="@dimen/_5sdp"
+
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_11sdp"
+                android:visibility="invisible"
+                app:cornerRadius="@dimen/_15sdp"
+                app:elevation="@dimen/_20sdp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
+

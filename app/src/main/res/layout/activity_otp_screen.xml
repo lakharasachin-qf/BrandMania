@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_screen"
+    tools:context=".Activity.OtpScreenActivity">
+
+
+    <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/verifyOtp"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:textColor="@color/colorNavText"
+        android:textSize="@dimen/_20sdp"
+        android:fontFamily="@font/inter_extrabold"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_height="wrap_content"></TextView>
+
+
+
+    <TextView
+        android:id="@+id/verificationChildTitle"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="@dimen/_12sdp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_300sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/verificationNumber"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="@dimen/_12sdp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_300sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+
+    <RelativeLayout
+
+        android:id="@+id/otpRelative"
+      android:gravity="center"
+        android:layout_below="@+id/verificationChildTitle"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+
+            android:background="@drawable/rectangleshape"
+            android:id="@+id/otpOne"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="@dimen/_15sdp"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp">
+        </EditText>
+        <EditText
+            android:background="@drawable/rectangleshape"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:id="@+id/otpTwo"
+            android:inputType="number"
+            android:maxLength="1"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="@dimen/_15sdp"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:layout_toEndOf="@+id/otpOne"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp">
+        </EditText>
+        <EditText
+            android:background="@drawable/rectangleshape"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:id="@+id/otpThree"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="@dimen/_15sdp"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="@color/colorPrimary"
+            android:layout_toEndOf="@+id/otpTwo"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp">
+        </EditText>
+        <EditText
+            android:background="@drawable/rectangleshape"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:id="@+id/otpFour"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="@dimen/_15sdp"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="@color/colorPrimary"
+            android:layout_toEndOf="@+id/otpThree"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp">
+        </EditText>
+
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/regBtn"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_below="@+id/otpRelative"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:src="@drawable/ic_right_arrow"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/roundbackground"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"></ImageView>
+    <TextView
+       android:layout_below="@+id/regBtn"
+        android:id="@+id/ResendText"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/_12sdp"
+        android:textAlignment="center"
+        android:gravity="center"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    <TextView
+        android:layout_below="@+id/regBtn"
+        android:id="@+id/CouterText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="@dimen/_14sdp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:visibility="gone" />
+</RelativeLayout>
+</layout>

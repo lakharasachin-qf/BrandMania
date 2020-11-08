@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/semi_black_transparent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:gravity="center_vertical"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp">
+    <TextView
+        android:id="@+id/add_text_done_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+       android:layout_marginRight="@dimen/_20sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="@dimen/_50sdp"
+        android:text="Done"
+        android:fontFamily="@font/inter_bold"
+        android:textColor="@color/colorthird"
+        android:textSize="15sp" />
+
+    <EditText
+
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:background="@color/colorPrimary"
+        android:id="@+id/add_text_edit_text"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:hint="Enter Text"
+        android:textColorHint="@color/colorNavText"
+        android:layout_height="match_parent"
+        android:inputType="textMultiLine"
+        android:textSize="@dimen/_15sdp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_above="@+id/relative"
+        android:visibility="visible"
+        android:id="@+id/add_text_color_picker_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/add_text_color_picker_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            tools:listitem="@layout/color_picker_item_list" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

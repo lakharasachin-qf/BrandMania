@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+
+        android:id="@+id/pageView"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/recofifth"
+        android:layout_height="@dimen/_150sdp"
+        android:adjustViewBounds="true"
+        >
+
+    </ImageView>
+    <ImageView
+        android:background="@drawable/framee"
+        android:visibility="visible"
+        android:id="@+id/pageFrame"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+
+        android:layout_height="@dimen/_150sdp"
+        android:adjustViewBounds="true"
+        >
+
+    </ImageView>
+
+</RelativeLayout>

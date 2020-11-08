@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/AppTheme_material_theme"
+        tools:context=".Activity.VIewAllDownloadImage">
+        <androidx.appcompat.widget.Toolbar
+            android:visibility="visible"
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp"
+            android:background="@drawable/toolbar_background_second"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:id="@+id/main_linearlayout_title"
+                android:elevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp">
+
+                <RelativeLayout
+
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:elevation="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_70sdp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/backIcon"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/ic_left_arrow"></ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/backIcon"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Download"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold"></TextView>
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+        <ImageView
+            android:layout_marginStart="-100dp"
+            android:layout_alignParentBottom="true"
+
+            android:src="@drawable/bottom"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_300sdp">
+
+        </ImageView>
+        <RelativeLayout
+            android:id="@+id/recommendation"
+            android:layout_below="@+id/my_toolbar"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/recoImgeRelative"
+                android:elevation="@dimen/_5sdp"
+                android:background="@color/colorNavText"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_300sdp"
+                >
+                <RelativeLayout
+                    android:id="@+id/relative"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_320sdp">
+
+
+                    <ImageView
+
+                        android:scaleType="fitXY"
+                        android:id="@+id/recoImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_300sdp">
+                    </ImageView>
+                    <ImageView
+
+                        android:scaleType="fitXY"
+                        android:id="@+id/recoFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_300sdp">
+                    </ImageView>
+
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_marginTop="@dimen/_5sdp"
+                android:id="@+id/SliderDots"
+                android:layout_below="@+id/recoImgeRelative"
+                android:orientation="horizontal"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+
+                android:layout_marginTop="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:layout_below="@+id/SliderDots"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+
+
+                    android:id="@+id/viewRecoRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
+                <ImageView
+
+                    android:scaleType="fitXY"
+                    android:layout_below="@+id/viewRecoRecycler"
+                    android:visibility="gone"
+                    android:id="@+id/allSetImage"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp">
+                </ImageView>
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+</layout>

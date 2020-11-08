@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/itemLayout"
+        style="@style/CustomCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@color/colorNavText"
+        android:orientation="vertical"
+        app:cardElevation="@dimen/_4sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/_7sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingEnd="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp">
+
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:id="@+id/downloadlistImage"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_centerVertical="true"
+              
+                ></ImageView>
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:id="@+id/downloadlistFrame"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_centerVertical="true"
+
+                >
+
+
+            </ImageView>
+
+
+            <View
+                android:id="@+id/line"
+
+                android:layout_width="3dp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/downloadlistImage"
+                android:background="@color/colorPrimary" />
+
+
+
+
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_toEndOf="@+id/line"
+                    android:id="@+id/downloadListName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_medium"
+                    android:maxLines="1"
+                    android:text="Student Name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+
+
+
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
+

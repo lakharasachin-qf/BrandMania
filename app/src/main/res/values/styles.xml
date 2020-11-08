@@ -1,0 +1,166 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/startcolor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme_Second" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="MyTabLayout" parent="Base.Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
+    </style>
+    <style name="EditText">
+        <item name="android:singleLine">true</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Widget.MaterialComponents.FloatingActionButton" parent="Widget.Design.FloatingActionButton">
+        <item name="android:background">@null</item>
+        <item name="enforceMaterialTheme">true</item>
+        <item name="ensureMinTouchTargetSize">true</item>
+        <item name="elevation">@dimen/mtrl_fab_elevation</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="tint">?attr/colorOnSecondary</item>
+        <item name="hoveredFocusedTranslationZ">@dimen/mtrl_fab_translation_z_hovered_focused</item>
+        <item name="pressedTranslationZ">@dimen/mtrl_fab_translation_z_pressed</item>
+        <item name="rippleColor">@color/mtrl_fab_ripple_color</item>
+        <item name="showMotionSpec">@animator/mtrl_fab_show_motion_spec</item>
+        <item name="hideMotionSpec">@animator/mtrl_fab_hide_motion_spec</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton
+        </item>
+    </style>
+    <style name="MyTabTextAppearance" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">@dimen/_11sdp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/inter_regular</item>
+
+    </style>
+
+    <style name="AppTheme_material_theme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="Widget.BottomNavigationView"
+        parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+    </style>
+    <style name="ShapeAppearanceOverlay_card_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/_10sdp</item>
+        <item name="background">@color/colorNavText</item>
+        <item name="cornerSizeTopLeft">@dimen/_10sdp</item>
+    </style>
+    <style name="CustomCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>
+    </style>
+    <style name="helperTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textSize">@dimen/_8sdp</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:layout_marginTop">@dimen/_3sdp</item>
+        <item name="helperTextTextColor">@color/colorRed</item>
+    </style>
+    <style name="AppThemeMyLight" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_20sdp</item>
+        <item name="hintTextColor">@color/Graycolor</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_20sdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_20sdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_20sdp</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="boxStrokeWidthFocused">0.5dp</item>
+        <item name="boxStrokeWidth">0.4dp</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="helperTextTextColor">@color/colorRed</item>
+        <item name="helperTextTextAppearance">@style/helperTextAppearance</item>
+    </style>
+    <style name="RegistrationTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorNavText</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_20sdp</item>
+        <item name="hintTextColor">@color/colorNavText</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_20sdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_20sdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_20sdp</item>
+        <item name="android:backgroundTint">@color/colorNavText</item>
+        <item name="boxStrokeWidthFocused">0.5dp</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="helperTextTextColor">@color/colorthird</item>
+        <item name="helperTextTextAppearance">@style/helperTextAppearance</item>
+           </style>
+    <style name="ToolbarStyle">
+        <item name="android:layout_height">@dimen/_70sdp</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="android:orientation">vertical</item>
+        <item name="android:title" />
+        <item name="android:layout_marginStart">-5dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+    <style name="textLayoutForDescription" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="hintTextColor">@color/Graycolor</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_2sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_2sdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_2sdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_2sdp</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="boxStrokeWidthFocused">0.5dp</item>
+        <item name="boxStrokeWidth">0.4dp</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="helperTextTextColor">@color/colorRed</item>
+        <item name="helperTextTextAppearance">@style/helperTextAppearance</item>
+    </style>
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:tint">@color/colorthird</item>
+        <item name="android:backgroundTint">@color/colorthird</item>
+        <item name="android:tintMode">@color/colorthird</item>
+
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/colorPrimaryTransperent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="colorAccent">@color/colorPrimaryTransperent</item>
+        <item name="android:windowBackground">@color/colorPrimaryTransperent</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
+
+    <style name="MyAlertDialogStyle_extend" parent="MyAlertDialogStyle">
+        <item name="android:textColor">@color/colorPrimaryTransperent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="colorAccent">@color/colorPrimaryTransperent</item>
+        <item name="android:windowBackground">@color/colorPrimaryTransperent</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+</resources>
