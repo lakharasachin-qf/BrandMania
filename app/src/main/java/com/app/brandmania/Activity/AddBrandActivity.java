@@ -79,14 +79,6 @@ public class AddBrandActivity extends BaseActivity {
                 pickerView(CodeReUse.PICK_SECOND);
             }
         });
-  //      getBrandCategory(BRAND_CATEGORY);
-//        binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList);
-//            }
-//        });
     }
     private void Validation() {
         boolean isError = false;
@@ -338,13 +330,5 @@ public class AddBrandActivity extends BaseActivity {
     }
 
 
-//    @Override
-//    public void onItemSelection(int calledFlag, int position, CommonListModel listModel) {
-//        if (bottomSheetFragment != null && bottomSheetFragment.isVisible()) {
-//            bottomSheetFragment.dismiss();
-//        }
-//        if (calledFlag == BRAND_CATEGORY) {
-//            binding.categoryEdt.setText(listModel.getName());
-//        }
-//    }
+
 }

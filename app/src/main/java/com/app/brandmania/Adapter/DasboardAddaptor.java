@@ -37,7 +37,8 @@ public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.Dasb
     }
 
     @NonNull
-    @Override public DasboardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    @Override
+    public DasboardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View layout = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.dashboard_item_layout, viewGroup, false);
 
         return new DasboardViewHolder(layout);

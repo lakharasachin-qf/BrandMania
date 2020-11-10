@@ -42,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -350,6 +351,12 @@ public class OtpScreenActivity extends BaseActivity {
                 isLoading = false;
                 Utility.dismissProgress();
                 volleyError.printStackTrace();
+                try {
+                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+                    Log.e("REsepinERr ", responseBody);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
             }
         }) {

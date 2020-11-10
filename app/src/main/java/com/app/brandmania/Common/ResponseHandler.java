@@ -200,7 +200,7 @@ public class ResponseHandler {
                         model.setId(getString(datajsonObject, "id"));
                         model.setName(getString(datajsonObject, "img_cat_name"));
                         model.setDescription(getString(datajsonObject, "img_cat_desc"));
-                        model.setTag(getString(datajsonObject, "img_cat_tag"));
+                        model.setTag(getString(datajsonObject, "img_cat_tagd"));
                         JSONArray detailjsonArray = getJSONArray(datajsonObject, "images");
                         ArrayList<ImageList> stringg = null;
                         if (!detailjsonArray.isNull(0) && detailjsonArray.length() != 0) {

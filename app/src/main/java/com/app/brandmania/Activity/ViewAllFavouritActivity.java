@@ -52,6 +52,7 @@ public class ViewAllFavouritActivity extends AppCompatActivity implements FrameC
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+        captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_favourit);
         gson=new Gson();
         preafManager=new PreafManager(act);

@@ -99,7 +99,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent = new Intent(this, ViewBrandActivity.class);
 
         } else if (copiedMessage.equalsIgnoreCase("addFrame")) {
-            intent = new Intent(this, ViewAllImage.class);
+            intent = new Intent(this, ViewBrandActivity.class);
         }
         else {
         intent = new Intent(this, HomeActivity.class);

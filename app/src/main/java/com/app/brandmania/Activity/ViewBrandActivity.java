@@ -47,7 +47,7 @@ public class ViewBrandActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
-
+        captureScreenShort();
         preafManager=new PreafManager(this);
         binding= DataBindingUtil.setContentView(act,R.layout.activity_view_brand);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {

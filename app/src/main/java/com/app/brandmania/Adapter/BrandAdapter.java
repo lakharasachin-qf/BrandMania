@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -142,7 +143,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
                          if (model.getFrame() != null && model.getFrame().size() != 0) {
                              FrameAddaptor frameAddaptor = new FrameAddaptor(brandListItems.get(position).getFrame(), activity);
-                             ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new GridLayoutManager(activity, 4));
+                             ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL,false));
                              ((BrandHolder) holder).binding.frameitemLayout.setHasFixedSize(true);
                              frameAddaptor.setBrandListItem(brandListItems.get(position));
                              ((BrandHolder) holder).binding.frameitemLayout.setAdapter(frameAddaptor);

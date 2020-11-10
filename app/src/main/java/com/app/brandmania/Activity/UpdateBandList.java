@@ -75,6 +75,7 @@ public class UpdateBandList extends AppCompatActivity implements ItemSelectionIn
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+        captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_update_band_list);
         prefManager = new PreafManager(this);
         gson = new Gson();

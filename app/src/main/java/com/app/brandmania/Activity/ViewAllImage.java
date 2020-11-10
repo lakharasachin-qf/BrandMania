@@ -98,33 +98,28 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+        captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
 
         preafManager = new PreafManager(this);
 
         gson = new Gson();
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
+        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
-       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         Log.e("selectedObject",gson.toJson(selectedObject));
         getFrame();
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         //frameViewPager();
+        LoadDataToUI();
+        getImageCtegory();
         binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        LoadDataToUI();
-        getImageCtegory();
-
-
-
-
-
-
 
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,14 +157,14 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-//                                startSave();
+
                                 requestAgain();
-                                Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
+                                startSave();
+                               Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
                                 new DownloadImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
                                 dowloadAndShare(DOWLOAD);
                             }
                         });
-
                 alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -182,7 +177,15 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
             }
         });
-
+        binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestAgain();
+                Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
+                new DownloadImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
+                dowloadAndShare(DOWLOAD);
+            }
+        });
     }
     public void LoadDataToUI(){
         preafManager=new PreafManager(act);
@@ -218,24 +221,6 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
         startActivity(Intent.createChooser(shareIntent, "Choose an app"));
     }
-    //Merge image and create single bitmap and save to storage
-//    public Drawable drawableFromUrl(String url)   {
-//        Bitmap x;
-//        HttpURLConnection connection = null;
-//        try {
-//            Log.e("Current",url);
-//            connection = (HttpURLConnection) new URL(url).openConnection();
-//            connection.connect();
-//            InputStream input = connection.getInputStream();
-//
-//            x = BitmapFactory.decodeStream(input);
-//            return new BitmapDrawable(Resources.getSystem(), x);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//       return  null;
-//    }
-
     Bitmap drawableFromUrl(String url)  {
 
         HttpURLConnection connection = null;
@@ -459,15 +444,10 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
         viewPagerItems =brandListItems;// preafManager.getActiveBrand().getFrame();
         Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
-     ///   Log.e("selectionModeeee", gson.toJson(selectedModelFromView.getFrame1()));
-     //   Toast.makeText(act, viewPagerItems.size(),Toast.LENGTH_SHORT).show();
-
         if (viewPagerItems!=null && viewPagerItems.size()!=0) {
-
             Log.e("BrandListSize", String.valueOf(viewPagerItems.size()) + "kkl");
             Gson gson = new Gson();
             Log.e("Viewwwjhfjkdhsjk", gson.toJson(viewPagerItems));
-
             ViewPagerAdapterFrame viewPagerAdapter = new ViewPagerAdapterFrame(viewPagerItems, this);
             viewPager.setAdapter(viewPagerAdapter);
             dotscount = viewPagerAdapter.getCount();
@@ -487,8 +467,6 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
                 }
                 dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
             }
-
-
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -606,12 +584,8 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-
-                    params.put("brand_id",preafManager.getActiveBrand().getId());
-
-
-                Utility.Log("POSTED-PARAMS-", params.toString());
+                params.put("brand_id",preafManager.getActiveBrand().getId());
+                    Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 
@@ -621,9 +595,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         queue.add(stringRequest);
     }
     //For BackPrace......................................
-    @Override
-    public void onBackPressed() {CodeReUse.activityBackPress(act);
-    }
+    @Override public void onBackPressed() {CodeReUse.activityBackPress(act); }
     private class DownloadImageTask extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
 
@@ -650,6 +622,10 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
 
         } }
+
+
+
+
     private void removeFavourit(final int removeFav) {
 
         Utility.Log("API : ", APIs.REMOVE_FAVOURIT);
@@ -712,8 +688,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    public void captureScreenShort()
-    {
+    public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 }

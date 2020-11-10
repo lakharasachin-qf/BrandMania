@@ -54,6 +54,7 @@ public class VIewAllDownloadImage extends AppCompatActivity implements FrameCate
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+        captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_v_iew_all_download_image);
         gson=new Gson();
         preafManager=new PreafManager(act);

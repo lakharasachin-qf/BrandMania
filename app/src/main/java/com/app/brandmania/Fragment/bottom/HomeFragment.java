@@ -121,8 +121,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             e.printStackTrace();
         }
     }
-    @Override
-    public void onResume() {
+    @Override public void onResume() {
         super.onResume();
         if (appUpdateManager != null) {
             appUpdateManager
@@ -149,7 +148,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         }
 
     }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
