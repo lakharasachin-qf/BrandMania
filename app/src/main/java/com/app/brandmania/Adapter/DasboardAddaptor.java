@@ -58,6 +58,7 @@ public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.Dasb
 
 
                 Intent i =new Intent(activity, ViewAllImage.class);
+                i.putExtra("viewAll","12");
                 i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
                 activity.startActivity(i);
                 i.addCategory(Intent.CATEGORY_HOME);

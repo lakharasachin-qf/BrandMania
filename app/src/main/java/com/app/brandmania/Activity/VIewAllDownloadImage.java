@@ -56,6 +56,7 @@ public class VIewAllDownloadImage extends AppCompatActivity implements FrameCate
         act = this;
         captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_v_iew_all_download_image);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson=new Gson();
         preafManager=new PreafManager(act);
         binding.backIcon.setOnClickListener(new View.OnClickListener() {

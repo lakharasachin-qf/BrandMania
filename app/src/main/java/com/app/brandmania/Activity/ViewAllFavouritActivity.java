@@ -54,6 +54,7 @@ public class ViewAllFavouritActivity extends AppCompatActivity implements FrameC
         act = this;
         captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_favourit);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson=new Gson();
         preafManager=new PreafManager(act);
         binding.backIcon.setOnClickListener(new View.OnClickListener() {

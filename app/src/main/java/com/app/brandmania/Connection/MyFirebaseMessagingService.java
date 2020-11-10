@@ -94,7 +94,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mNotificationManager.createNotificationChannel(mChannel);
         }
         String copiedMessage = message;
-        Intent intent = null;
+        Intent intent = new Intent(this, HomeActivity.class);;
         if (copiedMessage.equalsIgnoreCase("addBrand")) {
             intent = new Intent(this, ViewBrandActivity.class);
 

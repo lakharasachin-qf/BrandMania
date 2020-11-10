@@ -90,6 +90,7 @@ public class ColorAndTextEditActivity extends AppCompatActivity implements Iteme
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_color_and_text_edit);
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Color")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Frame"));

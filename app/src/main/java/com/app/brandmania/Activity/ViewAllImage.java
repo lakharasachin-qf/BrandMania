@@ -100,7 +100,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         act = this;
         captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(this);
 
         gson = new Gson();
@@ -293,6 +293,12 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         binding.viewRecoRecycler.setLayoutManager(mLayoutManager);
         binding.viewRecoRecycler.setHasFixedSize(true);
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
+
+
+        if (getIntent().hasExtra("viewAll")){
+            selectedObject=menuModels.get(0);
+            LoadDataToUI();
+        }
     }
     //For GetImageCategory..............................
     private void getImageCtegory() {

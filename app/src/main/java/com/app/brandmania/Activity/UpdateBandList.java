@@ -77,6 +77,7 @@ public class UpdateBandList extends AppCompatActivity implements ItemSelectionIn
         act = this;
         captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_update_band_list);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         prefManager = new PreafManager(this);
         gson = new Gson();
         CodeReUse.RemoveError(binding.categoryEdt, binding.categoryEdtLayout);

@@ -53,7 +53,7 @@ public class SpleshActivity extends AppCompatActivity  {
         binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
 
         binding.logo.setVisibility(View.VISIBLE);

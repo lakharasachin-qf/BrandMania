@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
@@ -35,6 +36,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding= DataBindingUtil.setContentView(act,R.layout.activity_only_text_editor);
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Frame"));

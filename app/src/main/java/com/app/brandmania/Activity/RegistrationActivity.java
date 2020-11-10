@@ -64,6 +64,7 @@ public class RegistrationActivity extends AppCompatActivity {
         act= this;
         binding= DataBindingUtil.setContentView(act, R.layout.activity_registration);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         alertDialogBuilder=new AlertDialog.Builder(act);
         preafManager=new PreafManager(this);
         binding.emailId.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);

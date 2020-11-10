@@ -80,8 +80,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     Timer timer;
     private HomeFragment homeFragment;
     private SelectBrandListBottomFragment bottomSheetFragment;
-    private AppUpdateManager appUpdateManager;
-    private Task<AppUpdateInfo> appUpdateInfoTask;
+
     public String getDeviceToken(Activity act) {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
@@ -94,7 +93,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         return deviceToken;
     }
 
-    private void checkForUpdates() {
+  /*  private void checkForUpdates() {
         appUpdateManager = AppUpdateManagerFactory.create(act);
         appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
 
@@ -147,7 +146,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                             });
         }
 
-    }
+    }*/
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
@@ -160,7 +159,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         Gson gson=new Gson();
 //        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
 //        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();
-        checkForUpdates();
+
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
         getDeviceToken(act);

@@ -1,12 +1,15 @@
 package com.app.brandmania.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -18,6 +21,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.app.brandmania.Common.Constant;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Fragment.bottom.CustomFragment;
@@ -26,14 +30,25 @@ import com.app.brandmania.Fragment.bottom.HomeFragment;
 import com.app.brandmania.Fragment.bottom.ProfileFragment;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.CodeReUse;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnSuccessListener;
+import com.google.android.play.core.tasks.Task;
 
 import java.util.Timer;
+
+import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private ViewPager ViewPagerView;
     Timer timer;
     private Menu mMenuItem;
     PreafManager preafManager;
+    private AppUpdateManager appUpdateManager;
+    private Task<AppUpdateInfo> appUpdateInfoTask;
+    private Activity act;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -41,8 +56,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_home);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
-
-
+        act=this;
+        checkForUpdates();
 
         loadFragment(new HomeFragment());
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -104,6 +119,76 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
         return false;
     }
+
+    //app updates
+    private void checkForUpdates() {
+        appUpdateManager = AppUpdateManagerFactory.create(act);
+        appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        // Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                        // For a flexible update, use AppUpdateType.FLEXIBLE
+                        && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
+                    startAppUpdates(appUpdateInfo);
+                }
+            }
+        });
+    }
+
+    private void startAppUpdates(AppUpdateInfo appUpdateInfo) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    IMMEDIATE,
+                    act,
+                    Constant.APP_UPDATES);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.APP_UPDATES) {
+            if (resultCode == RESULT_CANCELED) {
+                checkForUpdates();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (appUpdateManager != null) {
+            appUpdateManager
+                    .getAppUpdateInfo()
+                    .addOnSuccessListener(
+                            new OnSuccessListener<AppUpdateInfo>() {
+                                @Override
+                                public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                                    if (appUpdateInfo.updateAvailability()
+                                            == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                                        // If an in-app update is already running, resume the update.
+                                        try {
+                                            appUpdateManager.startUpdateFlowForResult(
+                                                    appUpdateInfo,
+                                                    IMMEDIATE,
+                                                    act,
+                                                    Constant.APP_UPDATES);
+                                        } catch (IntentSender.SendIntentException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            });
+        }
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void setWhiteNavigationBar( Activity act) {
         Window window = getWindow();

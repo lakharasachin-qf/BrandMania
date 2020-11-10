@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -65,7 +66,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
         binding= DataBindingUtil.setContentView(act, R.layout.activity_edit_pic2);
         imageView = new ImageView(EditPicActivity.this);
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson = new Gson();
         windowwidth = getWindowManager().getDefaultDisplay().getWidth();
         windowheight = getWindowManager().getDefaultDisplay().getHeight();
