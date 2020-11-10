@@ -27,8 +27,6 @@ public class ProfileFragment extends Fragment  {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_profile,container,false);
         preafManager=new PreafManager(act);
-
-
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {
             @Override
