@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
@@ -59,6 +60,7 @@ public class AddBrandActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_brand);
         act=this;
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding= DataBindingUtil.setContentView(act,R.layout.activity_add_brand);
         preafManager=new PreafManager(this);
         binding.addExpenceBtn.setOnClickListener(new View.OnClickListener() {

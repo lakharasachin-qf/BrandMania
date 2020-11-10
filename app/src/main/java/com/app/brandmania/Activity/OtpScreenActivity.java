@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -76,7 +77,9 @@ public class OtpScreenActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = this;
+
         binding = DataBindingUtil.setContentView(act, R.layout.activity_otp_screen);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
         binding.verificationChildTitle.setText("We sent OTP to verify your number \n" + "+91" + NumberShow);
         String Verify = "OTP<br>Verification</font></br>";

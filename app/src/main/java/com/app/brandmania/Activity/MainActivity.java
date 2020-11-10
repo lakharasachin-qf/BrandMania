@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.WindowManager;
 
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.R;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
         setTheme(R.style.AppTheme_Second);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
         new Handler().postDelayed(new Runnable() {
             @Override

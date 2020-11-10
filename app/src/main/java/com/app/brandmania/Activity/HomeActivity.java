@@ -39,6 +39,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
 
 

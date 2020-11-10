@@ -159,7 +159,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
                             public void onClick(DialogInterface arg0, int arg1) {
 
                                 requestAgain();
-                                startSave();
+                               // startSave();
                                Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
                                 new DownloadImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
                                 dowloadAndShare(DOWLOAD);
