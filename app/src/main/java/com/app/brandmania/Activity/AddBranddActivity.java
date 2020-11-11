@@ -1,6 +1,8 @@
 package com.app.brandmania.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
@@ -13,8 +15,13 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -55,37 +62,51 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddBranddActivity extends AppCompatActivity implements ItemSelectionInterface ,alertListenerCallback{
+public class AddBranddActivity extends AppCompatActivity implements ItemSelectionInterface ,alertListenerCallback  , PopupMenu.OnMenuItemClickListener {
     Activity act;
     private ActivityAddBranddBinding binding;
     public static int BRAND_CATEGORY = 0;
     private String BrandTitle;
     CommonListModel commonListModel;
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     ArrayList<CommonListModel> BRANDTypeList = new ArrayList<>();
     PreafManager preafManager;
-    private boolean isLoading=false;
-    private String is_completed="";
+    private boolean isLoading = false;
+    private String is_completed = "";
     private ListBottomFragment bottomSheetFragment;
     private Bitmap selectedImagesBitmap;
     private boolean isEditModeEnable = false;
     AlertDialog.Builder alertDialogBuilder;
+    private ImageView menuOtpion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act=this;
+        act = this;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        binding= DataBindingUtil.setContentView(act,R.layout.activity_add_brandd);
-        preafManager=new PreafManager(this);
-        alertDialogBuilder=new AlertDialog.Builder(act);
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_add_brandd);
+
+        preafManager = new PreafManager(this);
+
+        preafManager.setIs_Registration(true);
+
+
+        alertDialogBuilder = new AlertDialog.Builder(act);
         String NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
         String EmailIdShow = getIntent().getStringExtra(Constant.EMAIL_ID);
         binding.phoneTxt.setText(preafManager.getMobileNumber());
         binding.emailIdEdt.setText(preafManager.getEMAIL_Id());
-
-
-
+        menuOtpion=findViewById(R.id.menuOtpion);
+        menuOtpion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(AddBranddActivity.this, view);
+                popup.setOnMenuItemClickListener(AddBranddActivity.this);
+                popup.inflate(R.menu.menu);
+                popup.show();
+            }
+        });
 
         //LoginFlow();
         binding.addExpenceBtn.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +145,8 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
         });
 
 
-
     }
+
     private void Validation() {
         boolean isError = false;
         boolean isFocus = false;
@@ -146,7 +167,6 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
             binding.nameTxt.requestFocus();
 
         }
-
 
 
         if (binding.addressEdt.getText().toString().length() == 0) {
@@ -175,14 +195,11 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
                 binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                 binding.emailIdEdt.requestFocus();
 
-            }
-            else
-            {
+            } else {
 
             }
 
-        }
-        else {
+        } else {
             if (binding.emailIdEdt.getText().toString().length() == 0) {
                 isError = true;
                 isFocus = true;
@@ -200,11 +217,8 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
                 return;
             }
 
-        }
-        else
-        {
-            if (binding.phoneTxt.getText().toString().equals(""))
-            {
+        } else {
+            if (binding.phoneTxt.getText().toString().equals("")) {
                 binding.phoneTxtLayout.setError(getString(R.string.entermobileno_text));
                 binding.phoneTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                 binding.phoneTxt.requestFocus();
@@ -221,10 +235,11 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
             if (selectedImagesBitmap != null) {
                 bitmap1 = selectedImagesBitmap;
             }
-            addBrand(bitmap,bitmap1);
+            addBrand(bitmap, bitmap1);
         }
 
     }
+
     public void showFragmentList(int callingFlag, String title, ArrayList<CommonListModel> datalist) {
         bottomSheetFragment = new ListBottomFragment();
         Log.e("Size---", String.valueOf(datalist.size()));
@@ -237,7 +252,8 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
         }
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
-    private void addBrand(Bitmap img,Bitmap img1) {
+
+    private void addBrand(Bitmap img, Bitmap img1) {
         if (isLoading)
             return;
         isLoading = true;
@@ -250,13 +266,13 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
         }
         File img1File1 = null;
         if (img1 != null) {
-            img1File1= CodeReUse.createFileFromBitmap(act, "photo.jpeg", img1);
+            img1File1 = CodeReUse.createFileFromBitmap(act, "photo.jpeg", img1);
         }
 
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.ADD_BRAND)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer"+preafManager.getUserToken())
+                .addHeaders("Authorization", "Bearer" + preafManager.getUserToken())
                 .addMultipartParameter("br_category", commonListModel.getId())
                 .addMultipartParameter("br_name", binding.nameTxt.getText().toString())
                 .addMultipartParameter("br_phone", binding.phoneTxt.getText().toString())
@@ -288,19 +304,18 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
                         isLoading = false;
                         Utility.dismissProgress();
                         Utility.Log("Verify-Response", response);
-                        ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                        ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                         try {
 
                             if (response.getBoolean("status")) {
                                 JSONObject jsonArray = response.getJSONObject("data");
-                                is_completed= jsonArray.getString("is_completed");
+                                is_completed = jsonArray.getString("is_completed");
                                 alertDialogBuilder.setMessage(ResponseHandler.getString(response, "message"));
                                 alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         preafManager.loginStep(is_completed);
-                                        if (is_completed.equals("2"))
-                                        {
+                                        if (is_completed.equals("2")) {
                                             getBrandList();
 
                                         }
@@ -312,11 +327,9 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
 
 
                             }
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
 
 
                     }
@@ -338,15 +351,19 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
                 });
 
     }
-    @Override public void alertListenerClick() {
+
+    @Override
+    public void alertListenerClick() {
         requestAgain();
     }
+
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
+
     private void getBrandCategory(int flag) {
         String apiUrl = "";
         int requestedMethod = 0;
@@ -396,7 +413,7 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer"+preafManager.getUserToken());
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -415,6 +432,7 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
         queue.add(request);
 
     }
+
     private void pickerView(int actionId, boolean viewMode, Bitmap selectedBitmap) {
         PickerFragment pickerFragment = new PickerFragment(act);
         pickerFragment.setEnableViewMode(viewMode);
@@ -439,46 +457,45 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
                 }
 
 
-
             }
         };
         pickerFragment.setImageLoad(imageLoad);
         pickerFragment.show(getSupportFragmentManager(), pickerFragment.getTag());
     }
+
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("addbrandresponce",response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                Log.e("addbrandresponce", response);
+                ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
-                    JSONObject res=new JSONObject(response);
+                    JSONObject res = new JSONObject(response);
 
                     JSONArray jsonArray1 = res.getJSONArray("data");
-                    for (int i=0;i<jsonArray1.length();i++)
-                    {
-                        JSONObject jsonObject=jsonArray1.getJSONObject(i);
-                        BrandListItem brandListItemm=new BrandListItem();
-                        brandListItemm.setId(ResponseHandler.getString(jsonObject,"id"));
+                    for (int i = 0; i < jsonArray1.length(); i++) {
+                        JSONObject jsonObject = jsonArray1.getJSONObject(i);
+                        BrandListItem brandListItemm = new BrandListItem();
+                        brandListItemm.setId(ResponseHandler.getString(jsonObject, "id"));
                         brandListItemm.setCategoryId(ResponseHandler.getString(jsonObject, "br_category_id"));
                         brandListItemm.setCategoryName(ResponseHandler.getString(jsonObject, "br_category_name"));
-                        brandListItemm.setName(ResponseHandler.getString(jsonObject,"br_name"));
-                        brandListItemm.setWebsite(ResponseHandler.getString(jsonObject,"br_website"));
-                        brandListItemm.setEmail(ResponseHandler.getString(jsonObject,"br_email"));
-                        brandListItemm.setAddress(ResponseHandler.getString(jsonObject,"br_address"));
-                        brandListItemm.setLogo(ResponseHandler.getString(jsonObject,"br_logo"));
+                        brandListItemm.setName(ResponseHandler.getString(jsonObject, "br_name"));
+                        brandListItemm.setWebsite(ResponseHandler.getString(jsonObject, "br_website"));
+                        brandListItemm.setEmail(ResponseHandler.getString(jsonObject, "br_email"));
+                        brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));
+                        brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
                         JSONArray jsonArray = jsonObject.getJSONArray("br_frame");
-                        ArrayList<FrameItem>frameItems=null;
+                        ArrayList<FrameItem> frameItems = null;
                         frameItems = new ArrayList<>();
-                            for (int j = 0; j < jsonArray.length(); j++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(j);
-                                FrameItem frameItem = new FrameItem();
-                                frameItem.setFrame1(ResponseHandler.getString(jsonObject,"fream_base_url")+"/"+ResponseHandler.getString(jsonObject1, "frame_path"));
-                                frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
+                        for (int j = 0; j < jsonArray.length(); j++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(j);
+                            FrameItem frameItem = new FrameItem();
+                            frameItem.setFrame1(ResponseHandler.getString(jsonObject, "fream_base_url") + "/" + ResponseHandler.getString(jsonObject1, "frame_path"));
+                            frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
 
-                                frameItems.add(frameItem);
-                            }
+                            frameItems.add(frameItem);
+                        }
 
                         brandListItemm.setFrame(frameItems);
                         brandListItems.add(brandListItemm);
@@ -488,18 +505,17 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
                     preafManager.setAddBrandList(brandListItems);
                     preafManager.setIS_Brand(true);
 
-                    if (brandListItems!=null && brandListItems.size()!=0){
+                    if (brandListItems != null && brandListItems.size() != 0) {
                         preafManager.setActiveBrand(brandListItems.get(0));
                     }
 
 
-                        Intent i = new Intent(act, HomeActivity.class);
+                    Intent i = new Intent(act, HomeActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);
                     finish();
 
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -527,8 +543,8 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -548,17 +564,103 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-    @Override public void onItemSelection(int calledFlag, int position, CommonListModel listModel) {
+
+    @Override
+    public void onItemSelection(int calledFlag, int position, CommonListModel listModel) {
         if (bottomSheetFragment != null && bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
         }
         if (calledFlag == BRAND_CATEGORY) {
             binding.categoryEdt.setText(listModel.getName());
-            commonListModel=listModel;
+            commonListModel = listModel;
         }
     }
-    public void captureScreenShort()
-    {
+
+    public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+         switch (item.getItemId()) {
+            case R.id.logo:
+                preafManager.Logout();
+                Intent i = new Intent(act, LoginActivity.class);
+                i.addCategory(Intent.CATEGORY_HOME);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                act.finish();
+                return true;
+        }
+        return false;
+    }
+
+   /* @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater mi = getMenuInflater();
+        mi.inflate(R.menu.menu,menu);
+        return true;
+    }
+    public void pop(View v){
+        PopupMenu popup = new PopupMenu(this,v);
+        MenuInflater mi = getMenuInflater();
+        mi.inflate(R.menu.menu,popup.getMenu());
+        popup.show();
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.log_out_brand:
+                preafManager.Logout();
+                Intent i = new Intent(act, LoginActivity.class);
+                i.addCategory(Intent.CATEGORY_HOME);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                act.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.log_out_brand:
+                preafManager.Logout();
+                Intent i = new Intent(act, LoginActivity.class);
+                i.addCategory(Intent.CATEGORY_HOME);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                act.finish();
+                break;
+
+        }
+        return true;
+    }*/
+
+/*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Toast.makeText(this, "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.logo:
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }*/
 }

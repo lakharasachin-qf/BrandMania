@@ -2,6 +2,7 @@ package com.app.brandmania.Activity;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
@@ -13,8 +14,11 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -48,7 +52,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity implements  PopupMenu.OnMenuItemClickListener{
     Activity act;
     private ActivityRegistrationBinding binding;
     private boolean isLoading=false;
@@ -57,6 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
     final int version = Build.VERSION.SDK_INT;
     PreafManager preafManager;
     AlertDialog.Builder alertDialogBuilder;
+    private ImageView menuOtpion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -75,6 +80,16 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
+        menuOtpion=findViewById(R.id.menuOtpion);
+        menuOtpion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(RegistrationActivity.this, view);
+                popup.setOnMenuItemClickListener(RegistrationActivity.this);
+                popup.inflate(R.menu.menu);
+                popup.show();
+            }
+        });
 
 
 
@@ -156,7 +171,22 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
     }
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
 
+        switch (item.getItemId()) {
+            case R.id.logo:
+                preafManager.Logout();
+                Intent i = new Intent(act, LoginActivity.class);
+                i.addCategory(Intent.CATEGORY_HOME);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                act.finish();
+                return true;
+        }
+        return false;
+    }
     private void addUser() {
         if (isLoading)
             return;

@@ -110,8 +110,6 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         getFrame();
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
-
-
         getImageCtegory();
         binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +199,6 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
             if (AddFavorite!=null) {
                 for (int i = 0; i < AddFavorite.size(); i++) {
-
                     Log.e("Print-",AddFavorite.get(i).getFrameId()+"s");
                     Log.e("Print--",selectedModelFromView.getFrameId()+"s");
 
