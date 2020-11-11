@@ -25,7 +25,7 @@ public class DownloadsFragment extends Fragment {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_downloads, container, false);
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("DOWNLOAD"));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("FAVORITE"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("FAVOURITE"));
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final TabAdapter adapter = new TabAdapter(act, getChildFragmentManager(),

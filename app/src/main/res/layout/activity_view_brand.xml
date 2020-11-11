@@ -38,7 +38,7 @@
                 android:layout_toEndOf="@+id/BackButtonMember"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:fontFamily="@font/inter_semibold"
-                android:text="My Businesses"
+                android:text="My Business"
                 android:textColor="@color/colorNavText"
                 android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"></TextView>

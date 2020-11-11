@@ -80,7 +80,7 @@ public class PreafManager
         FavouritImage=getSavedFavorites();
         for (int i=0;i<FavouritImage.size();i++)
         {
-           if (FavouritImage.get(i).getId().equals(imageList.getId())){
+           if (FavouritImage.get(i).getId().equals(imageList.getId()) && FavouritImage.get(i).getFrameId().equalsIgnoreCase(imageList.getFrameId())){
                FavouritImage.remove(i);
            }
         }
@@ -99,14 +99,19 @@ public class PreafManager
 
         }
         boolean isExits=false;
+        int existPos=0;
         for (int i=0;i<FavouritImage.size();i++){
-            if (imageList.getId().equals(FavouritImage.get(i).getId())){
+            if (imageList.getId().equals(FavouritImage.get(i).getId()) && imageList.getFrameId().equalsIgnoreCase(FavouritImage.get(i).getFrameId())){
                 isExits=true;
+                existPos=i;
                 break;
             }
         }
         if (!isExits)
             FavouritImage.add(imageList);
+      /*  else {
+            FavouritImage.set(existPos,imageList);
+        }*/
 
         Gson gson=new Gson();
       String jsonshare=gson.toJson(FavouritImage);

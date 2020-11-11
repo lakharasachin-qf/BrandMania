@@ -10,6 +10,7 @@ public class ImageList {
     private String imagecatid;
     private String imageid;
     private String frame;
+    private String frameId;
     private String logo;
 
     public ImageList() {
@@ -78,5 +79,13 @@ public class ImageList {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public String getFrameId() {
+        return frameId;
+    }
+
+    public void setFrameId(String frameId) {
+        this.frameId = frameId;
     }
 }

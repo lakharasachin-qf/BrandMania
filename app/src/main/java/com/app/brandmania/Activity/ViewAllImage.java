@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -105,14 +106,12 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
         gson = new Gson();
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
-        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-
         Log.e("selectedObject",gson.toJson(selectedObject));
         getFrame();
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
-        //frameViewPager();
-        LoadDataToUI();
+
+
         getImageCtegory();
         binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,10 +119,11 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
                 onBackPressed();
             }
         });
-
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectedObject.setFrameId(selectedModelFromView.getFrameId());
+                Log.e("FrameIdWithImage",selectedObject.getFrameId());
               preafManager.AddToMyFavorites(selectedObject);
               if (binding.fabroutIcon.getVisibility()==View.VISIBLE)
               {
@@ -137,6 +137,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectedObject.setFrameId(selectedModelFromView.getFrameId());
                 preafManager.removeFromMyFavorites(selectedObject);
                 if (binding.addfabroutIcon.getVisibility()==View.VISIBLE)
                 {
@@ -182,7 +183,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
             public void onClick(View v) {
                 requestAgain();
                 Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
-                new DownloadImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
+                new ShareImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
                 dowloadAndShare(DOWLOAD);
             }
         });
@@ -190,26 +191,57 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
     public void LoadDataToUI(){
         preafManager=new PreafManager(act);
         if (selectedObject != null) {
-            Glide.with(act).load(selectedObject.getFrame()).placeholder(R.drawable.placeholder).into(binding.backgrounImageDuplicate);
+            binding.simpleProgressBar.setVisibility(View.GONE);
+            Glide.with(act).load(selectedObject.getFrame()).into(binding.backgrounImageDuplicate);
             Glide.with(act)
                     .load(selectedObject.getFrame())
-                    .placeholder(R.drawable.placeholder)
                     .into(binding.recoImage);
 
             AddFavorite= preafManager.getSavedFavorites();
+
             if (AddFavorite!=null) {
                 for (int i = 0; i < AddFavorite.size(); i++) {
-                    if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
+
+                    Log.e("Print-",AddFavorite.get(i).getFrameId()+"s");
+                    Log.e("Print--",selectedModelFromView.getFrameId()+"s");
+
+                    if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedModelFromView.getFrameId())) {
                         binding.addfabroutIcon.setVisibility(View.VISIBLE);
                         binding.fabroutIcon.setVisibility(View.GONE);
                         break;
                     } else {
                         binding.addfabroutIcon.setVisibility(View.GONE);
                         binding.fabroutIcon.setVisibility(View.VISIBLE);
+
                     }
                 }
             }
 
+        }
+        else
+        {
+            binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+    public void  reloadSaved(){
+        AddFavorite= preafManager.getSavedFavorites();
+
+        if (AddFavorite!=null) {
+            for (int i = 0; i < AddFavorite.size(); i++) {
+
+                Log.e("Print-",AddFavorite.get(i).getFrameId()+"s");
+                Log.e("Print--",selectedModelFromView.getFrameId()+"s");
+
+                if (!AddFavorite.get(i).getId().equals(selectedObject.getId()) || !AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedModelFromView.getFrameId())) {
+
+                    binding.addfabroutIcon.setVisibility(View.GONE);
+                    binding.fabroutIcon.setVisibility(View.VISIBLE);
+                } else {
+                    binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                    binding.fabroutIcon.setVisibility(View.GONE);
+                    break;
+                }
+            }
         }
     }
     public void startShare(File new_file) {
@@ -237,7 +269,43 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
     }
     BitmapDrawable FrameDrawbable;
     public void startSave() {
+        //Bitmap FrameDrawbable = drawableFromUrl(selectedModelFromView.getFrame1());
+        Drawable d = FrameDrawbable;
+        Drawable ImageDrawable = (BitmapDrawable) binding.backgrounImageDuplicate.getDrawable();
+        Bitmap merged = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(merged);
+        d.setBounds(0, 0, 1000, 1000);
+        ImageDrawable.setBounds(5, 5, 1000, 1000);
+        ImageDrawable.draw(canvas);
+        d.draw(canvas);
+        binding.allSetImage.setImageBitmap(merged);
 
+        FileOutputStream fileOutputStream = null;
+        File file = getDisc();
+        if (!file.exists() && !file.mkdirs()) {
+            return;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
+        String date = simpleDateFormat.format(new Date());
+        String name = "Img" + date + ".jpg";
+        String file_name = file.getAbsolutePath() + "/" + name;
+        new_file = new File(file_name);
+        try {
+            fileOutputStream = new FileOutputStream(new_file);
+            Bitmap bitmap = merged;//viewToBitmap(binding.allSetImage,binding.allSetImage.getWidth(),binding.recoImage.getHeight());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+
+            fileOutputStream.flush();
+            fileOutputStream.close();
+           // startShare(new_file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       refreshgallery(new_file);
+    }
+    public void startsShare() {
         //Bitmap FrameDrawbable = drawableFromUrl(selectedModelFromView.getFrame1());
         Drawable d = FrameDrawbable;
         Drawable ImageDrawable = (BitmapDrawable) binding.backgrounImageDuplicate.getDrawable();
@@ -272,7 +340,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         } catch (IOException e) {
             e.printStackTrace();
         }
-        refreshgallery(new_file);
+         refreshgallery(new_file);
     }
     //For RefresGalary........................
     public void refreshgallery(File file) {
@@ -295,14 +363,21 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
 
 
-        if (getIntent().hasExtra("viewAll")){
-            selectedObject=menuModels.get(0);
-            LoadDataToUI();
-        }
+
+            if (getIntent().hasExtra("viewAll")) {
+                binding.simpleProgressBar.setVisibility(View.GONE);
+                selectedObject = menuModels.get(0);
+                LoadDataToUI();
+            }
+            else
+            {
+                binding.simpleProgressBar.setVisibility(View.VISIBLE);
+            }
+
+
     }
     //For GetImageCategory..............................
     private void getImageCtegory() {
-
         Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
@@ -317,10 +392,19 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
                     if (menuModels != null && menuModels.size() != 0) {
                         setAdapter();
-                    } else {
-                        Log.e("Condidtion", "Else");
-
+                        binding.shimmerViewContainer.stopShimmer();
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                        binding.viewRecoRecycler.setVisibility(View.VISIBLE);
+                        binding.emptyStateLayout.setVisibility(View.GONE);
                     }
+                    if (menuModels == null || menuModels.size() == 0) {
+                        binding.emptyStateLayout.setVisibility(View.VISIBLE);
+                        binding.viewRecoRecycler.setVisibility(View.GONE);
+                        binding.shimmerViewContainer.stopShimmer();
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                    }
+
+
 
 
                 } catch (JSONException e) {
@@ -440,8 +524,16 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
     }
     //For ImageSelectInterface.......................
     @Override public void ImageCateonItemSelection(int position, ImageList listModel) {
-        selectedObject = listModel;
-        LoadDataToUI();
+
+        if (selectedObject!=null) {
+            binding.simpleProgressBar.setVisibility(View.GONE);
+            selectedObject = listModel;
+            LoadDataToUI();
+        }
+        else
+        {
+            binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        }
     }
     // For Frmae Loade ..................................
     public void frameViewPager() {
@@ -477,6 +569,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+
                 }
 
                 @Override
@@ -487,16 +580,19 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
                     }
                     try {
                         selectedModelFromView = (FrameItem) viewPagerItems.get(position).clone();
+
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();
                     }
-
+                    reloadSaved();
                     //drawable = drawableFromUrl(selectedModelFromView.getFrame1());
                     dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
                 }
 
                 @Override
-                public void onPageScrollStateChanged(int state) { }
+                public void onPageScrollStateChanged(int state) {
+                    reloadSaved();
+                }
             });
             try {
                 selectedModelFromView = (FrameItem) viewPagerItems.get(viewPager.getCurrentItem()).clone();
@@ -508,7 +604,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
             AlertBox();
         }
 
-
+        LoadDataToUI();
 
     }
     public void AlertBox() {
@@ -600,11 +696,9 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    //For BackPrace......................................
     @Override public void onBackPressed() {CodeReUse.activityBackPress(act); }
     private class DownloadImageTask extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
-
         public DownloadImageTask(String url) {
             this.url = url;
         }
@@ -627,11 +721,34 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
             startSave();
 
 
-        } }
+        }
+    }
+    private class ShareImageTask extends AsyncTask<String, Void, BitmapDrawable> {
+        String url;
+        public ShareImageTask(String url) {
+            this.url = url;
+        }
+        protected BitmapDrawable doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                Log.e("ErrorImage", url);
+                InputStream in = new java.net.URL(url).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("ErrorImage", e.getMessage());
+                e.printStackTrace();
+            }
+            return new BitmapDrawable(getResources(), mIcon11);
+        }
+        protected void onPostExecute(BitmapDrawable result) {
+            //bmImage.setImageBitmap(result);
+            FrameDrawbable=result;
+            startsShare();
 
 
-
-
+        }
+    }
     private void removeFavourit(final int removeFav) {
 
         Utility.Log("API : ", APIs.REMOVE_FAVOURIT);

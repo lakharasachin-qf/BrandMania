@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -128,6 +129,15 @@
         android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_320sdp">
+
+        <ProgressBar
+            android:layout_centerVertical="true"
+            android:id="@+id/simpleProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_centerHorizontal="true"/>
+
         <ImageView
 
             android:scaleType="fitXY"
@@ -179,6 +189,49 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            shimmer:shimmer_duration="800">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_simmer_visitors_layout" />
+
+                <include layout="@layout/item_simmer_visitors_layout" />
+
+                <include layout="@layout/item_simmer_visitors_layout" />
+
+                <include layout="@layout/item_simmer_visitors_layout" />
+
+                <include layout="@layout/item_simmer_visitors_layout" />
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+        <LinearLayout
+            android:id="@+id/emptyStateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/emptyStateMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:fontFamily="@font/poppins_regular"
+                android:text="No Image Found"
+                android:textSize="@dimen/_12sdp" />
+        </LinearLayout>
         <ImageView
 
             android:scaleType="fitXY"

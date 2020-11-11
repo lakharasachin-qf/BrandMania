@@ -84,8 +84,6 @@ public class ViewBrandActivity extends AppCompatActivity {
         binding.getBrandList.setAdapter(MenuAddaptor);
 
     }
-
-
     private void getBrandList() {
 
         Utility.Log("API : ", APIs.GET_BRAND);
@@ -169,12 +167,10 @@ public class ViewBrandActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-    @Override
-    public void onBackPressed() {
+    @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
-    public void captureScreenShort()
-    {
+    public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 }
