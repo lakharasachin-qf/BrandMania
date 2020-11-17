@@ -2,6 +2,12 @@ package com.app.brandmania.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +26,10 @@ import com.app.brandmania.databinding.DownloadlisItemListBinding;
 import com.app.brandmania.databinding.ItemDownloadGridBinding;
 import com.app.brandmania.databinding.ItemLayoutGetbrandlistBinding;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static com.app.brandmania.Model.DownloadFavoriteItemList.LAYOUT_DOWNLOAD;
 import static com.app.brandmania.Model.DownloadFavoriteItemList.LAYOUT_DOWNLOADGRID;
@@ -42,6 +51,19 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
         gson = new Gson();
     }
 
+    private onShareImageClick onShareImageClick;
+
+    public DownloadFavoriteAdapter.onShareImageClick getOnShareImageClick() {
+        return onShareImageClick;
+    }
+
+    public void setOnShareImageClick(DownloadFavoriteAdapter.onShareImageClick onShareImageClick) {
+        this.onShareImageClick = onShareImageClick;
+    }
+
+    public  interface  onShareImageClick{
+        public void onShareClick(DownloadFavoriteItemList favoriteItemList,int position);
+    }
     int layoutType;
 
     public int getLayoutType() {
@@ -59,6 +81,7 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
 
             case LAYOUT_DOWNLOAD:
                 DownloadlisItemListBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.downloadlis_item_list, viewGroup, false);
+
                 return new DownloadFavoriteAdapter.DownloadHolder(layoutBinding);
             case LAYOUT_DOWNLOADGRID:
                 ItemDownloadGridBinding layoutBinding1 = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.item_download_grid, viewGroup, false);
@@ -128,6 +151,19 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
                         //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                     }
                 });
+
+
+
+
+                    ((DownloadHolder) holder).binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onShareImageClick.onShareClick(model,position);
+                            //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        }
+                    });
+
+
                 break;
                 case LAYOUT_DOWNLOADGRID:
                     Glide.with(context)
@@ -207,6 +243,8 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
 
             }
         }
+
+
 
 }
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -103,6 +104,55 @@ public class OtpScreenActivity extends BaseActivity {
 
             binding.verifyOtp.setText(Html.fromHtml(Verify));
         }
+
+
+//        binding.otpOne.setOnKeyListener(new View.OnKeyListener() {
+//
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                // TODO Auto-generated method stub
+//                if (binding.otpOne.getText().length() == 1)
+//                    binding.otpTwo.requestFocus();
+//                return false;
+//            }
+//        });
+//
+//        binding.otpTwo.setOnKeyListener(new View.OnKeyListener() {
+//
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                // TODO Auto-generated method stub
+//                if ( binding.otpTwo.getText().length() == 1)
+//                    binding.otpThree.requestFocus();
+//                return false;
+//            }
+//        });
+//
+//        binding.otpThree.setOnKeyListener(new View.OnKeyListener() {
+//
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                // TODO Auto-generated method stub
+//                if (binding.otpThree.getText().length() == 1)
+//                    binding.otpFour.requestFocus();
+//                return false;
+//            }
+//        });
+//        String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
+//
+//        binding.otpFour.setOnKeyListener(new View.OnKeyListener() {
+//
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                // TODO Auto-generated method stub
+//                if (binding.otpFour.getText().length() == 1)
+//                    VerificationOtp(OtpString.trim(), NumberShow);
+//                    return false;
+//
+//            }
+//        });
+
+
         TextChanger();
         deviceToken = getDeviceToken(this);
         preafManager=new PreafManager(this);
@@ -318,12 +368,26 @@ public class OtpScreenActivity extends BaseActivity {
     }
     public void TextChanger() {
         EditText[] edit = {binding.otpOne, binding.otpTwo, binding.otpThree, binding.otpFour};
+        String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
 
         binding.otpOne.addTextChangedListener(new GenericTextWatcher(binding.otpOne, edit));
         binding.otpTwo.addTextChangedListener(new GenericTextWatcher( binding.otpTwo, edit));
         binding.otpThree.addTextChangedListener(new GenericTextWatcher(binding.otpThree, edit));
-        binding.otpFour.addTextChangedListener(new GenericTextWatcher(binding.otpFour, edit));
+        binding.otpFour.addTextChangedListener(new GenericTextWatcher(binding.otpFour, edit) );
 
+
+//                binding.otpFour.setOnKeyListener(new View.OnKeyListener() {
+//
+//                    @Override
+//                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                        // TODO Auto-generated method stub
+//                        if (binding.otpFour.getText().length() == 1)
+//                            VerificationOtp(OtpString.trim(), NumberShow);
+//                        return false;
+//
+//                    }
+//
+//                });
     }
     private void InsertRecord() {
         if (isLoading)

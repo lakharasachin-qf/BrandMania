@@ -75,6 +75,21 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 
+            <ImageView
+                android:visibility="visible"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:id="@+id/shareIcon"
+                android:src="@drawable/ic_baseline_shareprimary"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_centerVertical="true"
+
+                >
+
+
+            </ImageView>
 
 
 

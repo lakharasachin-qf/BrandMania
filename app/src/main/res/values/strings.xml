@@ -60,5 +60,10 @@
     <string name="no_events_found">No Event Found</string>
     <string name="report_problem">Report Problem</string>
     <string name="upload_image">Upload Image</string>
+    <string name="rate_dialog_title">Rate this app</string>
+    <string name="rate_dialog_message">Rate this app</string>
+    <string name="rate_dialog_ok">Rate It Now</string>
+    <string name="rate_dialog_cancle">Reminder Me Leter</string>
+    <string name="rate_dialog_no">No, Thanks</string>
 
 </resources>

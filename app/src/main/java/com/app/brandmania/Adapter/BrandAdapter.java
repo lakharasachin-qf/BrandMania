@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,7 +57,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
     private Gson gson;
     private boolean isLoadingAdded = false;
     PreafManager preafManager;
-
+    private static final int REQUEST_CALL = 1;
 
     public BrandAdapter(ArrayList<BrandListItem> brandListItems, Activity activity) {
         this.brandListItems = brandListItems;
@@ -171,26 +173,27 @@ public class BrandAdapter extends RecyclerView.Adapter {
                              ((BrandHolder)holder).binding.callImageImage.setOnClickListener(new View.OnClickListener() {
                                  @Override
                                  public void onClick(View v) {
-                                     try {
+                                     makePhoneCall();
+                                    // try {
 
 
-                                         String number ="8460638464";
-                                         Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                         callIntent.setData(Uri.parse("tel:" + number));
-                                         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                             // TODO: Consider calling
-                                             //    ActivityCompat#requestPermissions
-                                             // here to request the missing permissions, and then overriding
-                                             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                             //                                          int[] grantResults)
-                                             // to handle the case where the user grants the permission. See the documentation
-                                             // for ActivityCompat#requestPermissions for more details.
-                                             return;
-                                         }
-                                         activity.startActivity(callIntent);
-                                     } catch (Exception e) {
-                                         e.printStackTrace();
-                                     }
+//                                         String number ="8460638464";
+//                                         Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                                         callIntent.setData(Uri.parse("tel:" + number));
+//                                         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                                             // TODO: Consider calling
+//                                             //    ActivityCompat#requestPermissions
+//                                             // here to request the missing permissions, and then overriding
+//                                             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                             //                                          int[] grantResults)
+//                                             // to handle the case where the user grants the permission. See the documentation
+//                                             // for ActivityCompat#requestPermissions for more details.
+//                                             return;
+//                                         }
+//                                         activity.startActivity(callIntent);
+//                                     } catch (Exception e) {
+//                                         e.printStackTrace();
+//                                     }
                                  }
                              });
                              ((BrandHolder)holder).binding.whatsappImage.setOnClickListener(new View.OnClickListener() {
@@ -227,6 +230,20 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
         }
     }
+    private void makePhoneCall() {
+        String number ="8460638464";
+        if (number.trim().length() > 0) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+            } else {
+                String dial = "tel:" + number;
+                activity.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+            }
+        }
+    }
+
+
 
     private void DeletAssigement(final String BrandId) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.DELETE_BRAND, new Response.Listener<String>() {

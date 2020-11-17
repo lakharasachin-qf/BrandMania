@@ -77,7 +77,19 @@ public class RegistrationActivity extends AppCompatActivity implements  PopupMen
         binding.firstName.setNextFocusDownId(R.id.lastName);
         binding.lastName.setNextFocusDownId(R.id.emailId);
         binding.emailId.setNextFocusDownId(R.id.submitBtn);
+        binding.menuOtpion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                preafManager.Logout();
+                Intent i = new Intent(act, LoginActivity.class);
+                i.addCategory(Intent.CATEGORY_HOME);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                act.finish();
 
+            }
+        });
 
 
         menuOtpion=findViewById(R.id.menuOtpion);

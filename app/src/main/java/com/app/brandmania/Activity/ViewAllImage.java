@@ -14,9 +14,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -26,8 +28,10 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -55,6 +59,7 @@ import com.app.brandmania.databinding.ActivityViewAllImageBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,6 +75,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
+import static com.app.brandmania.Utils.Utility.dialog;
 
 public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInterFace,alertListenerCallback{
     Activity act;
@@ -80,6 +86,8 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     public static final int DOWLOAD = 1;
     public static final int ADDFAV = 3;
+
+    private static final int REQUEST_CALL = 1;
     public static final int REMOVEFAV = 3;
     ArrayList<FrameItem> viewPagerItems = new ArrayList<>();
     PreafManager preafManager;
@@ -100,6 +108,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         super.onCreate(savedInstanceState);
         act = this;
         captureScreenShort();
+
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(this);
@@ -200,7 +209,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
             if (AddFavorite!=null) {
                 for (int i = 0; i < AddFavorite.size(); i++) {
                     Log.e("Print-",AddFavorite.get(i).getFrameId()+"s");
-                    Log.e("Print--",selectedModelFromView.getFrameId()+"s");
+//                    Log.e("Print--",selectedModelFromView.getFrameId()+"s");
 
                     if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedModelFromView.getFrameId())) {
                         binding.addfabroutIcon.setVisibility(View.VISIBLE);
@@ -272,7 +281,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         Bitmap merged = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(merged);
         d.setBounds(0, 0, 1000, 1000);
-        ImageDrawable.setBounds(5, 5, 1000, 1000);
+        ImageDrawable.setBounds(0, 0, 1000, 1000);
         ImageDrawable.draw(canvas);
         d.draw(canvas);
         binding.allSetImage.setImageBitmap(merged);
@@ -294,6 +303,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
             fileOutputStream.flush();
             fileOutputStream.close();
+            Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
            // startShare(new_file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -309,7 +319,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         Bitmap merged = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(merged);
         d.setBounds(0, 0, 1000, 1000);
-        ImageDrawable.setBounds(5, 5, 1000, 1000);
+        ImageDrawable.setBounds(0, 0, 1000, 1000);
         ImageDrawable.draw(canvas);
         d.draw(canvas);
         binding.allSetImage.setImageBitmap(merged);
@@ -460,13 +470,9 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.DOWNLOAD_SHARE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 Utility.Log("DOWNLOAD_SHARE : ", response);
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -598,7 +604,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
             }
         }
         else{
-            AlertBox();
+            showAlertDialogButtonClicked();
         }
 
         LoadDataToUI();
@@ -632,6 +638,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
+
     private void getFrame() {
         Utility.Log("API : ", APIs.GET_FRAME);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME,new Response.Listener<String>() {
@@ -811,4 +818,97 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
+
+    public void showAlertDialogButtonClicked()
+    {
+
+        // Create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // set the custom layout
+        final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
+        builder.setView(customLayout);
+        ImageView call=customLayout.findViewById(R.id.call);
+        ImageView whatsapp=customLayout.findViewById(R.id.whatsapp);
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                makePhoneCall();
+
+            }
+        });
+        whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                whatsapp();
+            }
+        });
+        // add a button
+        builder
+                .setPositiveButton(
+                        "OK",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(
+                                    DialogInterface dialog, int which)
+                            {
+                                dialog.dismiss();
+                                onBackPressed();
+
+                            }
+                        });
+
+        // create and show
+        // the alert dialog
+        AlertDialog dialog
+                = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
+        dialog.setCancelable(false);
+        dialog.show();
+        Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setBackgroundColor(Color.WHITE);
+    }
+
+    private void whatsapp()
+    {
+        try {
+            String number ="8460638464";
+            String BrandContact="\nRegistered Number: ";
+            String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:"+ preafManager.getActiveBrand().getName() +BrandContact+preafManager.getMobileNumber();
+            String toNumber ="91"+number;
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void makePhoneCall() {
+        String number ="8460638464";
+        if (number.trim().length() > 0) {
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(act,
+                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+            } else {
+                String dial = "tel:" + number;
+                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+        if (requestCode == REQUEST_CALL) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                makePhoneCall();
+            } else {
+                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 }

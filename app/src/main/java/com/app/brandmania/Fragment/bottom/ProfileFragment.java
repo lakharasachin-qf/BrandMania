@@ -2,6 +2,7 @@ package com.app.brandmania.Fragment.bottom;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.app.brandmania.Activity.AboutUsActivity;
 import com.app.brandmania.Activity.FaqActivity;
 import com.app.brandmania.Activity.LoginActivity;
 import com.app.brandmania.Common.PreafManager;
@@ -18,6 +20,8 @@ import com.app.brandmania.Activity.PartnerProgramActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.Activity.ViewBrandActivity;
 import com.app.brandmania.databinding.FragmentProfileBinding;
+
+import java.net.URI;
 
 public class ProfileFragment extends Fragment  {
     Activity act;
@@ -83,6 +87,16 @@ public class ProfileFragment extends Fragment  {
 
             }
         });
+        binding.aboutUsRelative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(act, AboutUsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+
+            }
+        });
         binding.shareText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +106,23 @@ public class ProfileFragment extends Fragment  {
                 String app_url = "https://play.google.com/store/apps/details?id=com.make.mybrand";
                 shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,app_url);
                 startActivity(Intent.createChooser(shareIntent, "Share via"));
+            }
+        });
+
+        binding.rateUsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri=Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
+                Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                try {
+
+                    startActivity(intent);
+                }
+                catch (Exception e)
+                {
+
+                }
+
             }
         });
         return binding.getRoot();

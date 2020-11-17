@@ -27,13 +27,14 @@
             android:layout_height="@dimen/_70sdp">
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/menuOtpion"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:src="@drawable/ic_menu"
+                android:src="@drawable/ic_power_button"
                 android:padding="@dimen/_5sdp"
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="@dimen/_24sdp">
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp">
             </ImageView>
 
         </RelativeLayout>

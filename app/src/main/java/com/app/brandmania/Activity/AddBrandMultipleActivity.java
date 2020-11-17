@@ -37,6 +37,7 @@ import com.app.brandmania.Fragment.bottom.ListBottomFragment;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.CommonListModel;
+import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
@@ -49,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +79,7 @@ public class AddBrandMultipleActivity extends AppCompatActivity implements ItemS
         binding= DataBindingUtil.setContentView(act,R.layout.activity_add_brand_multiple);
         preafManager=new PreafManager(this);
         alertDialogBuilder=new AlertDialog.Builder(act);
+        binding.websiteEdt.setText("https://");
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,41 +153,6 @@ public class AddBrandMultipleActivity extends AppCompatActivity implements ItemS
 
         }
 
-        if (binding.websiteEdt.getText().toString().length() == 0) {
-            isError = true;
-            isFocus = true;
-            binding.websiteEdtLayout.setError(getString(R.string.enter_website));
-            binding.websiteEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            binding.websiteEdt.requestFocus();
-
-        }
-
-
-        if (!binding.emailIdEdt.getText().toString().equals("")) {
-            if (!CodeReUse.isEmailValid(binding.emailIdEdt.getText().toString())) {
-                isError = true;
-                isFocus = true;
-                binding.emailIdEdtLayout.setError(getString(R.string.enter_valid_email_address));
-                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                binding.emailIdEdt.requestFocus();
-
-            }
-            else
-            {
-
-            }
-
-        }
-        else {
-            if (binding.emailIdEdt.getText().toString().length() == 0) {
-                isError = true;
-                isFocus = true;
-                binding.emailIdEdtLayout.setError(getString(R.string.enter_email_id));
-                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                binding.emailIdEdt.requestFocus();
-
-            }
-        }
         if (!binding.phoneTxt.getText().toString().equals("")) {
             if (binding.phoneTxt.getText().toString().length() < 10) {
                 binding.phoneTxtLayout.setError(getString(R.string.validphoneno_txt));
@@ -298,9 +266,7 @@ public class AddBrandMultipleActivity extends AppCompatActivity implements ItemS
                                         preafManager.loginStep(is_completed);
                                         if (is_completed.equals("2"))
                                         {
-                                            Intent i = new Intent(act, HomeActivity.class);
-                                            startActivity(i);
-                                            overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+                                            getBrandList();
                                         }
                                     }
                                 });
@@ -331,6 +297,107 @@ public class AddBrandMultipleActivity extends AppCompatActivity implements ItemS
                     }
                 });
 
+    }
+    private void getBrandList() {
+        Utility.Log("API : ", APIs.GET_BRAND);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("addbrandresponce", response);
+                ArrayList<BrandListItem> brandListItems = new ArrayList<>();
+                try {
+                    JSONObject res = new JSONObject(response);
+
+                    JSONArray jsonArray1 = res.getJSONArray("data");
+                    for (int i = 0; i < jsonArray1.length(); i++) {
+                        JSONObject jsonObject = jsonArray1.getJSONObject(i);
+                        BrandListItem brandListItemm = new BrandListItem();
+                        brandListItemm.setId(ResponseHandler.getString(jsonObject, "id"));
+                        brandListItemm.setCategoryId(ResponseHandler.getString(jsonObject, "br_category_id"));
+                        brandListItemm.setCategoryName(ResponseHandler.getString(jsonObject, "br_category_name"));
+                        brandListItemm.setName(ResponseHandler.getString(jsonObject, "br_name"));
+                        brandListItemm.setWebsite(ResponseHandler.getString(jsonObject, "br_website"));
+                        brandListItemm.setEmail(ResponseHandler.getString(jsonObject, "br_email"));
+                        brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));
+                        brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
+                        JSONArray jsonArray = jsonObject.getJSONArray("br_frame");
+                        ArrayList<FrameItem> frameItems = null;
+                        frameItems = new ArrayList<>();
+                        for (int j = 0; j < jsonArray.length(); j++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(j);
+                            FrameItem frameItem = new FrameItem();
+                            frameItem.setFrame1(ResponseHandler.getString(jsonObject, "fream_base_url") + "/" + ResponseHandler.getString(jsonObject1, "frame_path"));
+                            frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
+
+                            frameItems.add(frameItem);
+                        }
+
+                        brandListItemm.setFrame(frameItems);
+                        brandListItems.add(brandListItemm);
+                    }
+
+
+                    preafManager.setAddBrandList(brandListItems);
+                    preafManager.setIS_Brand(true);
+
+                    if (brandListItems != null && brandListItems.size() != 0) {
+                        preafManager.setActiveBrand(brandListItems.get(0));
+                    }
+
+
+                    Intent i = new Intent(act, HomeActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+                    finish();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        String body;
+                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        Log.e("Error ", body);
+
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                Log.e("DateNdClass", params.toString());
+                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
     }
     private void getBrandCategory(int flag) {
         String apiUrl = "";

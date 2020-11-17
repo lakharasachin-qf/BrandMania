@@ -261,40 +261,7 @@ public class UpdateBandList extends AppCompatActivity implements ItemSelectionIn
 
         }
 
-        if (binding.websiteEdt.getText().toString().length() == 0) {
-            isError = true;
-            isFocus = true;
-            binding.websiteEdtLayout.setError(getString(R.string.enter_website));
-            binding.websiteEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            binding.websiteEdt.requestFocus();
 
-        }
-
-        if (!binding.emailIdEdt.getText().toString().equals("")) {
-            if (!CodeReUse.isEmailValid(binding.emailIdEdt.getText().toString())) {
-                isError = true;
-                isFocus = true;
-                binding.emailIdEdtLayout.setError(getString(R.string.enter_valid_email_address));
-                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                binding.emailIdEdt.requestFocus();
-
-            }
-            else
-            {
-
-            }
-
-        }
-        else {
-            if (binding.emailIdEdt.getText().toString().length() == 0) {
-                isError = true;
-                isFocus = true;
-                binding.emailIdEdtLayout.setError(getString(R.string.enter_email_id));
-                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                binding.emailIdEdt.requestFocus();
-
-            }
-        }
 
         if (!isError) {
             Bitmap bitmap = null;

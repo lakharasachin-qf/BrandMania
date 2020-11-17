@@ -1,16 +1,22 @@
 package com.app.brandmania.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,6 +46,7 @@ import java.util.Map;
 public class ViewBrandActivity extends AppCompatActivity {
     Activity act;
     private ActivityViewBrandBinding binding;
+    private static final int REQUEST_CALL = 1;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     PreafManager preafManager;
     @Override
@@ -167,6 +174,29 @@ public class ViewBrandActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
+    private void makePhoneCall() {
+        String number ="8460638464";
+        if (number.trim().length() > 0) {
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(act,
+                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+            } else {
+                String dial = "tel:" + number;
+                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+        if (requestCode == REQUEST_CALL) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                makePhoneCall();
+            } else {
+                Toast.makeText(act, "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }

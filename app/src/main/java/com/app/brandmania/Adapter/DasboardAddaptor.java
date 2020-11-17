@@ -92,7 +92,6 @@ public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.Dasb
 
     }
     public static String convertFirstUpper(String str) {
-
         if (str == null || str.isEmpty()) {
             return str;
         }

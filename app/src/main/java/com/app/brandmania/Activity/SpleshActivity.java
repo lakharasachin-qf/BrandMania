@@ -68,9 +68,7 @@ public class SpleshActivity extends AppCompatActivity  {
             public void run() {
 
                 if (preafManager.getUserToken()!=null && !preafManager.getUserToken().isEmpty() ) {
-
                     LoginFlow();
-
                 }
                 else {
                     Intent intent = new Intent(act, LoginActivity.class);

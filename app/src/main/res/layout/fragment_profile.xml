@@ -151,44 +151,7 @@
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
-                <RelativeLayout
-                    android:id="@+id/aboutUsRelative"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                        <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_alignParentEnd="true"
-                            android:src="@drawable/ic_next"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_15sdp">
-                        </ImageView>
-                        <ImageView
-                            android:src="@drawable/ic_hand_shake"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:id="@+id/aboutUsImage"
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp">
-                        </ImageView>
-                        <TextView
-                            android:fontFamily="@font/inter_regular"
-                            android:textColor="@android:color/black"
-                            android:text="About Us"
-                            android:layout_toEndOf="@+id/aboutUsImage"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_centerVertical="true"
-                            android:textSize="@dimen/_12sdp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
 
-                </RelativeLayout>
-                <View
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/Graycolor"
-                    />
                 <RelativeLayout
                     android:visibility="gone"
                     android:id="@+id/partnerProgRelative"
@@ -269,8 +232,49 @@
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
+
                 <RelativeLayout
-                    android:visibility="gone"
+                    android:id="@+id/shareText"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/ic_next"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp">
+                        </ImageView>
+                        <ImageView
+                            android:src="@drawable/ic_share"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:id="@+id/shareImage"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp">
+                        </ImageView>
+                        <TextView
+                            android:fontFamily="@font/inter_regular"
+                            android:textColor="@android:color/black"
+                            android:text="@string/shareapp_text"
+                            android:layout_toEndOf="@+id/shareImage"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_centerVertical="true"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></TextView>
+
+                </RelativeLayout>
+                <View
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/Graycolor"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/rateUsLayout"
+                    android:visibility="visible"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -301,14 +305,14 @@
 
                 </RelativeLayout>
                 <View
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
                 <RelativeLayout
-                    android:id="@+id/shareText"
+                    android:id="@+id/aboutUsRelative"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -321,17 +325,17 @@
                             android:layout_height="@dimen/_15sdp">
                         </ImageView>
                         <ImageView
-                            android:src="@drawable/ic_share"
+                            android:src="@drawable/ic_hand_shake"
                             android:layout_marginLeft="@dimen/_10sdp"
-                            android:id="@+id/shareImage"
+                            android:id="@+id/aboutUsImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp">
                         </ImageView>
                         <TextView
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@android:color/black"
-                            android:text="@string/shareapp_text"
-                            android:layout_toEndOf="@+id/shareImage"
+                            android:text="About Us"
+                            android:layout_toEndOf="@+id/aboutUsImage"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_centerVertical="true"
                             android:textSize="@dimen/_12sdp"
@@ -384,9 +388,8 @@
                     android:background="@color/Graycolor"
                     />
 
-
-
         </LinearLayout>
+
 
 
 </RelativeLayout>

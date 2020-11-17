@@ -90,8 +90,20 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
         preafManager = new PreafManager(this);
 
         preafManager.setIs_Registration(true);
+        binding.menuOtpion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                preafManager.Logout();
+                Intent i = new Intent(act, LoginActivity.class);
+                i.addCategory(Intent.CATEGORY_HOME);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                act.finish();
 
-
+            }
+        });
+        binding.websiteEdt.setText("https://");
         alertDialogBuilder = new AlertDialog.Builder(act);
         String NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
         String EmailIdShow = getIntent().getStringExtra(Constant.EMAIL_ID);
@@ -178,37 +190,6 @@ public class AddBranddActivity extends AppCompatActivity implements ItemSelectio
 
         }
 
-        if (binding.websiteEdt.getText().toString().length() == 0) {
-            isError = true;
-            isFocus = true;
-            binding.websiteEdtLayout.setError(getString(R.string.enter_website));
-            binding.websiteEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            binding.websiteEdt.requestFocus();
-
-        }
-
-        if (!binding.emailIdEdt.getText().toString().equals("")) {
-            if (!CodeReUse.isEmailValid(binding.emailIdEdt.getText().toString())) {
-                isError = true;
-                isFocus = true;
-                binding.emailIdEdtLayout.setError(getString(R.string.enter_valid_email_address));
-                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                binding.emailIdEdt.requestFocus();
-
-            } else {
-
-            }
-
-        } else {
-            if (binding.emailIdEdt.getText().toString().length() == 0) {
-                isError = true;
-                isFocus = true;
-                binding.emailIdEdtLayout.setError(getString(R.string.enter_email_id));
-                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                binding.emailIdEdt.requestFocus();
-
-            }
-        }
         if (!binding.phoneTxt.getText().toString().equals("")) {
             if (binding.phoneTxt.getText().toString().length() < 10) {
                 binding.phoneTxtLayout.setError(getString(R.string.validphoneno_txt));
