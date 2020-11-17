@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             preafManager=new PreafManager(act);
         }
         Gson gson=new Gson();
-        Rateus();
+        //Rateus();
 //        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
 //        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();
         FramePagerItems =preafManager.getActiveBrand().getFrame();

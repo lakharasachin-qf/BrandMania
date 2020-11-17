@@ -159,7 +159,7 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             onShareImageClick.onShareClick(model,position);
-                            //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                            // activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                         }
                     });
 
