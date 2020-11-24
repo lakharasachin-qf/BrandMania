@@ -23,6 +23,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -63,6 +64,7 @@ public class DownloadListTab extends Fragment {
     private DownloadlisTabBinding binding;
     ArrayList<DownloadFavoriteItemList> menuModels = new ArrayList<>();
     PreafManager preafManager;
+    DownloadFavoriteItemList downloadingOjectttt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,8 +72,32 @@ public class DownloadListTab extends Fragment {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater,R.layout.downloadlis_tab,container,false);
         preafManager=new PreafManager(act);
+
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorsecond,
+                R.color.colorthird);
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                startAnimation();
+
+                getDownloadListItem();
+                // startAnimation();
+                //getNotice(startDate, endDate);
+
+            }
+        });
+
+
         getDownloadListItem();
         return binding.getRoot();
+    }
+    private void startAnimation() {
+        binding.shimmerViewContainer.startShimmer();
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.DownloadRecycler.setVisibility(View.GONE);
+
     }
     DownloadFavoriteItemList downloadingOject;
     public void setAdapter() {
@@ -221,7 +247,7 @@ public class DownloadListTab extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_DOWNLOADLIST_ITEM , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_DOWNLOADLIST_ITEM : ", response);
 
                 try {
@@ -252,7 +278,7 @@ public class DownloadListTab extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 //                        String body;
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);

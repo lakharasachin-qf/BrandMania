@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.MainActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Model.FrameItem;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,18 +67,23 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import angtrim.com.fivestarslibrary.FiveStarsDialog;
+import angtrim.com.fivestarslibrary.NegativeReviewListener;
+import angtrim.com.fivestarslibrary.ReviewListener;
 import hotchemi.android.rate.AppRate;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
-public class HomeFragment extends Fragment  implements ItemMultipleSelectionInterface , ImageCateItemeInterFace {
+public class HomeFragment extends Fragment  implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
     public static int BUSINESS_TYPE = 1;
     private String BusinessTitle;
     ArrayList<BrandListItem> BusinessTypeList = new ArrayList<>();
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
     BrandListItem brandListItem;
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
 
+    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+    FiveStarsDialog fiveStarsDialog;
     private static final int REQUEST_CALL = 1;
     private DasboardAddaptor dasboardAddaptor;
     ArrayList<FrameItem> FramePagerItems = new ArrayList<>();
@@ -119,13 +126,15 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
         homeFragment=this;
+        fiveStarsDialog = new FiveStarsDialog(getActivity(),"brandmania@gmail.com");
           preafManager=new PreafManager(act);
         if (preafManager.getAddBrandList()!=null && preafManager.getAddBrandList().size()!=0 &&preafManager.getActiveBrand()==null){
             preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
             preafManager=new PreafManager(act);
         }
         Gson gson=new Gson();
-        //Rateus();
+        requestAgain();
+       RateUs();
 //        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
 //        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();
         FramePagerItems =preafManager.getActiveBrand().getFrame();
@@ -141,7 +150,28 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
 
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
+
+
+
         getBrandList();
+
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+               R.color.colorsecond,
+                R.color.colorthird);
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                startAnimation();
+
+                getImageCtegory();
+                // startAnimation();
+                //getNotice(startDate, endDate);
+
+            }
+        });
+
+
         getDeviceToken(act);
         AddUserActivity();
         binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
@@ -192,6 +222,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         bottomSheetFragment = new SelectBrandListBottomFragment();
         bottomSheetFragment.setHomeFragment(homeFragment);
         bottomSheetFragment.setListData(callingFlag,title);
+        bottomSheetFragment.setLayoutType(1);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
         }
@@ -211,7 +242,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     }
     //GetBanner........................
     private void getBanner() {
-
+        binding.swipeContainer.setRefreshing(true);
         Utility.Log("API : ", APIs.GET_BANNER);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_BANNER, new Response.Listener<String>() {
             @Override
@@ -221,6 +252,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
+                    binding.swipeContainer.setRefreshing(false);
                     viewPagerItems = ResponseHandler.HandleGetBanneList(jsonObject);
                     if (viewPagerItems != null && viewPagerItems.size() != 0) {
                         final ViewPagerAdapter viewPagerAddeptor=new ViewPagerAdapter(viewPagerItems,act);
@@ -253,7 +285,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 
 
@@ -292,15 +324,16 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     }
     //GetImageCategory..................
     private void getImageCtegory() {
-        Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY);
+               Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY+"/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_IMAGE_CATEGORY : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+
                     menuModels = ResponseHandler.HandleGetImageCategory(jsonObject);
                     if (menuModels != null && menuModels.size() != 0) {
                         setAdapter();
@@ -325,8 +358,9 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
+                        binding.swipeContainer.setRefreshing(false);
                         binding.rocommRecycler.setVisibility(View.GONE);
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -499,18 +533,33 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
 
 
 
-    private void Rateus()
+    private void RateUs()
     {
-        AppRate.with(act)
-                .setInstallDays(1)
-                .setLaunchTimes(3)
-                .setRemindInterval(2)
-                .monitor();
+//        AppRate.with(act)
+//                .setInstallDays(1)
+//                .setLaunchTimes(3)
+//                .setRemindInterval(2)
+//                .monitor();
+//
+//        AppRate.showRateDialogIfMeetsConditions(act);
 
-        AppRate.showRateDialogIfMeetsConditions(act);
+        fiveStarsDialog.setRateText("Your custom text")
+
+                .setTitle("Your custom title")
+
+                .setForceMode(false)
+
+                .setUpperBound(2)
+
+                .setNegativeReviewListener(this)
+
+                .setReviewListener(this)
+
+                .showAfter(2);
+
     }
     private void getBrandList() {
-
+        binding.swipeContainer.setRefreshing(true);
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
@@ -521,6 +570,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
+                    binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
 
 
@@ -537,7 +587,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 
 
@@ -574,5 +624,31 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
 
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
+    }
+    private void requestAgain() {
+        ActivityCompat.requestPermissions(act,
+                new String[]{
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                },
+                CodeReUse.ASK_PERMISSSION);
+    }
+    @Override
+    public void onNegativeReview(int stars) {
+        Log.d(TAG, "Negative review " + stars);
+    }
+    @Override
+    public void onRefresh() {
+        getBrandList();
+        getBanner();
+    }
+    @Override
+    public void onReview(int stars) {
+        Log.d(TAG, "Review " + stars);
     }
 }

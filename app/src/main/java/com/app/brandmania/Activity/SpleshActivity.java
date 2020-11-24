@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.IsCompeteModel;
@@ -39,14 +40,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SpleshActivity extends AppCompatActivity  {
+public class SpleshActivity extends BaseActivity {
     Activity act;
     private ActivityMainBinding binding;
     final ArrayList<IsCompeteModel> isCompeteModels = new ArrayList<IsCompeteModel>();
     PreafManager preafManager;
     AnimatorSet animatorSet1;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;

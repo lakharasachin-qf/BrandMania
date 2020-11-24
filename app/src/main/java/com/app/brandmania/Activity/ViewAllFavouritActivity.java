@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Connection.BaseActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
@@ -39,7 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ViewAllFavouritActivity extends AppCompatActivity implements FrameCateItemeInterFace {
+public class ViewAllFavouritActivity extends BaseActivity implements FrameCateItemeInterFace {
     Activity act;
     private ActivityViewAllFavouritBinding binding;
     DownloadFavoriteItemList selectedModelFromView;
@@ -47,7 +49,7 @@ public class ViewAllFavouritActivity extends AppCompatActivity implements FrameC
     PreafManager preafManager;
     Gson gson;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         act=this;
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
@@ -63,6 +65,25 @@ public class ViewAllFavouritActivity extends AppCompatActivity implements FrameC
                 onBackPressed();
             }
         });
+
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorsecond,
+                R.color.colorthird);
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                startAnimation();
+                getFavoritListItem();
+                // startAnimation();
+                //getNotice(startDate, endDate);
+
+            }
+        });
+
+
+
+
         getFavoritListItem();
         selectedModelFromView = gson.fromJson(getIntent().getStringExtra("detailsObjj"), DownloadFavoriteItemList.class);
         Glide.with(act)
@@ -74,6 +95,12 @@ public class ViewAllFavouritActivity extends AppCompatActivity implements FrameC
         Glide.with(act)
                 .load(selectedModelFromView.getFrame())
                 .into(binding.recoFrame);
+
+    }
+    private void startAnimation() {
+        binding.shimmerViewContainer.startShimmer();
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.viewRecoRecycler.setVisibility(View.GONE);
 
     }
     public void setAdapter() {
@@ -88,6 +115,7 @@ public class ViewAllFavouritActivity extends AppCompatActivity implements FrameC
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FAVORITLIST_ITEM , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                binding.swipeContainer.setRefreshing(false);
 
                 Utility.Log("GET_FAVORITLIST_ITEM : ", response);
 
@@ -96,7 +124,20 @@ public class ViewAllFavouritActivity extends AppCompatActivity implements FrameC
                     menuModels = ResponseHandler.HandleGetIFavoritListGrid(jsonObject);
 
 
+                    if (menuModels != null && menuModels.size() != 0) {
                         setAdapter();
+                        binding.shimmerViewContainer.stopShimmer();
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                        binding.viewRecoRecycler.setVisibility(View.VISIBLE);
+                        binding.emptyStateLayout.setVisibility(View.GONE);
+                    }
+                    if (menuModels == null || menuModels.size() == 0) {
+                        binding.emptyStateLayout.setVisibility(View.VISIBLE);
+                        binding.viewRecoRecycler.setVisibility(View.GONE);
+                        binding.shimmerViewContainer.stopShimmer();
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                    }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -107,7 +148,7 @@ public class ViewAllFavouritActivity extends AppCompatActivity implements FrameC
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 //                        String body;
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);

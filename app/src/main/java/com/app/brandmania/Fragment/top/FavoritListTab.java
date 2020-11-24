@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -48,8 +49,29 @@ public class FavoritListTab extends Fragment{
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.favorit_item_list,container,false);
         preafManager=new PreafManager(act);
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorsecond,
+                R.color.colorthird);
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                startAnimation();
+
+                getFavoritListItem();
+                // startAnimation();
+                //getNotice(startDate, endDate);
+
+            }
+        });
+
         getFavoritListItem();
         return binding.getRoot();
+    }
+    private void startAnimation() {
+        binding.shimmerViewContainer.startShimmer();
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.favoritRecycler.setVisibility(View.GONE);
     }
     public void setAdapter() {
         DownloadFavoriteAdapter menuAddaptor = new DownloadFavoriteAdapter(menuModels, act);
@@ -63,7 +85,7 @@ public class FavoritListTab extends Fragment{
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FAVORITLIST_ITEM , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_FAVORITLIST_ITEM : ", response);
 
                 try {
@@ -92,7 +114,7 @@ public class FavoritListTab extends Fragment{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 //                        String body;
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);

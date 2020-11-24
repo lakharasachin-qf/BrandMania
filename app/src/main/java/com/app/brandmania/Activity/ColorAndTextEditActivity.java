@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.app.brandmania.Connection.BaseActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.app.brandmania.Adapter.EditingToolsAdapter;
@@ -51,7 +52,7 @@ import ja.burhanrashid52.photoeditor.ViewType;
 
 import static com.app.brandmania.Utils.Utility.Log;
 
-public class ColorAndTextEditActivity extends AppCompatActivity implements ItemeInterFace, FrameInterFace, EditingToolsAdapter.OnItemSelected, OnPhotoEditorListener , ITextColorChangeEvent {
+public class ColorAndTextEditActivity extends BaseActivity implements ItemeInterFace, FrameInterFace, EditingToolsAdapter.OnItemSelected, OnPhotoEditorListener , ITextColorChangeEvent {
 
     Activity act;
     private ActivityColorAndTextEditBinding binding;

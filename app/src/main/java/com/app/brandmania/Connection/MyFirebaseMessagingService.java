@@ -115,9 +115,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setContentText(msg)
                 .setAutoCancel(false)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setSound(defaultSoundUri)
+                .setDeleteIntent(createOnDismissedIntent(this))
                 .setContentIntent(pendingIntent);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setSmallIcon(R.drawable.ic_launcher_icon);
@@ -130,6 +133,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0, notificationBuilder.build());
 
+    }
+    private PendingIntent createOnDismissedIntent(Context context) {
+        Intent intent = new Intent(context, NotificationDismissedReceiver.class);
+        intent.putExtra("notificationId", 108);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(this,
+                        108, intent, 0);
+        return pendingIntent;
     }
 
 }

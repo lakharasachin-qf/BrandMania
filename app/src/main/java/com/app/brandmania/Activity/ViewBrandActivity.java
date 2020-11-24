@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.app.Activity;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
@@ -43,7 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ViewBrandActivity extends AppCompatActivity {
+public class ViewBrandActivity extends BaseActivity {
     Activity act;
     private ActivityViewBrandBinding binding;
     private static final int REQUEST_CALL = 1;
@@ -73,6 +75,21 @@ public class ViewBrandActivity extends AppCompatActivity {
 
             }
         });
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorsecond,
+                R.color.colorthird);
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                startAnimation();
+
+                getBrandList();
+                // startAnimation();
+                //getNotice(startDate, endDate);
+
+            }
+        });
         startAnimation();
         getBrandList();
     }
@@ -97,7 +114,7 @@ public class ViewBrandActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_BRAND : ", response);
                 ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
@@ -132,7 +149,7 @@ public class ViewBrandActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 
                         binding.swipeContainer.setRefreshing(false);

@@ -20,6 +20,7 @@ import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
@@ -31,14 +32,14 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-public class AddReportAndBug extends AppCompatActivity {
+public class AddReportAndBug extends BaseActivity {
     Activity act;
     private ActivityAddReportAndBugBinding binding;
     private boolean isLoading = false;
     PreafManager preafManager;
     private Bitmap selectedImageFirst;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;

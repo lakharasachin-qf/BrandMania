@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Connection.BaseActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Fragment.bottom.CustomFragment;
@@ -43,7 +44,7 @@ import java.util.Timer;
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private ViewPager ViewPagerView;
     Timer timer;
     private Menu mMenuItem;
@@ -54,7 +55,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
@@ -217,4 +218,5 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
+
 }

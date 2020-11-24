@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -41,6 +42,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Connection.BaseActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.app.brandmania.Adapter.ImageCateItemeInterFace;
@@ -77,7 +79,7 @@ import java.util.Map;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 import static com.app.brandmania.Utils.Utility.dialog;
 
-public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInterFace,alertListenerCallback{
+public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback{
     Activity act;
     ViewPager viewPager;
     ArrayList<ImageList> AddFavorite=new ArrayList<>();
@@ -86,7 +88,6 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     public static final int DOWLOAD = 1;
     public static final int ADDFAV = 3;
-
     private static final int REQUEST_CALL = 1;
     public static final int REMOVEFAV = 3;
     ArrayList<FrameItem> viewPagerItems = new ArrayList<>();
@@ -112,11 +113,29 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(this);
-
+        binding.titleName.setSelected(true);
         gson = new Gson();
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
         Log.e("selectedObject",gson.toJson(selectedObject));
         getFrame();
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorsecond,
+                R.color.colorthird);
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                startAnimation();
+
+                getImageCtegory();
+                // startAnimation();
+                //getNotice(startDate, endDate);
+
+            }
+        });
+
+
+
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         getImageCtegory();
@@ -199,8 +218,8 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         preafManager=new PreafManager(act);
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
-            Glide.with(act).load(selectedObject.getFrame()).into(binding.backgrounImageDuplicate);
-            Glide.with(act)
+            Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.backgrounImageDuplicate);
+            Glide.with(getApplicationContext())
                     .load(selectedObject.getFrame())
                     .into(binding.recoImage);
 
@@ -251,13 +270,24 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
         }
     }
     public void startShare(File new_file) {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Uri screenshotUri = Uri.parse(new_file.getPath());
+        Intent shareIntent =   new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("image/png");
+        Uri screenshotUri = Uri.parse(new_file.getPath());
         shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+
+
+
+
+
+
+    }
+    private void startAnimation() {
+        binding.shimmerViewContainer.startShimmer();
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.viewRecoRecycler.setVisibility(View.GONE);
+
     }
     Bitmap drawableFromUrl(String url)  {
 
@@ -385,11 +415,12 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
     }
     //For GetImageCategory..............................
     private void getImageCtegory() {
+        binding.swipeContainer.setRefreshing(true);
         Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_IMAGE_CATEGORY : ", response);
 
                 try {
@@ -423,7 +454,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 //                        String body;
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
@@ -727,7 +758,7 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
         }
     }
-    private class ShareImageTask extends AsyncTask<String, Void, BitmapDrawable> {
+    class ShareImageTask extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
         public ShareImageTask(String url) {
             this.url = url;
@@ -753,6 +784,9 @@ public class ViewAllImage extends AppCompatActivity implements ImageCateItemeInt
 
         }
     }
+
+
+
     private void removeFavourit(final int removeFav) {
 
         Utility.Log("API : ", APIs.REMOVE_FAVOURIT);

@@ -29,6 +29,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.app.brandmania.Connection.BaseActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.app.brandmania.Common.Constant;
@@ -54,7 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateBandList extends AppCompatActivity implements ItemSelectionInterface,alertListenerCallback {
+public class UpdateBandList extends BaseActivity implements ItemSelectionInterface,alertListenerCallback {
     PreafManager prefManager;
     Gson gson;
     public static int BRAND_CATEGORY = 0;
@@ -71,7 +72,7 @@ public class UpdateBandList extends AppCompatActivity implements ItemSelectionIn
     private Bitmap selectedImagesBitmap;
     private AlertDialog.Builder alertDialogBuilder;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;

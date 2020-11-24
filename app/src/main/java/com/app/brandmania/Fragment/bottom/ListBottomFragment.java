@@ -40,35 +40,29 @@ public class ListBottomFragment  extends BottomSheetDialogFragment {
     public ListBottomFragment() {
 
     }
-
     public void setOnFilterSelection(setOnFilterSelection onFilterSelection) {
         this.onFilterSelection = onFilterSelection;
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
     }
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             CodeReUse.setWhiteNavigationBar(dialog, getActivity());
         }
         return dialog;
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_bottom_list, container, false);
         view = binding.getRoot();
         act = getActivity();
         fragment = this;
         preafManager=new PreafManager(act);
+        binding.titleText.setText("Brand Category");
 
         if (listModels != null) {
             Log.e("SSSS", String.valueOf(listModels.size()));
@@ -81,28 +75,22 @@ public class ListBottomFragment  extends BottomSheetDialogFragment {
 
         }
         binding.recyclerList.requestFocus();
-        binding.titleText.setText(titleStr);
+
         return view;
     }
-
     public void setListData(int callingFlag, String title, ArrayList<CommonListModel> listData) {
         this.calledFlag = callingFlag;
         listModels = listData;
         titleStr = title;
     }
-
-    @Override
-    public void onAttach(Context context) {
+    @Override public void onAttach(Context context) {
         super.onAttach(context);
 
     }
-
-    @Override
-    public void onDetach() {
+    @Override public void onDetach() {
         super.onDetach();
 
     }
-
     public interface setOnFilterSelection {
         void SetOnFilter(int filter, String selectedStr);
     }

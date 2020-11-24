@@ -9,15 +9,16 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityAboutUsBinding;
 
-public class AboutUsActivity extends AppCompatActivity {
+public class AboutUsActivity extends BaseActivity {
     Activity act;
     ImageView BackButton;
     WebView webViewhtml;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);

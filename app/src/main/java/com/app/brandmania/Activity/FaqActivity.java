@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.MenuAddaptor;
 import com.app.brandmania.Adapter.MultiListItem;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
@@ -35,17 +36,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FaqActivity extends AppCompatActivity {
+public class FaqActivity extends BaseActivity {
 
     Activity act;
     private ActivityFaqBinding binding;
     private ArrayList<MultiListItem> faqList = new ArrayList<>();
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding= DataBindingUtil.setContentView(act,R.layout.activity_faq);
 
         binding.BackButtonIcon.setOnClickListener(new View.OnClickListener() {
@@ -165,8 +166,5 @@ public class FaqActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {CodeReUse.activityBackPress(act);
     }
-    public void captureScreenShort()
-    {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-    }
+
 }

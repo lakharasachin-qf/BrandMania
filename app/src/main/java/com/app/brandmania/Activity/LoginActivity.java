@@ -2,9 +2,11 @@ package com.app.brandmania.Activity;
 
 import androidx.databinding.DataBindingUtil;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -47,7 +49,7 @@ public class LoginActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_login);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -164,6 +166,8 @@ public class LoginActivity extends BaseActivity {
         queue.add(stringRequest);
 
 }
+
+
 
 
 }

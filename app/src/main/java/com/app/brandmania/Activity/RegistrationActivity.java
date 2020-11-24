@@ -34,6 +34,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Utils.APIs;
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegistrationActivity extends AppCompatActivity implements  PopupMenu.OnMenuItemClickListener{
+public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnMenuItemClickListener{
     Activity act;
     private ActivityRegistrationBinding binding;
     private boolean isLoading=false;
@@ -63,7 +64,7 @@ public class RegistrationActivity extends AppCompatActivity implements  PopupMen
     AlertDialog.Builder alertDialogBuilder;
     private ImageView menuOtpion;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act= this;

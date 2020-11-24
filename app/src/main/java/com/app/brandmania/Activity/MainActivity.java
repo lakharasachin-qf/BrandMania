@@ -10,15 +10,16 @@ import android.os.Handler;
 import android.view.WindowManager;
 
 import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     Activity act;
     private ActivityMainBinding binding;
     PreafManager preafManager;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         act = this;

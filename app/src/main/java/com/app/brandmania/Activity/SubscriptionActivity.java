@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
@@ -32,13 +33,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SubscriptionActivity extends AppCompatActivity {
+public class SubscriptionActivity extends BaseActivity {
     Activity act;
     private ActivitySubscriptionBinding binding;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     PreafManager preafManager;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;

@@ -38,6 +38,13 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
     private String titleStr;
     private SelectBrandListBottomFragment context;
     private HomeFragment homeFragment;
+    public static final int BRAND_NAME = 0;
+    public static final int BRAND_CATEGORY = 1;
+    private int layoutType;
+
+    public void setLayoutType(int layoutType) {
+        this.layoutType = layoutType;
+    }
 
     public void setHomeFragment(HomeFragment homeFragment) {
         this.homeFragment = homeFragment;
@@ -77,6 +84,7 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
             fragment = this;
             preafManager=new PreafManager(act);
             listModels=preafManager.getAddBrandList();
+            binding.titleText.setText("Brand Name");
             Log.e("Prefrancedata", String.valueOf(preafManager.getAddBrandList().size()));
             if (listModels != null) {
                 Log.e("SSSS", String.valueOf(listModels.size()));
@@ -91,7 +99,7 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
 
             }
             binding.recyclerList.requestFocus();
-            binding.titleText.setText(titleStr);
+
             return view;
         }
 

@@ -3,19 +3,33 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/my_toolbar"
+            android:scrollbars="none">
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_below="@+id/alertForFrmae"
+                android:id="@+id/recommendationRelativ"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favoritRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            shimmer:shimmer_duration="800">
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                shimmer:shimmer_duration="800">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,6 +71,7 @@
                 android:text="@string/no_downloadlist_found"
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>
-
+            </RelativeLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
 </layout>

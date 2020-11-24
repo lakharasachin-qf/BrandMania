@@ -32,6 +32,7 @@ import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Connection.ItemSelectionInterface;
 import com.app.brandmania.Fragment.bottom.ListBottomFragment;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
@@ -55,7 +56,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddBrandMultipleActivity extends AppCompatActivity implements ItemSelectionInterface,alertListenerCallback {
+public class AddBrandMultipleActivity extends BaseActivity implements ItemSelectionInterface,alertListenerCallback {
     Activity act;
     private ActivityAddBrandMultipleBinding binding;
     public static int BRAND_CATEGORY = 0;
@@ -71,7 +72,7 @@ public class AddBrandMultipleActivity extends AppCompatActivity implements ItemS
     private boolean isEditModeEnable = false;
     private AlertDialog.Builder alertDialogBuilder;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
