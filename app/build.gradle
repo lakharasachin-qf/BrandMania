@@ -115,5 +115,14 @@ dependencies {
 
     implementation 'com.github.hotchemi:android-rate:1.0.1'
     implementation 'com.github.Angtrim:Android-Five-Stars-Library:v3.1'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.inkapplications.viewpageindicator:library:2.4.3'
+
+
+    implementation ('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2')
+            {
+                exclude module:'support-v4'
+            }
 
 }

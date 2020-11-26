@@ -2,18 +2,27 @@ package com.app.brandmania.Fragment.bottom;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -21,6 +30,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,6 +43,13 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.MainActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Model.FrameItem;
+import com.app.brandmania.databinding.PageLayoutBinding;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -57,6 +75,7 @@ import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.Adapter.ViewPagerAdapter;
 import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.databinding.FragmentHomeBinding;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,7 +100,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     ArrayList<BrandListItem> BusinessTypeList = new ArrayList<>();
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
     BrandListItem brandListItem;
-
+    private int[] layouts;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     FiveStarsDialog fiveStarsDialog;
     private static final int REQUEST_CALL = 1;
@@ -121,7 +140,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         super.onResume();
 
     }
-    //this is version 2
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
@@ -135,6 +154,13 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         Gson gson=new Gson();
         requestAgain();
        RateUs();
+       binding.alertForPackage.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               showDialogView();
+           }
+       });
+
 //        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
 //        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();
         FramePagerItems =preafManager.getActiveBrand().getFrame();
@@ -505,8 +531,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     @Override public void ImageCateonItemSelection(int position, ImageList listModel) {
 
     }
-
-
     private void makePhoneCall() {
         String number ="8460638464";
         if (number.trim().length() > 0) {
@@ -519,9 +543,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             }
         }
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
-        if (requestCode == REQUEST_CALL) {
+    @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) { if (requestCode == REQUEST_CALL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makePhoneCall();
             } else {
@@ -529,12 +551,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             }
         }
     }
-
-
-
-
-    private void RateUs()
-    {
+    private void RateUs() {
 //        AppRate.with(act)
 //                .setInstallDays(1)
 //                .setLaunchTimes(3)
@@ -650,5 +667,61 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     @Override
     public void onReview(int stars) {
         Log.d(TAG, "Review " + stars);
+    }
+    private void showDialogView() {
+       PageLayoutBinding helpDialog = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.page_layout, null, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+        builder.setView(helpDialog.getRoot());
+
+
+
+        layouts = new int[]{
+                R.layout.basic_layout,
+                R.layout.standard_layout,
+                R.layout.enterprice_layout};
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
+        helpDialog.viewPager.setAdapter(myViewPagerAdapter);
+       helpDialog.pageindicator.setViewPager(helpDialog.viewPager);
+       helpDialog.pageindicator.setCurrentItem(0);
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
+        dialog.setContentView(helpDialog.getRoot());
+        dialog.setCancelable(false);
+        dialog.show();
+
+    }
+
+    class MyViewPagerAdapter extends PagerAdapter {
+
+        MyViewPagerAdapter() {
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            LayoutInflater layoutInflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(layouts[position], container, false);
+
+            container.addView(view);
+
+            return view;
+        }
+
+        @Override
+        public int getCount() {
+            return layouts.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object obj) {
+            return view == obj;
+        }
+
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            View view = (View) object;
+            //   container.removeView(view);
+        }
     }
 }

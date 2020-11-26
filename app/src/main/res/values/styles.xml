@@ -17,6 +17,13 @@
         <item name="android:textColorSecondary">@color/colorNavText</item>
 
     </style>
+    <style name="MyAlertDialogStyle_extend" parent="MyAlertDialogStyle">
+        <item name="android:textColor">@color/colorPrimaryTransperent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="colorAccent">@color/colorPrimaryTransperent</item>
+        <item name="android:windowBackground">@color/colorPrimaryTransperent</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
 
     <style name="MyTabLayout" parent="Base.Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
@@ -159,12 +166,6 @@
     </style>
 
 
-    <style name="MyAlertDialogStyle_extend" parent="MyAlertDialogStyle">
-        <item name="android:textColor">@color/colorPrimaryTransperent</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="colorAccent">@color/colorPrimaryTransperent</item>
-        <item name="android:windowBackground">@color/colorPrimaryTransperent</item>
-        <item name="android:layout_gravity">center_vertical</item>
-    </style>
+
 
 </resources>

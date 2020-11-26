@@ -16,7 +16,6 @@
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
                 <RelativeLayout
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_7sdp"
@@ -96,10 +95,8 @@
             app:behavior_overlapTop="50dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
                 <RelativeLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                         <RelativeLayout
                             android:layout_marginTop="@dimen/_5sdp"
                             android:id="@+id/viewpagerRelativ"
@@ -123,13 +120,13 @@
 
                         </RelativeLayout>
                         <RelativeLayout
-
                             android:layout_below="@+id/viewpagerRelativ"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:id="@+id/alertForFrmae"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/cardviewfirst"
                                     android:layout_marginRight="@dimen/_7sdp"
                                     android:layout_width="match_parent"
                                     android:layout_marginLeft="@dimen/_7sdp"
@@ -137,6 +134,10 @@
                                     card_view:cardCornerRadius="@dimen/_2sdp"
                                     >
                                         <RelativeLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content">
+                                        <RelativeLayout
+                                            android:id="@+id/alertRelative"
                                             android:layout_marginLeft="@dimen/_5sdp"
                                             android:layout_marginRight="@dimen/_5sdp"
                                             android:layout_gravity="center"
@@ -180,8 +181,57 @@
                                                 </LinearLayout>
                                         </RelativeLayout>
 
+
+                                        </RelativeLayout>
                                 </androidx.cardview.widget.CardView>
 
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_below="@+id/alertForFrmae"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:id="@+id/alertForPackage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_centerHorizontal="true"
+                                    android:id="@+id/cardviewsecond"
+
+                                    android:layout_marginRight="@dimen/_7sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_marginLeft="@dimen/_7sdp"
+                                    android:layout_height="wrap_content"
+                                    card_view:cardCornerRadius="@dimen/_2sdp"
+                                    >
+                                        <RelativeLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content">
+
+
+                                                <RelativeLayout
+                                                    android:id="@+id/packageRelative"
+                                                    android:layout_marginLeft="@dimen/_5sdp"
+                                                    android:layout_marginRight="@dimen/_5sdp"
+                                                    android:layout_gravity="center"
+                                                    android:layout_centerHorizontal="true"
+                                                    android:gravity="center"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content">
+                                                        <TextView
+
+                                                            android:layout_marginTop="@dimen/_5sdp"
+                                                            android:textColor="@color/colorPrimary"
+                                                            android:id="@+id/packageText"
+                                                            android:textSize="@dimen/_11sdp"
+                                                            android:fontFamily="@font/inter_regular"
+                                                            android:text="Get Bored with only one frame?"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            ></TextView>
+
+                                                </RelativeLayout>
+                                        </RelativeLayout>
+                                </androidx.cardview.widget.CardView>
                         </RelativeLayout>
 
 
@@ -189,7 +239,7 @@
                         <RelativeLayout
 
                             android:layout_marginTop="@dimen/_15sdp"
-                            android:layout_below="@+id/alertForFrmae"
+                            android:layout_below="@+id/alertForPackage"
                             android:id="@+id/recommendationRelativ"
 
                             android:layout_width="match_parent"
