@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         super.onResume();
 
     }
-
+    //this is version 2
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
