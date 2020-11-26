@@ -126,6 +126,10 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
         homeFragment=this;
+
+
+
+
         fiveStarsDialog = new FiveStarsDialog(getActivity(),"brandmania@gmail.com");
           preafManager=new PreafManager(act);
         if (preafManager.getAddBrandList()!=null && preafManager.getAddBrandList().size()!=0 &&preafManager.getActiveBrand()==null){
