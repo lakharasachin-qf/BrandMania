@@ -65,6 +65,7 @@
     <string name="rate_dialog_ok">Rate It Now</string>
     <string name="rate_dialog_cancle">Reminder Me Leter</string>
     <string name="rate_dialog_no">No, Thanks</string>
+    <string name="Rs">\u20B9</string>
     <string name="please_check_your_internet_connectivity_amp_get_online"><![CDATA[Please Check your internet connectivity & get online.]]></string>
 
 </resources>

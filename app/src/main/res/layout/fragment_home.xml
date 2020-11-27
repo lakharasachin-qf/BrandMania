@@ -187,64 +187,11 @@
 
                         </RelativeLayout>
                         <RelativeLayout
-                            android:layout_below="@+id/alertForFrmae"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:id="@+id/alertForPackage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                                <androidx.cardview.widget.CardView
-                                    android:layout_centerHorizontal="true"
-                                    android:id="@+id/cardviewsecond"
-
-                                    android:layout_marginRight="@dimen/_7sdp"
-                                    android:layout_width="match_parent"
-                                    android:layout_marginLeft="@dimen/_7sdp"
-                                    android:layout_height="wrap_content"
-                                    card_view:cardCornerRadius="@dimen/_2sdp"
-                                    >
-                                        <RelativeLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content">
-
-
-                                                <RelativeLayout
-                                                    android:id="@+id/packageRelative"
-                                                    android:layout_marginLeft="@dimen/_5sdp"
-                                                    android:layout_marginRight="@dimen/_5sdp"
-                                                    android:layout_gravity="center"
-                                                    android:layout_centerHorizontal="true"
-                                                    android:gravity="center"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content">
-                                                        <TextView
-
-                                                            android:layout_marginTop="@dimen/_5sdp"
-                                                            android:textColor="@color/colorPrimary"
-                                                            android:id="@+id/packageText"
-                                                            android:textSize="@dimen/_11sdp"
-                                                            android:fontFamily="@font/inter_regular"
-                                                            android:text="Get Bored with only one frame?"
-                                                            android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"
-                                                            ></TextView>
-
-                                                </RelativeLayout>
-                                        </RelativeLayout>
-                                </androidx.cardview.widget.CardView>
-                        </RelativeLayout>
-
-
-
-                        <RelativeLayout
-
                             android:layout_marginTop="@dimen/_15sdp"
-                            android:layout_below="@+id/alertForPackage"
+                            android:layout_below="@+id/alertForFrmae"
                             android:id="@+id/recommendationRelativ"
-
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:layout_marginTop="@dimen/_10sdp"
                                     android:id="@+id/rocommRecycler"

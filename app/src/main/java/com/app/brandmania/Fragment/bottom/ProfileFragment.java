@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.app.brandmania.Activity.AboutUsActivity;
 import com.app.brandmania.Activity.FaqActivity;
 import com.app.brandmania.Activity.LoginActivity;
+import com.app.brandmania.Activity.PackageActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Activity.HelpAndSupport;
 import com.app.brandmania.Activity.PartnerProgramActivity;
@@ -76,7 +77,6 @@ public class ProfileFragment extends Fragment  {
 
             }
         });
-
         binding.myFaqRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +108,15 @@ public class ProfileFragment extends Fragment  {
                 startActivity(Intent.createChooser(shareIntent, "Share via"));
             }
         });
-
+        binding.packageRelative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(act, PackageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
         binding.rateUsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

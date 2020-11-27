@@ -3,6 +3,7 @@ package com.app.brandmania.Model;
 public class FrameItem implements Cloneable  {
     private String frame1;
     private String frameId;
+
     public Object clone() throws
             CloneNotSupportedException {
         return super.clone();

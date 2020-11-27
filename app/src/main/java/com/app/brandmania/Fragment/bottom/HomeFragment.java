@@ -90,6 +90,7 @@ import angtrim.com.fivestarslibrary.FiveStarsDialog;
 import angtrim.com.fivestarslibrary.NegativeReviewListener;
 import angtrim.com.fivestarslibrary.ReviewListener;
 import hotchemi.android.rate.AppRate;
+import me.relex.circleindicator.CircleIndicator3;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
@@ -154,12 +155,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         Gson gson=new Gson();
         requestAgain();
        RateUs();
-       binding.alertForPackage.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               showDialogView();
-           }
-       });
+
 
 //        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
 //        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();
@@ -681,18 +677,18 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 R.layout.enterprice_layout};
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
         helpDialog.viewPager.setAdapter(myViewPagerAdapter);
-       helpDialog.pageindicator.setViewPager(helpDialog.viewPager);
-       helpDialog.pageindicator.setCurrentItem(0);
-
+        helpDialog.indicator.setViewPager(helpDialog.viewPager);
+         helpDialog.indicator.createIndicators(3,0);
+        helpDialog.indicator.animatePageSelected(0);
         AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
         dialog.setContentView(helpDialog.getRoot());
-        dialog.setCancelable(false);
+
         dialog.show();
 
     }
 
-    class MyViewPagerAdapter extends PagerAdapter {
+    public class MyViewPagerAdapter extends PagerAdapter {
 
         MyViewPagerAdapter() {
         }
