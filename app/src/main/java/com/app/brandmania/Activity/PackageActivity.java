@@ -44,7 +44,7 @@ public class PackageActivity extends AppCompatActivity {
         sliderItems.add(new SliderItem("\u20B9 399","Standard","3 - Templates / Brand","250 Image Download / Year","499 / Year"));
         sliderItems.add(new SliderItem("\u20B9 999","Enterprise","6 - Templates / Brand","999 Image Download / Year", "999 / Year"));
 
-        binding.viewPagerImageSlider.setAdapter(new SliderAdapter(sliderItems,binding.viewPagerImageSlider));
+        binding.viewPagerImageSlider.setAdapter(new SliderAdapter(sliderItems,act));
         binding.viewPagerImageSlider.setClipToPadding(false);
         binding.viewPagerImageSlider.setClipChildren(false);
         binding.viewPagerImageSlider.setOffscreenPageLimit(2);

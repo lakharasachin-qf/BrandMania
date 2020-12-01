@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class BrandListItem {
 
     public static final int LAYOUT_BRANDLIST=1;
+    public static final int LAYOUT_NOTIFICATIONlIST=2;
 
     public static final int LAYOUT_LOADING = 33;
     ArrayList<ImageList> examTimeTables;
@@ -24,6 +25,9 @@ public class BrandListItem {
     private String description;
     private String tag;
     private String status;
+    private String message;
+    private String date;
+    private String time;
 
 
     public BrandListItem() {
@@ -41,6 +45,9 @@ public class BrandListItem {
         return LAYOUT_BRANDLIST;
     }
 
+    public static int getLayoutNotificationlist() {
+        return LAYOUT_NOTIFICATIONlIST;
+    }
 
     public static int getLayoutLoading() {
         return LAYOUT_LOADING;
@@ -173,5 +180,29 @@ public class BrandListItem {
 
     public void setFramee(String framee) {
         this.framee = framee;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

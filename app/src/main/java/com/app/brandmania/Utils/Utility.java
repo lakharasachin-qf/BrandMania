@@ -23,6 +23,8 @@ import android.widget.ImageView;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+
+import com.app.brandmania.Activity.PackageActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.snackbar.Snackbar;
@@ -142,6 +144,24 @@ public class Utility {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         ((alertListenerCallback) act).alertListenerClick();
+                    }
+                })
+                .show();
+    }
+    public static void showAlertForPackage(Activity act, String msg) {
+        new AlertDialog.Builder(act)
+                .setMessage(msg)
+                .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        Intent intent=new Intent(act, PackageActivity.class);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        act.startActivity(intent);
+                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        //((alertListenerCallback) act).alertListenerClick();
                     }
                 })
                 .show();

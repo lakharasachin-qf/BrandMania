@@ -137,7 +137,7 @@
         <Button
             android:layout_marginBottom="@dimen/_20sdp"
             android:background="@drawable/buttoncornar"
-            android:id="@+id/addExpenceBtn"
+            android:id="@+id/packageBtn"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_32sdp"
             android:layout_gravity="bottom|center_horizontal"

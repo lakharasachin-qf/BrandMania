@@ -15,7 +15,7 @@ public class APIs {
     public static final String EDIT_BRAND = URL + "editBrand";
     public static final String ADD_USERACTIVITY = URL + "addUserActivity";
     public static final String FAQ = URL+"getFaq";
-    public static final String REPORT_BUG = URL + "addReportBugs";
+    public static final String REPORT_BUG ="http://192.168.1.131/brand365/public/api/addReportBugs";
     public static final String ABOUT_ISMART_HOMES = URL + "";
     public static final String DOWNLOAD_SHARE = URL + "addImageActivity";
     public static final String GET_DOWNLOADLIST_ITEM = URL+"getDownloadList";
@@ -24,4 +24,10 @@ public class APIs {
     public static final String REMOVE_FAVOURIT = URL + "RemoveFromFav";
     public static final String GET_FRAME = URL+"getFrames";
     public static final String IS_COMPLETE = URL +"fetchFlowStatus";
+    public static final String GET_FRAMENEW = "http://192.168.1.131/brand365/public/api/getFrames";
+    public static final String GET_GETBRANDNEW = "http://192.168.1.131/brand365/public/api/getBrand";
+    public static final String GET_NOTIFICATION = "http://192.168.1.131/brand365/public/api/getNotification";
+    public static final String VERIFY_OTPNEW = "http://192.168.1.131/brand365/public/api/otpVerify";
+    public static final String SEND_OTPNEW = "http://192.168.1.131/brand365/public/api/sendOtp";
+
 }

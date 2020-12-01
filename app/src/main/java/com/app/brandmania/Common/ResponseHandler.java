@@ -96,7 +96,7 @@ public class ResponseHandler {
             return false;
         }
     }
-    private static JSONObject getJSONObject(JSONObject jObj, String strKey) {
+    public static JSONObject getJSONObject(JSONObject jObj, String strKey) {
         try {
             return (jObj.has(strKey) && !jObj.isNull(strKey)) ? jObj.getJSONObject(strKey) : new JSONObject();
         } catch (JSONException e) {
@@ -138,8 +138,9 @@ public class ResponseHandler {
                         for (int j = 0; j < jsonArray.length(); j++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(j);
                             FrameItem frameItem = new FrameItem();
-                            frameItem.setFrame1(dataJsonObject.getString("fream_base_url")+"/"+ResponseHandler.getString(jsonObject1, "frame_path"));
+                            frameItem.setFrame1(ResponseHandler.getString(jsonObject1, "frame_path"));
                             frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
+
 
                             frameItems.add(frameItem);
                         }
@@ -317,31 +318,57 @@ public class ResponseHandler {
         return strings;
     }
 
-    public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
-        ArrayList<FrameItem> strings = null;
-        if (isSuccess(null, jsonObject)) {
-            //list fetch
-            JSONArray dataJsonArray = getJSONArray(jsonObject, "data");
-            if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
-                strings = new ArrayList<>();
-                for (int i = 0; i < dataJsonArray.length(); i++) {
-                    try {
-                        JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
-                        FrameItem frameItem = new FrameItem();
-                        frameItem.setFrame1(jsonObject.getString("message")+"/"+ResponseHandler.getString(dataJsonObject, "frame_path"));
-                        frameItem.setFrameId(ResponseHandler.getString(dataJsonObject, "id"));
+//    public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
+//        ArrayList<FrameItem> strings = null;
+//        if (isSuccess(null, jsonObject)) {
+//            //list fetch
+//            JSONArray dataJsonArray = getJSONArray(jsonObject, "data");
+//            if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
+//                strings = new ArrayList<>();
+//                for (int i = 0; i < dataJsonArray.length(); i++) {
+//                    try {
+//                        JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
+//                        FrameItem frameItem = new FrameItem();
+//                        frameItem.setFrame1(jsonObject.getString("message")+"/"+ResponseHandler.getString(dataJsonObject, "frame_path"));
+//                        frameItem.setFrameId(ResponseHandler.getString(dataJsonObject, "id"));
+//
+//                        strings.add(frameItem);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//        return strings;
+//    }
+public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
+    ArrayList<FrameItem> strings = null;
+    if (isSuccess(null, jsonObject)) {
+        //list fetch
+        JSONObject datajsonobject = getJSONObject(jsonObject, "data");
+        JSONArray dataJsonArray = getJSONArray(datajsonobject, "frames");
+        if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
+            strings = new ArrayList<>();
+            for (int i = 0; i < dataJsonArray.length(); i++) {
+                try {
+                    JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
+                    FrameItem frameItem = new FrameItem();
+                    frameItem.setFrame1(ResponseHandler.getString(dataJsonObject, "frame_path"));
+                    frameItem.setFrameId(ResponseHandler.getString(dataJsonObject, "id"));
 
-                        strings.add(frameItem);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    strings.add(frameItem);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-
         }
 
-        return strings;
     }
+
+    return strings;
+}
 
     public static ArrayList<DownloadFavoriteItemList> HandleGetIDownloadFavoritGrid(JSONObject jsonObject) {
         ArrayList<DownloadFavoriteItemList> strings = null;
@@ -413,6 +440,33 @@ public class ResponseHandler {
                         downloadFavoriteItemList.setImage(getString(dataJsonObject, "img_path"));
                         downloadFavoriteItemList.setFrame(getString(dataJsonObject, "frame_path"));
                         strings.add(downloadFavoriteItemList);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+
+        return strings;
+    }
+
+    public static ArrayList<BrandListItem> HandleGetNotificationList(JSONObject jsonObject) {
+        ArrayList<BrandListItem> strings = null;
+        if (isSuccess(null, jsonObject)) {
+            //list fetch
+            JSONArray dataJsonArray = getJSONArray(jsonObject, "data");
+            if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
+                strings = new ArrayList<>();
+                for (int i = 0; i < dataJsonArray.length(); i++) {
+                    try {
+                        JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
+                        BrandListItem brandListItem = new BrandListItem();
+                        brandListItem.setLayoutType(brandListItem.LAYOUT_NOTIFICATIONlIST);
+                        brandListItem.setMessage(getString(dataJsonObject, "message"));
+                        brandListItem.setDate(getString(dataJsonObject, "date"));
+                        brandListItem.setTime(getString(dataJsonObject, "time"));
+                        strings.add(brandListItem);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

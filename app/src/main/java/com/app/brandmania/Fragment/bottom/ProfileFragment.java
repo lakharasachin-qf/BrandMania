@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.app.brandmania.Activity.AboutUsActivity;
+import com.app.brandmania.Activity.AddReportAndBug;
 import com.app.brandmania.Activity.FaqActivity;
 import com.app.brandmania.Activity.LoginActivity;
 import com.app.brandmania.Activity.PackageActivity;
@@ -131,6 +132,15 @@ public class ProfileFragment extends Fragment  {
 
                 }
 
+            }
+        });
+        binding.reportbugsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(act, AddReportAndBug.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
         return binding.getRoot();

@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.databinding.ItemNotificationLayoutBinding;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -48,6 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLIST;
+import static com.app.brandmania.Model.BrandListItem.LAYOUT_NOTIFICATIONlIST;
 import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
 
 public class BrandAdapter extends RecyclerView.Adapter {
@@ -75,6 +77,9 @@ public class BrandAdapter extends RecyclerView.Adapter {
             case LAYOUT_BRANDLIST :
                 ItemLayoutGetbrandlistBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_getbrandlist, viewGroup, false);
                 return new BrandHolder(layoutBinding);
+            case LAYOUT_NOTIFICATIONlIST :
+                ItemNotificationLayoutBinding notificationLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_notification_layout, viewGroup, false);
+                return new NotificationHolder(notificationLayoutBinding);
 
         }
         return null;
@@ -90,7 +95,8 @@ public class BrandAdapter extends RecyclerView.Adapter {
         switch (brandListItems.get(position).getLayoutType()) {
             case 1:
                 return LAYOUT_BRANDLIST;
-
+            case 2:
+                return LAYOUT_NOTIFICATIONlIST;
             default:
                 return -1;
         }
@@ -214,6 +220,11 @@ public class BrandAdapter extends RecyclerView.Adapter {
                              });
                          }
                          break;
+                case LAYOUT_NOTIFICATIONlIST:
+                    ((NotificationHolder) holder).binding.messgae.setText(model.getMessage());
+                    Log.e("CurrentBrand",model.getId());
+                    ((NotificationHolder) holder).binding.date.setText(model.getDate());
+                    ((NotificationHolder) holder).binding.time.setText(model.getTime());
             }
 
         }
@@ -225,6 +236,15 @@ public class BrandAdapter extends RecyclerView.Adapter {
         ItemLayoutGetbrandlistBinding binding;
 
         BrandHolder(ItemLayoutGetbrandlistBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+    static class NotificationHolder extends RecyclerView.ViewHolder {
+        ItemNotificationLayoutBinding binding;
+
+        NotificationHolder(ItemNotificationLayoutBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
 

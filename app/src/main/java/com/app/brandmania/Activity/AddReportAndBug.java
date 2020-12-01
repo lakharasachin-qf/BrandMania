@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
@@ -37,7 +39,8 @@ public class AddReportAndBug extends BaseActivity {
     private ActivityAddReportAndBugBinding binding;
     private boolean isLoading = false;
     PreafManager preafManager;
-    private Bitmap selectedImageFirst;
+    private Bitmap selectedImagesBitmap;
+    private boolean isEditModeEnable = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -56,10 +59,12 @@ public class AddReportAndBug extends BaseActivity {
         binding.imgCardFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedImageFirst != null)
-                    pickerView(true, selectedImageFirst);
-                else
-                    pickerView(false, null);
+                if (!isEditModeEnable) {
+                    if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
+                        pickerView(Constant.PICKER_FIRST, true, selectedImagesBitmap);
+                    else
+                        pickerView(Constant.PICKER_FIRST, false, null);
+                }
             }
         });
         CodeReUse.RemoveError(binding.emailEdt, binding.emailTxtLayout);
@@ -92,19 +97,20 @@ public class AddReportAndBug extends BaseActivity {
             binding.contactEdt.requestFocus();
             binding.scrollView.smoothScrollTo(0, binding.contactEdt.getTop());
         }
-        if (binding.emailEdt.getText().toString().length() == 0) {
-            isError = true;
-            isFocus = true;
-            binding.emailTxtLayout.setError(getString(R.string.enter_email_id));
-            binding.emailEdt.requestFocus();
-            binding.scrollView.smoothScrollTo(0, binding.emailEdt.getTop());
-        }
-        if (!CodeReUse.isEmailValid(binding.emailEdt.getText().toString())) {
-            isError = true;
-            isFocus = true;
-            binding.emailTxtLayout.setError(getString(R.string.enter_valid_email_address));
-            binding.emailEdt.requestFocus();
-            binding.scrollView.smoothScrollTo(0, binding.emailEdt.getTop());
+        if (!binding.emailEdt.getText().toString().equals("")) {
+            if (!CodeReUse.isEmailValid(binding.emailEdt.getText().toString())) {
+                isError = true;
+                isFocus = true;
+                binding.emailTxtLayout.setError(getString(R.string.enter_valid_email_address));
+                binding.emailTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+                binding.emailEdt.requestFocus();
+
+            }
+            else
+            {
+
+            }
+
         }
 
         if (binding.bugsEdt.getText().toString().length() == 0) {
@@ -116,16 +122,42 @@ public class AddReportAndBug extends BaseActivity {
             }
         }
 
-        Bitmap bitmap1 = null;
-        if (binding.viewImgFirst.getTag().toString().equals("1")) {
-            bitmap1 = ((BitmapDrawable) binding.viewImgFirst.getDrawable()).getBitmap();
+
+
+        if (!binding.contactEdt.getText().toString().equals("")) {
+            if (binding.contactEdt.getText().toString().length() < 10) {
+                binding.contactTxtLayout.setError(getString(R.string.validphoneno_txt));
+                binding.contactTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+                binding.contactEdt.requestFocus();
+                return;
+            }
+
         } else {
-            isError = true;
-            CodeReUse.showSnackBar(act, binding.rootBackground, getString(R.string.please_attech_one_screeshot));
+            if (binding.contactEdt.getText().toString().equals("")) {
+                binding.contactTxtLayout.setError(getString(R.string.entermobileno_text));
+                binding.contactTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+                binding.contactEdt.requestFocus();
+                return;
+            }
         }
 
-        if (!isError)
+
+
+
+
+        if (!isError) {
+
+            Bitmap bitmap = null;
+            if (selectedImagesBitmap != null) {
+                bitmap = selectedImagesBitmap;
+            }
+            Bitmap bitmap1 = null;
+            if (selectedImagesBitmap != null) {
+                bitmap1 = selectedImagesBitmap;
+            }
+
             addReport(bitmap1);
+        }
 
     }
     private void addReport(Bitmap img1) {
@@ -167,7 +199,7 @@ public class AddReportAndBug extends BaseActivity {
                         Utility.dismissProgress();
                         Log.e("Response", response.toString());
                         if (ResponseHandler.isSuccess(null, response)) {
-                            Utility.showAlert(act, "Thank you , We will fix it soon", "backpress");
+                          Toast.makeText(act, "Thank you , We will fix it soon",Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -181,14 +213,13 @@ public class AddReportAndBug extends BaseActivity {
                 });
 
     }
-    private void pickerView(boolean viewMode, Bitmap selectedBitmap) {
+    private void pickerView(int actionId, boolean viewMode, Bitmap selectedBitmap) {
         PickerFragment pickerFragment = new PickerFragment(act);
         pickerFragment.setEnableViewMode(viewMode);
-        pickerFragment.setActionId(Constant.PICKER_FIRST);
+        pickerFragment.setActionId(actionId);
 
         if (viewMode) {
-            if (selectedBitmap != null)
-                pickerFragment.setSelectedBitmapForFullView(selectedBitmap);
+            pickerFragment.setSelectedBitmapForFullView(selectedBitmap);
         }
         PickerFragment.HandlerImageLoad imageLoad = new PickerFragment.HandlerImageLoad() {
             @Override
@@ -197,10 +228,15 @@ public class AddReportAndBug extends BaseActivity {
                     binding.viewImgFirst.setImageBitmap(bitmap);
                     binding.imgEmptyStateFirst.setVisibility(View.GONE);
                     binding.actionDeleteFirst.setVisibility(View.VISIBLE);
-                    selectedImageFirst = bitmap;
+                    selectedImagesBitmap = bitmap;
                     binding.viewImgFirst.setTag("1");
+                    if (!isEditModeEnable) {
+
+                    }
                     binding.viewImgFirst.setVisibility(View.VISIBLE);
                 }
+
+
             }
         };
         pickerFragment.setImageLoad(imageLoad);

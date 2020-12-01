@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme_material_theme"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorNavText">
+    <androidx.appcompat.widget.Toolbar
+        android:visibility="visible"
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"
+        android:background="@drawable/toolbar_background_second"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:id="@+id/main_linearlayout_title"
+            android:elevation="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/BackButtonMember"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/ic_left_arrow"></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/BackButtonMember"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Payment"
+                android:textColor="@color/colorNavText"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"></TextView>
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:layout_marginStart="-100dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/bottom"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_300sdp">
+
+    </ImageView>
+
+    <LinearLayout
+        android:layout_below="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <RelativeLayout
+            android:background="@color/colorNavText"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="0dp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:textColor="@color/colorthird"
+                    android:textSize="@dimen/_12sdp"
+                    android:text="Order #RZP42"
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:background="@color/colorthird"
+                android:src="@drawable/rzp"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="15dp"
+            android:background="@color/colorthird"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="5dp"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/colorNavText"
+                android:textSize="@dimen/_15sdp"
+                android:text="Razorpay T-Shirt"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:fontFamily="@font/inter_regular"
+                android:textColor="@color/colorNavText"
+                android:textSize="@dimen/_12sdp"
+                android:text="INR 1.00"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="0dp"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@android:color/holo_red_dark"
+                android:gravity="center_horizontal"
+                android:text="Transaction is for testing purpose and your deducted amount will get refunded in 3-5 business days "
+                />
+
+            <TextView
+                android:id="@+id/txt_privacy_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="0dp"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@android:color/holo_red_dark"
+                android:gravity="center_horizontal"
+                android:text="Privacy Policy"
+                />
+
+            <Button
+                android:id="@+id/btn_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/green_button"
+                android:textSize="14sp"
+                android:textColor="#fcfcfc"
+                android:text="Purchase"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="italic"
+            android:text="Secure Payments by Razorpay"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

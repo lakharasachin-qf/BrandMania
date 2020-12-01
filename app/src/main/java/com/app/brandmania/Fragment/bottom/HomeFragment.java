@@ -40,7 +40,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.HomeActivity;
+import com.app.brandmania.Activity.LoginActivity;
 import com.app.brandmania.Activity.MainActivity;
+import com.app.brandmania.Activity.ViewNotificationActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.databinding.PageLayoutBinding;
@@ -77,6 +80,7 @@ import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.databinding.FragmentHomeBinding;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -116,6 +120,9 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     private boolean mIsTheTitleContainerVisible = true;
     private RelativeLayout mTitleContainer;
     Activity act;
+    private String is_frame="";
+    private String is_payment_pending="";
+    private String is_package="";
     PreafManager preafManager;
     private String deviceToken = "";
     private FragmentHomeBinding binding;
@@ -141,7 +148,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         super.onResume();
 
     }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
@@ -159,23 +165,31 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
 
 //        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
 //        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();
-        FramePagerItems =preafManager.getActiveBrand().getFrame();
-        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
-        if (FramePagerItems!=null && FramePagerItems.size()!=0) {
-            binding.alertForFrmae.setVisibility(View.GONE);
-
-        }
-        else
-        {
-            binding.alertForFrmae.setVisibility(View.VISIBLE);
-        }
+//        FramePagerItems =preafManager.getActiveBrand().getFrame();
+//        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
+//        if (FramePagerItems!=null && FramePagerItems.size()!=0) {
+//            binding.alertForFrmae.setVisibility(View.GONE);
+//
+//        }
+//        else
+//        {
+//            binding.alertForFrmae.setVisibility(View.VISIBLE);
+//        }
 
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
 
-
+        binding.showNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(act, ViewNotificationActivity.class);
+                startActivity(intent);
+                act.overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+            }
+        });
 
         getBrandList();
+        getFrame();
 
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                R.color.colorsecond,
@@ -185,7 +199,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             public void onRefresh() {
 
                 startAnimation();
-
+                getFrame();
                 getImageCtegory();
                 // startAnimation();
                 //getNotice(startDate, endDate);
@@ -196,10 +210,12 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
 
         getDeviceToken(act);
         AddUserActivity();
+
         binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFragmentList(BUSINESS_TYPE,BusinessTitle);
+
             }
         });
 
@@ -514,9 +530,15 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     }
     @Override public void onItemSMultipleelection(int calledFlag, int position, BrandListItem listModel) {
         if (bottomSheetFragment != null && bottomSheetFragment.isVisible()) {
+
             bottomSheetFragment.dismiss();
         }
-
+        Intent i = new Intent(act, HomeActivity.class);
+        i.addCategory(Intent.CATEGORY_HOME);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        act.finish();
             binding.businessName.setText(listModel.getName());
             brandListItem=listModel;
             preafManager.setActiveBrand(listModel);
@@ -545,8 +567,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             } else {
                 Toast.makeText(getActivity(), "Permission DENIED", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
+        }}
     private void RateUs() {
 //        AppRate.with(act)
 //                .setInstallDays(1)
@@ -573,18 +594,42 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     }
     private void getBrandList() {
         binding.swipeContainer.setRefreshing(true);
-        Utility.Log("API : ", APIs.GET_BRAND);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
+        Utility.Log("API : ", APIs.GET_GETBRANDNEW);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_GETBRANDNEW, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Utility.Log("GET_BRAND : ", response);
+                Utility.Log("GET_GETBRANDNEW : ", response);
                 ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
                     binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+//                    JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
+//                    for (int i = 0; i < dataJsonArray.length(); i++) {
+//                        JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
+//                        is_frame= jsonObject1.getString("is_frame");
+//                        if (is_frame.equals("1")) {
+//                            binding.alertText.setVisibility(View.GONE);
+//                            is_payment_pending= jsonObject1.getString("is_payment_pending");
+//                            if (is_payment_pending.equals("1"))
+//                            {
+//                                binding.alertText.setVisibility(View.VISIBLE);
+//                                binding.alertText.setText(ResponseHandler.getString(jsonObject1, "payment_message"));
+//                            }
+//                        }
+//                        else {
+//                            binding.alertText.setText(ResponseHandler.getString(jsonObject1,"frame_message"));
+//                        }
+//
+//                    }
+
+
+
+
+
+
 
 
 
@@ -651,17 +696,18 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 },
                 CodeReUse.ASK_PERMISSSION);
     }
-    @Override
-    public void onNegativeReview(int stars) {
+    @Override public void onNegativeReview(int stars) {
         Log.d(TAG, "Negative review " + stars);
     }
-    @Override
-    public void onRefresh() {
+    @Override public void onRefresh() {
+        startAnimation();
+        getFrame();
+        getImageCtegory();
         getBrandList();
         getBanner();
+
     }
-    @Override
-    public void onReview(int stars) {
+    @Override public void onReview(int stars) {
         Log.d(TAG, "Review " + stars);
     }
     private void showDialogView() {
@@ -687,7 +733,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         dialog.show();
 
     }
-
     public class MyViewPagerAdapter extends PagerAdapter {
 
         MyViewPagerAdapter() {
@@ -719,5 +764,93 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             View view = (View) object;
             //   container.removeView(view);
         }
+    }
+
+    private void getFrame() {
+        Utility.Log("API : ", APIs.GET_FRAMENEW);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAMENEW,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Utility.Log("GET_FRAMENEW : ", response);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
+                    JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
+                    is_frame= datajsonobjecttt.getString("is_frame");
+                    is_package= datajsonobjecttt.getString("package");
+                    if (is_frame.equals("1")) {
+                        Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();
+                        binding.alertRelative.setVisibility(View.GONE);
+                        is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
+                        if (is_payment_pending.equals("1"))
+                        {
+                            binding.alertRelative.setVisibility(View.VISIBLE);
+                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
+                        }
+                        else if(is_package.equals(""))
+                        {
+                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
+
+                        }
+                        else
+                        {
+                            binding.alertRelative.setVisibility(View.GONE);
+                        }
+
+
+                    }
+                    else if (is_frame.equals("0")) {
+                        binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "frame_message"));
+
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+//                        String body;
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Load-Get_Exam ", body);
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("brand_id",preafManager.getActiveBrand().getId());
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
     }
 }

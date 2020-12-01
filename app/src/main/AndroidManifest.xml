@@ -29,7 +29,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".Activity.PackageActivity"></activity>
+        <activity android:name=".Activity.RazorPayActivity"></activity>
+        <activity android:name=".Activity.ViewNotificationActivity" />
+        <activity android:name=".Activity.PackageActivity" />
         <activity android:name=".Activity.ViewAllFavouritActivity" />
         <activity android:name=".Activity.VIewAllDownloadImage" />
         <activity android:name=".Activity.AddBrandMultipleActivity" />
@@ -94,6 +96,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_mrLHhm8YmeJNFA" />
+
     </application>
 
 </manifest>

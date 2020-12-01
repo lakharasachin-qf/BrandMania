@@ -106,51 +106,6 @@ public class OtpScreenActivity extends BaseActivity {
         }
 
 
-//        binding.otpOne.setOnKeyListener(new View.OnKeyListener() {
-//
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                // TODO Auto-generated method stub
-//                if (binding.otpOne.getText().length() == 1)
-//                    binding.otpTwo.requestFocus();
-//                return false;
-//            }
-//        });
-//
-//        binding.otpTwo.setOnKeyListener(new View.OnKeyListener() {
-//
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                // TODO Auto-generated method stub
-//                if ( binding.otpTwo.getText().length() == 1)
-//                    binding.otpThree.requestFocus();
-//                return false;
-//            }
-//        });
-//
-//        binding.otpThree.setOnKeyListener(new View.OnKeyListener() {
-//
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                // TODO Auto-generated method stub
-//                if (binding.otpThree.getText().length() == 1)
-//                    binding.otpFour.requestFocus();
-//                return false;
-//            }
-//        });
-//        String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
-//
-//        binding.otpFour.setOnKeyListener(new View.OnKeyListener() {
-//
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                // TODO Auto-generated method stub
-//                if (binding.otpFour.getText().length() == 1)
-//                    VerificationOtp(OtpString.trim(), NumberShow);
-//                    return false;
-//
-//            }
-//        });
 
 
         TextChanger();
@@ -175,21 +130,22 @@ public class OtpScreenActivity extends BaseActivity {
             return;
         isLoading = true;
         Utility.showProgress(act);
-        Utility.Log("Verify-Responce-Api", APIs.VERIFY_OTP);
+        Utility.Log("Verify-Responce-Api", APIs.VERIFY_OTPNEW);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_OTP, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_OTPNEW, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 isLoading = false;
                 Utility.dismissProgress();
-                Utility.Log("Verify-Response", response);
-
+                Utility.Log("VERIFY_OTPNEW", response);
+                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.getBoolean("status")) {
                         JSONObject jsonArray = jObject.getJSONObject("data");
                         preafManager.setUserToken(jsonArray.getString("token"));
                         Log.w("Tpokennnn",jsonArray.getString("token"));
+
                         is_completed= jsonArray.getString("is_completed");
                         preafManager.loginStep(is_completed);
 
@@ -213,7 +169,35 @@ public class OtpScreenActivity extends BaseActivity {
                         }
                         if (is_completed.equals("2"))
                         {
-                            getBrandList();
+                            JSONArray jsonArray1 = jsonArray.getJSONArray("brands");
+                            for (int i=0;i<jsonArray1.length();i++)
+                            {
+                                JSONObject jsonObject=jsonArray1.getJSONObject(i);
+                                BrandListItem brandListItemm=new BrandListItem();
+                                brandListItemm.setId(ResponseHandler.getString(jsonObject,"id"));
+                                brandListItemm.setName(ResponseHandler.getString(jsonObject,"br_name"));
+                                brandListItemm.setWebsite(ResponseHandler.getString(jsonObject,"br_website"));
+                                brandListItemm.setEmail(ResponseHandler.getString(jsonObject,"br_email"));
+                                brandListItemm.setAddress(ResponseHandler.getString(jsonObject,"br_address"));
+                                brandListItemm.setPhonenumber(ResponseHandler.getString(jsonObject,"br_phone"));
+                                brandListItemm.setLogo(ResponseHandler.getString(jsonObject,"br_logo"));
+                                brandListItems.add(brandListItemm);
+                            }
+
+                            preafManager.setAddBrandList(brandListItems);
+                            preafManager.setIS_Brand(true);
+
+                            if (brandListItems!=null && brandListItems.size()!=0){
+                                preafManager.setActiveBrand(brandListItems.get(0));
+                            }
+
+
+                            Intent i = new Intent(act, HomeActivity.class);
+                            i.addCategory(Intent.CATEGORY_HOME);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                            finish();
                         }
                     }
                     else {
@@ -262,110 +246,7 @@ public class OtpScreenActivity extends BaseActivity {
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    private void getBrandList() {
-        Utility.Log("API : ", APIs.GET_BRAND);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("addbrandresponce",response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
-                try {
-                    JSONObject res=new JSONObject(response);
-                    JSONArray jsonArray1 = res.getJSONArray("data");
-                    for (int i=0;i<jsonArray1.length();i++)
-                    {
-                        JSONObject jsonObject=jsonArray1.getJSONObject(i);
-                        BrandListItem brandListItemm=new BrandListItem();
-                        brandListItemm.setId(ResponseHandler.getString(jsonObject,"id"));
-                        brandListItemm.setCategoryId(ResponseHandler.getString(jsonObject, "br_category_id"));
-                        brandListItemm.setCategoryName(ResponseHandler.getString(jsonObject, "br_category_name"));
-                        brandListItemm.setName(ResponseHandler.getString(jsonObject,"br_name"));
-                        brandListItemm.setWebsite(ResponseHandler.getString(jsonObject,"br_website"));
-                        brandListItemm.setEmail(ResponseHandler.getString(jsonObject,"br_email"));
-                        brandListItemm.setAddress(ResponseHandler.getString(jsonObject,"br_address"));
-                        brandListItemm.setLogo(ResponseHandler.getString(jsonObject,"br_logo"));
-                        JSONArray jsonArray = jsonObject.getJSONArray("br_frame");
-                        ArrayList<FrameItem>frameItems=null;
-                        if (!jsonArray.isNull(0) && jsonArray.length() != 0) {
-                            frameItems = new ArrayList<>();
-                            for (int j = 0; j < jsonArray.length(); j++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(j);
-                                FrameItem frameItem = new FrameItem();
-                                frameItem.setFrame1((ResponseHandler.getString(jsonObject,"fream_base_url"))+"/"+ResponseHandler.getString(jsonObject1, "frame_path"));
-                                frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
 
-                                Gson gson=new Gson();
-                               Log.e("Frameeeee",gson.toJson(frameItem));
-                                frameItems.add(frameItem);
-                            }
-                        }
-                        brandListItemm.setFrame(frameItems);
-                        brandListItems.add(brandListItemm);
-                    }
-
-
-                    preafManager.setAddBrandList(brandListItems);
-                    preafManager.setIS_Brand(true);
-
-                    if (brandListItems!=null && brandListItems.size()!=0){
-                        preafManager.setActiveBrand(brandListItems.get(0));
-                    }
-
-
-                    Intent i = new Intent(act, HomeActivity.class);
-                    i.addCategory(Intent.CATEGORY_HOME);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    finish();
-                }
-                catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-
-
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
-                return params;
-            }
-
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(stringRequest);
-    }
     public void TextChanger() {
         EditText[] edit = {binding.otpOne, binding.otpTwo, binding.otpThree, binding.otpFour};
         String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
@@ -394,7 +275,7 @@ public class OtpScreenActivity extends BaseActivity {
             return;
         isLoading = true;
         Utility.showProgress(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SEND_OTP, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SEND_OTPNEW, new Response.Listener<String>() {
             @Override
             public void onResponse(String response)
             {

@@ -43,6 +43,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Model.BrandListItem;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.app.brandmania.Adapter.ImageCateItemeInterFace;
@@ -59,6 +60,7 @@ import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -70,6 +72,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,12 +87,15 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     ViewPager viewPager;
     ArrayList<ImageList> AddFavorite=new ArrayList<>();
     private ActivityViewAllImageBinding binding;
+    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     ArrayList<ImageList> menuModels = new ArrayList<>();
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     public static final int DOWLOAD = 1;
     public static final int ADDFAV = 3;
     private static final int REQUEST_CALL = 1;
     public static final int REMOVEFAV = 3;
+    private String is_frame="";
+    private String is_payment_pending="";
     ArrayList<FrameItem> viewPagerItems = new ArrayList<>();
     PreafManager preafManager;
     Gson gson;
@@ -118,6 +124,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
         Log.e("selectedObject",gson.toJson(selectedObject));
         getFrame();
+        //getBrandList();
+        getBrandList();
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
                 R.color.colorthird);
@@ -133,9 +141,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
             }
         });
-
-
-
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         getImageCtegory();
@@ -635,7 +640,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         }
         else{
-            showAlertDialogButtonClicked();
+           // showAlertDialogButtonClicked();
         }
 
         LoadDataToUI();
@@ -669,22 +674,75 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
-
     private void getFrame() {
-        Utility.Log("API : ", APIs.GET_FRAME);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME,new Response.Listener<String>() {
+        Utility.Log("API : ", APIs.GET_FRAMENEW);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAMENEW,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Utility.Log("GET_FRAME : ", response);
+                Utility.Log("GET_FRAMENEW : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-
                     brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
+                    JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
+                    is_frame= datajsonobjecttt.getString("is_frame");
+                    if (is_frame.equals("1")) {
+                       // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
+                        frameViewPager();
+                        is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
+                        if (is_payment_pending.equals("1"))
+                        {
 
+                            binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlert(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
+                                }
+                            });
+                            binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlert(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
+                                }
+                            });
+                            binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlert(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
+                                }
+                            });
+                        }
+                        else
+                        {
+                            Toast.makeText(act,"TTTTTTTT",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                    else
+                    {
 
                         frameViewPager();
+                        binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"frame_message"));
+                            }
+                        });
+                        binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"frame_message"));
+                            }
+                        });
+                        binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"frame_message"));
+                            }
+                        });
+                    }
 
 
                 } catch (JSONException e) {
@@ -784,9 +842,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         }
     }
-
-
-
     private void removeFavourit(final int removeFav) {
 
         Utility.Log("API : ", APIs.REMOVE_FAVOURIT);
@@ -852,14 +907,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
-
-    public void showAlertDialogButtonClicked()
-    {
+    public void showAlertDialogButtonClicked() {
 
         // Create an alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // set the custom layout
         final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
+
         builder.setView(customLayout);
         ImageView call=customLayout.findViewById(R.id.call);
         ImageView whatsapp=customLayout.findViewById(R.id.whatsapp);
@@ -904,10 +958,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         pbutton.setBackgroundColor(Color.WHITE);
     }
-
-    private void whatsapp()
-    {
-        try {
+    private void whatsapp() { try {
             String number ="8460638464";
             String BrandContact="\nRegistered Number: ";
             String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:"+ preafManager.getActiveBrand().getName() +BrandContact+preafManager.getMobileNumber();
@@ -917,11 +968,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-
-    private void makePhoneCall() {
+        } }
+        private void makePhoneCall() {
         String number ="8460638464";
         if (number.trim().length() > 0) {
             if (ContextCompat.checkSelfPermission(act, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -933,8 +981,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         }
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+    @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
         if (requestCode == REQUEST_CALL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makePhoneCall();
@@ -943,6 +990,72 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         }
     }
+    private void getBrandList() {
 
+        Utility.Log("API : ", APIs.GET_GETBRANDNEW);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_GETBRANDNEW, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                binding.swipeContainer.setRefreshing(false);
+                Utility.Log("GET_GETBRANDNEW : ", response);
+                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                    JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
+
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        binding.swipeContainer.setRefreshing(false);
+                        error.printStackTrace();
+
+
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/json");
+                params.put("Authorization","Bearer "+preafManager.getUserToken());
+                Log.e("Token",params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                Log.e("DateNdClass", params.toString());
+                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
+    }
 
 }
