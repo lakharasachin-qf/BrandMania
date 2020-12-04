@@ -32,7 +32,16 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/ic_left_arrow"></ImageView>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/BackButtonMember"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Packages"
+                android:textColor="@color/colorNavText"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"></TextView>
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>

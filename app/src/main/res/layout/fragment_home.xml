@@ -147,17 +147,26 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
                                         <TextView
+                                            android:gravity="center"
+
                                             android:layout_centerHorizontal="true"
                                             android:layout_marginTop="@dimen/_5sdp"
                                             android:textColor="@color/colorPrimary"
                                             android:id="@+id/alertText"
                                             android:textSize="@dimen/_11sdp"
+                                            android:singleLine="true"
+                                            android:ellipsize="marquee"
+                                            android:marqueeRepeatLimit ="marquee_forever"
+                                            android:focusable="true"
+                                            android:focusableInTouchMode="true"
+                                            android:scrollHorizontally="true"
                                             android:fontFamily="@font/inter_regular"
                                             android:text="Your frame is not ready yet! Please contact to admin"
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             ></TextView>
                                                 <LinearLayout
+                                                    android:visibility="gone"
                                                     android:layout_marginTop="@dimen/_5sdp"
                                                     android:layout_marginBottom="@dimen/_5sdp"
                                                     android:layout_centerHorizontal="true"
@@ -166,7 +175,7 @@
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content">
                                                 <ImageView
-
+                                                    android:visibility="gone"
                                                     android:layout_centerHorizontal="true"
                                                     android:id="@+id/call"
                                                     android:src="@drawable/ic_phone"

@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.app.brandmania.Activity.RazorPayActivity;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
+import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -24,10 +26,11 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
    private List<SliderItem> sliderItems;
    private ViewPager2 viewPager2;
     Activity activity;
-
+    Gson gson;
     public SliderAdapter(List<SliderItem> sliderItems, Activity activity) {
         this.sliderItems = sliderItems;
         this.activity = activity;
+        gson=new Gson();
     }
 
     @Override
@@ -41,6 +44,9 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(activity, RazorPayActivity.class);
+                    intent.putExtra("AmountText", holder.priceForPay.getText().toString());
+
+                    intent.putExtra("detailsObj",gson.toJson(sliderItems.get(position)));
                     activity.startActivity(intent);
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -75,9 +81,9 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
 
             priceForPay.setText(sliderItem.getPriceForPay());
             packageTitle.setText(sliderItem.getPackageTitle());
-            templateTitle.setText(sliderItem.getTemplateTitle());
-            imageTitle.setText(sliderItem.getImageTitle());
-            payTitle.setText(sliderItem.getPayTitle());
+            templateTitle.setText(sliderItem.getTemplateTitle()+" - Template / Brand");
+            imageTitle.setText(sliderItem.getImageTitle() + " Image Download / Year");
+            payTitle.setText(sliderItem.getPayTitle() +" / Year");
 
         }
     }

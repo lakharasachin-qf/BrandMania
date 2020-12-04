@@ -130,14 +130,14 @@ public class OtpScreenActivity extends BaseActivity {
             return;
         isLoading = true;
         Utility.showProgress(act);
-        Utility.Log("Verify-Responce-Api", APIs.VERIFY_OTPNEW);
+        Utility.Log("Verify-Responce-Api", APIs.VERIFY_OTP);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_OTPNEW, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.VERIFY_OTP, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 isLoading = false;
                 Utility.dismissProgress();
-                Utility.Log("VERIFY_OTPNEW", response);
+                Utility.Log("VERIFY_OTP", response);
                 ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
                     JSONObject jObject = new JSONObject(response);
@@ -275,7 +275,7 @@ public class OtpScreenActivity extends BaseActivity {
             return;
         isLoading = true;
         Utility.showProgress(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SEND_OTPNEW, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SEND_OTP, new Response.Listener<String>() {
             @Override
             public void onResponse(String response)
             {

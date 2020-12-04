@@ -13,6 +13,8 @@ public class Constant {
     public static final int GalleryRights = 9;
 
     public static final int APP_UPDATES = 1001;
+    public static final String F_VERSION = "2.0.1";
+
 
 
 

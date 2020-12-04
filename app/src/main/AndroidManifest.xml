@@ -56,7 +56,8 @@
         <activity
             android:name=".Activity.LoginActivity"
             android:theme="@style/AppTheme_material_theme" />
-        <activity android:name=".Activity.ViewAllImage" />
+        <activity android:name=".Activity.ViewAllImage"
+                        />
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.SpleshActivity">
             <intent-filter>
@@ -99,7 +100,9 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_mrLHhm8YmeJNFA" />
-
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            />
     </application>
 
 </manifest>

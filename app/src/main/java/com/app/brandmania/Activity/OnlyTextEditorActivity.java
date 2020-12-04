@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.app.brandmania.Adapter.NewEditTabAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.app.brandmania.Adapter.FrameInterFace;
 import com.app.brandmania.Adapter.ItemeInterFace;
@@ -31,8 +32,7 @@ import static com.app.brandmania.Utils.Utility.Log;
 public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeInterFace, FrameInterFace, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, IUnderLineTextEvent {
     Activity act;
     private ActivityOnlyTextEditorBinding binding;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
@@ -44,7 +44,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        final EditTabAdapter adapter = new EditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+        final NewEditTabAdapter adapter = new NewEditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
         binding.textEdit.setOnClickListener(new View.OnClickListener() {
@@ -90,31 +90,20 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
         Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-
-    @Override
-    public void onItemSelection(int position, MultiListItem listModel) {
+    @Override public void onItemSelection(int position, MultiListItem listModel) {
         binding.recoImageee.setImageResource(listModel.getImage());
     }
-
-    @Override
-    public void onFrameItemSelection(int position, MultiListItem listModel) {
+    @Override public void onFrameItemSelection(int position, MultiListItem listModel) {
         binding.recoframe.setImageResource(listModel.getImage());
     }
-
-    @Override
-    public void onColorItemChange(int colorcode) {
+    @Override public void onColorItemChange(int colorcode) {
         binding.textEdit.setTextColor(colorcode);
     }
-
-    @Override
-    public void onFontChangeListenert(String Font) {
+    @Override public void onFontChangeListenert(String Font) {
         Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
         binding.textEdit.setTypeface(custom_font);
     }
-
-    @Override
-    public void onBoldTextChange(boolean Bold)
-    {
+    @Override public void onBoldTextChange(boolean Bold) {
         if (Bold) {
             Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
             binding.textEdit.setTypeface(  binding.textEdit.getTypeface(), Typeface.BOLD);
@@ -126,10 +115,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
         }
 
     }
-
-
-    @Override
-    public void onItalicTextChange(boolean Italic) {
+    @Override public void onItalicTextChange(boolean Italic) {
         if (Italic) {
             Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
             binding.textEdit.setTypeface(  binding.textEdit.getTypeface(), Typeface.ITALIC);
@@ -140,9 +126,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
 
         }
     }
-
-    @Override
-    public void onUnderLineItalic(boolean Left) {
+    @Override public void onUnderLineItalic(boolean Left) {
         if (Left) {
             Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
             binding.textEdit.setPaintFlags( binding.textEdit.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);

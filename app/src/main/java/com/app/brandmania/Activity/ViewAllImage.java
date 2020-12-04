@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -20,6 +21,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -43,8 +46,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Interface.IItaliTextEvent;
+import com.app.brandmania.Interface.ITextBoldEvent;
+import com.app.brandmania.Interface.IUnderLineTextEvent;
 import com.app.brandmania.Model.BrandListItem;
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.app.brandmania.Adapter.ImageCateItemeInterFace;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
@@ -59,6 +66,8 @@ import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,6 +88,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 import static com.app.brandmania.Utils.Utility.dialog;
 
@@ -109,13 +119,15 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     FrameItem selectedModelFromView;
     AlertDialog.Builder alertDialogBuilder;
     File new_file;
+    private Uri mCropImageUri;
+    ImageView imageView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
         captureScreenShort();
-
+        act.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(this);
@@ -124,8 +136,25 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
         Log.e("selectedObject",gson.toJson(selectedObject));
         getFrame();
+        //showAlertDialogButtonClicked();
         //getBrandList();
         getBrandList();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
                 R.color.colorthird);
@@ -150,6 +179,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 onBackPressed();
             }
         });
+
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -675,12 +705,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 CodeReUse.ASK_PERMISSSION);
     }
     private void getFrame() {
-        Utility.Log("API : ", APIs.GET_FRAMENEW);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAMENEW,new Response.Listener<String>() {
+        Utility.Log("API : ", APIs.GET_FRAME);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Utility.Log("GET_FRAMENEW : ", response);
+                Utility.Log("GET_FRAME : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -689,6 +719,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     is_frame= datajsonobjecttt.getString("is_frame");
                     if (is_frame.equals("1")) {
                        // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
+
                         frameViewPager();
                         is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
                         if (is_payment_pending.equals("1"))
@@ -915,23 +946,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
 
         builder.setView(customLayout);
-        ImageView call=customLayout.findViewById(R.id.call);
-        ImageView whatsapp=customLayout.findViewById(R.id.whatsapp);
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                makePhoneCall();
-
-            }
-        });
-        whatsapp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                whatsapp();
-            }
-        });
         // add a button
         builder
                 .setPositiveButton(
@@ -952,7 +967,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         // the alert dialog
         AlertDialog dialog
                 = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
+        dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
         dialog.setCancelable(false);
         dialog.show();
         Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -981,23 +996,23 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         }
     }
-    @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
-        if (requestCode == REQUEST_CALL) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                makePhoneCall();
-            } else {
-                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+//        if (requestCode == REQUEST_CALL) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                makePhoneCall();
+//            } else {
+//                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
     private void getBrandList() {
 
-        Utility.Log("API : ", APIs.GET_GETBRANDNEW);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_GETBRANDNEW, new Response.Listener<String>() {
+        Utility.Log("API : ", APIs.GET_BRAND);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_GETBRANDNEW : ", response);
+                Utility.Log("GET_BRAND : ", response);
                 ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
 
@@ -1057,5 +1072,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
+
+
+
+
+
+
+
 
 }

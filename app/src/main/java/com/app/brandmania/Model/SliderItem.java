@@ -1,19 +1,18 @@
 package com.app.brandmania.Model;
 
+import java.util.ArrayList;
+
 public class SliderItem {
+
    private String priceForPay;
    private String packageTitle;
    private String templateTitle;
    private String imageTitle;
    private String payTitle;
+   private String packageid;
+    ArrayList<SlideSubItem> slideSubItems;
 
-
-    public SliderItem(String priceForPay, String packageTitle, String templateTitle, String imageTitle, String payTitle) {
-        this.priceForPay = priceForPay;
-        this.packageTitle = packageTitle;
-        this.templateTitle = templateTitle;
-        this.imageTitle = imageTitle;
-        this.payTitle = payTitle;
+    public SliderItem() {
     }
 
     public String getPriceForPay() {
@@ -54,5 +53,21 @@ public class SliderItem {
 
     public void setPayTitle(String payTitle) {
         this.payTitle = payTitle;
+    }
+
+    public ArrayList<SlideSubItem> getSlideSubItems() {
+        return slideSubItems;
+    }
+
+    public void setSlideSubItems(ArrayList<SlideSubItem> slideSubItems) {
+        this.slideSubItems = slideSubItems;
+    }
+
+    public String getPackageid() {
+        return packageid;
+    }
+
+    public void setPackageid(String packageid) {
+        this.packageid = packageid;
     }
 }

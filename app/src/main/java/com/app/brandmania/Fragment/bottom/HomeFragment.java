@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
 
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
-
+        binding.alertText.setSelected(true);
         binding.showNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -594,12 +594,12 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     }
     private void getBrandList() {
         binding.swipeContainer.setRefreshing(true);
-        Utility.Log("API : ", APIs.GET_GETBRANDNEW);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_GETBRANDNEW, new Response.Listener<String>() {
+        Utility.Log("API : ", APIs.GET_BRAND);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Utility.Log("GET_GETBRANDNEW : ", response);
+                Utility.Log("GET_BRAND : ", response);
                 ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
 
@@ -767,12 +767,12 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     }
 
     private void getFrame() {
-        Utility.Log("API : ", APIs.GET_FRAMENEW);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAMENEW,new Response.Listener<String>() {
+        Utility.Log("API : ", APIs.GET_FRAME);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Utility.Log("GET_FRAMENEW : ", response);
+                Utility.Log("GET_FRAME : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -781,13 +781,14 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     is_frame= datajsonobjecttt.getString("is_frame");
                     is_package= datajsonobjecttt.getString("package");
                     if (is_frame.equals("1")) {
-                        Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();
                         binding.alertRelative.setVisibility(View.GONE);
                         is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
                         if (is_payment_pending.equals("1"))
                         {
                             binding.alertRelative.setVisibility(View.VISIBLE);
                             binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
+
                         }
                         else if(is_package.equals(""))
                         {
@@ -853,4 +854,5 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
 }

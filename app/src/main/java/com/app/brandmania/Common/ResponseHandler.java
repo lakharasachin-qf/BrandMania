@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 
+import com.app.brandmania.Model.SlideSubItem;
+import com.app.brandmania.Model.SliderItem;
 import com.google.gson.Gson;
 import com.app.brandmania.Adapter.MultiListItem;
 import com.app.brandmania.Model.DashBoardItem;
@@ -18,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ResponseHandler {
     Context context;
@@ -477,5 +480,55 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
-}
+
+    public static ArrayList<SliderItem> HandleGetPackageList(JSONObject jsonObject) {
+        ArrayList<SliderItem> strings = null;
+        if (isSuccess(null, jsonObject)) {
+            //list fetch
+            JSONArray dataJsonArray = getJSONArray(jsonObject, "data");
+            if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
+                strings = new ArrayList<>();
+                for (int i = 0; i < dataJsonArray.length(); i++) {
+                    try {
+                        JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
+                        SliderItem sliderItem = new SliderItem();
+                        sliderItem.setPackageid(getString(dataJsonObject,"id"));
+                        sliderItem.setPriceForPay(getString(dataJsonObject, "rate"));
+                        sliderItem.setPackageTitle(getString(dataJsonObject, "name"));
+                        sliderItem.setTemplateTitle(getString(dataJsonObject, "frame_counter"));
+                        sliderItem.setImageTitle(getString(dataJsonObject, "img_counter"));
+                        sliderItem.setPayTitle(getString(dataJsonObject, "rate"));
+                        JSONArray subPackagejsonArray = getJSONArray(dataJsonObject, "service");
+                        ArrayList<SlideSubItem> stringg = null;
+                        if (!subPackagejsonArray.isNull(0) && subPackagejsonArray.length() != 0) {
+                            stringg = new ArrayList<>();
+                            for (int j = 0; j < subPackagejsonArray.length(); j++) {
+                                try {
+                                    JSONObject detailjsonobject = subPackagejsonArray.getJSONObject(j);
+                                    SlideSubItem slideSubItem = new SlideSubItem();
+                                    slideSubItem.setId(getString(detailjsonobject, "id"));
+                                    slideSubItem.setName(getString(detailjsonobject, "name"));
+                                    slideSubItem.setDescription(getString(detailjsonobject, "description"));
+
+                                    stringg.add(slideSubItem);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        }
+
+                        sliderItem.setSlideSubItems(stringg);
+                        if (stringg!=null &&  stringg.size()!=0)
+                        strings.add(sliderItem);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+
+        return strings;
+    }}
 

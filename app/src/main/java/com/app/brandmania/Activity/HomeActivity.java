@@ -10,21 +10,43 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Model.VersionListIItem;
+import com.app.brandmania.Utils.APIs;
+import com.app.brandmania.Utils.Utility;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Fragment.bottom.CustomFragment;
@@ -40,6 +62,12 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
@@ -48,6 +76,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private ViewPager ViewPagerView;
     Timer timer;
     private Menu mMenuItem;
+    VersionListIItem versionListIItem;
     PreafManager preafManager;
     private AppUpdateManager appUpdateManager;
     private Task<AppUpdateInfo> appUpdateInfoTask;
@@ -59,21 +88,20 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-     //   getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
+
         act=this;
+        getUpadte();
         checkForUpdates();
+
         loadFragment(new HomeFragment());
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            setWhiteNavigationBar(this);
-//        }
+
     }
 
     @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -192,7 +220,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         }
 
     }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void setWhiteNavigationBar( Activity act) {
         Window window = getWindow();
@@ -214,9 +241,163 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     public void onBackPressed() {
         CodeReUse.activityBackPress(this);
     }
-    public void captureScreenShort()
-    {
+    public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
+    private void getUpadte() {
+
+        Utility.Log("API : ", APIs.GET_UPDATE);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_UPDATE,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("GET_UPDATE : ", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONObject jsonArray1 = jsonObject.getJSONObject("data");
+                    versionListIItem=new VersionListIItem();
+                    versionListIItem.setId(jsonArray1.getString("id"));
+                    versionListIItem.setAppliactionVersion(jsonArray1.getString("application_version"));
+                    versionListIItem.setMessage(jsonArray1.getString("message"));
+                    versionListIItem.setForcefullyUpdate(jsonArray1.getString("forcefully_update"));
+                    versionListIItem.setIsNew(jsonArray1.getString("is_new"));
+                    versionListIItem.setCreatedAt(jsonArray1.getString("created_at"));
+                    versionListIItem.setUpdatedAt(jsonArray1.getString("updated_at"));
+                    versionListIItem.setDeletedAt(jsonArray1.getString("deleted_at"));
+
+
+//                    int apiVERSION=Integer.parseInt(versionListIItem.getAppliactionVersion().replace(".",""));
+//                    int currentVERSION=Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".",""));
+//
+//                    if (apiVERSION>currentVERSION)
+//                    {
+//                        // Create an alert builder
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//                        // set the custom layout
+//                        final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
+//                        TextView Message=customLayout.findViewById(R.id.messageMaessage);
+//                        ImageView CloseImg=customLayout.findViewById(R.id.CloseImg);
+//                        Message.setText(jsonArray1.getString("message"));
+//
+//                        builder.setView(customLayout);
+//
+//
+//                        // create and show
+//                        // the alert dialog
+//                        AlertDialog dialog
+//                                = builder.create();
+//                        dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
+//                        dialog.setCancelable(false);
+//                        dialog.show();
+//                        CloseImg.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//
+//                        Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+//                        pbutton.setBackgroundColor(Color.WHITE);
+//                    }
+
+                    int apiVERSION=Integer.parseInt(versionListIItem.getAppliactionVersion().replace(".",""));
+                    int currentVERSION=Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".",""));
+
+                    if (apiVERSION>currentVERSION)
+                    {
+                        // Create an alert builder
+                        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+                        // set the custom layout
+                        final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
+                        ImageView cloasedBox=customLayout.findViewById(R.id.CloseImg);
+                        WebView webView=customLayout.findViewById(R.id.webView);
+                        TextView updateTitle=customLayout.findViewById(R.id.updateTitle);
+                        Button updateBtn=customLayout.findViewById(R.id.updateBtn);
+                        webView.loadData(jsonArray1.getString("message"), "text/html; charset=utf-8", "utf-8");
+                        webView.setBackgroundColor(Color.TRANSPARENT);
+                        String htmlString="<u>App Update</u>";
+                        updateTitle.setText(Html.fromHtml(htmlString));
+                        builder.setView(customLayout);
+
+                        if (versionListIItem.getForcefullyUpdate().equalsIgnoreCase("1")){
+                            cloasedBox.setVisibility(View.GONE);
+                        }
+
+                        // create and show
+                        // the alert dialog
+                        AlertDialog dialog
+                                = builder.create();
+                        dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
+                        dialog.setCancelable(false);
+                        dialog.show();
+                        cloasedBox.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        updateBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Uri uri=Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
+                                Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                                try {
+
+                                    startActivity(intent);
+                                }
+                                catch (Exception e)
+                                {
+
+                                }
+                            }
+                        });
+
+                        Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                        pbutton.setBackgroundColor(Color.WHITE);
+                  }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+//                        String body;
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Load-Get_Exam ", body);
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
     }
 
 }

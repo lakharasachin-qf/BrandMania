@@ -269,9 +269,9 @@ preafManager=new PreafManager(act);
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-                        String body;
-                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                        Log.e("Error ", body);
+//                        String body;
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Error ", body);
 
 
                     }

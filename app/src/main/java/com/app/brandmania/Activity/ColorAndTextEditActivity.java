@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.app.brandmania.Adapter.NewEditTabAdapter;
 import com.app.brandmania.Connection.BaseActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -98,7 +99,7 @@ public class ColorAndTextEditActivity extends BaseActivity implements ItemeInter
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Texture")));
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        final EditTabAdapter adapter = new EditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+        final NewEditTabAdapter adapter = new NewEditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
 
