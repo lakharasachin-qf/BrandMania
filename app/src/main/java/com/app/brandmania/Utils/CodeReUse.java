@@ -73,7 +73,7 @@ public class CodeReUse {
         try {
             file.createNewFile();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
             byte[] bitmapdata = bos.toByteArray();
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bitmapdata);
@@ -84,6 +84,7 @@ public class CodeReUse {
         }
         return file;
     }
+
     public static void hideKeyboard(Activity activity, View view) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 

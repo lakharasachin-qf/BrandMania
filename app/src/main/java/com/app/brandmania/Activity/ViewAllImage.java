@@ -1,5 +1,6 @@
 package com.app.brandmania.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -22,11 +23,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -45,6 +48,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.ANRequest;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Interface.IItaliTextEvent;
 import com.app.brandmania.Interface.ITextBoldEvent;
@@ -95,6 +104,7 @@ import static com.app.brandmania.Utils.Utility.dialog;
 public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback{
     Activity act;
     ViewPager viewPager;
+    private boolean isLoading = false;
     ArrayList<ImageList> AddFavorite=new ArrayList<>();
     private ActivityViewAllImageBinding binding;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
@@ -179,7 +189,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 onBackPressed();
             }
         });
-
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,6 +257,22 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 dowloadAndShare(DOWLOAD);
             }
         });
+        binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSelectImageClick(view);
+            }
+        });
+        binding.logoCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSelectImageClick(view);
+            }
+        });
+    }
+    //For CustomFrame
+    public void onSelectImageClick(View view) {
+        CropImage.startPickImageActivity(this);
     }
     public void LoadDataToUI(){
         preafManager=new PreafManager(act);
@@ -311,11 +336,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(shareIntent, "Choose an app"));
-
-
-
-
-
 
     }
     private void startAnimation() {
@@ -434,9 +454,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.viewRecoRecycler.setHasFixedSize(true);
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
 
-
-
-            if (getIntent().hasExtra("viewAll")) {
+        if (getIntent().hasExtra("viewAll")) {
                 binding.simpleProgressBar.setVisibility(View.GONE);
                 selectedObject = menuModels.get(0);
                 LoadDataToUI();
@@ -476,10 +494,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                     }
-
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -676,22 +690,31 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         LoadDataToUI();
 
     }
-    public void AlertBox() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Your Frame Is Not Added ! Please Contact To Admin");
-                alertDialogBuilder.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                onBackPressed();
-                            }
-                        });
+    public void AlertBoxForSaveFrame() {
+        alertDialogBuilder = new AlertDialog.Builder(act);
+        alertDialogBuilder.setTitle("Save Frame");
+        alertDialogBuilder.setMessage("Are you sure want to save your Frame?");
+        alertDialogBuilder.setPositiveButton("yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        binding.customFrameRelative.setVisibility(View.GONE);
+                        binding.FrameImageDuplicate.setVisibility(View.GONE);
+                        getBitmapFromView();
 
-
+                    }
+                });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.setCancelable(false);
         alertDialog.show();
+
+
 
     }
     //For GetFrame
@@ -753,24 +776,23 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
                     else
                     {
-
-                        frameViewPager();
+                        LoadDataToUI();
+                        binding.customFrameRelative.setVisibility(View.VISIBLE);
+                        binding.recoframe.setVisibility(View.GONE);
                         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"frame_message"));
-                            }
+                                AlertBoxForSaveFrame();                            }
                         });
                         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"frame_message"));
-                            }
+                                AlertBoxForSaveFrame();                            }
                         });
                         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"frame_message"));
+                                AlertBoxForSaveFrame();
                             }
                         });
                     }
@@ -973,38 +995,55 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         pbutton.setBackgroundColor(Color.WHITE);
     }
-    private void whatsapp() { try {
-            String number ="8460638464";
-            String BrandContact="\nRegistered Number: ";
-            String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:"+ preafManager.getActiveBrand().getName() +BrandContact+preafManager.getMobileNumber();
-            String toNumber ="91"+number;
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } }
-        private void makePhoneCall() {
-        String number ="8460638464";
-        if (number.trim().length() > 0) {
-            if (ContextCompat.checkSelfPermission(act, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(act,
-                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // handle result of pick image chooser
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri imageUri = CropImage.getPickImageResultUri(this, data);
+
+            // For API >= 23 we need to check specifically that we have permissions to read external storage.
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+                // request permissions and handle the result in onRequestPermissionsResult()
+                mCropImageUri = imageUri;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                }
             } else {
-                String dial = "tel:" + number;
-                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+                // no permissions required or already grunted, can start crop image activity
+                startCropImageActivity(imageUri);
+            }
+        }
+
+        // handle result of CropImageActivity
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                binding.logoCustom.setVisibility(View.VISIBLE);
+                binding.imgEmptyStateFirst.setVisibility(View.GONE);
+                ((ImageView) findViewById(R.id.logoCustom)).setImageURI(result.getUri());
+                Toast.makeText(this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG).show();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
             }
         }
     }
-//    @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
-//        if (requestCode == REQUEST_CALL) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                makePhoneCall();
-//            } else {
-//                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+    @Override public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // required permissions granted, start crop image activity
+            startCropImageActivity(mCropImageUri);
+        } else {
+            Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+        }
+    }
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .start(this);
+    }
     private void getBrandList() {
 
         Utility.Log("API : ", APIs.GET_BRAND);
@@ -1072,10 +1111,158 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
+    private void getBitmapFromView() {
+        //Define a bitmap with the same size as the view
+        Bitmap newFinal;
+        Bitmap returnedBitmap = Bitmap.createBitmap(binding.customFrameRelative.getWidth(), binding.customFrameRelative.getHeight(),Bitmap.Config.ARGB_8888);
+        //Bind a canvas to it
+        Canvas canvas = new Canvas(returnedBitmap);
+        //Get the view's background
+        Drawable bgDrawable =binding.customFrameRelative.getBackground();
+        if (bgDrawable!=null) {
+            //has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas);
+            // canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        }   else{
+            //does not have background drawable, then draw white background on the canvas
+            //     canvas.drawColor(Color.WHITE);
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        }
+        Log.e("logggg","lkhjkgbjhmn");
+
+        // draw the view on the canvas
+        binding.customFrameRelative.draw(canvas);
+
+        binding.FrameImageDuplicate.setVisibility(View.VISIBLE);
+        binding.FrameImageDuplicate.setImageBitmap(returnedBitmap);
+        BitmapDrawable drawable = (BitmapDrawable) binding.FrameImageDuplicate.getDrawable();
+        newFinal = drawable.getBitmap();
+
+        FileOutputStream fileOutputStream = null;
+        File file = getDisc();
+        if (!file.exists() && !file.mkdirs()) {
+            return;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
+        String date = simpleDateFormat.format(new Date());
+        String name = "Img" + date + ".jpg";
+        String file_name = file.getAbsolutePath() + "/" + name;
+        new_file = new File(file_name);
+        try {
+            fileOutputStream = new FileOutputStream(new_file);
+            Bitmap bitmap = newFinal;//viewToBitmap(binding.allSetImage,binding.allSetImage.getWidth(),binding.recoImage.getHeight());
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            // canvas.compress(Bitmap.CompressFormat.PNG, 90, out);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show()  ;
+            // startShare(new_file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        refreshgallery(new_file);
+
+        addCustomFrame(newFinal);
+       // return the bitmap
+         //return returnedBitmap;
+    }
+
+
+    private void addCustomFrame(Bitmap img) {
+        if (isLoading)
+            return;
+        isLoading = true;
+        Utility.showProgress(act);
+        Log.e("API", APIs.ADD_CUSTOMFRAME);
+        Log.e("API", preafManager.getUserToken());
+        File img1File = null;
+        if (img != null) {
+            img1File = CodeReUse.createFileFromBitmap(act, "photo.png", img);
+        }
+
+        ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.ADD_CUSTOMFRAME)
+                .addHeaders("Accept", "application/json")
+                .addHeaders("Content-Type", "application/json")
+                .addHeaders("Authorization", "Bearer" + preafManager.getUserToken())
+                .addMultipartParameter("brand_id", preafManager.getActiveBrand().getId())
+                .setTag("Add CustomeFrame")
+                .setPriority(Priority.HIGH);
+
+        if (img1File != null) {
+            request.addMultipartFile("frame", img1File);
+            Log.e("br_logo", String.valueOf(img1File));
+        }
+
+        request.build().setUploadProgressListener(new UploadProgressListener() {
+            @Override
+            public void onProgress(long bytesUploaded, long totalBytes) {
+                // do anything with progress
+            }
+        })
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isLoading = false;
+                        Utility.dismissProgress();
+                        finish();
+                        startActivity(getIntent());
+                        Utility.Log("Verify-Response", response);
+                        binding.FrameImageDuplicate.setVisibility(View.GONE);
+                        ArrayList<BrandListItem> brandListItems = new ArrayList<>();
+                        try {
+
+                            if (response.getBoolean("status")) {
+                                JSONObject jsonArray = response.getJSONObject("data");
 
 
 
 
+//                                is_completed = jsonArray.getString("is_completed");
+//                                alertDialogBuilder.setMessage(ResponseHandler.getString(response, "message"));
+//                                alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        preafManager.loginStep(is_completed);
+//                                        if (is_completed.equals("2")) {
+//                                            getBrandList();
+//
+//                                        }
+//                                    }
+//                                });
+//                                AlertDialog alertDialog = alertDialogBuilder.create();
+//                                alertDialog.setCancelable(false);
+//                                alertDialog.show();
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        isLoading = false;
+                        Utility.dismissProgress();
+
+                        if (error.getErrorCode() != 0) {
+                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            Log.e("onError errorBody : ", error.getErrorBody());
+                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                        } else {
+                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                        }
+
+                    }
+                });
+
+    }
 
 
 

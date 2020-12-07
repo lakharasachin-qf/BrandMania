@@ -29,4 +29,5 @@ public class APIs {
     public static final String GENERATE_ORDER_ID =URL+"createOrder";
     public static final String GET_PACKAGE = URL+"getPackage";
     public static final String GET_UPDATE = URL+"getApplicationVersion";
+    public static final String ADD_CUSTOMFRAME = URL + "addFrameToBrand";
 }

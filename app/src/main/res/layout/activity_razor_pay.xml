@@ -121,7 +121,7 @@
                 android:fontFamily="@font/inter_semibold"
                 android:textColor="@color/colorNavText"
                 android:textSize="@dimen/_15sdp"
-                android:text="Razorpay T-Shirt"
+                android:text="Razorpay"
                 />
 
             <TextView

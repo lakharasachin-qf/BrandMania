@@ -34,7 +34,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-public class AddReportAndBug extends BaseActivity {
+public class AddReportAndBug extends BaseActivity implements alertListenerCallback{
     Activity act;
     private ActivityAddReportAndBugBinding binding;
     private boolean isLoading = false;
@@ -199,7 +199,9 @@ public class AddReportAndBug extends BaseActivity {
                         Utility.dismissProgress();
                         Log.e("Response", response.toString());
                         if (ResponseHandler.isSuccess(null, response)) {
-                          Toast.makeText(act, "Thank you , We will fix it soon",Toast.LENGTH_LONG).show();
+                          Toast.makeText(act, "T",Toast.LENGTH_LONG).show();
+
+                            Utility.showAlert(act, ResponseHandler.getString(ResponseHandler.createJsonObject(response.toString()), "message"), "Error");
 
                         }
                     }
@@ -242,12 +244,13 @@ public class AddReportAndBug extends BaseActivity {
         pickerFragment.setImageLoad(imageLoad);
         pickerFragment.show(getSupportFragmentManager(), pickerFragment.getTag());
     }
-    @Override
-    public void onBackPressed() {
+    @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
-    public void captureScreenShort()
-    {
+    public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
+    @Override public void alertListenerClick() {
+        onBackPressed();
     }
 }
