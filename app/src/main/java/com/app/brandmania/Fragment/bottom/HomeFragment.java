@@ -152,6 +152,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
         homeFragment=this;
+
         fiveStarsDialog = new FiveStarsDialog(getActivity(),"brandmania@gmail.com");
           preafManager=new PreafManager(act);
         if (preafManager.getAddBrandList()!=null && preafManager.getAddBrandList().size()!=0 &&preafManager.getActiveBrand()==null){
@@ -161,7 +162,9 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         Gson gson=new Gson();
         requestAgain();
        RateUs();
+       if (preafManager.getActiveBrand().getPhonenumber()!=null)
 
+        Log.e("phonephone",preafManager.getActiveBrand().getPhonenumber());
 
 //        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
 //        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();

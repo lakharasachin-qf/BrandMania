@@ -159,7 +159,7 @@ public class SpleshActivity extends BaseActivity {
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                2,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
@@ -259,6 +259,7 @@ preafManager=new PreafManager(act);
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);
                     finish();
 
+
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
@@ -307,6 +308,9 @@ preafManager=new PreafManager(act);
         };
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                2,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 

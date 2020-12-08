@@ -237,6 +237,7 @@
             </RelativeLayout>
 
             <EditText
+                android:id="@+id/customFrameWebsite"
                 android:layout_width="match_parent"
                 android:layout_toEndOf="@+id/logoCard"
                 android:layout_height="wrap_content"

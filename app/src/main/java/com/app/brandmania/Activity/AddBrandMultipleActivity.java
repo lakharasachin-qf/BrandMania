@@ -317,6 +317,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         brandListItemm.setCategoryId(ResponseHandler.getString(jsonObject, "br_category_id"));
                         brandListItemm.setCategoryName(ResponseHandler.getString(jsonObject, "br_category_name"));
                         brandListItemm.setName(ResponseHandler.getString(jsonObject, "br_name"));
+                        brandListItemm.setPhonenumber(ResponseHandler.getString(jsonObject, "br_phone"));
                         brandListItemm.setWebsite(ResponseHandler.getString(jsonObject, "br_website"));
                         brandListItemm.setEmail(ResponseHandler.getString(jsonObject, "br_email"));
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));

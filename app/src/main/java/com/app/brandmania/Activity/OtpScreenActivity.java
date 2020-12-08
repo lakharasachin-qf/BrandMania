@@ -299,12 +299,12 @@ public class OtpScreenActivity extends BaseActivity {
                 isLoading = false;
                 Utility.dismissProgress();
                 volleyError.printStackTrace();
-                try {
-                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
-                    Log.e("REsepinERr ", responseBody);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+//                    Log.e("REsepinERr ", responseBody);
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
 
             }
         }) {

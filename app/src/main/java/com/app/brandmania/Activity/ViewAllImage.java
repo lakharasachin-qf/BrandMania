@@ -54,6 +54,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Interface.IItaliTextEvent;
 import com.app.brandmania.Interface.ITextBoldEvent;
@@ -96,6 +97,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
@@ -116,9 +118,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     public static final int REMOVEFAV = 3;
     private String is_frame="";
     private String is_payment_pending="";
+    private String packagee="";
     ArrayList<FrameItem> viewPagerItems = new ArrayList<>();
     PreafManager preafManager;
     Gson gson;
+    String Website;
+
     private ProgressDialog simpleWaitDialog;
     private DashBoardItem imageList;
     private ImageList selectedObject;
@@ -143,6 +148,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         preafManager = new PreafManager(this);
         binding.titleName.setSelected(true);
         gson = new Gson();
+        Log.e("PHONE_NUMBER",gson.toJson(preafManager.getActiveBrand()));
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
         Log.e("selectedObject",gson.toJson(selectedObject));
         getFrame();
@@ -151,18 +157,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         getBrandList();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+        Website=preafManager.getActiveBrand().getWebsite();
 
 
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
@@ -257,19 +252,46 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 dowloadAndShare(DOWLOAD);
             }
         });
-        binding.logoCustom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSelectImageClick(view);
+        binding.imgEmptyStateFirst.setVisibility(View.VISIBLE);
+        fetchAutomaticCustomeFrame();
+
+
+            if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty()) {
+                binding.imgEmptyStateFirst.setVisibility(View.GONE);
+                binding.logoCustom.setVisibility(View.VISIBLE);
+                binding.logoCustom.setVisibility(View.VISIBLE);
+                Glide.with(act)
+                        .load(preafManager.getActiveBrand().getLogo())
+                        .into(binding.logoCustom);
             }
-        });
-        binding.logoCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSelectImageClick(view);
+            else
+            {
+                Toast.makeText(act,"jdfhdsjhfkdsjfhdsjkds",Toast.LENGTH_LONG).show();
+                binding.imgEmptyStateFirst.setVisibility(View.VISIBLE);
+                binding.logoCustom.setVisibility(View.GONE);
+
+
+                binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onSelectImageClick(view);
+                    }
+                });
+                binding.logoCard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onSelectImageClick(view);
+                    }
+                });
             }
-        });
+
     }
+
+
+
+
+
+
     //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
@@ -742,10 +764,34 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     is_frame= datajsonobjecttt.getString("is_frame");
                     if (is_frame.equals("1")) {
                        // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
-
                         frameViewPager();
                         is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
-                        if (is_payment_pending.equals("1"))
+                        packagee=datajsonobjecttt.getString("package");
+                        if (packagee.equals("")) {
+
+                            binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
+                                }
+                            });
+                            binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
+                                }
+                            });
+                            binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
+
+                                }
+                            });
+
+
+                        }
+                        else if (is_payment_pending.equals("1"))
                         {
 
                             binding.shareIcon.setOnClickListener(new View.OnClickListener() {
@@ -773,10 +819,10 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         }
 
                     }
-
                     else
                     {
                         LoadDataToUI();
+                        //fetchAutomaticCustomeFrame();
                         binding.customFrameRelative.setVisibility(View.VISIBLE);
                         binding.recoframe.setVisibility(View.GONE);
                         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
@@ -1170,8 +1216,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
        // return the bitmap
          //return returnedBitmap;
     }
-
-
     private void addCustomFrame(Bitmap img) {
         if (isLoading)
             return;
@@ -1261,6 +1305,29 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
                     }
                 });
+
+    }
+    private void fetchAutomaticCustomeFrame()
+    {
+
+        if (preafManager.getActiveBrand().getWebsite()!=null)
+        {
+            binding.customFrameWebsite.setText(Website.substring(8));
+        }
+
+        if (preafManager.getActiveBrand().getAddress()!=null)
+        {
+            Toast.makeText(act,preafManager.getActiveBrand().getPhonenumber(),Toast.LENGTH_LONG).show();
+            binding.customAddressEdit.setText(preafManager.getActiveBrand().getAddress());
+        }
+
+
+        if (preafManager.getActiveBrand().getPhonenumber()!=null)
+        {
+            Toast.makeText(act,preafManager.getActiveBrand().getPhonenumber(),Toast.LENGTH_LONG).show();
+            binding.customeContactEdit.setText(preafManager.getActiveBrand().getPhonenumber());
+        }
+
 
     }
 

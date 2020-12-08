@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -235,6 +236,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 //paymentSuccess();
                 JSONObject jsonObject=ResponseHandler.createJsonObject(response);
                 Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Success");
+
             } else {
                 JSONObject jsonObject=ResponseHandler.createJsonObject(response);
                 Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Error");
@@ -306,7 +308,11 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
     @Override
     public void alertListenerClick() {
-        onBackPressed();
+        Intent i = new Intent(act, HomeActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+        finish();
+
     }
 
 //    private void paymentSuccess() {
