@@ -163,26 +163,11 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         requestAgain();
        RateUs();
        if (preafManager.getActiveBrand().getPhonenumber()!=null)
-
-        Log.e("phonephone",preafManager.getActiveBrand().getPhonenumber());
-
-//        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
-//        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();
-//        FramePagerItems =preafManager.getActiveBrand().getFrame();
-//        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
-//        if (FramePagerItems!=null && FramePagerItems.size()!=0) {
-//            binding.alertForFrmae.setVisibility(View.GONE);
-//
-//        }
-//        else
-//        {
-//            binding.alertForFrmae.setVisibility(View.VISIBLE);
-//        }
-
-        binding.businessName.setText(preafManager.getActiveBrand().getName());
-        mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
-        binding.alertText.setSelected(true);
-        binding.showNotification.setOnClickListener(new View.OnClickListener() {
+           Log.e("phonephone",preafManager.getActiveBrand().getPhonenumber());
+       binding.businessName.setText(preafManager.getActiveBrand().getName());
+       mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
+       binding.alertText.setSelected(true);
+       binding.showNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(act, ViewNotificationActivity.class);

@@ -1,14 +1,21 @@
 package com.app.brandmania.Adapter;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +33,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.LoginActivity;
+import com.app.brandmania.Activity.PackageActivity;
+import com.app.brandmania.Activity.RazorPayActivity;
+import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.databinding.ItemNotificationLayoutBinding;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
@@ -43,12 +54,14 @@ import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLIST;
+import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLISTBYID;
 import static com.app.brandmania.Model.BrandListItem.LAYOUT_NOTIFICATIONlIST;
 import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
 
@@ -60,6 +73,15 @@ public class BrandAdapter extends RecyclerView.Adapter {
     private boolean isLoadingAdded = false;
     PreafManager preafManager;
     private static final int REQUEST_CALL = 1;
+    private BRANDBYIDIF brandbyidif;
+
+    public void setBrandbyidif(BRANDBYIDIF brandbyidif) {
+        this.brandbyidif = brandbyidif;
+    }
+
+    public interface BRANDBYIDIF{
+        void fireBrandList(int position,BrandListItem model);
+    }
 
     public BrandAdapter(ArrayList<BrandListItem> brandListItems, Activity activity) {
         this.brandListItems = brandListItems;
@@ -81,6 +103,11 @@ public class BrandAdapter extends RecyclerView.Adapter {
                 ItemNotificationLayoutBinding notificationLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_notification_layout, viewGroup, false);
                 return new NotificationHolder(notificationLayoutBinding);
 
+            case LAYOUT_BRANDLISTBYID :
+                ItemLayoutGetbrandlistBinding layoutBinding1 = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_getbrandlist, viewGroup, false);
+                return new BrandHolder(layoutBinding1);
+
+
         }
         return null;
 
@@ -97,6 +124,8 @@ public class BrandAdapter extends RecyclerView.Adapter {
                 return LAYOUT_BRANDLIST;
             case 2:
                 return LAYOUT_NOTIFICATIONlIST;
+            case 3:
+                return LAYOUT_BRANDLISTBYID;
             default:
                 return -1;
         }
@@ -108,6 +137,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
         return brandListItems.size();
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final BrandListItem model = brandListItems.get(position);
@@ -163,7 +193,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
                          }
                          else
                          {
-
                              ((BrandHolder) holder).binding.frameitemLayout.setVisibility(View.GONE);
                              ((BrandHolder) holder).binding.messgaeShow.setVisibility(View.VISIBLE);
                              ((BrandHolder) holder).binding.whatsappImage.setVisibility(View.VISIBLE);
@@ -218,7 +247,109 @@ public class BrandAdapter extends RecyclerView.Adapter {
                                      }
                                  }
                              });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                          }
+
+                    if (brandListItems.get(position).getIs_frame().equals("1")){
+                        ((BrandHolder)holder).binding.warning.setText("View your Current Package");
+                        ((BrandHolder)holder).binding.warning.setTextColor(Color.parseColor("#4BB543"));
+                        ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
+                        ((BrandHolder)holder).binding.warning.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                // Create an alert builder
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                                // set the custom layout
+                                final View customLayout = activity.getLayoutInflater().inflate(R.layout.package_detail_alert_dialog, null);
+                                TextView packageName=customLayout.findViewById(R.id.packageName);
+                                TextView totalImage=customLayout.findViewById(R.id.totalImage);
+                                TextView usedImage=customLayout.findViewById(R.id.usedImage);
+                                TextView remainingImage=customLayout.findViewById(R.id.remainingImage);
+                                TextView expirydate=customLayout.findViewById(R.id.expieryDateName);
+                                ImageView closed=customLayout.findViewById(R.id.CloseImg);
+                                packageName.setText(brandListItems.get(position).getPackagename());
+                                totalImage.setText(brandListItems.get(position).getNo_of_total_image());
+                                usedImage.setText(brandListItems.get(position).getNo_of_used_image());
+                                remainingImage.setText(brandListItems.get(position).getNo_of_remaining());
+                                expirydate.setText(brandListItems.get(position).getExpiery_date());
+                                builder.setView(customLayout);
+
+
+                                AlertDialog dialog
+                                        = builder.create();
+                                dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
+                                dialog.setCancelable(false);
+                                dialog.show();
+                                closed.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                                pbutton.setBackgroundColor(Color.WHITE);
+                            }
+                        });
+                        if (brandListItems.get(position).getIs_payment_pending().equals("1"))
+                        {
+                            ((BrandHolder)holder).binding.warning.setText(brandListItems.get(position).getPayment_message());
+                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder)holder).binding.warning.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    brandbyidif.fireBrandList(position,brandListItems.get(position));
+                                   /* Intent i = new Intent(activity, RazorPayActivity.class);
+                                    i.putExtra("MyBrand","1");
+                                    i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
+                                    i.addCategory(Intent.CATEGORY_HOME);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    activity.startActivity(i);
+                                    activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                       */         }
+                            });
+
+                        }
+                    }else{
+                        Toast.makeText(activity,"ghvhjvhjvhj",Toast.LENGTH_LONG).show();
+//                        ((BrandHolder)holder).binding.warning.setText(brandListItems.get(position).getFrame_message());
+                        ((BrandHolder)holder).binding.warning.setText(" You have't selected any plan yet!");
+                        ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                        ((BrandHolder)holder).binding.selectPlane.setVisibility(View.VISIBLE);
+                        ((BrandHolder)holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                 Intent i = new Intent(activity, PackageActivity.class);
+                                 i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
+                                    i.addCategory(Intent.CATEGORY_HOME);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    activity.startActivity(i);
+                                    activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                            }
+                        });
+                    }
+
                          break;
                 case LAYOUT_NOTIFICATIONlIST:
                     ((NotificationHolder) holder).binding.messgae.setText(model.getMessage());

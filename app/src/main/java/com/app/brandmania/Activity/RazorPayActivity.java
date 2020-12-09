@@ -23,6 +23,7 @@ import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.Model.SliderItem;
@@ -49,6 +50,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     private ActivityRazorPayBinding binding;
     String sliderItem;
     SliderItem sliderItemList;
+    BrandListItem brandListItem;
     private String amountToPay;
     Gson gson;
     private boolean isLoading=false;
@@ -67,15 +69,20 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         Checkout.preload(getApplicationContext());
         preafManager=new PreafManager(this);
         gson=new Gson();
-        sliderItemList=gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
 
+
+//        if (getIntent().hasExtra("MyBrand")) {
+//            brandListItem = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
+//        }else{
+            sliderItemList=gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
+      //  }
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        sliderItem = getIntent().getStringExtra("AmountText");
+        sliderItem = sliderItemList.getPriceForPay();
         binding.amount.setText("INR " +sliderItem+".00");
 
         pay=(Button)findViewById(R.id.btn_pay);
@@ -271,7 +278,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("brand",preafManager.getActiveBrand().getId());
+                hashMap.put("brand",sliderItemList.getBrandId());
                 hashMap.put("package",sliderItemList.getPackageid());
                 hashMap.put("amount",sliderItemList.getPriceForPay());
                 hashMap.put("total_amount",sliderItemList.getPriceForPay());

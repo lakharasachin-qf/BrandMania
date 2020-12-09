@@ -13,12 +13,19 @@
         <TextView
            android:layout_marginLeft="@dimen/_7sdp"
             android:id="@+id/title"
+            android:layout_toStartOf="@+id/viewAll"
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit ="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"
             android:gravity="center"
             android:fontFamily="@font/inter_semibold"
             android:text="Gujrati"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </TextView>
         <TextView

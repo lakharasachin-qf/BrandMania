@@ -2,6 +2,7 @@ package com.app.brandmania.Utils;
 
 public class APIs {
     public static final String URL = "http://queryfinders.com/brandmania_uat/public/api/";
+   // public static final String URL= "http://192.168.1.131/brand365/public/api/";
     public static final String USER_REGISTRATION =URL+"userRegistration";
     public static final String ADD_BRAND = URL+"addBrand";
     public static final String GET_BRAND_CATEGORY = URL + "getBrandCategory";
@@ -30,4 +31,5 @@ public class APIs {
     public static final String GET_PACKAGE = URL+"getPackage";
     public static final String GET_UPDATE = URL+"getApplicationVersion";
     public static final String ADD_CUSTOMFRAME = URL + "addFrameToBrand";
+    public static final String GET_BRAND_BY_ID = URL + "getBrandById";
 }

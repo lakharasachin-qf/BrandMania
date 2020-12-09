@@ -161,7 +161,7 @@
                                             android:focusableInTouchMode="true"
                                             android:scrollHorizontally="true"
                                             android:fontFamily="@font/inter_regular"
-                                            android:text="Your frame is not ready yet! Please contact to admin"
+                                            android:text=""
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             ></TextView>

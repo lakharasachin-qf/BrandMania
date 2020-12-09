@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.app.brandmania.Activity.RazorPayActivity;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
 import com.google.gson.Gson;
@@ -45,7 +46,8 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                 public void onClick(View view) {
                     Intent intent=new Intent(activity, RazorPayActivity.class);
                     intent.putExtra("AmountText", holder.priceForPay.getText().toString());
-
+                    PreafManager preafManager=new PreafManager(activity);
+                    sliderItems.get(position).setBrandId(preafManager.getActiveBrand().getId());
                     intent.putExtra("detailsObj",gson.toJson(sliderItems.get(position)));
                     activity.startActivity(intent);
                     intent.addCategory(Intent.CATEGORY_HOME);

@@ -45,12 +45,10 @@
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
-
-      <ImageView
+    <ImageView
         android:layout_marginStart="-100dp"
         android:layout_alignParentBottom="true"
-
-        android:src="@drawable/bottom"
+          android:src="@drawable/bottom"
         android:layout_width="@dimen/_300sdp"
         android:layout_height="@dimen/_300sdp">
 

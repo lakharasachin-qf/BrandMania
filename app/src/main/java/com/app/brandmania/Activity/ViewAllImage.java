@@ -263,6 +263,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Glide.with(act)
                         .load(preafManager.getActiveBrand().getLogo())
                         .into(binding.logoCustom);
+                binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onSelectImageClick(view);
+                    }
+                });
             }
             else
             {
@@ -1012,16 +1018,10 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // set the custom layout
         final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
-
         builder.setView(customLayout);
-
         // add a button
-        builder
-                .setPositiveButton(
-                        "OK",
-                        new DialogInterface.OnClickListener() {
-
-                            @Override
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
                             public void onClick(
                                     DialogInterface dialog, int which)
                             {
@@ -1330,7 +1330,73 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
 
     }
+    private void getBrandById() {
 
+        Utility.Log("API : ", APIs.GET_BRAND_BY_ID);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND_BY_ID, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                binding.swipeContainer.setRefreshing(false);
+                Utility.Log("GET_BRAND_BY_ID : ", response);
+                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    multiListItems = ResponseHandler.HandleGetBrandById(jsonObject);
+                    JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
+
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        binding.swipeContainer.setRefreshing(false);
+                        error.printStackTrace();
+
+
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/json");
+                params.put("Authorization","Bearer "+preafManager.getUserToken());
+                Log.e("Token",params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("brand_id",preafManager.getActiveBrand().getId());
+                Log.e("DateNdClass", params.toString());
+                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
+    }
 
 
 

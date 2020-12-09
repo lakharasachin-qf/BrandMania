@@ -23,10 +23,97 @@
             android:layout_height="match_parent"></ImageView>
     </androidx.cardview.widget.CardView>
     <RelativeLayout
+
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+
+        android:layout_toEndOf="@+id/itemLayout"
+
+        android:id="@+id/main_linearlayout_title"
+        android:elevation="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/firsttitle"
+            android:layout_below="@+id/businessName"
+            android:text="Computer Hardware"
+            android:textColor="@color/lightGraycolor"
+            android:textSize="@dimen/_10sdp"
+            android:fontFamily="@font/inter_regular"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:layout_height="wrap_content">
+
+        </TextView>
+        <TextView
+
+            android:id="@+id/businessName"
+            android:text="QueryFinderSolution"
+            android:textColor="@color/alltextcolor"
+            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/inter_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <LinearLayout
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:background="@drawable/outlineroundbackground"
+                android:id="@+id/editImage"
+                android:src="@drawable/ic_outline_create_24"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp">
+            </ImageView>
+            <ImageView
+                android:visibility="gone"
+                android:background="@drawable/outlineroundbackground"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:id="@+id/deletImage"
+                android:src="@drawable/ic_outline_close_24"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp">
+            </ImageView>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_below="@+id/firsttitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/locationimage"
+                android:src="@drawable/ic_baseline_location_on_24"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="match_parent"
+                ></ImageView>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/locationimage"
+                android:id="@+id/addressText"
+                android:text="Vastral, Ahmedabad"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/inter_regular"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/frameitemLayoutRelative"
         android:layout_toEndOf="@+id/itemLayout"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_below="@+id/itemLayout"
+        android:layout_below="@+id/main_linearlayout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
@@ -86,100 +173,15 @@
         </ImageView>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:visibility="visible"
-
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/itemLayout"
-        android:layout_above="@+id/frameitemLayoutRelative"
-        android:id="@+id/main_linearlayout_title"
-        android:elevation="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/firsttitle"
-            android:layout_below="@+id/businessName"
-            android:text="Computer Hardware"
-            android:textColor="@color/lightGraycolor"
-            android:textSize="@dimen/_10sdp"
-            android:fontFamily="@font/inter_regular"
-            android:layout_width="wrap_content"
-            android:textStyle="bold"
-            android:layout_height="wrap_content">
-
-        </TextView>
-        <TextView
-
-            android:id="@+id/businessName"
-            android:text="QueryFinderSolution"
-            android:textColor="@color/alltextcolor"
-            android:textSize="@dimen/_12sdp"
-            android:fontFamily="@font/inter_regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
-
-        <LinearLayout
-            android:layout_marginRight="@dimen/_15sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:background="@drawable/outlineroundbackground"
-                android:id="@+id/editImage"
-                android:src="@drawable/ic_outline_create_24"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp">
-            </ImageView>
-            <ImageView
-                android:visibility="gone"
-                android:background="@drawable/outlineroundbackground"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:id="@+id/deletImage"
-                android:src="@drawable/ic_outline_close_24"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp">
-            </ImageView>
-
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_below="@+id/firsttitle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp">
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/locationimage"
-            android:src="@drawable/ic_baseline_location_on_24"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_width="@dimen/_10sdp"
-            android:layout_height="match_parent"
-            ></ImageView>
-        <TextView
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/locationimage"
-            android:id="@+id/addressText"
-            android:text="Vastral, Ahmedabad"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_10sdp"
-            android:fontFamily="@font/inter_regular"
-            android:layout_width="wrap_content"
-            android:textStyle="bold"
-            android:layout_height="wrap_content">
-
-        </TextView>
-        </RelativeLayout>
-    </RelativeLayout>
     <TextView
-        android:visibility="gone"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:visibility="visible"
         android:id="@+id/warning"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/main_linearlayout_title"
-        android:text="You have't selected any plan yet!!"
+        android:layout_below="@+id/frameitemLayoutRelative"
+        android:text=""
         android:textColor="@color/colorRed"
         android:textSize="@dimen/_10sdp"
         android:fontFamily="@font/inter_regular"
@@ -189,29 +191,25 @@
 
     </TextView>
     <Button
-        android:visibility="gone"
-        android:background="@drawable/buttoncornar"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/warning"
-        android:id="@+id/addExpenceBtn"
+        android:layout_centerHorizontal="true"
+
+        android:background="@drawable/buttoncornar"
+        android:id="@+id/selectPlane"
         android:layout_width="@dimen/_110sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_gravity="bottom|center_horizontal"
+        android:layout_height="@dimen/_35sdp"
+
         android:layout_marginTop="@dimen/_20sdp"
-        android:elevation="@dimen/_10sdp"
-        android:gravity="center"
-        android:textColor="@color/colorNavText"
         android:fontFamily="@font/poppins_light"
-        android:paddingTop="@dimen/_5sdp"
-        android:text="SELECT PLANE"
+        android:text="Select Plane"
+        android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="@dimen/_11sdp"
-        app:cornerRadius="@dimen/_15sdp"
-        app:elevation="@dimen/_20sdp" />
+        />
 
     <View
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_below="@+id/frameitemLayoutRelative"
+        android:layout_below="@+id/selectPlane"
          android:background="@color/simmerColor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp">

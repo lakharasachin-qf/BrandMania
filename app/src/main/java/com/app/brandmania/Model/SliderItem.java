@@ -10,6 +10,16 @@ public class SliderItem {
    private String imageTitle;
    private String payTitle;
    private String packageid;
+   private String brandId;
+
+    public String getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
+    }
+
     ArrayList<SlideSubItem> slideSubItems;
 
     public SliderItem() {

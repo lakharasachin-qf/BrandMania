@@ -31,13 +31,16 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
+import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 
 import com.app.brandmania.databinding.ActivityViewBrandBinding;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,12 +54,14 @@ public class ViewBrandActivity extends BaseActivity {
     private static final int REQUEST_CALL = 1;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     PreafManager preafManager;
+    private String is_frame="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
         captureScreenShort();
+
         preafManager=new PreafManager(this);
         binding= DataBindingUtil.setContentView(act,R.layout.activity_view_brand);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -100,8 +105,14 @@ public class ViewBrandActivity extends BaseActivity {
         binding.emptyStateLayout.setVisibility(View.GONE);
     }
     private void GetBrandAddaptor() {
-
         BrandAdapter MenuAddaptor = new BrandAdapter(multiListItems, this);
+        BrandAdapter.BRANDBYIDIF brandbyidif=new BrandAdapter.BRANDBYIDIF() {
+            @Override
+            public void fireBrandList(int position, BrandListItem model) {
+                getBrandById(model);
+            }
+        };
+        MenuAddaptor.setBrandbyidif(brandbyidif);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
         binding.getBrandList.setHasFixedSize(true);
         binding.getBrandList.setLayoutManager(mLayoutManager);
@@ -121,6 +132,8 @@ public class ViewBrandActivity extends BaseActivity {
 
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                    JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
+
                     if (multiListItems != null && multiListItems.size() != 0) {
                         GetBrandAddaptor();
                         binding.shimmerViewContainer.stopShimmer();
@@ -203,8 +216,7 @@ public class ViewBrandActivity extends BaseActivity {
             }
         }
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+    @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
         if (requestCode == REQUEST_CALL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makePhoneCall();
@@ -213,11 +225,99 @@ public class ViewBrandActivity extends BaseActivity {
             }
         }
     }
-
     @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
+    private void getBrandById(BrandListItem model) {
+
+        Utility.Log("API : ", APIs.GET_BRAND_BY_ID);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND_BY_ID, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                binding.swipeContainer.setRefreshing(false);
+                Utility.Log("GET_BRAND_BY_ID : ", response);
+                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    multiListItems = ResponseHandler.HandleGetBrandById(jsonObject);
+                    /*
+   private String priceForPay;
+   private String packageTitle;
+   private String templateTitle;
+   private String imageTitle;
+   private String payTitle;
+   private String packageid;*/
+
+                    SliderItem sliderItem=new SliderItem();
+                    sliderItem.setPriceForPay(multiListItems.get(0).getRate());
+                    sliderItem.setPackageTitle(multiListItems.get(0).getPackagename());
+                    sliderItem.setPackageid(multiListItems.get(0).getPackage_id());
+                    sliderItem.setTemplateTitle(multiListItems.get(0).getNo_of_frame());
+                    sliderItem.setImageTitle(multiListItems.get(0).getNo_of_total_image());
+                    sliderItem.setBrandId(multiListItems.get(0).getId());
+
+                    Gson gson=new Gson();
+Log.e("DATA",gson.toJson(sliderItem));
+
+
+
+                    Intent i = new Intent(act, RazorPayActivity.class);
+
+                    i.putExtra("detailsObj",gson.toJson(sliderItem));
+                    /*i.addCategory(Intent.CATEGORY_HOME);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
+                    startActivity(i);
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        binding.swipeContainer.setRefreshing(false);
+                        error.printStackTrace();
+
+
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("Authorization","Bearer "+preafManager.getUserToken());
+                Log.e("Token",params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("brand_id",model.getId());
+                Log.e("DateNdClass", params.toString());
+                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
     }
 }
