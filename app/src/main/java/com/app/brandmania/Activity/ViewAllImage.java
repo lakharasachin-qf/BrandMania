@@ -2,7 +2,6 @@ package com.app.brandmania.Activity;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -19,6 +18,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -84,10 +84,12 @@ import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -141,8 +143,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private Uri mCropImageUri;
     ImageView imageView;
     TextView selectedForEdit;
-    RelativeLayout selectedForBackgroundChange;
+    View selectedForBackgroundChange;
     int editorFragment;
+
+
+    int FramePrimaryOrSecondary=0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -162,7 +167,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         //showAlertDialogButtonClicked();
         //getBrandList();
         getBrandList();
-      //  Toast.makeText(act,binding.customFrameWebsite.getText().toString(),Toast.LENGTH_LONG).show();
+        //   Toast.makeText(act,binding.customFrameWebsite.getText().toString(),Toast.LENGTH_LONG).show();
 
         Website=preafManager.getActiveBrand().getWebsite();
 
@@ -173,98 +178,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
 
 
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Category")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
-        binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        final EditTabAdapter adapter = new EditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
-        binding.viewPager.setAdapter(adapter);
-        binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
-//        binding.textEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                binding.clorframeLayout.setVisibility(View.VISIBLE);
-//                binding.viewPager.setCurrentItem(3);
-//            }
-//        });
-        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                binding.viewPager.setCurrentItem(tab.getPosition());
-                editorFragment=tab.getPosition();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-        binding.customAddressEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.viewPager.setCurrentItem(3);
-            }
-        });
 
 
-
-        binding.customeContactEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b==true)
-                {
-                    selectedForEdit=binding.customeContactEdit;
-                    binding.viewPager.setCurrentItem(2);
-                    editorFragment=2;
-                }
-            }
-        });
-        binding.customAddressEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b==true)
-                {
-                    selectedForEdit=binding.customAddressEdit;
-                    binding.viewPager.setCurrentItem(2);
-                    editorFragment=2;
-                }
-            }
-        });
-        binding.customFrameWebsite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b==true)
-                {
-                    selectedForEdit=binding.customFrameWebsite;
-                    binding.viewPager.setCurrentItem(2);
-                    editorFragment=2;
-                }
-            }
-        });
-        binding.addressBackgrand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedForBackgroundChange=binding.addressBackgrand;
-                binding.customAddressEdit.clearFocus();
-                binding.customeContactEdit.clearFocus();
-                binding.customFrameWebsite.clearFocus();
-                binding.viewPager.setCurrentItem(1);
-            }
-        });
-        binding.contactBackgrand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedForBackgroundChange=binding.contactBackgrand;
-                binding.customAddressEdit.clearFocus();
-                binding.customeContactEdit.clearFocus();
-                binding.customFrameWebsite.clearFocus();
-                binding.viewPager.setCurrentItem(1);
-            }
-        });
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
                 R.color.colorthird);
@@ -294,14 +209,14 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             public void onClick(View v) {
                 selectedObject.setFrameId(selectedModelFromView.getFrameId());
                 Log.e("FrameIdWithImage",selectedObject.getFrameId());
-              preafManager.AddToMyFavorites(selectedObject);
-              if (binding.fabroutIcon.getVisibility()==View.VISIBLE)
-              {
-                  binding.fabroutIcon.setVisibility(View.GONE);
-                  binding.addfabroutIcon.setVisibility(View.VISIBLE);
-              }
-              Log.e("FAVVV",gson.toJson(preafManager.getSavedFavorites()));
-              dowloadAndShare(ADDFAV);
+                preafManager.AddToMyFavorites(selectedObject);
+                if (binding.fabroutIcon.getVisibility()==View.VISIBLE)
+                {
+                    binding.fabroutIcon.setVisibility(View.GONE);
+                    binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                }
+                Log.e("FAVVV",gson.toJson(preafManager.getSavedFavorites()));
+                dowloadAndShare(ADDFAV);
             }
         });
         binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
@@ -330,8 +245,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                             public void onClick(DialogInterface arg0, int arg1) {
 
                                 requestAgain();
-                               // startSave();
-                               Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
+                                // startSave();
+                                Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
                                 new DownloadImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
                                 dowloadAndShare(DOWLOAD);
                             }
@@ -359,42 +274,149 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         });
         binding.imgEmptyStateFirst.setVisibility(View.VISIBLE);
         fetchAutomaticCustomeFrame();
+
+
         if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty()) {
-                binding.imgEmptyStateFirst.setVisibility(View.GONE);
-                binding.logoCustom.setVisibility(View.VISIBLE);
-                binding.logoCustom.setVisibility(View.VISIBLE);
-                Glide.with(act)
-                        .load(preafManager.getActiveBrand().getLogo())
-                        .into(binding.logoCustom);
-                binding.logoCustom.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onSelectImageClick(view);
-                    }
-                });
-            }
-            else
-            {
-              //  Toast.makeText(act,"jdfhdsjhfkdsjfhdsjkds",Toast.LENGTH_LONG).show();
-                binding.imgEmptyStateFirst.setVisibility(View.VISIBLE);
-                binding.logoCustom.setVisibility(View.GONE);
+            binding.imgEmptyStateFirst.setVisibility(View.GONE);
+            binding.logoCustom.setVisibility(View.VISIBLE);
+            binding.logoCustom.setVisibility(View.VISIBLE);
+            Glide.with(act)
+                    .load(preafManager.getActiveBrand().getLogo())
+                    .into(binding.logoCustom);
+            binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onSelectImageClick(view);
+                }
+            });
+        }
+        else
+        {
+            //  Toast.makeText(act,"jdfhdsjhfkdsjfhdsjkds",Toast.LENGTH_LONG).show();
+            binding.imgEmptyStateFirst.setVisibility(View.VISIBLE);
+            binding.logoCustom.setVisibility(View.GONE);
 
 
-                binding.logoCustom.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onSelectImageClick(view);
-                    }
-                });
-                binding.logoCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onSelectImageClick(view);
-                    }
-                });
-            }
+            binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onSelectImageClick(view);
+                }
+            });
+            binding.logoCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onSelectImageClick(view);
+                }
+            });
+        }
 
     }
+    public void bottomFramgment(){
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Category")));
+
+        if (!is_frame.equalsIgnoreCase("1")) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
+        }
+        binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
+        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        final EditTabAdapter adapter = new EditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+        binding.viewPager.setAdapter(adapter);
+        binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                binding.viewPager.setCurrentItem(tab.getPosition());
+                editorFragment=tab.getPosition();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+        binding.customAddressEdit1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.viewPager.setCurrentItem(3);
+            }
+        });
+
+
+
+        binding.customeContactEdit1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b==true)
+                {
+                    selectedForEdit=binding.customeContactEdit1;
+                    binding.viewPager.setCurrentItem(2);
+                    editorFragment=2;
+                }
+            }
+        });
+        binding.customAddressEdit1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b==true)
+                {
+                    selectedForEdit=binding.customAddressEdit1;
+                    binding.viewPager.setCurrentItem(2);
+                    editorFragment=2;
+                }
+            }
+        });
+        binding.customFrameWebsite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b==true)
+                {
+                    selectedForEdit=binding.customFrameWebsite;
+                    binding.viewPager.setCurrentItem(2);
+                    editorFragment=2;
+                }
+            }
+        });
+        binding.bottomBarView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FramePrimaryOrSecondary=0;
+                selectedForBackgroundChange=binding.bottomBarView1;
+                binding.customAddressEdit1.clearFocus();
+                binding.customeContactEdit1.clearFocus();
+                binding.customFrameWebsite.clearFocus();
+                binding.viewPager.setCurrentItem(1);
+            }
+        });
+        binding.bottomBarView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FramePrimaryOrSecondary=1;
+                selectedForBackgroundChange=binding.bottomBarView2;
+                binding.customAddressEdit1.clearFocus();
+                binding.customeContactEdit1.clearFocus();
+                binding.customFrameWebsite.clearFocus();
+                binding.viewPager.setCurrentItem(1);
+            }
+        });
+        binding.bottomBarView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FramePrimaryOrSecondary=0;
+                selectedForBackgroundChange=binding.bottomBarView1;
+                binding.customAddressEdit1.clearFocus();
+                binding.customeContactEdit1.clearFocus();
+                binding.customFrameWebsite.clearFocus();
+                binding.viewPager.setCurrentItem(1);
+            }
+        });
+    }
+
+    //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
     }
@@ -513,13 +535,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             fileOutputStream.flush();
             fileOutputStream.close();
             Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
-           // startShare(new_file);
+            // startShare(new_file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-       refreshgallery(new_file);
+        refreshgallery(new_file);
     }
     public void startsShare() {
         //Bitmap FrameDrawbable = drawableFromUrl(selectedModelFromView.getFrame1());
@@ -556,15 +578,15 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         } catch (IOException e) {
             e.printStackTrace();
         }
-         refreshgallery(new_file);
+        refreshgallery(new_file);
     }
-
+    //For RefresGalary........................
     public void refreshgallery(File file) {
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));
         sendBroadcast(intent);
     }
-
+    //For CreatFileeDisc For Download Image.........................
     private File getDisc() {
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         return new File(file, "Image Demo");
@@ -579,14 +601,14 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
 
         if (getIntent().hasExtra("viewAll")) {
-                binding.simpleProgressBar.setVisibility(View.GONE);
-                selectedObject = menuModels.get(0);
-                LoadDataToUI();
-            }
-            else
-            {
-                binding.simpleProgressBar.setVisibility(View.VISIBLE);
-            }
+            binding.simpleProgressBar.setVisibility(View.GONE);
+            selectedObject = menuModels.get(0);
+            LoadDataToUI();
+        }
+        else
+        {
+            binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -808,7 +830,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         }
         else{
-           // showAlertDialogButtonClicked();
+            // showAlertDialogButtonClicked();
         }
 
         LoadDataToUI();
@@ -817,24 +839,24 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     public void AlertBoxForSaveFrame() {
         alertDialogBuilder = new AlertDialog.Builder(act);
         alertDialogBuilder.setTitle("Save Frame");
-        alertDialogBuilder.setMessage("Are you sure want to save your Frame?");
+        alertDialogBuilder.setMessage("Do you want to save your template, you will not able to change once save.");
         alertDialogBuilder.setPositiveButton("yes",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         binding.customFrameRelative.setVisibility(View.GONE);
                         binding.FrameImageDuplicate.setVisibility(View.GONE);
-                        if (binding.customeContactEdit.getText().toString().length()==0)
+                        if (binding.customeContactEdit1.getText().toString().length()==0)
                         {
-                            binding.customeContactEdit.setVisibility(View.GONE);
+                            binding.customeContactEdit1.setVisibility(View.GONE);
                         }
                         if (binding.customFrameWebsite.getText().toString().length()==0)
                         {
                             binding.customFrameWebsite.setVisibility(View.GONE);
                         }
-                        if (binding.customAddressEdit.getText().toString().length()==0)
+                        if (binding.customAddressEdit1.getText().toString().length()==0)
                         {
-                            binding.customAddressEdit.setVisibility(View.GONE);
+                            binding.customAddressEdit1.setVisibility(View.GONE);
                         }
                         getBitmapFromView();
 
@@ -877,7 +899,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
                     is_frame= datajsonobjecttt.getString("is_frame");
                     if (is_frame.equals("1")) {
-                       // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
+                        binding.customFrameRelative.setVisibility(View.GONE);
+                        // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
                         frameViewPager();
                         is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
                         packagee=datajsonobjecttt.getString("package");
@@ -928,7 +951,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         }
                         else
                         {
-                           // Toast.makeText(act,"TTTTTTTT",Toast.LENGTH_LONG).show();
+                            // Toast.makeText(act,"TTTTTTTT",Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -956,6 +979,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         });
                     }
 
+                    bottomFramgment();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -992,7 +1016,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("brand_id",preafManager.getActiveBrand().getId());
-                    Utility.Log("POSTED-PARAMS-", params.toString());
+                Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 
@@ -1129,14 +1153,14 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         // add a button
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-                            public void onClick(
-                                    DialogInterface dialog, int which)
-                            {
-                                dialog.dismiss();
-                                onBackPressed();
+            public void onClick(
+                    DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+                onBackPressed();
 
-                            }
-                        });
+            }
+        });
 
         // create and show
         // the alert dialog
@@ -1177,9 +1201,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 binding.logoCustom.setVisibility(View.VISIBLE);
                 binding.imgEmptyStateFirst.setVisibility(View.GONE);
                 ((ImageView) findViewById(R.id.logoCustom)).setImageURI(result.getUri());
-              //  Toast.makeText(this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG).show();
+                //  Toast.makeText(this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG).show();
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-              //  Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+                //  Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -1188,7 +1212,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             // required permissions granted, start crop image activity
             startCropImageActivity(mCropImageUri);
         } else {
-         //   Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+            //   Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
         }
     }
     private void startCropImageActivity(Uri imageUri) {
@@ -1211,7 +1235,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
-                  } catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -1268,13 +1292,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         //Get the view's background
         Drawable bgDrawable =binding.customFrameRelative.getBackground();
         if (bgDrawable!=null) {
-            //has background drawable, then draw it on the canvas
             bgDrawable.draw(canvas);
-            // canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
         }   else{
-            //does not have background drawable, then draw white background on the canvas
-            //     canvas.drawColor(Color.WHITE);
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
         }
@@ -1315,8 +1334,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         refreshgallery(new_file);
 
         addCustomFrame(newFinal);
-       // return the bitmap
-         //return returnedBitmap;
+        // return the bitmap
+        //return returnedBitmap;
     }
     private void addCustomFrame(Bitmap img) {
         if (isLoading)
@@ -1414,45 +1433,21 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (preafManager.getActiveBrand().getWebsite()!=null)
         {
             binding.customFrameWebsite.setText(Website.substring(8));
-            Toast.makeText(act,binding.customFrameWebsite.getText().toString(),Toast.LENGTH_LONG).show();
+            //   Toast.makeText(act,binding.customFrameWebsite.getText().toString(),Toast.LENGTH_LONG).show();
         }
 
         if (preafManager.getActiveBrand().getAddress()!=null)
         {
-          //  Toast.makeText(act,preafManager.getActiveBrand().getPhonenumber(),Toast.LENGTH_LONG).show();
-            binding.customAddressEdit.setText(preafManager.getActiveBrand().getAddress());
+            //  Toast.makeText(act,preafManager.getActiveBrand().getPhonenumber(),Toast.LENGTH_LONG).show();
+            binding.customAddressEdit1.setText(preafManager.getActiveBrand().getEmail());
         }
 
 
         if (preafManager.getActiveBrand().getPhonenumber()!=null)
         {
-          //  Toast.makeText(act,preafManager.getActiveBrand().getPhonenumber(),Toast.LENGTH_LONG).show();
-            binding.customeContactEdit.setText(preafManager.getActiveBrand().getPhonenumber());
+            //  Toast.makeText(act,preafManager.getActiveBrand().getPhonenumber(),Toast.LENGTH_LONG).show();
+            binding.customeContactEdit1.setText(preafManager.getActiveBrand().getPhonenumber());
         }
-//       binding.customeContactEdit.setOnClickListener(new View.OnClickListener() {
-//           @Override
-//           public void onClick(View view) {
-//               selectedForEdit=binding.customeContactEdit;
-//           }
-//       });
-//        binding.customAddressEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                selectedForEdit=binding.customAddressEdit;
-//            }
-//        });
-//        binding.customFrameWebsite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                selectedForEdit=binding.customFrameWebsite;
-//            }
-//        });
-
-
-
-
-
-
 
 
     }
@@ -1554,7 +1549,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
     @Override public void onBoldTextChange(boolean Bold) {
         if (Bold) {
-            Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
             if (selectedForEdit!=null) {
                 selectedForEdit.setTypeface(selectedForEdit.getTypeface(), Typeface.BOLD);
             }
@@ -1569,7 +1564,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
     @Override public void onItalicTextChange(boolean Italic) {
         if (Italic) {
-         //   Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            //   Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
             if (selectedForEdit!=null) {
                 selectedForEdit.setTypeface(selectedForEdit.getTypeface(), Typeface.ITALIC);
             }
@@ -1583,15 +1578,15 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
     @Override public void onUnderLineItalic(boolean Left) {
         if (Left) {
-           // Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
-          //  binding.customAddressEdit.setPaintFlags( binding.customAddressEdit.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            // Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            //  binding.customAddressEdit.setPaintFlags( binding.customAddressEdit.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             if (selectedForEdit!=null) {
                 selectedForEdit.setPaintFlags(selectedForEdit.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             }
         }
         else
         {
-            Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+            // Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
             //  .setTypeface(null, Typeface.NORMAL);
             if (selectedForEdit!=null) {
 
@@ -1602,11 +1597,22 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     @Override public void onColorItemChange(int colorcode) {
 
         if (editorFragment==2 && selectedForEdit!=null) {
-         //   Toast.makeText(act,"llllll",Toast.LENGTH_LONG).show();
             selectedForEdit.setTextColor(colorcode);
         }
 
         if (editorFragment==1 && selectedForBackgroundChange!=null){
+            if (FramePrimaryOrSecondary==0){
+                binding.bottomBarView1.setBackgroundColor(colorcode);
+                binding.bottomBarView3.setBackgroundTintList(ColorStateList.valueOf(colorcode));
+                binding.topBarView2.setBackgroundColor(colorcode);
+                binding.rightBarView1.setBackgroundColor(colorcode);
+                binding.leftBarView2.setBackgroundColor(colorcode);
+            }else {
+                binding.bottomBarView2.setBackgroundColor(colorcode);
+                binding.topBarView1.setBackgroundColor(colorcode);
+                binding.leftBarView1.setBackgroundColor(colorcode);
+                binding.rightBarView2.setBackgroundColor(colorcode);
+            }
             selectedForBackgroundChange.setBackgroundColor(colorcode);
         }
 

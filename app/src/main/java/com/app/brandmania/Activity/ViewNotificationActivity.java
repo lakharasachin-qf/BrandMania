@@ -61,7 +61,7 @@ public class ViewNotificationActivity extends BaseActivity {
 
 
         });
-        Toast.makeText(act, preafManager.getActiveBrand().getId(), Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(act, preafManager.getActiveBrand().getId(), Toast.LENGTH_SHORT).show();
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
                 R.color.colorthird);
