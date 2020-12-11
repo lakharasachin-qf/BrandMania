@@ -48,7 +48,7 @@ import com.app.brandmania.Activity.MainActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Model.FrameItem;
-import com.app.brandmania.databinding.PageLayoutBinding;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -704,29 +704,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     @Override public void onReview(int stars) {
         Log.d(TAG, "Review " + stars);
     }
-    private void showDialogView() {
-       PageLayoutBinding helpDialog = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.page_layout, null, false);
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        builder.setView(helpDialog.getRoot());
 
-
-
-        layouts = new int[]{
-                R.layout.basic_layout,
-                R.layout.standard_layout,
-                R.layout.enterprice_layout};
-        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
-        helpDialog.viewPager.setAdapter(myViewPagerAdapter);
-        helpDialog.indicator.setViewPager(helpDialog.viewPager);
-         helpDialog.indicator.createIndicators(3,0);
-        helpDialog.indicator.animatePageSelected(0);
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
-        dialog.setContentView(helpDialog.getRoot());
-
-        dialog.show();
-
-    }
     public class MyViewPagerAdapter extends PagerAdapter {
 
         MyViewPagerAdapter() {
