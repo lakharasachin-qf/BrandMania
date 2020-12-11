@@ -61,7 +61,7 @@ public class CategoryTab extends FrameTab {
 
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
-        Toast.makeText(getActivity(),imageList.getId(),Toast.LENGTH_LONG).show();
+       // Toast.makeText(getActivity(),imageList.getId(),Toast.LENGTH_LONG).show();
         getImageCtegory();
         preafManager=new PreafManager(getActivity());
         return binding.getRoot();

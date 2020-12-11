@@ -571,9 +571,9 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
 //
 //        AppRate.showRateDialogIfMeetsConditions(act);
 
-        fiveStarsDialog.setRateText("Your custom text")
+        fiveStarsDialog.setRateText("Rate Us")
 
-                .setTitle("Your custom title")
+                .setTitle("How was your experience with us?")
 
                 .setForceMode(false)
 

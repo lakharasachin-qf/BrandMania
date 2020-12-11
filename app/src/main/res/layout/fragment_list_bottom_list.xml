@@ -20,11 +20,7 @@
             android:textColor="@color/alltextcolor"
             android:textSize="@dimen/_12sdp" />
 
-       <TextView
-           android:id="@+id/searchHear"
-           android:layout_width="match_parent"
-           android:text="Search Here"
-           android:layout_height="wrap_content"></TextView>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerList"

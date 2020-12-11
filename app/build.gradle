@@ -125,4 +125,6 @@ dependencies {
                 exclude module:'support-v4'
             }
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.3.7'
+    implementation 'com.github.vihtarb:tooltip:0.1.9'
+
 }

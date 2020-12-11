@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionName="dashboardMenu"
-
+        android:theme="@style/AppTheme_material_theme"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
        >
@@ -43,7 +43,7 @@
                     android:layout_toEndOf="@+id/BackButtonMember"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:fontFamily="@font/inter_semibold"
-                    android:text="My Business"
+                    android:text="Notification"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"></TextView>

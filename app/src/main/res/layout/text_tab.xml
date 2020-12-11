@@ -13,7 +13,8 @@
         </androidx.recyclerview.widget.RecyclerView>
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/_10sdp"
-            android:visibility="visible"
+            android:visibility="gone"
+
             android:layout_below="@+id/imageChoose"
             android:id="@+id/fontRecycler"
             android:layout_width="match_parent"

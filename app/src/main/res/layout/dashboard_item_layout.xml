@@ -22,7 +22,6 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:scrollHorizontally="true"
-            android:gravity="center"
             android:fontFamily="@font/inter_semibold"
             android:text="Gujrati"
             android:layout_width="match_parent"

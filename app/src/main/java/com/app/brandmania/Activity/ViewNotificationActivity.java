@@ -46,6 +46,7 @@ public class ViewNotificationActivity extends BaseActivity {
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
         binding= DataBindingUtil.setContentView(act,R.layout.activity_notification);
