@@ -197,8 +197,7 @@
         android:background="@drawable/buttoncornar"
         android:id="@+id/selectPlane"
         android:layout_width="@dimen/_110sdp"
-        android:layout_height="@dimen/_35sdp"
-
+        android:layout_height="@dimen/_33sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:fontFamily="@font/poppins_light"
         android:text="Select Plane"
@@ -206,11 +205,38 @@
         android:textAllCaps="false"
         android:textSize="@dimen/_11sdp"
         />
+    <Button
+        android:layout_below="@+id/warning"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:background="@drawable/buttoncornar"
+        android:id="@+id/makePayment"
+        android:layout_width="@dimen/_110sdp"
+        android:layout_height="@dimen/_35sdp"
+
+        android:layout_marginTop="@dimen/_20sdp"
+        android:fontFamily="@font/poppins_light"
+        android:text="Payment"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_11sdp"
+        />
 
     <View
+        android:visibility="gone"
+        android:id="@+id/makePaymentView"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_below="@+id/makePayment"
+         android:background="@color/simmerColor"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp">
+
+    </View>
+    <View
+       android:id="@+id/view"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_below="@+id/selectPlane"
-         android:background="@color/simmerColor"
+        android:background="@color/simmerColor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp">
 

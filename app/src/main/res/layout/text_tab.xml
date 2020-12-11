@@ -59,7 +59,7 @@
         </ImageView>
         <ImageView
 
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/NormaTextChoose"
             android:background="@drawable/ic_outline_format_bold_24"
             android:layout_marginLeft="@dimen/_10sdp"
@@ -85,7 +85,7 @@
         </ImageView>
         <ImageView
 
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/NormalItalicTextChoose"
             android:background="@drawable/ic_baseline_format_italic_24"
             android:layout_marginLeft="@dimen/_10sdp"
@@ -116,7 +116,7 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/ic_baseline_format_underlined_24"
-            android:visibility="visible"></ImageView>
+            android:visibility="gone"></ImageView>
 
         </RelativeLayout>
     </RelativeLayout>

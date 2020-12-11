@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -66,11 +67,12 @@ public class OnlyTextColorPickerAddaptor extends RecyclerView.Adapter<OnlyTextCo
             @Override
             public void onClick(View v) {
                 if (colorTab!=null) {
-                    ((ITextColorChangeEvent) colorTab).onColorItemChange(colorPickerColors.get(position));
+
+                    ((ITextColorChangeEvent) context).onColorItemChange(colorPickerColors.get(position));
                 }
                 if (textTab!=null) {
                     ((ITextColorChangeEvent) textTab).onColorItemChange(colorPickerColors.get(position));
-                    ((ITextColorChangeEvent) context).onColorItemChange( colorPickerColors.get(position));
+                   ((ITextColorChangeEvent) context).onColorItemChange( colorPickerColors.get(position));
                 }
 
             }

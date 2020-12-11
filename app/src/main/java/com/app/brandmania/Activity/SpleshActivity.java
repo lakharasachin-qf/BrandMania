@@ -227,6 +227,7 @@ preafManager=new PreafManager(act);
                         brandListItemm.setName(ResponseHandler.getString(jsonObject,"br_name"));
                         brandListItemm.setWebsite(ResponseHandler.getString(jsonObject,"br_website"));
                         brandListItemm.setEmail(ResponseHandler.getString(jsonObject,"br_email"));
+                        brandListItemm.setPhonenumber(ResponseHandler.getString(jsonObject, "br_phone"));
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject,"br_address"));
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject,"br_logo"));
 

@@ -27,10 +27,13 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
    private List<SliderItem> sliderItems;
    private ViewPager2 viewPager2;
     Activity activity;
+    private String brandId;
+
     Gson gson;
-    public SliderAdapter(List<SliderItem> sliderItems, Activity activity) {
+    public SliderAdapter(List<SliderItem> sliderItems, Activity activity, String selectedBrand) {
         this.sliderItems = sliderItems;
         this.activity = activity;
+        brandId=selectedBrand;
         gson=new Gson();
     }
 
@@ -47,7 +50,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                     Intent intent=new Intent(activity, RazorPayActivity.class);
                     intent.putExtra("AmountText", holder.priceForPay.getText().toString());
                     PreafManager preafManager=new PreafManager(activity);
-                    sliderItems.get(position).setBrandId(preafManager.getActiveBrand().getId());
+                    sliderItems.get(position).setBrandId(brandId);
                     intent.putExtra("detailsObj",gson.toJson(sliderItems.get(position)));
                     activity.startActivity(intent);
                     intent.addCategory(Intent.CATEGORY_HOME);

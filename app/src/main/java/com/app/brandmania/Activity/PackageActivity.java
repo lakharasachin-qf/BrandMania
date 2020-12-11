@@ -38,6 +38,7 @@ import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityPackageBinding;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,12 +55,20 @@ public class PackageActivity extends AppCompatActivity {
     PreafManager preafManager;
     private boolean isLoading = false;
     ArrayList<SliderItem>sliderItems=new ArrayList<>();
+    String selectedBrand;
+    Gson gson;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+        gson=new Gson();
         preafManager=new PreafManager(act);
+        if (getIntent().hasExtra("fromBrandList")){
+            selectedBrand=gson.fromJson(getIntent().getStringExtra("detailsObj"),BrandListItem.class).getId();
+        }else{
+            selectedBrand=preafManager.getActiveBrand().getId();
+        }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +83,7 @@ public class PackageActivity extends AppCompatActivity {
     }
     private void GetPackage() {
 
-        binding.viewPagerImageSlider.setAdapter(new SliderAdapter(sliderItems,act));
+        binding.viewPagerImageSlider.setAdapter(new SliderAdapter(sliderItems,act,selectedBrand));
         binding.viewPagerImageSlider.setClipToPadding(false);
         binding.viewPagerImageSlider.setClipChildren(false);
         binding.viewPagerImageSlider.setOffscreenPageLimit(2);

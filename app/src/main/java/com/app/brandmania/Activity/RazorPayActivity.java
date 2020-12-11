@@ -71,11 +71,11 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         gson=new Gson();
 
 
-//        if (getIntent().hasExtra("MyBrand")) {
-//            brandListItem = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
-//        }else{
+
             sliderItemList=gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
-      //  }
+            Gson gson =new Gson();
+            Log.e("EEEE",gson.toJson(sliderItemList));
+
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +83,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             }
         });
         sliderItem = sliderItemList.getPriceForPay();
+
         binding.amount.setText("INR " +sliderItem+".00");
 
         pay=(Button)findViewById(R.id.btn_pay);
@@ -193,7 +194,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             //int amountInPaisa = Integer.parseInt(sliderItem) * 100;
             options.put("amount", String.valueOf(sliderItem));
             options.put("prefill.email", preafManager.getActiveBrand().getEmail());
-            options.put("prefill.contact",preafManager.getActiveBrand().getPhonenumber());
+            options.put("prefill.contact","Enter Mobile Number");
             Log.e("Param : ", options.toString());
             checkout.open(activity, options);
         } catch(Exception e) {

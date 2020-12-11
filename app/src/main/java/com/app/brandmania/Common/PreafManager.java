@@ -149,7 +149,7 @@ public class PreafManager
     }
     public BrandListItem getActiveBrand(){
         Gson gson= new Gson();
-        return  gson.fromJson(pref.getString("activeBrands",null),BrandListItem.class);
+        return  gson.fromJson(pref.getString("activeBrands",""),BrandListItem.class);
     }
     public ArrayList<BrandListItem> getAddBrandList() {
         ArrayList<BrandListItem> brandListItems=new ArrayList<>();

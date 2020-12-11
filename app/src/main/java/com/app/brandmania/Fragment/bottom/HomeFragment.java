@@ -1,6 +1,7 @@
 package com.app.brandmania.Fragment.bottom;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -27,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -148,6 +150,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         super.onResume();
 
     }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
@@ -161,7 +164,12 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         }
         Gson gson=new Gson();
         requestAgain();
-       RateUs();
+
+
+
+        Log.e("PhoneNumber",preafManager.getActiveBrand().getPhonenumber());
+        Log.e("PhoneNumberuyu56",gson.toJson(preafManager.getActiveBrand()));
+        RateUs();
        if (preafManager.getActiveBrand().getPhonenumber()!=null)
            Log.e("phonephone",preafManager.getActiveBrand().getPhonenumber());
        binding.businessName.setText(preafManager.getActiveBrand().getName());
@@ -189,8 +197,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 startAnimation();
                 getFrame();
                 getImageCtegory();
-                // startAnimation();
-                //getNotice(startDate, endDate);
 
             }
         });
@@ -767,25 +773,33 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
                     JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
                     is_frame= datajsonobjecttt.getString("is_frame");
-                    is_package= datajsonobjecttt.getString("package");
+
                     if (is_frame.equals("1")) {
                       //  Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();
                         binding.alertRelative.setVisibility(View.GONE);
                         is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
-                        if (is_payment_pending.equals("1"))
+                        is_package= datajsonobjecttt.getString("package");
+
+                        if(is_package.equals(""))
                         {
                             binding.alertRelative.setVisibility(View.VISIBLE);
-                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
+                            Toast.makeText(act,ResponseHandler.getString(datajsonobjecttt, "package_message"),Toast.LENGTH_LONG).show();
+                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
+                            Log.e("PackagemessageMessage",ResponseHandler.getString(datajsonobjecttt, "package_message"));
 
                         }
-                        else if(is_package.equals(""))
+
+                        else if (is_payment_pending.equals("1"))
                         {
-                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
+                            binding.alertRelative.setVisibility(View.VISIBLE);
+                            Toast.makeText(act,ResponseHandler.getString(datajsonobjecttt, "payment_message"),Toast.LENGTH_LONG).show();
+                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
+                            Log.e("PaymentmessageMessage",ResponseHandler.getString(datajsonobjecttt, "payment_message"));
 
                         }
                         else
                         {
-                            binding.alertRelative.setVisibility(View.GONE);
+
                         }
 
 

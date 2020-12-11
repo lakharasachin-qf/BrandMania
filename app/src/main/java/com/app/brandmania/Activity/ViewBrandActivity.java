@@ -241,16 +241,9 @@ public class ViewBrandActivity extends BaseActivity {
                 Utility.Log("GET_BRAND_BY_ID : ", response);
                 ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
-
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandById(jsonObject);
-                    /*
-   private String priceForPay;
-   private String packageTitle;
-   private String templateTitle;
-   private String imageTitle;
-   private String payTitle;
-   private String packageid;*/
+
 
                     SliderItem sliderItem=new SliderItem();
                     sliderItem.setPriceForPay(multiListItems.get(0).getRate());

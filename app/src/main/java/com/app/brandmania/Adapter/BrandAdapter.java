@@ -275,6 +275,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         ((BrandHolder)holder).binding.warning.setText("View your Current Package");
                         ((BrandHolder)holder).binding.warning.setTextColor(Color.parseColor("#4BB543"));
                         ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
+                        ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
                         ((BrandHolder)holder).binding.warning.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -312,27 +313,58 @@ public class BrandAdapter extends RecyclerView.Adapter {
                                 pbutton.setBackgroundColor(Color.WHITE);
                             }
                         });
-                        if (brandListItems.get(position).getIs_payment_pending().equals("1"))
+
+                         if (brandListItems.get(position).getPackagename().equals(""))
                         {
-                            ((BrandHolder)holder).binding.warning.setText(brandListItems.get(position).getPayment_message());
+                            ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
+                            ((BrandHolder)holder).binding.warning.setText(" You have't selected any plan yet!");
                             ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder)holder).binding.selectPlane.setVisibility(View.VISIBLE);
                             ((BrandHolder)holder).binding.warning.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    brandbyidif.fireBrandList(position,brandListItems.get(position));
-                                   /* Intent i = new Intent(activity, RazorPayActivity.class);
-                                    i.putExtra("MyBrand","1");
+
+                                }
+                            });
+                            ((BrandHolder)holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent i = new Intent(activity, PackageActivity.class);
+                                    i.putExtra("fromBrandList","v");
                                     i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
                                     i.addCategory(Intent.CATEGORY_HOME);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     activity.startActivity(i);
                                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                       */         }
+                                }
+                            });
+                        }
+                        else if (brandListItems.get(position).getIs_payment_pending().equals("1"))
+                        {
+                            ((BrandHolder)holder).binding.makePaymentView.setVisibility(View.VISIBLE);
+                            ((BrandHolder)holder).binding.view.setVisibility(View.GONE);
+                            ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
+                            ((BrandHolder)holder).binding.makePayment.setVisibility(View.VISIBLE);
+                            ((BrandHolder)holder).binding.warning.setText(brandListItems.get(position).getPayment_message());
+                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder)holder).binding.makePayment.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    brandbyidif.fireBrandList(position,brandListItems.get(position));
+                                }
+                            });
+                            ((BrandHolder)holder).binding.warning.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                }
                             });
 
                         }
-                    }else{
-                        Toast.makeText(activity,"ghvhjvhjvhj",Toast.LENGTH_LONG).show();
+
+                    }
+                    else{
+                        ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
 //                        ((BrandHolder)holder).binding.warning.setText(brandListItems.get(position).getFrame_message());
                         ((BrandHolder)holder).binding.warning.setText(" You have't selected any plan yet!");
                         ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
@@ -346,6 +378,12 @@ public class BrandAdapter extends RecyclerView.Adapter {
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     activity.startActivity(i);
                                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                            }
+                        });
+                        ((BrandHolder)holder).binding.warning.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
                             }
                         });
                     }
