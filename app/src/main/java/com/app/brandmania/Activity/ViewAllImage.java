@@ -33,6 +33,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -82,9 +83,15 @@ import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
+import com.skydoves.balloon.ArrowConstraints;
+import com.skydoves.balloon.ArrowOrientation;
+import com.skydoves.balloon.Balloon;
+import com.skydoves.balloon.BalloonAnimation;
+import com.skydoves.balloon.OnBalloonClickListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,6 +111,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
+import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
+import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
@@ -171,18 +183,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         Website=preafManager.getActiveBrand().getWebsite();
 
-
-
-
-
-
-
-
-
-
-        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
-                R.color.colorsecond,
-                R.color.colorthird);
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -312,6 +313,35 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
 
     }
+    private int IntroCounter = 0;
+    public void startIntro(View view, String title, String desc) {
+
+        new GuideView.Builder(this)
+                .setTitle(title)
+                .setContentText(desc)
+                .setGravity(Gravity.center)
+                .setDismissType(DismissType.anywhere)
+                .setTargetView(view)
+                .setContentTextSize(12)
+                .setTitleTextSize(14)
+                .setGuideListener(new GuideListener() {
+                    @Override
+                    public void onDismiss(View view) {
+                        IntroCounter++;
+                        if (IntroCounter == 1) {
+                             startIntro(binding.shareIcon, "Share", "Share Your Image Directly");
+                        }
+                        if (IntroCounter == 2){
+                            startIntro(binding.fabroutIcon, "Save", "Save To Your Brand");
+                        }
+                        if (IntroCounter == 3){
+                            startIntro(binding.viewPager.getChildAt(0), "Catogery", "List of images");
+                        }
+                    }
+                })
+                .build()
+                .show();
+    }
     public void bottomFramgment(){
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Category")));
 
@@ -329,6 +359,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.viewPager.setCurrentItem(tab.getPosition());
                 editorFragment=tab.getPosition();
+                handler(editorFragment);
             }
 
             @Override
@@ -345,9 +376,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 binding.viewPager.setCurrentItem(3);
             }
         });
-
-
-
         binding.customeContactEdit1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -414,8 +442,35 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 binding.viewPager.setCurrentItem(1);
             }
         });
+
+        if (preafManager.getViewAllActivityIntro()) {
+            startIntro(binding.downloadIcon,"Download","Download Image From here");
+        }
     }
 
+    public void handler(int position){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (position==0) {
+                    if (preafManager.getCatogaryTab()) {
+                        preafManager.setCatogaryTab(false);
+                        startIntro(binding.viewPager.getChildAt(0),"Catogary","Image Catogary");
+                    }
+                }else if (position==1){
+                    if (preafManager.getBackgroundTab()) {
+                        preafManager.setBackgroundTab(false);
+                        startIntro(binding.viewPager.getChildAt(0),"Background","Background change");
+                    }
+                }else if (position==2){
+                    if (preafManager.gettextTab()) {
+                        preafManager.setTextTab(false);
+                        startIntro(binding.viewPager.getChildAt(0),"Text","Text Style");
+                    }
+                }
+            }
+        }, 300);
+    }
     //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
@@ -425,9 +480,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
             Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.backgrounImageDuplicate);
-            Glide.with(getApplicationContext())
-                    .load(selectedObject.getFrame())
-                    .into(binding.recoImage);
+            Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
 
             AddFavorite= preafManager.getSavedFavorites();
 

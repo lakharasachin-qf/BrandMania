@@ -10,6 +10,7 @@ import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ImageList;
 
 import java.util.ArrayList;
+import java.util.SplittableRandom;
 
 public class PreafManager
 
@@ -26,6 +27,31 @@ public class PreafManager
     private static final String EMAIL_Id="email_id";
     private static final String MOBILE_NUMBER="MOBILE_NUMBER";
 
+    private static final String ViewAllActivityIntro="viewAllActivityIntro";
+    private static final String catogaryTab="Tab1";
+    private static final String backgroundTab="Tab2";
+    private static final String textTab="Tab3";
+
+    public Boolean getCatogaryTab() {
+        return pref.getBoolean(catogaryTab, true);
+    }
+    public void setCatogaryTab(Boolean parameters) {
+        pref.edit().putBoolean(catogaryTab, parameters).apply();
+    }
+
+    public Boolean getBackgroundTab() {
+        return pref.getBoolean(backgroundTab, true);
+    }
+    public void setBackgroundTab(Boolean parameters) {
+        pref.edit().putBoolean(backgroundTab, parameters).apply();
+    }
+
+    public Boolean gettextTab() {
+        return pref.getBoolean(textTab, true);
+    }
+    public void setTextTab(Boolean parameters) {
+        pref.edit().putBoolean(textTab, parameters).apply();
+    }
 
 
     @SuppressLint("CommitPrefEdits")
@@ -50,6 +76,13 @@ public class PreafManager
     }
     public void setEMAIL_Id(String parameters) {
         pref.edit().putString("email_id", parameters).apply();
+    }
+
+    public Boolean getViewAllActivityIntro() {
+        return pref.getBoolean(ViewAllActivityIntro, true);
+    }
+    public void setViewAllActivityIntro(Boolean parameters) {
+        pref.edit().putBoolean(ViewAllActivityIntro, parameters).apply();
     }
 
     public String getMobileNumber() {

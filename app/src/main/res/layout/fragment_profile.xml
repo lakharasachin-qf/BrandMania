@@ -76,62 +76,68 @@
             android:layout_height="match_parent">
                 <RelativeLayout
                   android:id="@+id/mybusinessRelative"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                         <ImageView
                             android:src="@drawable/ic_portfolio_outline"
-                            android:layout_marginLeft="@dimen/_10sdp"
                             android:id="@+id/myBusinessImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp">
                         </ImageView>
                         <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
                             android:layout_alignParentEnd="true"
+                            android:padding="@dimen/_2sdp"
                             android:src="@drawable/ic_next"
-
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp">
                         </ImageView>
+
                         <TextView
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@android:color/black"
                             android:text="@string/mybusinesse_text"
                             android:layout_toEndOf="@+id/myBusinessImage"
-                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:layout_centerVertical="true"
                             android:textSize="@dimen/_12sdp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
+                            android:layout_height="wrap_content" />
 
                 </RelativeLayout>
                 <View
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
                 <RelativeLayout
                     android:id="@+id/myFaqRelative"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                         <ImageView
                             android:src="@drawable/ic_about"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:id="@+id/myFaqImage"
+                             android:id="@+id/myFaqImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp">
                         </ImageView>
                         <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_alignParentEnd="true"
+                             android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_next"
+                            android:padding="@dimen/_2sdp"
 
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp">
                         </ImageView>
+
                         <TextView
                             android:id="@+id/faqactivity"
                             android:fontFamily="@font/inter_regular"
@@ -142,12 +148,11 @@
                             android:layout_centerVertical="true"
                             android:textSize="@dimen/_12sdp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
+                            android:layout_height="wrap_content" />
 
                 </RelativeLayout>
                 <View
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
@@ -155,7 +160,9 @@
                 <RelativeLayout
                     android:visibility="gone"
                     android:id="@+id/partnerProgRelative"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                         <ImageView
@@ -168,7 +175,9 @@
                         </ImageView>
                         <ImageView
                             android:src="@drawable/ic_hand_shake"
-                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:padding="@dimen/_2sdp"
+
                             android:id="@+id/partnerProgImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp">
@@ -187,8 +196,7 @@
                 </RelativeLayout>
                 <View
                     android:visibility="gone"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
@@ -196,7 +204,9 @@
                 <RelativeLayout
                     android:visibility="gone"
                     android:id="@+id/helpandsupportLayout"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                         <ImageView
@@ -211,8 +221,11 @@
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:id="@+id/helpandsupportImage"
                             android:layout_width="@dimen/_20sdp"
+                            android:padding="@dimen/_2sdp"
+
                             android:layout_height="@dimen/_20sdp">
                         </ImageView>
+
                         <TextView
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@android:color/black"
@@ -222,37 +235,41 @@
                             android:layout_centerVertical="true"
                             android:textSize="@dimen/_12sdp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
+                            android:layout_height="wrap_content" />
 
                 </RelativeLayout>
                 <View
                     android:visibility="gone"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
 
                 <RelativeLayout
                     android:id="@+id/shareText"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                         <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_alignParentEnd="true"
+                             android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_next"
                             android:layout_marginLeft="@dimen/_10sdp"
+                            android:padding="@dimen/_2sdp"
+
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp">
                         </ImageView>
                         <ImageView
                             android:src="@drawable/ic_share"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:id="@+id/shareImage"
+                             android:id="@+id/shareImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp">
                         </ImageView>
+
                         <TextView
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@android:color/black"
@@ -262,12 +279,11 @@
                             android:layout_centerVertical="true"
                             android:textSize="@dimen/_12sdp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
+                            android:layout_height="wrap_content" />
 
                 </RelativeLayout>
                 <View
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
@@ -275,19 +291,23 @@
                 <RelativeLayout
                     android:id="@+id/rateUsLayout"
                     android:visibility="visible"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                         <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
                             android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_next"
+                            android:padding="@dimen/_2sdp"
+
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp">
                         </ImageView>
                         <ImageView
                             android:src="@drawable/ic_report"
-                            android:layout_marginLeft="@dimen/_10sdp"
                             android:id="@+id/rateusImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp">
@@ -306,31 +326,34 @@
                 </RelativeLayout>
                 <View
                     android:visibility="visible"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
                 <RelativeLayout
                     android:id="@+id/aboutUsRelative"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                         <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
                             android:layout_alignParentEnd="true"
+                            android:padding="@dimen/_2sdp"
+
                             android:src="@drawable/ic_next"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_width="@dimen/_15sdp"
+                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp">
                         </ImageView>
                         <ImageView
                             android:src="@drawable/ic_hand_shake"
-                            android:layout_marginLeft="@dimen/_10sdp"
                             android:id="@+id/aboutUsImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp">
                         </ImageView>
+
                         <TextView
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@android:color/black"
@@ -340,58 +363,24 @@
                             android:layout_centerVertical="true"
                             android:textSize="@dimen/_12sdp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
+                            android:layout_height="wrap_content" />
 
                 </RelativeLayout>
-                <View
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/Graycolor"
-                    />
-                <RelativeLayout
-                    android:id="@+id/logoutRelative"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                        <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_alignParentEnd="true"
-                            android:src="@drawable/ic_next"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_15sdp">
-                        </ImageView>
-                        <ImageView
-                            android:src="@drawable/ic_logout"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:id="@+id/logoutImage"
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp">
-                        </ImageView>
-                        <TextView
-                            android:fontFamily="@font/inter_regular"
-                            android:textColor="@android:color/black"
-                            android:text="@string/logout"
-                            android:layout_toEndOf="@+id/logoutImage"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_centerVertical="true"
-                            android:textSize="@dimen/_12sdp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
 
-                </RelativeLayout>
                 <View
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
 
 
                 <RelativeLayout
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
                     android:id="@+id/reportbugsLayout"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -399,16 +388,17 @@
                             android:id="@+id/subscriptionImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:src="@drawable/ic_bug"></ImageView>
+                            android:src="@drawable/ic_bug" />
                         <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
                             android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_next"
                             android:layout_marginLeft="@dimen/_10sdp"
+                            android:padding="@dimen/_2sdp"
+
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp">
                         </ImageView>
+
                         <TextView
                             android:id="@+id/reportAndBug"
                             android:fontFamily="@font/inter_regular"
@@ -419,36 +409,39 @@
                             android:layout_centerVertical="true"
                             android:textSize="@dimen/_12sdp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
+                            android:layout_height="wrap_content" />
 
                 </RelativeLayout>
                 <View
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
 
                 <RelativeLayout
                     android:id="@+id/packageRelative"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                         <ImageView
-                            android:layout_marginRight="@dimen/_10sdp"
                             android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_next"
-                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:padding="@dimen/_2sdp"
+
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp">
                         </ImageView>
                         <ImageView
                             android:src="@drawable/ic_premiumnew"
-                            android:layout_marginLeft="@dimen/_10sdp"
                             android:id="@+id/primeImage"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp">
                         </ImageView>
+
                         <TextView
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@android:color/black"
@@ -458,28 +451,70 @@
                             android:layout_centerVertical="true"
                             android:textSize="@dimen/_12sdp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></TextView>
+                            android:layout_height="wrap_content" />
 
                 </RelativeLayout>
+
                 <View
-                    android:layout_marginTop="@dimen/_10sdp"
+                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/Graycolor"
+                    />
+                <RelativeLayout
+                    android:id="@+id/logoutRelative"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/ic_next"
+                            android:padding="@dimen/_2sdp"
+
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp">
+                        </ImageView>
+                        <ImageView
+                            android:src="@drawable/ic_logout"
+                            android:id="@+id/logoutImage"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp">
+                        </ImageView>
+
+                        <TextView
+                            android:fontFamily="@font/inter_regular"
+                            android:textColor="@android:color/black"
+                            android:text="@string/logout"
+                            android:layout_toEndOf="@+id/logoutImage"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_centerVertical="true"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/Graycolor"
                     />
 
-
-                <TextView
-                    android:fontFamily="@font/inter_regular"
-                   android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/_12sdp"
-                    android:text="App Version 2.0.0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></TextView>
-
         </LinearLayout>
-
+        <TextView
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/inter_regular"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_60sdp"
+            android:textSize="@dimen/_10sdp"
+            android:text="App Version 2.0.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
 </RelativeLayout>

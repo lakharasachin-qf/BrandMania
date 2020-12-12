@@ -267,9 +267,9 @@ preafManager=new PreafManager(act);
                     preafManager.setAddBrandList(brandListItems);
                     preafManager.setIS_Brand(true);
 
-                    if (brandListItems!=null && brandListItems.size()!=0){
+                    /*if (brandListItems!=null && brandListItems.size()!=0){
                         preafManager.setActiveBrand(brandListItems.get(0));
-                    }
+                    }*/
 
 
                     Intent i = new Intent(act, HomeActivity.class);

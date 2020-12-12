@@ -72,29 +72,26 @@ public class ViewBrandActivity extends BaseActivity {
             }
 
         });
+
         binding.addBrandImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),AddBrandMultipleActivity.class);
                 startActivity(intent);
-
             }
         });
+
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
                 R.color.colorthird);
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 startAnimation();
-
                 getBrandList();
-                // startAnimation();
-                //getNotice(startDate, endDate);
-
             }
         });
+
         startAnimation();
         getBrandList();
     }

@@ -157,11 +157,15 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         homeFragment=this;
 
         fiveStarsDialog = new FiveStarsDialog(getActivity(),"brandmania@gmail.com");
-          preafManager=new PreafManager(act);
-        if (preafManager.getAddBrandList()!=null && preafManager.getAddBrandList().size()!=0 &&preafManager.getActiveBrand()==null){
-            preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
-            preafManager=new PreafManager(act);
+        preafManager=new PreafManager(act);
+
+        if (preafManager.getAddBrandList()!=null && preafManager.getAddBrandList().size()!=0){
+            if (preafManager.getActiveBrand()==null){
+                preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
+                preafManager=new PreafManager(act);
+            }
         }
+
         Gson gson=new Gson();
         requestAgain();
 
@@ -175,6 +179,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
        binding.businessName.setText(preafManager.getActiveBrand().getName());
        mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
        binding.alertText.setSelected(true);
+
        binding.showNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -600,35 +605,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     JSONObject jsonObject = new JSONObject(response);
                     binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-//                    JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
-//                    for (int i = 0; i < dataJsonArray.length(); i++) {
-//                        JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
-//                        is_frame= jsonObject1.getString("is_frame");
-//                        if (is_frame.equals("1")) {
-//                            binding.alertText.setVisibility(View.GONE);
-//                            is_payment_pending= jsonObject1.getString("is_payment_pending");
-//                            if (is_payment_pending.equals("1"))
-//                            {
-//                                binding.alertText.setVisibility(View.VISIBLE);
-//                                binding.alertText.setText(ResponseHandler.getString(jsonObject1, "payment_message"));
-//                            }
-//                        }
-//                        else {
-//                            binding.alertText.setText(ResponseHandler.getString(jsonObject1,"frame_message"));
-//                        }
-//
-//                    }
-
-
-
-
-
-
-
-
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

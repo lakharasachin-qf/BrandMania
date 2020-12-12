@@ -503,7 +503,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     preafManager.setAddBrandList(brandListItems);
                     preafManager.setIS_Brand(true);
 
-                    if (brandListItems != null && brandListItems.size() != 0) {
+                    if (brandListItems.size() != 0) {
                         preafManager.setActiveBrand(brandListItems.get(0));
                     }
 

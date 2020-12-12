@@ -267,7 +267,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                                         preafManager.loginStep(is_completed);
                                         if (is_completed.equals("2"))
                                         {
-                                            getBrandList();
+                                            getBrandList(ResponseHandler.getString(jsonArray,"brand_id"));
                                         }
                                     }
                                 });
@@ -299,12 +299,13 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 });
 
     }
-    private void getBrandList() {
+    private void getBrandList(String brand_id) {
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("addbrandresponce", response);
+                int toSetActiveBrand=0;
                 ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
                     JSONObject res = new JSONObject(response);
@@ -314,6 +315,9 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         JSONObject jsonObject = jsonArray1.getJSONObject(i);
                         BrandListItem brandListItemm = new BrandListItem();
                         brandListItemm.setId(ResponseHandler.getString(jsonObject, "id"));
+                        if (brand_id.equals(brandListItemm.getId())){
+                            toSetActiveBrand=i;
+                        }
                         brandListItemm.setCategoryId(ResponseHandler.getString(jsonObject, "br_category_id"));
                         brandListItemm.setCategoryName(ResponseHandler.getString(jsonObject, "br_category_name"));
                         brandListItemm.setName(ResponseHandler.getString(jsonObject, "br_name"));
@@ -322,9 +326,6 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         brandListItemm.setEmail(ResponseHandler.getString(jsonObject, "br_email"));
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
-
-
-
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));
@@ -360,8 +361,8 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                     preafManager.setAddBrandList(brandListItems);
                     preafManager.setIS_Brand(true);
 
-                    if (brandListItems != null && brandListItems.size() != 0) {
-                        preafManager.setActiveBrand(brandListItems.get(0));
+                    if (brandListItems.size() != 0) {
+                        preafManager.setActiveBrand(brandListItems.get(toSetActiveBrand));
                     }
 
 
