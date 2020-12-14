@@ -1377,7 +1377,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             // canvas.compress(Bitmap.CompressFormat.PNG, 90, out);
             fileOutputStream.flush();
             fileOutputStream.close();
-            Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show()  ;
+          //  Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show()  ;
             // startShare(new_file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -1624,7 +1624,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }else {
             if (selectedForEdit!=null) {
 
-                Toast.makeText(act, "false", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(act, "false", Toast.LENGTH_SHORT).show();
                 selectedForEdit.setTypeface(null, Typeface.NORMAL);
             }
         }

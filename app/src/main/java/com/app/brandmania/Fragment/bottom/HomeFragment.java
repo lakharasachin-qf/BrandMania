@@ -737,7 +737,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                         if(is_package.equals(""))
                         {
                             binding.alertRelative.setVisibility(View.VISIBLE);
-                            Toast.makeText(act,ResponseHandler.getString(datajsonobjecttt, "package_message"),Toast.LENGTH_LONG).show();
+                          //  Toast.makeText(act,ResponseHandler.getString(datajsonobjecttt, "package_message"),Toast.LENGTH_LONG).show();
                             binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
                             Log.e("PackagemessageMessage",ResponseHandler.getString(datajsonobjecttt, "package_message"));
 
@@ -746,7 +746,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                         else if (is_payment_pending.equals("1"))
                         {
                             binding.alertRelative.setVisibility(View.VISIBLE);
-                            Toast.makeText(act,ResponseHandler.getString(datajsonobjecttt, "payment_message"),Toast.LENGTH_LONG).show();
+                          //  Toast.makeText(act,ResponseHandler.getString(datajsonobjecttt, "payment_message"),Toast.LENGTH_LONG).show();
                             binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
                             Log.e("PaymentmessageMessage",ResponseHandler.getString(datajsonobjecttt, "payment_message"));
 
