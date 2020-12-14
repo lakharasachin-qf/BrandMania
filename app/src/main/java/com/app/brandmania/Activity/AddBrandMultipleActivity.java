@@ -153,7 +153,21 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             binding.addressEdt.requestFocus();
 
         }
+        if (!binding.emailIdEdt.getText().toString().equals("")) {
+            if (!CodeReUse.isEmailValid(binding.emailIdEdt.getText().toString())) {
+                isError = true;
+                isFocus = true;
+                binding.emailIdEdtLayout.setError(getString(R.string.enter_valid_email_address));
+                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorNavText)));
+                binding.emailIdEdt.requestFocus();
 
+            }
+            else
+            {
+
+            }
+
+        }
         if (!binding.phoneTxt.getText().toString().equals("")) {
             if (binding.phoneTxt.getText().toString().length() < 10) {
                 binding.phoneTxtLayout.setError(getString(R.string.validphoneno_txt));

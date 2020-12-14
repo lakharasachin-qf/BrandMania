@@ -26,8 +26,8 @@
                             android:id="@+id/firsttitle"
                             android:text="@string/yourbusiness_text"
                             android:textColor="@color/colorNavText"
-                            android:textSize="@dimen/_8sdp"
-                            android:fontFamily="@font/inter_regular"
+                            android:textSize="@dimen/_6sdp"
+                            android:fontFamily="@font/montserratregular"
                             android:layout_width="wrap_content"
                             android:textStyle="bold"
                             android:layout_height="wrap_content">
@@ -39,9 +39,9 @@
                             android:id="@+id/businessName"
                             android:text=""
                             android:textColor="@color/colorNavText"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_11sdp"
 
-                            android:fontFamily="@font/inter_extrabold"
+                            android:fontFamily="@font/montserratsemibold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                         </TextView>
@@ -121,7 +121,7 @@
                         </ImageView>
 
                         <TextView
-                            android:fontFamily="@font/inter_regular"
+                            android:fontFamily="@font/montserratmedium"
                             android:textColor="@android:color/black"
                             android:text="@string/mybusinesse_text"
                             android:layout_toEndOf="@+id/myBusinessImage"
@@ -163,7 +163,7 @@
 
                         <TextView
                             android:id="@+id/faqactivity"
-                            android:fontFamily="@font/inter_regular"
+                            android:fontFamily="@font/montserratmedium"
                             android:textColor="@android:color/black"
                             android:text="@string/faq_text"
                             android:layout_toEndOf="@+id/myFaqImage"
@@ -294,7 +294,7 @@
                         </ImageView>
 
                         <TextView
-                            android:fontFamily="@font/inter_regular"
+                            android:fontFamily="@font/montserratmedium"
                             android:textColor="@android:color/black"
                             android:text="@string/shareapp_text"
                             android:layout_toEndOf="@+id/shareImage"
@@ -336,7 +336,7 @@
                             android:layout_height="@dimen/_20sdp">
                         </ImageView>
                         <TextView
-                            android:fontFamily="@font/inter_regular"
+                            android:fontFamily="@font/montserratmedium"
                             android:textColor="@android:color/black"
                             android:text="Rate Us"
                             android:layout_toEndOf="@+id/rateusImage"
@@ -378,7 +378,7 @@
                         </ImageView>
 
                         <TextView
-                            android:fontFamily="@font/inter_regular"
+                            android:fontFamily="@font/montserratmedium"
                             android:textColor="@android:color/black"
                             android:text="About Us"
                             android:layout_toEndOf="@+id/aboutUsImage"
@@ -424,7 +424,7 @@
 
                         <TextView
                             android:id="@+id/reportAndBug"
-                            android:fontFamily="@font/inter_regular"
+                            android:fontFamily="@font/montserratmedium"
                             android:textColor="@android:color/black"
                             android:text="Report Bug"
                             android:layout_toEndOf="@+id/subscriptionImage"
@@ -466,7 +466,7 @@
                         </ImageView>
 
                         <TextView
-                            android:fontFamily="@font/inter_regular"
+                            android:fontFamily="@font/montserratmedium"
                             android:textColor="@android:color/black"
                             android:text="Package"
                             android:layout_toEndOf="@+id/primeImage"
@@ -508,7 +508,7 @@
                         </ImageView>
 
                         <TextView
-                            android:fontFamily="@font/inter_regular"
+                            android:fontFamily="@font/montserratmedium"
                             android:textColor="@android:color/black"
                             android:text="@string/logout"
                             android:layout_toEndOf="@+id/logoutImage"
@@ -528,9 +528,10 @@
 
         </LinearLayout>
         <TextView
+
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/inter_regular"
+            android:fontFamily="@font/montserratregular"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/_60sdp"

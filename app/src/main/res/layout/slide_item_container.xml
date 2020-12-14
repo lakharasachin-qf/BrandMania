@@ -50,7 +50,7 @@
                         android:text="299 Rs"
                         android:layout_centerHorizontal="true"
                         android:textColor="@color/colorNavText"
-                        android:fontFamily="@font/inter_bold" />
+                        android:fontFamily="@font/montserratbold" />
 
               <!--<TextView
                         android:id="@+id/payPerYearTag"
@@ -70,7 +70,7 @@
                     android:layout_below="@+id/basicTitle"
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_25sdp"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/montserratmedium"
                     android:text="1 - Templates / Brand"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_13sdp" />
@@ -93,7 +93,7 @@
                     android:layout_below="@+id/templateLine"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/montserratmedium"
                     android:text="50  Image Download / year"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_13sdp" />
@@ -115,7 +115,7 @@
                     android:layout_below="@+id/ImageLine"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/montserratmedium"
                     android:text="299 / year"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_13sdp" />
@@ -131,6 +131,7 @@
                     />
 
                 <Button
+
                     android:id="@+id/packageBtn"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_32sdp"
@@ -140,7 +141,7 @@
                     android:layout_marginTop="@dimen/_50sdp"
                     android:layout_marginBottom="@dimen/_20sdp"
                     android:background="@drawable/buttoncornar"
-                    android:fontFamily="@font/poppins_medium"
+                    android:fontFamily="@font/montserratsemibold"
                     android:text="Subscribe"
                     android:textAlignment="center"
                     android:textAllCaps="false"
@@ -167,7 +168,7 @@
                     android:id="@+id/symbolPriceForPay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_bold"
+                    android:fontFamily="@font/montserratbold"
                     android:text="₹ "
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp" />
@@ -176,7 +177,7 @@
                     android:id="@+id/priceForPay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_bold"
+                    android:fontFamily="@font/montserratbold"
                     android:text="233"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp">
@@ -188,7 +189,7 @@
                 android:id="@+id/priceForPayTag"
                 android:textColor="@color/colorNavText"
                 android:text="Per Year"
-                android:fontFamily="@font/inter_bold"
+                android:fontFamily="@font/montserratbold"
                 android:layout_marginTop="-7dp"
                 android:textSize="@dimen/_8sdp"
                 android:layout_centerHorizontal="true"

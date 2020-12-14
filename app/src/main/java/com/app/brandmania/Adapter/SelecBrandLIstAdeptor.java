@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Connection.ItemMultipleSelectionInterface;
 import com.app.brandmania.Fragment.bottom.HomeFragment;
 import com.app.brandmania.Model.BrandListItem;
@@ -22,10 +23,10 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
 
     private ArrayList<BrandListItem> arrayList;
     private Activity act;
+    private PreafManager preafManager;
     private int checkedPosition = -1;
     private int calledFlag;
     private HomeFragment selectBrandListBottomFragment;
-
     private HandlerFragmentSelection fragmentSSelection = null;
 
     public void setSelectBrandListBottomFragment(HomeFragment selectBrandListBottomFragment) {
@@ -36,6 +37,7 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
         this.arrayList = arrayList;
         this.act = act;
         this.calledFlag = calledFlag;
+        preafManager=new PreafManager(act);
     }
 
     public void setFragmentSelection(HandlerFragmentSelection fragmentSSelection) {
@@ -53,6 +55,12 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
     @Override
     public void onBindViewHolder(final SelecBrandLIstAdeptor.SelecBrandLIstHolder holder, int position) {
         BrandListItem listModel = arrayList.get(position);
+        if(preafManager.getActiveBrand().getId().equals(listModel.getId()))
+        {
+            holder.radioButton.setChecked(true);
+            checkedPosition = position;
+
+        }
 
         holder.radioButton.setText(convertFirstUpper(listModel.getName()));
 
@@ -62,15 +70,21 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
             holder.radioButton.setChecked(false);
         }
 
+
+
+
+
         holder.radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.itemView.performClick();
+
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 holder.radioButton.setChecked(true);
                 checkedPosition = position;
                 notifyDataSetChanged();

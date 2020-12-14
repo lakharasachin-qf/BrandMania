@@ -25,24 +25,21 @@
             android:layout_height="@dimen/_70sdp">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:padding="@dimen/_7sdp"
-                android:layout_alignParentStart="true"
-                android:id="@+id/BackButtonMember"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/ic_left_arrow" />
-
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/BackButton"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_left_arrow"></ImageView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/BackButtonMember"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:fontFamily="@font/inter_semibold"
+                android:layout_toEndOf="@+id/BackButton"
+                android:fontFamily="@font/montserratsemibold"
                 android:text="Packages"
                 android:textColor="@color/colorNavText"
-                android:textSize="@dimen/_14sdp"
+                android:textSize="@dimen/_13sdp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -67,7 +64,7 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:id="@+id/upgradeTitle"
             android:textColor="@color/colorPrimary"
-            android:fontFamily="@font/inter_bold"
+            android:fontFamily="@font/montserratbold"
             android:textSize="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/primiumImage"
@@ -78,7 +75,7 @@
         <TextView
             android:id="@+id/upgradeContent"
             android:textColor="@color/colorPrimary"
-            android:fontFamily="@font/inter_regular"
+            android:fontFamily="@font/montserratregular"
             android:textSize="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_toEndOf="@+id/primiumImage"

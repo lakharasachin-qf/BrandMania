@@ -17,6 +17,13 @@
         <item name="android:textColorSecondary">@color/colorNavText</item>
 
     </style>
+    <style name="CustomViewAllTab" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">@dimen/_13sdp</item>
+        <item name="android:fontFamily">@font/montserratsemibold</item>
+    </style>
+    <style name="Style_TextView">
+        <item name="fontFamily">@font/montserratsemibold</item>
+    </style>
     <style name="MyAlertDialogStyle_extend" parent="MyAlertDialogStyle">
         <item name="android:textColor">@color/colorPrimaryTransperent</item>
         <item name="android:windowIsFloating">false</item>

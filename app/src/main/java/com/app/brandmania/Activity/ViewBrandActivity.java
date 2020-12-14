@@ -65,7 +65,7 @@ public class ViewBrandActivity extends BaseActivity {
         preafManager=new PreafManager(this);
         binding= DataBindingUtil.setContentView(act,R.layout.activity_view_brand);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
+        binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

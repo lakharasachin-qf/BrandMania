@@ -23,7 +23,6 @@ public class AboutUsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
         BackButton=findViewById(R.id.BackButton);
-
         BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,7 +30,6 @@ public class AboutUsActivity extends BaseActivity {
             }
         });
         webViewhtml = (WebView) findViewById(R.id.webView);
-
         webViewhtml.loadUrl("http://site.queryfinders.com/brandmania/index.html");
         webViewhtml.setWebViewClient(new MyWebViewClient(this));
     }
