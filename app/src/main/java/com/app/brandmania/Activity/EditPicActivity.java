@@ -258,7 +258,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
                     break;
                 }
                 case MotionEvent.ACTION_UP: {
-                    Toast.makeText(getApplicationContext(), "Объект перемещён", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getApplicationContext(), "Объект перемещён", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 case MotionEvent.ACTION_MOVE: {

@@ -199,7 +199,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
                         Utility.dismissProgress();
                         Log.e("Response", response.toString());
                         if (ResponseHandler.isSuccess(null, response)) {
-                          Toast.makeText(act, "T",Toast.LENGTH_LONG).show();
+                       //   Toast.makeText(act, "T",Toast.LENGTH_LONG).show();
 
                             Utility.showAlert(act, ResponseHandler.getString(ResponseHandler.createJsonObject(response.toString()), "message"), "Error");
 

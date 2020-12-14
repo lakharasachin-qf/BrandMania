@@ -99,7 +99,7 @@
         </provider>
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_mrLHhm8YmeJNFA" />
+            android:value="rzp_test_g34adOBwCItfce" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             />

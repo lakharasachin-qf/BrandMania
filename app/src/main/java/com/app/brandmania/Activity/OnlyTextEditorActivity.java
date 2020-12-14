@@ -105,11 +105,11 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
     }
     @Override public void onBoldTextChange(boolean Bold) {
         if (Bold) {
-            Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
             binding.textEdit.setTypeface(  binding.textEdit.getTypeface(), Typeface.BOLD);
 
         }else {
-            Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
             binding.textEdit.setTypeface(null, Typeface.NORMAL);
 
         }
@@ -117,23 +117,23 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
     }
     @Override public void onItalicTextChange(boolean Italic) {
         if (Italic) {
-            Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
             binding.textEdit.setTypeface(  binding.textEdit.getTypeface(), Typeface.ITALIC);
 
         }else {
-            Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
             binding.textEdit.setTypeface(null, Typeface.NORMAL);
 
         }
     }
     @Override public void onUnderLineItalic(boolean Left) {
         if (Left) {
-            Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
             binding.textEdit.setPaintFlags( binding.textEdit.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }
         else
         {
-            Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
           //  .setTypeface(null, Typeface.NORMAL);
             binding.textEdit.setPaintFlags(0);
         }
