@@ -44,7 +44,6 @@ import java.util.Map;
 public class SpleshActivity extends BaseActivity {
     Activity act;
     private ActivityMainBinding binding;
-    final ArrayList<IsCompeteModel> isCompeteModels = new ArrayList<IsCompeteModel>();
     PreafManager preafManager;
     AnimatorSet animatorSet1;
     @Override
@@ -64,7 +63,6 @@ public class SpleshActivity extends BaseActivity {
         animatorSet1 = new AnimatorSet();
         animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
         animatorSet1.setDuration(3000);
-        //animatorSet1.start();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -165,15 +163,9 @@ public class SpleshActivity extends BaseActivity {
     }
     private void sessionCreat() {
 
-preafManager=new PreafManager(act);
+        preafManager=new PreafManager(act);
         if (preafManager.getIs_Registration())
         {
-            /*Intent intent = new Intent(act, AddBranddActivity.class);
-              intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                        finish();*/
             if (preafManager.getIS_Brand())
             {
                 Intent i = new Intent(act, HomeActivity.class);

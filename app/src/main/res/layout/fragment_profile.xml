@@ -22,7 +22,30 @@
                     android:elevation="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_70sdp">
+                          <TextView
+                            android:id="@+id/firsttitle"
+                            android:text="@string/yourbusiness_text"
+                            android:textColor="@color/colorNavText"
+                            android:textSize="@dimen/_8sdp"
+                            android:fontFamily="@font/inter_regular"
+                            android:layout_width="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content">
+
+                        </TextView>
+
                         <TextView
+                            android:layout_below="@+id/firsttitle"
+                            android:id="@+id/businessName"
+                            android:text=""
+                            android:textColor="@color/colorNavText"
+                            android:textSize="@dimen/_13sdp"
+
+                            android:fontFamily="@font/inter_extrabold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                        </TextView>
+                     <!--   <TextView
                             android:layout_toEndOf="@+id/backIcon"
                             android:layout_marginTop="@dimen/_15sdp"
                             android:id="@+id/firsttitle"
@@ -47,7 +70,7 @@
                             android:fontFamily="@font/inter_extrabold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
-                        </TextView>
+                        </TextView>-->
                         <ImageView
                             android:visibility="gone"
                             android:id="@+id/backIcon"

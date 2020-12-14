@@ -117,20 +117,16 @@ public class ViewBrandActivity extends BaseActivity {
 
     }
     private void getBrandList() {
-
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_BRAND : ", response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                    JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
-
                     if (multiListItems != null && multiListItems.size() != 0) {
                         GetBrandAddaptor();
                         binding.shimmerViewContainer.stopShimmer();
@@ -144,10 +140,6 @@ public class ViewBrandActivity extends BaseActivity {
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                     }
-
-
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

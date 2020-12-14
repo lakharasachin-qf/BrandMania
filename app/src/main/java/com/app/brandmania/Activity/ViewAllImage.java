@@ -445,6 +445,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         if (preafManager.getViewAllActivityIntro()) {
             startIntro(binding.downloadIcon,"Download","Download Image From here");
+            preafManager.setViewAllActivityIntro(false);
         }
     }
 
@@ -1483,11 +1484,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
     private void fetchAutomaticCustomeFrame() {
 
-        if (preafManager.getActiveBrand().getWebsite()!=null)
+      /*  if (preafManager.getActiveBrand().getWebsite()!=null && !preafManager.getActiveBrand().getWebsite().isEmpty())
         {
-            binding.customFrameWebsite.setText(Website.substring(8));
-            //   Toast.makeText(act,binding.customFrameWebsite.getText().toString(),Toast.LENGTH_LONG).show();
-        }
+
+            binding.customFrameWebsite.setText(Website.substring(6));
+        }*/
 
         if (preafManager.getActiveBrand().getAddress()!=null)
         {
@@ -1516,13 +1517,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandById(jsonObject);
-                    /*
-   private String priceForPay;
-   private String packageTitle;
-   private String templateTitle;
-   private String imageTitle;
-   private String payTitle;
-   private String packageid;*/
 
                     SliderItem sliderItem=new SliderItem();
                     sliderItem.setPriceForPay(multiListItems.get(0).getRate());
@@ -1540,8 +1534,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     Intent i = new Intent(act, RazorPayActivity.class);
 
                     i.putExtra("detailsObj",gson.toJson(sliderItem));
-                    /*i.addCategory(Intent.CATEGORY_HOME);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
+
                     startActivity(i);
                     overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 

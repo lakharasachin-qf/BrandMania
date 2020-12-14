@@ -299,7 +299,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                             public void run() { binding.ViewPagerView.post(new Runnable(){
                                 @Override
                                 public void run() {
-                                    binding.ViewPagerView.setCurrentItem((binding.ViewPagerView.getCurrentItem()+1)%viewPagerAddeptor.getCount());
+                                    binding.ViewPagerView.setCurrentItem((binding.ViewPagerView.getCurrentItem()+1)%viewPagerAddeptor.getCount(),true);
                                 }
                             }); }
                         };

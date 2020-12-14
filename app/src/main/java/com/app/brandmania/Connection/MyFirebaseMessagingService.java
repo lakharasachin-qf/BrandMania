@@ -60,6 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived( RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.e("remoteMessage", remoteMessage.getData().toString());
+        Log.e("remoteMessage", remoteMessage.getNotification().toString());
 
         // Checking for first time launch - before calling setContentView()
         PreafManager prefManager = new PreafManager(getApplicationContext());
@@ -115,7 +116,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setContentText(msg)
                 .setAutoCancel(false)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setCategory(NotificationCompat.CATEGORY_NAVIGATION)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setSound(defaultSoundUri)
                 .setDeleteIntent(createOnDismissedIntent(this))
