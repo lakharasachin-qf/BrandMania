@@ -127,22 +127,49 @@
                      android:background="#B1B1B1"
                     />
 
-                <Button
+                <TextView
 
-                    android:id="@+id/packageBtn"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_alignParentBottom="true"
+                   android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_gravity="bottom|center_horizontal"
-                     android:layout_marginBottom="@dimen/_30sdp"
+                    android:backgroundTint="@color/colorPrimary"
                     android:background="@drawable/buttoncornar"
-                    android:fontFamily="@font/montserratsemibold"
+                    android:id="@+id/selectPlaneBtn"
+                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_28sdp"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/inter_regular"
                     android:text="Subscribe"
+                    android:textColor="#FFF"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorNavText"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_10sdp"
+                    />
+                <TextView
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:backgroundTint="@color/colorthird"
+                    android:gravity="center"
+                    android:background="@drawable/buttoncornar"
+                    android:id="@+id/subscribePlaneBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_28sdp"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Subscribed"
+                    android:textColor="#FFF"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_10sdp"
+                    />
+
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
         <RelativeLayout

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         Log.e("TTTTT",new Gson().toJson(preafManager.getActiveBrand()));
             if (preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){
                 holder.packageBtn.setVisibility(View.GONE);
+                holder.subcribedBtn.setVisibility(View.VISIBLE);
             }
     }
 
@@ -78,6 +80,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         private TextView imageTitle;
         private TextView payTitle;
         private TextView packageBtn;
+        private TextView subcribedBtn;
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
             priceForPay=itemView.findViewById(R.id.priceForPay);
@@ -85,7 +88,8 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             templateTitle=itemView.findViewById(R.id.templateTiltle);
             imageTitle=itemView.findViewById(R.id.ImageTiltle);
             payTitle=itemView.findViewById(R.id.payTiltle);
-            packageBtn=itemView.findViewById(R.id.packageBtn);
+            packageBtn=itemView.findViewById(R.id.selectPlaneBtn);
+            subcribedBtn=itemView.findViewById(R.id.subscribePlaneBtn);
         }
         void setLayout(SliderItem sliderItem)
         {

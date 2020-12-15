@@ -210,7 +210,6 @@
         android:visibility="gone"
         android:backgroundTint="@color/colorthird"
         android:gravity="center"
-
         android:background="@drawable/buttoncornar"
         android:id="@+id/makePayment"
         android:layout_width="@dimen/_90sdp"
@@ -221,7 +220,6 @@
         android:fontFamily="@font/inter_regular"
         android:text="Payment"
         android:textColor="#FFF"
-
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="@dimen/_10sdp"
