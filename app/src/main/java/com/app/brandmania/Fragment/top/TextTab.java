@@ -58,7 +58,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent {
             @Override
             public void onClick(View v) {
 
-                    binding.fontRecycler.setVisibility(View.VISIBLE);
+                    binding.fontRecycler.setVisibility(View.GONE);
                     binding.textRecycler.setVisibility(View.GONE);
                     binding.cancleClick.setVisibility(View.GONE);
                     binding.imageChoose.setVisibility(View.VISIBLE);
