@@ -12,6 +12,7 @@
     <string name="faq_text">Faq</string>
     <string name="no_brendlist_found">No Brands found</string>
     <string name="no_downloadlist_found">No Download Image found</string>
+    <string name="no_favouritelist_found">No Favourite Image found</string>
     <string name="no_frmaelist_found">No Frame found</string>
     <string name="subscription_text">Subscription</string>
     <string name="submit_text">Submit</string>

@@ -63,17 +63,25 @@
 
     <LinearLayout
         android:id="@+id/emptyStateLayout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone">
+        <ImageView
+            android:layout_gravity="center"
 
+            android:src="@drawable/notification"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp">
+
+        </ImageView>
         <TextView
             android:id="@+id/emptyStateMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:fontFamily="@font/worksans_medium"
+            android:fontFamily="@font/montserratregular"
             android:text="@string/no_downloadlist_found"
             android:textSize="@dimen/_10sdp" />
     </LinearLayout>
