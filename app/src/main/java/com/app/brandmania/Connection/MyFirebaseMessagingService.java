@@ -79,9 +79,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void shownotification(String title, String msg, String message) {
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -90,24 +88,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mChannel.enableLights(true);
             mChannel.setLightColor(Color.RED);
             mChannel.enableVibration(true);
-            //mChannel.setSound(soundUri, audioAttributes);
             mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             mNotificationManager.createNotificationChannel(mChannel);
         }
         String copiedMessage = message;
-        Intent intent = new Intent(this, HomeActivity.class);;
+        Intent intent = new Intent(this, HomeActivity.class);
         if (copiedMessage.equalsIgnoreCase("addBrand")) {
             intent = new Intent(this, ViewBrandActivity.class);
-
         } else if (copiedMessage.equalsIgnoreCase("addFrame")) {
             intent = new Intent(this, ViewBrandActivity.class);
         }
         else {
-        intent = new Intent(this, HomeActivity.class);
+            intent = new Intent(this, HomeActivity.class);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CodeReUse.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_icon)
@@ -131,16 +127,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         notificationManager.notify(0, notificationBuilder.build());
-
     }
+
     private PendingIntent createOnDismissedIntent(Context context) {
         Intent intent = new Intent(context, NotificationDismissedReceiver.class);
         intent.putExtra("notificationId", 108);
-        PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(this,
-                        108, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,108, intent, 0);
         return pendingIntent;
     }
 

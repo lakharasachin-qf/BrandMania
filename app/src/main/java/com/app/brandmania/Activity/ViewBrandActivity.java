@@ -70,7 +70,6 @@ public class ViewBrandActivity extends BaseActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
-
         });
 
         binding.addBrandImage.setOnClickListener(new View.OnClickListener() {
