@@ -53,7 +53,7 @@
         <ImageView
             android:layout_marginStart="-100dp"
             android:layout_alignParentBottom="true"
-
+            android:id="@+id/logoBackImage"
             android:src="@drawable/bottom"
             android:layout_width="@dimen/_300sdp"
             android:layout_height="@dimen/_300sdp">
@@ -119,8 +119,8 @@
                         android:layout_gravity="center"
 
                         android:src="@drawable/notification"
-                        android:layout_width="@dimen/_200sdp"
-                        android:layout_height="@dimen/_200sdp">
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_150sdp">
 
                     </ImageView>
 

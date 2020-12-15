@@ -117,6 +117,7 @@ public class ViewNotificationActivity extends BaseActivity {
                     }
                     if (multiListItems == null || multiListItems.size() == 0) {
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
+                        binding.logoBackImage.setVisibility(View.GONE);
                         binding.noticeListRecycler.setVisibility(View.GONE);
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -141,6 +142,7 @@ public class ViewNotificationActivity extends BaseActivity {
 
                         binding.swipeContainer.setRefreshing(false);
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
+                        binding.logoBackImage.setVisibility(View.GONE);
                         binding.noticeListRecycler.setVisibility(View.GONE);
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);

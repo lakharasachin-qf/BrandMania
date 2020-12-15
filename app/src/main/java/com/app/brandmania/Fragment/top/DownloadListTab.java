@@ -1,6 +1,7 @@
 package com.app.brandmania.Fragment.top;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -245,6 +246,7 @@ public class DownloadListTab extends Fragment {
 
         Utility.Log("API : ", APIs.GET_DOWNLOADLIST_ITEM);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_DOWNLOADLIST_ITEM , new Response.Listener<String>() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
@@ -263,6 +265,7 @@ public class DownloadListTab extends Fragment {
                         binding.emptyStateLayout.setVisibility(View.GONE);
                     }   if (menuModels == null || menuModels.size() == 0) {
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
+
                         binding.DownloadRecycler.setVisibility(View.GONE);
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
