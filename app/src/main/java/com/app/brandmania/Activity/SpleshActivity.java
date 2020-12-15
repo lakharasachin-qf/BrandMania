@@ -222,7 +222,7 @@ public class SpleshActivity extends BaseActivity {
                         brandListItemm.setPhonenumber(ResponseHandler.getString(jsonObject, "br_phone"));
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject,"br_address"));
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject,"br_logo"));
-
+                        brandListItemm.setPackage_id(ResponseHandler.getString(jsonObject, "package_id"));
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));

@@ -485,7 +485,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         brandListItemm.setEmail(ResponseHandler.getString(jsonObject, "br_email"));
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
-
+                        brandListItemm.setPackage_id(ResponseHandler.getString(jsonObject, "package_id"));
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));
@@ -506,7 +506,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         for (int j = 0; j < jsonArray.length(); j++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(j);
                             FrameItem frameItem = new FrameItem();
-                            frameItem.setFrame1(ResponseHandler.getString(jsonObject, "fream_base_url") + "/" + ResponseHandler.getString(jsonObject1, "frame_path"));
+                            frameItem.setFrame1(ResponseHandler.getString(jsonObject1, "frame_path"));
                             frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
 
                             frameItems.add(frameItem);

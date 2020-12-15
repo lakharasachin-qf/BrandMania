@@ -2,6 +2,7 @@ package com.app.brandmania.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +29,14 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
    private ViewPager2 viewPager2;
     Activity activity;
     private String brandId;
-
+    PreafManager preafManager;
     Gson gson;
     public SliderAdapter(List<SliderItem> sliderItems, Activity activity, String selectedBrand) {
         this.sliderItems = sliderItems;
         this.activity = activity;
         brandId=selectedBrand;
         gson=new Gson();
+        preafManager=new PreafManager(activity);
     }
 
     @Override
@@ -58,6 +60,10 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 }
             });
+        Log.e("TTTTT",new Gson().toJson(preafManager.getActiveBrand()));
+            if (preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){
+                holder.packageBtn.setVisibility(View.GONE);
+            }
     }
 
     @Override public int getItemCount() {

@@ -599,12 +599,23 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             public void onResponse(String response) {
 
                 Utility.Log("GET_BRAND : ", response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
                     binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+
+                    //FirstLogin
+                    if (act.getIntent().hasExtra("FirstLogin")){
+
+                        preafManager.setAddBrandList(multiListItems);
+                        preafManager.setIS_Brand(true);
+
+                        if (multiListItems.size() != 0) {
+                            preafManager.setActiveBrand(multiListItems.get(0));
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

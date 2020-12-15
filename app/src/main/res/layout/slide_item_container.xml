@@ -7,10 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <RelativeLayout
-        android:layout_marginBottom="@dimen/_30sdp"
-        android:layout_width="wrap_content"
+         android:layout_width="wrap_content"
         android:layout_height="@dimen/_350sdp">
         <androidx.cardview.widget.CardView
             android:layout_marginRight="@dimen/_5sdp"
@@ -21,10 +19,9 @@
             android:elevation="@dimen/_200sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_350sdp">
+            android:layout_height="match_parent">
             <ImageView
                 android:layout_marginStart="-90dp"
-                android:layout_marginBottom="-50dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/bottom"
                 android:layout_width="@dimen/_250sdp"
@@ -138,8 +135,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginTop="@dimen/_50sdp"
-                    android:layout_marginBottom="@dimen/_20sdp"
+                     android:layout_marginBottom="@dimen/_30sdp"
                     android:background="@drawable/buttoncornar"
                     android:fontFamily="@font/montserratsemibold"
                     android:text="Subscribe"

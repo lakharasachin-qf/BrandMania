@@ -141,6 +141,7 @@ public class ResponseHandler {
                         examModel.setIs_payment_pending(getString(dataJsonObject, "is_payment_pending"));
                         examModel.setPayment_message(getString(dataJsonObject, "payment_message"));
                         examModel.setPackagename(getString(dataJsonObject, "package"));
+                        examModel.setPackage_id(getString(dataJsonObject, "package_id"));
                         examModel.setPackagemessage(getString(dataJsonObject, "package_message"));
                         examModel.setNo_of_total_image(getString(dataJsonObject, "no_of_img"));
                         examModel.setNo_of_used_image(getString(dataJsonObject, "no_of_used_img"));

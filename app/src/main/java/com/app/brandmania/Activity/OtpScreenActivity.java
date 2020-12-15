@@ -50,7 +50,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class OtpScreenActivity extends BaseActivity {
+public class OtpScreenActivity extends BaseActivity implements  alertListenerCallback{
     Activity act;
     PreafManager preafManager;
     private ActivityOtpScreenBinding binding;
@@ -193,6 +193,7 @@ public class OtpScreenActivity extends BaseActivity {
 
 
                             Intent i = new Intent(act, HomeActivity.class);
+                            i.putExtra("FirstLogin","1");
                             i.addCategory(Intent.CATEGORY_HOME);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
@@ -282,15 +283,14 @@ public class OtpScreenActivity extends BaseActivity {
                 isLoading = false;
                 Utility.dismissProgress();
                 Utility.Log("Response: ", response);
-              //  Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
-              //  preafManager.setMobileNumber(binding.mobileNumber.getText().toString());
+
                 preafManager.loginStep("2");
                 if (ResponseHandler.isSuccess(response, null)) {
                     binding.CouterText.setVisibility(View.VISIBLE);
                     counter();
                 } else {
                     JSONObject responseJson = ResponseHandler.createJsonObject(response);
-
+                    Utility.showAlert(act,ResponseHandler.getString(responseJson,"message"));
                 }
             }
         }, new Response.ErrorListener() {
@@ -358,5 +358,15 @@ public class OtpScreenActivity extends BaseActivity {
         int second = (int) (mTimeLeftInMills / 1000) % 60;
         String timeLeftFormeted = String.format(Locale.getDefault(), "%02d:%02d", minutes, second);
         binding.CouterText.setText(timeLeftFormeted);
+    }
+
+    @Override
+    public void alertListenerClick() {
+        Intent intent=new Intent(act, LoginActivity.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        finish();
     }
 }

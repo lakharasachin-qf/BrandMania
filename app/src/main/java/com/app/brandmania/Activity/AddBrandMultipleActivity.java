@@ -341,6 +341,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
+                        brandListItemm.setPackage_id(ResponseHandler.getString(jsonObject, "package_id"));
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));
                         brandListItemm.setIs_payment_pending(ResponseHandler.getString(jsonObject, "is_payment_pending"));
@@ -361,7 +362,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         for (int j = 0; j < jsonArray.length(); j++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(j);
                             FrameItem frameItem = new FrameItem();
-                            frameItem.setFrame1(ResponseHandler.getString(jsonObject, "fream_base_url") + "/" + ResponseHandler.getString(jsonObject1, "frame_path"));
+                            frameItem.setFrame1(ResponseHandler.getString(jsonObject1, "frame_path"));
                             frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
 
                             frameItems.add(frameItem);
