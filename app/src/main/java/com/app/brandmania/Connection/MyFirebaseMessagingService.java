@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
@@ -24,6 +25,10 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -60,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived( RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.e("remoteMessage", remoteMessage.getData().toString());
-        Log.e("remoteMessage", remoteMessage.getNotification().toString());
+
 
         // Checking for first time launch - before calling setContentView()
         PreafManager prefManager = new PreafManager(getApplicationContext());
@@ -70,14 +75,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Utility.Log("Notification", remoteMessage.getData().get("title") + "-" + remoteMessage.getData().get("msg") + "-" + remoteMessage.getData().get("flag"));
 
         //Utility.Log("Notification", remoteMessage.getNotification().getTitle() + "- " + remoteMessage.getNotification().getBody()+"-"+remoteMessage.getNotification().);
-        shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"));
+
+        shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"),remoteMessage.getData().get("image"));
         //shownotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         //  }
 
     }
 
 
-    private void shownotification(String title, String msg, String message) {
+    private void shownotification(String title, String msg, String message,String url) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager mNotificationManager =
@@ -118,6 +124,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDeleteIntent(createOnDismissedIntent(this))
                 .setContentIntent(pendingIntent);
 
+        if (!url.isEmpty()) {
+            Bitmap bitmap = getBitmapfromUrl(url);
+            notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)).setLargeIcon(bitmap);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setSmallIcon(R.drawable.ic_launcher_icon);
@@ -136,7 +146,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,108, intent, 0);
         return pendingIntent;
     }
+    public Bitmap getBitmapfromUrl(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            return BitmapFactory.decodeStream(input);
 
+        } catch (Exception e) {
+            Log.e("awesome", "Error in getting notification image: " + e.getLocalizedMessage());
+            return null;
+        }
+    }
 }
 
 

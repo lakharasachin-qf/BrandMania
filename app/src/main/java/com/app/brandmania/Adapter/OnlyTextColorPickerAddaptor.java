@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.app.brandmania.Fragment.top.TextTab;
 import com.app.brandmania.Interface.ITextColorChangeEvent;
 import com.app.brandmania.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,7 +142,9 @@ public class OnlyTextColorPickerAddaptor extends RecyclerView.Adapter<OnlyTextCo
         colorPickerColors.add(ContextCompat.getColor(context, R.color.colorNavText));
         colorPickerColors.add(ContextCompat.getColor(context, R.color.yellow_color_picker));
         colorPickerColors.add(ContextCompat.getColor(context, R.color.yellow_green_color_picker));
+
         return colorPickerColors;
+
     }
 
 

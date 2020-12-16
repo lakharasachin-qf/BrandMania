@@ -70,11 +70,10 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         preafManager=new PreafManager(this);
         gson=new Gson();
 
+        sliderItemList=gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
+        Gson gson =new Gson();
+        Log.e("EEEE",gson.toJson(sliderItemList));
 
-
-            sliderItemList=gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
-            Gson gson =new Gson();
-            Log.e("EEEE",gson.toJson(sliderItemList));
 
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,9 +117,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                     currency = ResponseHandler.getString(jsonObject, "currency");
                     setUpPaymentMethod();
                 } else {
-                   // Toast.makeText(act, "", Toast.LENGTH_SHORT).show();
                     Toast.makeText(act,""+ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"),Toast.LENGTH_LONG).show();
-                  //  Utility.showAlert(act, ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"), "Error");
                 }
             }
         }, new Response.ErrorListener() {
