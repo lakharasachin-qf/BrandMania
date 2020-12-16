@@ -1,18 +1,22 @@
 package com.app.brandmania.Utils;
 
+import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.app.brandmania.Interface.iVerifyOTP;
 import com.app.brandmania.R;
 
 public class GenericTextWatcher implements TextWatcher {
 
     private final EditText[] editText;
     private View view;
-    public GenericTextWatcher(View view, EditText editText[])
+    private Activity act;
+    public GenericTextWatcher(Activity act,View view, EditText editText[])
     {
+        this.act=act;
         this.editText = editText;
         this.view = view;
     }
@@ -42,6 +46,8 @@ public class GenericTextWatcher implements TextWatcher {
             case R.id.otpFour:
                 if (text.length() == 0)
                     editText[2].requestFocus();
+                if (text.length()==1)
+                    ((iVerifyOTP)act).onVerification();
                 break;
         }
     }

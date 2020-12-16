@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Interface.iVerifyOTP;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -50,7 +51,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class OtpScreenActivity extends BaseActivity implements  alertListenerCallback{
+public class OtpScreenActivity extends BaseActivity implements  alertListenerCallback, iVerifyOTP {
     Activity act;
     PreafManager preafManager;
     private ActivityOtpScreenBinding binding;
@@ -252,24 +253,12 @@ public class OtpScreenActivity extends BaseActivity implements  alertListenerCal
         EditText[] edit = {binding.otpOne, binding.otpTwo, binding.otpThree, binding.otpFour};
         String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
 
-        binding.otpOne.addTextChangedListener(new GenericTextWatcher(binding.otpOne, edit));
-        binding.otpTwo.addTextChangedListener(new GenericTextWatcher( binding.otpTwo, edit));
-        binding.otpThree.addTextChangedListener(new GenericTextWatcher(binding.otpThree, edit));
-        binding.otpFour.addTextChangedListener(new GenericTextWatcher(binding.otpFour, edit) );
+        binding.otpOne.addTextChangedListener(new GenericTextWatcher(act,binding.otpOne, edit));
+        binding.otpTwo.addTextChangedListener(new GenericTextWatcher(act,binding.otpTwo, edit));
+        binding.otpThree.addTextChangedListener(new GenericTextWatcher(act,binding.otpThree, edit));
+        binding.otpFour.addTextChangedListener(new GenericTextWatcher(act,binding.otpFour, edit));
 
 
-//                binding.otpFour.setOnKeyListener(new View.OnKeyListener() {
-//
-//                    @Override
-//                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                        // TODO Auto-generated method stub
-//                        if (binding.otpFour.getText().length() == 1)
-//                            VerificationOtp(OtpString.trim(), NumberShow);
-//                        return false;
-//
-//                    }
-//
-//                });
     }
     private void InsertRecord() {
         if (isLoading)
@@ -368,5 +357,11 @@ public class OtpScreenActivity extends BaseActivity implements  alertListenerCal
         startActivity(intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         finish();
+    }
+
+    @Override
+    public void onVerification() {
+        String OtpString= binding.otpOne.getText().toString()+binding.otpTwo.getText().toString()+binding.otpThree.getText().toString()+binding.otpFour.getText().toString();
+        VerificationOtp(OtpString.trim(), NumberShow);
     }
 }

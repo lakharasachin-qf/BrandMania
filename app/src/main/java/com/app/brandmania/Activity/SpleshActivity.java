@@ -107,8 +107,11 @@ public class SpleshActivity extends BaseActivity {
                     {
                         preafManager.setIs_Registration(true);
                         preafManager.setIS_Brand(true);
-                        getBrandList();
-
+                    //    getBrandList();
+                        Intent i = new Intent(act, HomeActivity.class);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+                        finish();
                     }
 
 
@@ -121,12 +124,8 @@ public class SpleshActivity extends BaseActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         error.printStackTrace();
                         String body;
-
-
-
                     }
                 }
         ) {
