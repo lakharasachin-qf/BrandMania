@@ -68,6 +68,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
     private Uri mCropImageUri;
     private ScaleGestureDetector scaleGestureDetector;
     private float mScaleFactor = 1.0f;
+    MotionEvent onClickTimeHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,14 +95,17 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
             public boolean onTouch(View v, MotionEvent event) {
                 Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
                 int color = bmp.getPixel((int) event.getX(), (int) event.getY());
+                onClickTimeHelper=event;
                 if (color == Color.TRANSPARENT) {
                     binding.recoframe.setVisibility(View.VISIBLE);
 
-                    onSelectImageClick();
+
                     if (binding.recoframe.getTag().toString().equals("1"))
                     {
                         binding.recoframe.setOnTouchListener(onTouchListener());
                         binding.recoImageee.setEnabled(false);
+                    }else{
+                        onSelectImageClick();
                     }
                     //Toast.makeText(act, "Yes TransPerent", Toast.LENGTH_SHORT).show();
                     return false;
@@ -183,9 +187,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        Toast.makeText(act,
-                                "I'm here!", Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(act,"I'm here!", Toast.LENGTH_SHORT).show();
                         break;
 
                     case MotionEvent.ACTION_MOVE:
