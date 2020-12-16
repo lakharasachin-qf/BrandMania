@@ -103,7 +103,7 @@
 
                         />
                     <ImageView
-                        android:src="@drawable/framee"
+
                         android:scaleType="fitXY"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/recoframe"

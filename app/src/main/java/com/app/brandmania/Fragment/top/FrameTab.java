@@ -27,30 +27,30 @@ public class FrameTab extends Fragment {
                              Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater,R.layout.frame_tab,container,false);
-        FrameList();
+       // FrameList();
         return binding.getRoot();
     }
-    public void FrameList() {
-
-        ArrayList<MultiListItem> menuModels = new ArrayList<>();
-        MultiListItem model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.framee);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.framee);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.framee);
-        menuModels.add(model);
-
-        MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
-        binding.frameRecycler.setLayoutManager(new GridLayoutManager(getActivity(),4));
-        binding.frameRecycler.setHasFixedSize(true);
-        binding.frameRecycler.setAdapter(menuAddaptor);
-    }
+//    public void FrameList() {
+//
+//        ArrayList<MultiListItem> menuModels = new ArrayList<>();
+//        MultiListItem model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
+//        model.setImage(R.drawable.framee);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
+//        model.setImage(R.drawable.framee);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
+//        model.setImage(R.drawable.framee);
+//        menuModels.add(model);
+//
+//        MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
+//        binding.frameRecycler.setLayoutManager(new GridLayoutManager(getActivity(),4));
+//        binding.frameRecycler.setHasFixedSize(true);
+//        binding.frameRecycler.setAdapter(menuAddaptor);
+//    }
 }

@@ -26,93 +26,93 @@ public class TextureTab extends Fragment {
                              Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater,R.layout.textuber_tab,container,false);
-        TextuberList();
+       // TextuberList();
         return binding.getRoot();
     }
-    public void TextuberList() {
-
-        ArrayList<MultiListItem> menuModels = new ArrayList<>();
-        MultiListItem model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.textureblack);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.textureblackblue);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturechocolate);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturegray);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturered);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturesky);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturewhite);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturewood);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturewoodd);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.textureyello);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.bluevignet);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.textureyello);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturewoodd);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturesky);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturegray);
-        menuModels.add(model);
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturered);
-        menuModels.add(model);
-        MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
-        binding.colorRecycler.setLayoutManager(new GridLayoutManager(getActivity(),5));
-        binding.colorRecycler.setHasFixedSize(true);
-        binding.colorRecycler.setAdapter(menuAddaptor);
-    }
+//    public void TextuberList() {
+//
+//        ArrayList<MultiListItem> menuModels = new ArrayList<>();
+//        MultiListItem model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.textureblack);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.textureblackblue);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturechocolate);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturegray);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturered);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturesky);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturewhite);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturewood);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturewoodd);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.textureyello);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.bluevignet);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.textureyello);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturewoodd);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturesky);
+//        menuModels.add(model);
+//
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturegray);
+//        menuModels.add(model);
+//        model = new MultiListItem();
+//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
+//        model.setImage(R.drawable.texturered);
+//        menuModels.add(model);
+//        MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
+//        binding.colorRecycler.setLayoutManager(new GridLayoutManager(getActivity(),5));
+//        binding.colorRecycler.setHasFixedSize(true);
+//        binding.colorRecycler.setAdapter(menuAddaptor);
+//    }
 }
