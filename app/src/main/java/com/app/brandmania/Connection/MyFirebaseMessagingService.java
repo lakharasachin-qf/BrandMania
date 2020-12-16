@@ -117,8 +117,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setContentText(msg)
-                .setAutoCancel(false)
-                .setCategory(NotificationCompat.CATEGORY_NAVIGATION)
+                .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setSound(defaultSoundUri)
                 .setDeleteIntent(createOnDismissedIntent(this))
@@ -142,7 +142,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private PendingIntent createOnDismissedIntent(Context context) {
         Intent intent = new Intent(context, NotificationDismissedReceiver.class);
-        intent.putExtra("notificationId", 108);
+        intent.putExtra("notificationId", 0);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,108, intent, 0);
         return pendingIntent;
     }
