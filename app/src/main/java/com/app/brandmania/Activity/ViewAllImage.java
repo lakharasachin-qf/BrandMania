@@ -337,6 +337,21 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         if (IntroCounter == 3){
                             startIntro(binding.viewPager.getChildAt(0), "Catogery", "List of images");
                         }
+                        if (IntroCounter == 4){
+                            startIntro(binding.logoCard, "Logo", "Change Your Logo");
+                        }
+                        if (IntroCounter == 5){
+                            startIntro(binding.customAddressEdit1, "AddressText", "Change Your Address Text color");
+                        }
+                        if (IntroCounter == 6){
+                            startIntro(binding.customeContactEdit1, "ContactText", "Change Your Contact Text color");
+                        }
+                        if (IntroCounter == 7){
+                            startIntro(binding.bottomBarView1, "Address Background", "Change Your Address Background color");
+                        }
+                        if (IntroCounter == 8){
+                            startIntro(binding.bottomBarView2, "Contac Background", "Change Your Contact Background color");
+                        }
                     }
                 })
                 .build()
@@ -359,7 +374,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.viewPager.setCurrentItem(tab.getPosition());
                 editorFragment=tab.getPosition();
-                handler(editorFragment);
+              //  handler(editorFragment);
             }
 
             @Override
