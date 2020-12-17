@@ -62,6 +62,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                 }
             });
         Log.e("TTTTT",new Gson().toJson(preafManager.getActiveBrand()));
+
             if (preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){
                 holder.packageBtn.setVisibility(View.GONE);
                 holder.subcribedBtn.setVisibility(View.VISIBLE);

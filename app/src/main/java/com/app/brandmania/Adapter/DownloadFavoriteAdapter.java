@@ -137,20 +137,20 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
                     Glide.with(context)
                             .load(downloadFavoriteItemLists.get(position).getFrame())
                             .into(((DownloadHolder) holder).binding.downloadlistFrame);
-                ((DownloadHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                            Intent i = new Intent(context, VIewAllDownloadImage.class);
-                            i.putExtra("detailsObj", gson.toJson(model));
-                            context.startActivity(i);
-                            i.addCategory(Intent.CATEGORY_HOME);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
-                        //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    }
-                });
+//                ((DownloadHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                            Intent i = new Intent(context, VIewAllDownloadImage.class);
+//                            i.putExtra("detailsObj", gson.toJson(model));
+//                            context.startActivity(i);
+//                            i.addCategory(Intent.CATEGORY_HOME);
+//                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//
+//                        //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//                    }
+//                });
 
 
 
@@ -189,20 +189,32 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
                             Glide.with(context)
                                     .load(downloadFavoriteItemLists.get(position).getFrame())
                                     .into(((DownloadHolder) holder).binding.downloadlistFrame);
-                            ((DownloadHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
 
-                                    Intent i = new Intent(context, ViewAllFavouritActivity.class);
-                                    i.putExtra("detailsObjj", gson.toJson(model));
-                                    context.startActivity(i);
-                                    i.addCategory(Intent.CATEGORY_HOME);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ((DownloadHolder) holder).binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onShareImageClick.onShareClick(model,position);
+                                // activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                            }
+                        });
 
 
-                                    //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                                }
-                            });
+
+
+//                            ((DownloadHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//
+//                                    Intent i = new Intent(context, ViewAllFavouritActivity.class);
+//                                    i.putExtra("detailsObjj", gson.toJson(model));
+//                                    context.startActivity(i);
+//                                    i.addCategory(Intent.CATEGORY_HOME);
+//                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//
+//                                    //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//                                }
+//                            });
                             break;
                         case LAYOUT_FAVOURITGRID:
                             Glide.with(context)

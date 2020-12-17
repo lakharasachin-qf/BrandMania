@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         });
 
         getDeviceToken(act);
-        AddUserActivity();
+       // AddUserActivity();
 
         binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -460,48 +460,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    private void AddUserActivity() {
-        Utility.Log("Verify-Responce-Api", APIs.ADD_BRAND);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_BRAND, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("ADD_BRAND", response);
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                error.printStackTrace();
-            }
-        }) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Accept", "application/json");
-                params.put("Authorization","Bearer"+preafManager.getUserToken());
-                return params;
-
-            }
-
-
-            @Override
-            protected Map<String, String> getParams() {
-                HashMap<String, String> hashMap = new HashMap<>();
-                Utility.Log("Verify-Param", hashMap.toString());
-                return hashMap;
-            }
-        };
-
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
     //Back Event.........................
     public void onBackPressed() {
         CodeReUse.activityBackPress(act);

@@ -15,10 +15,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -34,6 +36,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -523,7 +526,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             preafManager.setViewAllActivityIntro(false);
         }
     }
-
     public void handler(int position){
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -604,12 +606,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
     }
     public void startShare(File new_file) {
-        Intent shareIntent =   new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("image/png");
-        Uri screenshotUri = Uri.parse(new_file.getPath());
-        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+
+        Uri uri= Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), BitmapFactory.decodeFile(new_file.getPath()),null,null));
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/*");
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(share, "Share Image"));
 
     }
     private void startAnimation() {
@@ -1737,7 +1739,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
 
     }
-
     @Override public void onFontChangeListenert(String Font) {
         Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
         if (selectedForEdit!=null) {
