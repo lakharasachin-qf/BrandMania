@@ -1,40 +1,29 @@
 package com.app.brandmania.Fragment.bottom;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -44,47 +33,28 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
-import com.app.brandmania.Activity.LoginActivity;
-import com.app.brandmania.Activity.MainActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
-import com.app.brandmania.Activity.alertListenerCallback;
-import com.app.brandmania.Adapter.BrandAdapter;
-import com.app.brandmania.Model.FrameItem;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.gson.Gson;
 import com.app.brandmania.Adapter.DasboardAddaptor;
 import com.app.brandmania.Adapter.ImageCateItemeInterFace;
-import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Adapter.ViewPagerAdapter;
+import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.ItemMultipleSelectionInterface;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.DashBoardItem;
+import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
-import com.app.brandmania.Adapter.ViewPagerAdapter;
-import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.databinding.FragmentHomeBinding;
-import com.viewpagerindicator.CirclePageIndicator;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -97,11 +67,8 @@ import java.util.TimerTask;
 import angtrim.com.fivestarslibrary.FiveStarsDialog;
 import angtrim.com.fivestarslibrary.NegativeReviewListener;
 import angtrim.com.fivestarslibrary.ReviewListener;
-import hotchemi.android.rate.AppRate;
-import me.relex.circleindicator.CircleIndicator3;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
-import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
 public class HomeFragment extends Fragment  implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
     public static int BUSINESS_TYPE = 1;
@@ -150,90 +117,47 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     public void onResume() {
         preafManager=new PreafManager(act);
         super.onResume();
-
     }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
         homeFragment=this;
+        fiveStarsDialog = new FiveStarsDialog(getActivity(), "brandmania@gmail.com");
+        preafManager = new PreafManager(act);
 
-        fiveStarsDialog = new FiveStarsDialog(getActivity(),"brandmania@gmail.com");
-        preafManager=new PreafManager(act);
-
-        if (preafManager.getAddBrandList()!=null && preafManager.getAddBrandList().size()!=0){
-            if (preafManager.getActiveBrand()==null){
+        if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
+            if (preafManager.getActiveBrand() == null) {
                 preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
-                preafManager=new PreafManager(act);
+                preafManager = new PreafManager(act);
             }
         }
 
-        Gson gson=new Gson();
-        /* Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE*/
-         requestAgain();
-
-     /*   if (ActivityCompat.checkSelfPermission(act, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(act, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED  ||
-                ActivityCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(act, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED ) {
-                ActivityCompat.requestPermissions(act,new String[]{
-                                Manifest.permission.READ_CONTACTS,
-                                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.CAMERA,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                        },
-                        CodeReUse.ASK_PERMISSSION);
-
-            requestAgain();
-        } else {
-
-        }*/
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(act,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ActivityCompat.requestPermissions(act,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    CodeReUse.ASK_PERMISSSION);
+        requestAgain();
+        /*if (ActivityCompat.shouldShowRequestPermissionRationale(act, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            // ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CodeReUse.ASK_PERMISSSION);
 
         } else {
-             new AlertDialog.Builder(act)
-                    .setMessage("You have denied permission")
-                    .setCancelable(true)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            isPermissionGranted(false);
-                        }
-                    })
-                    .show();
+            new AlertDialog.Builder(act).setMessage("You have denied permission").setCancelable(true).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    isPermissionGranted(false);
+                }
+            }).show();
         }
+*/
 
-
-
-
-        Log.e("PhoneNumber",preafManager.getActiveBrand().getPhonenumber());
-        Log.e("PhoneNumberuyu56",gson.toJson(preafManager.getActiveBrand()));
         RateUs();
-       if (preafManager.getActiveBrand().getPhonenumber()!=null)
-           Log.e("phonephone",preafManager.getActiveBrand().getPhonenumber());
-       binding.businessName.setText(preafManager.getActiveBrand().getName());
-       mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
-       binding.alertText.setSelected(true);
 
-       binding.showNotification.setOnClickListener(new View.OnClickListener() {
+
+        binding.businessName.setText(preafManager.getActiveBrand().getName());
+        mTitleContainer = act.findViewById(R.id.main_linearlayout_title);
+        binding.alertText.setSelected(true);
+
+        binding.showNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(act, ViewNotificationActivity.class);
+                Intent intent = new Intent(act, ViewNotificationActivity.class);
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.right_enter, R.anim.left_out);
             }

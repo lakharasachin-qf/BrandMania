@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SpleshActivity extends BaseActivity {
+public class SpleshActivity extends BaseActivity implements alertListenerCallback {
     Activity act;
     private ActivityMainBinding binding;
     PreafManager preafManager;
@@ -90,9 +90,8 @@ public class SpleshActivity extends BaseActivity {
             public void onResponse(String response) {
                 Utility.Log("IS_COMPLETE : ", response);
                 try {
-
                     JSONObject jsonObject=new JSONObject(response);
-                    if (ResponseHandler.isSuccess("",jsonObject)) {
+                    if (ResponseHandler.getBool(jsonObject,"status")) {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         if (jsonObject1.getString("is_completed").equals("0")) {
                             preafManager.setIs_Registration(false);
@@ -323,4 +322,14 @@ public class SpleshActivity extends BaseActivity {
         queue.add(stringRequest);
     }
 
+    @Override
+    public void alertListenerClick() {
+        preafManager.Logout();
+        Intent intent = new Intent(act, LoginActivity.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        finish();
+    }
 }

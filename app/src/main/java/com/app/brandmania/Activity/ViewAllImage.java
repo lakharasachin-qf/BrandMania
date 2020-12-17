@@ -248,7 +248,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
                                 requestAgain();
                                 // startSave();
-                                checkPermisionForDontAskAgain();
+                                //checkPermisionForDontAskAgain();
                                 Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
                                 new DownloadImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
                                 dowloadAndShare(DOWLOAD);
@@ -272,7 +272,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 requestAgain();
                 Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
                 new ShareImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
-                checkPermisionForDontAskAgain();
+                //checkPermisionForDontAskAgain();
                 dowloadAndShare(DOWLOAD);
             }
         });

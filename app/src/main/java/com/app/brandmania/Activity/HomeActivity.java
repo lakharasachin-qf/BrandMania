@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -73,9 +74,6 @@ import java.util.Timer;
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    private ViewPager ViewPagerView;
-    Timer timer;
-    private Menu mMenuItem;
     VersionListIItem versionListIItem;
     PreafManager preafManager;
     private AppUpdateManager appUpdateManager;
@@ -88,65 +86,49 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
-
         act=this;
         getUpadte();
         checkForUpdates();
-
         loadFragment(new HomeFragment());
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
-
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
-
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 fragment = new HomeFragment();
-               // mMenuItem.getItem(0).setIcon(R.drawable.ic_homee);
-             //   menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_home));
-
-
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
             case R.id.navigation_custom:
                 fragment = new CustomFragment();
-
-
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
 
             case R.id.navigation_download:
                 fragment = new DownloadsFragment();
-
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
             case R.id.navigation_profile:
                 fragment = new ProfileFragment();
-
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
         }
-
         return loadFragment(fragment);
     }
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
             return true;
         }
         return false;
