@@ -92,8 +92,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
     }
 
     @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
 
             case LAYOUT_BRANDLIST :
@@ -112,11 +111,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
         return null;
 
     }
-
-
-
-    @Override
-    public int getItemViewType(int position) {
+    @Override public int getItemViewType(int position) {
         if (position == brandListItems.size() - 1 && isLoadingAdded)
             return LAYOUT_LOADING;
         switch (brandListItems.get(position).getLayoutType()) {
@@ -131,15 +126,11 @@ public class BrandAdapter extends RecyclerView.Adapter {
         }
 
     }
-
-    @Override
-    public int getItemCount() {
+    @Override public int getItemCount() {
         return brandListItems.size();
     }
-
     @SuppressLint("ResourceAsColor")
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final BrandListItem model = brandListItems.get(position);
         if (model != null) {
             switch (model.getLayoutType()) {
@@ -392,7 +383,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                          break;
                 case LAYOUT_NOTIFICATIONlIST:
                     ((NotificationHolder) holder).binding.messgae.setText(model.getMessage());
-                    Log.e("CurrentBrand",model.getId());
+           //         Log.e("CurrentBrand",model.getId());
                     ((NotificationHolder) holder).binding.date.setText(model.getDate());
                     ((NotificationHolder) holder).binding.time.setText(model.getTime());
             }
@@ -401,7 +392,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
 
     }
-
     static class BrandHolder extends RecyclerView.ViewHolder {
         ItemLayoutGetbrandlistBinding binding;
 
@@ -432,9 +422,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
             }
         }
     }
-
-
-
     private void DeletAssigement(final String BrandId) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.DELETE_BRAND, new Response.Listener<String>() {
             @Override

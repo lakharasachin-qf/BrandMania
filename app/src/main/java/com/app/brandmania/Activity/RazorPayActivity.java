@@ -153,18 +153,15 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
-                //hashMap.put("amount", sliderItemList.getPriceForPay());
-               hashMap.put("amount", "1");
+                hashMap.put("amount", sliderItemList.getPriceForPay());
+               //hashMap.put("amount", "1");
                 hashMap.put("currency", "INR");
 
                 Utility.Log("Param", hashMap.toString());
                 return hashMap;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         stringRequest.setShouldCache(false);
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.getCache().clear();
