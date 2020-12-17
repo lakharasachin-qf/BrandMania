@@ -198,7 +198,7 @@
         android:paddingEnd="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:fontFamily="@font/inter_regular"
-        android:text="Select Plane"
+        android:text="Select Plan"
         android:textColor="#FFF"
         android:textAlignment="center"
         android:textAllCaps="false"

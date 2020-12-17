@@ -1,6 +1,7 @@
 package com.app.brandmania.Utils;
 
 public class APIs {
+
     public static final String URL = "http://queryfinders.com/brandmania_uat/public/api/";
     //public static final String URL = "http://queryfinders.com/Brand360/public/api/";
 

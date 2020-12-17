@@ -329,6 +329,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             ((BrandHolder)holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    Log.e("BrandIDIDIDIDIDI",preafManager.getActiveBrand().getId());
                                     Intent i = new Intent(activity, PackageActivity.class);
                                     i.putExtra("fromBrandList","v");
                                     i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
