@@ -61,8 +61,8 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 }
             });
-        Log.e("TTTTT",new Gson().toJson(preafManager.getActiveBrand()));
-            if (preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){
+
+            if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){
                 holder.packageBtn.setVisibility(View.GONE);
                 holder.subcribedBtn.setVisibility(View.VISIBLE);
             }

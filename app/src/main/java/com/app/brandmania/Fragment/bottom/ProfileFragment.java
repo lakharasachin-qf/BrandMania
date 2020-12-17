@@ -113,6 +113,7 @@ public class ProfileFragment extends Fragment  {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(act, PackageActivity.class);
+                intent.putExtra("Profile","1");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
