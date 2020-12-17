@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Activity.CustomViewAllActivity;
 import com.google.gson.Gson;
 import com.app.brandmania.Activity.EditPicActivity;
 import com.app.brandmania.R;
@@ -84,15 +85,15 @@ public class MenuAddaptor extends RecyclerView.Adapter{
                         ((HomeHolder) holder).binding.image.setImageResource(model.getImage());
 
 
-                        if (EditPicActivity.VIEW_RECOMDATION==0) {
+                        if (CustomViewAllActivity.VIEW_RECOMDATION==0) {
                             ((HomeHolder) holder).binding.image.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
 
 
-                                    Intent i = new Intent(activity, EditPicActivity.class);
+                                    Intent i = new Intent(activity, CustomViewAllActivity.class);
 
-                                    i.putExtra("flag", EditPicActivity.VIEW_RECOMDATION);
+                                    i.putExtra("flag", CustomViewAllActivity.VIEW_RECOMDATION);
                                     i.putExtra("detailsObj", gson.toJson(model));
                                     activity.startActivity(i);
                                     activity.overridePendingTransition(R.anim.right_enter, R.anim.left_out);

@@ -29,7 +29,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".Activity.RazorPayActivity"></activity>
+        <activity android:name=".Activity.CustomViewAllActivity"></activity>
+        <activity android:name=".Activity.RazorPayActivity" />
         <activity android:name=".Activity.ViewNotificationActivity" />
         <activity android:name=".Activity.PackageActivity" />
         <activity android:name=".Activity.ViewAllFavouritActivity" />
@@ -56,8 +57,7 @@
         <activity
             android:name=".Activity.LoginActivity"
             android:theme="@style/AppTheme_material_theme" />
-        <activity android:name=".Activity.ViewAllImage"
-                        />
+        <activity android:name=".Activity.ViewAllImage" />
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.SpleshActivity">
             <intent-filter>
@@ -97,12 +97,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_Sq3SAdZBt9Vec4" />
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            />
+
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
     </application>
 
 </manifest>

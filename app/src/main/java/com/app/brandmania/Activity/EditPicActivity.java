@@ -52,7 +52,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
     Activity act;
     int windowwidth;
     int windowheight;
-    ImageView imageView;
+
     private ViewGroup.LayoutParams layoutParams;
     private ActivityEditPic2Binding binding;
     Timer timer;
@@ -75,12 +75,39 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
 
         act = this;
         binding= DataBindingUtil.setContentView(act, R.layout.activity_edit_pic2);
-        imageView = new ImageView(EditPicActivity.this);
+        //imageView = new ImageView(EditPicActivity.this);
         mainLayout = (RelativeLayout) findViewById(R.id.main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson = new Gson();
         windowwidth = getWindowManager().getDefaultDisplay().getWidth();
         windowheight = getWindowManager().getDefaultDisplay().getHeight();
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Recommendation();
 //        binding.recoImageee.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.firstframe));
 //        binding.recoImageee.setDrawingCacheEnabled(true);
@@ -257,6 +284,21 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMultiTouchEnabled(true)
                 .start(this);
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        scaleGestureDetector.onTouchEvent(motionEvent);
+        return true;
+    }
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+            mScaleFactor *= scaleGestureDetector.getScaleFactor();
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
+            binding.recoframe.setScaleX(mScaleFactor);
+            binding.recoframe.setScaleY(mScaleFactor);
+            return true;
+        }
     }
 
 }
