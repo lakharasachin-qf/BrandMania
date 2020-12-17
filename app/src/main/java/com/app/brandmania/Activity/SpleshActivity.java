@@ -92,28 +92,28 @@ public class SpleshActivity extends BaseActivity {
                 try {
 
                     JSONObject jsonObject=new JSONObject(response);
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                    if (jsonObject1.getString("is_completed").equals("0"))
-                    {
-                        preafManager.setIs_Registration(false);
-                        sessionCreat();
+                    if (ResponseHandler.isSuccess("",jsonObject)) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        if (jsonObject1.getString("is_completed").equals("0")) {
+                            preafManager.setIs_Registration(false);
+                            sessionCreat();
+                        }
+                        if (jsonObject1.getString("is_completed").equals("1")) {
+                            preafManager.setIS_Brand(false);
+                            sessionCreat();
+                        }
+                        if (jsonObject1.getString("is_completed").equals("2")) {
+                            preafManager.setIs_Registration(true);
+                            preafManager.setIS_Brand(true);
+                            //    getBrandList();
+                            Intent i = new Intent(act, HomeActivity.class);
+                            startActivity(i);
+                            overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+                            finish();
+                        }
+                    }else {
+                        Utility.showAlert(act,ResponseHandler.getString(jsonObject,"message"));
                     }
-                    if (jsonObject1.getString("is_completed").equals("1"))
-                    {
-                        preafManager.setIS_Brand(false);
-                        sessionCreat();
-                    }
-                    if (jsonObject1.getString("is_completed").equals("2"))
-                    {
-                        preafManager.setIs_Registration(true);
-                        preafManager.setIS_Brand(true);
-                    //    getBrandList();
-                        Intent i = new Intent(act, HomeActivity.class);
-                        startActivity(i);
-                        overridePendingTransition(R.anim.right_enter, R.anim.left_out);
-                        finish();
-                    }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

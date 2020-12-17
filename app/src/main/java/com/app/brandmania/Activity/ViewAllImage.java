@@ -217,6 +217,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     binding.addfabroutIcon.setVisibility(View.VISIBLE);
                 }
                 Log.e("FAVVV",gson.toJson(preafManager.getSavedFavorites()));
+
                 dowloadAndShare(ADDFAV);
             }
         });
@@ -247,6 +248,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
                                 requestAgain();
                                 // startSave();
+                                checkPermisionForDontAskAgain();
                                 Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
                                 new DownloadImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
                                 dowloadAndShare(DOWLOAD);
@@ -270,6 +272,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 requestAgain();
                 Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
                 new ShareImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
+                checkPermisionForDontAskAgain();
                 dowloadAndShare(DOWLOAD);
             }
         });
@@ -312,6 +315,63 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             });
         }
 
+    }
+
+    public void checkPermisionForDontAskAgain(){
+        AlertDialog.Builder alertDialog;
+        AlertDialog dialog = null;
+        if (ActivityCompat.shouldShowRequestPermissionRationale(act,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(act,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    CodeReUse.ASK_PERMISSSION);
+
+        } else {
+            alertDialog=new AlertDialog.Builder(act)
+                    .setMessage("Click ok to allow permission from settings")
+                    .setCancelable(true)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+
+                            isPermissionGranted(false);
+                        }
+                    });
+            dialog=alertDialog.create();
+            dialog.show();
+        }
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(act,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(act,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    CodeReUse.ASK_PERMISSSION);
+
+        } else {
+        if (dialog!=null && !dialog.isShowing()) {
+            alertDialog = new AlertDialog.Builder(act)
+                    .setMessage("You have denied permission")
+                    .setCancelable(true)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            isPermissionGranted(false);
+                        }
+                    });
+
+            dialog = alertDialog.create();
+            dialog.show();
+        }
+        }
+
+    }
+    public void isPermissionGranted(boolean permission) {
+        if (!permission) {
+            startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", act.getPackageName(), null)));
+        }
     }
     private int IntroCounter = 0;
     public void startIntro(View view, String title, String desc) {

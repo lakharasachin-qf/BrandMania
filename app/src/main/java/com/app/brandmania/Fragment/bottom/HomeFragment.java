@@ -3,8 +3,10 @@ package com.app.brandmania.Fragment.bottom;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -23,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -46,6 +47,7 @@ import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.LoginActivity;
 import com.app.brandmania.Activity.MainActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
+import com.app.brandmania.Activity.alertListenerCallback;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Model.FrameItem;
 
@@ -167,7 +169,55 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         }
 
         Gson gson=new Gson();
-        requestAgain();
+        /* Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE*/
+         requestAgain();
+
+     /*   if (ActivityCompat.checkSelfPermission(act, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(act, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED  ||
+                ActivityCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(act, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(act,new String[]{
+                                Manifest.permission.READ_CONTACTS,
+                                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                        },
+                        CodeReUse.ASK_PERMISSSION);
+
+            requestAgain();
+        } else {
+
+        }*/
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(act,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(act,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    CodeReUse.ASK_PERMISSSION);
+
+        } else {
+             new AlertDialog.Builder(act)
+                    .setMessage("You have denied permission")
+                    .setCancelable(true)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            isPermissionGranted(false);
+                        }
+                    })
+                    .show();
+        }
+
 
 
 
@@ -205,7 +255,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
 
             }
         });
-
 
         getDeviceToken(act);
         AddUserActivity();
@@ -247,6 +296,12 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         return binding.getRoot();
 
 
+    }
+    public void isPermissionGranted(boolean permission) {
+        if (!permission) {
+            startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", act.getPackageName(), null)));
+        }
     }
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
@@ -691,6 +746,8 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     @Override public void onReview(int stars) {
         Log.d(TAG, "Review " + stars);
     }
+
+
 
     public class MyViewPagerAdapter extends PagerAdapter {
 
