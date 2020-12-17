@@ -593,7 +593,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Log.e("Print--",selectedModelFromView.getFrameId()+"s");
 
                 if (!AddFavorite.get(i).getId().equals(selectedObject.getId()) || !AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedModelFromView.getFrameId())) {
-
                     binding.addfabroutIcon.setVisibility(View.GONE);
                     binding.fabroutIcon.setVisibility(View.VISIBLE);
                 } else {
