@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.R;
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,8 +35,9 @@ public class ImageFromGalaryAddpater extends RecyclerView.Adapter<ImageFromGalar
 
         ImageFromGalaryModel s=spacecrafts.get(position);
 
-
         Glide.with(c).load(s.getUri()).placeholder(R.drawable.placeholder).into(holder.image);
+
+
 
     }
 

@@ -1,9 +1,12 @@
 package com.app.brandmania.Fragment.top;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.FrameTabBinding;
 import com.app.brandmania.databinding.ImageTabBinding;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,31 +41,39 @@ public class ImageTab extends Fragment {
 
         private ArrayList<ImageFromGalaryModel> getData()
         {
-            ArrayList<ImageFromGalaryModel> spacecrafts=new ArrayList<>();
-            //TARGET FOLDER
-            File downloadsFolder= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+            ArrayList<ImageFromGalaryModel> spacecrafts = new ArrayList<>();
 
-            ImageFromGalaryModel s;
+            Uri uri;
+            Cursor cursor;
+            int column_index_data, column_index_folder_name;
+            ArrayList<String> listOfAllImages = new ArrayList<String>();
+            String absolutePathOfImage = null;
+            uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-            if(downloadsFolder.exists())
-            {
-                //GET ALL FILES IN DOWNLOAD FOLDER
-                File[] files=downloadsFolder.listFiles();
+            String[] projection = {MediaStore.MediaColumns.DATA,
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
 
-                //LOOP THRU THOSE FILES GETTING NAME AND URI
-                for (int i=0;i<files.length;i++)
-                {
-                    File file=files[i];
+            cursor = act.getContentResolver().query(uri, projection, null,
+                    null, null);
 
-                    s=new ImageFromGalaryModel();
-                    s.setName(file.getName());
-                    s.setUri(Uri.fromFile(file));
+            column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            column_index_folder_name = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+            while (cursor.moveToNext()) {
+                absolutePathOfImage = cursor.getString(column_index_data);
 
-                    spacecrafts.add(s);
-                }
+                listOfAllImages.add(absolutePathOfImage);
             }
 
+            Log.e("sachin-", new Gson().toJson(listOfAllImages));
 
+            for (int i = 0; i < listOfAllImages.size(); i++) {
+                File file = new File(listOfAllImages.get(i));
+                ImageFromGalaryModel s = new ImageFromGalaryModel();
+                s.setName(file.getName());
+                s.setUri(Uri.fromFile(file));
+                spacecrafts.add(s);
+            }
             return spacecrafts;
         }
 

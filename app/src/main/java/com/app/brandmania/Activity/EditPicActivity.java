@@ -69,6 +69,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
     private ScaleGestureDetector scaleGestureDetector;
     private float mScaleFactor = 1.0f;
     MotionEvent onClickTimeHelper;
+    boolean isFirstTouchOnImage=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,8 +110,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
 
 
         Recommendation();
-//        binding.recoImageee.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.firstframe));
-//        binding.recoImageee.setDrawingCacheEnabled(true);
+
         binding.recoframe.setTag("0");
 
 
@@ -125,8 +125,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
                 onClickTimeHelper=event;
                 if (color == Color.TRANSPARENT) {
                     binding.recoframe.setVisibility(View.VISIBLE);
-
-
+                    isFirstTouchOnImage=true;
                     if (binding.recoframe.getTag().toString().equals("1"))
                     {
                         binding.recoframe.setOnTouchListener(onTouchListener());
@@ -134,8 +133,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
                     }else{
                         onSelectImageClick();
                     }
-                    //Toast.makeText(act, "Yes TransPerent", Toast.LENGTH_SHORT).show();
-                    return false;
+                     return false;
                 }
                 else {
                     //code to execute
@@ -151,7 +149,6 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
                 showingView = VIEW_RECOMDATION;
             }
         }
-       // if (showingView == VIEW_RECOMDATION);
 
 
     }
@@ -187,10 +184,9 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
         binding.viewRecoRecyclerrrr.setAdapter(menuAddaptor);
     }
     @Override public void onItemSelection(int position, MultiListItem listModel) {
-         //binding.recoImageee.setBackgroundResource(listModel.getImage());
-       binding.recoImageee.setImageDrawable(ContextCompat.getDrawable(act,listModel.getImage()));
+        binding.recoImageee.setImageDrawable(ContextCompat.getDrawable(act,listModel.getImage()));
         binding.recoImageee.setDrawingCacheEnabled(true);
-
+        isFirstTouchOnImage=false;
 
     }
     private View.OnTouchListener onTouchListener() {

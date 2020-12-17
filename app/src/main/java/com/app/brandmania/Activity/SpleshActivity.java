@@ -108,7 +108,6 @@ public class SpleshActivity extends BaseActivity {
                         preafManager.setIs_Registration(true);
                         preafManager.setIS_Brand(true);
                         getBrandList();
-
                     }
 
 
