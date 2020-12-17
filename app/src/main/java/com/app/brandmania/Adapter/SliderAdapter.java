@@ -65,6 +65,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
 
             if (preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){
                 holder.packageBtn.setVisibility(View.GONE);
+
                 holder.subcribedBtn.setVisibility(View.VISIBLE);
             }
     }
