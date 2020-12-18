@@ -137,6 +137,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                     .load(listModel.getLogo())
                     .placeholder(R.drawable.placeholder)
                     .into((binding.viewImgFirst));
+
             Glide.with(act)
                     .load(listModel.getFrame())
                     .placeholder(R.drawable.placeholder)
@@ -409,6 +410,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             @Override
             public void onGalleryResult(int flag, Bitmap bitmap) {
                 if (flag == Constant.PICKER_FIRST) {
+                    Glide.with(act).clear(binding.viewImgFirst);
+                    Glide.with(act).clear(binding.selectframe1);
                     binding.viewImgFirst.setImageBitmap(bitmap);
                     binding.imgEmptyStateFirst.setVisibility(View.GONE);
                     binding.actionDeleteFirst.setVisibility(View.VISIBLE);
