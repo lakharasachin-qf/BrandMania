@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Interface.IImageFromGalary;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.R;
 import com.bumptech.glide.Glide;
@@ -36,6 +38,12 @@ public class ImageFromGalaryAddpater extends RecyclerView.Adapter<ImageFromGalar
         ImageFromGalaryModel s=spacecrafts.get(position);
 
         Glide.with(c).load(s.getUri()).placeholder(R.drawable.placeholder).into(holder.image);
+        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((IImageFromGalary) c).onImageFromGalaryItemSelection( position, spacecrafts.get(position));
+            }
+        });
 
 
 
@@ -50,12 +58,14 @@ public class ImageFromGalaryAddpater extends RecyclerView.Adapter<ImageFromGalar
 
 
         ImageView image;
+        CardView itemLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
 
             image= (ImageView) itemView.findViewById(R.id.image);
+            itemLayout=itemView.findViewById(R.id.itemLayout);
 
         }
     }

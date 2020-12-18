@@ -50,14 +50,16 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
     public static final int VIEW_RECOMDATION = 0;
 
     Activity act;
-    int windowwidth;
-    int windowheight;
 
-    private ViewGroup.LayoutParams layoutParams;
+
+
     private ActivityEditPic2Binding binding;
+    private ViewGroup.LayoutParams layoutParams;
     Timer timer;
     private int xDelta;
     private int yDelta;
+    int windowwidth;
+    int windowheight;
     private ViewGroup mainLayout;
     ArrayList<MultiListItem> menuModels = new ArrayList<>();
     private MultiListItem listModel;
@@ -131,7 +133,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
                         binding.recoframe.setOnTouchListener(onTouchListener());
                         binding.recoImageee.setEnabled(false);
                     }else{
-                        onSelectImageClick();
+
                     }
                      return false;
                 }
@@ -229,58 +231,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
             }
         };
     }
-    public void onSelectImageClick() {
-        CropImage.startPickImageActivity(this);
 
-    }
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // handle result of pick image chooser
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri imageUri = CropImage.getPickImageResultUri(this, data);
-
-            // For API >= 23 we need to check specifically that we have permissions to read external storage.
-            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
-                // request permissions and handle the result in onRequestPermissionsResult()
-                mCropImageUri = imageUri;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-                }
-            } else {
-                // no permissions required or already grunted, can start crop image activity
-                startCropImageActivity(imageUri);
-            }
-        }
-
-        // handle result of CropImageActivity
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-
-                ((ImageView) findViewById(R.id.recoframe)).setImageURI(result.getUri());
-
-                binding.recoframe.setTag("1");
-                //  Toast.makeText(this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG).show();
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                //  Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-    @Override public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // required permissions granted, start crop image activity
-            startCropImageActivity(mCropImageUri);
-        } else {
-            //   Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
-        }
-    }
-    private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setMultiTouchEnabled(true)
-                .start(this);
-    }
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         scaleGestureDetector.onTouchEvent(motionEvent);
