@@ -132,6 +132,7 @@ public class ViewBrandActivity extends BaseActivity {
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.getBrandList.setVisibility(View.VISIBLE);
                         binding.emptyStateLayout.setVisibility(View.GONE);
+                        preafManager.setAddBrandList(multiListItems);
                     }
                     if (multiListItems == null || multiListItems.size() == 0) {
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
