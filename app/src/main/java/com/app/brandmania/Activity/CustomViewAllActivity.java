@@ -52,7 +52,7 @@ import java.util.Timer;
 
 import static com.app.brandmania.Activity.EditPicActivity.VIEW_RECOMDATION;
 
-public class CustomViewAllActivity extends AppCompatActivity  implements FrameInterFace, IImageFromGalary {
+public class CustomViewAllActivity extends AppCompatActivity  implements FrameInterFace, IImageFromGalary , View.OnTouchListener {
     public static final int VIEW_RECOMDATION = 0;
     Activity act;
     private ActivityCustomViewAllBinding binding;
@@ -74,7 +74,7 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson = new Gson();
         mainLayout = (RelativeLayout) findViewById(R.id.CustomImageMain);
-        binding.backImage.setOnTouchListener(touchListener);
+      //  binding.backImage.setOnTouchListener(touchListener);
         //act.addView(imageView);
        // file.delete();
 
@@ -84,38 +84,17 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
                 showingView = VIEW_RECOMDATION;
             }
         }
-
        // binding.CustomImageMain.addView(binding.backImage);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         bottomFramgment();
-
         binding.backImage.setTag("0");
-
-
-
-
-
-
+        binding.backImage.setOnTouchListener(this);
+        binding.rootBackground.post(new Runnable() {
+            @Override
+            public void run() {
+                windowwidth = binding.rootBackground.getWidth();
+                windowheight = binding.rootBackground.getHeight();
+            }
+        });
 
     }
     public static String convertFirstUpper(String str) {
@@ -123,7 +102,7 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
         if (str == null || str.isEmpty()) {
             return str;
         }
-        Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
+      //  Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
     public void bottomFramgment() {
@@ -156,20 +135,18 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
 
     }
     @Override public void onFrameItemSelection(int position, MultiListItem listModel) {
-        binding.frameImage.setImageDrawable(ContextCompat.getDrawable(act,listModel.getImage()));
-        binding.backImage.setOnTouchListener(touchListener);
         binding.frameImage.setDrawingCacheEnabled(true);
-
+        binding.frameImage.setImageDrawable(ContextCompat.getDrawable(act,listModel.getImage()));
+        //binding.backImage.setOnTouchListener(touchListener);
+        binding.frameImage.setOnTouchListener(null);
         binding.frameImage.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
                 int color = bmp.getPixel((int) event.getX(), (int) event.getY());
-                onClickTimeHelper=event;
                 if (color == Color.TRANSPARENT) {
-                    isFirstTouchOnImage=true;
-                    binding.backImage.setOnTouchListener(touchListener);
+                    Toast.makeText(act, "Transperent", Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 else {
@@ -178,21 +155,20 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
                 }
             }
         });
+        binding.rootBackground.post(new Runnable() {
+            @Override
+            public void run() {
+                windowwidth = binding.rootBackground.getWidth();
+                windowheight = binding.rootBackground.getHeight();
+            }
+        });
+
     }
     @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
-
         try {
-
             InputStream inputStream = getContentResolver().openInputStream(listModel.getUri());
             yourDrawable = Drawable.createFromStream(inputStream, listModel.getUri().toString() );
-
-            binding.backImage.setBackground(yourDrawable);
-            binding.backImage.setOnTouchListener(touchListener);
-
-
-
-
-
+            binding.backImage.setImageDrawable(yourDrawable);
         } catch (FileNotFoundException e) {
 
         }
@@ -239,5 +215,72 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
 
 
 
+    private boolean isOutReported = false;
+    int windowwidth; // Actually the width of the RelativeLayout.
+    int windowheight; // Actually the height of the RelativeLayout.
 
+
+    private int _xDelta;
+    private int _yDelta;
+    public boolean onTouch(View view, MotionEvent event) {
+        final int X = (int) event.getRawX();
+        final int Y = (int) event.getRawY();
+
+        // Check if the image view is out of the parent view and report it if it is.
+        // Only report once the image goes out and don't stack toasts.
+      /*  if (isOut(view)) {
+            if (!isOutReported) {
+                isOutReported = true;
+                Toast.makeText(this, "OUT", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            isOutReported = false;
+        }*/
+
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                // _xDelta and _yDelta record how far inside the view we have touched. These
+                // values are used to compute new margins when the view is moved.
+                _xDelta = X - view.getLeft();
+                _yDelta = Y - view.getTop();
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_DOWN:
+            case MotionEvent.ACTION_POINTER_UP:
+                // Do nothing
+                break;
+            case MotionEvent.ACTION_MOVE:
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) view
+                        .getLayoutParams();
+                // Image is centered to start, but we need to unhitch it to move it around.
+                lp.removeRule(RelativeLayout.CENTER_HORIZONTAL);
+                lp.removeRule(RelativeLayout.CENTER_VERTICAL);
+                lp.leftMargin = X - _xDelta;
+                lp.topMargin = Y - _yDelta;
+                // Negative margins here ensure that we can move off the screen to the right
+                // and on the bottom. Comment these lines out and you will see that
+                // the image will be hemmed in on the right and bottom and will actually shrink.
+                lp.rightMargin = view.getWidth() - lp.leftMargin - windowwidth;
+                lp.bottomMargin = view.getHeight() - lp.topMargin - windowheight;
+                view.setLayoutParams(lp);
+                break;
+        }
+        // invalidate is redundant if layout params are set or not needed if they are not set.
+        binding.rootBackground.invalidate();
+        return true;
+    }
+
+    private boolean isOut(View view) {
+        // Check to see if the view is out of bounds by calculating how many pixels
+        // of the view must be out of bounds to and checking that at least that many
+        // pixels are out.
+        float percentageOut = 0.50f;
+        int viewPctWidth = (int) (view.getWidth() * percentageOut);
+        int viewPctHeight = (int) (view.getHeight() * percentageOut);
+
+        return ((-view.getLeft() >= viewPctWidth) ||
+                (view.getRight() - windowwidth) > viewPctWidth ||
+                (-view.getTop() >= viewPctHeight) ||
+                (view.getBottom() - windowheight) > viewPctHeight);
+    }
 }
