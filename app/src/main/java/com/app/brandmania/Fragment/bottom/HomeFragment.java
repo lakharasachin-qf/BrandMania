@@ -544,6 +544,12 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     preafManager.setAddBrandList(multiListItems);
+                    for (int i=0;i<multiListItems.size();i++){
+                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())){
+                            preafManager.setActiveBrand(multiListItems.get(i));
+                            break;
+                        }
+                    }
                     //FirstLogin
                     if (act.getIntent().hasExtra("FirstLogin")){
 
@@ -553,6 +559,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                         if (multiListItems.size() != 0) {
                             preafManager.setActiveBrand(multiListItems.get(0));
                         }
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
