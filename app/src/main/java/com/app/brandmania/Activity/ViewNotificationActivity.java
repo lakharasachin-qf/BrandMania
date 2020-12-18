@@ -69,6 +69,10 @@ public class ViewNotificationActivity extends BaseActivity {
             @Override
             public void onRefresh() {
 
+
+
+
+
                 startAnimation();
 
                 //getBrandList();
