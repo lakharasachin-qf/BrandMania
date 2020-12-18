@@ -1,0 +1,36 @@
+Index: app/src/main/java/com/app/brandmania/Adapter/SliderAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.app.brandmania.Adapter;\r\n\r\nimport android.app.Activity;\r\nimport android.content.Intent;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\nimport android.widget.ImageView;\r\nimport android.widget.RelativeLayout;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport androidx.viewpager2.widget.ViewPager2;\r\n\r\nimport com.app.brandmania.Activity.RazorPayActivity;\r\nimport com.app.brandmania.Common.Constant;\r\nimport com.app.brandmania.Common.PreafManager;\r\nimport com.app.brandmania.Model.SliderItem;\r\nimport com.app.brandmania.R;\r\nimport com.google.gson.Gson;\r\nimport com.makeramen.roundedimageview.RoundedImageView;\r\n\r\nimport java.util.List;\r\n\r\npublic class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {\r\n   private List<SliderItem> sliderItems;\r\n   private ViewPager2 viewPager2;\r\n    Activity activity;\r\n    private String brandId;\r\n    PreafManager preafManager;\r\n    Gson gson;\r\n    public SliderAdapter(List<SliderItem> sliderItems, Activity activity, String selectedBrand) {\r\n        this.sliderItems = sliderItems;\r\n        this.activity = activity;\r\n        brandId=selectedBrand;\r\n        gson=new Gson();\r\n        preafManager=new PreafManager(activity);\r\n    }\r\n\r\n    @Override\r\n    public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        return new SliderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.slide_item_container,parent,false));\r\n    }\r\n\r\n    @Override public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {\r\n            holder.setLayout(sliderItems.get(position));\r\n            holder.packageBtn.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View view) {\r\n                    Intent intent=new Intent(activity, RazorPayActivity.class);\r\n                    intent.putExtra(\"AmountText\", holder.priceForPay.getText().toString());\r\n                    PreafManager preafManager=new PreafManager(activity);\r\n                    sliderItems.get(position).setBrandId(brandId);\r\n                    intent.putExtra(\"detailsObj\",gson.toJson(sliderItems.get(position)));\r\n                    activity.startActivity(intent);\r\n                    intent.addCategory(Intent.CATEGORY_HOME);\r\n                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                    activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);\r\n                }\r\n            });\r\n\r\n            if (activity.getIntent().hasExtra(\"Profile\") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){\r\n                holder.packageBtn.setVisibility(View.GONE);\r\n                holder.subcribedBtn.setVisibility(View.VISIBLE);\r\n            }\r\n    }\r\n\r\n    @Override public int getItemCount() {\r\n        return sliderItems.size();\r\n    }\r\n\r\n    public class SliderViewHolder extends RecyclerView.ViewHolder\r\n    {\r\n        private TextView priceForPay;\r\n        private TextView packageTitle;\r\n        private TextView templateTitle;\r\n        private TextView imageTitle;\r\n        private TextView payTitle;\r\n        private TextView packageBtn;\r\n        private TextView subcribedBtn;\r\n        public SliderViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n            priceForPay=itemView.findViewById(R.id.priceForPay);\r\n            packageTitle=itemView.findViewById(R.id.packageTitle);\r\n            templateTitle=itemView.findViewById(R.id.templateTiltle);\r\n            imageTitle=itemView.findViewById(R.id.ImageTiltle);\r\n            payTitle=itemView.findViewById(R.id.payTiltle);\r\n            packageBtn=itemView.findViewById(R.id.selectPlaneBtn);\r\n            subcribedBtn=itemView.findViewById(R.id.subscribePlaneBtn);\r\n        }\r\n        void setLayout(SliderItem sliderItem)\r\n        {\r\n\r\n            priceForPay.setText(sliderItem.getPriceForPay());\r\n            packageTitle.setText(sliderItem.getPackageTitle());\r\n            templateTitle.setText(sliderItem.getTemplateTitle()+\" - Template / Brand\");\r\n            imageTitle.setText(sliderItem.getImageTitle() + \" Image Download / Year\");\r\n            payTitle.setText(sliderItem.getPayTitle() +\" / Year\");\r\n\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/app/brandmania/Adapter/SliderAdapter.java	(revision bb7d0c5d1b9456f34da660ac48130e6ed62c1b96)
++++ app/src/main/java/com/app/brandmania/Adapter/SliderAdapter.java	(date 1608206414034)
+@@ -64,6 +64,9 @@
+ 
+             if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){
+                 holder.packageBtn.setVisibility(View.GONE);
++
++
++
+                 holder.subcribedBtn.setVisibility(View.VISIBLE);
+             }
+     }
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision bb7d0c5d1b9456f34da660ac48130e6ed62c1b96)
++++ .idea/gradle.xml	(date 1608206414062)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
