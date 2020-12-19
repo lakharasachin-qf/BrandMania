@@ -382,8 +382,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         preafManager.setActiveBrand(brandListItems.get(toSetActiveBrand));
                     }
 
-                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.RELOAD_BRANDS);
-                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
+                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.JUSTBRAND);
 
                     /*Intent i = new Intent(act, HomeActivity.class);
                     startActivity(i);
