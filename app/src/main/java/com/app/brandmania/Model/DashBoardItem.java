@@ -3,15 +3,39 @@ package com.app.brandmania.Model;
 import java.util.ArrayList;
 
 public class DashBoardItem {
+
+    private ArrayList<DashBoardItem> dashBoardItems;
+
+
     private String id;
     private String Cat_id;
     private String name;
     private String description;
     private String Tag;
     ArrayList<ImageList> imageLists;
+    private Links links;
+
+    public ArrayList<DashBoardItem> getDashBoardItems() {
+        return dashBoardItems;
+    }
+
+    public void setDashBoardItems(ArrayList<DashBoardItem> dashBoardItems) {
+        this.dashBoardItems = dashBoardItems;
+    }
+
+    public Links getLinks() {
+        return links;
+    }
+
+    public void setLinks(Links links) {
+        this.links = links;
+
+    }
 
     public DashBoardItem() {
     }
+
+
 
     public String getId() {
         return id;

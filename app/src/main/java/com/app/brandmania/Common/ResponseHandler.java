@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 
+import com.app.brandmania.Model.Links;
 import com.app.brandmania.Model.SlideSubItem;
 import com.app.brandmania.Model.SliderItem;
 import com.google.gson.Gson;
@@ -203,7 +204,8 @@ public class ResponseHandler {
 
         return strings;
     }
-    public static ArrayList<DashBoardItem> HandleGetImageCategory(JSONObject jsonObject) throws JSONException {
+    public static DashBoardItem HandleGetImageCategory(JSONObject jsonObject) throws JSONException {
+        DashBoardItem dashBoardItem=new DashBoardItem();
         ArrayList<DashBoardItem> string = null;
         if (isSuccess(null, jsonObject)) {
             JSONArray datajsonArray = getJSONArray(jsonObject, "data");
@@ -251,8 +253,22 @@ public class ResponseHandler {
 
                 }
             }
+            dashBoardItem.setDashBoardItems(string);
+
+            JSONObject linkObj=getJSONObject(jsonObject,"link");
+            Links links=new Links();
+            links.setFirstPage(getString(linkObj,"first_page_url"));
+            links.setLastPageUrl(getString(linkObj,"last_page_url"));
+            links.setNextPageUrl(getString(linkObj,"next_page_url"));
+            links.setPrevPageUrl(getString(linkObj,"prev_page_url"));
+            links.setTotalStr(getString(linkObj,"total"));
+            dashBoardItem.setLinks(links);
+
+
+
         }
-        return string;
+
+        return dashBoardItem;
     }
     public static ArrayList<ImageList> HandleGetImageByIdCategory(JSONObject jsonObject) {
         ArrayList<ImageList> string = null;
