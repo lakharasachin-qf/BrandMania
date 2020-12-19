@@ -32,7 +32,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     private static Dialog noconnectionAlertDialog;
     Activity act;
     PreafManager prefManager;
-    MakeMyBrandApp studentApp;
+    MakeMyBrandApp myBrandApp;
     private BroadcastReceiver mNetworkReceiver;
     /*public FirebaseAuth mAuth;*/
     private ResponseHandler responseHandler;
@@ -74,7 +74,8 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         /*profileObject = new StoreUserData().getUsers(this);
         prefManager = new PrefManager(this);
         responseHandler = new ResponseHandler(this);*/
-
+        myBrandApp = (MakeMyBrandApp) this.getApplication();
+        myBrandApp.getObserver().addObserver(this);
 
 
 

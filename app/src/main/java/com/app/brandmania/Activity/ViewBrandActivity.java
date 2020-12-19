@@ -27,6 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.BrandAdapter;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -47,6 +49,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 public class ViewBrandActivity extends BaseActivity {
     Activity act;
@@ -132,6 +135,7 @@ public class ViewBrandActivity extends BaseActivity {
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.getBrandList.setVisibility(View.VISIBLE);
                         binding.emptyStateLayout.setVisibility(View.GONE);
+                        preafManager.setAddBrandList(multiListItems);
                     }
                     if (multiListItems == null || multiListItems.size() == 0) {
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
@@ -139,6 +143,8 @@ public class ViewBrandActivity extends BaseActivity {
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                     }
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -300,5 +306,12 @@ Log.e("DATA",gson.toJson(sliderItem));
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.RELOAD_BRANDS) {
+            getBrandList();
+        }
     }
 }

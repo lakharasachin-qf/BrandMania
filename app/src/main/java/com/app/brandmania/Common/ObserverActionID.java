@@ -7,5 +7,7 @@ public class ObserverActionID {
 
     public static final int nAddUser = 1;
 
+    public static final int REFRESH_BRAND_NAME = 2;
+    public static final int RELOAD_BRANDS = 3;
 
 }
