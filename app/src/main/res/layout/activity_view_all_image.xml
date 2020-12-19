@@ -181,7 +181,7 @@
                         android:id="@+id/customFrameRelative"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_300sdp"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="match_parent"

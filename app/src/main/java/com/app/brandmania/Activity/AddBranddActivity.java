@@ -492,6 +492,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         brandListItemm.setIs_payment_pending(ResponseHandler.getString(jsonObject, "is_payment_pending"));
                         brandListItemm.setPayment_message(ResponseHandler.getString(jsonObject, "payment_message"));
                         brandListItemm.setPackagename(ResponseHandler.getString(jsonObject, "package"));
+                        brandListItemm.setRate(ResponseHandler.getString(jsonObject, "rate"));
                         brandListItemm.setPackagemessage(ResponseHandler.getString(jsonObject, "package_message"));
                         brandListItemm.setNo_of_total_image(ResponseHandler.getString(jsonObject, "no_of_img"));
                         brandListItemm.setNo_of_used_image(ResponseHandler.getString(jsonObject, "no_of_used_img"));

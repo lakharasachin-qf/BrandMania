@@ -326,6 +326,8 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                         brandListItemm.setNo_of_frame(ResponseHandler.getString(jsonObject, "no_of_frame"));
                         brandListItemm.setNo_of_remaining(ResponseHandler.getString(jsonObject, "remaining_img"));
                         brandListItemm.setExpiery_date(ResponseHandler.getString(jsonObject, "expire_date"));
+                        brandListItemm.setRate(ResponseHandler.getString(jsonObject, "rate"));
+
                         JSONArray jsonArray = jsonObject.getJSONArray("br_frame");
                         ArrayList<FrameItem>frameItems=null;
                         frameItems = new ArrayList<>();

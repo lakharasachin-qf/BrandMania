@@ -68,6 +68,18 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp">
             </ImageView>
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/outlineroundbackground"
+                android:id="@+id/showImage"
+                android:src="@drawable/ic_outline_visibility_24"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp">
+            </ImageView>
+
+
             <ImageView
                 android:visibility="gone"
                 android:background="@drawable/outlineroundbackground"
@@ -108,11 +120,12 @@
         android:id="@+id/frameitemLayoutRelative"
         android:layout_toEndOf="@+id/itemLayout"
         android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_below="@+id/main_linearlayout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/frameitemLayout"
             android:visibility="visible"
         android:layout_width="match_parent"

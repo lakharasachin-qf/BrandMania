@@ -283,7 +283,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         fetchAutomaticCustomeFrame();
 
 
-        if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty()) {
+        if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty() ) {
             binding.imgEmptyStateFirst.setVisibility(View.GONE);
             binding.logoCustom.setVisibility(View.VISIBLE);
             binding.logoCustom.setVisibility(View.VISIBLE);
@@ -591,8 +591,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
             if (AddFavorite!=null) {
                 for (int i = 0; i < AddFavorite.size(); i++) {
-                    Log.e("Print-",AddFavorite.get(i).getFrameId()+"s");
-//                    Log.e("Print--",selectedModelFromView.getFrameId()+"s");
+                    Log.e("Fav--",new Gson().toJson(AddFavorite.get(i)));
+                    Log.e("Print--",new Gson().toJson(selectedModelFromView));
 
                     if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedModelFromView.getFrameId())) {
                         binding.addfabroutIcon.setVisibility(View.VISIBLE);

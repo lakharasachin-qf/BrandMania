@@ -234,6 +234,8 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                         brandListItemm.setNo_of_used_image(ResponseHandler.getString(jsonObject, "no_of_used_img"));
                         brandListItemm.setNo_of_frame(ResponseHandler.getString(jsonObject, "no_of_frame"));
                         brandListItemm.setNo_of_remaining(ResponseHandler.getString(jsonObject, "remaining_img"));
+                        brandListItemm.setRate(ResponseHandler.getString(jsonObject, "rate"));
+
                         brandListItemm.setExpiery_date(ResponseHandler.getString(jsonObject, "expire_date"));
                         
                         

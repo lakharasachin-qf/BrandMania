@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-
     android:background="@color/colorNavText"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,16 +11,19 @@
         android:paddingEnd="@dimen/_15sdp"
         android:paddingBottom="@dimen/_30sdp"
         android:paddingTop="@dimen/_10sdp"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:backgroundTint="@color/colorNavText"
             android:id="@+id/CloseImg"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:padding="@dimen/_4sdp"
-            android:src="@drawable/ic_outline_close_24" />
+            android:src="@drawable/ic_outline_close_24"
+            />
         <RelativeLayout
 
             android:layout_marginTop="@dimen/_10sdp"
@@ -34,8 +35,18 @@
             <TextView
                 android:id="@+id/packageName"
                 android:textSize="@dimen/_15sdp"
-                android:fontFamily="@font/inter_bold"
-                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/montserratblack"
+                android:textColor="@color/colorNavText"
+                android:text="vhvhh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+            <TextView
+                android:id="@+id/priceContent"
+                android:textSize="@dimen/_15sdp"
+                android:fontFamily="@font/montserratblack"
+                android:textColor="@color/colorNavText"
+                android:layout_toEndOf="@+id/packageName"
                 android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -54,8 +65,8 @@
             <TextView
                 android:id="@+id/totalImageTitle"
                 android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/inter_semibold"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserratsemibold"
+                android:textColor="@color/colorNavText"
                 android:text="Total Image:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -65,8 +76,8 @@
                 android:id="@+id/totalImage"
                 android:layout_marginLeft="@dimen/_3sdp"
                 android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/inter_regular"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserratmedium"
+                android:textColor="@color/colorNavText"
                 android:text="50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -85,8 +96,8 @@
             <TextView
                 android:id="@+id/usedImageTitle"
                 android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/inter_semibold"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserratsemibold"
+                android:textColor="@color/colorNavText"
                 android:text="Used Image:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -96,8 +107,8 @@
                 android:id="@+id/usedImage"
                 android:layout_marginLeft="@dimen/_3sdp"
                 android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/inter_regular"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserratmedium"
+                android:textColor="@color/colorNavText"
                 android:text="50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -116,8 +127,8 @@
             <TextView
                 android:id="@+id/remainingImageTitle"
                 android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/inter_semibold"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserratsemibold"
+                android:textColor="@color/colorNavText"
                 android:text="Remaining Image:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -127,8 +138,8 @@
                 android:id="@+id/remainingImage"
                 android:layout_marginLeft="@dimen/_3sdp"
                 android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/inter_regular"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserratmedium"
+                android:textColor="@color/colorNavText"
                 android:text="50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -147,8 +158,8 @@
             <TextView
                 android:id="@+id/expieryDateTitle"
                 android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/inter_semibold"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserratsemibold"
+                android:textColor="@color/colorNavText"
                 android:text="Expired On"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -158,8 +169,8 @@
                 android:id="@+id/expieryDateName"
                 android:layout_marginLeft="@dimen/_3sdp"
                 android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/inter_regular"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserratmedium"
+                android:textColor="@color/colorNavText"
                 android:text="12/05/2020"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">

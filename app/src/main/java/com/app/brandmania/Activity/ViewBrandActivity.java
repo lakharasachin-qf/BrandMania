@@ -78,6 +78,7 @@ public class ViewBrandActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),AddBrandMultipleActivity.class);
                 startActivity(intent);
+                act.overridePendingTransition(R.anim.right_enter, R.anim.left_out);
             }
         });
 

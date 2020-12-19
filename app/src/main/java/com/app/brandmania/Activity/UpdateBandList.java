@@ -135,16 +135,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 }
 
             });
-
-            Glide.with(act)
-                    .load(listModel.getLogo())
-                    .placeholder(R.drawable.placeholder)
-                    .into((binding.viewImgFirst));
-
-            Glide.with(act)
-                    .load(listModel.getFrame())
-                    .placeholder(R.drawable.placeholder)
-                    .into((binding.selectframe1));
+            Glide.with(act).load(listModel.getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
+            Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
         }
     }
     private void getBrandCategory(int flag) {
