@@ -6,6 +6,8 @@ import androidx.databinding.DataBindingUtil;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -104,7 +106,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                         if (jsonObject1.getString("is_completed").equals("2")) {
                             preafManager.setIs_Registration(true);
                             preafManager.setIS_Brand(true);
-                            //    getBrandList();
+
                             Intent i = new Intent(act, HomeActivity.class);
                             startActivity(i);
                             overridePendingTransition(R.anim.right_enter, R.anim.left_out);

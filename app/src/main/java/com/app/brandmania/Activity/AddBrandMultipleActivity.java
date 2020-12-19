@@ -30,6 +30,8 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -380,11 +382,14 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         preafManager.setActiveBrand(brandListItems.get(toSetActiveBrand));
                     }
 
+                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.RELOAD_BRANDS);
+                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
 
-                    Intent i = new Intent(act, HomeActivity.class);
+                    /*Intent i = new Intent(act, HomeActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);
-                    finish();
+                    finish();*/
+                    onBackPressed();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

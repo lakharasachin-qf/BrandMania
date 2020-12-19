@@ -52,12 +52,11 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                 public void onClick(View view) {
                     Intent intent=new Intent(activity, RazorPayActivity.class);
                     intent.putExtra("AmountText", holder.priceForPay.getText().toString());
-                    PreafManager preafManager=new PreafManager(activity);
                     sliderItems.get(position).setBrandId(brandId);
                     intent.putExtra("detailsObj",gson.toJson(sliderItems.get(position)));
                     activity.startActivity(intent);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                 //   intent.addCategory(Intent.CATEGORY_HOME);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 }
             });
