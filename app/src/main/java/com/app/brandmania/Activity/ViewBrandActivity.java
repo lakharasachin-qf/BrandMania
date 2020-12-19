@@ -1,6 +1,5 @@
 package com.app.brandmania.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -42,7 +41,6 @@ import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewBrandBinding;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -90,12 +88,12 @@ public class ViewBrandActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 startAnimation();
-                getBrandList();
+                getBrandList(false);
             }
         });
 
         startAnimation();
-        getBrandList();
+        getBrandList(false);
     }
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
@@ -118,7 +116,7 @@ public class ViewBrandActivity extends BaseActivity {
         binding.getBrandList.setAdapter(MenuAddaptor);
 
     }
-    private void getBrandList() {
+    private void getBrandList(boolean wantToLoadHome) {
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
@@ -143,7 +141,8 @@ public class ViewBrandActivity extends BaseActivity {
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                     }
-
+                    if (wantToLoadHome)
+                        MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
 
 
                 } catch (JSONException e) {
@@ -248,7 +247,7 @@ public class ViewBrandActivity extends BaseActivity {
                     sliderItem.setBrandId(multiListItems.get(0).getId());
 
                     Gson gson=new Gson();
-Log.e("DATA",gson.toJson(sliderItem));
+                    Log.e("DATA",gson.toJson(sliderItem));
 
 
 
@@ -310,8 +309,12 @@ Log.e("DATA",gson.toJson(sliderItem));
 
     @Override
     public void update(Observable observable, Object data) {
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.JUSTBRAND) {
+            getBrandList(true);
+            //MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
+        }
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.RELOAD_BRANDS) {
-            getBrandList();
+            getBrandList(false);
         }
     }
 }

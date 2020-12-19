@@ -642,6 +642,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                             break;
                         }
                     }
+                    preafManager=new PreafManager(act);
+                    binding.businessName.setText(preafManager.getActiveBrand().getName());
+
                     //FirstLogin
                     if (act.getIntent().hasExtra("FirstLogin")){
 
@@ -653,8 +656,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         }
 
                     }
-                    preafManager=new PreafManager(act);
-                    binding.businessName.setText(preafManager.getActiveBrand().getName());
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -853,8 +855,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public void update(Observable observable, Object data) {
 
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
-
-
             getBrandList();
         }
 
