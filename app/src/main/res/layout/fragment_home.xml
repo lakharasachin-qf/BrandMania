@@ -200,7 +200,26 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginBottom="@dimen/_1sdp"
+                                    android:paddingBottom="@dimen/_30sdp"
                                     android:clipToPadding="false" />
+                                <com.facebook.shimmer.ShimmerFrameLayout
+
+                                    android:layout_below="@+id/rocommRecycler"
+                                    android:id="@+id/shimmerForPagination"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical"
+                                    shimmer:shimmer_duration="800">
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+                                                <include layout="@layout/item_simmer_visitors_layout" />
+                                                <include layout="@layout/item_simmer_visitors_layout" />
+                                        </LinearLayout>
+
+                                </com.facebook.shimmer.ShimmerFrameLayout>
 
                         <com.facebook.shimmer.ShimmerFrameLayout
 

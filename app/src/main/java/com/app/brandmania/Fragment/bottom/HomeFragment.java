@@ -14,12 +14,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -79,6 +76,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private String BusinessTitle;
     ArrayList<BrandListItem> BusinessTypeList = new ArrayList<>();
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
+    DashBoardItem apiResponse;
     BrandListItem brandListItem;
     private int[] layouts;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
@@ -239,8 +237,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
     }
     //SetAddeptor.....................
+
     public void setAdapter() {
-        DasboardAddaptor dasboardAddaptor = new DasboardAddaptor(menuModels,act);
+        dasboardAddaptor = new DasboardAddaptor(menuModels, act);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
         binding.rocommRecycler.setHasFixedSize(true);
         binding.rocommRecycler.setLayoutManager(mLayoutManager);
@@ -331,8 +330,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
     //GetImageCategory..................
     private void getImageCtegory() {
-               Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY+"/1", new Response.Listener<String>() {
+        Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY + "?page=1");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
@@ -340,13 +339,24 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+                    apiResponse = ResponseHandler.HandleGetImageCategory(jsonObject);
+                    if (apiResponse.getDashBoardItems() != null) {
+                        menuModels = apiResponse.getDashBoardItems();
+                        if (menuModels != null && menuModels.size() != 0) {
+                            setAdapter();
+                            binding.shimmerViewContainer.stopShimmer();
+                            binding.shimmerViewContainer.setVisibility(View.GONE);
+                            binding.rocommRecycler.setVisibility(View.VISIBLE);
+                        }
+                    }
 
-                    menuModels = ResponseHandler.HandleGetImageCategory(jsonObject);
-                    if (menuModels != null && menuModels.size() != 0) {
-                        setAdapter();
-                        binding.shimmerViewContainer.stopShimmer();
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                        binding.rocommRecycler.setVisibility(View.VISIBLE);
+                    if (apiResponse.getLinks() != null) {
+
+                        if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
+                            binding.shimmerForPagination.startShimmer();
+                            binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                            getImageCtegoryNextPage(apiResponse.getLinks().getNextPageUrl());
+                        }
                     }
 
                 } catch (JSONException e) {
@@ -364,10 +374,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         binding.rocommRecycler.setVisibility(View.GONE);
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
-
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
-
                     }
                 }
         ) {
@@ -401,6 +407,97 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         queue.add(stringRequest);
     }
 
+
+    private void getImageCtegoryNextPage(String nextPageUrl) {
+        Utility.Log("API : ", nextPageUrl);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                binding.swipeContainer.setRefreshing(false);
+                Utility.Log("GET_IMAGE_CATEGORY : ", response);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    apiResponse = ResponseHandler.HandleGetImageCategory(jsonObject);
+                    if (apiResponse.getDashBoardItems() != null) {
+                        if (menuModels != null && menuModels.size() != 0) {
+                            int lastPos = menuModels.size();
+                            menuModels.addAll(menuModels.size(), apiResponse.getDashBoardItems());
+                            dasboardAddaptor.notifyItemRangeInserted(lastPos, apiResponse.getDashBoardItems().size());
+                        } else {
+                            menuModels = new ArrayList<>();
+                            menuModels.addAll(0, apiResponse.getDashBoardItems());
+                        }
+
+
+                    }
+                    if (apiResponse.getLinks() != null) {
+                        Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
+                        if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
+                            binding.shimmerForPagination.startShimmer();
+                            binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                            getImageCtegoryNextPage(apiResponse.getLinks().getNextPageUrl());
+                        }else {
+                            binding.shimmerForPagination.stopShimmer();
+                            binding.shimmerForPagination.setVisibility(View.GONE);
+                        }
+                    }
+
+                    if (apiResponse.getDashBoardItems()==null ||apiResponse.getDashBoardItems().size()==0) {
+                        binding.shimmerForPagination.stopShimmer();
+                        binding.shimmerForPagination.setVisibility(View.GONE);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        binding.swipeContainer.setRefreshing(false);
+                        error.printStackTrace();
+                        binding.shimmerForPagination.stopShimmer();
+                        binding.shimmerForPagination.setVisibility(View.GONE);
+
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Load-Get_Exam ", body);
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+
+                Log.e("DateNdClass", params.toString());
+                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
 
     //Update Token......................
     private void UpdateToken() {

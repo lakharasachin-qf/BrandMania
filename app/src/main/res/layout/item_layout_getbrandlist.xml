@@ -185,9 +185,13 @@
         android:layout_height="wrap_content">
 
     </TextView>
-    <TextView
+    <RelativeLayout
         android:layout_below="@+id/warning"
         android:layout_centerHorizontal="true"
+        android:id="@+id/buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TextView
         android:backgroundTint="@color/colorthird"
         android:background="@drawable/buttoncornar"
         android:id="@+id/selectPlane"
@@ -205,9 +209,7 @@
         android:textSize="@dimen/_10sdp"
         />
     <TextView
-        android:layout_below="@+id/warning"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
+         android:visibility="gone"
         android:backgroundTint="@color/colorthird"
         android:gravity="center"
         android:background="@drawable/buttoncornar"
@@ -224,13 +226,14 @@
         android:textAllCaps="false"
         android:textSize="@dimen/_10sdp"
         />
-
+    </RelativeLayout>
     <View
         android:visibility="gone"
+        android:layout_marginStart="@dimen/_20sdp"
         android:id="@+id/makePaymentView"
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_below="@+id/makePayment"
-         android:background="@color/simmerColor"
+        android:layout_below="@+id/buttons"
+        android:background="#B1B1B1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp">
 
@@ -239,7 +242,7 @@
        android:id="@+id/view"
         android:layout_marginTop="@dimen/_14sdp"
         android:layout_marginStart="@dimen/_20sdp"
-         android:layout_below="@+id/selectPlane"
+         android:layout_below="@+id/buttons"
         android:background="#B1B1B1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp">
