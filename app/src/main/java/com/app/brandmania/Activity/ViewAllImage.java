@@ -1231,8 +1231,18 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             //bmImage.setImageBitmap(result);
             FrameDrawbable=result;
             startsShare();
+            isLoading = false;
+            Utility.dismissProgress();
 
+        }
 
+        @Override
+        protected void onPreExecute() {
+            if (isLoading)
+                return;
+            isLoading = true;
+            Utility.showProgress(act);
+            super.onPreExecute();
         }
     }
     private void removeFavourit(final int removeFav) {
