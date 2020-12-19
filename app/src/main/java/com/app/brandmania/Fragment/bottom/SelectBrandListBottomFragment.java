@@ -84,7 +84,7 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
             fragment = this;
             preafManager=new PreafManager(act);
             listModels=preafManager.getAddBrandList();
-            binding.titleText.setText("Brand Name");
+            binding.titleText.setText("Your Brands");
             Log.e("Prefrancedata", String.valueOf(preafManager.getAddBrandList().size()));
             if (listModels != null) {
                 Log.e("SSSS", String.valueOf(listModels.size()));

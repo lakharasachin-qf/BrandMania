@@ -63,7 +63,7 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, ViewBrandActivity.class);
-                //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -86,7 +86,7 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, HelpAndSupport.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -97,7 +97,7 @@ public class ProfileFragment extends BaseFragment {
             public void onClick(View v) {
 
                 Intent i = new Intent(act, PartnerProgramActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -107,8 +107,7 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, FaqActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
             }
@@ -117,7 +116,7 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, AboutUsActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -128,7 +127,7 @@ public class ProfileFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent shareIntent =   new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Insert Subject here");
+                // shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Insert Subject here");
                 String app_url = "https://play.google.com/store/apps/details?id=com.make.mybrand";
                 shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,app_url);
                 startActivity(Intent.createChooser(shareIntent, "Share via"));
@@ -139,7 +138,6 @@ public class ProfileFragment extends BaseFragment {
             public void onClick(View view) {
                 Intent intent=new Intent(act, PackageActivity.class);
                 intent.putExtra("Profile","1");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
@@ -164,7 +162,6 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(act, AddReportAndBug.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }

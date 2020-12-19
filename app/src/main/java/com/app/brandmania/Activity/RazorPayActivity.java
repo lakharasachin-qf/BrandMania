@@ -312,6 +312,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     @Override
     public void alertListenerClick() {
         Intent i = new Intent(act, HomeActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         overridePendingTransition(R.anim.right_enter, R.anim.left_out);
         finish();
