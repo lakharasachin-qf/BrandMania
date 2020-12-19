@@ -215,7 +215,7 @@ public class ViewBrandActivity extends BaseActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makePhoneCall();
             } else {
-                Toast.makeText(act, "Permission DENIED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(act, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -312,7 +312,7 @@ public class ViewBrandActivity extends BaseActivity {
     public void update(Observable observable, Object data) {
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.JUSTBRAND) {
             getBrandList(true);
-            //MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
+
         }
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.RELOAD_BRANDS) {
             getBrandList(false);

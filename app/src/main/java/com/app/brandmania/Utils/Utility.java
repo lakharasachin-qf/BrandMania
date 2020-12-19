@@ -203,6 +203,9 @@ public class Utility {
                 })
                 .show();
     }
+
+
+
     public static void fullScreenImageViewer(Activity act, String imageUrl) {
         Log("Image url", imageUrl + "s");
         DetailImageviewBinding binding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.detail_imageview, null, false);

@@ -176,13 +176,9 @@ public class ProfileFragment extends BaseFragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 Utility.Log("GET_BRAND : ", response);
-
                 try {
-
                     JSONObject jsonObject = new JSONObject(response);
-
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     preafManager.setAddBrandList(multiListItems);
                     for (int i=0;i<multiListItems.size();i++){
@@ -191,10 +187,9 @@ public class ProfileFragment extends BaseFragment {
                             break;
                         }
                     }
+
                     //FirstLogin
                     if (act.getIntent().hasExtra("FirstLogin")){
-
-
                         preafManager.setIS_Brand(true);
 
                         if (multiListItems.size() != 0) {

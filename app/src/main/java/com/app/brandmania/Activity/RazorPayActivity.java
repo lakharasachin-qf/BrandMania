@@ -1,15 +1,19 @@
 package com.app.brandmania.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -19,13 +23,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
-import com.app.brandmania.Model.DashBoardItem;
-import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
@@ -35,10 +36,8 @@ import com.app.brandmania.databinding.ActivityRazorPayBinding;
 import com.google.gson.Gson;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
-import com.razorpay.PaymentResultListener;
 import com.razorpay.PaymentResultWithDataListener;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -94,7 +93,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             }
         });
     }
-//generat orderid
 
     public void generateOrderID() {
         if (isLoading)
@@ -168,9 +166,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         queue.add(stringRequest);
     }
 
-
-
-
     private void setUpPaymentMethod() {
 
         Checkout checkout = new Checkout();
@@ -198,6 +193,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         }
 
     }
+
     @Override
     public void onPaymentSuccess(String s, PaymentData paymentData) {
         try {
@@ -221,7 +217,31 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         makeSubscription("1");
     }
 
+    private void paymentSuccessDiaog() {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.payment_success, viewGroup, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        TextView element3=dialogView.findViewById(R.id.element3);
+        TextView closeBtn=dialogView.findViewById(R.id.closeBtn);
+        element3.setText("Your current package is "+sliderItemList.getPackageTitle());
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(act, HomeActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+                finish();
+            }
+        });
 
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+    }
 
     public void makeSubscription(String subscription) {
         if (isLoading)
@@ -236,10 +256,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
             //{"status":true,"data":"","message":"Subscription Added Successfully."}
             if (ResponseHandler.isSuccess(response, null)) {
-                //paymentSuccess();
-                JSONObject jsonObject=ResponseHandler.createJsonObject(response);
-                Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Success");
 
+                paymentSuccessDiaog();
             } else {
                 JSONObject jsonObject=ResponseHandler.createJsonObject(response);
                 Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Error");
@@ -318,105 +336,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         finish();
 
     }
-
-//    private void paymentSuccess() {
-//        DialogPaymentSubscriptionSuccessBinding helpDialog = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_payment_subscription_success, null, false);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-//        builder.setView(helpDialog.getRoot());
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.setCancelable(false);
-//        alertDialog.setContentView(helpDialog.getRoot());
-//
-//        // helpDialog.text1.setText("Are you sure to\nleave exam");
-//
-//        if (examTypeModel == null) {
-//            if (subjectModel != null) {
-//
-//                //helpDialog.text1.setText("Are you sure to\nleave exam");
-//            } else if (testSeries != null) {
-//                // helpDialog.text1.setText("Are you sure to\nleave exam");
-//            } else {
-//                // helpDialog.text1.setText("Are you sure to\nleave exam");
-//            }
-//        }  // helpDialog.text1.setText("Are you sure to\nleave exam");
-//
-//        if (examTypeModel != null) {
-//            //Utility.printHtmlText(examTypeModel.getName(), helpDialog.title);
-//            helpDialog.title.setText(Utility.convertFirstUpperWord(examTypeModel.getName()));
-//
-//        } else if (subjectModel != null) {
-//            //Utility.printHtmlText(subjectModel.getName(), helpDialog.title);
-//            helpDialog.title.setText(Utility.convertFirstUpperWord(subjectModel.getName()));
-//
-//        } else if (testSeries != null) {
-//            Utility.printHtmlText(testSeries.getName(), helpDialog.title);
-//            binding.titleTxt.setText(Utility.convertFirstUpperWord(testSeries.getName()));
-//        } else if (bookModel != null) {
-//            Utility.printHtmlText(bookModel.getTitle(), helpDialog.title);
-//            helpDialog.title.setText(Utility.convertFirstUpperWord(bookModel.getTitle()));
-//        }
-//
-//        helpDialog.saveNNext.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alertDialog.dismiss();
-//                onBackPressed();
-//            }
-//        });
-//
-//        alertDialog.show();
-//    }
-//
-//    private void paymentFails(String msg) {
-//        DialogPaymentFailsBinding helpDialog = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_payment_fails, null, false);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-//        builder.setView(helpDialog.getRoot());
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.setCancelable(false);
-//        alertDialog.setContentView(helpDialog.getRoot());
-//
-//        // helpDialog.text1.setText("Are you sure to\nleave exam");
-//
-//        if (examTypeModel == null) {
-//            if (subjectModel != null) {
-//
-//                //helpDialog.text1.setText("Are you sure to\nleave exam");
-//            } else if (testSeries != null) {
-//                // helpDialog.text1.setText("Are you sure to\nleave exam");
-//            } else {
-//                // helpDialog.text1.setText("Are you sure to\nleave exam");
-//            }
-//        }  // helpDialog.text1.setText("Are you sure to\nleave exam");
-//
-//        // helpDialog.text1.setText(msg);
-//        if (examTypeModel != null) {
-//
-//            Utility.printHtmlText(examTypeModel.getName(), helpDialog.title);
-//            helpDialog.title.setText(Utility.convertFirstUpperWord(examTypeModel.getName()));
-//        } else if (subjectModel != null) {
-//            Utility.printHtmlText(subjectModel.getName(), helpDialog.title);
-//            helpDialog.title.setText(Utility.convertFirstUpperWord(subjectModel.getName()));
-//        } else if (testSeries != null) {
-//            Utility.printHtmlText(testSeries.getName(), helpDialog.title);
-//            helpDialog.title.setText(Utility.convertFirstUpperWord(testSeries.getName()));
-//
-//        } else if (bookModel != null) {
-//            Utility.printHtmlText(bookModel.getTitle(), helpDialog.title);
-//            helpDialog.title.setText(Utility.convertFirstUpperWord(bookModel.getTitle()));
-//
-//        }
-//
-//        helpDialog.saveNNext.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alertDialog.dismiss();
-//
-//            }
-//        });
-//
-//        alertDialog.show();
-//    }
-
 
     @Override
     public void onBackPressed() {CodeReUse.activityBackPress(act);
