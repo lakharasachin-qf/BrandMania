@@ -44,6 +44,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.VersionListIItem;
 import com.app.brandmania.Utils.APIs;
@@ -69,6 +71,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Timer;
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
@@ -98,12 +101,14 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     }
 
+
     @SuppressLint("NonConstantResourceId")
     @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 fragment = new HomeFragment();
+
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
@@ -133,6 +138,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         }
         return false;
     }
+
 
     //app updates
     private void checkForUpdates() {

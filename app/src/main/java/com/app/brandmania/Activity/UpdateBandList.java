@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -29,6 +30,8 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Connection.BaseActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -344,20 +347,14 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                                 alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface arg0, int arg1) {
-                                        Intent i = new Intent(act, ViewBrandActivity.class);
-                                        i.addCategory(Intent.CATEGORY_HOME);
-                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(i);
-                                        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                                        finish();
+                                        onBackPressed();
                                     }
                                 });
                                 AlertDialog alertDialog = alertDialogBuilder.create();
                                 alertDialog.setCancelable(false);
                                 alertDialog.show();
-
-
-
+                                MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.RELOAD_BRANDS);
+                                MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
 
 
                             }

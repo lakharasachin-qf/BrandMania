@@ -318,6 +318,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             });
         }
 
+
     }
 
     public void checkPermisionForDontAskAgain(){
@@ -391,30 +392,69 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     @Override
                     public void onDismiss(View view) {
                         IntroCounter++;
-                        if (IntroCounter == 1) {
-                             startIntro(binding.shareIcon, "Share", "Share Your Image Directly");
-                        }
-                        if (IntroCounter == 2){
-                            startIntro(binding.fabroutIcon, "Save", "Save To Your Brand");
-                        }
-                        if (IntroCounter == 3){
-                            startIntro(binding.viewPager.getChildAt(0), "Catogery", "List of images");
-                        }
-                        if (IntroCounter == 4){
-                            startIntro(binding.logoCard, "Logo", "Change Your Logo");
-                        }
-                        if (IntroCounter == 5){
-                            startIntro(binding.customAddressEdit1, "AddressText", "Change Your Address Text color");
-                        }
-                        if (IntroCounter == 6){
-                            startIntro(binding.customeContactEdit1, "ContactText", "Change Your Contact Text color");
-                        }
-                        if (IntroCounter == 7){
-                            startIntro(binding.bottomBarView1, "Address Background", "Change Your Address Background color");
-                        }
-                        if (IntroCounter == 8){
-                            startIntro(binding.bottomBarView2, "Contac Background", "Change Your Contact Background color");
-                        }
+
+                            if (IntroCounter == 1) {
+                                startIntro(binding.shareIcon, "Share", "Share Your Image Directly");
+                            }
+                            if (IntroCounter == 2) {
+                                startIntro(binding.fabroutIcon, "Save", "Save To Your Brand");
+                            }
+                            if (IntroCounter == 3) {
+                                startIntro(binding.viewPager.getChildAt(0), "Catogery", "List of images");
+                            }
+/*
+                        if (!is_frame.equalsIgnoreCase("1") && preafManager.getFrameIntro()) {
+                            preafManager.setFrameIntro(false);
+                            if (IntroCounter == 4) {
+                                startIntro(binding.logoCard, "Logo", "Change Your Logo");
+                            }
+                            if (IntroCounter == 5) {
+                                startIntro(binding.customAddressEdit1, "AddressText", "Change Your Address Text color");
+                            }
+                            if (IntroCounter == 6) {
+                                startIntro(binding.customeContactEdit1, "ContactText", "Change Your Contact Text color");
+                            }
+                            if (IntroCounter == 7) {
+                                startIntro(binding.bottomBarView1, "Address Background", "Change Your Address Background color");
+                            }
+                            if (IntroCounter == 8) {
+                                startIntro(binding.bottomBarView2, "Contac Background", "Change Your Contact Background color");
+                            }
+                        }*/
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    public void startIntroForFrameOnly(View view, String title, String desc) {
+
+        new GuideView.Builder(this)
+                .setTitle(title)
+                .setContentText(desc)
+                .setGravity(Gravity.center)
+                .setDismissType(DismissType.anywhere)
+                .setTargetView(view)
+                .setContentTextSize(12)
+                .setTitleTextSize(14)
+                .setGuideListener(new GuideListener() {
+                    @Override
+                    public void onDismiss(View view) {
+                            IntroCounter++;
+
+                            if (IntroCounter == 1) {
+                                startIntroForFrameOnly(binding.customAddressEdit1, "AddressText", "Change Your Address Text color");
+                            }
+                            if (IntroCounter == 2) {
+                                startIntroForFrameOnly(binding.customeContactEdit1, "ContactText", "Change Your Contact Text color");
+                            }
+                            if (IntroCounter == 3) {
+                                startIntroForFrameOnly(binding.bottomBarView1, "Address Background", "Change Your Address Background color");
+                            }
+                            if (IntroCounter == 4) {
+                                startIntroForFrameOnly(binding.bottomBarView2, "Contac Background", "Change Your Contact Background color");
+                            }
+
                     }
                 })
                 .build()
@@ -426,7 +466,19 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (!is_frame.equalsIgnoreCase("1")) {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
+            if (preafManager.getFrameIntro()){
+                IntroCounter=0;
+                preafManager.setFrameIntro(false);
+                startIntroForFrameOnly(binding.logoCard, "Logo", "Change Your Logo");
+            }
+        }else{
+            if (preafManager.getViewAllActivityIntro()) {
+                startIntro(binding.downloadIcon,"Download","Download Image From here");
+                preafManager.setViewAllActivityIntro(false);
+            }
         }
+
+
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final EditTabAdapter adapter = new EditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
@@ -521,34 +573,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         });
 
-        if (preafManager.getViewAllActivityIntro()) {
-            startIntro(binding.downloadIcon,"Download","Download Image From here");
-            preafManager.setViewAllActivityIntro(false);
-        }
+
     }
-    public void handler(int position){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (position==0) {
-                    if (preafManager.getCatogaryTab()) {
-                        preafManager.setCatogaryTab(false);
-                        startIntro(binding.viewPager.getChildAt(0),"Catogary","Image Catogary");
-                    }
-                }else if (position==1){
-                    if (preafManager.getBackgroundTab()) {
-                        preafManager.setBackgroundTab(false);
-                        startIntro(binding.viewPager.getChildAt(0),"Background","Background change");
-                    }
-                }else if (position==2){
-                    if (preafManager.gettextTab()) {
-                        preafManager.setTextTab(false);
-                        startIntro(binding.viewPager.getChildAt(0),"Text","Text Style");
-                    }
-                }
-            }
-        }, 300);
-    }
+
     //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);

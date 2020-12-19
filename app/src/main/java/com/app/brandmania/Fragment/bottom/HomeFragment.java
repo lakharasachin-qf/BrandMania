@@ -2,9 +2,7 @@ package com.app.brandmania.Fragment.bottom;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -37,9 +37,12 @@ import com.app.brandmania.Activity.ViewNotificationActivity;
 import com.app.brandmania.Adapter.DasboardAddaptor;
 import com.app.brandmania.Adapter.ImageCateItemeInterFace;
 import com.app.brandmania.Adapter.ViewPagerAdapter;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.ItemMultipleSelectionInterface;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.FrameItem;
@@ -61,6 +64,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -70,7 +74,7 @@ import angtrim.com.fivestarslibrary.ReviewListener;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-public class HomeFragment extends Fragment  implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
     public static int BUSINESS_TYPE = 1;
     private String BusinessTitle;
     ArrayList<BrandListItem> BusinessTypeList = new ArrayList<>();
@@ -118,9 +122,11 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         preafManager=new PreafManager(act);
         super.onResume();
     }
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    @Override
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
+        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,parent,false);
         homeFragment=this;
         fiveStarsDialog = new FiveStarsDialog(getActivity(), "brandmania@gmail.com");
         preafManager = new PreafManager(act);
@@ -133,22 +139,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         }
 
         requestAgain();
-        /*if (ActivityCompat.shouldShowRequestPermissionRationale(act, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            // ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CodeReUse.ASK_PERMISSSION);
-
-        } else {
-            new AlertDialog.Builder(act).setMessage("You have denied permission").setCancelable(true).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                    isPermissionGranted(false);
-                }
-            }).show();
-        }
-*/
-
         RateUs();
-
 
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         mTitleContainer = act.findViewById(R.id.main_linearlayout_title);
@@ -167,7 +158,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         getFrame();
 
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
-               R.color.colorsecond,
+                R.color.colorsecond,
                 R.color.colorthird);
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -181,7 +172,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         });
 
         getDeviceToken(act);
-       // AddUserActivity();
+        // AddUserActivity();
 
         binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,13 +182,13 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             }
         });
 
-       binding.call.setOnClickListener(new View.OnClickListener() {
+        binding.call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 makePhoneCall();
             }
         });
-      binding.whatsapp.setOnClickListener(new View.OnClickListener() {
+        binding.whatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -218,9 +209,8 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         getBanner();
 
         return binding.getRoot();
-
-
     }
+
     public void isPermissionGranted(boolean permission) {
         if (!permission) {
             startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -235,6 +225,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
     }
     //Show Fragment For BrandList...........
     public void showFragmentList(int callingFlag, String title) {
+
         bottomSheetFragment = new SelectBrandListBottomFragment();
         bottomSheetFragment.setHomeFragment(homeFragment);
         bottomSheetFragment.setListData(callingFlag,title);
@@ -357,13 +348,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.rocommRecycler.setVisibility(View.VISIBLE);
                     }
-                    else {
-                        Log.e("Condidtion", "Else");
-
-
-                    }
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -416,6 +400,8 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
+
     //Update Token......................
     private void UpdateToken() {
         Utility.Log("Verify-Responce-Api", APIs.UPDATE_TOKEN);
@@ -476,18 +462,27 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         startActivity(i);
         act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         act.finish();
-            binding.businessName.setText(listModel.getName());
-            brandListItem=listModel;
-            preafManager.setActiveBrand(listModel);
-            Gson gson=new Gson();
-            Log.e("Second",gson.toJson(preafManager.getActiveBrand()));
+        binding.businessName.setText(listModel.getName());
+        brandListItem = listModel;
+        preafManager.setActiveBrand(listModel);
+        Gson gson = new Gson();
+        Log.e("Second", gson.toJson(preafManager.getActiveBrand()));
 
     }
-    @Override public void ImageCateonItemSelection(int position, ImageList listModel) {
+
+    @Override
+    public void ImageCateonItemSelection(int position, ImageList listModel) {
 
     }
+
+    public void resetData() {
+        binding.businessName.setText(preafManager.getActiveBrand().getName());
+
+    }
+
+
     private void makePhoneCall() {
-        String number ="8460638464";
+        String number = "8460638464";
         if (number.trim().length() > 0) {
             if (ContextCompat.checkSelfPermission(act, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(act,
@@ -561,6 +556,8 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                         }
 
                     }
+                    preafManager=new PreafManager(act);
+                    binding.businessName.setText(preafManager.getActiveBrand().getName());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -668,7 +665,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             View view = (View) object;
-            //   container.removeView(view);
+            //container.removeView(view);
         }
     }
 
@@ -695,22 +692,13 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                         if(is_package.equals(""))
                         {
                             binding.alertRelative.setVisibility(View.VISIBLE);
-                          //  Toast.makeText(act,ResponseHandler.getString(datajsonobjecttt, "package_message"),Toast.LENGTH_LONG).show();
                             binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
-                            Log.e("PackagemessageMessage",ResponseHandler.getString(datajsonobjecttt, "package_message"));
 
                         }
-
                         else if (is_payment_pending.equals("1"))
                         {
                             binding.alertRelative.setVisibility(View.VISIBLE);
-                          //  Toast.makeText(act,ResponseHandler.getString(datajsonobjecttt, "payment_message"),Toast.LENGTH_LONG).show();
                             binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
-                            Log.e("PaymentmessageMessage",ResponseHandler.getString(datajsonobjecttt, "payment_message"));
-
-                        }
-                        else
-                        {
 
                         }
 
@@ -722,8 +710,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     }
 
 
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -733,11 +719,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -769,4 +751,15 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         queue.add(stringRequest);
     }
 
+
+    @Override
+    public void update(Observable observable, Object data) {
+
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
+
+
+            getBrandList();
+        }
+
+    }
 }

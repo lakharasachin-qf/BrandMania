@@ -76,7 +76,6 @@ public class PackageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
-
         });
         GetPackageList();
 
@@ -115,14 +114,11 @@ public class PackageActivity extends AppCompatActivity {
                 isLoading = false;
                 Utility.dismissProgress();
                 Utility.Log("GET_PACKAGE : ", response);
-
                 try {
-
                     JSONObject jsonObject = new JSONObject(response);
                     sliderItems = ResponseHandler.HandleGetPackageList(jsonObject);
                     if (sliderItems != null && sliderItems.size() != 0) {
                         GetPackage();
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

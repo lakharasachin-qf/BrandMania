@@ -24,15 +24,16 @@ import java.security.NoSuchAlgorithmException;
 
 public class MakeMyBrandApp extends MultiDexApplication {
     private static MakeMyBrandApp sInstance;
-    private static AppObserver observer;
-    private SharedPreferences sharedPreferences;
 
+    private SharedPreferences sharedPreferences;
+    private AppObserver observer;
     private RequestQueue mRequestQueue;
 
 
     public static MakeMyBrandApp getsInstance() {
         return sInstance;
     }
+
 
     public synchronized static MakeMyBrandApp getInstance() {
         return sInstance;
@@ -55,6 +56,7 @@ public class MakeMyBrandApp extends MultiDexApplication {
 
 
 
+
         printHashKey();
     }
 
@@ -73,7 +75,8 @@ public class MakeMyBrandApp extends MultiDexApplication {
         }
     }
 
-    public static AppObserver getObserver() {
+
+    public AppObserver getObserver() {
         return observer;
     }
 
