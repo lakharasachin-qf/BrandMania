@@ -360,7 +360,16 @@ public class BrandAdapter extends RecyclerView.Adapter {
                                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                                 }
                             });
+                            if (model.getFrame() != null && model.getFrame().size() != 0) {
+                                FrameAddaptor frameAddaptor = new FrameAddaptor(brandListItems.get(position).getFrame(), activity);
+                                ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL,false));
+                                ((BrandHolder) holder).binding.frameitemLayout.setHasFixedSize(true);
+                                frameAddaptor.setBrandListItem(brandListItems.get(position));
+                                ((BrandHolder) holder).binding.frameitemLayout.setAdapter(frameAddaptor);
+                                ((BrandHolder) holder).binding.frameitemLayout.setVisibility(View.VISIBLE);
+                                ((BrandHolder) holder).binding.frameitemLayoutRelative.setVisibility(View.VISIBLE);
 
+                            }
                         }
                     }
 
