@@ -353,6 +353,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onClick(View view) {
                                     Intent i = new Intent(activity, PackageActivity.class);
+                                    i.putExtra("fromBrandList","1");
                                     i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
                                     i.addCategory(Intent.CATEGORY_HOME);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
