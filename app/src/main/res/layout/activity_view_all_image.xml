@@ -378,7 +378,7 @@
                             android:layout_alignParentEnd="true"
                             android:background="@android:color/transparent"
                             android:fontFamily="@font/inter_semibold"
-                            android:hint="Enter Contact Number"
+                            android:hint="Enter Contact no."
                             android:maxLines="1"
                             android:textAlignment="center"
                             android:padding="0dp"
@@ -400,7 +400,7 @@
                             android:layout_centerVertical="true"
                             android:background="@android:color/transparent"
                             android:fontFamily="@font/inter_semibold"
-                            android:hint="Enter Email Id"
+                            android:hint="Enter Email Id or Address"
                             android:maxLines="1"
                             android:padding="0dp"
                             android:singleLine="true"
@@ -432,12 +432,12 @@
                 android:orientation="horizontal"
                 android:visibility="visible" />
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+           <!-- <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/SliderDots"
-                android:scrollbars="none">
+                android:scrollbars="none">-->
 
                 <LinearLayout
                     android:id="@+id/clorframeLayout"
@@ -552,7 +552,7 @@
 
 
                 </RelativeLayout>
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+           <!-- </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
         </RelativeLayout>
 
 

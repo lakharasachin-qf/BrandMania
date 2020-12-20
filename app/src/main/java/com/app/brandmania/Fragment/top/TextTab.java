@@ -2,6 +2,7 @@ package com.app.brandmania.Fragment.top;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.brandmania.Adapter.ColorPickerAdapter;
 import com.app.brandmania.Adapter.FontListAdeptor;
 import com.app.brandmania.Adapter.OnlyTextColorPickerAddaptor;
+import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IItaliTextEvent;
 import com.app.brandmania.Interface.IUnderLineTextEvent;
 import com.app.brandmania.Interface.ITextBoldEvent;
@@ -24,11 +26,12 @@ import com.app.brandmania.Model.FontModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.TextTabBinding;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerView;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class TextTab extends Fragment implements ITextColorChangeEvent {
+public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPickerView.OnColorChangedListener{
     public  boolean BOLD_TEXT =false;
     public  boolean ITALIC_TEXT =false;
     public  boolean UNDERLINE_TEXT =false;
@@ -45,7 +48,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent {
         act = getActivity();
         context=this;
         binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, container, false);
-        binding.textRecycler.setLayoutManager(new GridLayoutManager(getActivity(),6));
+      /*  binding.textRecycler.setLayoutManager(new GridLayoutManager(getActivity(),6));
         binding.textRecycler.setHasFixedSize(true);
         OnlyTextColorPickerAddaptor colorPickerAdapter = new OnlyTextColorPickerAddaptor(getActivity());
         colorPickerAdapter.setTextTab(context);
@@ -55,14 +58,18 @@ public class TextTab extends Fragment implements ITextColorChangeEvent {
                 mColorCode = colorCode;
             }
         });
-        binding.textRecycler.setAdapter(colorPickerAdapter);
+        binding.textRecycler.setAdapter(colorPickerAdapter);*/
+       // binding.chooseColorTxt.setOnClickListener(v -> ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity())));
+
+        binding.colorPickerView.setOnColorChangedListener(this);
+        binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
 
         binding.cancleClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                     binding.fontRecycler.setVisibility(View.GONE);
-                    binding.textRecycler.setVisibility(View.GONE);
+                    binding.colorPickerView.setVisibility(View.GONE);
                     binding.cancleClick.setVisibility(View.GONE);
                     binding.imageChoose.setVisibility(View.VISIBLE);
                 binding.boldRelative.setVisibility(View.VISIBLE);
@@ -132,15 +139,14 @@ public class TextTab extends Fragment implements ITextColorChangeEvent {
         binding.imageChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 /*   binding.fontRecycler.setVisibility(View.GONE);
-                   binding.textRecycler.setVisibility(View.VISIBLE);
+                    binding.fontRecycler.setVisibility(View.GONE);
+                   binding.colorPickerView.setVisibility(View.VISIBLE);
                    binding.cancleClick.setVisibility(View.VISIBLE);
                    binding.imageChoose.setVisibility(View.GONE);
                    binding.boldRelative.setVisibility(View.GONE);
                    binding.underLineRelativ.setVisibility(View.GONE);
                    binding.ItalicClick.setVisibility(View.GONE);
-*/
-                ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity()));
+              //  ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity()));
 
             }
         });
@@ -182,4 +188,9 @@ public class TextTab extends Fragment implements ITextColorChangeEvent {
         binding.fontRecycler.setAdapter(new FontListAdeptor(fontModelList,act));    //set Adapter
     }
 
+    @Override
+    public void onColorChanged(int newColor) {
+        Log.e("OnColorChoose",String.valueOf(newColor));
+        ((IColorChange)act).onChooseColor(newColor);
+    }
 }

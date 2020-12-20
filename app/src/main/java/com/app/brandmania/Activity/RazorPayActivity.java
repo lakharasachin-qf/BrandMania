@@ -152,7 +152,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put("amount", sliderItemList.getPriceForPay());
-               //hashMap.put("amount", "1");
+                //hashMap.put("amount", "1");
                 hashMap.put("currency", "INR");
 
                 Utility.Log("Param", hashMap.toString());

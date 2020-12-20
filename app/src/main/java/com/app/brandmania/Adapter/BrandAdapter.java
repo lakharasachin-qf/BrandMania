@@ -16,13 +16,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,16 +31,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.brandmania.Activity.LoginActivity;
 import com.app.brandmania.Activity.PackageActivity;
-import com.app.brandmania.Activity.RazorPayActivity;
-import com.app.brandmania.Common.Constant;
-import com.app.brandmania.Model.ImageList;
-import com.app.brandmania.databinding.ItemNotificationLayoutBinding;
-import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
 import com.app.brandmania.Activity.UpdateBandList;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
@@ -50,12 +41,13 @@ import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ItemLayoutGetbrandlistBinding;
-import com.app.brandmania.databinding.ItemLayoutHomeBinding;
-import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
+import com.app.brandmania.databinding.ItemNotificationLayoutBinding;
+import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,7 +167,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         }
                     });
 
-                         if (model.getFrame() != null && model.getFrame().size() != 0) {
+                        /* if (model.getFrame() != null && model.getFrame().size() != 0) {
                              FrameAddaptor frameAddaptor = new FrameAddaptor(brandListItems.get(position).getFrame(), activity);
                              ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL,false));
                              ((BrandHolder) holder).binding.frameitemLayout.setHasFixedSize(true);
@@ -245,6 +237,10 @@ public class BrandAdapter extends RecyclerView.Adapter {
                              });
 
 
+                         }*/
+
+
+                    //=====================================================
 
 
 
@@ -252,27 +248,132 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
 
 
+                    if (brandListItems.get(position).getIs_frame().equalsIgnoreCase("0")) {
+                        //payment done
+                        //payment done  - isFrame=0, isPayment=0
+                        if (brandListItems.get(position).getIs_payment_pending().equalsIgnoreCase("0")) {
+                            ((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
+                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.whatsappImage.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.showImage.setVisibility(View.VISIBLE);
+                            ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
+                            ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
+                            ((BrandHolder)holder).binding.showImage.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    showDialog(position);
+                                }
+                            });
+                            ((BrandHolder)holder).binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        String number ="8460638464";
+                                        String BrandContact="\nRegistered Number: ";
+                                        String text = "Hello *BrandMania* ,  \n" + "this is request to add *Frame* For BrandName:"+ ((BrandHolder)holder).binding.businessName.getText().toString() +BrandContact+preafManager.getMobileNumber();
+                                        String toNumber ="91"+number;
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+                                        activity.startActivity(intent);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                        //payment not done
+                        //First- isFrame=0,isPending=1
+                        else {
+                            ((BrandHolder) holder).binding.warning.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.warning.setText("You haven't selected any package yet!");
+                            ((BrandHolder) holder).binding.selectPlane.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.view.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.showImage.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.makePayment.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.makePaymentView.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.frameitemLayoutRelative.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.GONE);
+                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder)holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent i = new Intent(activity, PackageActivity.class);
+                                    i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
+                                    i.addCategory(Intent.CATEGORY_HOME);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    activity.startActivity(i);
+                                    activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                                }
+                            });
+                        }
+                    }
+                    //frame created
+                    else {
+                        //payment Done- isFrame=1, isPending=0
+                        if (brandListItems.get(position).getIs_payment_pending().equalsIgnoreCase("0")) {
+                            ((BrandHolder) holder).binding.showImage.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.warning.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.selectPlane.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.makePayment.setVisibility(View.GONE);
+
+                            ((BrandHolder) holder).binding.showImage.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    showDialog(position);
+                                }
+
+                            });
+
+                            if (model.getFrame() != null && model.getFrame().size() != 0) {
+                                FrameAddaptor frameAddaptor = new FrameAddaptor(brandListItems.get(position).getFrame(), activity);
+                                ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL,false));
+                                ((BrandHolder) holder).binding.frameitemLayout.setHasFixedSize(true);
+                                frameAddaptor.setBrandListItem(brandListItems.get(position));
+                                ((BrandHolder) holder).binding.frameitemLayout.setAdapter(frameAddaptor);
+                                ((BrandHolder) holder).binding.frameitemLayout.setVisibility(View.VISIBLE);
+                                ((BrandHolder) holder).binding.frameitemLayoutRelative.setVisibility(View.VISIBLE);
+
+                            }
+                        }
+                        //Not payment - isFrame=1, isPendingPayment=1 but create frame
+                        else {
+                            ((BrandHolder) holder).binding.warning.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.warning.setText("You haven't selected any package yet!");
+                            ((BrandHolder) holder).binding.selectPlane.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.view.setVisibility(View.VISIBLE);
+                            ((BrandHolder) holder).binding.showImage.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.makePayment.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.makePaymentView.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.frameitemLayoutRelative.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.GONE);
+                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder)holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent i = new Intent(activity, PackageActivity.class);
+                                    i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
+                                    i.addCategory(Intent.CATEGORY_HOME);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    activity.startActivity(i);
+                                    activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                                }
+                            });
+
+                        }
+                    }
 
 
+                    //=====================================================
+/*
 
-
-
-
-
-
-
-
-
-
-
-                         }
-
-                    if (brandListItems.get(position).getIs_frame().equals("1")){
-                        ((BrandHolder)holder).binding.showImage.setVisibility(View.VISIBLE);
-                        ((BrandHolder)holder).binding.warning.setVisibility(View.GONE);
-                        ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
-                        ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
-                        ((BrandHolder)holder).binding.showImage.setOnClickListener(new View.OnClickListener() {
+                    if (brandListItems.get(position).getIs_frame().equals("1")) {
+                        ((BrandHolder) holder).binding.showImage.setVisibility(View.VISIBLE);
+                        ((BrandHolder) holder).binding.warning.setVisibility(View.GONE);
+                        ((BrandHolder) holder).binding.selectPlane.setVisibility(View.GONE);
+                        ((BrandHolder) holder).binding.makePayment.setVisibility(View.GONE);
+                        ((BrandHolder) holder).binding.showImage.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 showDialog(position);
@@ -372,7 +473,8 @@ public class BrandAdapter extends RecyclerView.Adapter {
                            });
 
 
-                       }/*else  if (  brandListItems.get(position).getIs_payment_pending().equals("1")){
+                       }*/
+/*else  if (  brandListItems.get(position).getIs_payment_pending().equals("1")){
                            //your payment is pending
                            ((BrandHolder)holder).binding.view.setVisibility(View.GONE);
                            ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
@@ -392,7 +494,8 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
                                }
                            });
-                       }*/
+                       }*//*
+
                        else
                        {
                            ((BrandHolder)holder).binding.warning.setText("You have't selected any package yet!");
@@ -419,6 +522,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
 
                     }
+*/
 
                          break;
                 case LAYOUT_NOTIFICATIONlIST:

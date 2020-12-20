@@ -2,17 +2,22 @@
 <layout xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools"
     app:ignore="NamespaceTypo">
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:theme="@style/AppTheme_material_theme"
     android:layout_height="wrap_content">
-
+    <RelativeLayout
+        android:id="@+id/contentSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView
-
+        card_view:cardUseCompatPadding="true"
         android:id="@+id/itemLayout"
         android:layout_width="@dimen/_60sdp"
         android:elevation="@dimen/_30sdp"
+        card_view:cardPreventCornerOverlap="true"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginLeft="@dimen/_20sdp"
         card_view:cardCornerRadius="@dimen/_7sdp"
@@ -117,6 +122,7 @@
         </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/frameitemLayoutRelative"
         android:layout_toEndOf="@+id/itemLayout"
         android:layout_marginStart="@dimen/_10sdp"
@@ -125,60 +131,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
-
         android:id="@+id/frameitemLayout"
             android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp">
     </androidx.recyclerview.widget.RecyclerView>
-
-    <TextView
-        android:fontFamily="@font/inter_regular"
-        android:textSize="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:visibility="gone"
-        android:id="@+id/messgaeShow"
-        android:text="No Frame Found"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </TextView>
-        <TextView
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_below="@+id/messgaeShow"
-            android:fontFamily="@font/inter_bold"
-            android:textSize="@dimen/_12sdp"
-            android:visibility="gone"
-            android:id="@+id/contactSupport"
-            android:text="No Frame Found"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
-        <ImageView
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_below="@+id/messgaeShow"
-            android:visibility="gone"
-            android:id="@+id/callImageImage"
-            android:src="@drawable/ic_phone"
-            android:layout_marginRight="@dimen/_5sdp"
-
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp">
-        </ImageView>
-
     </RelativeLayout>
-
+    </RelativeLayout>
     <TextView
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="@dimen/_15sdp"
         android:layout_marginRight="@dimen/_15sdp"
         android:visibility="visible"
         android:id="@+id/warning"
-        android:layout_marginTop="@dimen/_15sdp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/frameitemLayoutRelative"
-        android:text="oijfksdjfks"
+        android:layout_below="@+id/contentSection"
+        android:text="dfgdgdgdfg"
         android:textColor="@color/colorRed"
         android:textSize="@dimen/_10sdp"
         android:fontFamily="@font/inter_regular"
@@ -189,6 +157,7 @@
     </TextView>
 
     <RelativeLayout
+        android:layout_gravity="center_horizontal"
         android:layout_below="@+id/warning"
         android:layout_centerHorizontal="true"
         android:id="@+id/buttons"
@@ -231,6 +200,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:layout_gravity="center_horizontal"
         android:visibility="gone"
         android:paddingTop="@dimen/_7sdp"
         android:orientation="horizontal"
@@ -258,12 +228,11 @@
     </LinearLayout>
 
     <View
-        android:visibility="gone"
+         android:visibility="gone"
         android:layout_marginStart="@dimen/_20sdp"
         android:id="@+id/makePaymentView"
         android:layout_marginTop="@dimen/_14sdp"
-        android:layout_below="@+id/contactTxtLayout"
-        android:background="#B1B1B1"
+         android:background="#B1B1B1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp">
 
@@ -272,13 +241,12 @@
        android:id="@+id/view"
         android:layout_marginTop="@dimen/_14sdp"
         android:layout_marginStart="@dimen/_20sdp"
-         android:layout_below="@+id/contactTxtLayout"
-        android:background="#B1B1B1"
+         android:background="#B1B1B1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp">
 
     </View>
 
 
-</RelativeLayout>
+</LinearLayout>
 </layout>

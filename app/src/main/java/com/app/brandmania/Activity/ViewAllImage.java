@@ -189,7 +189,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         Website=preafManager.getActiveBrand().getWebsite();
 
-        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
+       /* binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -201,7 +201,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 //getNotice(startDate, endDate);
 
             }
-        });
+        });*/
+
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         getImageCtegory();
@@ -446,16 +447,16 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                             IntroCounter++;
 
                             if (IntroCounter == 1) {
-                                startIntroForFrameOnly(binding.customAddressEdit1, "AddressText", "Change Your Address Text color");
+                                startIntroForFrameOnly(binding.customAddressEdit1, "Add Text", "Add text like email-id or address");
                             }
                             if (IntroCounter == 2) {
-                                startIntroForFrameOnly(binding.customeContactEdit1, "ContactText", "Change Your Contact Text color");
+                                startIntroForFrameOnly(binding.customeContactEdit1, "Add Text", "Add your contact no. here");
                             }
                             if (IntroCounter == 3) {
-                                startIntroForFrameOnly(binding.bottomBarView1, "Address Background", "Change Your Address Background color");
+                                startIntroForFrameOnly(binding.bottomBarView1, "Background", "Change background color as you want");
                             }
                             if (IntroCounter == 4) {
-                                startIntroForFrameOnly(binding.bottomBarView2, "Contac Background", "Change Your Contact Background color");
+                                startIntroForFrameOnly(binding.bottomBarView2, "Background", "Change background color as you want");
                             }
 
                     }
@@ -472,7 +473,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
          //   if (preafManager.getFrameIntro()){
                 IntroCounter=0;
                 preafManager.setFrameIntro(false);
-                startIntroForFrameOnly(binding.logoCard, "Logo", "Change Your Logo");
+                startIntroForFrameOnly(binding.logoCard, "Logo", "you can upload logo here");
           //  }
         }else{
             if (preafManager.getViewAllActivityIntro()) {
@@ -774,12 +775,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
     //For GetImageCategory..............................
     private void getImageCtegory() {
-        binding.swipeContainer.setRefreshing(true);
+      //  binding.swipeContainer.setRefreshing(true);
         Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                binding.swipeContainer.setRefreshing(false);
+             //   binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_IMAGE_CATEGORY : ", response);
 
                 try {
@@ -809,7 +810,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        binding.swipeContainer.setRefreshing(false);
+                      //  binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 //                        String body;
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
@@ -1189,7 +1190,24 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     @Override
     public void onChooseColor(int colorCode) {
-
+        if (editorFragment==2 && selectedForEdit!=null) {
+            selectedForEdit.setTextColor(colorCode);
+        }
+        if (editorFragment==1 && selectedForBackgroundChange!=null){
+            if (FramePrimaryOrSecondary==0){
+                binding.bottomBarView1.setBackgroundColor(colorCode);
+                binding.bottomBarView3.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+                binding.topBarView2.setBackgroundColor(colorCode);
+                binding.rightBarView1.setBackgroundColor(colorCode);
+                binding.leftBarView2.setBackgroundColor(colorCode);
+            }else {
+                binding.bottomBarView2.setBackgroundColor(colorCode);
+                binding.topBarView1.setBackgroundColor(colorCode);
+                binding.leftBarView1.setBackgroundColor(colorCode);
+                binding.rightBarView2.setBackgroundColor(colorCode);
+            }
+            selectedForBackgroundChange.setBackgroundColor(colorCode);
+        }
     }
 
     @Override
@@ -1452,7 +1470,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                binding.swipeContainer.setRefreshing(false);
+               // binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_BRAND : ", response);
                 ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
@@ -1470,7 +1488,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        binding.swipeContainer.setRefreshing(false);
+                       // binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 
 
@@ -1682,7 +1700,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND_BY_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                binding.swipeContainer.setRefreshing(false);
+               // binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_BRAND_BY_ID : ", response);
                 ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
@@ -1719,7 +1737,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        binding.swipeContainer.setRefreshing(false);
+                     //   binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
 
 

@@ -78,7 +78,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding= DataBindingUtil.setContentView(act,R.layout.activity_add_brand_multiple);
         preafManager=new PreafManager(this);
         alertDialogBuilder=new AlertDialog.Builder(act);
@@ -382,13 +382,18 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         preafManager.setActiveBrand(brandListItems.get(toSetActiveBrand));
                     }
 
-                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.JUSTBRAND);
+                  //  MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.JUSTBRAND);
 
-                    /*Intent i = new Intent(act, HomeActivity.class);
+
+                    Intent i = new Intent(act, HomeActivity.class);
+
+                    i.addCategory(Intent.CATEGORY_HOME);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
-                    overridePendingTransition(R.anim.right_enter, R.anim.left_out);
-                    finish();*/
-                    onBackPressed();
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    finish();
+
+                  //  onBackPressed();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

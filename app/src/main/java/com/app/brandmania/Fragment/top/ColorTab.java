@@ -2,6 +2,7 @@ package com.app.brandmania.Fragment.top;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,20 +39,14 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
         binding.colorRecycler.setHasFixedSize(true);
         OnlyTextColorPickerAddaptor colorPickerAdapter = new OnlyTextColorPickerAddaptor(getActivity());
         colorPickerAdapter.setColorTab(context);
-        colorPickerAdapter.setOnColorPickerClickListener(new ColorPickerAdapter.OnColorPickerClickListener() {
-            @Override
-            public void onColorPickerClickListener(int colorCode) {
-                mColorCode = colorCode;
-            }
-        });
+        colorPickerAdapter.setOnColorPickerClickListener(colorCode -> mColorCode = colorCode);
         binding.colorRecycler.setAdapter(colorPickerAdapter);
 
-        binding.chooseColorTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity()));
-            }
-        });
+        binding.chooseColorTxt.setOnClickListener(v -> ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity())));
+
+        binding.colorPickerView.setOnColorChangedListener(this);
+        binding.colorPickerView.setOnColorChangedListener(this);
+        binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
 
         return binding.getRoot();
     }
@@ -59,6 +54,7 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
 
     @Override
     public void onColorChanged(int newColor) {
-       // ((IColorChange)act).onChooseColor(newColor);
+        Log.e("OnColorChoose",String.valueOf(newColor));
+        ((IColorChange)act).onChooseColor(newColor);
     }
 }

@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
+     <!--   <androidx.recyclerview.widget.RecyclerView
             android:layout_below="@+id/cancleClick"
             android:id="@+id/textRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>-->
+        <com.jaredrummler.android.colorpicker.ColorPickerView
+             android:layout_below="@+id/cancleClick"
+            android:id="@+id/colorPickerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/_10sdp"
             android:visibility="gone"
@@ -27,10 +31,11 @@
             android:layout_marginRight="@dimen/_10sdp"
             android:src="@drawable/ic_outline_close_24"
             android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp">
+            android:layout_height="@dimen/_20sdp"
+            app:tint="@color/black">
         </ImageView>
         <ImageView
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_below="@+id/cancleClick"
             android:id="@+id/imageChoose"
             android:background="@color/black"
