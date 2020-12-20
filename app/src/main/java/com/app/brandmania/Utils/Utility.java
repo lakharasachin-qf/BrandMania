@@ -177,7 +177,7 @@ public class Utility {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        Intent intent=new Intent(act, ViewBrandActivity.class);
+                        Intent intent=new Intent(act, PackageActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         act.startActivity(intent);

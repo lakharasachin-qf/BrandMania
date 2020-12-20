@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,8 +23,10 @@ import com.app.brandmania.Interface.ITextColorChangeEvent;
 import com.app.brandmania.Model.FontModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.TextTabBinding;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TextTab extends Fragment implements ITextColorChangeEvent {
     public  boolean BOLD_TEXT =false;
@@ -129,14 +132,15 @@ public class TextTab extends Fragment implements ITextColorChangeEvent {
         binding.imageChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    binding.fontRecycler.setVisibility(View.GONE);
+                 /*   binding.fontRecycler.setVisibility(View.GONE);
                    binding.textRecycler.setVisibility(View.VISIBLE);
                    binding.cancleClick.setVisibility(View.VISIBLE);
                    binding.imageChoose.setVisibility(View.GONE);
                    binding.boldRelative.setVisibility(View.GONE);
                    binding.underLineRelativ.setVisibility(View.GONE);
                    binding.ItalicClick.setVisibility(View.GONE);
-
+*/
+                ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity()));
 
             }
         });

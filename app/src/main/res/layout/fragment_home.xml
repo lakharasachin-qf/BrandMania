@@ -257,12 +257,24 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/contactTxtLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:layout_alignParentBottom="true"
             android:background="#79000000">
-
+                <ImageView
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/whatsappImage"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_whatsapp"
+                    android:visibility="visible" />
                 <TextView
+                    android:layout_toEndOf="@+id/whatsappImage"
                     android:layout_centerVertical="true"
                     android:id="@+id/alertText"
                     android:layout_width="match_parent"

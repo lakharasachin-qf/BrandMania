@@ -62,6 +62,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IItaliTextEvent;
 import com.app.brandmania.Interface.IPaymentFlow;
 import com.app.brandmania.Interface.ITextBoldEvent;
@@ -86,6 +87,8 @@ import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+import com.jaredrummler.android.colorpicker.ColorPickerView;
 import com.skydoves.balloon.ArrowConstraints;
 import com.skydoves.balloon.ArrowOrientation;
 import com.skydoves.balloon.Balloon;
@@ -124,7 +127,7 @@ import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 import static com.app.brandmania.Utils.Utility.dialog;
 
-public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent, IItaliTextEvent, IUnderLineTextEvent {
+public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IUnderLineTextEvent, IColorChange, ColorPickerView.OnColorChangedListener {
     Activity act;
     ViewPager viewPager;
     private boolean isLoading = false;
@@ -466,11 +469,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (!is_frame.equalsIgnoreCase("1")) {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
-            if (preafManager.getFrameIntro()){
+         //   if (preafManager.getFrameIntro()){
                 IntroCounter=0;
                 preafManager.setFrameIntro(false);
                 startIntroForFrameOnly(binding.logoCard, "Logo", "Change Your Logo");
-            }
+          //  }
         }else{
             if (preafManager.getViewAllActivityIntro()) {
                 startIntro(binding.downloadIcon,"Download","Download Image From here");
@@ -1183,6 +1186,61 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         queue.add(stringRequest);
     }
     @Override public void onBackPressed() {CodeReUse.activityBackPress(act); }
+
+    @Override
+    public void onChooseColor(int colorCode) {
+
+    }
+
+    @Override
+    public void onColorChanged(int colorCode) {
+        if (editorFragment==2 && selectedForEdit!=null) {
+            selectedForEdit.setTextColor(colorCode);
+        }
+         if (editorFragment==1 && selectedForBackgroundChange!=null){
+            if (FramePrimaryOrSecondary==0){
+                binding.bottomBarView1.setBackgroundColor(colorCode);
+                binding.bottomBarView3.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+                binding.topBarView2.setBackgroundColor(colorCode);
+                binding.rightBarView1.setBackgroundColor(colorCode);
+                binding.leftBarView2.setBackgroundColor(colorCode);
+            }else {
+                binding.bottomBarView2.setBackgroundColor(colorCode);
+                binding.topBarView1.setBackgroundColor(colorCode);
+                binding.leftBarView1.setBackgroundColor(colorCode);
+                binding.rightBarView2.setBackgroundColor(colorCode);
+            }
+            selectedForBackgroundChange.setBackgroundColor(colorCode);
+        }
+    }
+
+    @Override
+    public void onColorSelected(int dialogId, int colorCode) {
+        if (editorFragment==2 && selectedForEdit!=null) {
+            selectedForEdit.setTextColor(colorCode);
+        }
+        if (editorFragment==1 && selectedForBackgroundChange!=null){
+            if (FramePrimaryOrSecondary==0){
+                binding.bottomBarView1.setBackgroundColor(colorCode);
+                binding.bottomBarView3.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+                binding.topBarView2.setBackgroundColor(colorCode);
+                binding.rightBarView1.setBackgroundColor(colorCode);
+                binding.leftBarView2.setBackgroundColor(colorCode);
+            }else {
+                binding.bottomBarView2.setBackgroundColor(colorCode);
+                binding.topBarView1.setBackgroundColor(colorCode);
+                binding.leftBarView1.setBackgroundColor(colorCode);
+                binding.rightBarView2.setBackgroundColor(colorCode);
+            }
+            selectedForBackgroundChange.setBackgroundColor(colorCode);
+        }
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+
+    }
+
     private class DownloadImageTask extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
         public DownloadImageTask(String url) {

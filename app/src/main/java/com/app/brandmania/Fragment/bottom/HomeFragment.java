@@ -31,9 +31,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
+import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Adapter.DasboardAddaptor;
 import com.app.brandmania.Adapter.ImageCateItemeInterFace;
 import com.app.brandmania.Adapter.ViewPagerAdapter;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
@@ -206,6 +208,23 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         getImageCtegory();
         getBanner();
 
+
+        binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String number = Constant.ADMIN_CONTACT_NUMBER;
+                    String BrandContact="\nRegistered Number: ";
+                    String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:"+ preafManager.getActiveBrand().getName() +BrandContact+preafManager.getMobileNumber();
+                    String toNumber ="91"+number;
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         return binding.getRoot();
     }
 

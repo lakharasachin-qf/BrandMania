@@ -16,7 +16,7 @@ public class Constant {
     public static final String F_VERSION = "2.0.1";
 
 
-
+    public static final String ADMIN_CONTACT_NUMBER="8460638464";
 
     public static final String SOCIETY_ID = "1";
 

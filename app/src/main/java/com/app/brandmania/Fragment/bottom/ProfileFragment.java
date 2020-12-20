@@ -24,6 +24,7 @@ import com.app.brandmania.Activity.AddReportAndBug;
 import com.app.brandmania.Activity.FaqActivity;
 import com.app.brandmania.Activity.LoginActivity;
 import com.app.brandmania.Activity.PackageActivity;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
@@ -164,6 +165,24 @@ public class ProfileFragment extends BaseFragment {
                 Intent intent=new Intent(act, AddReportAndBug.class);
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        binding.appVersionTxt.setText("App Version "+Constant.F_VERSION);
+
+        binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String number = Constant.ADMIN_CONTACT_NUMBER;
+                    String BrandContact="\nRegistered Number: ";
+                    String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:"+ preafManager.getActiveBrand().getName() +BrandContact+preafManager.getMobileNumber();
+                    String toNumber ="91"+number;
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         return binding.getRoot();

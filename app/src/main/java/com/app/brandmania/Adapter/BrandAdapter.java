@@ -36,6 +36,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.LoginActivity;
 import com.app.brandmania.Activity.PackageActivity;
 import com.app.brandmania.Activity.RazorPayActivity;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.databinding.ItemNotificationLayoutBinding;
 import com.bumptech.glide.Glide;
@@ -184,7 +185,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                              ((BrandHolder) holder).binding.messgaeShow.setVisibility(View.GONE);
                              ((BrandHolder) holder).binding.whatsappImage.setVisibility(View.GONE);
                              ((BrandHolder) holder).binding.contactSupport.setVisibility(View.GONE);
-                             ((BrandHolder) holder).binding.callImageImage.setVisibility(View.GONE);
+
                          }
                          else
                          {
@@ -230,7 +231,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                                  @Override
                                  public void onClick(View v) {
                                      try {
-                                         String number ="8460638464";
+                                         String number = Constant.ADMIN_CONTACT_NUMBER;
                                          String BrandContact="\nRegistered Number: ";
                                          String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:"+ ((BrandHolder)holder).binding.businessName.getText().toString() +BrandContact+preafManager.getMobileNumber();
                                          String toNumber ="91"+number;
@@ -274,49 +275,15 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         ((BrandHolder)holder).binding.showImage.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                // Create an alert builder
-                                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                                // set the custom layout
-                                final View customLayout = activity.getLayoutInflater().inflate(R.layout.package_detail_alert_dialog, null);
-                                TextView packageName=customLayout.findViewById(R.id.packageName);
-                                TextView totalImage=customLayout.findViewById(R.id.totalImage);
-                                TextView usedImage=customLayout.findViewById(R.id.usedImage);
-                                TextView remainingImage=customLayout.findViewById(R.id.remainingImage);
-                                TextView expirydate=customLayout.findViewById(R.id.expieryDateName);
-                                TextView priceContent=customLayout.findViewById(R.id.priceContent);
-                                ImageView closed=customLayout.findViewById(R.id.CloseImg);
-                                packageName.setText(brandListItems.get(position).getPackagename());
-                                totalImage.setText(brandListItems.get(position).getNo_of_total_image());
-                                usedImage.setText(brandListItems.get(position).getNo_of_used_image());
-                                remainingImage.setText(brandListItems.get(position).getNo_of_remaining());
-                                expirydate.setText(brandListItems.get(position).getExpiery_date());
-                                priceContent.setText("("+brandListItems.get(position).getRate()+")");
-                                builder.setView(customLayout);
-
-
-                                AlertDialog dialog
-                                        = builder.create();
-                                dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
-                                dialog.setCancelable(false);
-                                dialog.show();
-                                closed.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                                Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                                pbutton.setBackgroundColor(Color.WHITE);
+                                showDialog(position);
                             }
 
                         });
-
-
-                        if (brandListItems.get(position).getPackagename().equals(""))
-                        {
+                        if (brandListItems.get(position).getPackagename().equals("")) {
+                            ((BrandHolder)holder).binding.showImage.setVisibility(View.GONE);
                             ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
                             ((BrandHolder)holder).binding.makePaymentView.setVisibility(View.GONE);
-                            ((BrandHolder)holder).binding.warning.setText(" You have't selected any plan yet!");
+                            ((BrandHolder)holder).binding.warning.setText("You have't selected any package yet!");
                             ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
                             ((BrandHolder)holder).binding.selectPlane.setVisibility(View.VISIBLE);
                             ((BrandHolder)holder).binding.view.setVisibility(View.VISIBLE);
@@ -344,6 +311,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         {
 
                             ((BrandHolder)holder).binding.view.setVisibility(View.GONE);
+                            ((BrandHolder)holder).binding.showImage.setVisibility(View.GONE);
                             ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
                             ((BrandHolder)holder).binding.makePaymentView.setVisibility(View.VISIBLE);
                             ((BrandHolder)holder).binding.makePayment.setVisibility(View.VISIBLE);
@@ -366,21 +334,68 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
                     }
                     else{
+                        ((BrandHolder) holder).binding.frameitemLayoutRelative.setVisibility(View.GONE);
                         ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
 //                        ((BrandHolder)holder).binding.warning.setText(brandListItems.get(position).getFrame_message());
 
                        if (brandListItems.get(position).getIs_payment_pending().equals("0")){
 
-
-                           ((BrandHolder)holder).binding.warning.setText(" Please creat your frame!!");
+                           ((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                           ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.VISIBLE);
+                           ((BrandHolder) holder).binding.whatsappImage.setVisibility(View.VISIBLE);
+                           ((BrandHolder) holder).binding.showImage.setVisibility(View.VISIBLE);
                            ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
                            ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
+                           ((BrandHolder)holder).binding.showImage.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View view) {
+                                   showDialog(position);
+                               }
 
-                       }
+                           });
+                           ((BrandHolder)holder).binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View v) {
+                                   try {
+                                       String number ="8460638464";
+                                       String BrandContact="\nRegistered Number: ";
+                                       String text = "Hello *BrandMania* ,  \n" + "this is request to add *Frame* For BrandName:"+ ((BrandHolder)holder).binding.businessName.getText().toString() +BrandContact+preafManager.getMobileNumber();
+                                       String toNumber ="91"+number;
+                                       Intent intent = new Intent(Intent.ACTION_VIEW);
+                                       intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+                                       activity.startActivity(intent);
+                                   } catch (Exception e) {
+                                       e.printStackTrace();
+                                   }
+                               }
+                           });
+
+
+                       }/*else  if (  brandListItems.get(position).getIs_payment_pending().equals("1")){
+                           //your payment is pending
+                           ((BrandHolder)holder).binding.view.setVisibility(View.GONE);
+                           ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
+                           ((BrandHolder)holder).binding.makePaymentView.setVisibility(View.VISIBLE);
+                           ((BrandHolder)holder).binding.makePayment.setVisibility(View.VISIBLE);
+                           ((BrandHolder)holder).binding.warning.setText(brandListItems.get(position).getPayment_message());
+                           ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                           ((BrandHolder)holder).binding.makePayment.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View view) {
+                                   brandbyidif.fireBrandList(position,brandListItems.get(position));
+                               }
+                           });
+                           ((BrandHolder)holder).binding.warning.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View view) {
+
+                               }
+                           });
+                       }*/
                        else
                        {
-                           ((BrandHolder)holder).binding.warning.setText(" You have't selected any plan yet!");
+                           ((BrandHolder)holder).binding.warning.setText("You have't selected any package yet!");
                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
                            ((BrandHolder)holder).binding.selectPlane.setVisibility(View.VISIBLE);
                            ((BrandHolder)holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
@@ -434,6 +449,41 @@ public class BrandAdapter extends RecyclerView.Adapter {
             binding = itemView;
 
         }
+    }
+    public void showDialog(int position){
+        // Create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        // set the custom layout
+        final View customLayout = activity.getLayoutInflater().inflate(R.layout.package_detail_alert_dialog, null);
+        TextView packageName=customLayout.findViewById(R.id.packageName);
+        TextView totalImage=customLayout.findViewById(R.id.totalImage);
+        TextView usedImage=customLayout.findViewById(R.id.usedImage);
+        TextView remainingImage=customLayout.findViewById(R.id.remainingImage);
+        TextView expirydate=customLayout.findViewById(R.id.expieryDateName);
+        TextView priceContent=customLayout.findViewById(R.id.priceContent);
+        ImageView closed=customLayout.findViewById(R.id.CloseImg);
+        packageName.setText(brandListItems.get(position).getPackagename());
+        totalImage.setText(brandListItems.get(position).getNo_of_total_image());
+        usedImage.setText(brandListItems.get(position).getNo_of_used_image());
+        remainingImage.setText(brandListItems.get(position).getNo_of_remaining());
+        expirydate.setText(brandListItems.get(position).getExpiery_date());
+        priceContent.setText("("+brandListItems.get(position).getRate()+")");
+        builder.setView(customLayout);
+
+
+        AlertDialog dialog
+                = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
+        dialog.setCancelable(false);
+        dialog.show();
+        closed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setBackgroundColor(Color.WHITE);
     }
     private void makePhoneCall() {
         String number ="8460638464";

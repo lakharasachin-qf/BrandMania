@@ -6,18 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.app.brandmania.Adapter.ColorPickerAdapter;
 import com.app.brandmania.Adapter.OnlyTextColorPickerAddaptor;
+import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.ITextColorChangeEvent;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ColorTabBinding;
 import com.app.brandmania.databinding.FragmentCustomBinding;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerView;
 
-public class ColorTab extends Fragment {
+import java.util.Objects;
+
+public class ColorTab extends Fragment implements ColorPickerView.OnColorChangedListener {
     Activity act;
     private ColorTabBinding binding;
     private int mColorCode;
@@ -40,9 +46,19 @@ public class ColorTab extends Fragment {
         });
         binding.colorRecycler.setAdapter(colorPickerAdapter);
 
+        binding.chooseColorTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity()));
+            }
+        });
+
         return binding.getRoot();
     }
 
 
-
+    @Override
+    public void onColorChanged(int newColor) {
+       // ((IColorChange)act).onChooseColor(newColor);
+    }
 }

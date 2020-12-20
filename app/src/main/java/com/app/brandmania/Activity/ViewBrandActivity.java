@@ -252,7 +252,7 @@ public class ViewBrandActivity extends BaseActivity {
 
 
 
-                    Intent i = new Intent(act, RazorPayActivity.class);
+                    Intent i = new Intent(act, PackageActivity.class);
 
                     i.putExtra("detailsObj",gson.toJson(sliderItem));
                     /*i.addCategory(Intent.CATEGORY_HOME);
