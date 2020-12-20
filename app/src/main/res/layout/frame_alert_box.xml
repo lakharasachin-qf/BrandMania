@@ -19,7 +19,8 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:padding="@dimen/_4sdp"
-            android:src="@drawable/ic_outline_close_24" />
+            android:src="@drawable/ic_outline_close_24"
+            app:tint="@color/colorthird" />
 
 
 

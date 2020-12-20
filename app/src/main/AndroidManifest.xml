@@ -99,13 +99,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+      <!--  <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_Sq3SAdZBt9Vec4" />-->
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_Sq3SAdZBt9Vec4" />
-<!--
-        <meta-data
-            android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_g34adOBwCItfce" />-->
+            android:value="rzp_test_g34adOBwCItfce" />
 
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
