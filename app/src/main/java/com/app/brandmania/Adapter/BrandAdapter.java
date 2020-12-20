@@ -338,6 +338,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             }
                         }
                         //Not payment - isFrame=1, isPendingPayment=1 but create frame
+
                         else {
                             ((BrandHolder) holder).binding.warning.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.warning.setText("You haven't selected any package yet!");
