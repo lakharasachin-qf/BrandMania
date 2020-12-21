@@ -605,11 +605,11 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     JSONObject jsonObject = new JSONObject(response);
                     binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-
+                    preafManager.setAddBrandList(multiListItems);
                     //FirstLogin
                     if (act.getIntent().hasExtra("FirstLogin")){
 
-                        preafManager.setAddBrandList(multiListItems);
+
                         preafManager.setIS_Brand(true);
 
                         if (multiListItems.size() != 0) {

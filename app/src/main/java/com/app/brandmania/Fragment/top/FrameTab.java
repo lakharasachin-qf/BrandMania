@@ -35,23 +35,29 @@ public class FrameTab extends Fragment {
         ArrayList<MultiListItem> menuModels = new ArrayList<>();
         MultiListItem model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.firstframe);
+        model.setImage(R.drawable.img_one);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.secondframe);
+        model.setImage(R.drawable.img_o);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.thirdframe);
+        model.setImage(R.drawable.img_okne);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.fourthframe);
+        model.setImage(R.drawable.imgd_o);
         menuModels.add(model);
+        model = new MultiListItem();
+        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
+        model.setImage(R.drawable.imdg_o);
+        menuModels.add(model);
+
+
 
         MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
         binding.frameRecycler.setLayoutManager(new GridLayoutManager(getActivity(),4));

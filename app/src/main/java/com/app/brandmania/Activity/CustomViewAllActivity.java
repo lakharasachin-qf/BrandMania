@@ -57,10 +57,14 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
     Activity act;
     private ActivityCustomViewAllBinding binding;
     Gson gson;
+    int windowwidth;
+    int windowheight;
     private ViewGroup mainLayout;
     ArrayList<MultiListItem> menuModels = new ArrayList<>();
     private MultiListItem listModel;
     Drawable yourDrawable;
+    private ScaleGestureDetector scaleGestureDetector;
+    private float mScaleFactor = 1.0f;
     MotionEvent onClickTimeHelper;
     boolean isFirstTouchOnImage=false;
     private int showingView = -1;
@@ -74,9 +78,12 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson = new Gson();
         mainLayout = (RelativeLayout) findViewById(R.id.CustomImageMain);
-      //  binding.backImage.setOnTouchListener(touchListener);
+        binding.backImage.setOnTouchListener(touchListener);
         //act.addView(imageView);
        // file.delete();
+        windowwidth = getWindowManager().getDefaultDisplay().getWidth();
+        windowheight = getWindowManager().getDefaultDisplay().getHeight();
+        scaleGestureDetector = new ScaleGestureDetector(act,new ScaleListener());
 
         if (getIntent().hasExtra("flag")) {
             int flag = getIntent().getIntExtra("flag", -1);
@@ -87,14 +94,14 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
        // binding.CustomImageMain.addView(binding.backImage);
         bottomFramgment();
         binding.backImage.setTag("0");
-        binding.backImage.setOnTouchListener(this);
-        binding.rootBackground.post(new Runnable() {
+        //binding.backImage.setOnTouchListener(this);
+      /*  binding.customeViewRelative.post(new Runnable() {
             @Override
             public void run() {
-                windowwidth = binding.rootBackground.getWidth();
-                windowheight = binding.rootBackground.getHeight();
+                windowwidth = binding.customeViewRelative.getWidth();
+                windowheight = binding.customeViewRelative.getHeight();
             }
-        });
+        });*/
 
     }
     public static String convertFirstUpper(String str) {
@@ -138,28 +145,41 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
         binding.frameImage.setDrawingCacheEnabled(true);
         binding.frameImage.setImageDrawable(ContextCompat.getDrawable(act,listModel.getImage()));
         //binding.backImage.setOnTouchListener(touchListener);
-        binding.frameImage.setOnTouchListener(null);
+        //binding.frameImage.setOnTouchListener(null);
         binding.frameImage.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
-                int color = bmp.getPixel((int) event.getX(), (int) event.getY());
-                if (color == Color.TRANSPARENT) {
-                    Toast.makeText(act, "Transperent", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                else {
+                if (bmp!=null) {
+                    int color = bmp.getPixel((int) event.getX(), (int) event.getY());
+                    if (color == Color.TRANSPARENT) {
 
-                    return true;
+
+                        binding.frameImage.setOnTouchListener(null);
+                        isFirstTouchOnImage=true;
+                        if (binding.backImage.getTag().toString().equals("1"))
+                        {
+                           // binding.backImage.setOnTouchListener(touchListener);
+                        }else{
+
+                        }
+
+                        Toast.makeText(act, "Transperent", Toast.LENGTH_SHORT).show();
+                        return true;
+                    } else {
+
+                        return false;
+                    }
                 }
+                return false;
             }
         });
-        binding.rootBackground.post(new Runnable() {
+        binding.customeViewRelative.post(new Runnable() {
             @Override
             public void run() {
-                windowwidth = binding.rootBackground.getWidth();
-                windowheight = binding.rootBackground.getHeight();
+                windowwidth = binding.customeViewRelative.getWidth();
+                windowheight = binding.customeViewRelative.getHeight();
             }
         });
 
@@ -208,7 +228,7 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
                     break;
             }
 
-            //mainLayout.invalidate();
+            binding.customeViewRelative.invalidate();
             return true;
         }
     };
@@ -216,8 +236,8 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
 
 
     private boolean isOutReported = false;
-    int windowwidth; // Actually the width of the RelativeLayout.
-    int windowheight; // Actually the height of the RelativeLayout.
+    int windowwidth1; // Actually the width of the RelativeLayout.
+    int windowheight1; // Actually the height of the RelativeLayout.
 
 
     private int _xDelta;
@@ -266,7 +286,7 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
                 break;
         }
         // invalidate is redundant if layout params are set or not needed if they are not set.
-        binding.rootBackground.invalidate();
+        binding.customeViewRelative.invalidate();
         return true;
     }
 
@@ -282,5 +302,23 @@ public class CustomViewAllActivity extends AppCompatActivity  implements FrameIn
                 (view.getRight() - windowwidth) > viewPctWidth ||
                 (-view.getTop() >= viewPctHeight) ||
                 (view.getBottom() - windowheight) > viewPctHeight);
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        scaleGestureDetector.onTouchEvent(motionEvent);
+        binding.frameImage.onTouchEvent(motionEvent);
+        binding.backImage.onTouchEvent(motionEvent);
+        return true;
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+            mScaleFactor *= scaleGestureDetector.getScaleFactor();
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
+            binding.backImage.setScaleX(mScaleFactor);
+            binding.backImage.setScaleY(mScaleFactor);
+            return true;
+        }
     }
 }
