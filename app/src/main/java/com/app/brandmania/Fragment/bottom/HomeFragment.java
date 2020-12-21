@@ -809,13 +809,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                         if(is_package.equals(""))
                         {
-                            binding.alertRelative.setVisibility(View.VISIBLE);
+                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
                             binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
 
                         }
                         else if (is_payment_pending.equals("1"))
                         {
-                            binding.alertRelative.setVisibility(View.VISIBLE);
+                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
                             binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
 
                         }
@@ -824,7 +824,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     }
                     else if (is_frame.equals("0")) {
                         binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "frame_message"));
-
+                        binding.contactTxtLayout.setVisibility(View.VISIBLE);
                     }
 
 
