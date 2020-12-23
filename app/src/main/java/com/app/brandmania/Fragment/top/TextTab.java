@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Adapter.ColorPickerAdapter;
 import com.app.brandmania.Adapter.FontListAdeptor;
+import com.app.brandmania.Adapter.IImageFromGalary;
 import com.app.brandmania.Adapter.OnlyTextColorPickerAddaptor;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IItaliTextEvent;
@@ -31,7 +33,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPickerView.OnColorChangedListener{
+public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPickerView.OnColorChangedListener {
     public  boolean BOLD_TEXT =false;
     public  boolean ITALIC_TEXT =false;
     public  boolean UNDERLINE_TEXT =false;
@@ -48,36 +50,30 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
         act = getActivity();
         context=this;
         binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, container, false);
-      /*  binding.textRecycler.setLayoutManager(new GridLayoutManager(getActivity(),6));
-        binding.textRecycler.setHasFixedSize(true);
-        OnlyTextColorPickerAddaptor colorPickerAdapter = new OnlyTextColorPickerAddaptor(getActivity());
-        colorPickerAdapter.setTextTab(context);
-        colorPickerAdapter.setOnColorPickerClickListener(new ColorPickerAdapter.OnColorPickerClickListener() {
-            @Override
-            public void onColorPickerClickListener(int colorCode) {
-                mColorCode = colorCode;
-            }
-        });
-        binding.textRecycler.setAdapter(colorPickerAdapter);*/
-       // binding.chooseColorTxt.setOnClickListener(v -> ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity())));
 
-        binding.colorPickerView.setOnColorChangedListener(this);
-        binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
 
         binding.cancleClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                    binding.fontRecycler.setVisibility(View.GONE);
-                    binding.colorPickerView.setVisibility(View.GONE);
-                    binding.cancleClick.setVisibility(View.GONE);
-                    binding.imageChoose.setVisibility(View.VISIBLE);
-                binding.boldRelative.setVisibility(View.VISIBLE);
-                binding.underLineRelativ.setVisibility(View.VISIBLE);
-                binding.ItalicClick.setVisibility(View.VISIBLE);
+                binding.colorPickerView.setVisibility(View.GONE);
+                binding.cancleClick.setVisibility(View.GONE);
+                binding.colorChose.setVisibility(View.VISIBLE);
+                binding.fontStyleList.setVisibility(View.VISIBLE);
+
+                binding.fontRecycler.setVisibility(View.GONE);
 
 
-
+            }
+        });
+        binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Toast.makeText(act,"Toast",Toast.LENGTH_LONG).show();
+                binding.fontRecycler.setVisibility(View.VISIBLE);
+                binding.fontStyleList.setVisibility(View.GONE);
+                binding.colorChose.setVisibility(View.GONE);
+                binding.cancleClick.setVisibility(View.VISIBLE);
             }
         });
         binding.boldRelative.setOnClickListener(new View.OnClickListener() {
@@ -136,17 +132,19 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
                 }
             }
         });
-        binding.imageChoose.setOnClickListener(new View.OnClickListener() {
+        binding.colorPickerView.setOnColorChangedListener((ColorPickerView.OnColorChangedListener) act);
+        binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
+        binding.colorChose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    binding.fontRecycler.setVisibility(View.GONE);
-                   binding.colorPickerView.setVisibility(View.VISIBLE);
-                   binding.cancleClick.setVisibility(View.VISIBLE);
-                   binding.imageChoose.setVisibility(View.GONE);
-                   binding.boldRelative.setVisibility(View.GONE);
-                   binding.underLineRelativ.setVisibility(View.GONE);
-                   binding.ItalicClick.setVisibility(View.GONE);
-              //  ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity()));
+                binding.colorPickerView.setVisibility(View.VISIBLE);
+                binding.fontStyleList.setVisibility(View.GONE);
+                binding.colorChose.setVisibility(View.GONE);
+                binding.cancleClick.setVisibility(View.VISIBLE);
+
+
+
+
 
             }
         });
@@ -155,36 +153,52 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
     }
     @Override public void onColorItemChange(int colorcode) {
 
-        binding.imageChoose.setBackgroundColor(colorcode);
+        binding.colorChose.setBackgroundColor(colorcode);
     }
+
     public void FontChanege() {
         fontModelList = new ArrayList<>();  //initialized list
-        fontModelObject=new FontModel[16];   //Array of model class
-        fontStyle = new String[16];  //Array of String
+        fontModelObject=new FontModel[15];   //Array of model class
+        fontStyle = new String[15];  //Array of String
         fontStyle[0] = "font/inter_bold.otf";
-        fontStyle[1] = "font/poppins_bold.ttf";
-        fontStyle[2] = "font/poppins_light.ttf";
-        fontStyle[3] = "font/poppins_medium.ttf";
-        fontStyle[4] = "font/poppins_regular.ttf";
-        fontStyle[5] = "font/inter_extrabold.otf";
-        fontStyle[6] = "font/inter_medium.otf";
-        fontStyle[7] = "font/inter_regular.otf";
-        fontStyle[8] = "font/inter_semibold.otf";
+        fontStyle[1] = "font/inter_extrabold.otf";
+        fontStyle[2] = "font/inter_medium.otf";
+        fontStyle[3] = "font/inter_regular.otf";
+        fontStyle[4] = "font/inter_semibold.otf";
+        fontStyle[5] = "font/poppins_bold.ttf";
+        fontStyle[6] = "font/poppins_light.ttf";
+        fontStyle[7] = "font/poppins_medium.ttf";
+        fontStyle[8] = "font/poppins_regular.ttf";
         fontStyle[9] = "font/worksans_bold.ttf";
         fontStyle[10] = "font/worksans_extrabold.ttf";
         fontStyle[11] = "font/worksans_light.ttf";
         fontStyle[12] = "font/worksans_medium.ttf";
         fontStyle[13] = "font/worksans_regular.ttf";
         fontStyle[14] = "font/worksans_semibold.ttf";
-        fontStyle[15] = "font/inter_medium.otf";
-        for (int i = 0; i < 16; i++) {
+
+        for (int i = 0; i < 15; i++) {
             fontModelObject[i] = new FontModel();
             fontModelObject[i].setFontFaimly(fontStyle[i]);
-            fontModelObject[i].setFontId(fontStyle[i].replace("font/","")
-                    .replace(".ttf","").replace(".otf","").substring(0,2));
+            fontModelObject[i].setFontId(fontStyle[i]
+                    .replace("font/","")
+                    .replace(".ttf","")
+                    .replace(".otf","")
+                    .replace("_bold","")
+                    .replace("_light","")
+                    .replace("_medium","")
+                    .replace("_regular","")
+                    .replace("_extrabold","")
+                    .replace("_semibold","")
+                    .replace("_extralight","")
+                    .replace("_black","")
+                    .replace("worksans","BrandMania")
+                    .replace("inter","BrandMania")
+                    .replace("poppins","BrandMania")
+                    .replace("montserrat","BrandMania")
+            );
             fontModelList.add(fontModelObject[i]);
         }
-        binding.fontRecycler.setLayoutManager(new LinearLayoutManager(act,RecyclerView.HORIZONTAL,false));   //set layout
+        binding.fontRecycler.setLayoutManager(new GridLayoutManager(act,3));   //set layout
         binding.fontRecycler.setAdapter(new FontListAdeptor(fontModelList,act));    //set Adapter
     }
 

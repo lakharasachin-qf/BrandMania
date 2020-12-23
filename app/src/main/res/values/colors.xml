@@ -25,6 +25,7 @@
     <color name="header">#F1F1F1</color>
     <color name="simmerColor">#CDCDCD</color>
     <color name="viewColor">#DFD8D7D7</color>
+    <color name="trans">#00000000</color>
 
 
 

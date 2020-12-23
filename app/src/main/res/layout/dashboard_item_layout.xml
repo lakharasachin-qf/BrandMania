@@ -22,7 +22,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:scrollHorizontally="true"
-            android:fontFamily="@font/montserratsemibold"
+            android:fontFamily="@font/montserrat_semibold"
             android:text="Gujrati"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -33,7 +33,7 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:textColor="@color/black"
             android:textSize="@dimen/_8sdp"
-            android:fontFamily="@font/montserratlight"
+            android:fontFamily="@font/montserrat_light"
             android:text="View All"
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_alignParentEnd="true"

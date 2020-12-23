@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class FrameTab extends Fragment {
 
     Activity act;
-   private FrameTabBinding binding;
+    private FrameTabBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,17 +35,22 @@ public class FrameTab extends Fragment {
         ArrayList<MultiListItem> menuModels = new ArrayList<>();
         MultiListItem model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.framee);
+        model.setImage(R.drawable.img_one);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.framee);
+        model.setImage(R.drawable.imgd_o);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-        model.setImage(R.drawable.framee);
+        model.setImage(R.drawable.img_three);
+        menuModels.add(model);
+
+        model = new MultiListItem();
+        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
+        model.setImage(R.drawable.img_four);
         menuModels.add(model);
 
         MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);

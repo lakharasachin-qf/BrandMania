@@ -47,7 +47,7 @@
                         android:text="299 Rs"
                         android:layout_centerHorizontal="true"
                         android:textColor="@color/colorNavText"
-                        android:fontFamily="@font/montserratbold" />
+                        android:fontFamily="@font/montserrat_bold" />
 
               <!--<TextView
                         android:id="@+id/payPerYearTag"
@@ -67,7 +67,7 @@
                     android:layout_below="@+id/basicTitle"
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_25sdp"
-                    android:fontFamily="@font/montserratmedium"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="1 - Templates / Brand"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_13sdp" />
@@ -90,7 +90,7 @@
                     android:layout_below="@+id/templateLine"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/montserratmedium"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="50  Image Download / year"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_13sdp" />
@@ -112,7 +112,7 @@
                     android:layout_below="@+id/ImageLine"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/montserratmedium"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="299 / year"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_13sdp" />
@@ -191,7 +191,7 @@
                     android:id="@+id/symbolPriceForPay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratbold"
+                    android:fontFamily="@font/montserrat_bold"
                     android:text="₹ "
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp" />
@@ -200,7 +200,7 @@
                     android:id="@+id/priceForPay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratbold"
+                    android:fontFamily="@font/montserrat_bold"
                     android:text="233"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp">
@@ -212,7 +212,7 @@
                 android:id="@+id/priceForPayTag"
                 android:textColor="@color/colorNavText"
                 android:text="Per Year"
-                android:fontFamily="@font/montserratbold"
+                android:fontFamily="@font/montserrat_bold"
                 android:layout_marginTop="-7dp"
                 android:textSize="@dimen/_8sdp"
                 android:layout_centerHorizontal="true"

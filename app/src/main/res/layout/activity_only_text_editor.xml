@@ -81,7 +81,7 @@
 
 
                     <ImageView
-                        android:id="@+id/recoImageee"
+                        android:id="@+id/backImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
@@ -90,10 +90,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         />
                     <ImageView
-                        android:src="@drawable/framee"
                         android:scaleType="fitXY"
                         android:layout_centerHorizontal="true"
-                        android:id="@+id/recoframe"
+                        android:id="@+id/frameImage"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_250sdp">
                     </ImageView>
@@ -102,6 +101,7 @@
                         android:id="@+id/textEdit"
                         android:backgroundTint="@android:color/transparent"
                         android:layout_width="wrap_content"
+
                         android:hint="Type a text"
                         android:textSize="@dimen/_30sdp"
                         android:textColorHint="@color/simmerColor"
@@ -115,7 +115,7 @@
             </androidx.cardview.widget.CardView>
             <LinearLayout
                 android:id="@+id/clorframeLayout"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:orientation="vertical"
                 android:layout_below="@+id/recoImgeRelative"
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                         app:tabMinWidth="@dimen/_60sdp"
                         android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="scrollable"
                         app:tabGravity="fill"
@@ -138,6 +138,7 @@
                         android:layout_marginTop="-3dp"
                         ></com.google.android.material.tabs.TabLayout>
                     <TextView
+                        android:visibility="gone"
                         style="@style/MyTabLayout"
                         android:layout_alignParentEnd="true"
                         android:textColor="@android:color/holo_blue_dark"

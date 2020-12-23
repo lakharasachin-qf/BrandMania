@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,31 +11,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-
+import com.app.brandmania.Adapter.CustomImageFromGalaryAddpater;
 import com.app.brandmania.Adapter.ImageFromGalaryAddpater;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.R;
-import com.app.brandmania.databinding.FrameTabBinding;
+import com.app.brandmania.databinding.CustomImageTabBinding;
 import com.app.brandmania.databinding.ImageTabBinding;
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class ImageTab extends Fragment {
+public class CustomImageTab extends FrameTab {
     Activity act;
-    private ImageTabBinding binding;
+    private CustomImageTabBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater, R.layout.image_tab,container,false);
-        binding.imageGalaryRecyclerVire.setLayoutManager(new GridLayoutManager(act,4));
-        binding.imageGalaryRecyclerVire.setAdapter(new ImageFromGalaryAddpater(act,getData()));
+        binding= DataBindingUtil.inflate(inflater, R.layout.custom_image_tab,container,false);
+        binding.customImageGalaryRecyclerVire.setLayoutManager(new GridLayoutManager(act,4));
+        binding.customImageGalaryRecyclerVire.setAdapter(new CustomImageFromGalaryAddpater(act,getData()));
         return binding.getRoot();
     }
 

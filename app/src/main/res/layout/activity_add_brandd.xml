@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
     android:layout_width="match_parent"
     android:theme="@style/AppTheme_material_theme"
     android:layout_height="match_parent"
@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_10sdp"
-                android:fontFamily="@font/montserratsemibold"
+                android:fontFamily="@font/montserrat_semibold"
                 android:text="Add Brand"
                 android:textColor="@color/colorNavText"
                 android:textSize="@dimen/_14sdp"
@@ -86,14 +86,15 @@
                 app:hintTextColor="@color/colorPrimary"
                 app:errorEnabled="true"
                 android:layout_height="wrap_content">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/categoryEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:fontFamily="@font/poppins_regular"
                     android:drawableEnd="@drawable/ic_drop_arrow"
                     android:focusable="false"
+                    android:fontFamily="@font/poppins_regular"
                     android:maxEms="13"
                     android:paddingStart="@dimen/_15sdp"
                     android:paddingTop="@dimen/_10sdp"

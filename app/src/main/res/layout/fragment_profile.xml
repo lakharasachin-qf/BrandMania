@@ -27,7 +27,7 @@
                             android:text="@string/yourbusiness_text"
                             android:textColor="@color/colorNavText"
                             android:textSize="@dimen/_6sdp"
-                            android:fontFamily="@font/montserratregular"
+                            android:fontFamily="@font/montserrat_regular"
                             android:layout_width="wrap_content"
                             android:textStyle="bold"
                             android:layout_height="wrap_content">
@@ -41,7 +41,7 @@
                             android:textColor="@color/colorNavText"
                             android:textSize="@dimen/_11sdp"
 
-                            android:fontFamily="@font/montserratsemibold"
+                            android:fontFamily="@font/montserrat_semibold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                         </TextView>
@@ -140,7 +140,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginStart="@dimen/_10sdp"
                                             android:layout_toEndOf="@+id/myBusinessImage"
-                                            android:fontFamily="@font/montserratmedium"
+                                            android:fontFamily="@font/montserrat_medium"
                                             android:text="@string/mybusinesse_text"
                                             android:textColor="@android:color/black"
                                             android:textSize="@dimen/_12sdp" />
@@ -183,7 +183,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginLeft="@dimen/_10sdp"
                                             android:layout_toEndOf="@+id/myFaqImage"
-                                            android:fontFamily="@font/montserratmedium"
+                                            android:fontFamily="@font/montserrat_medium"
                                             android:text="@string/faq_text"
                                             android:textColor="@android:color/black"
                                             android:textSize="@dimen/_12sdp" />
@@ -315,7 +315,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginLeft="@dimen/_10sdp"
                                             android:layout_toEndOf="@+id/shareImage"
-                                            android:fontFamily="@font/montserratmedium"
+                                            android:fontFamily="@font/montserrat_medium"
                                             android:text="@string/shareapp_text"
                                             android:textColor="@android:color/black"
                                             android:textSize="@dimen/_12sdp" />
@@ -358,7 +358,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginLeft="@dimen/_10sdp"
                                             android:layout_toEndOf="@+id/rateusImage"
-                                            android:fontFamily="@font/montserratmedium"
+                                            android:fontFamily="@font/montserrat_medium"
                                             android:text="Rate Us"
                                             android:textColor="@android:color/black"
                                             android:textSize="@dimen/_12sdp"></TextView>
@@ -401,7 +401,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginLeft="@dimen/_10sdp"
                                             android:layout_toEndOf="@+id/aboutUsImage"
-                                            android:fontFamily="@font/montserratmedium"
+                                            android:fontFamily="@font/montserrat_medium"
                                             android:text="About Us"
                                             android:textColor="@android:color/black"
                                             android:textSize="@dimen/_12sdp" />
@@ -446,7 +446,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginLeft="@dimen/_10sdp"
                                             android:layout_toEndOf="@+id/subscriptionImage"
-                                            android:fontFamily="@font/montserratmedium"
+                                            android:fontFamily="@font/montserrat_medium"
                                             android:text="Report Bug"
                                             android:textColor="@android:color/black"
                                             android:textSize="@dimen/_12sdp" />
@@ -488,7 +488,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginLeft="@dimen/_10sdp"
                                             android:layout_toEndOf="@+id/primeImage"
-                                            android:fontFamily="@font/montserratmedium"
+                                            android:fontFamily="@font/montserrat_medium"
                                             android:text="Package"
                                             android:textColor="@android:color/black"
                                             android:textSize="@dimen/_12sdp" />
@@ -530,7 +530,7 @@
                                             android:layout_centerVertical="true"
                                             android:layout_marginStart="@dimen/_10sdp"
                                             android:layout_toEndOf="@+id/logoutImage"
-                                            android:fontFamily="@font/montserratmedium"
+                                            android:fontFamily="@font/montserrat_medium"
                                             android:text="@string/logout"
                                             android:textColor="@android:color/black"
                                             android:textSize="@dimen/_12sdp" />
@@ -568,7 +568,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="@dimen/_3sdp"
-                                    android:fontFamily="@font/montserratregular"
+                                    android:fontFamily="@font/montserrat_regular"
                                     android:text="Reach Us"
 
                                     android:textColor="@color/black"
@@ -590,7 +590,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_20sdp"
                             android:layout_marginBottom="@dimen/_60sdp"
-                            android:fontFamily="@font/montserratregular"
+                            android:fontFamily="@font/montserrat_regular"
                             android:text="App VErsion"
                             android:textSize="@dimen/_10sdp" />
                 </LinearLayout>

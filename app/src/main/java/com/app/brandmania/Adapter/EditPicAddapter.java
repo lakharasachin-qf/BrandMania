@@ -1,22 +1,20 @@
 package com.app.brandmania.Adapter;
 
-
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.app.brandmania.Fragment.top.ColorTab;
-import com.app.brandmania.Fragment.top.CustomImageTab;
 import com.app.brandmania.Fragment.top.FrameTab;
+import com.app.brandmania.Fragment.top.ImageTab;
 import com.app.brandmania.Fragment.top.TextTab;
-import com.app.brandmania.Fragment.top.TextureTab;
 
-public class NewEditTabAdapter extends FragmentPagerAdapter {
+public class EditPicAddapter extends FragmentPagerAdapter {
     Context context;
     int totalTabs;
-    public NewEditTabAdapter(Context c, FragmentManager fm, int totalTabs) {
+
+    public EditPicAddapter(Context c, FragmentManager fm, int totalTabs) {
         super(fm);
         context = c;
         this.totalTabs = totalTabs;
@@ -25,17 +23,16 @@ public class NewEditTabAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                ColorTab colorTab = new ColorTab();
-                return colorTab;
+                FrameTab frameTab = new FrameTab();
+                return frameTab;
             case 1:
-                CustomImageTab imageTab = new CustomImageTab();
+                ImageTab imageTab = new ImageTab();
                 return imageTab;
             case 2:
-                TextureTab textureTab = new TextureTab();
-                return textureTab;
-            case 3:
                 TextTab textTab = new TextTab();
                 return textTab;
+
+
             default:
                 return null;
         }
@@ -44,4 +41,5 @@ public class NewEditTabAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return totalTabs;
     }
+
 }
