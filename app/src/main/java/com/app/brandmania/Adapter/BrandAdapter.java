@@ -126,7 +126,8 @@ public class BrandAdapter extends RecyclerView.Adapter {
     @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final BrandListItem model = brandListItems.get(position);
         if (model != null) {
-            switch (model.getLayoutType()) {
+            switch (model.getLayoutType())
+            {
                 case LAYOUT_BRANDLIST:
                     ((BrandHolder) holder).binding.businessName.setText(model.getName());
                     Log.e("CurrentBrand",model.getId());
@@ -310,8 +311,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
             }
 
         }
-
-
     }
     static class BrandHolder extends RecyclerView.ViewHolder {
         ItemLayoutGetbrandlistBinding binding;
