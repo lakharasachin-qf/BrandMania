@@ -75,7 +75,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                 ItemFooterFourBinding itemFooterFourBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_four, viewGroup, false);
                 return new FooterHolderFour(itemFooterFourBinding);
             case LAYOUT_FRAME_FIVE   :
-                ItemFooterFiveBinding itemFooterFiveBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_four, viewGroup, false);
+                ItemFooterFiveBinding itemFooterFiveBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_five, viewGroup, false);
                 return new FooterHolderFive(itemFooterFiveBinding);
             case LAYOUT_FRAME_SIX   :
                 ItemFooterLayoutSixBinding itemFooterLayoutSixBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_layout_six, viewGroup, false);
@@ -116,7 +116,10 @@ public class FooterAdapter extends RecyclerView.Adapter{
             switch (model.getLayoutType()) {
 
                 case LAYOUT_FRAME_ONE:
-
+                 //   ((FooterHolderOne) holder).binding..setText(model.getMessage());
+//                    //         Log.e("CurrentBrand",model.getId());
+//                    ((BrandAdapter.NotificationHolder) holder).binding.date.setText(model.getDate());
+//                    ((BrandAdapter.NotificationHolder) holder).binding.time.setText(model.getTime());
             }
 
         }

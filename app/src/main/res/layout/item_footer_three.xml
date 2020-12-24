@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<androidx.cardview.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="@dimen/_10sdp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <RelativeLayout
@@ -17,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:background="colo"
+
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -150,5 +151,5 @@
         </LinearLayout>
 
     </RelativeLayout>
-</androidx.cardview.widget.CardView>
+</RelativeLayout>
 </layout>

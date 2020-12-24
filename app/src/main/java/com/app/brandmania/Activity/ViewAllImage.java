@@ -34,12 +34,15 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,7 +117,7 @@ import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
-public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IUnderLineTextEvent, IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent {
+public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IUnderLineTextEvent, IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent,View.OnTouchListener {
     Activity act;
     ViewPager viewPager;
     private boolean isLoading = false;
@@ -134,7 +137,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     PreafManager preafManager;
     Gson gson;
     String Website;
-
+    private int _xDelta;
+    private int _yDelta;
     private ProgressDialog simpleWaitDialog;
     private DashBoardItem imageList;
     private ImageList selectedObject;
@@ -282,6 +286,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
 
 
+        RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.customFrameRelative);
+        RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        binding.logoCard.setLayoutParams(mRparams);
+        binding.logoCard.setOnTouchListener((View.OnTouchListener) act);
+//        mRlayout.addView( binding.logoCard);
     }
 
     public void checkPermisionForDontAskAgain(){
@@ -1852,4 +1861,35 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         alertDialog.show();
 
     }
+    public boolean onTouch(View view, MotionEvent event) {
+
+
+            final int X = (int) event.getRawX();
+            final int Y = (int) event.getRawY();
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_DOWN:
+                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                    _xDelta = X - lParams.leftMargin;
+                    _yDelta = Y - lParams.topMargin;
+                    break;
+                case MotionEvent.ACTION_UP:
+                    break;
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    break;
+                case MotionEvent.ACTION_POINTER_UP:
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                    mRparams.leftMargin = X - _xDelta;
+                    mRparams.topMargin = Y - _yDelta;
+                    mRparams.rightMargin = -250;
+                    mRparams.bottomMargin = -250;
+                    view.setLayoutParams(mRparams);
+                    break;
+            }
+            // root.invalidate();
+            return false;
+
+    }
+    //logoCard
 }
