@@ -42,7 +42,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="6dp"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/ic_left_arrow"></ImageView>
+                        android:background="@drawable/ic_left_arrow" />
 
                     <TextView
                         android:id="@+id/titleName"
@@ -59,7 +59,7 @@
                         android:text="My Business"
                         android:textColor="@color/colorNavText"
                         android:textSize="@dimen/_13sdp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -86,7 +86,7 @@
                     android:src="@drawable/ic_baseline_share_24"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"></ImageView>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/fabroutIcon"
@@ -98,7 +98,7 @@
                     android:src="@drawable/ic_baseline_favorite_border_24"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"></ImageView>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/addfabroutIcon"
@@ -111,7 +111,7 @@
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    android:visibility="gone"></ImageView>
+                    android:visibility="gone" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -176,7 +176,7 @@
 
 
                     <!--Custom Frame Start-->
-                    <RelativeLayout
+                    <!--<RelativeLayout
 
                         android:id="@+id/customFrameRelative"
                         android:layout_width="match_parent"
@@ -409,8 +409,60 @@
                             android:textColorHint="@color/simmerColor"
                             android:textSize="@dimen/_9sdp" />
 
-                    </RelativeLayout>
+                    </RelativeLayout>-->
                     <!--Custom Frame End-->
+                    <RelativeLayout
+                        android:id="@+id/elementCustomFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_300sdp">
+
+
+                        <LinearLayout
+
+                            android:id="@+id/logoEmptyState"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_gallry" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/inter_regular"
+                                android:text="Select Logo"
+                                android:textAlignment="center"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_6sdp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/logoCustom"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/placeholder"
+                            android:visibility="gone" />
+
+
+                            <RelativeLayout
+                                android:id="@+id/elementFooter"
+                                android:layout_alignParentBottom="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </RelativeLayout>
+
+
+                    </RelativeLayout>
+
+
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/recoframe"
                         android:layout_width="match_parent"
@@ -432,14 +484,8 @@
                 android:orientation="horizontal"
                 android:visibility="visible" />
 
-           <!-- <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/SliderDots"
-                android:scrollbars="none">-->
 
-                <LinearLayout
+            <LinearLayout
                     android:id="@+id/clorframeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -458,14 +504,14 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/appbarLayout"
                             android:layout_marginTop="-3dp"
-                            android:layout_marginRight="@dimen/_60sdp"
+
                             android:background="@android:color/transparent"
                             app:tabGravity="fill"
                             app:tabIndicatorHeight="0dp"
                             app:tabMinWidth="@dimen/_60sdp"
                             app:tabMode="scrollable" />
 
-
+                        <!--android:layout_marginRight="@dimen/_60sdp"-->
                     </RelativeLayout>
 
                     <androidx.viewpager.widget.ViewPager

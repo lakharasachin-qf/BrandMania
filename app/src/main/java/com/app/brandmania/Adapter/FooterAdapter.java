@@ -2,10 +2,6 @@ package com.app.brandmania.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +9,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Activity.PackageActivity;
-import com.app.brandmania.Activity.UpdateBandList;
-import com.app.brandmania.Common.PreafManager;
-import com.app.brandmania.Fragment.top.FooterTab;
-import com.app.brandmania.Model.BrandListItem;
-import com.app.brandmania.Model.PictureItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ItemFooterFiveBinding;
 import com.app.brandmania.databinding.ItemFooterFourBinding;
@@ -29,14 +18,9 @@ import com.app.brandmania.databinding.ItemFooterLayoutSixBinding;
 import com.app.brandmania.databinding.ItemFooterOneBinding;
 import com.app.brandmania.databinding.ItemFooterThreeBinding;
 import com.app.brandmania.databinding.ItemFooterTwoBinding;
-import com.app.brandmania.databinding.ItemLayoutGetbrandlistBinding;
-import com.app.brandmania.databinding.ItemNotificationLayoutBinding;
-import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FIVE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FOUR;
@@ -44,8 +28,6 @@ import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_ONE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SIX;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_THREE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWO;
-import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLIST;
-import static com.app.brandmania.Model.BrandListItem.LAYOUT_NOTIFICATIONlIST;
 import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
 
 
@@ -53,6 +35,18 @@ public class FooterAdapter extends RecyclerView.Adapter{
     private ArrayList<FooterModel> footerModels;
     Activity activity;
     private boolean isLoadingAdded = false;
+    private int checkedPosition = -1;
+    public onFooterListener footerListener;
+
+    public FooterAdapter setFooterListener(onFooterListener footerListener) {
+        this.footerListener = footerListener;
+        return this;
+    }
+
+    public interface onFooterListener{
+        void onFooterChoose(int footerLayout);
+    }
+
     public FooterAdapter(ArrayList<FooterModel> footerModels, Activity activity) {
         this.footerModels = footerModels;
         this.activity = activity;
@@ -95,13 +89,14 @@ public class FooterAdapter extends RecyclerView.Adapter{
                 return LAYOUT_FRAME_TWO;
             case 3:
                 return LAYOUT_FRAME_THREE;
-
-                case 4  :
+            case 4:
                 return LAYOUT_FRAME_FOUR;
             case 5:
                 return LAYOUT_FRAME_FIVE;
+            case 6:
+                return LAYOUT_FRAME_SIX;
 
-                default:
+            default:
                 return -1;
         }
 
@@ -112,14 +107,105 @@ public class FooterAdapter extends RecyclerView.Adapter{
     @SuppressLint("ResourceAsColor")
     @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final FooterModel model = footerModels.get(position);
+        Log.e("NOTIFY", String.valueOf(checkedPosition));
         if (model != null) {
             switch (model.getLayoutType()) {
 
                 case LAYOUT_FRAME_ONE:
-                 //   ((FooterHolderOne) holder).binding..setText(model.getMessage());
-//                    //         Log.e("CurrentBrand",model.getId());
-//                    ((BrandAdapter.NotificationHolder) holder).binding.date.setText(model.getDate());
-//                    ((BrandAdapter.NotificationHolder) holder).binding.time.setText(model.getTime());
+                    ((FooterHolderOne) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            checkedPosition=position;
+                            footerListener.onFooterChoose(footerModels.get(position).getLayoutType());
+                            ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            notifyDataSetChanged();
+
+                        }
+                    });
+                    if (checkedPosition==position){
+                        ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    }else {
+                        ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    break;
+                case LAYOUT_FRAME_TWO:
+                    ((FooterHolderTwo) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            checkedPosition=position;
+                            footerListener.onFooterChoose(footerModels.get(position).getLayoutType());
+                            ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    if (checkedPosition==position){
+                        ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    }else {
+                        ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+                    break;
+                case LAYOUT_FRAME_THREE:
+                    ((FooterHolderThree) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            checkedPosition=position;
+                            footerListener.onFooterChoose(footerModels.get(position).getLayoutType());
+                            ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    if (checkedPosition==position){
+
+                        ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    }else {
+                        ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+                    break;
+                case LAYOUT_FRAME_FOUR:
+                    ((FooterHolderFour) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            checkedPosition=position;
+                            footerListener.onFooterChoose(footerModels.get(position).getLayoutType());
+                            ((FooterHolderFour) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    if (checkedPosition==position){
+                        ((FooterHolderFour) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    }else {
+                        ((FooterHolderFour) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+                    break;
+                case LAYOUT_FRAME_FIVE:
+                    ((FooterHolderFive) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            checkedPosition=position;
+                            footerListener.onFooterChoose(footerModels.get(position).getLayoutType());
+                            ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    if (checkedPosition==position){
+                        ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    }else {
+                        ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+                    break;
+                case LAYOUT_FRAME_SIX:
+                    ((FooterHolderSix) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            checkedPosition=position;
+                            footerListener.onFooterChoose(footerModels.get(position).getLayoutType());
+                            ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    if (checkedPosition==position){
+                        ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    }else {
+                        ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+                    break;
+
             }
 
         }

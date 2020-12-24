@@ -16,6 +16,7 @@ import com.app.brandmania.Adapter.FooterAdapter;
 import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.CategoryTabBinding;
@@ -30,6 +31,10 @@ public class FooterTab extends Fragment {
     private FooterTabBinding binding;
     ArrayList<FooterModel> footerModels = new ArrayList<>();
     private PreafManager preafManager;
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,6 +81,14 @@ public class FooterTab extends Fragment {
 
 
         FooterAdapter footerAdapter = new FooterAdapter(footerModels, act);
+        FooterAdapter.onFooterListener onFooterListener=new FooterAdapter.onFooterListener() {
+            @Override
+            public void onFooterChoose(int footerLayout) {
+                footerAdapter.notifyDataSetChanged();
+                ((onFooterSelectListener)act).onFooterSelectEvent(footerLayout);
+            }
+        };
+        footerAdapter.setFooterListener(onFooterListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act,LinearLayoutManager.VERTICAL,false);
         binding.footerRecycler.setLayoutManager(mLayoutManager);
         binding.footerRecycler.setHasFixedSize(true);

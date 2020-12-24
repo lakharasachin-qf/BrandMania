@@ -6,9 +6,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/footerRecycler"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_40sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 </layout>

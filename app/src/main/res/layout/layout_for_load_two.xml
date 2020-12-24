@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <RelativeLayout
+                android:id="@+id/firstView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:background="@drawable/cornartwo">
+
+                <RelativeLayout
+                    android:id="@+id/gmailLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        android:id="@+id/gmailImage"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:background="@drawable/ic_outline_mail_24"
+                        android:backgroundTint="@color/colorNavText" />
+
+                    <TextView
+                        android:padding="0dp"
+                        android:layout_centerVertical="true"
+                        android:includeFontPadding="false"
+                        android:id="@+id/gmailText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                         android:layout_toEndOf="@+id/gmailImage"
+                        android:text="qfsolution@gmail.com"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_8sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/contactLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_below="@+id/topView2"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_20sdp">
+
+                    <ImageView
+                        android:id="@+id/contactImage"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:background="@drawable/ic_outline_call_24"
+                        android:backgroundTint="@color/colorNavText" />
+
+                    <TextView
+                        android:id="@+id/contactText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+
+                        android:padding="0dp"
+                        android:layout_centerVertical="true"
+                        android:includeFontPadding="false"
+                        android:layout_toEndOf="@+id/contactImage"
+                        android:text="8849896537"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_8sdp" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/secondView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_below="@+id/firstView"
+                android:layout_marginTop="-2dp"
+                android:background="@color/colorPrimary">
+
+                <RelativeLayout
+                    android:id="@+id/locationLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        android:id="@+id/locationImage"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:background="@drawable/ic_outline_location_on_24"
+                        android:backgroundTint="@color/colorNavText"></ImageView>
+
+                    <TextView
+
+                        android:id="@+id/locationText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:padding="0dp"
+                        android:layout_centerVertical="true"
+                        android:includeFontPadding="false"
+                        android:layout_toEndOf="@+id/locationImage"
+                        android:text="Vastral"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_8sdp"></TextView>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/websiteLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_below="@+id/topView2"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_20sdp">
+
+                    <ImageView
+                        android:id="@+id/websiteImage"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:background="@drawable/ic_outline_language_24"
+                        android:backgroundTint="@color/colorNavText"></ImageView>
+
+                    <TextView
+                        android:id="@+id/websiteText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:padding="0dp"
+                        android:layout_centerVertical="true"
+                        android:includeFontPadding="false"                        android:layout_toEndOf="@+id/websiteImage"
+                        android:text="qfsolution.com"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_8sdp"></TextView>
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
