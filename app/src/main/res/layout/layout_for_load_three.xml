@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
 
@@ -55,13 +56,14 @@
                 android:layout_marginTop="@dimen/_3sdp">
 
                 <ImageView
-                    android:id="@+id/loacationImage"
+                    android:id="@+id/locationImage"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
                     android:layout_centerVertical="true"
                      android:layout_marginTop="@dimen/_1sdp"
-                    android:background="@drawable/ic_outline_location_on_24"
-                    android:backgroundTint="@color/colorPrimary" />
+                    app:tint="@color/colorPrimary"
+                    android:src="@drawable/ic_outline_location_on_24"
+                   />
 
                 <TextView
                     android:id="@+id/locationText"
@@ -71,7 +73,7 @@
                     android:padding="0dp"
                     android:layout_centerVertical="true"
                     android:includeFontPadding="false"
-                    android:layout_toEndOf="@+id/loacationImage"
+                    android:layout_toEndOf="@+id/locationImage"
                     android:text="Vastral"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_8sdp" />
@@ -127,9 +129,9 @@
                     android:layout_height="@dimen/_12sdp"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_1sdp"
-                    android:background="@drawable/ic_outline_language_24"
-                    android:backgroundTint="@color/colorPrimary"
-                    tools:ignore="ContentDescription" />
+                    android:src="@drawable/ic_outline_language_24"
+                    tools:ignore="ContentDescription"
+                    app:tint="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/websiteText"

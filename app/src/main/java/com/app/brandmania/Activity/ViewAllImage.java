@@ -2028,10 +2028,10 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         threeBinding.gmailText.setTextColor(colodCode);
         threeBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
         threeBinding.contactText.setTextColor(colodCode);
-        twoBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        twoBinding.websiteText.setTextColor(colodCode);
-        twoBinding.locationImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        twoBinding.locationText.setTextColor(colodCode);
+        threeBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        threeBinding.websiteText.setTextColor(colodCode);
+        threeBinding.locationImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        threeBinding.locationText.setTextColor(colodCode);
 
     }
 
@@ -2043,16 +2043,16 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         fourBinding.gmailText.setTextColor(colodCode);
         fourBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
         fourBinding.contactText.setTextColor(colodCode);
-        twoBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        twoBinding.websiteText.setTextColor(colodCode);
-        twoBinding.locationImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        twoBinding.locationText.setTextColor(colodCode);
+        fourBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        fourBinding.websiteText.setTextColor(colodCode);
+        fourBinding.locationImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        fourBinding.locationText.setTextColor(colodCode);
 
     }
 
     public void ChangeBackgroundColorForFrameFive(int colorCode){
-        fiveBinding.element1.setBackgroundColor(colorCode);
-        fiveBinding.element2.setBackgroundColor(colorCode);
+        fiveBinding.element1.setImageTintList(ColorStateList.valueOf(colorCode));
+        fiveBinding.element3.setImageTintList(ColorStateList.valueOf(colorCode));
 
     }
     public void ChangeTextColorForFrameFive(int colodCode){
