@@ -1,26 +1,21 @@
 package com.app.brandmania.Activity;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -35,7 +30,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +37,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,13 +53,13 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
-import com.app.brandmania.Adapter.BrandAdapter;
+import com.app.brandmania.Adapter.ViewAllTopTabAdapter;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IItaliTextEvent;
-import com.app.brandmania.Interface.IPaymentFlow;
 import com.app.brandmania.Interface.ITextBoldEvent;
 import com.app.brandmania.Interface.ITextColorChangeEvent;
+import com.app.brandmania.Interface.ITextSizeEvent;
 import com.app.brandmania.Interface.IUnderLineTextEvent;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
@@ -89,19 +82,12 @@ import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorPickerView;
-import com.skydoves.balloon.ArrowConstraints;
-import com.skydoves.balloon.ArrowOrientation;
-import com.skydoves.balloon.Balloon;
-import com.skydoves.balloon.BalloonAnimation;
-import com.skydoves.balloon.OnBalloonClickListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -110,13 +96,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
@@ -125,9 +109,8 @@ import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
-import static com.app.brandmania.Utils.Utility.dialog;
 
-public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IUnderLineTextEvent, IColorChange, ColorPickerView.OnColorChangedListener {
+public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IUnderLineTextEvent, IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent {
     Activity act;
     ViewPager viewPager;
     private boolean isLoading = false;
@@ -470,11 +453,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (!is_frame.equalsIgnoreCase("1")) {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
-         //   if (preafManager.getFrameIntro()){
+
                 IntroCounter=0;
                 preafManager.setFrameIntro(false);
                 startIntroForFrameOnly(binding.logoCard, "Logo", "you can upload logo here");
-          //  }
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
+
         }else{
             if (preafManager.getViewAllActivityIntro()) {
                 startIntro(binding.downloadIcon,"Download","Download Image From here");
@@ -485,7 +469,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        final EditTabAdapter adapter = new EditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+        final ViewAllTopTabAdapter adapter = new ViewAllTopTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -1811,6 +1795,14 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         }
     }
+    @Override public void onfontSize(int textsize) {
+        if (selectedForEdit!=null) {
+            selectedForEdit.setTextSize(textsize);
+        }
+
+
+    }
+
     @Override public void onUnderLineItalic(boolean Left) {
         if (Left) {
             // Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();

@@ -1,4 +1,4 @@
-package com.app.brandmania.Activity;
+package com.app.brandmania.Adapter;
 
 import android.content.Context;
 
@@ -8,14 +8,15 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.app.brandmania.Fragment.top.CategoryTab;
 import com.app.brandmania.Fragment.top.ColorTab;
+import com.app.brandmania.Fragment.top.FooterTab;
 import com.app.brandmania.Fragment.top.FrameTab;
 import com.app.brandmania.Fragment.top.TextTab;
 import com.app.brandmania.Fragment.top.TextureTab;
 
-class EditTabAdapter extends FragmentPagerAdapter {
+public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
     Context context;
     int totalTabs;
-    public EditTabAdapter(Context c, FragmentManager fm, int totalTabs) {
+    public ViewAllTopTabAdapter(Context c, FragmentManager fm, int totalTabs) {
         super(fm);
         context = c;
         this.totalTabs = totalTabs;
@@ -32,6 +33,9 @@ class EditTabAdapter extends FragmentPagerAdapter {
             case 2:
                 TextTab textTab = new TextTab();
                 return textTab;
+            case 3:
+                FooterTab footerTab = new FooterTab();
+                return footerTab;
 
 
             default:

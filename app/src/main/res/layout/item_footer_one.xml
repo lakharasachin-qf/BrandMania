@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <view
+        android:id="@+id/topView"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2sdp">
+    </view>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/_5sdp"
+          android:layout_below="@+id/topView"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_20sdp">
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/gmailImage"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_outline_mail_24"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp">
+            </ImageView>
+            <TextView
+                android:id="@+id/gmailText"
+
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp">
+            </TextView>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
