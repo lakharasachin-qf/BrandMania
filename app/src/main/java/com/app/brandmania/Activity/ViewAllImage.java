@@ -457,6 +457,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 preafManager.setFrameIntro(false);
                 startIntroForFrameOnly(binding.logoEmptyState, "Logo", "you can upload logo here");
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
+            addDynamicFooter(1);
 
         }else{
             if (preafManager.getViewAllActivityIntro()) {

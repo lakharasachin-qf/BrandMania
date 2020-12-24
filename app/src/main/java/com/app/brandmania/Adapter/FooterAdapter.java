@@ -2,6 +2,7 @@ package com.app.brandmania.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Activity.PackageActivity;
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ItemFooterFiveBinding;
 import com.app.brandmania.databinding.ItemFooterFourBinding;
@@ -37,6 +40,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
     private boolean isLoadingAdded = false;
     private int checkedPosition = -1;
     public onFooterListener footerListener;
+    PreafManager preafManager;
 
     public FooterAdapter setFooterListener(onFooterListener footerListener) {
         this.footerListener = footerListener;
@@ -50,6 +54,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
     public FooterAdapter(ArrayList<FooterModel> footerModels, Activity activity) {
         this.footerModels = footerModels;
         this.activity = activity;
+        this.preafManager=new PreafManager(activity);
 
     }
     @NonNull
@@ -148,17 +153,29 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     ((FooterHolderThree) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            checkedPosition=position;
-                            footerListener.onFooterChoose(footerModels.get(position).getLayoutType());
-                            ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            if (!preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("1")) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType());
+                                ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }else{
+                                Intent intent=new Intent(activity, PackageActivity.class);
+                              //  intent.addCategory(Intent.CATEGORY_HOME);
+                              //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                activity.startActivity(intent);
+                                activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                            }
                         }
                     });
                     if (checkedPosition==position){
-
                         ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                     }else {
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("1")){
+                            ((FooterHolderThree) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                            ((FooterHolderThree) holder).binding.elementTxt.setText("Premium");
+                        }
                         ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.GONE);
                     }
+
                     break;
                 case LAYOUT_FRAME_FOUR:
                     ((FooterHolderFour) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +204,10 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (checkedPosition==position){
                         ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                     }else {
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("1")){
+                            ((FooterHolderFive) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
+                        }
                         ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.GONE);
                     }
                     break;
@@ -202,15 +223,14 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (checkedPosition==position){
                         ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                     }else {
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("1")){
+                            ((FooterHolderSix) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                        }
                         ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.GONE);
                     }
                     break;
-
             }
-
         }
-
-
     }
     static class FooterHolderOne extends RecyclerView.ViewHolder {
         ItemFooterOneBinding binding;

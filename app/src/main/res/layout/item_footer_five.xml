@@ -145,7 +145,7 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_alignParentEnd="true"
-            app:cardElevation="@dimen/_20sdp"
+            app:cardElevation="@dimen/_4sdp"
             app:cardBackgroundColor="@color/colorthird"
             app:cardCornerRadius="@dimen/_3sdp"
             android:layout_width="wrap_content"
@@ -163,6 +163,41 @@
                     android:fontFamily="@font/inter_regular"
                     android:textColor="@color/black"
                     android:text="Selected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:visibility="gone"
+                    android:elevation="@dimen/_20sdp"
+                    android:src="@drawable/cpv_preset_checked"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/elementPremium"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_alignParentEnd="true"
+            app:cardElevation="@dimen/_4sdp"
+            app:cardBackgroundColor="@color/colorthird"
+            app:cardCornerRadius="@dimen/_3sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_10sdp"
+                    android:fontFamily="@font/inter_regular"
+                    android:textColor="@color/white"
+                    android:text="Premimun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <ImageView
