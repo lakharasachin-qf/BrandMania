@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/_10sdp">
+
+
+    <View
+        android:id="@+id/viewElement2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:background="@color/colorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/containerElement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/_3sdp"
+        android:paddingBottom="@dimen/_3sdp">
+
+        <TextView
+            android:id="@+id/textElement1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/inter_regular"
+            android:gravity="center_vertical"
+            android:text="Follow us:"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp" />
+
+        <ImageView
+            android:id="@+id/imgElement1"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/ic_social_media_facebook"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/imgElement2"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/ic_social_media_instagram"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/imgElement3"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/ic_social_media_whatsapp"
+            app:tint="@color/white" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

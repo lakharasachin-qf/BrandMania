@@ -71,8 +71,6 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.viewPager.setCurrentItem(tab.getPosition());
                 editorFragment=tab.getPosition();
-
-                //  handler(editorFragment);
             }
 
             @Override
@@ -81,6 +79,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
 

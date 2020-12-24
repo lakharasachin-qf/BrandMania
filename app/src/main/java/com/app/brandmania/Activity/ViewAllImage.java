@@ -24,6 +24,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,7 +33,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -64,6 +67,7 @@ import com.app.brandmania.Interface.IUnderLineTextEvent;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.Utils.IFontChangeEvent;
+import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -154,38 +158,16 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        captureScreenShort();
+        //triggerUpgradePackage();
         act.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(this);
         binding.titleName.setSelected(true);
         gson = new Gson();
-        Log.e("PHONE_NUMBER",gson.toJson(preafManager.getActiveBrand()));
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
-        Log.e("selectedObject",gson.toJson(selectedObject));
         getFrame();
-        //showAlertDialogButtonClicked();
-        //getBrandList();
         getBrandList();
-        //   Toast.makeText(act,binding.customFrameWebsite.getText().toString(),Toast.LENGTH_LONG).show();
-
         Website=preafManager.getActiveBrand().getWebsite();
-
-       /* binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                startAnimation();
-
-                getImageCtegory();
-                // startAnimation();
-                //getNotice(startDate, endDate);
-
-            }
-        });*/
-
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         getImageCtegory();
@@ -199,15 +181,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             @Override
             public void onClick(View v) {
                 selectedObject.setFrameId(selectedModelFromView.getFrameId());
-                Log.e("FrameIdWithImage",selectedObject.getFrameId());
                 preafManager.AddToMyFavorites(selectedObject);
                 if (binding.fabroutIcon.getVisibility()==View.VISIBLE)
                 {
                     binding.fabroutIcon.setVisibility(View.GONE);
                     binding.addfabroutIcon.setVisibility(View.VISIBLE);
                 }
-                Log.e("FAVVV",gson.toJson(preafManager.getSavedFavorites()));
-
                 dowloadAndShare(ADDFAV);
             }
         });
@@ -221,7 +200,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     binding.addfabroutIcon.setVisibility(View.GONE);
                     binding.fabroutIcon.setVisibility(View.VISIBLE);
                 }
-                Log.e("FAVVV",gson.toJson(preafManager.getSavedFavorites()));
+
                 removeFavourit(REMOVEFAV);
             }
         });
@@ -235,10 +214,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-
                                 requestAgain();
-                                // startSave();
-                                //checkPermisionForDontAskAgain();
                                 Log.e("CSelectedImg",gson.toJson(selectedModelFromView.getFrame1()));
                                 new DownloadImageTask(selectedModelFromView.getFrame1()).execute(selectedModelFromView.getFrame1());
                                 dowloadAndShare(DOWLOAD);
@@ -1849,9 +1825,31 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (selectedForEdit!=null) {
             selectedForEdit.setTypeface(custom_font);
         }
-
-
-
     }
 
+
+
+
+    //show dialog for upgrading package for using all 6 frames
+    public DialogUpgradeLayoutBinding upgradeLayoutBinding;
+    private void triggerUpgradePackage() {
+        upgradeLayoutBinding=DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(upgradeLayoutBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(upgradeLayoutBinding.getRoot());
+
+        upgradeLayoutBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+    }
 }

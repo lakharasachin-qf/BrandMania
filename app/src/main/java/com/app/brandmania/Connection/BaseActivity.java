@@ -37,6 +37,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     /*public FirebaseAuth mAuth;*/
     private ResponseHandler responseHandler;
     private boolean isLoading = false;
+    private boolean LIVE_MODE=false;
     Gson gson;
     private static void showNoConnectionDialog() {
         if (!noconnectionAlertDialog.isShowing()) {
@@ -58,22 +59,13 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     }
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         act = this;
-// In Activity's onCreate() for instance
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-
      //   getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-
-       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+       //
         prefManager = new PreafManager(this);
-        // responseHandler = new ResponseHandler();
-      //  profileModel = prefManager.getUsers();
         gson = new Gson();
-        /*profileObject = new StoreUserData().getUsers(this);
-        prefManager = new PrefManager(this);
-        responseHandler = new ResponseHandler(this);*/
         myBrandApp = (MakeMyBrandApp) this.getApplication();
         myBrandApp.getObserver().addObserver(this);
 
@@ -88,8 +80,9 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         mNetworkReceiver = new NetworkChangeReceiver();
         registerNetworkBroadcastForNougat();
 
-       /* if(prefManager.getUserToken() != null)
-            updateUser();*/
+        if (LIVE_MODE){
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        }
 
     }
     private void registerNetworkBroadcastForNougat() {
