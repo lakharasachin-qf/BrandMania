@@ -1854,57 +1854,21 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     }
 
-    @Override public void onColorItemChange(int colorcode) {
+    @Override public void onColorItemChange(int colorCode) {
 
-        if (editorFragment==2) {
-            if (footerLayout==1){
-                ChangeTextColorForFrameOne(colorcode);
-            }else if (footerLayout==2){
-
-            }else if (footerLayout==3){
-
-            }else if (footerLayout==4){
-
-            }else if (footerLayout==5){
-
-            }else if (footerLayout==6){
-
-            }
-        }
-        if (editorFragment==1){
-
-            if (footerLayout==1){
-                ChangeBackgroundColorForFrameOne(colorcode);
-            }else if (footerLayout==2){
-
-            }else if (footerLayout==3){
-
-            }else if (footerLayout==4){
-
-            }else if (footerLayout==5){
-
-            }else if (footerLayout==6){
-
-            }
-        }
-
-    }
-
-    @Override
-    public void onColorChanged(int colorCode) {
         if (editorFragment==2) {
             if (footerLayout==1){
                 ChangeTextColorForFrameOne(colorCode);
             }else if (footerLayout==2){
-
+                ChangeTextColorForFrameTwo(colorCode);
             }else if (footerLayout==3){
-
+                ChangeTextColorForFrameThree(colorCode);
             }else if (footerLayout==4){
-
+                ChangeTextColorForFrameFour(colorCode);
             }else if (footerLayout==5){
-
+                ChangeTextColorForFrameFive(colorCode);
             }else if (footerLayout==6){
-
+                ChangeTextColorForFrameSix(colorCode);
             }
         }
         if (editorFragment==1){
@@ -1912,37 +1876,32 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             if (footerLayout==1){
                 ChangeBackgroundColorForFrameOne(colorCode);
             }else if (footerLayout==2){
-
+                ChangeBackgroundColorForFrameTwo(colorCode);
             }else if (footerLayout==3){
 
             }else if (footerLayout==4){
-
+                ChangeBackgroundColorForFrameFour(colorCode);
             }else if (footerLayout==5){
-
+                ChangeBackgroundColorForFrameFive(colorCode);
             }else if (footerLayout==6){
-
+                ChangeBackgroundColorForFrameSix(colorCode);
             }
         }
-
-
-
     }
-
-    @Override
-    public void onColorSelected(int dialogId, int colorCode) {
+    @Override public void onColorChanged(int colorCode) {
         if (editorFragment==2) {
             if (footerLayout==1){
                 ChangeTextColorForFrameOne(colorCode);
             }else if (footerLayout==2){
-
+                ChangeTextColorForFrameTwo(colorCode);
             }else if (footerLayout==3){
-
+                ChangeTextColorForFrameThree(colorCode);
             }else if (footerLayout==4){
-
+                ChangeTextColorForFrameFour(colorCode);
             }else if (footerLayout==5){
-
+                ChangeTextColorForFrameFive(colorCode);
             }else if (footerLayout==6){
-
+                ChangeTextColorForFrameSix(colorCode);
             }
         }
         if (editorFragment==1){
@@ -1950,37 +1909,33 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             if (footerLayout==1){
                 ChangeBackgroundColorForFrameOne(colorCode);
             }else if (footerLayout==2){
-
+                ChangeBackgroundColorForFrameTwo(colorCode);
             }else if (footerLayout==3){
 
             }else if (footerLayout==4){
-
+                ChangeBackgroundColorForFrameFour(colorCode);
             }else if (footerLayout==5){
-
+                ChangeBackgroundColorForFrameFive(colorCode);
             }else if (footerLayout==6){
-
+                ChangeBackgroundColorForFrameSix(colorCode);
             }
         }
 
-
     }
-
-
-    @Override
-    public void onChooseColor(int colorCode) {
+    @Override public void onColorSelected(int dialogId, int colorCode) {
         if (editorFragment==2) {
             if (footerLayout==1){
                 ChangeTextColorForFrameOne(colorCode);
             }else if (footerLayout==2){
-
+                ChangeTextColorForFrameTwo(colorCode);
             }else if (footerLayout==3){
-
+                ChangeTextColorForFrameThree(colorCode);
             }else if (footerLayout==4){
-
+                ChangeTextColorForFrameFour(colorCode);
             }else if (footerLayout==5){
-
+                ChangeTextColorForFrameFive(colorCode);
             }else if (footerLayout==6){
-
+                ChangeTextColorForFrameSix(colorCode);
             }
         }
         if (editorFragment==1){
@@ -1988,15 +1943,49 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             if (footerLayout==1){
                 ChangeBackgroundColorForFrameOne(colorCode);
             }else if (footerLayout==2){
-
+                ChangeBackgroundColorForFrameTwo(colorCode);
             }else if (footerLayout==3){
 
             }else if (footerLayout==4){
-
+                ChangeBackgroundColorForFrameFour(colorCode);
             }else if (footerLayout==5){
-
+                ChangeBackgroundColorForFrameFive(colorCode);
             }else if (footerLayout==6){
+                ChangeBackgroundColorForFrameSix(colorCode);
+            }
+        }
 
+    }
+    @Override public void onChooseColor(int colorCode) {
+        if (editorFragment==2) {
+            if (footerLayout==1){
+                ChangeTextColorForFrameOne(colorCode);
+            }else if (footerLayout==2){
+                ChangeTextColorForFrameTwo(colorCode);
+            }else if (footerLayout==3){
+                ChangeTextColorForFrameThree(colorCode);
+            }else if (footerLayout==4){
+                ChangeTextColorForFrameFour(colorCode);
+            }else if (footerLayout==5){
+                ChangeTextColorForFrameFive(colorCode);
+            }else if (footerLayout==6){
+                ChangeTextColorForFrameSix(colorCode);
+            }
+        }
+        if (editorFragment==1){
+
+            if (footerLayout==1){
+                ChangeBackgroundColorForFrameOne(colorCode);
+            }else if (footerLayout==2){
+                ChangeBackgroundColorForFrameTwo(colorCode);
+            }else if (footerLayout==3){
+
+            }else if (footerLayout==4){
+                ChangeBackgroundColorForFrameFour(colorCode);
+            }else if (footerLayout==5){
+                ChangeBackgroundColorForFrameFive(colorCode);
+            }else if (footerLayout==6){
+                ChangeBackgroundColorForFrameSix(colorCode);
             }
         }
 
@@ -2016,7 +2005,79 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     }
 
+    public void ChangeBackgroundColorForFrameTwo(int colorCode){
+        twoBinding.firstView.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+        twoBinding.secondView.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+
+    }
+    public void ChangeTextColorForFrameTwo(int colodCode){
+        twoBinding.gmailImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
+        twoBinding.gmailText.setTextColor(colodCode);
+        twoBinding.contactImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
+        twoBinding.contactText.setTextColor(colodCode);
+        twoBinding.websiteImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
+        twoBinding.websiteText.setTextColor(colodCode);
+        twoBinding.locationImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
+        twoBinding.locationText.setTextColor(colodCode);
+
+    }
 
 
+    public void ChangeTextColorForFrameThree(int colodCode){
+        threeBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        threeBinding.gmailText.setTextColor(colodCode);
+        threeBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        threeBinding.contactText.setTextColor(colodCode);
+        twoBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        twoBinding.websiteText.setTextColor(colodCode);
+        twoBinding.locationImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        twoBinding.locationText.setTextColor(colodCode);
+
+    }
+
+    public void ChangeBackgroundColorForFrameFour(int colorCode){
+        fourBinding.topView2.setBackgroundColor(colorCode);
+    }
+    public void ChangeTextColorForFrameFour(int colodCode){
+        fourBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        fourBinding.gmailText.setTextColor(colodCode);
+        fourBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        fourBinding.contactText.setTextColor(colodCode);
+        twoBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        twoBinding.websiteText.setTextColor(colodCode);
+        twoBinding.locationImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        twoBinding.locationText.setTextColor(colodCode);
+
+    }
+
+    public void ChangeBackgroundColorForFrameFive(int colorCode){
+        fiveBinding.element1.setBackgroundColor(colorCode);
+        fiveBinding.element2.setBackgroundColor(colorCode);
+
+    }
+    public void ChangeTextColorForFrameFive(int colodCode){
+        fiveBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        fiveBinding.gmailText.setTextColor(colodCode);
+        fiveBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        fiveBinding.contactText.setTextColor(colodCode);
+        fiveBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        fiveBinding.websiteText.setTextColor(colodCode);
+
+
+    }
+
+    public void ChangeBackgroundColorForFrameSix(int colorCode){
+        sixBinding.containerElement.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+        sixBinding.viewElement2.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+
+    }
+    public void ChangeTextColorForFrameSix(int colodCode){
+        sixBinding.imgElement1.setImageTintList(ColorStateList.valueOf(colodCode));
+        sixBinding.imgElement2.setImageTintList(ColorStateList.valueOf(colodCode));
+        sixBinding.imgElement3.setImageTintList(ColorStateList.valueOf(colodCode));
+        sixBinding.textElement1.setTextColor(colodCode);
+
+
+    }
 
 }

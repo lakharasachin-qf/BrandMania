@@ -181,7 +181,7 @@
                         android:id="@+id/customFrameRelative"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_300sdp"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -249,19 +249,9 @@
 
                         </LinearLayout>
 
-                        <RelativeLayout
-                            android:id="@+id/logoCard"
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:layout_marginStart="@dimen/_8sdp"
-                            android:layout_marginTop="@dimen/_8sdp">
 
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="@dimen/_70sdp"
-                                android:layout_height="@dimen/_70sdp"
-                                android:elevation="@dimen/_2sdp"
-                                app:cardCornerRadius="@dimen/_3sdp"
-                                app:cardUseCompatPadding="true">
+
+
 
                                 <LinearLayout
                                     android:id="@+id/imgEmptyStateFirst"
@@ -272,7 +262,7 @@
 
                                     <ImageView
                                         android:layout_width="@dimen/_20sdp"
-                                        android:layout_height="@dimen/_20sdp"
+                                        android:layout_height="19dp"
                                         android:src="@drawable/ic_gallry" />
 
                                     <TextView
@@ -287,31 +277,17 @@
 
                                 <ImageView
                                     android:id="@+id/logoCustom"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_height="@dimen/_50sdp"
                                     android:layout_centerInParent="true"
                                     android:scaleType="centerCrop"
                                     android:src="@drawable/placeholder"
-                                    android:visibility="gone" />
-
-                            </androidx.cardview.widget.CardView>
-
-                            <ImageView
-                                android:id="@+id/actionDeleteFirst"
-                                android:layout_width="@dimen/_17sdp"
-                                android:layout_height="@dimen/_17sdp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:layout_gravity="bottom|end"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                android:layout_marginBottom="@dimen/_7sdp"
+                                    android:visibility="visible" />
 
 
-                                android:elevation="@dimen/_2sdp"
-                                android:padding="@dimen/_5sdp"
 
-                                android:visibility="gone" />
-                        </RelativeLayout>
+
+
 
 
                         <EditText
