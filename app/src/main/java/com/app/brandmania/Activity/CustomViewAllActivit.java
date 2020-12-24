@@ -58,7 +58,7 @@ import java.util.Timer;
 
 import static com.app.brandmania.Activity.EditPicActivity.VIEW_RECOMDATION;
 
-public class CustomViewAllActivit extends AppCompatActivity  implements FrameInterFace, IImageFromGalary, View.OnTouchListener {
+public class CustomViewAllActivit extends AppCompatActivity  implements FrameInterFace, ItemeInterFace,IImageFromGalary, View.OnTouchListener {
     public static final int VIEW_RECOMDATION = 0;
     Activity act;
     private ActivityCustomViewAllBinding binding;
@@ -289,7 +289,9 @@ public class CustomViewAllActivit extends AppCompatActivity  implements FrameInt
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
     }
-
+    @Override public void onItemSelection(int position, MultiListItem listModel) {
+        binding.frameImage.setImageResource(listModel.getImage());
+    }
     private void dumpEvent(MotionEvent event) {
         String names[] = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE",
                 "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };

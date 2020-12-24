@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -12,10 +11,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.app.brandmania.Adapter.NewEditTabAdapter;
+import com.app.brandmania.Adapter.ColorAndEditTabAdapter;
+import com.app.brandmania.Adapter.OnlyEditTabAdapter;
 import com.app.brandmania.Interface.IColorChange;
+import com.app.brandmania.Interface.ITextSizeEvent;
 import com.google.android.material.tabs.TabLayout;
 import com.app.brandmania.Adapter.FrameInterFace;
 import com.app.brandmania.Adapter.ItemeInterFace;
@@ -34,11 +34,12 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 
 import static com.app.brandmania.Utils.Utility.Log;
 
-public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeInterFace, FrameInterFace, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, IUnderLineTextEvent, IColorChange, ColorPickerDialogListener, ColorPickerView.OnColorChangedListener {
+public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeInterFace, FrameInterFace, ITextSizeEvent,ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, IUnderLineTextEvent, IColorChange, ColorPickerDialogListener, ColorPickerView.OnColorChangedListener {
     Activity act;
     TextView selectedForEdit;
     View selectedForBackgroundChange;
     int editorFragment;
+
     int FramePrimaryOrSecondary=0;
     private ActivityOnlyTextEditorBinding binding;
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        final NewEditTabAdapter adapter = new NewEditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+        final OnlyEditTabAdapter adapter = new OnlyEditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
         binding.textEdit.setOnClickListener(new View.OnClickListener() {
@@ -116,50 +117,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
                 binding.viewPager.setCurrentItem(0);
             }
         });
-//        binding.customFrameWebsite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//                if (b==true)
-//                {
-//                    selectedForEdit=binding.customFrameWebsite;
-//                    binding.viewPager.setCurrentItem(2);
-//                    editorFragment=2;
-//                }
-//            }
-//        });
-//        binding.bottomBarView1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FramePrimaryOrSecondary=0;
-//                selectedForBackgroundChange=binding.bottomBarView1;
-//                binding.customAddressEdit1.clearFocus();
-//                binding.customeContactEdit1.clearFocus();
-//                binding.customFrameWebsite.clearFocus();
-//                binding.viewPager.setCurrentItem(1);
-//            }
-//        });
-//        binding.bottomBarView2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FramePrimaryOrSecondary=1;
-//                selectedForBackgroundChange=binding.bottomBarView2;
-//                binding.customAddressEdit1.clearFocus();
-//                binding.customeContactEdit1.clearFocus();
-//                binding.customFrameWebsite.clearFocus();
-//                binding.viewPager.setCurrentItem(1);
-//            }
-//        });
-//        binding.bottomBarView3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FramePrimaryOrSecondary=0;
-//                selectedForBackgroundChange=binding.bottomBarView1;
-//                binding.customAddressEdit1.clearFocus();
-//                binding.customeContactEdit1.clearFocus();
-//                binding.customFrameWebsite.clearFocus();
-//                binding.viewPager.setCurrentItem(1);
-//            }
-//        });
+
     }
     public static String convertFirstUpper(String str) {
 
@@ -217,8 +175,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
             binding.textEdit.setPaintFlags(0);
         }
     }
-    @Override
-    public void onChooseColor(int colorCode) {
+    @Override public void onChooseColor(int colorCode) {
         if (editorFragment==3 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(colorCode);
         }
@@ -229,10 +186,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
             selectedForBackgroundChange.setBackgroundColor(colorCode);
         }
     }
-
-
-    @Override
-    public void onColorChanged(int colorCode) {
+    @Override public void onColorChanged(int colorCode) {
         if (editorFragment==3 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(colorCode);
         }
@@ -243,9 +197,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
             selectedForBackgroundChange.setBackgroundColor(colorCode);
         }
     }
-
-    @Override
-    public void onColorSelected(int dialogId, int colorCode) {
+    @Override public void onColorSelected(int dialogId, int colorCode) {
         if (editorFragment==3 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(colorCode);
         }
@@ -256,9 +208,13 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
             selectedForBackgroundChange.setBackgroundColor(colorCode);
         }
     }
+    @Override public void onDialogDismissed(int dialogId) {
+
+    }
 
     @Override
-    public void onDialogDismissed(int dialogId) {
+    public void onfontSize(int textsize) {
 
+        binding.textEdit.setTextSize(textsize);
     }
 }

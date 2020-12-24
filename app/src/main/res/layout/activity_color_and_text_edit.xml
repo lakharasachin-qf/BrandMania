@@ -154,7 +154,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <com.google.android.material.tabs.TabLayout
-                    android:layout_marginRight="@dimen/_60sdp"
                     style="@style/MyTabLayout"
                     app:tabMinWidth="@dimen/_60sdp"
                     android:id="@+id/tabLayout"

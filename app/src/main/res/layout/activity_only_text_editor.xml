@@ -90,6 +90,14 @@
                         app:layout_constraintTop_toTopOf="parent"
                         />
                     <ImageView
+                        android:visibility="gone"
+                        android:src="@drawable/frametest1"
+                        android:scaleType="fitXY"
+                        android:id="@+id/editableImageview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                    <ImageView
                         android:scaleType="fitXY"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/frameImage"
@@ -124,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.google.android.material.tabs.TabLayout
-                        android:layout_marginRight="@dimen/_60sdp"
+
                         style="@style/MyTabLayout"
                         app:tabMinWidth="@dimen/_60sdp"
                         android:id="@+id/tabLayout"

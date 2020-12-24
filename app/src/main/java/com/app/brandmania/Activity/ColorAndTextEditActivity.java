@@ -1,85 +1,54 @@
 package com.app.brandmania.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.brandmania.Adapter.IImageFromGalary;
-import com.app.brandmania.Adapter.NewEditTabAdapter;
+import com.app.brandmania.Adapter.ColorAndEditTabAdapter;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Interface.IColorChange;
+import com.app.brandmania.Interface.IItaliTextEvent;
+import com.app.brandmania.Interface.ITextBoldEvent;
+import com.app.brandmania.Interface.ITextSizeEvent;
+import com.app.brandmania.Interface.IUnderLineTextEvent;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.Utils.IFontChangeEvent;
 import com.app.brandmania.Utils.Utility;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.app.brandmania.Adapter.EditingToolsAdapter;
-import com.app.brandmania.Adapter.FrameInterFace;
 import com.app.brandmania.Adapter.ItemeInterFace;
 import com.app.brandmania.Adapter.MultiListItem;
-import com.app.brandmania.Fragment.TextEditorDialogFragment;
 import com.app.brandmania.Interface.ITextColorChangeEvent;
-import com.app.brandmania.Interface.ToolType;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityColorAndTextEditBinding;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorPickerView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
-import ja.burhanrashid52.photoeditor.OnPhotoEditorListener;
-import ja.burhanrashid52.photoeditor.PhotoEditor;
-import ja.burhanrashid52.photoeditor.SaveSettings;
-import ja.burhanrashid52.photoeditor.TextStyleBuilder;
-import ja.burhanrashid52.photoeditor.ViewType;
-
-import static com.app.brandmania.Utils.Utility.Log;
-
-public class ColorAndTextEditActivity extends BaseActivity implements IColorChange,ItemeInterFace, IImageFromGalary,ColorPickerDialogListener, ColorPickerView.OnColorChangedListener,View.OnTouchListener,ITextColorChangeEvent, IFontChangeEvent {
+public class ColorAndTextEditActivity extends BaseActivity implements IColorChange,ItemeInterFace, ITextBoldEvent, IItaliTextEvent, IUnderLineTextEvent, ITextSizeEvent, IImageFromGalary,ColorPickerDialogListener, ColorPickerView.OnColorChangedListener,View.OnTouchListener,ITextColorChangeEvent, IFontChangeEvent {
 
     Activity act;
     private ActivityColorAndTextEditBinding binding;
@@ -272,11 +241,12 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
 
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Color")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Image")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frame")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Texture")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        final NewEditTabAdapter adapter = new NewEditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+        final ColorAndEditTabAdapter adapter = new ColorAndEditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
 
@@ -378,28 +348,21 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     }
     private void init() {
 
-//        im_move_zoom_rotate = (ImageView) findViewById(R.id.im_move_zoom_rotate);
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+
 
     }
-
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
         return (float) Math.sqrt(x * x + y * y);
     }
-
     private float rotation(MotionEvent event) {
         double delta_x = (event.getX(0) - event.getX(1));
         double delta_y = (event.getY(0) - event.getY(1));
         double radians = Math.atan2(delta_y, delta_x);
         return (float) Math.toDegrees(radians);
     }
-
-
-    @Override
-    public void onColorSelected(int dialogId, int color) {
+    @Override public void onColorSelected(int dialogId, int color) {
         if (editorFragment==3 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(color);
         }
@@ -411,14 +374,10 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
             selectedForBackgroundChange.setBackgroundColor(color);
         }
     }
-
-    @Override
-    public void onDialogDismissed(int dialogId) {
+    @Override public void onDialogDismissed(int dialogId) {
 
     }
-
-    @Override
-    public void onColorChanged(int newColor) {
+    @Override public void onColorChanged(int newColor) {
         if (editorFragment==3 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(newColor);
         }
@@ -430,7 +389,45 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
             selectedForBackgroundChange.setBackgroundColor(newColor);
         }
     }
+    @Override public void onBoldTextChange(boolean Bold) {
+        if (Bold) {
+            //  Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            myEditText.setTypeface(  myEditText.getTypeface(), Typeface.BOLD);
 
+        }else {
+            //  Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+            myEditText.setTypeface(null, Typeface.NORMAL);
+
+        }
+
+    }
+    @Override public void onItalicTextChange(boolean Italic) {
+        if (Italic) {
+            //Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            myEditText.setTypeface(  myEditText.getTypeface(), Typeface.ITALIC);
+
+        }else {
+            // Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+            myEditText.setTypeface(null, Typeface.NORMAL);
+
+        }
+    }
+    @Override public void onUnderLineItalic(boolean Left) {
+        if (Left) {
+            //  Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            myEditText.setPaintFlags( myEditText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        }
+        else
+        {
+            // Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+            //  .setTypeface(null, Typeface.NORMAL);
+            myEditText.setPaintFlags(0);
+        }
+    }
+    @Override public void onfontSize(int textsize) {
+
+        myEditText.setTextSize(textsize);
+    }
     public boolean onTouch(View view, MotionEvent event) {
         if (gestureDetector.onTouchEvent(event)) {
             Toast.makeText(act, "click", Toast.LENGTH_SHORT).show();

@@ -83,7 +83,17 @@ public class MenuAddaptor extends RecyclerView.Adapter{
                 switch (model.getLayoutType()) {
                     case LAYOUT_RECOMMANDATION:
                         ((HomeHolder) holder).binding.image.setImageResource(model.getImage());
+                        ((HomeHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
+                                ((ItemeInterFace) activity).onItemSelection( position, model);
+
+
+                            }
+
+
+                        });
 
                         if (CustomViewAllActivit.VIEW_RECOMDATION==0) {
                             ((HomeHolder) holder).binding.image.setOnClickListener(new View.OnClickListener() {

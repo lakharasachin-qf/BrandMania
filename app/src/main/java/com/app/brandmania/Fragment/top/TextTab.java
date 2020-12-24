@@ -1,11 +1,15 @@
 package com.app.brandmania.Fragment.top;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -21,6 +25,7 @@ import com.app.brandmania.Adapter.IImageFromGalary;
 import com.app.brandmania.Adapter.OnlyTextColorPickerAddaptor;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IItaliTextEvent;
+import com.app.brandmania.Interface.ITextSizeEvent;
 import com.app.brandmania.Interface.IUnderLineTextEvent;
 import com.app.brandmania.Interface.ITextBoldEvent;
 import com.app.brandmania.Interface.ITextColorChangeEvent;
@@ -39,6 +44,8 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
     public  boolean UNDERLINE_TEXT =false;
     public static final boolean NO_BOLD_TEXT =false;
     Activity act;
+    int textSize = 5;
+    int saveProgress;
     private TextTabBinding binding;
     ArrayList<FontModel> fontModelList=new ArrayList<>();
     FontModel[] fontModelObject;
@@ -50,7 +57,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
         act = getActivity();
         context=this;
         binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, container, false);
-
+      //  binding.seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
         binding.cancleClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +67,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
                 binding.cancleClick.setVisibility(View.GONE);
                 binding.colorChose.setVisibility(View.VISIBLE);
                 binding.fontStyleList.setVisibility(View.VISIBLE);
-
+                binding.boldRelative.setVisibility(View.VISIBLE);
                 binding.fontRecycler.setVisibility(View.GONE);
 
 
@@ -74,66 +81,96 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
                 binding.fontStyleList.setVisibility(View.GONE);
                 binding.colorChose.setVisibility(View.GONE);
                 binding.cancleClick.setVisibility(View.VISIBLE);
+                binding.boldRelative.setVisibility(View.GONE);
             }
         });
-        binding.boldRelative.setOnClickListener(new View.OnClickListener() {
+        binding.boldText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ITALIC_TEXT) {
+                    binding.boldText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0C0C0C")));
                     ((ITextBoldEvent) act).onBoldTextChange(false);
-                    binding.NormaTextChoose.setVisibility(View.VISIBLE);
-                    binding.BOldTextChoose.setVisibility(View.GONE);
+
                     ITALIC_TEXT=false;
 
 
                 }else {
                     ITALIC_TEXT=true;
+                    binding.boldText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AD2753")));
                     ((ITextBoldEvent) act).onBoldTextChange(true);
-                    binding.NormaTextChoose.setVisibility(View.GONE);
-                    binding.BOldTextChoose.setVisibility(View.VISIBLE);
+
                 }
             }
         });
-        binding.underLineRelativ.setOnClickListener(new View.OnClickListener() {
+        binding.underlineText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (UNDERLINE_TEXT) {
+                    binding.underlineText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0C0C0C")));
                     ((IUnderLineTextEvent) act).onUnderLineItalic(false);
-                    binding.NormalUnderTextChoose.setVisibility(View.VISIBLE);
-                    binding.UndelLIneChoose.setVisibility(View.GONE);
                     UNDERLINE_TEXT=false;
                 }
                 else {
                     UNDERLINE_TEXT=true;
+                    binding.underlineText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AD2753")));
                     ((IUnderLineTextEvent) act).onUnderLineItalic(true);
-                    binding.NormalUnderTextChoose.setVisibility(View.GONE);
-                    binding.UndelLIneChoose.setVisibility(View.VISIBLE);
+
 
                 }
 
             }
         });
-        binding.ItalicClick.setOnClickListener(new View.OnClickListener() {
+
+
+        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                textSize = textSize + (progress-saveProgress);
+                saveProgress = progress;
+              //  binding.seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+                ((ITextSizeEvent) act).onfontSize(textSize);
+
+
+
+            }
+        });
+
+
+        binding.italicText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (BOLD_TEXT) {
+                    binding.italicText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0C0C0C")));
                     ((IItaliTextEvent) act).onItalicTextChange(false);
-                    binding.NormalUnderTextChoose.setVisibility(View.VISIBLE);
-                    binding.UndelLIneChoose.setVisibility(View.GONE);
+
                     BOLD_TEXT=false;
 
 
                 }else {
                     BOLD_TEXT=true;
+                    binding.italicText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AD2753")));
                     ((IItaliTextEvent) act).onItalicTextChange(true);
-                    binding.NormalItalicTextChoose.setVisibility(View.GONE);
-                    binding.ItalicTextChoose.setVisibility(View.VISIBLE);
+
                 }
             }
         });
         binding.colorPickerView.setOnColorChangedListener((ColorPickerView.OnColorChangedListener) act);
-        binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
+      //  binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
         binding.colorChose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +178,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
                 binding.fontStyleList.setVisibility(View.GONE);
                 binding.colorChose.setVisibility(View.GONE);
                 binding.cancleClick.setVisibility(View.VISIBLE);
-
+                binding.boldRelative.setVisibility(View.GONE);
 
 
 
@@ -155,7 +192,6 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
 
         binding.colorChose.setBackgroundColor(colorcode);
     }
-
     public void FontChanege() {
         fontModelList = new ArrayList<>();  //initialized list
         fontModelObject=new FontModel[15];   //Array of model class
@@ -201,9 +237,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent , ColorPi
         binding.fontRecycler.setLayoutManager(new GridLayoutManager(act,3));   //set layout
         binding.fontRecycler.setAdapter(new FontListAdeptor(fontModelList,act));    //set Adapter
     }
-
-    @Override
-    public void onColorChanged(int newColor) {
+    @Override public void onColorChanged(int newColor) {
         Log.e("OnColorChoose",String.valueOf(newColor));
         ((IColorChange)act).onChooseColor(newColor);
     }

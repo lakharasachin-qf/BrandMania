@@ -25,7 +25,6 @@ public class CustomFragment extends Fragment {
     Activity act;
     private FragmentCustomBinding binding;
     Timer timer;
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_custom,container,false);
@@ -49,82 +48,26 @@ public class CustomFragment extends Fragment {
         return binding.getRoot();
 
     }
-
     public void Recommendation() {
         ArrayList<MultiListItem> menuModels = new ArrayList<>();
         MultiListItem model = new MultiListItem();
         model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.firstn);
+        model.setImage(R.drawable.img_one);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.secondn);
+        model.setImage(R.drawable.imgd_o);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.thirdn);
+        model.setImage(R.drawable.img_three);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.fourn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.five);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.sixn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.firstn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.secondn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.thirdn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.fourn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.five);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.sixn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.firstn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.secondn);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.thirdn);
+        model.setImage(R.drawable.img_four);
         menuModels.add(model);
         MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
         binding.rocommRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));

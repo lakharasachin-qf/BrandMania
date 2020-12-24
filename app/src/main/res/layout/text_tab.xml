@@ -4,12 +4,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-     <!--   <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@+id/cancleClick"
-            android:id="@+id/textRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </androidx.recyclerview.widget.RecyclerView>-->
+
 
         <com.jaredrummler.android.colorpicker.ColorPickerView
             android:visibility="gone"
@@ -89,83 +84,62 @@
 
 
         <RelativeLayout
-            android:layout_toEndOf="@+id/colorChose"
-            android:id="@+id/boldRelative"
-            android:layout_below="@+id/cancleClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-        <ImageView
-
-            android:visibility="gone"
-
-            android:id="@+id/BOldTextChoose"
-            android:background="@drawable/ic_bold_type"
             android:layout_marginLeft="@dimen/_10sdp"
+            android:visibility="visible"
+            android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp">
-        </ImageView>
-        <ImageView
+            android:background="@drawable/colorboxtroundcorner"
+            android:id="@+id/boldRelative"
+            android:layout_below="@+id/fontStyleList"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp">
 
-            android:visibility="gone"
-            android:id="@+id/NormaTextChoose"
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:visibility="visible"
+            android:id="@+id/boldText"
             android:background="@drawable/ic_outline_format_bold_24"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="@dimen/_30sdp"
+            android:backgroundTint="@color/black"
             android:layout_height="@dimen/_30sdp">
         </ImageView>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/ItalicClick"
-            android:layout_toEndOf="@+id/boldRelative"
-            android:layout_below="@+id/cancleClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/ItalicTextChoose"
-            android:background="@drawable/ic_capital_letter_i"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp">
-        </ImageView>
-        <ImageView
 
-            android:visibility="gone"
-            android:id="@+id/NormalItalicTextChoose"
+        <ImageView
+            android:layout_toEndOf="@+id/boldText"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:visibility="visible"
+            android:layout_centerVertical="true"
+            android:backgroundTint="@color/black"
+            android:id="@+id/italicText"
             android:background="@drawable/ic_baseline_format_italic_24"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp">
         </ImageView>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/underLineRelativ"
-            android:layout_toEndOf="@+id/ItalicClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
         <ImageView
+            android:backgroundTint="@color/black"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toEndOf="@+id/italicText"
+            android:id="@+id/underlineText"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_centerVertical="true"
+            android:layout_height="@dimen/_28sdp"
 
-            android:id="@+id/UndelLIneChoose"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/ic_underline"
-            android:visibility="gone"></ImageView>
-        <ImageView
-            android:id="@+id/NormalUnderTextChoose"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/ic_baseline_format_underlined_24"
-            android:visibility="gone"></ImageView>
+            android:visibility="visible"></ImageView>
+
+
+            <SeekBar
+                android:theme="@style/SeekBarColor"
+                android:id="@+id/seekBar"
+                android:layout_toEndOf="@+id/underlineText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                />
 
         </RelativeLayout>
     </RelativeLayout>
