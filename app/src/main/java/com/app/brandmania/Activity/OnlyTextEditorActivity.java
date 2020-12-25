@@ -210,9 +210,7 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
     @Override public void onDialogDismissed(int dialogId) {
 
     }
-
-    @Override
-    public void onfontSize(int textsize) {
+    @Override public void onfontSize(int textsize) {
 
         binding.textEdit.setTextSize(textsize);
     }

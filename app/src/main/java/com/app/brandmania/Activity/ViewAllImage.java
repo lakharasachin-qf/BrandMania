@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -34,6 +35,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -132,7 +134,7 @@ import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent,
         IItaliTextEvent, ColorPickerDialogListener, IUnderLineTextEvent, IColorChange, ColorPickerView.OnColorChangedListener,
-        ITextSizeEvent,View.OnTouchListener, onFooterSelectListener {
+        ITextSizeEvent, onFooterSelectListener {
     Activity act;
     ViewPager viewPager;
     private boolean isLoading = false;
@@ -152,26 +154,22 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     PreafManager preafManager;
     Gson gson;
     String Website;
-    private int _xDelta;
-    private int _yDelta;
-    private ProgressDialog simpleWaitDialog;
     private DashBoardItem imageList;
     private ImageList selectedObject;
     LinearLayout sliderDotspanel;
     private int dotscount;
     private ImageView[] dots;
-    Drawable drawable;
+
     FrameItem selectedModelFromView;
     AlertDialog.Builder alertDialogBuilder;
     File new_file;
     private Uri mCropImageUri;
-    ImageView imageView;
-    TextView selectedForEdit;
-    View selectedForBackgroundChange;
+
     int editorFragment;
+    private int xDelta;
+    private int yDelta;
+    private ViewGroup mainLayout;
 
-
-    int FramePrimaryOrSecondary=0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -190,6 +188,16 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         getImageCtegory();
+
+
+        mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
+
+
+        binding.logoEmptyState.setOnTouchListener(onTouchListener());
+        binding.logoCustom.setOnTouchListener(onTouchListener());
+        gestureDetector = new GestureDetector(this, new SingleTapConfirm());
+
+
         binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,62 +309,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
 
 
-         RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        binding.logoEmptyState.setLayoutParams(mRparams);
-        binding.logoEmptyState.setOnTouchListener((View.OnTouchListener) act);
+//         RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        binding.logoEmptyState.setLayoutParams(mRparams);
+//        binding.logoEmptyState.setOnTouchListener((View.OnTouchListener) act);
 //        mRlayout.addView( binding.logoCard);
     }
 
-    public void checkPermisionForDontAskAgain(){
-        AlertDialog.Builder alertDialog;
-        AlertDialog dialog = null;
-        if (ActivityCompat.shouldShowRequestPermissionRationale(act,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ActivityCompat.requestPermissions(act,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    CodeReUse.ASK_PERMISSSION);
 
-        } else {
-            alertDialog=new AlertDialog.Builder(act)
-                    .setMessage("Click ok to allow permission from settings")
-                    .setCancelable(true)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-
-                            isPermissionGranted(false);
-                        }
-                    });
-            dialog=alertDialog.create();
-            dialog.show();
-        }
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(act,
-                Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            ActivityCompat.requestPermissions(act,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    CodeReUse.ASK_PERMISSSION);
-
-        } else {
-        if (dialog!=null && !dialog.isShowing()) {
-            alertDialog = new AlertDialog.Builder(act)
-                    .setMessage("You have denied permission")
-                    .setCancelable(true)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            isPermissionGranted(false);
-                        }
-                    });
-
-            dialog = alertDialog.create();
-            dialog.show();
-        }
-        }
-
-    }
     public void isPermissionGranted(boolean permission) {
         if (!permission) {
             startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -564,7 +523,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 */
 
     }
-
     //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
@@ -629,26 +587,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         share.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(share, "Share Image"));
 
-    }
-    private void startAnimation() {
-        binding.shimmerViewContainer.startShimmer();
-        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
-        binding.viewRecoRecycler.setVisibility(View.GONE);
-
-    }
-    Bitmap drawableFromUrl(String url)  {
-
-        HttpURLConnection connection = null;
-        InputStream input=null;
-        try {
-            connection = (HttpURLConnection)new URL(url) .openConnection();
-            connection.setRequestProperty("User-agent","Mozilla/4.0");
-            connection.connect();
-            input = connection.getInputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return BitmapFactory.decodeStream(input);
     }
     BitmapDrawable FrameDrawbable;
     public void startSave() {
@@ -738,7 +676,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         return new File(file, "Image Demo");
     }
     //For SetAddaptor.................................
-    public void setAdapter() {
+    public void setAdapter(){
         ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
         menuAddaptor.setLayoutType(FROM_VIEWALL);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 4);
@@ -1172,20 +1110,10 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         queue.add(stringRequest);
     }
     @Override public void onBackPressed() {CodeReUse.activityBackPress(act); }
-
-
-
-
-
-
-
     @Override
     public void onDialogDismissed(int dialogId) {
 
     }
-
-
-
     private class DownloadImageTask extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
         public DownloadImageTask(String url) {
@@ -1310,38 +1238,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    public void captureScreenShort() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-    }
-    public void showAlertDialogButtonClicked() {
 
-        // Create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // set the custom layout
-        final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
-        builder.setView(customLayout);
-        // add a button
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(
-                    DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-                onBackPressed();
-
-            }
-        });
-
-        // create and show
-        // the alert dialog
-        AlertDialog dialog
-                = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
-        dialog.setCancelable(false);
-        dialog.show();
-        Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        pbutton.setBackgroundColor(Color.WHITE);
-    }
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -1503,78 +1400,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         addCustomFrame(newFinal);*/
 
     }
-    private void addCustomFrame(Bitmap img) {
-        if (isLoading)
-            return;
-        isLoading = true;
-        Utility.showProgress(act);
-        Log.e("API", APIs.ADD_CUSTOMFRAME);
-        Log.e("API", preafManager.getUserToken());
-        File img1File = null;
-        if (img != null) {
-            img1File = CodeReUse.createFileFromBitmap(act, "photo.png", img);
-        }
 
-        ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.ADD_CUSTOMFRAME)
-                .addHeaders("Accept", "application/json")
-                .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer" + preafManager.getUserToken())
-                .addMultipartParameter("brand_id", preafManager.getActiveBrand().getId())
-                .setTag("Add CustomeFrame")
-                .setPriority(Priority.HIGH);
-
-        if (img1File != null) {
-            request.addMultipartFile("frame", img1File);
-            Log.e("br_logo", String.valueOf(img1File));
-        }
-
-        request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
-        })
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        isLoading = false;
-                        Utility.dismissProgress();
-                        finish();
-                        startActivity(getIntent());
-                        Utility.Log("Verify-Response", response);
-                        binding.FrameImageDuplicate.setVisibility(View.GONE);
-                        ArrayList<BrandListItem> brandListItems = new ArrayList<>();
-                        try {
-
-                            if (response.getBoolean("status")) {
-                                JSONObject jsonArray = response.getJSONObject("data");
-
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        isLoading = false;
-                        Utility.dismissProgress();
-
-                        if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
-                        } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
-                        }
-
-                    }
-                });
-
-    }
     private void fetchAutomaticCustomeFrame() {
 
 
@@ -1592,86 +1418,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
 
     }
-    private void getBrandById(BrandListItem model) {
-
-        Utility.Log("API : ", APIs.GET_BRAND_BY_ID);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND_BY_ID, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-               // binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_BRAND_BY_ID : ", response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    multiListItems = ResponseHandler.HandleGetBrandById(jsonObject);
-
-                    SliderItem sliderItem=new SliderItem();
-                    sliderItem.setPriceForPay(multiListItems.get(0).getRate());
-                    sliderItem.setPackageTitle(multiListItems.get(0).getPackagename());
-                    sliderItem.setPackageid(multiListItems.get(0).getPackage_id());
-                    sliderItem.setTemplateTitle(multiListItems.get(0).getNo_of_frame());
-                    sliderItem.setImageTitle(multiListItems.get(0).getNo_of_total_image());
-                    sliderItem.setBrandId(multiListItems.get(0).getId());
-
-                    Gson gson=new Gson();
-                    Log.e("DATA",gson.toJson(sliderItem));
-
-
-
-                    Intent i = new Intent(act, RazorPayActivity.class);
-
-                    i.putExtra("detailsObj",gson.toJson(sliderItem));
-
-                    startActivity(i);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                     //   binding.swipeContainer.setRefreshing(false);
-                        error.printStackTrace();
-
-
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
-                return params;
-            }
-
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("brand_id",model.getId());
-                Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(stringRequest);
-    }
     public static String convertFirstUpper(String str) {
 
         if (str == null || str.isEmpty()) {
@@ -1680,68 +1426,10 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-    @Override public void onBoldTextChange(boolean Bold) {
-        if (Bold) {
-            //  Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
-            if (selectedForEdit!=null) {
-                selectedForEdit.setTypeface(selectedForEdit.getTypeface(), Typeface.BOLD);
-            }
-
-        }else {
-            //Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
-            if (selectedForEdit!=null) {
-                selectedForEdit.setTypeface(null, Typeface.NORMAL);
-            }
-        }
-
-    }
-    @Override public void onItalicTextChange(boolean Italic) {
-        if (Italic) {
-            //   Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
-            if (selectedForEdit!=null) {
-                selectedForEdit.setTypeface(selectedForEdit.getTypeface(), Typeface.ITALIC);
-            }
-        }else {
-            if (selectedForEdit!=null) {
-
-             //   Toast.makeText(act, "false", Toast.LENGTH_SHORT).show();
-                selectedForEdit.setTypeface(null, Typeface.NORMAL);
-            }
-        }
-    }
-    @Override public void onfontSize(int textsize) {
-        if (selectedForEdit!=null) {
-            selectedForEdit.setTextSize(textsize);
-        }
 
 
-    }
 
-    @Override public void onUnderLineItalic(boolean Left) {
-        if (Left) {
-            // Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
-            //  binding.customAddressEdit.setPaintFlags( binding.customAddressEdit.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            if (selectedForEdit!=null) {
-                selectedForEdit.setPaintFlags(selectedForEdit.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            }
-        }
-        else
-        {
-            // Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
-            //  .setTypeface(null, Typeface.NORMAL);
-            if (selectedForEdit!=null) {
 
-                selectedForEdit.setPaintFlags(0);
-            }
-        }
-    }
-
-    @Override public void onFontChangeListenert(String Font) {
-        Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-        if (selectedForEdit!=null) {
-            selectedForEdit.setTypeface(custom_font);
-        }
-    }
 
 
 
@@ -1768,40 +1456,58 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         alertDialog.show();
 
     }
-    public boolean onTouch(View view, MotionEvent event) {
+    GestureDetector gestureDetector;
+    private View.OnTouchListener onTouchListener() {
+        return new View.OnTouchListener() {
 
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (gestureDetector.onTouchEvent(event)) {
+                    onSelectImageClick(view);
+                    return true;
+                }else {
+                    final int x = (int) event.getRawX();
+                    final int y = (int) event.getRawY();
 
-            final int X = (int) event.getRawX();
-            final int Y = (int) event.getRawY();
-            switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                case MotionEvent.ACTION_DOWN:
-                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                    _xDelta = X - lParams.leftMargin;
-                    _yDelta = Y - lParams.topMargin;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-                case MotionEvent.ACTION_POINTER_DOWN:
-                    break;
-                case MotionEvent.ACTION_POINTER_UP:
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                    mRparams.leftMargin = X - _xDelta;
-                    mRparams.topMargin = Y - _yDelta;
-                    mRparams.rightMargin = -250;
-                    mRparams.bottomMargin = -250;
-                    view.setLayoutParams(mRparams);
-                    break;
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+                        case MotionEvent.ACTION_DOWN:
+                            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)
+                                    view.getLayoutParams();
+
+                            xDelta = x - lParams.leftMargin;
+                            yDelta = y - lParams.topMargin;
+                            break;
+
+                        case MotionEvent.ACTION_UP:
+
+                            Toast.makeText(act,
+                                    "I'm here!", Toast.LENGTH_SHORT)
+                                    .show();
+                            break;
+
+                        case MotionEvent.ACTION_MOVE:
+                            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
+                                    .getLayoutParams();
+                            layoutParams.leftMargin = x - xDelta;
+                            layoutParams.topMargin = y - yDelta;
+                            layoutParams.rightMargin = 0;
+                            layoutParams.bottomMargin = 0;
+                            view.setLayoutParams(layoutParams);
+                            break;
+                    }
+
+                    mainLayout.invalidate();
+                    return true;
+                }
             }
-            return false;
-
+        };
     }
 
 
     //version 3 ======================================
-    @Override
-    public void onFooterSelectEvent(int layoutType) {
+    @Override public void onFooterSelectEvent(int layoutType) {
         addDynamicFooter(layoutType);
     }
     boolean isFirstFooterSelect=true;
@@ -1812,7 +1518,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private LayoutForLoadFourBinding fourBinding;
     private LayoutForLoadFiveBinding fiveBinding;
     private LayoutForLoadSixBinding sixBinding;
-
     private void addDynamicFooter(int layoutType) {
         binding.elementFooter.removeAllViews();
         footerLayout=layoutType;
@@ -1850,11 +1555,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
 
 
-       /* RelativeLayout.LayoutParams rLParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        rLParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 1);*/
+
 
     }
-
     @Override public void onColorItemChange(int colorCode) {
 
         if (editorFragment==2) {
@@ -1991,8 +1694,353 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
 
     }
+    @Override public void onFontChangeListenert(String Font) {
 
 
+
+            if (footerLayout==1){
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                oneBinding.gmailText.setTypeface(custom_font);
+                oneBinding.contactText.setTypeface(custom_font);
+                 oneBinding.locationText.setTypeface(custom_font);
+            }else if (footerLayout==2){
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                twoBinding.gmailText.setTypeface(custom_font);
+                twoBinding.contactText.setTypeface(custom_font);
+                twoBinding.locationText.setTypeface(custom_font);
+                twoBinding.websiteText.setTypeface(custom_font);
+            }else if (footerLayout==3){
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                threeBinding.gmailText.setTypeface(custom_font);
+                threeBinding.contactText.setTypeface(custom_font);
+                threeBinding.locationText.setTypeface(custom_font);
+                threeBinding.websiteText.setTypeface(custom_font);
+            }else if (footerLayout==4){
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                fourBinding.gmailText.setTypeface(custom_font);
+                fourBinding.contactText.setTypeface(custom_font);
+                fourBinding.locationText.setTypeface(custom_font);
+                fourBinding.websiteText.setTypeface(custom_font);
+            }else if (footerLayout==5){
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                fiveBinding.gmailText.setTypeface(custom_font);
+                fiveBinding.contactText.setTypeface(custom_font);
+                fiveBinding.websiteText.setTypeface(custom_font);
+            }else if (footerLayout==6) {
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                sixBinding.textElement1.setTypeface(custom_font);
+
+            }
+
+
+//        if (selectedForEdit!=null) {
+//            selectedForEdit.setTypeface(custom_font);
+//        }
+    }
+    @Override public void onUnderLineItalic(boolean Left) {
+        if (Left) {
+            // Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            //  binding.customAddressEdit.setPaintFlags( binding.customAddressEdit.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+            if (footerLayout==1){
+
+                oneBinding.gmailText.setPaintFlags(oneBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                oneBinding.contactText.setPaintFlags(oneBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                oneBinding.locationText.setPaintFlags(oneBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            }else if (footerLayout==2){
+
+                twoBinding.gmailText.setPaintFlags( twoBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                twoBinding.contactText.setPaintFlags(twoBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                twoBinding.locationText.setPaintFlags(twoBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                twoBinding.websiteText.setPaintFlags( twoBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            }else if (footerLayout==3){
+
+                threeBinding.gmailText.setPaintFlags(threeBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                threeBinding.contactText.setPaintFlags(threeBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                threeBinding.locationText.setPaintFlags(threeBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                threeBinding.websiteText.setPaintFlags(threeBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            }else if (footerLayout==4){
+
+                fourBinding.gmailText.setPaintFlags(fourBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                fourBinding.contactText.setPaintFlags(fourBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                fourBinding.locationText.setPaintFlags(fourBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                fourBinding.websiteText.setPaintFlags(fourBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            }else if (footerLayout==5){
+
+                fiveBinding.gmailText.setPaintFlags(fiveBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                fiveBinding.contactText.setPaintFlags(fiveBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                fiveBinding.websiteText.setPaintFlags(fiveBinding.gmailText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            }else if (footerLayout==6) {
+
+                sixBinding.textElement1.setPaintFlags(sixBinding.textElement1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+            }
+
+
+
+        }
+        else
+        {
+
+
+            if (footerLayout==1){
+
+                oneBinding.gmailText.setPaintFlags(0);
+                oneBinding.contactText.setPaintFlags(0);
+                oneBinding.locationText.setPaintFlags(0);
+            }else if (footerLayout==2){
+
+                twoBinding.gmailText.setPaintFlags(0);
+                twoBinding.contactText.setPaintFlags(0);
+                twoBinding.locationText.setPaintFlags(0);
+                twoBinding.websiteText.setPaintFlags(0);
+            }else if (footerLayout==3){
+
+                threeBinding.gmailText.setPaintFlags(0);
+                threeBinding.contactText.setPaintFlags(0);
+                threeBinding.locationText.setPaintFlags(0);
+                threeBinding.websiteText.setPaintFlags(0);
+            }else if (footerLayout==4){
+                fourBinding.gmailText.setPaintFlags(0);
+                fourBinding.contactText.setPaintFlags(0);
+                fourBinding.locationText.setPaintFlags(0);
+                fourBinding.websiteText.setPaintFlags(0);
+            }else if (footerLayout==5){
+
+                fiveBinding.gmailText.setPaintFlags(0);
+                fiveBinding.contactText.setPaintFlags(0);
+                fiveBinding.websiteText.setPaintFlags(0);
+            }else if (footerLayout==6) {
+
+                sixBinding.textElement1.setPaintFlags(0);
+
+            }
+
+
+
+
+            // Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+            //  .setTypeface(null, Typeface.NORMAL);
+//            if (selectedForEdit!=null) {
+//
+//                selectedForEdit.setPaintFlags(0);
+//            }
+        }
+    }
+    @Override public void onfontSize(int textsize) {
+        if (footerLayout==1){
+
+            oneBinding.gmailText.setTextSize(textsize);
+            oneBinding.contactText.setTextSize(textsize);
+            oneBinding.locationText.setTextSize(textsize);
+        }else if (footerLayout==2){
+
+            twoBinding.gmailText.setTextSize(textsize);
+            twoBinding.contactText.setTextSize(textsize);
+            twoBinding.locationText.setTextSize(textsize);
+            twoBinding.websiteText.setTextSize(textsize);
+        }else if (footerLayout==3){
+
+            threeBinding.gmailText.setTextSize(textsize);
+            threeBinding.contactText.setTextSize(textsize);
+            threeBinding.locationText.setTextSize(textsize);
+            threeBinding.websiteText.setTextSize(textsize);
+        }else if (footerLayout==4){
+
+            fourBinding.gmailText.setTextSize(textsize);
+            fourBinding.contactText.setTextSize(textsize);
+            fourBinding.locationText.setTextSize(textsize);
+            fourBinding.websiteText.setTextSize(textsize);
+        }else if (footerLayout==5){
+
+            fiveBinding.gmailText.setTextSize(textsize);
+            fiveBinding.contactText.setTextSize(textsize);
+            fiveBinding.websiteText.setTextSize(textsize);
+        }else if (footerLayout==6) {
+
+            sixBinding.textElement1.setTextSize(textsize);
+
+        }
+
+//        if (selectedForEdit!=null) {
+//            selectedForEdit.setTextSize(textsize);
+//        }
+    }
+    @Override public void onBoldTextChange(boolean Bold) {
+        if (Bold) {
+            //  Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+            if (footerLayout==1){
+
+                oneBinding.gmailText.setTypeface( oneBinding.gmailText.getTypeface(), Typeface.BOLD);
+                oneBinding.contactText.setTypeface( oneBinding.gmailText.getTypeface(), Typeface.BOLD);
+                oneBinding.locationText.setTypeface( oneBinding.gmailText.getTypeface(), Typeface.BOLD);
+            }else if (footerLayout==2){
+
+                twoBinding.gmailText.setTypeface( twoBinding.gmailText.getTypeface(), Typeface.BOLD);
+                twoBinding.contactText.setTypeface( twoBinding.gmailText.getTypeface(), Typeface.BOLD);
+                twoBinding.locationText.setTypeface( twoBinding.gmailText.getTypeface(), Typeface.BOLD);
+                twoBinding.websiteText.setTypeface( twoBinding.gmailText.getTypeface(), Typeface.BOLD);
+            }else if (footerLayout==3){
+
+                threeBinding.gmailText.setTypeface(  threeBinding.gmailText.getTypeface(), Typeface.BOLD);
+                threeBinding.contactText.setTypeface(  threeBinding.gmailText.getTypeface(), Typeface.BOLD);
+                threeBinding.locationText.setTypeface(  threeBinding.gmailText.getTypeface(), Typeface.BOLD);
+                threeBinding.websiteText.setTypeface(  threeBinding.gmailText.getTypeface(), Typeface.BOLD);
+            }else if (footerLayout==4){
+
+                fourBinding.gmailText.setTypeface(fourBinding.gmailText.getTypeface(), Typeface.BOLD);
+                fourBinding.contactText.setTypeface(fourBinding.gmailText.getTypeface(), Typeface.BOLD);
+                fourBinding.locationText.setTypeface(fourBinding.gmailText.getTypeface(), Typeface.BOLD);
+                fourBinding.websiteText.setTypeface(fourBinding.gmailText.getTypeface(), Typeface.BOLD);
+            }else if (footerLayout==5){
+
+                fiveBinding.gmailText.setTypeface(fiveBinding.gmailText.getTypeface(), Typeface.BOLD);
+                fiveBinding.contactText.setTypeface(fiveBinding.gmailText.getTypeface(), Typeface.BOLD);
+                fiveBinding.websiteText.setTypeface(fiveBinding.gmailText.getTypeface(), Typeface.BOLD);
+            }else if (footerLayout==6) {
+
+                sixBinding.textElement1.setTypeface(sixBinding.textElement1.getTypeface(), Typeface.BOLD);
+
+            }
+
+
+
+
+//            if (selectedForEdit!=null) {
+//                selectedForEdit.setTypeface(selectedForEdit.getTypeface(), Typeface.BOLD);
+//            }
+
+        }else {
+            //Toast.makeText(act,"false",Toast.LENGTH_SHORT).show();
+
+            if (footerLayout==1){
+
+                oneBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                oneBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                oneBinding.locationText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==2){
+
+                twoBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                twoBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                twoBinding.locationText.setTypeface(null, Typeface.NORMAL);
+                twoBinding.websiteText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==3){
+
+                threeBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                threeBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                threeBinding.locationText.setTypeface(null, Typeface.NORMAL);
+                threeBinding.websiteText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==4){
+
+                fourBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                fourBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                fourBinding.locationText.setTypeface(null, Typeface.NORMAL);
+                fourBinding.websiteText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==5){
+
+                fiveBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                fiveBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                fiveBinding.websiteText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==6) {
+
+                sixBinding.textElement1.setTypeface(null, Typeface.NORMAL);
+
+            }
+
+
+
+//            if (selectedForEdit!=null) {
+//                selectedForEdit.setTypeface(null, Typeface.NORMAL);
+//            }
+        }
+
+    }
+    @Override public void onItalicTextChange(boolean Italic) {
+        if (Italic) {
+
+            if (footerLayout==1){
+
+                oneBinding.gmailText.setTypeface(oneBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                oneBinding.contactText.setTypeface(oneBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                oneBinding.locationText.setTypeface(oneBinding.gmailText.getTypeface(), Typeface.ITALIC);
+            }else if (footerLayout==2){
+
+                twoBinding.gmailText.setTypeface(twoBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                twoBinding.contactText.setTypeface(twoBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                twoBinding.locationText.setTypeface(twoBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                twoBinding.websiteText.setTypeface(twoBinding.gmailText.getTypeface(), Typeface.ITALIC);
+            }else if (footerLayout==3){
+
+                threeBinding.gmailText.setTypeface(threeBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                threeBinding.contactText.setTypeface(threeBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                threeBinding.locationText.setTypeface(threeBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                threeBinding.websiteText.setTypeface(threeBinding.gmailText.getTypeface(), Typeface.ITALIC);
+            }else if (footerLayout==4){
+
+                fourBinding.gmailText.setTypeface(fourBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                fourBinding.contactText.setTypeface(fourBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                fourBinding.locationText.setTypeface(fourBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                fourBinding.websiteText.setTypeface(fourBinding.gmailText.getTypeface(), Typeface.ITALIC);
+            }else if (footerLayout==5){
+
+                fiveBinding.gmailText.setTypeface(fiveBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                fiveBinding.contactText.setTypeface(fiveBinding.gmailText.getTypeface(), Typeface.ITALIC);
+                fiveBinding.websiteText.setTypeface(fiveBinding.gmailText.getTypeface(), Typeface.ITALIC);
+            }else if (footerLayout==6) {
+
+                sixBinding.textElement1.setTypeface(sixBinding.textElement1.getTypeface(), Typeface.ITALIC);
+
+            }
+
+
+            //   Toast.makeText(act,"true",Toast.LENGTH_SHORT).show();
+//            if (selectedForEdit!=null) {
+//                selectedForEdit.setTypeface(selectedForEdit.getTypeface(), Typeface.ITALIC);
+//            }
+        }else {
+
+            if (footerLayout==1){
+
+                oneBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                oneBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                oneBinding.locationText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==2){
+
+                twoBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                twoBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                twoBinding.locationText.setTypeface(null, Typeface.NORMAL);
+                twoBinding.websiteText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==3){
+
+                threeBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                threeBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                threeBinding.locationText.setTypeface(null, Typeface.NORMAL);
+                threeBinding.websiteText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==4){
+
+                fourBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                fourBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                fourBinding.locationText.setTypeface(null, Typeface.NORMAL);
+                fourBinding.websiteText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==5){
+
+                fiveBinding.gmailText.setTypeface(null, Typeface.NORMAL);
+                fiveBinding.contactText.setTypeface(null, Typeface.NORMAL);
+                fiveBinding.websiteText.setTypeface(null, Typeface.NORMAL);
+            }else if (footerLayout==6) {
+
+                sixBinding.textElement1.setTypeface(null, Typeface.NORMAL);
+
+            }
+
+
+//            if (selectedForEdit!=null) {
+//
+//                //   Toast.makeText(act, "false", Toast.LENGTH_SHORT).show();
+//                selectedForEdit.setTypeface(null, Typeface.NORMAL);
+//            }
+        }
+    }
     public void ChangeBackgroundColorForFrameOne(int colorCode){
          oneBinding.topView.setBackgroundColor(colorCode);
          oneBinding.topView2.setBackgroundColor(colorCode);
@@ -2005,7 +2053,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         oneBinding.contactText.setTextColor(colodCode);
 
     }
-
     public void ChangeBackgroundColorForFrameTwo(int colorCode){
         twoBinding.firstView.setBackgroundTintList(ColorStateList.valueOf(colorCode));
         twoBinding.secondView.setBackgroundTintList(ColorStateList.valueOf(colorCode));
@@ -2022,8 +2069,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         twoBinding.locationText.setTextColor(colodCode);
 
     }
-
-
     public void ChangeTextColorForFrameThree(int colodCode){
         threeBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
         threeBinding.gmailText.setTextColor(colodCode);
@@ -2035,10 +2080,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         threeBinding.locationText.setTextColor(colodCode);
 
     }
-
     public void ChangeBackgroundColorForFrameFour(int colorCode){
-        fourBinding.topView2.setBackgroundColor(colorCode);
-    }
+        fourBinding.topView2.setBackgroundColor(colorCode); }
     public void ChangeTextColorForFrameFour(int colodCode){
         fourBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
         fourBinding.gmailText.setTextColor(colodCode);
@@ -2050,7 +2093,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         fourBinding.locationText.setTextColor(colodCode);
 
     }
-
     public void ChangeBackgroundColorForFrameFive(int colorCode){
         fiveBinding.element1.setImageTintList(ColorStateList.valueOf(colorCode));
         fiveBinding.element3.setImageTintList(ColorStateList.valueOf(colorCode));
@@ -2063,10 +2105,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         fiveBinding.contactText.setTextColor(colodCode);
         fiveBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
         fiveBinding.websiteText.setTextColor(colodCode);
-
-
     }
-
     public void ChangeBackgroundColorForFrameSix(int colorCode){
         sixBinding.containerElement.setBackgroundTintList(ColorStateList.valueOf(colorCode));
         sixBinding.viewElement2.setBackgroundTintList(ColorStateList.valueOf(colorCode));
@@ -2081,4 +2120,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     }
 
+
+
+    //to handle click and drag listener
+    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
+            return true;
+        }
+    }
 }

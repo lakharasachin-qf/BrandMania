@@ -394,7 +394,7 @@
 
 
                         <LinearLayout
-
+                            android:background="@android:color/transparent"
                             android:id="@+id/logoEmptyState"
                             android:layout_width="@dimen/_50sdp"
                             android:layout_height="@dimen/_50sdp"

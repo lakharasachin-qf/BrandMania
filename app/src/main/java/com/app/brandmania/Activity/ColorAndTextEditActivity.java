@@ -225,7 +225,6 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
 
         RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.main);
-
         RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         myEditText = new EditText(act,null);
         myEditText.setLayoutParams(mRparams);
