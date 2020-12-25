@@ -631,8 +631,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
     public static ArrayList<ImageList> HandleGetFrameList(JSONObject jsonObject) {
         ArrayList<ImageList> strings = null;
         if (isSuccess(null, jsonObject)) {
-            //list fetch
-           // examModel.setLayoutType(BrandListItem.LAYOUT_BRANDLIST);
             JSONObject datajsonobject = getJSONObject(jsonObject, "data");
             JSONArray dataJsonArray = getJSONArray(datajsonobject, "frames");
             if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
@@ -641,7 +639,7 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
                     try {
                         JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
                         ImageList imageItemItem = new ImageList();
-                        imageItemItem.setLayoutType(BrandListItem.LAYOUT_BRANDLIST);
+                        imageItemItem.setLayoutType(ImageList.LAYOUT_FRAME);
                         imageItemItem.setFrame1(ResponseHandler.getString(dataJsonObject, "frame_path"));
                         imageItemItem.setFrame1Id(ResponseHandler.getString(dataJsonObject, "id"));
 

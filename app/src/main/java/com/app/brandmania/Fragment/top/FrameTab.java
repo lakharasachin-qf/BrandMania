@@ -59,38 +59,9 @@ public class FrameTab extends Fragment {
         getFrame();
         return binding.getRoot();
     }
-//    public void FrameList() {
-//
-//        ArrayList<MultiListItem> menuModels = new ArrayList<>();
-//        MultiListItem model = new MultiListItem();
-//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-//        model.setImage(R.drawable.img_one);
-//        menuModels.add(model);
-//
-//        model = new MultiListItem();
-//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-//        model.setImage(R.drawable.imgd_o);
-//        menuModels.add(model);
-//
-//        model = new MultiListItem();
-//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-//        model.setImage(R.drawable.img_three);
-//        menuModels.add(model);
-//
-//        model = new MultiListItem();
-//        model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLFRAME);
-//        model.setImage(R.drawable.img_four);
-//        menuModels.add(model);
-//
-//        MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
-//        binding.frameRecycler.setLayoutManager(new GridLayoutManager(getActivity(),4));
-//        binding.frameRecycler.setHasFixedSize(true);
-//        binding.frameRecycler.setAdapter(menuAddaptor);
-//    }
 
-    public void setAdapter() {
+    public void setAdapterFrame() {
         ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
-       // menuAddaptor.setLayoutType(FROM_VIEWALL);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
         binding.frameRecycler.setLayoutManager(mLayoutManager);
         binding.frameRecycler.setHasFixedSize(true);
@@ -103,23 +74,16 @@ public class FrameTab extends Fragment {
             @Override
             public void onResponse(String response) {
 
-                Utility.Log("GET_FRAME : ", response);
+                Utility.Log("GET_FRdsdAME : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     menuModels = ResponseHandler.HandleGetFrameList(jsonObject);
-                    JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
-                    is_frame= datajsonobjecttt.getString("is_frame");
-                    if (is_frame.equals("1")) {
-                        Log.e("Dataaaaa",new Gson().toJson(menuModels));
-                        //  binding.customFrameRelative.setVisibility(View.GONE);
-                        // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
-                        setAdapter();
-                    }
-
-
-
-
+                    ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
+                    RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
+                    binding.frameRecycler.setLayoutManager(mLayoutManager);
+                    binding.frameRecycler.setHasFixedSize(true);
+                    binding.frameRecycler.setAdapter(menuAddaptor);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

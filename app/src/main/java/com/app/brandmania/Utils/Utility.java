@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -49,7 +52,61 @@ public class Utility {
     public static void Log(String act, Object msg) {
         Log.e(act, msg + "");
     }
+    public static void showLoadingTran(Activity act) {
 
+        if (dialog != null && dialog.isShowing())
+            return;
+
+        dialog = new Dialog(act);
+        dialog.getWindow().setBackgroundDrawableResource(
+                R.color.colorProgressBackground);
+        dialog.setContentView(R.layout.progress_bar_layout);
+        dialog.setCancelable(false);
+        act.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Showing Alert Message
+                try {
+                    if (dialog != null && !dialog.isShowing())
+                        dialog.show();
+                } catch (WindowManager.BadTokenException e) {
+                    e.printStackTrace();
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public static void dismissLoadingTran() {
+        try {
+            if (dialog != null && dialog.isShowing())
+                dialog.dismiss();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void setItalicText(TextView textView,boolean italic){
+        if (italic){
+            textView.setTypeface(textView.getTypeface(), Typeface.ITALIC);
+        }else {
+            textView.setTypeface(null, Typeface.NORMAL);
+        }
+    }
+    public static void setUnderlineText(TextView textView,boolean underline){
+        if (underline){
+            textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        }else {
+            textView.setPaintFlags(0);
+        }
+    }
+    public static void setBold(TextView textView,boolean bold){
+        if (bold){
+            textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+        }else {
+            textView.setTypeface(null, Typeface.NORMAL);
+        }
+    }
     public static void RemoveError(EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override

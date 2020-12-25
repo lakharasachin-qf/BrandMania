@@ -5,26 +5,27 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.app.brandmania.Activity.ViewAllImage;
+import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME;
 import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY;
 import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY_BY_ID;
-import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
 
 
 public class ImageCategoryAddaptor extends RecyclerView.Adapter {
@@ -43,6 +44,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     public ImageCategoryAddaptor(List<ImageList> imageLists, Activity activity) {
         this.imageLists = imageLists;
         this.activity = activity;
+        // Log.e("menuModels",new Gson().toJson(imageLists));
     }
     int layoutType;
     public int getLayoutType() {
@@ -63,23 +65,21 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                 return new ImageCategoryByIdHolder(viewallimageBinding);
             case LAYOUT_FRAME:
                 ItemLayoutViewallimageBinding viewallimageBinding1 = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_viewallimage, viewGroup, false);
-                return new ImageCategoryByIdHolder(viewallimageBinding1);
+                return new FrameHolder(viewallimageBinding1);
         }
         return null;
     }
     @Override
     public int getItemViewType(int position) {
-        if (position == imageLists.size() - 1 && isLoadingAdded)
-            return LAYOUT_LOADING;
+
         switch (imageLists.get(position).getLayoutType()) {
             case 1:
                 return LAYOUT_IMAGE_CATEGORY;
             case 2:
                 return LAYOUT_IMAGE_CATEGORY_BY_ID;
-
             case 3:
                 return LAYOUT_FRAME;
-                default:
+            default:
                 return -1;
         }
     }
@@ -89,7 +89,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final ImageList model = imageLists.get(position);
+        ImageList model = imageLists.get(position);
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_IMAGE_CATEGORY:
@@ -100,17 +100,16 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     ((ImageCategoryHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                           // if (layoutType==FROM_HOMEFRAGEMENT) {
-                                Intent intent=new Intent(activity,ViewAllImage.class);
-                                Gson  gson=new Gson();
+                            // if (layoutType==FROM_HOMEFRAGEMENT) {
+                            Intent intent=new Intent(activity,ViewAllImage.class);
+                            Gson  gson=new Gson();
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
-                                intent.putExtra("selectedimage",gson.toJson(model));
-                                intent.putExtra("position",position);
-                                activity.startActivity(intent);
+                            intent.putExtra("selectedimage",gson.toJson(model));
+                            intent.putExtra("position",position);
+                            activity.startActivity(intent);
                         }
                     });
                     break;
-
                 case LAYOUT_IMAGE_CATEGORY_BY_ID:
 
                     Glide.with(activity)
@@ -128,39 +127,30 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                                 activity.startActivity(intent);
 
                             }
-                            if (layoutType==FROM_VIEWALL)
-                            {
-                                ((ImageCateItemeInterFace) activity).ImageCateonItemSelection( position, model);
+                            if (layoutType==FROM_VIEWALL) {
+                                ((ImageCateItemeInterFace) activity).ImageCateonItemSelection(position, model);
                             }
                         }
                     });
+                    break;
                 case LAYOUT_FRAME:
 
                     Glide.with(activity)
                             .load(model.getFrame1())
                             .placeholder(R.drawable.placeholder)
-                            .into(((ImageCategoryByIdHolder) holder).binding.image);
-//                    ((ImageCategoryByIdHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            if (layoutType==FROM_HOMEFRAGEMENT) {
-//                                Intent intent=new Intent(activity,ViewAllImage.class);
-//                                Gson  gson=new Gson();
-//                                intent.putExtra("selectedimage",gson.toJson(model));
-//                                intent.putExtra("position",position);
-//                                activity.startActivity(intent);
-//
-//                            }
-//                            if (layoutType==FROM_VIEWALL)
-//                            {
-//                                ((ImageCateItemeInterFace) activity).ImageCateonItemSelection( position, model);
-//                            }
-//                        }
-//                    });
+                            .into((((FrameHolder) holder).binding.image));
 
+                    ((FrameHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((IBackendFrameSelect) activity).onBackendFrameChoose(model, position);
+                        }
+                    });
                     break;
             }
 
+        } else {
+            Toast.makeText(activity, "dfgdgdfgfdg", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -175,10 +165,21 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
+
     static class ImageCategoryByIdHolder extends RecyclerView.ViewHolder {
         ItemLayoutViewallimageBinding binding;
 
         ImageCategoryByIdHolder(ItemLayoutViewallimageBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+
+    static class FrameHolder extends RecyclerView.ViewHolder {
+        ItemLayoutViewallimageBinding binding;
+
+        FrameHolder(ItemLayoutViewallimageBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
 

@@ -35,4 +35,6 @@ public class APIs {
     public static final String GET_UPDATE = URL+"getApplicationVersion";
     public static final String ADD_CUSTOMFRAME = URL + "addFrameToBrand";
     public static final String GET_BRAND_BY_ID = URL + "getBrandById";
+
+    public static final String CUSTOM_FRAME_ACCESS=URL+"getCustomFrameAccess";
 }

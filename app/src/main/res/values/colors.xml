@@ -184,4 +184,7 @@
     <color name="dark_blue">#00008B</color>
     <color name="navy">#000080</color>
 
+
+
+    <color name="colorProgressBackground">#00000000</color>
 </resources>
