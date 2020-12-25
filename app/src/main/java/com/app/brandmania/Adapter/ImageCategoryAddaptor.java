@@ -21,6 +21,7 @@ import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
 
 import java.util.List;
 
+import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME;
 import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY;
 import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY_BY_ID;
 import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
@@ -60,6 +61,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
             case LAYOUT_IMAGE_CATEGORY_BY_ID:
                 ItemLayoutViewallimageBinding viewallimageBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_viewallimage, viewGroup, false);
                 return new ImageCategoryByIdHolder(viewallimageBinding);
+            case LAYOUT_FRAME:
+                ItemLayoutViewallimageBinding viewallimageBinding1 = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_viewallimage, viewGroup, false);
+                return new ImageCategoryByIdHolder(viewallimageBinding1);
         }
         return null;
     }
@@ -72,7 +76,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                 return LAYOUT_IMAGE_CATEGORY;
             case 2:
                 return LAYOUT_IMAGE_CATEGORY_BY_ID;
-            default:
+
+            case 3:
+                return LAYOUT_FRAME;
+                default:
                 return -1;
         }
     }
@@ -127,6 +134,29 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             }
                         }
                     });
+                case LAYOUT_FRAME:
+
+                    Glide.with(activity)
+                            .load(model.getFrame1())
+                            .placeholder(R.drawable.placeholder)
+                            .into(((ImageCategoryByIdHolder) holder).binding.image);
+//                    ((ImageCategoryByIdHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (layoutType==FROM_HOMEFRAGEMENT) {
+//                                Intent intent=new Intent(activity,ViewAllImage.class);
+//                                Gson  gson=new Gson();
+//                                intent.putExtra("selectedimage",gson.toJson(model));
+//                                intent.putExtra("position",position);
+//                                activity.startActivity(intent);
+//
+//                            }
+//                            if (layoutType==FROM_VIEWALL)
+//                            {
+//                                ((ImageCateItemeInterFace) activity).ImageCateonItemSelection( position, model);
+//                            }
+//                        }
+//                    });
 
                     break;
             }

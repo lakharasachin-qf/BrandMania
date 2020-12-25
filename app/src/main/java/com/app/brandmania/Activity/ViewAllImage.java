@@ -407,15 +407,16 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
     public void bottomFramgment(){
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Category")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
+
 
         if (!is_frame.equalsIgnoreCase("1")) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
-
-                IntroCounter=0;
+                 IntroCounter=0;
                 preafManager.setFrameIntro(false);
                 startIntroForFrameOnly(binding.logoEmptyState, "Logo", "you can upload logo here");
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
+
             addDynamicFooter(1);
 
         }else{
@@ -424,7 +425,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 preafManager.setViewAllActivityIntro(false);
             }
         }
-
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frames")));
 
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);

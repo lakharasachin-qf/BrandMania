@@ -5,7 +5,9 @@ import android.content.Context;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.preference.PreferenceManager;
 
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Fragment.top.CategoryTab;
 import com.app.brandmania.Fragment.top.ColorTab;
 import com.app.brandmania.Fragment.top.FooterTab;
@@ -36,7 +38,9 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
             case 3:
                 FooterTab footerTab = new FooterTab();
                 return footerTab;
-
+                case 4:
+                FrameTab frameTab = new FrameTab();
+                return frameTab;
 
             default:
                 return null;

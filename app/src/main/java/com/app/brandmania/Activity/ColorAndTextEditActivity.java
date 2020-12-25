@@ -347,9 +347,6 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         }
     }
     private void init() {
-
-
-
     }
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);

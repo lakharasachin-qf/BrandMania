@@ -3,6 +3,7 @@ package com.app.brandmania.Model;
 public class ImageList {
     public static final int LAYOUT_IMAGE_CATEGORY = 1;
     public static final int LAYOUT_IMAGE_CATEGORY_BY_ID = 2;
+    public static final int LAYOUT_FRAME = 3;
     public static final int LAYOUT_LOADING = 30;
     private int layoutType;
     private String name;
@@ -12,6 +13,8 @@ public class ImageList {
     private String frame;
     private String frameId;
     private String logo;
+    private String frame1;
+    private String frame1Id;
 
     public ImageList() {
     }
@@ -20,6 +23,9 @@ public class ImageList {
     }
     public static int getLayoutImageCategoryById() {
         return LAYOUT_IMAGE_CATEGORY_BY_ID;
+    }
+    public static int getLayoutFrame() {
+        return LAYOUT_FRAME;
     }
     public static int getLayoutLoading() {
         return LAYOUT_LOADING;
@@ -87,5 +93,21 @@ public class ImageList {
 
     public void setFrameId(String frameId) {
         this.frameId = frameId;
+    }
+
+    public String getFrame1() {
+        return frame1;
+    }
+
+    public void setFrame1(String frame1) {
+        this.frame1 = frame1;
+    }
+
+    public String getFrame1Id() {
+        return frame1Id;
+    }
+
+    public void setFrame1Id(String frame1Id) {
+        this.frame1Id = frame1Id;
     }
 }
