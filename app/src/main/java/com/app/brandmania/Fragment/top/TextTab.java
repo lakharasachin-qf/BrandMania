@@ -42,6 +42,13 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
     private TextTabBinding binding;
     private int mColorCode;
     private TextTab context;
+    private int activityType=0;
+    //activity type 1 means called from view all activity so hide the seekbar
+
+    public void setActivityType(int activityType) {
+        this.activityType = activityType;
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +56,9 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
         context = this;
         binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, container, false);
         //  binding.seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
-
+        if (activityType==1){
+            binding.seekBar.setVisibility(View.GONE);
+        }
         binding.cancleClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -18,7 +18,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,7 +35,6 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,11 +47,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.ANRequest;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCateItemeInterFace;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.ViewAllTopTabAdapter;
-import com.app.brandmania.Adapter.ViewPagerAdapterFrame;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -75,7 +78,10 @@ import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.IFontChangeEvent;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
+import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
+import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
+import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
 import com.app.brandmania.databinding.LayoutForLoadFourBinding;
 import com.app.brandmania.databinding.LayoutForLoadOneBinding;
@@ -98,7 +104,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -157,7 +162,10 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private boolean isUsingCustomFrame = true;
 
     //Version 3
-    private ImageList selectedBackendFrame=null;
+    private ImageList selectedBackendFrame = null;
+    private FooterModel selectedFooterModel;
+    private boolean updateLogo = false;
+    private Bitmap selectedLogo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -173,13 +181,15 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
         getFrame();
         getBrandList();
-        Website=preafManager.getActiveBrand().getWebsite();
+        Website = preafManager.getActiveBrand().getWebsite();
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
-        getImageCtegory();
+        getAllImages();
 
 
         mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
+
+        updateLogo = preafManager.getActiveBrand().getLogo().isEmpty();
 
 
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
@@ -197,26 +207,36 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedObject.setFrameId(selectedModelFromView.getFrameId());
+                if (selectedBackendFrame != null)
+                    selectedObject.setFrameId(selectedBackendFrame.getFrame1Id());
+
+                selectedObject.setCustom(isUsingCustomFrame);
+
                 preafManager.AddToMyFavorites(selectedObject);
-                if (binding.fabroutIcon.getVisibility()==View.VISIBLE)
-                {
+
+                if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
                     binding.fabroutIcon.setVisibility(View.GONE);
                     binding.addfabroutIcon.setVisibility(View.VISIBLE);
                 }
+
                 downloadAndShareApi(ADDFAV);
             }
         });
         binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedObject.setFrameId(selectedModelFromView.getFrameId());
+                if (selectedBackendFrame != null)
+                    selectedObject.setFrameId(selectedBackendFrame.getFrame1Id());
+
+                selectedObject.setCustom(isUsingCustomFrame);
+
                 preafManager.removeFromMyFavorites(selectedObject);
-                if (binding.addfabroutIcon.getVisibility()==View.VISIBLE)
-                {
+
+                if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
                     binding.addfabroutIcon.setVisibility(View.GONE);
                     binding.fabroutIcon.setVisibility(View.VISIBLE);
                 }
+
                 removeFromFavourite(REMOVEFAV);
             }
         });
@@ -224,6 +244,10 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                    askForUpgradeToEnterpisePackage();
+                    return;
+                }
                 getImageDownloadRights();
             }
         });
@@ -232,7 +256,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             public void onClick(View v) {
 
                 requestAgain();
-
                 saveImageToGallery(true);
 
                 downloadAndShareApi(DOWLOAD);
@@ -240,7 +263,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         });
 
        // binding.logoEmptyState.setVisibility(View.VISIBLE);
-
 
         if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty() ) {
             binding.logoEmptyState.setVisibility(View.GONE);
@@ -404,18 +426,26 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
 
         if (!is_frame.equalsIgnoreCase("1")) {
-                 IntroCounter=0;
-                preafManager.setFrameIntro(false);
-                startIntroForFrameOnly(binding.logoEmptyState, "Logo", "you can upload logo here");
-            addDynamicFooter(1);
-
-        }else{
+            IntroCounter = 0;
+            preafManager.setFrameIntro(false);
+            startIntroForFrameOnly(binding.logoEmptyState, "Logo", "you can upload logo here");
+        } else {
             if (preafManager.getViewAllActivityIntro()) {
-                startIntro(binding.downloadIcon,"Download","Download Image From here");
+                startIntro(binding.downloadIcon, "Download", "Download Image From here");
                 preafManager.setViewAllActivityIntro(false);
             }
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frames")));
         }
+        addDynamicFooter(1);
+
+        FooterModel model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
+        model.setFree(true);
+        model.setAddress(preafManager.getActiveBrand().getAddress());
+        model.setEmailId(preafManager.getActiveBrand().getEmail());
+        model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
+        model.setWebsite(preafManager.getActiveBrand().getWebsite());
+        ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_ONE, model);
 
 
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
@@ -441,81 +471,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-       /* binding.customAddressEdit1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.viewPager.setCurrentItem(3);
-            }
-        });
-        binding.customeContactEdit1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b==true)
-                {
-                    selectedForEdit=binding.customeContactEdit1;
-                    binding.viewPager.setCurrentItem(2);
-                    editorFragment=2;
-                }
-            }
-        });
-        binding.customAddressEdit1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b==true)
-                {
-                    selectedForEdit=binding.customAddressEdit1;
-                    binding.viewPager.setCurrentItem(2);
-                    editorFragment=2;
-                }
-            }
-        });
-        binding.customFrameWebsite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b==true)
-                {
-                    selectedForEdit=binding.customFrameWebsite;
-                    binding.viewPager.setCurrentItem(2);
-                    editorFragment=2;
-                }
-            }
-        });
-        binding.bottomBarView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FramePrimaryOrSecondary=0;
-                selectedForBackgroundChange=binding.bottomBarView1;
-                binding.customAddressEdit1.clearFocus();
-                binding.customeContactEdit1.clearFocus();
-                binding.customFrameWebsite.clearFocus();
-                binding.viewPager.setCurrentItem(1);
-            }
-        });
-        binding.bottomBarView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FramePrimaryOrSecondary=1;
-                selectedForBackgroundChange=binding.bottomBarView2;
-                binding.customAddressEdit1.clearFocus();
-                binding.customeContactEdit1.clearFocus();
-                binding.customFrameWebsite.clearFocus();
-                binding.viewPager.setCurrentItem(1);
-            }
-        });
-        binding.bottomBarView3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FramePrimaryOrSecondary=0;
-                selectedForBackgroundChange=binding.bottomBarView1;
-                binding.customAddressEdit1.clearFocus();
-                binding.customeContactEdit1.clearFocus();
-                binding.customFrameWebsite.clearFocus();
-                binding.viewPager.setCurrentItem(1);
-            }
-        });
-*/
 
     }
+
     //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
@@ -524,31 +482,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         preafManager=new PreafManager(act);
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
-         //   Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.backgrounImageDuplicate);
             Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
-
-            AddFavorite= preafManager.getSavedFavorites();
-
-            if (AddFavorite!=null) {
-                for (int i = 0; i < AddFavorite.size(); i++) {
-                    if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedModelFromView.getFrameId())) {
-                        binding.addfabroutIcon.setVisibility(View.VISIBLE);
-                        binding.fabroutIcon.setVisibility(View.GONE);
-                        break;
-                    } else {
-                        binding.addfabroutIcon.setVisibility(View.GONE);
-                        binding.fabroutIcon.setVisibility(View.VISIBLE);
-
-                    }
-                }
-            }
-
-        }
-        else
-        {
+        } else {
             binding.simpleProgressBar.setVisibility(View.VISIBLE);
         }
     }
+
+
     public void  reloadSaved(){
         AddFavorite= preafManager.getSavedFavorites();
 
@@ -603,77 +543,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-    //For GetImageCategory
-    private void getImageCtegory() {
-        Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("GET_IMAGE_CATEGORY : ", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    menuModels = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
-
-                    if (menuModels != null && menuModels.size() != 0) {
-                        setAdapter();
-                        binding.shimmerViewContainer.stopShimmer();
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                        binding.viewRecoRecycler.setVisibility(View.VISIBLE);
-                        binding.emptyStateLayout.setVisibility(View.GONE);
-                    }
-                    if (menuModels == null || menuModels.size() == 0) {
-                        binding.emptyStateLayout.setVisibility(View.VISIBLE);
-                        binding.viewRecoRecycler.setVisibility(View.GONE);
-                        binding.shimmerViewContainer.stopShimmer();
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                if (imageList != null)
-                    params.put("image_category_id", imageList.getId());
-                else
-                    params.put("image_category_id", selectedObject.getId());
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
 
 
 
@@ -691,62 +560,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     // For Frame Load View Pager
     public void frameViewPager() {
-        /*viewPager = (ViewPager) findViewById(R.id.recoframe);
-        sliderDotspanel = (LinearLayout) findViewById(R.id.SliderDots);
-        viewPagerItems = brandListItems;
-        if (viewPagerItems != null && viewPagerItems.size() != 0) {
-            Gson gson = new Gson();
-            ViewPagerAdapterFrame viewPagerAdapter = new ViewPagerAdapterFrame(viewPagerItems, this);
-            viewPager.setAdapter(viewPagerAdapter);
-            dotscount = viewPagerAdapter.getCount();
-            int h = viewPager.getCurrentItem();
-            if (dotscount > 0) {
-                dots = new ImageView[dotscount];
-                for (int i = 0; i < dotscount; i++) {
-                    dots[i] = new ImageView(this);
-                    dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.non_active_dot));
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(8, 0, 8, 0);
-                    sliderDotspanel.addView(dots[i], params);
-                }
-                dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
-            }
-            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-
-                    for (int i = 0; i < dotscount; i++) {
-                        dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.non_active_dot));
-                    }
-                    try {
-                        selectedModelFromView = (FrameItem) viewPagerItems.get(position).clone();
-
-                    } catch (CloneNotSupportedException e) {
-                        e.printStackTrace();
-                    }
-                    reloadSaved();
-                    dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                    reloadSaved();
-                }
-            });
-            try {
-                selectedModelFromView = (FrameItem) viewPagerItems.get(viewPager.getCurrentItem()).clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-        }
-*/
         LoadDataToUI();
-
     }
 
     public void AlertBoxForSaveFrame() {
@@ -802,141 +616,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 CodeReUse.ASK_PERMISSSION);
     }
 
-    private void getFrame() {
-        Utility.Log("API : ", APIs.GET_FRAME);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME,new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
 
-                Utility.Log("GET_FRAME : ", response);
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
-                    JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
-                    is_frame= datajsonobjecttt.getString("is_frame");
-                    if (is_frame.equals("1")) {
-                        //binding.customFrameRelative.setVisibility(View.GONE);
-                        // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
-                        frameViewPager();
-                        is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
-                        packagee=datajsonobjecttt.getString("package");
-                        if (packagee.equals("")) {
-                         /*   binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
-                                }
-                            });
-                            binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
-                                }
-                            });*/
-                     /*       binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
-
-                                }
-                            });*/
-
-
-                        }
-                        else if (is_payment_pending.equals("1"))
-                        {
-
-                          /*  binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
-                                }
-                            });
-                            binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
-                                }
-                            });*/
-                         /*   binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
-                                }
-                            });*/
-                        }
-                    }
-                    else
-                    {
-                        LoadDataToUI();
-                        //fetchAutomaticCustomeFrame();
-                   //     binding.customFrameRelative.setVisibility(View.VISIBLE);
-                     //   binding.recoframe.setVisibility(View.GONE);
-                        binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                AlertBoxForSaveFrame();                            }
-                        });
-                        binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                AlertBoxForSaveFrame();                            }
-                        });
-                       /* binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                AlertBoxForSaveFrame();
-                            }
-                        });*/
-                    }
-
-                    CreateTabs();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("brand_id", preafManager.getActiveBrand().getId());
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
 
     @Override
     public void onBackPressed() {
@@ -948,83 +628,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-
-
-    /*private class DownloadImageTask extends AsyncTask<String, Void, BitmapDrawable> {
-        String url;
-
-        public DownloadImageTask(String url) {
-            this.url = url;
-        }
-        protected BitmapDrawable doInBackground(String... urls) {
-
-            Bitmap mIcon11 = null;
-            try {
-                Log.e("ErrorImage", url);
-                InputStream in = new java.net.URL(url).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("ErrorImage", e.getMessage());
-                e.printStackTrace();
-            }
-            return new BitmapDrawable(getResources(), mIcon11);
-        }
-        protected void onPostExecute(BitmapDrawable result) {
-            FrameDrawbable=result;
-
-            Utility.dismissLoadingTran();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Utility.showLoadingTran(act);
-        }
-    }
-    class ShareImageTask extends AsyncTask<String, Void, BitmapDrawable> {
-        String url;
-        public ShareImageTask(String url) {
-            this.url = url;
-        }
-        protected BitmapDrawable doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                Log.e("ErrorImage", url);
-                InputStream in = new java.net.URL(url).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("ErrorImage", e.getMessage());
-                e.printStackTrace();
-            }
-            return new BitmapDrawable(getResources(), mIcon11);
-        }
-        protected void onPostExecute(BitmapDrawable result) {
-            //bmImage.setImageBitmap(result);
-            FrameDrawbable=result;
-            startsShare();
-            isLoading = false;
-            Utility.dismissProgress();
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            if (isLoading)
-                return;
-            isLoading = true;
-            Utility.showProgress(act);
-            super.onPreExecute();
-        }
-    }*/
-
     private void removeFromFavourite(final int removeFav) {
-
+        Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.REMOVE_FAVOURIT);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REMOVE_FAVOURIT, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Utility.dismissLoadingTran();
                 Utility.Log("REMOVE_FAVOURIT : ", response);
 
                 try {
@@ -1040,7 +650,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Utility.dismissLoadingTran();
                         error.printStackTrace();
 
                     }
@@ -1089,15 +699,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri imageUri = CropImage.getPickImageResultUri(this, data);
 
-            // For API >= 23 we need to check specifically that we have permissions to read external storage.
             if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
-                // request permissions and handle the result in onRequestPermissionsResult()
                 mCropImageUri = imageUri;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
                 }
             } else {
-                // no permissions required or already grunted, can start crop image activity
                 startCropImageActivity(imageUri);
             }
         }
@@ -1106,16 +713,15 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-
                 binding.logoCustom.setVisibility(View.VISIBLE);
                 binding.logoEmptyState.setVisibility(View.GONE);
                 ((ImageView) findViewById(R.id.logoCustom)).setImageURI(result.getUri());
-                //  Toast.makeText(this, "Cropping successful, Sample: " + result.getSampleSize(), Toast.LENGTH_LONG).show();
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                //  Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+                ImageView imageView = ((ImageView) findViewById(R.id.logoCustom));
+                selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
             }
         }
     }
+
     @Override public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // required permissions granted, start crop image activity
@@ -1124,6 +730,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             //   Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
         }
     }
+
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -1203,16 +810,43 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-
-
-
-
     //version 3 ======================================
 
+    // ask for payment
+    public DialogUpgradeLayoutSecondBinding secondBinding;
+
+    public void askForPayTheirPayment() {
+        secondBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_second, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(secondBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(secondBinding.getRoot());
+
+        secondBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(act, PackageActivity.class);
+                act.startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        secondBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        secondBinding.element3.setText("You haven't selected any package yet. Please choose any package for download more images");
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
 
     //fire intent for share
     public void triggerShareIntent(File new_file) {
-        Uri uri= Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), BitmapFactory.decodeFile(new_file.getPath()),null,null));
+        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), BitmapFactory.decodeFile(new_file.getPath()), null, null));
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/*");
         share.putExtra(Intent.EXTRA_STREAM, uri);
@@ -1233,9 +867,17 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+                Intent intent = new Intent(act, PackageActivity.class);
+                act.startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
-
+        upgradeLayoutBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
 
         alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -1243,8 +885,73 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     }
 
+    //show dialog for upgrading package for using all 6 frames
+    public DialogUpgradeDownloadLimitExpireBinding expireBinding;
+
+    private void downloadLimitExpireDialog() {
+        expireBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_download_limit_expire, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(expireBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(expireBinding.getRoot());
+
+        expireBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(act, PackageActivity.class);
+                act.startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        expireBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+    }
+
+
+    // ask to upgrade package to 999 for use all frames
+    DialogUpgradeLayoutEnterpriseBinding enterpriseBinding;
+
+    public void askForUpgradeToEnterpisePackage() {
+        enterpriseBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_enterprise, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(enterpriseBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(enterpriseBinding.getRoot());
+
+        enterpriseBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(act, PackageActivity.class);
+                act.startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        enterpriseBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        //alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
+
     //for logo drag and click event handle
     GestureDetector gestureDetector;
+
     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
 
@@ -1252,8 +959,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if (gestureDetector.onTouchEvent(event)) {
-                    onSelectImageClick(view);
-                    return true;
+                    if ((preafManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) || preafManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
+                        onSelectImageClick(view);
+                    } else {
+                        Toast.makeText(act, "You can't change your logo", Toast.LENGTH_SHORT).show();
+                    }
                 }else {
                     final int x = (int) event.getRawX();
                     final int y = (int) event.getRawY();
@@ -1287,8 +997,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     }
 
                     mainLayout.invalidate();
-                    return true;
                 }
+                return true;
             }
         };
     }
@@ -1338,9 +1048,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             triggerShareIntent(new_file);
         }else {
             Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
-            if (isUsingCustomFrame){
-                addDynamicFooter(0);
-            }else {
+            if (isUsingCustomFrame) {
+                addDynamicFooter(selectedFooterModel.getLayoutType());
+                binding.FrameImageDuplicate.setVisibility(View.GONE);
+                binding.FrameImageDuplicate.setImageBitmap(null);
+            } else {
                 Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
             }
             Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
@@ -1413,51 +1125,97 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.elementCustomFrame.setVisibility(View.GONE);
         selectedBackendFrame=imageList;
         Glide.with(getApplicationContext()).load(imageList.getFrame1()).into(binding.backendFrame);
-        isUsingCustomFrame=false;
+        isUsingCustomFrame = false;
+        forCheckFavorite();
     }
 
     //fire on footer select listener
-    @Override public void onFooterSelectEvent(int layoutType) {
-        isUsingCustomFrame=true;
+    @Override
+    public void onFooterSelectEvent(int footerLayout, FooterModel footerModel) {
+        isUsingCustomFrame = true;
         binding.backendFrame.setVisibility(View.GONE);
         binding.elementCustomFrame.setVisibility(View.VISIBLE);
-        addDynamicFooter(layoutType);
+        selectedFooterModel = footerModel;
+        addDynamicFooter(footerLayout);
+        forCheckFavorite();
+    }
+
+    //check for added to fav or not
+    public void forCheckFavorite(){
+        preafManager=new PreafManager(act);
+        AddFavorite= preafManager.getSavedFavorites();
+
+        if (AddFavorite!=null) {
+            for (int i = 0; i < AddFavorite.size(); i++) {
+                Log.e("Fav--",new Gson().toJson(AddFavorite.get(i)));
+                Log.e("Print--",new Gson().toJson(selectedModelFromView));
+                if (isUsingCustomFrame){
+                    if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
+                        binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                        binding.fabroutIcon.setVisibility(View.GONE);
+                        break;
+                    } else {
+                        binding.addfabroutIcon.setVisibility(View.GONE);
+                        binding.fabroutIcon.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    if (!AddFavorite.get(i).isCustom()) {
+                        if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedBackendFrame.getFrameId())) {
+                            binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                            binding.fabroutIcon.setVisibility(View.GONE);
+                            break;
+                        } else {
+                            binding.addfabroutIcon.setVisibility(View.GONE);
+                            binding.fabroutIcon.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //for adding footer dynamically
-    int footerLayout=1;
+    int footerLayout = 1;
     private LayoutForLoadOneBinding oneBinding;
     private LayoutForLoadTwoBinding twoBinding;
     private LayoutForLoadThreeBinding threeBinding;
     private LayoutForLoadFourBinding fourBinding;
     private LayoutForLoadFiveBinding fiveBinding;
     private LayoutForLoadSixBinding sixBinding;
+
     private void addDynamicFooter(int layoutType) {
         binding.elementFooter.removeAllViews();
         footerLayout=layoutType;
         if (layoutType== FooterModel.LAYOUT_FRAME_ONE) {
             oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
             binding.elementFooter.addView(oneBinding.getRoot());
+            loadFrameFirstData();
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_TWO) {
             twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
             binding.elementFooter.addView(twoBinding.getRoot());
+            loadFrameTwoData();
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_THREE) {
             threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
+            loadFrameThreeData();
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_FOUR) {
             fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
+            loadFrameFourData();
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_FIVE) {
             fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_five, null, false);
             binding.elementFooter.addView(fiveBinding.getRoot());
+            loadFrameFiveData();
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_SIX) {
             sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
             binding.elementFooter.addView(sixBinding.getRoot());
+
         }
     }
 
@@ -1535,7 +1293,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }else if (footerLayout==5){
                 Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
                 fiveBinding.gmailText.setTypeface(custom_font);
-                fiveBinding.contactText.setTypeface(custom_font);
+                fiveBinding.phoneTxt.setTypeface(custom_font);
                 fiveBinding.websiteText.setTypeface(custom_font);
             }else if (footerLayout==6) {
                 Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
@@ -1574,7 +1332,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setUnderlineText(fourBinding.websiteText, true);
             }else if (footerLayout==5) {
                 Utility.setUnderlineText(fiveBinding.gmailText, true);
-                Utility.setUnderlineText(fiveBinding.contactText, true);
+                Utility.setUnderlineText(fiveBinding.phoneTxt, true);
                 Utility.setUnderlineText(fiveBinding.websiteText, true);
             }else if (footerLayout==6) {
                 Utility.setUnderlineText(sixBinding.textElement1, true);
@@ -1604,7 +1362,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setUnderlineText(fourBinding.websiteText, false);
             } else if (footerLayout == 5) {
                 Utility.setUnderlineText(fiveBinding.gmailText, false);
-                Utility.setUnderlineText(fiveBinding.contactText, false);
+                Utility.setUnderlineText(fiveBinding.phoneTxt, false);
                 Utility.setUnderlineText(fiveBinding.websiteText, false);
             } else if (footerLayout == 6) {
 
@@ -1642,7 +1400,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }else if (footerLayout==5){
 
             fiveBinding.gmailText.setTextSize(textsize);
-            fiveBinding.contactText.setTextSize(textsize);
+            fiveBinding.phoneTxt.setTextSize(textsize);
             fiveBinding.websiteText.setTextSize(textsize);
         }else if (footerLayout==6) {
 
@@ -1682,7 +1440,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setBold(fourBinding.websiteText, true);
             } else if (footerLayout == 5) {
                 Utility.setBold(fiveBinding.gmailText, true);
-                Utility.setBold(fiveBinding.contactText, true);
+                Utility.setBold(fiveBinding.phoneTxt, true);
                 Utility.setBold(fiveBinding.websiteText, true);
             } else if (footerLayout == 6) {
                 Utility.setBold(sixBinding.textElement1, true);
@@ -1712,7 +1470,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setBold(fourBinding.websiteText, false);
             } else if (footerLayout == 5) {
                 Utility.setBold(fiveBinding.gmailText, false);
-                Utility.setBold(fiveBinding.contactText, false);
+                Utility.setBold(fiveBinding.phoneTxt, false);
                 Utility.setBold(fiveBinding.websiteText, false);
             } else if (footerLayout == 6) {
 
@@ -1754,7 +1512,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setItalicText(fourBinding.websiteText, true);
             } else if (footerLayout == 5) {
                 Utility.setItalicText(fiveBinding.gmailText, true);
-                Utility.setItalicText(fiveBinding.contactText, true);
+                Utility.setItalicText(fiveBinding.phoneTxt, true);
                 Utility.setItalicText(fiveBinding.websiteText, true);
             } else if (footerLayout == 6) {
                 Utility.setItalicText(sixBinding.textElement1, true);
@@ -1783,7 +1541,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setItalicText(fourBinding.websiteText, false);
             } else if (footerLayout == 5) {
                 Utility.setItalicText(fiveBinding.gmailText, false);
-                Utility.setItalicText(fiveBinding.contactText, false);
+                Utility.setItalicText(fiveBinding.phoneTxt, false);
                 Utility.setItalicText(fiveBinding.websiteText, false);
             } else if (footerLayout == 6) {
 
@@ -1796,26 +1554,27 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-
-
-    public void ChangeBackgroundColorForFrameOne(int colorCode){
-         oneBinding.topView.setBackgroundColor(colorCode);
-         oneBinding.topView2.setBackgroundColor(colorCode);
-         oneBinding.locationBackgroundLayout.setBackgroundColor(colorCode);
+    public void ChangeBackgroundColorForFrameOne(int colorCode) {
+        oneBinding.topView.setBackgroundColor(colorCode);
+        oneBinding.topView2.setBackgroundColor(colorCode);
+        oneBinding.addressLayoutElement2.setBackgroundColor(colorCode);
     }
-    public void ChangeTextColorForFrameOne(int colodCode){
+
+    public void ChangeTextColorForFrameOne(int colodCode) {
         oneBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
         oneBinding.gmailText.setTextColor(colodCode);
         oneBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
         oneBinding.contactText.setTextColor(colodCode);
 
     }
-    public void ChangeBackgroundColorForFrameTwo(int colorCode){
+
+    public void ChangeBackgroundColorForFrameTwo(int colorCode) {
         twoBinding.firstView.setBackgroundTintList(ColorStateList.valueOf(colorCode));
         twoBinding.secondView.setBackgroundTintList(ColorStateList.valueOf(colorCode));
 
     }
-    public void ChangeTextColorForFrameTwo(int colodCode){
+
+    public void ChangeTextColorForFrameTwo(int colodCode) {
         twoBinding.gmailImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
         twoBinding.gmailText.setTextColor(colodCode);
         twoBinding.contactImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
@@ -1833,13 +1592,16 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         threeBinding.contactText.setTextColor(colodCode);
         threeBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
         threeBinding.websiteText.setTextColor(colodCode);
-        threeBinding.locationImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        threeBinding.loacationImage.setImageTintList(ColorStateList.valueOf(colodCode));
         threeBinding.locationText.setTextColor(colodCode);
 
     }
-    public void ChangeBackgroundColorForFrameFour(int colorCode){
-        fourBinding.topView2.setBackgroundColor(colorCode); }
-    public void ChangeTextColorForFrameFour(int colodCode){
+
+    public void ChangeBackgroundColorForFrameFour(int colorCode) {
+        fourBinding.topView2.setBackgroundColor(colorCode);
+    }
+
+    public void ChangeTextColorForFrameFour(int colodCode) {
         fourBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
         fourBinding.gmailText.setTextColor(colodCode);
         fourBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
@@ -1850,33 +1612,168 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         fourBinding.locationText.setTextColor(colodCode);
 
     }
-    public void ChangeBackgroundColorForFrameFive(int colorCode){
+
+    public void ChangeBackgroundColorForFrameFive(int colorCode) {
         fiveBinding.element1.setImageTintList(ColorStateList.valueOf(colorCode));
         fiveBinding.element3.setImageTintList(ColorStateList.valueOf(colorCode));
 
     }
-    public void ChangeTextColorForFrameFive(int colodCode){
+
+    public void ChangeTextColorForFrameFive(int colodCode) {
         fiveBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
         fiveBinding.gmailText.setTextColor(colodCode);
         fiveBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        fiveBinding.contactText.setTextColor(colodCode);
+        fiveBinding.phoneTxt.setTextColor(colodCode);
         fiveBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
         fiveBinding.websiteText.setTextColor(colodCode);
     }
-    public void ChangeBackgroundColorForFrameSix(int colorCode){
+
+    public void ChangeBackgroundColorForFrameSix(int colorCode) {
         sixBinding.containerElement.setBackgroundTintList(ColorStateList.valueOf(colorCode));
         sixBinding.viewElement2.setBackgroundTintList(ColorStateList.valueOf(colorCode));
 
     }
-    public void ChangeTextColorForFrameSix(int colodCode){
+
+    public void ChangeTextColorForFrameSix(int colodCode) {
         sixBinding.imgElement1.setImageTintList(ColorStateList.valueOf(colodCode));
         sixBinding.imgElement2.setImageTintList(ColorStateList.valueOf(colodCode));
         sixBinding.imgElement3.setImageTintList(ColorStateList.valueOf(colodCode));
         sixBinding.textElement1.setTextColor(colodCode);
+    }
 
+    public void loadFrameFirstData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            oneBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            oneBinding.gmailLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            oneBinding.contactText.setText(activeBrand.getPhonenumber());
+        } else {
+            oneBinding.contactLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getAddress().isEmpty()) {
+            oneBinding.locationText.setText(activeBrand.getAddress());
+        } else {
+            oneBinding.addressLayoutElement.setVisibility(View.GONE);
+        }
+    }
+
+    public void loadFrameTwoData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            twoBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            twoBinding.gmailLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            twoBinding.contactText.setText(activeBrand.getPhonenumber());
+        } else {
+            twoBinding.contactLayout.setVisibility(View.GONE);
+        }
+        if (activeBrand.getPhonenumber().isEmpty() && activeBrand.getEmail().isEmpty()) {
+            twoBinding.firstView.setVisibility(View.GONE);
+        }
+
+
+        if (!activeBrand.getAddress().isEmpty()) {
+            twoBinding.locationText.setText(activeBrand.getAddress());
+        } else {
+            twoBinding.locationLayout.setVisibility(View.GONE);
+        }
+        if (!activeBrand.getWebsite().isEmpty()) {
+            twoBinding.websiteText.setText(activeBrand.getWebsite());
+        } else {
+            twoBinding.websiteText.setVisibility(View.GONE);
+        }
+
+        if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()) {
+            twoBinding.secondView.setVisibility(View.GONE);
+        }
+    }
+
+    public void loadFrameThreeData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            threeBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            threeBinding.gmailLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            threeBinding.contactText.setText(activeBrand.getPhonenumber());
+        } else {
+            threeBinding.contactLayout.setVisibility(View.GONE);
+        }
+
+
+        if (!activeBrand.getAddress().isEmpty()) {
+            threeBinding.locationText.setText(activeBrand.getAddress());
+        } else {
+            threeBinding.loactionLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getWebsite().isEmpty()) {
+            threeBinding.websiteText.setText(activeBrand.getWebsite());
+        } else {
+            threeBinding.websiteText.setVisibility(View.GONE);
+        }
 
     }
 
+    public void loadFrameFourData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            fourBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            fourBinding.gmailLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            fourBinding.contactText.setText(activeBrand.getPhonenumber());
+        } else {
+            fourBinding.contactLayout.setVisibility(View.GONE);
+        }
+
+
+        if (!activeBrand.getAddress().isEmpty()) {
+            fourBinding.locationText.setText(activeBrand.getAddress());
+        } else {
+            fourBinding.locationLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getWebsite().isEmpty()) {
+            fourBinding.websiteText.setText(activeBrand.getWebsite());
+        } else {
+            fourBinding.websiteText.setVisibility(View.GONE);
+        }
+
+    }
+
+    public void loadFrameFiveData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            fiveBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            fiveBinding.elementEmail.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            fiveBinding.phoneTxt.setText(activeBrand.getPhonenumber());
+        } else {
+            fiveBinding.elementMobile.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getWebsite().isEmpty()) {
+            fiveBinding.websiteText.setText(activeBrand.getWebsite());
+        } else {
+            fiveBinding.element0.setVisibility(View.GONE);
+        }
+    }
 
 
     //to handle click and drag listener
@@ -1888,10 +1785,215 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-
-
-
     //API CALLS
+
+
+    //getFrames
+    private void getFrame() {
+        Utility.Log("API : ", APIs.GET_FRAME);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Utility.Log("GET_FRAME : ", response);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
+                    JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
+                    is_frame = datajsonobjecttt.getString("is_frame");
+                    if (is_frame.equals("1")) {
+                        //binding.customFrameRelative.setVisibility(View.GONE);
+                        // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
+                        frameViewPager();
+                        is_payment_pending = datajsonobjecttt.getString("is_payment_pending");
+                        packagee = datajsonobjecttt.getString("package");
+                        if (packagee.equals("")) {
+                         /*   binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
+                                }
+                            });
+                            binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
+                                }
+                            });*/
+                     /*       binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
+
+                                }
+                            });*/
+
+
+                        } else if (is_payment_pending.equals("1")) {
+
+                          /*  binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
+                                }
+                            });
+                            binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
+                                }
+                            });*/
+                         /*   binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
+                                }
+                            });*/
+                        }
+                    } else {
+                        LoadDataToUI();
+                        //fetchAutomaticCustomeFrame();
+                        //     binding.customFrameRelative.setVisibility(View.VISIBLE);
+                        //   binding.recoframe.setVisibility(View.GONE);
+                        binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertBoxForSaveFrame();
+                            }
+                        });
+                        binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertBoxForSaveFrame();
+                            }
+                        });
+                       /* binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertBoxForSaveFrame();
+                            }
+                        });*/
+                    }
+
+                    CreateTabs();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+//                        String body;
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Load-Get_Exam ", body);
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("brand_id", preafManager.getActiveBrand().getId());
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
+
+    //For GetImageCategory
+    private void getAllImages() {
+        Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("GET_IMAGE_CATEGORY : ", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    menuModels = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
+
+                    if (menuModels != null && menuModels.size() != 0) {
+                        setAdapter();
+                        binding.shimmerViewContainer.stopShimmer();
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                        binding.viewRecoRecycler.setVisibility(View.VISIBLE);
+                        binding.emptyStateLayout.setVisibility(View.GONE);
+                    }
+                    if (menuModels == null || menuModels.size() == 0) {
+                        binding.emptyStateLayout.setVisibility(View.VISIBLE);
+                        binding.viewRecoRecycler.setVisibility(View.GONE);
+                        binding.shimmerViewContainer.stopShimmer();
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+//                        String body;
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Load-Get_Exam ", body);
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                if (imageList != null)
+                    params.put("image_category_id", imageList.getId());
+                else
+                    params.put("image_category_id", selectedObject.getId());
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
 
     //For Download,Share and Fav
     private void downloadAndShareApi(final int download) {
@@ -1902,6 +2004,23 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             public void onResponse(String response) {
                 Utility.dismissLoadingTran();
                 Utility.Log("DOWNLOAD_SHARE : ", response);
+                if (updateLogo && selectedLogo != null)
+                    uploadLogoForBrand(selectedLogo);
+
+                if (download == DOWLOAD) {
+                    //this is coding for can we change logo or not
+                    String usedImageCountStr = preafManager.getActiveBrand().getNo_of_used_image();
+                    if (usedImageCountStr.isEmpty())
+                        usedImageCountStr = "0";
+
+                    int usedCounter = Integer.parseInt(usedImageCountStr) + 1;
+                    BrandListItem brandListItem = preafManager.getActiveBrand();
+                    brandListItem.setNo_of_used_image(String.valueOf(usedCounter));
+                    preafManager.setActiveBrand(brandListItem);
+                    preafManager = new PreafManager(act);
+                    Log.e("UUUU", preafManager.getActiveBrand().getNo_of_used_image() + "s");
+                }
+
             }
         },
                 new Response.ErrorListener() {
@@ -1909,6 +2028,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     public void onErrorResponse(VolleyError error) {
                         Utility.dismissLoadingTran();
                         error.printStackTrace();
+
                     }
                 }
         ) {
@@ -1931,22 +2051,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 if (isUsingCustomFrame){
                     params.put("brand_id",  preafManager.getActiveBrand().getId());
                     params.put("image_id", selectedObject.getImageid());
+                    params.put("is_custom", "1");
                 } else {
                     params.put("brand_id", preafManager.getActiveBrand().getId());
                     params.put("image_id", selectedObject.getImageid());
                     params.put("frame_id", selectedBackendFrame.getFrame1Id());
+                    params.put("is_custom", "0");
                 }
-
-                /*if (!preafManager.getActiveBrand().getIs_frame().equals("0")) {
-                    params.put("brand_id", preafManager.getActiveBrand().getId());
-                    params.put("image_id", selectedObject.getImageid());
-                    params.put("frame_id", selectedModelFromView.getFrameId());
-
-                } else {
-                    params.put("brand_id",  preafManager.getActiveBrand().getId());
-                    params.put("image_id", selectedObject.getImageid());
-                }*/
-
                 params.put("type", String.valueOf(download));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -1957,6 +2068,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
+    //api for access rights
     private void getImageDownloadRights() {
         Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.CUSTOM_FRAME_ACCESS);
@@ -1971,13 +2084,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     try {
                         String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
                         FrameCountForDownload = Integer.parseInt(frameCount);
-                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")){
-                            canDownload=true;
+                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
+                            canDownload = true;
                             askForDownloadImage();
-                        }else{
-                            canDownload=false;
-                            Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
-                            //pop up show for limit ended
+                        } else {
+                            canDownload = false;
+                            downloadLimitExpireDialog();
+                            //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -2025,5 +2138,55 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
+    }
+
+    //update logo to brand
+    private void uploadLogoForBrand(Bitmap img) {
+        Utility.showLoadingTran(act);
+
+        File img1File = null;
+        if (img != null) {
+            img1File = CodeReUse.createFileFromBitmap(act, "photo.jpeg", img);
+        }
+        ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.EDIT_BRAND)
+                .addHeaders("Accept", "application/json")
+                .addHeaders("Content-Type", "application/json")
+                .addHeaders("Authorization", "Bearer" + preafManager.getUserToken())
+                .addMultipartParameter("brand_id", preafManager.getActiveBrand().getId())
+                .setPriority(Priority.HIGH);
+
+        if (img1File != null) {
+            request.addMultipartFile("br_logo", img1File);
+            Log.e("br_logo", String.valueOf(img1File));
+        }
+
+        request.build().setUploadProgressListener(new UploadProgressListener() {
+            @Override
+            public void onProgress(long bytesUploaded, long totalBytes) {
+                // do anything with progress
+            }
+        })
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        isLoading = false;
+                        Utility.dismissLoadingTran();
+                        Utility.Log("Logo Uploaded", response);
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        isLoading = false;
+                        Utility.dismissLoadingTran();
+                        if (error.getErrorCode() != 0) {
+                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            Log.e("onError errorBody : ", error.getErrorBody());
+                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                        } else {
+                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                        }
+                    }
+                });
+
     }
 }

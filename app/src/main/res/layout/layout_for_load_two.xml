@@ -1,90 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
-        <RelativeLayout
 
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical">
 
 
             <RelativeLayout
                 android:id="@+id/firstView"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_20sdp"
-                android:background="@drawable/cornartwo">
-
+                android:background="@drawable/cornartwo"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp">
                 <RelativeLayout
-                    android:id="@+id/gmailLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_alignParentStart="true"
+                    android:id="@+id/gmailLayout"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_5sdp">
+                    android:paddingStart="@dimen/_12sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp">
 
                     <ImageView
-                        android:id="@+id/gmailImage"
-                        android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
+                        android:backgroundTint="@color/colorNavText"
+                        android:id="@+id/gmailImage"
                         android:background="@drawable/ic_outline_mail_24"
-                        android:backgroundTint="@color/colorNavText" />
-
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_centerVertical="true" />
                     <TextView
+
+                        android:layout_toEndOf="@+id/gmailImage"
+                        android:textSize="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:id="@+id/gmailText"
+                        android:textColor="@color/colorNavText"
                         android:padding="0dp"
+                        android:maxWidth="@dimen/_120sdp"
+                        android:singleLine="true"
                         android:layout_centerVertical="true"
                         android:includeFontPadding="false"
-                        android:id="@+id/gmailText"
+                        android:text="qfsolution@gmaildfgdfgdgdfgdf.com"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                         android:layout_toEndOf="@+id/gmailImage"
-                        android:text="qfsolution@gmail.com"
-                        android:textColor="@color/colorNavText"
-                        android:textSize="@dimen/_8sdp" />
+                        android:layout_height="wrap_content">
+                    </TextView>
 
                 </RelativeLayout>
-
                 <RelativeLayout
-                    android:id="@+id/contactLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_below="@+id/topView2"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_20sdp">
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:id="@+id/contactLayout"
+                    android:layout_below="@+id/topView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp">
 
                     <ImageView
-                        android:id="@+id/contactImage"
-                        android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
+                        android:backgroundTint="@color/colorNavText"
+                        android:id="@+id/contactImage"
                         android:background="@drawable/ic_outline_call_24"
-                        android:backgroundTint="@color/colorNavText" />
-
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_centerVertical="true" />
                     <TextView
-                        android:id="@+id/contactText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_5sdp"
-
+                        android:layout_toEndOf="@+id/contactImage"
+                        android:textSize="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:padding="0dp"
+                        android:maxWidth="@dimen/_100sdp"
                         android:layout_centerVertical="true"
                         android:includeFontPadding="false"
-                        android:layout_toEndOf="@+id/contactImage"
-                        android:text="8849896537"
+                        android:singleLine="true"
+                        android:id="@+id/contactText"
                         android:textColor="@color/colorNavText"
-                        android:textSize="@dimen/_8sdp" />
+                        android:text="+91 8849896537"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TextView>
 
                 </RelativeLayout>
             </RelativeLayout>
@@ -93,40 +101,44 @@
                 android:id="@+id/secondView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp"
-                android:layout_below="@+id/firstView"
                 android:layout_marginTop="-2dp"
-                android:background="@color/colorPrimary">
+                android:background="@drawable/cornartwo">
 
                 <RelativeLayout
+                    android:paddingStart="@dimen/_12sdp"
+                    android:layout_width="match_parent"
                     android:id="@+id/locationLayout"
-                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_5sdp">
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/websiteLayout">
 
                     <ImageView
+                        android:layout_centerVertical="true"
                         android:id="@+id/locationImage"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
                         android:background="@drawable/ic_outline_location_on_24"
-                        android:backgroundTint="@color/colorNavText"></ImageView>
-
+                        android:backgroundTint="@color/colorNavText" />
                     <TextView
 
-                        android:id="@+id/locationText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/locationImage"
+                        android:textSize="@dimen/_8sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
+                        android:maxWidth="@dimen/_150sdp"
+                        android:id="@+id/locationText"
                         android:padding="0dp"
                         android:layout_centerVertical="true"
                         android:includeFontPadding="false"
-                        android:layout_toEndOf="@+id/locationImage"
-                        android:text="Vastral"
+                        android:singleLine="true"
                         android:textColor="@color/colorNavText"
-                        android:textSize="@dimen/_8sdp"></TextView>
+                        android:text="Vastfdgdgfdfgfddfgfdgfgfdgdgdfgdfgdffdfdgfdfgdfral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TextView>
 
                 </RelativeLayout>
 
@@ -135,37 +147,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_below="@+id/topView2"
+
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_20sdp">
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:minWidth="@dimen/_100sdp"
+                    tools:ignore="UnknownIdInLayout">
 
                     <ImageView
                         android:id="@+id/websiteImage"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_centerVertical="true"
                         android:background="@drawable/ic_outline_language_24"
-                        android:backgroundTint="@color/colorNavText"></ImageView>
+                        android:backgroundTint="@color/colorNavText" />
 
                     <TextView
+                        android:maxWidth="@dimen/_100sdp"
                         android:id="@+id/websiteText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:padding="0dp"
                         android:layout_centerVertical="true"
-                        android:includeFontPadding="false"                        android:layout_toEndOf="@+id/websiteImage"
-                        android:text="qfsolution.com"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:singleLine="true"
+                        android:layout_toEndOf="@+id/websiteImage"
+                        android:includeFontPadding="false"
+                        android:padding="0dp"
+                        android:text="qfsolutiofdgdfdgfggdgdgfdgdgdfn.com"
                         android:textColor="@color/colorNavText"
-                        android:textSize="@dimen/_8sdp"></TextView>
+                        android:textSize="@dimen/_8sdp" />
 
                 </RelativeLayout>
             </RelativeLayout>
 
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

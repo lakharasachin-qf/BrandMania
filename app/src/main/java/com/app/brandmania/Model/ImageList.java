@@ -15,6 +15,16 @@ public class ImageList {
     private String logo;
     private String frame1;
     private String frame1Id;
+    private boolean isCustom=true;
+
+    public boolean isCustom() {
+        return isCustom;
+    }
+
+    public ImageList setCustom(boolean custom) {
+        isCustom = custom;
+        return this;
+    }
 
     public ImageList() {
     }

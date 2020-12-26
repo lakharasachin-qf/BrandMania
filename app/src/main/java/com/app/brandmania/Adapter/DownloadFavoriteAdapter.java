@@ -134,32 +134,18 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
                         .load(downloadFavoriteItemLists.get(position).getImage())
                         .placeholder(R.drawable.placeholder)
                         .into(((DownloadHolder) holder).binding.downloadlistImage);
+
+                if (!downloadFavoriteItemLists.get(position).isCustom()) {
                     Glide.with(context)
                             .load(downloadFavoriteItemLists.get(position).getFrame())
                             .into(((DownloadHolder) holder).binding.downloadlistFrame);
-//                ((DownloadHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                            Intent i = new Intent(context, VIewAllDownloadImage.class);
-//                            i.putExtra("detailsObj", gson.toJson(model));
-//                            context.startActivity(i);
-//                            i.addCategory(Intent.CATEGORY_HOME);
-//                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//
-//                        //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-//                    }
-//                });
 
-
-
-
+                }
                     ((DownloadHolder) holder).binding.shareIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             onShareImageClick.onShareClick(model,position);
-                            // activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+
                         }
                     });
 

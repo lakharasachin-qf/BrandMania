@@ -92,17 +92,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
         alertDialogBuilder=new AlertDialog.Builder(act);
         binding.viewImgFirst.setTag("0");
-        binding.viewImgFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isEditModeEnable) {
-                    if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
-                        pickerView(Constant.PICKER_FIRST, true, selectedImagesBitmap);
-                    else
-                        pickerView(Constant.PICKER_FIRST, false, null);
-                }
-            }
-        });
+
         getBrandCategory(BRAND_CATEGORY);
         binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +127,23 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             });
             Glide.with(act).load(listModel.getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
             Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
+        }
+        if (listModel.getNo_of_used_image().isEmpty() || listModel.getNo_of_used_image().equalsIgnoreCase("0")) {
+
+            binding.viewImgFirst.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isEditModeEnable) {
+                        if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
+                            pickerView(Constant.PICKER_FIRST, true, selectedImagesBitmap);
+                        else
+                            pickerView(Constant.PICKER_FIRST, false, null);
+                    }
+                }
+            });
+        }else
+        {
+            binding.nameTxt.setEnabled(true);
         }
     }
     private void getBrandCategory(int flag) {

@@ -17,7 +17,8 @@
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_marginTop="@dimen/_10sdp"
 
                 android:layout_width="match_parent"
@@ -28,8 +29,8 @@
                 <LinearLayout
                     android:id="@+id/element0"
                     android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -40,6 +41,7 @@
                         app:tint="@color/colorPrimary" />
 
                     <TextView
+                        android:id="@+id/websiteText"
                         android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -52,7 +54,6 @@
         android:id="@+id/viewElement2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/element0"
         android:layout_marginTop="@dimen/_4sdp"
         android:layout_marginBottom="@dimen/_4sdp"
         android:background="#B1B1B1"
@@ -60,8 +61,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/viewElement2">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/element1"
@@ -81,6 +81,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+
                 android:id="@+id/elementMobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,13 +92,17 @@
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_outline_language_24"
+                    android:src="@drawable/ic_phone"
                     app:tint="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/phoneTxt"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:maxWidth="@dimen/_100sdp"
+                    android:minWidth="@dimen/_70sdp"
                     android:text="+91 8200 0026 04"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:textSize="@dimen/_8sdp" />
@@ -107,7 +112,6 @@
                 android:id="@+id/elementEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginStart="@dimen/_12sdp"
                 android:orientation="horizontal">
 
@@ -119,7 +123,10 @@
                     app:tint="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/gmailText"
                     android:layout_gravity="center_vertical"
+                    android:maxWidth="@dimen/_120sdp"
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
@@ -137,7 +144,7 @@
 
     </RelativeLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:id="@+id/elementSelected"

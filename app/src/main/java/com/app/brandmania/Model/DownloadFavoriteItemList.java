@@ -10,8 +10,18 @@ public class DownloadFavoriteItemList
     private String Name;
     private String Frame;
     private int layoutType;
+    private boolean isCustom=false;
 
     public DownloadFavoriteItemList() {
+    }
+
+    public boolean isCustom() {
+        return isCustom;
+    }
+
+    public DownloadFavoriteItemList setCustom(boolean custom) {
+        isCustom = custom;
+        return this;
     }
 
     public static int getLayoutDownload() {

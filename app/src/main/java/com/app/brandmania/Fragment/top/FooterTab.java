@@ -56,26 +56,41 @@ public class FooterTab extends Fragment {
     public void setAdapter() {
         FooterModel model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
+        model.setFree(true);
+
         setData(model);
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_TWO);
+        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+            model.setFree(true);
+        }
         setData(model);
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_THREE);
+        model.setFree(true);
         setData(model);
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FOUR);
+        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+            model.setFree(true);
+        }
         setData(model);
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FIVE);
+        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+            model.setFree(true);
+        }
         setData(model);
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_SIX);
+        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+            model.setFree(true);
+        }
         setData(model);
 
 
@@ -83,9 +98,10 @@ public class FooterTab extends Fragment {
         FooterAdapter footerAdapter = new FooterAdapter(footerModels, act);
         FooterAdapter.onFooterListener onFooterListener=new FooterAdapter.onFooterListener() {
             @Override
-            public void onFooterChoose(int footerLayout) {
+            public void onFooterChoose(int footerLayout,FooterModel footerModel) {
                 footerAdapter.notifyDataSetChanged();
-                ((onFooterSelectListener)act).onFooterSelectEvent(footerLayout);
+                ((onFooterSelectListener)act).onFooterSelectEvent(footerLayout,footerModel);
+
             }
         };
         footerAdapter.setFooterListener(onFooterListener);

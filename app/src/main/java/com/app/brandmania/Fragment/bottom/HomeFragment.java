@@ -375,7 +375,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
                             getImageCtegoryNextPage(apiResponse.getLinks().getNextPageUrl());
+                        }else {
+                            binding.shimmerForPagination.stopShimmer();
+                            binding.shimmerForPagination.setVisibility(View.GONE);
                         }
+                    }else {
+                        binding.shimmerForPagination.stopShimmer();
+                        binding.shimmerForPagination.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {
@@ -428,16 +434,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
 
     private void getImageCtegoryNextPage(String nextPageUrl) {
-        Utility.Log("API : ", nextPageUrl);
+        Utility.Log("API-", nextPageUrl);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_IMAGE_CATEGORY : ", response);
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-
                     apiResponse = ResponseHandler.HandleGetImageCategory(jsonObject);
                     if (apiResponse.getDashBoardItems() != null) {
                         if (menuModels != null && menuModels.size() != 0) {
@@ -448,8 +452,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                             menuModels = new ArrayList<>();
                             menuModels.addAll(0, apiResponse.getDashBoardItems());
                         }
-
-
                     }
                     if (apiResponse.getLinks() != null) {
                         Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
@@ -462,7 +464,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
                     }
-
                     if (apiResponse.getDashBoardItems()==null ||apiResponse.getDashBoardItems().size()==0) {
                         binding.shimmerForPagination.stopShimmer();
                         binding.shimmerForPagination.setVisibility(View.GONE);

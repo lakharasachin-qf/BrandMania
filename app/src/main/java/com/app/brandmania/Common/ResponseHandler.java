@@ -337,9 +337,12 @@ public class ResponseHandler {
                     try {
                         JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
                         DownloadFavoriteItemList downloadFavoriteItemList = new DownloadFavoriteItemList();
-                        downloadFavoriteItemList.setLayoutType(downloadFavoriteItemList.LAYOUT_DOWNLOAD);
+                        downloadFavoriteItemList.setLayoutType(DownloadFavoriteItemList.LAYOUT_DOWNLOAD);
                         downloadFavoriteItemList.setName(getString(dataJsonObject, "image_title"));
                         downloadFavoriteItemList.setImage(getString(dataJsonObject, "img_path"));
+
+                        downloadFavoriteItemList.setCustom(getString(dataJsonObject, "is_custom").equalsIgnoreCase("1"));
+
                         downloadFavoriteItemList.setFrame(getString(dataJsonObject, "frame_path"));
                         strings.add(downloadFavoriteItemList);
                     } catch (JSONException e) {

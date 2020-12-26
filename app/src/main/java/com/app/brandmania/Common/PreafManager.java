@@ -4,13 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ImageList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.SplittableRandom;
 
 public class PreafManager
 
@@ -121,11 +120,18 @@ public class PreafManager
     public void removeFromMyFavorites(ImageList imageList){
         ArrayList<ImageList> FavouritImage;
         FavouritImage=getSavedFavorites();
-        for (int i=0;i<FavouritImage.size();i++)
-        {
-           if (FavouritImage.get(i).getId().equals(imageList.getId()) && FavouritImage.get(i).getFrameId().equalsIgnoreCase(imageList.getFrameId())){
-               FavouritImage.remove(i);
-           }
+        for (int i=0;i<FavouritImage.size();i++) {
+            if (imageList.isCustom()) {
+                if (FavouritImage.get(i).getId().equals(imageList.getId())) {
+                    FavouritImage.remove(i);
+                }
+            } else {
+                if (!FavouritImage.get(i).isCustom()) {
+                    if (FavouritImage.get(i).getId().equals(imageList.getId()) && FavouritImage.get(i).getFrameId().equalsIgnoreCase(imageList.getFrameId())) {
+                        FavouritImage.remove(i);
+                    }
+                }
+            }
         }
         Gson gson=new Gson();
         String jsonshare=gson.toJson(FavouritImage);
@@ -143,18 +149,23 @@ public class PreafManager
         }
         boolean isExits=false;
         int existPos=0;
-        for (int i=0;i<FavouritImage.size();i++){
-            if (imageList.getId().equals(FavouritImage.get(i).getId()) && imageList.getFrameId().equalsIgnoreCase(FavouritImage.get(i).getFrameId())){
-                isExits=true;
-                existPos=i;
-                break;
+        for (int i=0;i<FavouritImage.size();i++) {
+            if (!imageList.isCustom()) {
+                if (imageList.getId().equals(FavouritImage.get(i).getId())) {
+                    isExits = true;
+                    existPos = i;
+                    break;
+                }
+            } else {
+                if (imageList.getId().equals(FavouritImage.get(i).getId()) && imageList.getFrameId().equalsIgnoreCase(FavouritImage.get(i).getFrameId())) {
+                    isExits = true;
+                    existPos = i;
+                    break;
+                }
             }
         }
         if (!isExits)
             FavouritImage.add(imageList);
-      /*  else {
-            FavouritImage.set(existPos,imageList);
-        }*/
 
         Gson gson=new Gson();
       String jsonshare=gson.toJson(FavouritImage);

@@ -41,9 +41,7 @@
                     android:id="@+id/gmailLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_toEndOf="@+id/topView2">
+                    android:layout_marginStart="@dimen/_10sdp">
 
                     <ImageView
                         android:id="@+id/gmailImage"
@@ -65,7 +63,7 @@ android:layout_centerVertical="true"
                         android:singleLine="true"
                         android:text="qfsolution@gmail.com"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_8sdp"></TextView>
+                        android:textSize="@dimen/_8sdp" />
 
                 </RelativeLayout>
 
@@ -82,13 +80,13 @@ android:layout_centerVertical="true"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_centerVertical="true"
                         android:background="@drawable/ic_outline_language_24"
-                        android:backgroundTint="@color/colorPrimary"></ImageView>
+                        android:backgroundTint="@color/colorPrimary" />
 
                     <TextView
                         android:id="@+id/websiteText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:layout_toEndOf="@+id/websiteImage"
                         android:singleLine="true"
                         android:text="qfsolution.com"
@@ -109,17 +107,17 @@ android:layout_centerVertical="true"
 
                     <ImageView
                         android:id="@+id/contactImage"
-android:layout_centerVertical="true"
+                        android:layout_centerVertical="true"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
 
-                        android:src="@drawable/ic_outline_call_24"></ImageView>
+                        android:src="@drawable/ic_outline_call_24" />
 
                     <TextView
                         android:id="@+id/contactText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:layout_toEndOf="@+id/contactImage"
                         android:singleLine="true"
                         android:padding="0dp"
@@ -127,7 +125,7 @@ android:layout_centerVertical="true"
                         android:includeFontPadding="false"
                         android:text="8849896537"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_8sdp"></TextView>
+                        android:textSize="@dimen/_8sdp" />
 
                 </RelativeLayout>
 
@@ -135,11 +133,8 @@ android:layout_centerVertical="true"
                     android:id="@+id/locationLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/contactLayout"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:layout_toEndOf="@+id/topView2">
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_3sdp">
 
                     <ImageView
                         android:id="@+id/loacationImage"
@@ -147,13 +142,13 @@ android:layout_centerVertical="true"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_centerVertical="true"
                         android:background="@drawable/ic_outline_location_on_24"
-                        android:backgroundTint="@color/colorPrimary"></ImageView>
+                        android:backgroundTint="@color/colorPrimary" />
 
                     <TextView
                         android:id="@+id/locationText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                         android:layout_marginLeft="@dimen/_5sdp"
+                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_toEndOf="@+id/loacationImage"
                         android:singleLine="true"
                         android:padding="0dp"

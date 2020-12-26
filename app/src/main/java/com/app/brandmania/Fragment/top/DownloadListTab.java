@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -34,7 +33,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.brandmania.Activity.ViewAllImage;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
@@ -43,8 +41,6 @@ import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
-import com.app.brandmania.databinding.ColorTabBinding;
-import com.app.brandmania.databinding.DownloadlisItemListBinding;
 import com.app.brandmania.databinding.DownloadlisTabBinding;
 
 import org.json.JSONException;
@@ -108,8 +104,11 @@ public class DownloadListTab extends Fragment {
             @Override
             public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
                 requestAgain();
-                downloadingOject=favoriteItemList;
-                new DownloadImageTaskFrame(favoriteItemList.getFrame()).execute(favoriteItemList.getFrame());
+                downloadingOject = favoriteItemList;
+                if (!downloadingOject.isCustom())
+                    new DownloadImageTaskFrame(favoriteItemList.getFrame()).execute(favoriteItemList.getFrame());
+                else
+                    new DownloadImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
             }
         };
         menuAddaptor.setOnShareImageClick(onShareImageClick);
@@ -176,7 +175,6 @@ public class DownloadListTab extends Fragment {
             return new BitmapDrawable(getResources(), mIcon11);
         }
         protected void onPostExecute(BitmapDrawable result) {
-            //bmImage.setImageBitmap(result);
             backgroundImageDrable=result;
             startsShare();
             Utility.dismissProgress();
@@ -207,9 +205,13 @@ public class DownloadListTab extends Fragment {
 
 
     public void startsShare() {
-        //Bitmap FrameDrawbable = drawableFromUrl(selectedModelFromView.getFrame1());
         Drawable d = FrameDrawbable;
-        Drawable ImageDrawable =backgroundImageDrable;
+        Drawable ImageDrawable = backgroundImageDrable;
+
+        if (downloadingOject.isCustom()) {
+            d = backgroundImageDrable;
+        }
+
         Bitmap merged = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(merged);
         d.setBounds(0, 0, 1000, 1000);

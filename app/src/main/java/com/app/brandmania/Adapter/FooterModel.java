@@ -13,6 +13,7 @@ public class FooterModel {
     private String contactNo;
     private String website;
     private String address;
+    private boolean isFree=false;
 
     public FooterModel() {
     }
@@ -31,6 +32,15 @@ public class FooterModel {
     }
     public static int getLayoutFrameFour() {
         return LAYOUT_FRAME_FOUR;
+    }
+
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public FooterModel setFree(boolean free) {
+        isFree = free;
+        return this;
     }
 
     public int getLayoutType() {

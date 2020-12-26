@@ -43,7 +43,7 @@
 
                         <ImageView
                             android:id="@+id/gmailImage"
-android:layout_centerVertical="true"
+                            android:layout_centerVertical="true"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
                              android:src="@drawable/ic_outline_mail_24" />
@@ -56,8 +56,9 @@ android:layout_centerVertical="true"
                             android:padding="0dp"
                             android:layout_centerVertical="true"
                             android:includeFontPadding="false"
+                            android:singleLine="true"
                             android:layout_toEndOf="@+id/gmailImage"
-                            android:text="qfsolution@gmail.com"
+                            android:text="qfsolution@fdgdgdffdgfdgfdgdgfgfdgfdfdgdfgfd.com"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_8sdp" />
 
@@ -75,24 +76,25 @@ android:layout_centerVertical="true"
                         android:id="@+id/loacationImage"
                         android:background="@drawable/ic_outline_location_on_24"
                         android:layout_height="@dimen/_12sdp"
-                        android:layout_marginStart="@dimen/_20sdp"></ImageView>
+                        android:layout_marginStart="@dimen/_20sdp" />
 
                     <TextView
                         android:layout_height="wrap_content"
-                         android:layout_toEndOf="@+id/loacationImage"
+                        android:layout_toEndOf="@+id/loacationImage"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:padding="0dp"
+                        android:singleLine="true"
                         android:layout_centerVertical="true"
                         android:includeFontPadding="false"
                         android:id="@+id/locationText"
                         android:textColor="@color/colorPrimary"
                         android:text="Vastral"
                         android:layout_width="wrap_content"
-                        android:textSize="@dimen/_8sdp"></TextView>
+                        android:textSize="@dimen/_8sdp" />
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
-                android:layout_marginStart="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_20sdp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -106,12 +108,12 @@ android:layout_centerVertical="true"
                     android:layout_height="@dimen/_20sdp">
 
                     <ImageView
-                       android:layout_centerVertical="true"
+                        android:layout_centerVertical="true"
 
                         android:id="@+id/contactImage"
                         android:src="@drawable/ic_outline_call_24"
                         android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"></ImageView>
+                        android:layout_height="@dimen/_12sdp" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -120,11 +122,12 @@ android:layout_centerVertical="true"
                         android:padding="0dp"
                         android:layout_centerVertical="true"
                         android:includeFontPadding="false"
+                        android:singleLine="true"
                         android:id="@+id/contactText"
                         android:textColor="@color/colorPrimary"
                         android:text="8849896537"
                         android:layout_width="wrap_content"
-                        android:textSize="@dimen/_8sdp"></TextView>
+                        android:textSize="@dimen/_8sdp" />
 
                 </RelativeLayout>
 
@@ -135,17 +138,19 @@ android:layout_centerVertical="true"
 
                     <ImageView
                         android:layout_centerVertical="true"
-                         android:backgroundTint="@color/colorPrimary"
+                        android:backgroundTint="@color/colorPrimary"
                         android:id="@+id/websiteImage"
                         android:background="@drawable/ic_outline_language_24"
                         android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"></ImageView>
+                        android:layout_height="@dimen/_12sdp"
+                        android:contentDescription="TODO" />
 
                     <TextView
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/websiteImage"
                         android:layout_marginStart="@dimen/_5sdp"
+                        android:singleLine="true"
 
                         android:id="@+id/websiteText"
                         android:textColor="@color/colorPrimary"
@@ -170,24 +175,21 @@ android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:paddingTop="@dimen/_7sdp"
+                android:paddingTop="@dimen/_2sdp"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingEnd="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_7sdp"
+                android:paddingBottom="@dimen/_2sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:padding="0dp"
-                    android:includeFontPadding="false"
-                    android:layout_centerInParent="true"
-                     android:id="@+id/elementTxt"
                     android:textStyle="bold"
                     android:textSize="@dimen/_8sdp"
                     android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/white"
-                    android:text="Premimun"
+                    android:layout_height="wrap_content"
+                    android:text="Selected"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/black" />
                 <ImageView
                     android:visibility="gone"
                     android:elevation="@dimen/_20sdp"

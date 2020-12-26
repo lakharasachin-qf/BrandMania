@@ -7,9 +7,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <ImageView
+        android:layout_marginTop="@dimen/_5sdp"
+        android:id="@+id/closeBtn"
+        android:src="@drawable/ic_baseline_close_24"
+        android:layout_alignParentEnd="true"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_25sdp"
+        app:tint="@color/colorthird" />
     <androidx.cardview.widget.CardView
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@+id/closeBtn"
         app:cardCornerRadius="@dimen/_7sdp"
         android:id="@+id/element1"
         android:layout_centerHorizontal="true"

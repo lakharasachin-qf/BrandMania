@@ -66,19 +66,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         Log.e("remoteMessage", remoteMessage.getData().toString());
 
-
         // Checking for first time launch - before calling setContentView()
-        PreafManager prefManager = new PreafManager(getApplicationContext());
-
-        //if (prefManager.getReceiveNotification()) {
-        ///         removePendingOrders(remoteMessage.getData().get("message"));
         Utility.Log("Notification", remoteMessage.getData().get("title") + "-" + remoteMessage.getData().get("msg") + "-" + remoteMessage.getData().get("flag"));
 
-        //Utility.Log("Notification", remoteMessage.getNotification().getTitle() + "- " + remoteMessage.getNotification().getBody()+"-"+remoteMessage.getNotification().);
-
         shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"),remoteMessage.getData().get("image"));
-        //shownotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
-        //  }
+
 
     }
 
@@ -124,7 +116,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDeleteIntent(createOnDismissedIntent(this))
                 .setContentIntent(pendingIntent);
 
-        if (!url.isEmpty()) {
+        if (url!=null && !url.isEmpty()) {
             Bitmap bitmap = getBitmapfromUrl(url);
             notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)).setLargeIcon(bitmap);
         }

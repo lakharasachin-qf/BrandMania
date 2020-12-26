@@ -34,6 +34,7 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
                 return colorTab;
             case 2:
                 TextTab textTab = new TextTab();
+                textTab.setActivityType(1);
                 return textTab;
             case 3:
                 FooterTab footerTab = new FooterTab();
