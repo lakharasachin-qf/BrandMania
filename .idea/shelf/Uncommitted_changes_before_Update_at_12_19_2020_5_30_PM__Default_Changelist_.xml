@@ -1,9 +1,0 @@
-<changelist name="Uncommitted_changes_before_Update_at_12_19_2020_5_30_PM_[Default_Changelist]" date="1608379203693" recycled="true" deleted="true">
-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_19_2020_5_30_PM_[Default_Changelist]/shelved.patch" />
-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 12/19/2020 5:30 PM [Default Changelist]" />
-  <binary>
-    <option name="BEFORE_PATH" />
-    <option name="AFTER_PATH" value="app/src/main/res/drawable/payment_icon.png" />
-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_19_2020_5_30_PM_[Default_Changelist]/payment_icon.png" />
-  </binary>
-</changelist>

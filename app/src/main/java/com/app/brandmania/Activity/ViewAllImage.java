@@ -208,7 +208,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             @Override
             public void onClick(View v) {
                 if (selectedBackendFrame != null)
-                    selectedObject.setFrameId(selectedBackendFrame.getFrame1Id());
+                    selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
 
                 selectedObject.setCustom(isUsingCustomFrame);
 
@@ -226,7 +226,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             @Override
             public void onClick(View v) {
                 if (selectedBackendFrame != null)
-                    selectedObject.setFrameId(selectedBackendFrame.getFrame1Id());
+                    selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
 
                 selectedObject.setCustom(isUsingCustomFrame);
 
@@ -244,7 +244,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                if (!isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                     askForUpgradeToEnterpisePackage();
                     return;
                 }
@@ -489,7 +489,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-    public void  reloadSaved(){
+  /*  public void  reloadSaved(){
         AddFavorite= preafManager.getSavedFavorites();
 
         if (AddFavorite!=null) {
@@ -504,7 +504,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 }
             }
         }
-    }
+    }*/
 
     BitmapDrawable FrameDrawbable;
 
@@ -1150,24 +1150,25 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Log.e("Fav--",new Gson().toJson(AddFavorite.get(i)));
                 Log.e("Print--",new Gson().toJson(selectedModelFromView));
                 if (isUsingCustomFrame){
-                    if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
-                        binding.addfabroutIcon.setVisibility(View.VISIBLE);
-                        binding.fabroutIcon.setVisibility(View.GONE);
-                        break;
-                    } else {
-                        binding.addfabroutIcon.setVisibility(View.GONE);
-                        binding.fabroutIcon.setVisibility(View.VISIBLE);
-                    }
-                }else {
-                    if (!AddFavorite.get(i).isCustom()) {
-                        if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedBackendFrame.getFrameId())) {
+                    if (AddFavorite.get(i).isCustom()) {
+                        if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
                             binding.addfabroutIcon.setVisibility(View.VISIBLE);
                             binding.fabroutIcon.setVisibility(View.GONE);
                             break;
                         } else {
                             binding.addfabroutIcon.setVisibility(View.GONE);
                             binding.fabroutIcon.setVisibility(View.VISIBLE);
-
+                        }
+                    }
+                }else {
+                    if (!AddFavorite.get(i).isCustom()) {
+                        if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrame1Id().equalsIgnoreCase(selectedBackendFrame.getFrame1Id())) {
+                            binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                            binding.fabroutIcon.setVisibility(View.GONE);
+                            break;
+                        } else {
+                            binding.addfabroutIcon.setVisibility(View.GONE);
+                            binding.fabroutIcon.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -1856,7 +1857,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         //fetchAutomaticCustomeFrame();
                         //     binding.customFrameRelative.setVisibility(View.VISIBLE);
                         //   binding.recoframe.setVisibility(View.GONE);
-                        binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                     /*   binding.shareIcon.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 AlertBoxForSaveFrame();
@@ -1867,7 +1868,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                             public void onClick(View view) {
                                 AlertBoxForSaveFrame();
                             }
-                        });
+                        });*/
                        /* binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

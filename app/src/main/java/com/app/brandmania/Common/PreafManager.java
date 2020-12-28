@@ -127,7 +127,7 @@ public class PreafManager
                 }
             } else {
                 if (!FavouritImage.get(i).isCustom()) {
-                    if (FavouritImage.get(i).getId().equals(imageList.getId()) && FavouritImage.get(i).getFrameId().equalsIgnoreCase(imageList.getFrameId())) {
+                    if (FavouritImage.get(i).getId().equals(imageList.getId()) && FavouritImage.get(i).getFrame1Id().equalsIgnoreCase(imageList.getFrame1Id())) {
                         FavouritImage.remove(i);
                     }
                 }
@@ -157,7 +157,7 @@ public class PreafManager
                     break;
                 }
             } else {
-                if (imageList.getId().equals(FavouritImage.get(i).getId()) && imageList.getFrameId().equalsIgnoreCase(FavouritImage.get(i).getFrameId())) {
+                if (imageList.getId().equals(FavouritImage.get(i).getId()) && imageList.getFrame1Id().equalsIgnoreCase(FavouritImage.get(i).getFrame1Id())) {
                     isExits = true;
                     existPos = i;
                     break;

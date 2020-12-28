@@ -160,8 +160,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         StringRequest request = new StringRequest(requestedMethod, apiUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-
                 Utility.Log(flag + "- Response : ", response);
                 try {
                     if (ResponseHandler.isSuccess(response, null)) {
