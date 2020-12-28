@@ -304,7 +304,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         }
 
-
+        if (!getIntent().hasExtra("viewAll"))
+            LoadDataToUI();
     }
 
 
@@ -444,11 +445,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frames")));
         }
-       /* addDynamicFooter(1);*/
-
-
-
-
 
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -560,7 +556,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     // For Frame Load View Pager
     public void frameViewPager() {
-        LoadDataToUI();
+
     }
 
     public void AlertBoxForSaveFrame() {
