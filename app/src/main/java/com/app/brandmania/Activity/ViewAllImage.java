@@ -186,7 +186,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         Website = preafManager.getActiveBrand().getWebsite();
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
-        getAllImages();
+       // getAllImages();
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
@@ -221,7 +221,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     binding.addfabroutIcon.setVisibility(View.VISIBLE);
                 }
 
-                downloadAndShareApi(ADDFAV);
+                downloadAndShareApi(ADDFAV,null);
             }
         });
         binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
@@ -246,24 +246,30 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                    askForUpgradeToEnterpisePackage();
-                    return;
+                if (selectedObject.isImageFree()) {
+                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                        askForUpgradeToEnterpisePackage();
+                        return;
+                    }
+                    getImageDownloadRights("Download");
+                }else{
+                    askForPayTheirPayment();
                 }
-
-
-
-                getImageDownloadRights();
             }
         });
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (selectedObject.isImageFree()) {
+                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                        askForUpgradeToEnterpisePackage();
+                        return;
+                    }
+                    getImageDownloadRights("Share");
+                }else{
+                    askForPayTheirPayment();
+                }
 
-                requestAgain();
-                saveImageToGallery(true);
-
-                downloadAndShareApi(DOWLOAD);
             }
         });
 
@@ -310,12 +316,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-
                         requestAgain();
-
                         saveImageToGallery(false);
 
-                        downloadAndShareApi(DOWLOAD);
 
                     }
                 });
@@ -441,21 +444,17 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frames")));
         }
-        addDynamicFooter(1);
+       /* addDynamicFooter(1);*/
 
-        FooterModel model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
-        model.setFree(true);
-        model.setAddress(preafManager.getActiveBrand().getAddress());
-        model.setEmailId(preafManager.getActiveBrand().getEmail());
-        model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
-        model.setWebsite(preafManager.getActiveBrand().getWebsite());
-        ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_ONE, model);
+
+
 
 
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewAllTopTabAdapter adapter = new ViewAllTopTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+        if (getIntent().hasExtra("viewAll"))
+            adapter.setViewAll(true);
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setOffscreenPageLimit(6);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
@@ -479,41 +478,34 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     }
 
+    //load firstImage
+    public void loadFirstImage(){
+
+        FooterModel model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
+        model.setFree(true);
+        model.setAddress(preafManager.getActiveBrand().getAddress());
+        model.setEmailId(preafManager.getActiveBrand().getEmail());
+        model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
+        model.setWebsite(preafManager.getActiveBrand().getWebsite());
+        ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_ONE, model);
+    }
+
     //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
     }
+
     public void LoadDataToUI(){
         preafManager=new PreafManager(act);
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
             Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
         } else {
-            binding.simpleProgressBar.setVisibility(View.VISIBLE);
+           // binding.simpleProgressBar.setVisibility(View.VISIBLE);
         }
+        loadFirstImage();
     }
-
-
-  /*  public void  reloadSaved(){
-        AddFavorite= preafManager.getSavedFavorites();
-
-        if (AddFavorite!=null) {
-            for (int i = 0; i < AddFavorite.size(); i++) {
-                if (!AddFavorite.get(i).getId().equals(selectedObject.getId()) || !AddFavorite.get(i).getFrameId().equalsIgnoreCase(selectedModelFromView.getFrameId())) {
-                    binding.addfabroutIcon.setVisibility(View.GONE);
-                    binding.fabroutIcon.setVisibility(View.VISIBLE);
-                } else {
-                    binding.addfabroutIcon.setVisibility(View.VISIBLE);
-                    binding.fabroutIcon.setVisibility(View.GONE);
-                    break;
-                }
-            }
-        }
-    }*/
-
-    BitmapDrawable FrameDrawbable;
-
-
 
     //For RefresGalary
     public void refreshgallery(File file) {
@@ -538,29 +530,32 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.viewRecoRecycler.setHasFixedSize(true);
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
 
-        if (getIntent().hasExtra("viewAll")) {
-            binding.simpleProgressBar.setVisibility(View.GONE);
+     /*   if (getIntent().hasExtra("viewAll")) {
+            binding.simpleProgressBar.setVisibility(View.VISIBLE);
+
             selectedObject = menuModels.get(0);
             LoadDataToUI();
         } else {
-            binding.simpleProgressBar.setVisibility(View.VISIBLE);
-        }
+            Toast.makeText(act, "dfgdfgdfgd", Toast.LENGTH_SHORT).show();
+            binding.simpleProgressBar.setVisibility(View.GONE);
+        }*/
+
     }
-
-
 
 
 
     //For Image Select Interface
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
-        if (selectedObject != null) {
-            binding.simpleProgressBar.setVisibility(View.GONE);
+
+
+         //   binding.simpleProgressBar.setVisibility(View.GONE);
             selectedObject = listModel;
             LoadDataToUI();
-        } else {
-            binding.simpleProgressBar.setVisibility(View.VISIBLE);
-        }
+       // else {
+           // binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        binding.simpleProgressBar.setVisibility(View.GONE);
+        loadFirstImage();
     }
 
     // For Frame Load View Pager
@@ -922,7 +917,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     }
 
-
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutEnterpriseBinding enterpriseBinding;
 
@@ -1050,6 +1044,14 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         refreshgallery(new_file);
 
         if (wantToShare){
+            if (isUsingCustomFrame) {
+                addDynamicFooter(selectedFooterModel.getLayoutType());
+                binding.FrameImageDuplicate.setVisibility(View.GONE);
+                binding.FrameImageDuplicate.setImageBitmap(null);
+            } else {
+                Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
+            }
+            Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
             triggerShareIntent(new_file);
         }else {
             Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
@@ -1060,11 +1062,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             } else {
                 Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
             }
-            Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
+
 
         }
 
-
+        downloadAndShareApi(DOWLOAD,merged);
     }
 
     //generate custom frame from relative layout
@@ -1151,25 +1153,28 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         AddFavorite= preafManager.getSavedFavorites();
 
         if (AddFavorite!=null) {
+            boolean isImageFound=false;
             for (int i = 0; i < AddFavorite.size(); i++) {
-                Log.e("Fav--",new Gson().toJson(AddFavorite.get(i)));
-                Log.e("Print--",new Gson().toJson(selectedModelFromView));
                 if (isUsingCustomFrame){
                     if (AddFavorite.get(i).isCustom()) {
+                        Log.e("FFF",AddFavorite.get(i).getId()+" "+selectedObject.getId());
                         if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
                             binding.addfabroutIcon.setVisibility(View.VISIBLE);
                             binding.fabroutIcon.setVisibility(View.GONE);
+                            isImageFound=true;
                             break;
                         } else {
                             binding.addfabroutIcon.setVisibility(View.GONE);
                             binding.fabroutIcon.setVisibility(View.VISIBLE);
                         }
                     }
+
                 }else {
                     if (!AddFavorite.get(i).isCustom()) {
                         if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrame1Id().equalsIgnoreCase(selectedBackendFrame.getFrame1Id())) {
                             binding.addfabroutIcon.setVisibility(View.VISIBLE);
                             binding.fabroutIcon.setVisibility(View.GONE);
+                            isImageFound=true;
                             break;
                         } else {
                             binding.addfabroutIcon.setVisibility(View.GONE);
@@ -1177,6 +1182,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         }
                     }
                 }
+
+
+            }
+            if (!isImageFound) {
+                binding.addfabroutIcon.setVisibility(View.GONE);
+                binding.fabroutIcon.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -1789,8 +1800,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-    //API CALLS
-
+    //API CALLS---------------------
 
     //getFrames
     private void getFrame() {
@@ -1798,87 +1808,17 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 Utility.Log("GET_FRAME : ", response);
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
                     JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
                     is_frame = datajsonobjecttt.getString("is_frame");
                     if (is_frame.equals("1")) {
-                        //binding.customFrameRelative.setVisibility(View.GONE);
-                        // Toast.makeText(act,brandListItems.size()+"",Toast.LENGTH_LONG).show();
-                        frameViewPager();
                         is_payment_pending = datajsonobjecttt.getString("is_payment_pending");
                         packagee = datajsonobjecttt.getString("package");
-                        if (packagee.equals("")) {
-                         /*   binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
-                                }
-                            });
-                            binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
-                                }
-                            });*/
-                     /*       binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPackage(act,ResponseHandler.getString(datajsonobjecttt,"package_message"));
-
-                                }
-                            });*/
-
-
-                        } else if (is_payment_pending.equals("1")) {
-
-                          /*  binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
-                                }
-                            });
-                            binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
-                                }
-                            });*/
-                         /*   binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Utility.showAlertForPayment(act,ResponseHandler.getString(datajsonobjecttt,"payment_message"));
-                                }
-                            });*/
-                        }
-                    } else {
-                        LoadDataToUI();
-                        //fetchAutomaticCustomeFrame();
-                        //     binding.customFrameRelative.setVisibility(View.VISIBLE);
-                        //   binding.recoframe.setVisibility(View.GONE);
-                     /*   binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                AlertBoxForSaveFrame();
-                            }
-                        });
-                        binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                AlertBoxForSaveFrame();
-                            }
-                        });*/
-                       /* binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                AlertBoxForSaveFrame();
-                            }
-                        });*/
                     }
+
 
                     CreateTabs();
 
@@ -1926,152 +1866,87 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    //For GetImageCategory
-    private void getAllImages() {
-        Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("GET_IMAGE_CATEGORY : ", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
 
-                    menuModels = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
-
-                    if (menuModels != null && menuModels.size() != 0) {
-                        setAdapter();
-                        binding.shimmerViewContainer.stopShimmer();
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                        binding.viewRecoRecycler.setVisibility(View.VISIBLE);
-                        binding.emptyStateLayout.setVisibility(View.GONE);
-                    }
-                    if (menuModels == null || menuModels.size() == 0) {
-                        binding.emptyStateLayout.setVisibility(View.VISIBLE);
-                        binding.viewRecoRecycler.setVisibility(View.GONE);
-                        binding.shimmerViewContainer.stopShimmer();
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                if (imageList != null)
-                    params.put("image_category_id", imageList.getId());
-                else
-                    params.put("image_category_id", selectedObject.getId());
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
     //For Download,Share and Fav
-    private void downloadAndShareApi(final int download) {
+    private void downloadAndShareApi(final int download,Bitmap customImage) {
+
         Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.DOWNLOAD_SHARE);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.DOWNLOAD_SHARE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.dismissLoadingTran();
-                Utility.Log("DOWNLOAD_SHARE : ", response);
-                if (updateLogo && selectedLogo != null)
-                    uploadLogoForBrand(selectedLogo);
+        File img1File = null;
+        if (customImage != null) {
+            img1File = CodeReUse.createFileFromBitmap(act, "photo.jpeg", customImage);
+        }
+        ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.DOWNLOAD_SHARE)
+                .addHeaders("Accept", "application/json")
+                .addHeaders("Content-Type", "application/json")
+                .addHeaders("Authorization", "Bearer" + preafManager.getUserToken())
+                .setPriority(Priority.HIGH);
 
-                if (download == DOWLOAD) {
-                    //this is coding for can we change logo or not
-                    String usedImageCountStr = preafManager.getActiveBrand().getNo_of_used_image();
-                    if (usedImageCountStr.isEmpty())
-                        usedImageCountStr = "0";
 
-                    int usedCounter = Integer.parseInt(usedImageCountStr) + 1;
-                    BrandListItem brandListItem = preafManager.getActiveBrand();
-                    brandListItem.setNo_of_used_image(String.valueOf(usedCounter));
-                    preafManager.setActiveBrand(brandListItem);
-                    preafManager = new PreafManager(act);
-                    Log.e("UUUU", preafManager.getActiveBrand().getNo_of_used_image() + "s");
-                }
 
+        if (isUsingCustomFrame){
+            request.addMultipartParameter("brand_id",  preafManager.getActiveBrand().getId());
+            request.addMultipartParameter("image_id", selectedObject.getImageid());
+            request.addMultipartParameter("is_custom", "1");
+            if (img1File != null) {
+                request.addMultipartFile("image", img1File);
+                Log.e("br_logo", String.valueOf(img1File));
             }
-        },
-                new Response.ErrorListener() {
+        } else {
+            request.addMultipartParameter("brand_id", preafManager.getActiveBrand().getId());
+            request.addMultipartParameter("image_id", selectedObject.getImageid());
+            request.addMultipartParameter("frame_id", selectedBackendFrame.getFrame1Id());
+            request.addMultipartParameter("is_custom", "0");
+        }
+        request.addMultipartParameter("type", String.valueOf(download));
+
+        request.build().setUploadProgressListener(new UploadProgressListener() {
+            @Override
+            public void onProgress(long bytesUploaded, long totalBytes) {
+                // do anything with progress
+            }
+        })
+                .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onResponse(JSONObject response) {
                         Utility.dismissLoadingTran();
-                        error.printStackTrace();
+                        Utility.Log("DOWNLOAD_SHARE : ", response);
+                        if (updateLogo && selectedLogo != null)
+                            uploadLogoForBrand(selectedLogo);
+
+                        if (download == DOWLOAD) {
+                            //this is coding for can we change logo or not
+                            String usedImageCountStr = preafManager.getActiveBrand().getNo_of_used_image();
+                            if (usedImageCountStr.isEmpty())
+                                usedImageCountStr = "0";
+
+                            int usedCounter = Integer.parseInt(usedImageCountStr) + 1;
+                            BrandListItem brandListItem = preafManager.getActiveBrand();
+                            brandListItem.setNo_of_used_image(String.valueOf(usedCounter));
+                            preafManager.setActiveBrand(brandListItem);
+                            preafManager = new PreafManager(act);
+                            Log.e("UUUU", preafManager.getActiveBrand().getNo_of_used_image() + "s");
+                        }
 
                     }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
-                return params;
-            }
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                if (isUsingCustomFrame){
-                    params.put("brand_id",  preafManager.getActiveBrand().getId());
-                    params.put("image_id", selectedObject.getImageid());
-                    params.put("is_custom", "1");
-                } else {
-                    params.put("brand_id", preafManager.getActiveBrand().getId());
-                    params.put("image_id", selectedObject.getImageid());
-                    params.put("frame_id", selectedBackendFrame.getFrame1Id());
-                    params.put("is_custom", "0");
-                }
-                params.put("type", String.valueOf(download));
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
+                    @Override
+                    public void onError(ANError error) {
+                        isLoading = false;
+                        Utility.dismissLoadingTran();
+                        if (error.getErrorCode() != 0) {
+                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            Log.e("onError errorBody : ", error.getErrorBody());
+                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                        } else {
+                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                        }
+                    }
+                });
     }
+
     //api for access rights
-    private void getImageDownloadRights() {
+    private void getImageDownloadRights(String flag) {
         Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.CUSTOM_FRAME_ACCESS);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.CUSTOM_FRAME_ACCESS, new Response.Listener<String>() {
@@ -2087,7 +1962,14 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         FrameCountForDownload = Integer.parseInt(frameCount);
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
                             canDownload = true;
-                            askForDownloadImage();
+                            if (flag.equalsIgnoreCase("Download"))
+                                askForDownloadImage();
+                            else {
+                                requestAgain();
+                                saveImageToGallery(true);
+
+                            }
+
                         } else {
                             canDownload = false;
                             downloadLimitExpireDialog();
@@ -2140,11 +2022,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
     @Override public boolean onTouchEvent(MotionEvent motionEvent) {
         scaleGestureDetector.onTouchEvent(motionEvent);
         binding.logoCustom.onTouchEvent(motionEvent);
         return true;
     }
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
@@ -2155,6 +2039,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             return true;
         }
     }
+
     //update logo to brand
     private void uploadLogoForBrand(Bitmap img) {
         Utility.showLoadingTran(act);
@@ -2204,4 +2089,5 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 });
 
     }
+
 }

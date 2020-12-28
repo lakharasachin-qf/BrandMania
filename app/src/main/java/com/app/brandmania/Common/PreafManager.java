@@ -3,6 +3,7 @@ package com.app.brandmania.Common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ImageList;
@@ -136,6 +137,7 @@ public class PreafManager
         Gson gson=new Gson();
         String jsonshare=gson.toJson(FavouritImage);
         editor.putString("favouritImage",jsonshare);
+        Log.e("Removed List",gson.toJson(FavouritImage));
         editor.apply();
         editor.commit();
 
@@ -150,7 +152,7 @@ public class PreafManager
         boolean isExits=false;
         int existPos=0;
         for (int i=0;i<FavouritImage.size();i++) {
-            if (!imageList.isCustom()) {
+            if (imageList.isCustom()) {
                 if (imageList.getId().equals(FavouritImage.get(i).getId())) {
                     isExits = true;
                     existPos = i;
@@ -172,6 +174,7 @@ public class PreafManager
       editor.putString("favouritImage",jsonshare);
       editor.apply();
       editor.commit();
+        Log.e("Your List",gson.toJson(FavouritImage));
     }
     public void removeAllSavedFav(){
         editor.putString("favouritImage","");

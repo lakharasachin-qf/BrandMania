@@ -15,6 +15,19 @@ public class DashBoardItem {
     ArrayList<ImageList> imageLists;
     private Links links;
 
+    private boolean isImageFree=false;
+
+    public boolean isImageFree() {
+        return isImageFree;
+    }
+
+    public DashBoardItem setImageFree(boolean imageFree) {
+        isImageFree = imageFree;
+        return this;
+    }
+
+
+
     public ArrayList<DashBoardItem> getDashBoardItems() {
         return dashBoardItems;
     }

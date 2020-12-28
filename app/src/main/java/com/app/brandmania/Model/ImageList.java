@@ -1,5 +1,7 @@
 package com.app.brandmania.Model;
 
+import java.util.ArrayList;
+
 public class ImageList {
     public static final int LAYOUT_IMAGE_CATEGORY = 1;
     public static final int LAYOUT_IMAGE_CATEGORY_BY_ID = 2;
@@ -16,7 +18,38 @@ public class ImageList {
     private String frame1;
     private String frame1Id;
     private boolean isCustom=true;
+    private boolean isImageFree;
+    private Links links;
+    private ArrayList<ImageList> catogaryImagesList;
 
+    public ArrayList<ImageList> getCatogaryImagesList() {
+        return catogaryImagesList;
+    }
+
+    public ImageList setCatogaryImagesList(ArrayList<ImageList> catogaryImagesList) {
+        this.catogaryImagesList = catogaryImagesList;
+        return this;
+    }
+
+    public Links getLinks() {
+        return links;
+    }
+
+    public ImageList setLinks(Links links) {
+        this.links = links;
+        return this;
+    }
+
+    public boolean isImageFree() {
+        return isImageFree;
+    }
+
+    public ImageList setImageFree(boolean imageFree) {
+        isImageFree = imageFree;
+        return this;
+    }
+
+    /// if
     public boolean isCustom() {
         return isCustom;
     }

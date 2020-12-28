@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.ColorPickerAdapter;
+import com.app.brandmania.Adapter.ImageCateItemeInterFace;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.OnlyTextColorPickerAddaptor;
 import com.app.brandmania.Common.PreafManager;
@@ -50,8 +51,16 @@ public class CategoryTab extends FrameTab {
     private ImageList selectedObject;
     private ColorTab context;
     PreafManager preafManager;
+    ImageList apiObject;
     ArrayList<ImageList> menuModels = new ArrayList<>();
     Gson gson;
+    boolean isViewAll=false;
+
+    public CategoryTab setViewAll(boolean viewAll) {
+        isViewAll = viewAll;
+        return this;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,17 +71,24 @@ public class CategoryTab extends FrameTab {
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
        // Toast.makeText(getActivity(),imageList.getId(),Toast.LENGTH_LONG).show();
+        binding.shimmerForPagination.startShimmer();
+        binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory();
         preafManager=new PreafManager(getActivity());
         return binding.getRoot();
     }
+    ImageCategoryAddaptor menuAddaptor;
     public void setAdapter() {
-        ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
+        menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
+        if (isViewAll)
+            ((ImageCateItemeInterFace) act).ImageCateonItemSelection(0, menuModels.get(0));
+
         menuAddaptor.setLayoutType(FROM_VIEWALL);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
         binding.viewRecoRecycler.setLayoutManager(mLayoutManager);
         binding.viewRecoRecycler.setHasFixedSize(true);
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
+        binding.viewRecoRecycler.setVisibility(View.VISIBLE);
     }
     private void getImageCtegory() {
 
@@ -85,11 +101,35 @@ public class CategoryTab extends FrameTab {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    menuModels = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
+                    apiObject = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
+                    if (apiObject.getCatogaryImagesList() != null){
+                        menuModels=apiObject.getCatogaryImagesList();
+                        if (menuModels != null && menuModels.size() != 0) {
+                            setAdapter();
+                        }else {
+                            binding.shimmerForPagination.stopShimmer();
+                            binding.shimmerForPagination.setVisibility(View.GONE);
+                        }
 
-                    if (menuModels != null && menuModels.size() != 0) {
-                        setAdapter();
+
+                        if (apiObject.getLinks() != null) {
+                            if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
+                                binding.shimmerForPagination.startShimmer();
+                                binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                                getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                            }else {
+                                binding.shimmerForPagination.stopShimmer();
+                                binding.shimmerForPagination.setVisibility(View.GONE);
+                            }
+                        }else {
+                            binding.shimmerForPagination.stopShimmer();
+                            binding.shimmerForPagination.setVisibility(View.GONE);
+                        }
+                    }else {
+                        binding.shimmerForPagination.stopShimmer();
+                        binding.shimmerForPagination.setVisibility(View.GONE);
                     }
+
 
 
                 } catch (JSONException e) {
@@ -141,4 +181,89 @@ public class CategoryTab extends FrameTab {
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
+
+
+    private void getImageCtegoryNextPage(String nextPageUrl) {
+        Utility.Log("API : ",nextPageUrl);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    ImageList apiObject = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
+                    if (apiObject.getCatogaryImagesList() != null) {
+                        if (menuModels != null && menuModels.size() != 0) {
+                            int lastPos = menuModels.size();
+                            menuModels.addAll(menuModels.size(), apiObject.getCatogaryImagesList());
+                            menuAddaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
+                            Log.e("GGG",new Gson().toJson(menuModels));
+                        } else {
+                            menuModels = new ArrayList<>();
+                            menuModels.addAll(0, apiObject.getCatogaryImagesList());
+                        }
+                    }
+                    if (apiObject.getLinks() != null) {
+                        Log.e("APIIII", new Gson().toJson(apiObject.getLinks()));
+                        if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
+                            binding.shimmerForPagination.startShimmer();
+                            binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                            getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                        }else {
+                            binding.shimmerForPagination.stopShimmer();
+                            binding.shimmerForPagination.setVisibility(View.GONE);
+                        }
+                    }
+
+                    if (apiObject.getCatogaryImagesList()==null ||apiObject.getCatogaryImagesList().size()==0) {
+                        binding.shimmerForPagination.stopShimmer();
+                        binding.shimmerForPagination.setVisibility(View.GONE);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+//                        String body;
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Load-Get_Exam ", body);
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                if (imageList != null)
+                    params.put("image_category_id", imageList.getId());
+                else
+                    params.put("image_category_id", selectedObject.getId());
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
+
 }

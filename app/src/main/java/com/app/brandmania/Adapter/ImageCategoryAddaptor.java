@@ -109,6 +109,11 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             activity.startActivity(intent);
                         }
                     });
+
+                    if (!model.isImageFree()){
+                        ((ImageCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    }
+
                     break;
                 case LAYOUT_IMAGE_CATEGORY_BY_ID:
 
@@ -128,10 +133,14 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
                             }
                             if (layoutType==FROM_VIEWALL) {
+
                                 ((ImageCateItemeInterFace) activity).ImageCateonItemSelection(position, model);
                             }
                         }
                     });
+                    if (!model.isImageFree()){
+                        ((ImageCategoryByIdHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case LAYOUT_FRAME:
 

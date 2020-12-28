@@ -223,6 +223,9 @@ public class ResponseHandler {
                         model.setName(getString(datajsonObject, "img_cat_name"));
                         model.setDescription(getString(datajsonObject, "img_cat_desc"));
                         model.setTag(getString(datajsonObject, "img_cat_tagd"));
+
+                        model.setImageFree(getString(datajsonObject, "is_cat_free").equalsIgnoreCase("1"));
+
                         JSONArray detailjsonArray = getJSONArray(datajsonObject, "images");
                         ArrayList<ImageList> stringg = null;
                         if (!detailjsonArray.isNull(0) && detailjsonArray.length() != 0) {
@@ -237,7 +240,7 @@ public class ResponseHandler {
                                     data.setImageid(getString(detailjsonobject, "img_id"));
                                     data.setLogo(getString(detailjsonobject, "img_thumb_path"));
                                     data.setFrame(getString(detailjsonobject, "img_path"));
-
+                                    data.setImageFree(getString(detailjsonobject, "is_img_free").equalsIgnoreCase("1"));
                                     stringg.add(data);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -273,7 +276,8 @@ public class ResponseHandler {
 
         return dashBoardItem;
     }
-    public static ArrayList<ImageList> HandleGetImageByIdCategory(JSONObject jsonObject) {
+    public static ImageList HandleGetImageByIdCategory(JSONObject jsonObject) {
+        ImageList imageList=new ImageList();
         ArrayList<ImageList> string = null;
         if (isSuccess(null, jsonObject)) {
             JSONArray datajsonArray = getJSONArray(jsonObject, "data");
@@ -290,15 +294,27 @@ public class ResponseHandler {
                         model.setImageid(getString(datajsonObject, "image_id"));
                         model.setLogo(getString(datajsonObject, "img_thumb_path"));
                         model.setFrame(getString(datajsonObject, "img_path"));
+                        model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
                         string.add(model);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
+
+
             }
+            imageList.setCatogaryImagesList(string);
+            JSONObject linkObj=getJSONObject(jsonObject,"link");
+            Links links=new Links();
+            links.setFirstPage(getString(linkObj,"first_page_url"));
+            links.setLastPageUrl(getString(linkObj,"last_page_url"));
+            links.setNextPageUrl(getString(linkObj,"next_page_url"));
+            links.setPrevPageUrl(getString(linkObj,"prev_page_url"));
+            links.setTotalStr(getString(linkObj,"total"));
+            imageList.setLinks(links);
         }
-        return string;
+        return imageList;
     }
     public static ArrayList<MultiListItem> HandleFaqResponse(JSONObject jsonObject) {
         ArrayList<MultiListItem> strings = null;

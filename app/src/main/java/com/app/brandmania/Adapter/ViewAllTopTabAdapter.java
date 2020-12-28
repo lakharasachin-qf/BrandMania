@@ -18,6 +18,13 @@ import com.app.brandmania.Fragment.top.TextureTab;
 public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
     Context context;
     int totalTabs;
+    boolean isViewAll=false;
+
+    public ViewAllTopTabAdapter setViewAll(boolean viewAll) {
+        isViewAll = viewAll;
+        return this;
+    }
+
     public ViewAllTopTabAdapter(Context c, FragmentManager fm, int totalTabs) {
         super(fm);
         context = c;
@@ -28,6 +35,9 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 CategoryTab categoryTab = new CategoryTab();
+                if (isViewAll)
+                    categoryTab.setViewAll(isViewAll);
+
                 return categoryTab;
             case 1:
                 ColorTab colorTab = new ColorTab();
