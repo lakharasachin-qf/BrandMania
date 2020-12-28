@@ -49,9 +49,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
         this.activityType = activityType;
 
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         context = this;
         binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, container, false);
@@ -180,17 +178,14 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
         FontChanege();
         return binding.getRoot();
     }
-
-    @Override
-    public void onColorItemChange(int colorcode) {
+    @Override public void onColorItemChange(int colorcode) {
 
         binding.colorChose.setBackgroundColor(colorcode);
     }
-
     public void FontChanege() {
         fontModelList = new ArrayList<>();  //initialized list
-        fontModelObject = new FontModel[15];   //Array of model class
-        fontStyle = new String[15];  //Array of String
+        fontModelObject = new FontModel[24];   //Array of model class
+        fontStyle = new String[24];  //Array of String
         fontStyle[0] = "font/inter_bold.otf";
         fontStyle[1] = "font/inter_extrabold.otf";
         fontStyle[2] = "font/inter_medium.otf";
@@ -206,8 +201,19 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
         fontStyle[12] = "font/worksans_medium.ttf";
         fontStyle[13] = "font/worksans_regular.ttf";
         fontStyle[14] = "font/worksans_semibold.ttf";
+        fontStyle[15] = "font/source_serifpro_regular.ttf";
+        fontStyle[16] =  "font/robotomono_regular.ttf";
+        fontStyle[17] = "font/ptsansnarrow_regular.ttf";
+        fontStyle[18] = "font/nunito_regular.ttf";
+        fontStyle[19] = "font/josefinsans_medium.ttf";
+        fontStyle[20] = "font/cabin_variable.ttf";
+        fontStyle[21] = "font/balsamiqsans_regular.ttf";
+        fontStyle[22] = "font/asap_regular.ttf";
+        fontStyle[23] = "font/andika_basic.ttf";
 
-        for (int i = 0; i < 15; i++) {
+
+
+        for (int i = 0; i < 24; i++) {
             fontModelObject[i] = new FontModel();
             fontModelObject[i].setFontFaimly(fontStyle[i]);
             fontModelObject[i].setFontId(fontStyle[i]
@@ -226,15 +232,22 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
                     .replace("inter", "BrandMania")
                     .replace("poppins", "BrandMania")
                     .replace("montserrat", "BrandMania")
+                    .replace("sourceserifpro", "BrandMania")
+                    .replace("robotomono", "BrandMania")
+                    .replace("ptsansnarrow","BrandMania")
+                    .replace("nunito","BrandMania")
+                    .replace("josefinsans","BrandMania")
+                    .replace("cabin_variable","BrandMania")
+                    .replace("balsamiqsans","BrandMania")
+                    .replace("asap","BrandMania")
+                    .replace("andika","BrandMania")
             );
             fontModelList.add(fontModelObject[i]);
         }
         binding.fontRecycler.setLayoutManager(new GridLayoutManager(act, 3));   //set layout
         binding.fontRecycler.setAdapter(new FontListAdeptor(fontModelList, act));    //set Adapter
     }
-
-    @Override
-    public void onColorChanged(int newColor) {
+    @Override public void onColorChanged(int newColor) {
         Log.e("OnColorChoose", String.valueOf(newColor));
         ((IColorChange) act).onChooseColor(newColor);
     }
