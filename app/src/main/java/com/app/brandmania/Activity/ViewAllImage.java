@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -150,7 +151,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     AlertDialog.Builder alertDialogBuilder;
     File new_file;
     private Uri mCropImageUri;
-
+    private ScaleGestureDetector scaleGestureDetector;
+    private float mScaleFactor = 1.0f;
     int editorFragment;
     private int xDelta;
     private int yDelta;
@@ -185,7 +187,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         getAllImages();
-
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
 
@@ -248,6 +250,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     askForUpgradeToEnterpisePackage();
                     return;
                 }
+
+
+
                 getImageDownloadRights();
             }
         });
@@ -1775,8 +1780,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             fiveBinding.element0.setVisibility(View.GONE);
         }
     }
-
-
     //to handle click and drag listener
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
         @Override
@@ -1923,7 +1926,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     //For GetImageCategory
     private void getAllImages() {
         Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
@@ -1995,7 +1997,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     //For Download,Share and Fav
     private void downloadAndShareApi(final int download) {
         Utility.showLoadingTran(act);
@@ -2069,7 +2070,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     //api for access rights
     private void getImageDownloadRights() {
         Utility.showLoadingTran(act);
@@ -2140,7 +2140,21 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
+    @Override public boolean onTouchEvent(MotionEvent motionEvent) {
+        scaleGestureDetector.onTouchEvent(motionEvent);
+        binding.logoCustom.onTouchEvent(motionEvent);
+        return true;
+    }
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+            mScaleFactor *= scaleGestureDetector.getScaleFactor();
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
+            binding.logoCustom.setScaleX(mScaleFactor);
+            binding.logoCustom.setScaleY(mScaleFactor);
+            return true;
+        }
+    }
     //update logo to brand
     private void uploadLogoForBrand(Bitmap img) {
         Utility.showLoadingTran(act);

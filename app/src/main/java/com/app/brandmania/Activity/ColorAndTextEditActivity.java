@@ -106,19 +106,11 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         layoutParams.rightMargin = -250;
         binding.editableImageview.setLayoutParams(layoutParams);
         binding.editableImageview.setOnTouchListener(new View.OnTouchListener() {
-
-
-
-
-
-
-
-
             RelativeLayout.LayoutParams parms;
-    int startwidth;
-    int startheight;
-    float dx = 0, dy = 0, x = 0, y = 0;
-    float angle = 0;
+            int startwidth;
+            int startheight;
+            float dx = 0, dy = 0, x = 0, y = 0;
+            float angle = 0;
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
