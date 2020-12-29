@@ -547,6 +547,7 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
                         sliderItem.setPriceForPay(getString(dataJsonObject, "rate"));
                         sliderItem.setPackageTitle(getString(dataJsonObject, "name"));
                         sliderItem.setTemplateTitle(getString(dataJsonObject, "frame_counter"));
+                        sliderItem.setDuration(getString(dataJsonObject,"duration_id"));
                         sliderItem.setImageTitle(getString(dataJsonObject, "img_counter"));
                         sliderItem.setPayTitle(getString(dataJsonObject, "rate"));
                         JSONArray subPackagejsonArray = getJSONArray(dataJsonObject, "service");

@@ -12,6 +12,17 @@ public class SliderItem {
    private String packageid;
    private String brandId;
 
+   private String duration;
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public SliderItem setDuration(String duration) {
+        this.duration = duration;
+        return this;
+    }
+
     public String getBrandId() {
         return brandId;
     }

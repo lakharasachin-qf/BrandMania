@@ -1,8 +1,5 @@
 package com.app.brandmania.Activity;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -33,6 +33,7 @@ import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityRazorPayBinding;
+import com.app.brandmania.databinding.ItemServiceLayoutBinding;
 import com.google.gson.Gson;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
@@ -82,28 +83,51 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         });
         sliderItem = sliderItemList.getPriceForPay();
 
-        binding.amount.setText("INR " +sliderItem+".00");
-
-        pay=(Button)findViewById(R.id.btn_pay);
-
-        pay.setOnClickListener(new View.OnClickListener() {
+        binding.proceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 generateOrderID();
             }
         });
+
+
+        if (sliderItemList != null) {
+            binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
+            binding.packageNameTxt.setText(sliderItemList.getPackageTitle());
+            binding.durationTxt.setText(sliderItemList.getDuration());
+
+            for (int i=0;i<sliderItemList.getSlideSubItems().size();i++){
+                addDynamicServices(sliderItemList.getSlideSubItems().get(i).getName());
+            }
+
+            //show for one month count
+
+
+            binding.finalAmountTxt.setText(act.getString(R.string.Rs) +sliderItemList.getPriceForPay());
+
+        }
     }
+
+    private void addDynamicServices(String featuresTxt) {
+        ItemServiceLayoutBinding serviceLayoutBinding;
+        serviceLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.item_service_layout, null, false);
+        serviceLayoutBinding.servicesTxt.setText("- "+featuresTxt);
+        binding.servicesContainer.addView(serviceLayoutBinding.getRoot());
+
+    }
+
 
     public void generateOrderID() {
         if (isLoading)
             return;
         isLoading = true;
+        Utility.showLoadingTran(act);
         Utility.Log("APi", APIs.GENERATE_ORDER_ID);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GENERATE_ORDER_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 isLoading = false;
-                Utility.dismissProgress();
+                Utility.dismissLoadingTran();
 
                 Utility.Log("OrderID ; ", response);
 
@@ -122,7 +146,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             @Override
             public void onErrorResponse(VolleyError error) {
                 isLoading = false;
-                Utility.dismissProgress();
+                Utility.dismissLoadingTran();
 
                 Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
 
@@ -247,16 +271,15 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         if (isLoading)
             return;
         isLoading = true;
-        Utility.showProgress(act);
+        Utility.showLoadingTran(act);
         Utility.Log("APi", APIs.MAKE_PAYMENT);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.MAKE_PAYMENT, response -> {
             isLoading = false;
-            Utility.dismissProgress();
+            Utility.dismissLoadingTran();
             Utility.Log("Make-subscription", response);
 
             //{"status":true,"data":"","message":"Subscription Added Successfully."}
             if (ResponseHandler.isSuccess(response, null)) {
-
                 paymentSuccessDiaog();
             } else {
                 JSONObject jsonObject=ResponseHandler.createJsonObject(response);
@@ -266,7 +289,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             @Override
             public void onErrorResponse(VolleyError error) {
                 isLoading = false;
-                Utility.dismissProgress();
+                Utility.dismissLoadingTran();
 
                 Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
 
