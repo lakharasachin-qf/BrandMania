@@ -282,6 +282,7 @@
                     android:layout_centerHorizontal="true"
                     android:ellipsize="marquee"
                     android:focusable="true"
+                    android:visibility="gone"
                     android:focusableInTouchMode="true"
                     android:fontFamily="@font/inter_medium"
                     android:gravity="center"

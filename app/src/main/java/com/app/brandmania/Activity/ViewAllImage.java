@@ -429,8 +429,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     public void CreateTabs(){
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Category")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
 
 
@@ -444,9 +442,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 preafManager.setViewAllActivityIntro(false);
             }
         }
-
-
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frames")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
+
+
 
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -948,9 +948,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
                         case MotionEvent.ACTION_UP:
 
-                            Toast.makeText(act,
-                                    "I'm here!", Toast.LENGTH_SHORT)
-                                    .show();
+//                            Toast.makeText(act, "I'm here!", Toast.LENGTH_SHORT).show();
                             break;
 
                         case MotionEvent.ACTION_MOVE:
@@ -1213,7 +1211,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     //for Text Color change
     @Override public void onColorChanged(int colorCode) {
-        if (editorFragment==2) {
+        if (editorFragment==4) {
             if (footerLayout==1){
                 ChangeTextColorForFrameOne(colorCode);
             }else if (footerLayout==2){
@@ -1233,7 +1231,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     //for background color change
     @Override public void onChooseColor(int colorCode) {
-        if (editorFragment==1){
+        if (editorFragment==3){
             if (footerLayout==1){
                 ChangeBackgroundColorForFrameOne(colorCode);
             }else if (footerLayout==2){
@@ -1604,7 +1602,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     public void ChangeBackgroundColorForFrameFive(int colorCode) {
         fiveBinding.element1.setImageTintList(ColorStateList.valueOf(colorCode));
         fiveBinding.element3.setImageTintList(ColorStateList.valueOf(colorCode));
-        fiveBinding.element2.setBackgroundColor(colorCode);
+        fiveBinding.viewElement2.setBackgroundColor(colorCode);
+
     }
 
     public void ChangeTextColorForFrameFive(int colodCode) {
@@ -1627,6 +1626,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         sixBinding.imgElement2.setImageTintList(ColorStateList.valueOf(colodCode));
         sixBinding.imgElement3.setImageTintList(ColorStateList.valueOf(colodCode));
         sixBinding.textElement1.setTextColor(colodCode);
+        sixBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        sixBinding.contactText.setTextColor(colodCode);
     }
 
     public void loadFrameFirstData() {

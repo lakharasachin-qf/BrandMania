@@ -143,7 +143,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         mTitleContainer = act.findViewById(R.id.main_linearlayout_title);
-        binding.alertText.setSelected(true);
+       // binding.alertText.setSelected(true);
 
         binding.showNotification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -802,31 +802,31 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
                     is_frame= datajsonobjecttt.getString("is_frame");
 
-                    if (is_frame.equals("1")) {
-                      //  Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();
-                        binding.alertRelative.setVisibility(View.GONE);
-                        is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
-                        is_package= datajsonobjecttt.getString("package");
-
-                        if(is_package.equals(""))
-                        {
-                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
-                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
-
-                        }
-                        else if (is_payment_pending.equals("1"))
-                        {
-                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
-                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
-
-                        }
-
-
-                    }
-                    else if (is_frame.equals("0")) {
-                        binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "frame_message"));
-                        binding.contactTxtLayout.setVisibility(View.VISIBLE);
-                    }
+//                    if (is_frame.equals("1")) {
+//                      //  Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();
+//                        binding.alertRelative.setVisibility(View.GONE);
+//                        is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
+//                        is_package= datajsonobjecttt.getString("package");
+//
+//                        if(is_package.equals(""))
+//                        {
+//                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
+//                          //  binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
+//
+//                        }
+//                        else if (is_payment_pending.equals("1"))
+//                        {
+//                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
+//                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
+//
+//                        }
+//
+//
+//                    }
+//                    else if (is_frame.equals("0")) {
+//                        binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "frame_message"));
+//                        binding.contactTxtLayout.setVisibility(View.VISIBLE);
+//                    }
 
 
                 } catch (JSONException e) {

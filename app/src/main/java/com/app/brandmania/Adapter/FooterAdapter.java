@@ -151,13 +151,13 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     }
 
                     if (!activeBrand.getPhonenumber().isEmpty()){
-                        ((FooterHolderOne) holder).binding.contactText.setText(activeBrand.getEmail());
+                        ((FooterHolderOne) holder).binding.contactText.setText(activeBrand.getPhonenumber());
                     }else {
                         ((FooterHolderOne) holder).binding.contactLayout.setVisibility(View.GONE);
                     }
 
                     if (!activeBrand.getAddress().isEmpty()){
-                        ((FooterHolderOne) holder).binding.locationText.setText(activeBrand.getEmail());
+                        ((FooterHolderOne) holder).binding.locationText.setText(activeBrand.getAddress());
                     }else {
                         ((FooterHolderOne) holder).binding.addressLayoutElement.setVisibility(View.GONE);
                     }
@@ -407,6 +407,14 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderSix) holder).binding.elementPremium.setVisibility(View.VISIBLE);
                         ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.GONE);
                     }
+
+                    if (!activeBrand.getPhonenumber().isEmpty()){
+                        ((FooterHolderSix) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                    }else {
+                        ((FooterHolderSix) holder).binding.contactLayout.setVisibility(View.GONE);
+                    }
+
+
                     break;
             }
         }
