@@ -443,8 +443,10 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 startIntro(binding.downloadIcon, "Download", "Download Image From here");
                 preafManager.setViewAllActivityIntro(false);
             }
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frames")));
         }
+
+
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frames")));
 
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -850,36 +852,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-    //show dialog for upgrading package for using all 6 frames
-    public DialogUpgradeLayoutBinding upgradeLayoutBinding;
-    private void triggerUpgradePackage() {
-        upgradeLayoutBinding=DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout, null, false);
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
-        builder.setView(upgradeLayoutBinding.getRoot());
-        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
-        alertDialog.setContentView(upgradeLayoutBinding.getRoot());
 
-        upgradeLayoutBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Intent intent = new Intent(act, PackageActivity.class);
-                act.startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
-        });
-        upgradeLayoutBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-
-        alertDialog.setCancelable(false);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
-
-    }
 
     //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeDownloadLimitExpireBinding expireBinding;
@@ -1789,6 +1762,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             fiveBinding.element0.setVisibility(View.GONE);
         }
     }
+
     //to handle click and drag listener
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
         @Override
@@ -1814,7 +1788,21 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     //API CALLS---------------------
+
 
     //getFrames
     private void getFrame() {

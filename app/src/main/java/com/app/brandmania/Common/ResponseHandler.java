@@ -661,7 +661,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
                         imageItemItem.setLayoutType(ImageList.LAYOUT_FRAME);
                         imageItemItem.setFrame1(ResponseHandler.getString(dataJsonObject, "frame_path"));
                         imageItemItem.setFrame1Id(ResponseHandler.getString(dataJsonObject, "id"));
-
                         strings.add(imageItemItem);
                     } catch (JSONException e) {
                         e.printStackTrace();

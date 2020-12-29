@@ -61,7 +61,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                 }
             });
 
-            if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid())){
+            if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid()) && preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")){
                 holder.packageBtn.setVisibility(View.GONE);
 
                 holder.subcribedBtn.setVisibility(View.VISIBLE);

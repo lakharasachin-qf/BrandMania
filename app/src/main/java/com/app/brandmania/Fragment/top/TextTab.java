@@ -241,6 +241,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
                     .replace("balsamiqsans","BrandMania")
                     .replace("asap","BrandMania")
                     .replace("andika","BrandMania")
+                    .replace("source_serifpro","BrandMania")
             );
             fontModelList.add(fontModelObject[i]);
         }
@@ -249,6 +250,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
     }
     @Override public void onColorChanged(int newColor) {
         Log.e("OnColorChoose", String.valueOf(newColor));
+        binding.colorChose.setBackgroundColor(newColor);
         ((IColorChange) act).onChooseColor(newColor);
     }
 }

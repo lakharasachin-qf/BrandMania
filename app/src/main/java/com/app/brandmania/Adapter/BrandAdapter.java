@@ -211,8 +211,8 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         //payment not done
                         //First- isFrame=0,isPending=1
                         else {
-                            ((BrandHolder) holder).binding.warning.setVisibility(View.VISIBLE);
-                            ((BrandHolder) holder).binding.warning.setText("You haven't selected any package yet!");
+                            ((BrandHolder) holder).binding.warning.setVisibility(View.GONE);
+                            //((BrandHolder) holder).binding.warning.setText("You haven't selected any package yet!");
                             ((BrandHolder) holder).binding.selectPlane.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.view.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.showImage.setVisibility(View.GONE);

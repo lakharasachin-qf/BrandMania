@@ -1,6 +1,10 @@
 package com.app.brandmania.Fragment.top;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +24,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.PackageActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.MenuAddaptor;
 import com.app.brandmania.Adapter.MultiListItem;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Model.BrandListItem;
@@ -32,15 +38,18 @@ import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
 import com.app.brandmania.databinding.FrameTabBinding;
 import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
@@ -51,14 +60,72 @@ public class FrameTab extends Fragment {
     private String is_frame="";
     PreafManager preafManager;
     ArrayList<ImageList> menuModels = new ArrayList<>();
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater,R.layout.frame_tab,container,false);
-        preafManager=new PreafManager(getActivity());
+        preafManager=new PreafManager(Objects.requireNonNull(getActivity()));
         getFrame();
+        binding.subscribePlaneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") &&preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+                    try {
+                        String number = Constant.ADMIN_CONTACT_NUMBER;
+                        String BrandContact="\nRegistered Number: ";
+                        String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:"+ preafManager.getActiveBrand().getName() +BrandContact+preafManager.getMobileNumber();
+                        String toNumber ="91"+number;
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    triggerUpgradePackage();
+                }
+            }
+        });
         return binding.getRoot();
     }
+
+    //show dialog for upgrading package for using all 6 frames
+    public DialogUpgradeLayoutBinding upgradeLayoutBinding;
+    private void triggerUpgradePackage() {
+        upgradeLayoutBinding=DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(upgradeLayoutBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(upgradeLayoutBinding.getRoot());
+        if (!preafManager.getActiveBrand().getPackagename().isEmpty())
+            upgradeLayoutBinding.element4.setText("Currently you are subscribed with \""+preafManager.getActiveBrand().getPackagename()+"\" package");
+        else
+            upgradeLayoutBinding.element4.setText("Currently you are subscribed with \"Free\" package");
+
+        upgradeLayoutBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+                    Intent intent = new Intent(act, PackageActivity.class);
+                    act.startActivity(intent);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+
+            }
+        });
+        upgradeLayoutBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+    }
+
 
     public void setAdapterFrame() {
         ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
@@ -75,15 +142,18 @@ public class FrameTab extends Fragment {
             public void onResponse(String response) {
 
                 Utility.Log("GET_FRdsdAME : ", response);
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     menuModels = ResponseHandler.HandleGetFrameList(jsonObject);
-                    ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
-                    RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
-                    binding.frameRecycler.setLayoutManager(mLayoutManager);
-                    binding.frameRecycler.setHasFixedSize(true);
-                    binding.frameRecycler.setAdapter(menuAddaptor);
+                    if (menuModels!=null && menuModels.size()!=0 && jsonObject.getJSONObject("data").getString("is_frame").equalsIgnoreCase("1")) {
+                        ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
+                        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
+                        binding.frameRecycler.setLayoutManager(mLayoutManager);
+                        binding.frameRecycler.setHasFixedSize(true);
+                        binding.frameRecycler.setAdapter(menuAddaptor);
+                    }else {
+                        binding.frameRecycler.setVisibility(View.GONE);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -129,4 +199,5 @@ public class FrameTab extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
 }

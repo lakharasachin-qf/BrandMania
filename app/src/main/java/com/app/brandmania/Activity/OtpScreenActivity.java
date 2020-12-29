@@ -276,6 +276,10 @@ public class OtpScreenActivity extends BaseActivity implements  alertListenerCal
                 preafManager.loginStep("2");
                 if (ResponseHandler.isSuccess(response, null)) {
                     binding.CouterText.setVisibility(View.VISIBLE);
+                    binding.otpOne.setText("");
+                    binding.otpTwo.setText("");
+                    binding.otpThree.setText("");
+                    binding.otpFour.setText("");
                     counter();
                 } else {
                     JSONObject responseJson = ResponseHandler.createJsonObject(response);

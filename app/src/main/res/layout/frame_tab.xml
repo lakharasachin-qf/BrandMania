@@ -4,12 +4,48 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/frameRecycler"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:nestedScrollingEnabled="false"
+                    android:id="@+id/frameRecycler"
+                    android:layout_width="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/_30sdp"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:layout_below="@+id/frameRecycler"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="visible"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:backgroundTint="@color/colorthird"
+                    android:gravity="center"
+                    android:background="@drawable/buttoncornar"
+                    android:id="@+id/subscribePlaneBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_28sdp"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Reuqest For Frame"
+                    android:textColor="#FFF"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_10sdp"
+                    />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
 </layout>

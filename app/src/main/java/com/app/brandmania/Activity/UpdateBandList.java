@@ -128,8 +128,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             Glide.with(act).load(listModel.getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
             Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
         }
-        if (listModel.getNo_of_used_image().isEmpty() || listModel.getNo_of_used_image().equalsIgnoreCase("0")) {
 
+        if (listModel.getNo_of_used_image().isEmpty() || listModel.getNo_of_used_image().equalsIgnoreCase("0") || listModel.getLogo().isEmpty()) {
             binding.viewImgFirst.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

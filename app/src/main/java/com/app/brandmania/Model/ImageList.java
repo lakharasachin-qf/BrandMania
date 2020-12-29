@@ -21,6 +21,16 @@ public class ImageList {
     private boolean isImageFree;
     private Links links;
     private ArrayList<ImageList> catogaryImagesList;
+    private String isFrame;
+
+    public String getIsFrame() {
+        return isFrame;
+    }
+
+    public ImageList setIsFrame(String isFrame) {
+        this.isFrame = isFrame;
+        return this;
+    }
 
     public ArrayList<ImageList> getCatogaryImagesList() {
         return catogaryImagesList;
