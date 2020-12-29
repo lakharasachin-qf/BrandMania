@@ -47,7 +47,7 @@
                 android:layout_below="@+id/element0"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginBottom="@dimen/_4sdp"
-                android:background="#B1B1B1" />
+                android:background="@color/colorPrimary" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -1531,7 +1531,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setItalicText(sixBinding.textElement1, true);
             }
 
-        } else {
+        }
+        else {
             if (footerLayout == 1) {
                 Utility.setItalicText(oneBinding.gmailText, false);
                 Utility.setItalicText(oneBinding.contactText, false);
@@ -1598,6 +1599,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         twoBinding.locationText.setTextColor(colodCode);
 
     }
+
     public void ChangeTextColorForFrameThree(int colodCode){
         threeBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
         threeBinding.gmailText.setTextColor(colodCode);
@@ -1629,7 +1631,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     public void ChangeBackgroundColorForFrameFive(int colorCode) {
         fiveBinding.element1.setImageTintList(ColorStateList.valueOf(colorCode));
         fiveBinding.element3.setImageTintList(ColorStateList.valueOf(colorCode));
-
+        fiveBinding.element2.setBackgroundColor(colorCode);
     }
 
     public void ChangeTextColorForFrameFive(int colodCode) {
@@ -1795,6 +1797,22 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
     }
 
+    //zoom Logo
+    @Override public boolean onTouchEvent(MotionEvent motionEvent) {
+        scaleGestureDetector.onTouchEvent(motionEvent);
+        binding.logoCustom.onTouchEvent(motionEvent);
+        return true;
+    }
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+            mScaleFactor *= scaleGestureDetector.getScaleFactor();
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
+            binding.logoCustom.setScaleX(mScaleFactor);
+            binding.logoCustom.setScaleY(mScaleFactor);
+            return true;
+        }
+    }
 
     //API CALLS---------------------
 
@@ -2017,23 +2035,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
-    }
-
-    @Override public boolean onTouchEvent(MotionEvent motionEvent) {
-        scaleGestureDetector.onTouchEvent(motionEvent);
-        binding.logoCustom.onTouchEvent(motionEvent);
-        return true;
-    }
-
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-            mScaleFactor *= scaleGestureDetector.getScaleFactor();
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
-            binding.logoCustom.setScaleX(mScaleFactor);
-            binding.logoCustom.setScaleY(mScaleFactor);
-            return true;
-        }
     }
 
     //update logo to brand
