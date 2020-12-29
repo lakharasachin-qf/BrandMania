@@ -128,6 +128,7 @@ public class ViewBrandActivity extends BaseActivity {
 
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                    Log.e("SSS",new Gson().toJson(multiListItems));
                     if (multiListItems != null && multiListItems.size() != 0) {
                         GetBrandAddaptor();
                         binding.shimmerViewContainer.stopShimmer();

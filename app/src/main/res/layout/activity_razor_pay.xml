@@ -19,19 +19,21 @@
 
         <RelativeLayout
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
             android:id="@+id/main_linearlayout_title"
             android:elevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_70sdp">
+
             <ImageView
                 android:layout_width="23dp"
                 android:layout_height="23dp"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:id="@+id/BackButtonMember"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/ic_left_arrow"></ImageView>
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_left_arrow" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +42,7 @@
                 android:text="Payment"
                 android:textColor="@color/colorNavText"
                 android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold" />
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -54,153 +56,194 @@
 
     </ImageView>
 
-    <LinearLayout
-        android:layout_below="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_40sdp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_30sdp"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/my_toolbar">
 
-        <RelativeLayout
-            android:background="@color/colorNavText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
-            >
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:orientation="vertical">
 
-            <LinearLayout
+
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                >
-
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
                 <TextView
-                    android:visibility="gone"
+                    android:id="@+id/packageNameTxt"
+                    android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:paddingBottom="0dp"
-                    android:fontFamily="@font/inter_semibold"
-                    android:textColor="@color/colorthird"
-                    android:textSize="@dimen/_12sdp"
-                    android:text="Order #RZP42"
-                    />
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Basic"
+                    android:textSize="@dimen/_15sdp" />
+                <TextView
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/durationTxt"
+                    android:layout_height="wrap_content"
+                     android:fontFamily="@font/inter_regular"
+                    android:textStyle="bold"
+                    android:text="Per Year"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="@dimen/_10sdp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="#B1B1B1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:fontFamily="@font/inter_regular"
+                android:text="Features:"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/servicesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerHorizontal="true"
-                android:background="@color/colorthird"
-                android:src="@drawable/rzp"
-                />
 
-        </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:background="#B1B1B1" />
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="15dp"
-            android:background="@color/colorthird"
-            android:gravity="center"
-            >
+            <RelativeLayout
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/element1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Price"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/actualPriceTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="299"
+                    android:textSize="@dimen/_11sdp" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/element2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                 android:background="#B1B1B1" />
+
+            <RelativeLayout
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Discount"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/discountedAmountTxt"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="299"
+                    android:textSize="@dimen/_11sdp" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/element3"
+
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#B1B1B1" />
+
+            <RelativeLayout
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/inter_bold"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:text="Final Amount"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/finalAmountTxt"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="299"
+                    android:textSize="@dimen/_11sdp" />
+            </RelativeLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="0dp"
-                android:paddingBottom="5dp"
-                android:fontFamily="@font/inter_semibold"
-                android:textColor="@color/colorNavText"
-                android:textSize="@dimen/_15sdp"
-                android:text="Brand mania"
-                />
-
-            <TextView
-                android:id="@+id/amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
+                android:layout_height="@dimen/_28sdp"
+                android:id="@+id/proceedToPayment"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:background="@drawable/buttoncornar"
+                android:backgroundTint="@color/colorthird"
                 android:fontFamily="@font/inter_regular"
-                android:textColor="@color/colorNavText"
-                android:textSize="@dimen/_12sdp"
-                android:text="INR 1.00"
-                />
+                android:gravity="center"
+                android:paddingStart="@dimen/_25sdp"
+                android:paddingEnd="@dimen/_25sdp"
+                android:text="Proceed"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#FFF"
+                android:textSize="@dimen/_10sdp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="0dp"
-                android:textSize="12sp"
-                android:textStyle="italic"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textColor="@android:color/holo_red_dark"
-                android:gravity="center_horizontal"
-                android:text="Transaction is for testing purpose and your deducted amount will get refunded in 3-5 business days "
-                />
 
-            <TextView
-                android:id="@+id/txt_privacy_policy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="0dp"
-                android:textSize="12sp"
-                android:textStyle="italic"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textColor="@android:color/holo_red_dark"
-                android:gravity="center_horizontal"
-                android:text="Privacy Policy"
-                />
-
-            <Button
-                android:id="@+id/btn_pay"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_gravity="center_horizontal"
-                android:paddingRight="20dp"
-                android:paddingLeft="20dp"
-                android:background="@drawable/green_button"
-                android:textSize="14sp"
-                android:textColor="#fcfcfc"
-                android:text="Purchase"
-                />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="italic"
-            android:text="Secure Payments by Razorpay"
-            />
 
-    </LinearLayout>
-
+    </ScrollView>
 </RelativeLayout>
 </layout>
