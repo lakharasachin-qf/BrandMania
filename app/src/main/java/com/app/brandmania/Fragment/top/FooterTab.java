@@ -94,6 +94,35 @@ public class FooterTab extends Fragment {
         setData(model);
 
 
+        model=new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
+        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+            model.setFree(true);
+        }
+        setData(model);
+
+        model=new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_EIGHT);
+        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+            model.setFree(true);
+        }
+        setData(model);
+
+
+        model=new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_NINE);
+        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+            model.setFree(true);
+        }
+        setData(model);
+
+        model=new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_TEN);
+        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+            model.setFree(true);
+        }
+        setData(model);
+
 
         FooterAdapter footerAdapter = new FooterAdapter(footerModels, act);
         FooterAdapter.onFooterListener onFooterListener=new FooterAdapter.onFooterListener() {

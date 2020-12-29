@@ -18,19 +18,27 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ItemFooterEightBinding;
 import com.app.brandmania.databinding.ItemFooterFiveBinding;
 import com.app.brandmania.databinding.ItemFooterFourBinding;
 import com.app.brandmania.databinding.ItemFooterLayoutSixBinding;
+import com.app.brandmania.databinding.ItemFooterNineBinding;
 import com.app.brandmania.databinding.ItemFooterOneBinding;
+import com.app.brandmania.databinding.ItemFooterSevenBinding;
+import com.app.brandmania.databinding.ItemFooterTenBinding;
 import com.app.brandmania.databinding.ItemFooterThreeBinding;
 import com.app.brandmania.databinding.ItemFooterTwoBinding;
 
 import java.util.ArrayList;
 
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_EIGHT;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FIVE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FOUR;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_NINE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_ONE;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SEVEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SIX;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_THREE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWO;
 import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
@@ -81,13 +89,28 @@ public class FooterAdapter extends RecyclerView.Adapter{
             case LAYOUT_FRAME_SIX   :
                 ItemFooterLayoutSixBinding itemFooterLayoutSixBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_layout_six, viewGroup, false);
                 return new FooterHolderSix(itemFooterLayoutSixBinding);
+            case LAYOUT_FRAME_SEVEN   :
+                ItemFooterSevenBinding itemFooterSevenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_seven, viewGroup, false);
+                return new FooterHolderSeven(itemFooterSevenBinding);
+            case LAYOUT_FRAME_EIGHT   :
+                ItemFooterEightBinding itemFooterEightBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_eight, viewGroup, false);
+                return new FooterHolderEight(itemFooterEightBinding);
+            case LAYOUT_FRAME_NINE   :
+                ItemFooterNineBinding itemFooterNineBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_nine, viewGroup, false);
+                return new FooterHolderNine(itemFooterNineBinding);
+
+            case LAYOUT_FRAME_TEN   :
+                ItemFooterTenBinding itemFooterTenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_ten, viewGroup, false);
+
+                return new FooterHolderTen(itemFooterTenBinding);
+
+
+
         }
         return null;
 
     }
     @Override public int getItemViewType(int position) {
-        if (position == footerModels.size() - 1 && isLoadingAdded)
-            return LAYOUT_LOADING;
         switch (footerModels.get(position).getLayoutType()) {
             case 1:
                 return LAYOUT_FRAME_ONE;
@@ -101,8 +124,16 @@ public class FooterAdapter extends RecyclerView.Adapter{
                 return LAYOUT_FRAME_FIVE;
             case 6:
                 return LAYOUT_FRAME_SIX;
+            case 7:
+                return LAYOUT_FRAME_SEVEN;
+            case 8:
+                return LAYOUT_FRAME_EIGHT;
+            case 9:
+                return LAYOUT_FRAME_NINE;
 
-            default:
+            case 10:
+                return LAYOUT_FRAME_TEN;
+                default:
                 return -1;
         }
 
@@ -416,6 +447,208 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
 
                     break;
+
+                    case LAYOUT_FRAME_SEVEN:
+                    ((FooterHolderSeven) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    if (checkedPosition == position) {
+                        ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    } else {
+                        ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    if (!model.isFree()) {
+                        ((FooterHolderSeven) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                        ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    if (!activeBrand.getPhonenumber().isEmpty()){
+                        ((FooterHolderSeven) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                    }else {
+                        ((FooterHolderSeven) holder).binding.contactLayout.setVisibility(View.GONE);
+                    }
+
+
+                    if (!activeBrand.getEmail().isEmpty()){
+                        ((FooterHolderSeven) holder).binding.gmailText.setText(activeBrand.getEmail());
+                    }else {
+                        ((FooterHolderSeven) holder).binding.gmailLayout.setVisibility(View.GONE);
+                    }
+                        if (!activeBrand.getName().isEmpty()){
+                            ((FooterHolderSeven) holder).binding.brandNameText.setText(activeBrand.getName());
+                        }else {
+                            ((FooterHolderSeven) holder).binding.brandNameText.setVisibility(View.GONE);
+                        }
+
+                    break;
+
+                case LAYOUT_FRAME_EIGHT:
+                    ((FooterHolderEight) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                ((FooterHolderEight) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                ((FooterHolderEight) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    if (checkedPosition == position) {
+                        ((FooterHolderEight) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    } else {
+                        ((FooterHolderEight) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    if (!model.isFree()) {
+                        ((FooterHolderEight) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                        ((FooterHolderEight) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    if (!activeBrand.getPhonenumber().isEmpty()){
+                        ((FooterHolderEight) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                    }else {
+                        ((FooterHolderEight) holder).binding.contactLayout.setVisibility(View.GONE);
+                    }
+
+
+                    if (!activeBrand.getEmail().isEmpty()){
+                        ((FooterHolderEight) holder).binding.gmailText.setText(activeBrand.getEmail());
+                    }else {
+                        ((FooterHolderEight) holder).binding.gmailLayout.setVisibility(View.GONE);
+                    }
+
+                    if (!activeBrand.getAddress().isEmpty()){
+                        ((FooterHolderEight) holder).binding.locationText.setText(activeBrand.getAddress());
+                    }else {
+                        ((FooterHolderEight) holder).binding.addressLayoutElement.setVisibility(View.GONE);
+                    }
+                    if (!activeBrand.getName().isEmpty()){
+                        ((FooterHolderEight) holder).binding.brandNameText.setText(activeBrand.getName());
+                    }else {
+                        ((FooterHolderEight) holder).binding.addressLayoutElement.setVisibility(View.GONE);
+                    }
+
+
+                    break;
+
+
+                case LAYOUT_FRAME_NINE:
+                    ((FooterHolderNine) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    if (checkedPosition == position) {
+                        ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    } else {
+                        ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    if (!model.isFree()) {
+                        ((FooterHolderNine) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                        ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    if (!activeBrand.getPhonenumber().isEmpty()){
+                        ((FooterHolderNine) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                    }else {
+                        ((FooterHolderNine) holder).binding.contactText.setVisibility(View.GONE);
+                    }
+
+
+                    if (!activeBrand.getEmail().isEmpty()){
+                        ((FooterHolderNine) holder).binding.gmailText.setText(activeBrand.getEmail());
+                    }else {
+                        ((FooterHolderNine) holder).binding.gmailText.setVisibility(View.GONE);
+                    }
+
+
+                    if (!activeBrand.getName().isEmpty()){
+                        ((FooterHolderNine) holder).binding.brandNameText.setText(activeBrand.getName());
+                    }else {
+                        ((FooterHolderNine) holder).binding.brandNameText.setVisibility(View.GONE);
+                    }
+
+
+                    break;
+
+
+                case LAYOUT_FRAME_TEN:
+                    ((FooterHolderTen) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    if (checkedPosition == position) {
+                        ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                    } else {
+                        ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    if (!model.isFree()) {
+                        ((FooterHolderTen) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                        ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+
+                    if (!activeBrand.getPhonenumber().isEmpty()){
+                        ((FooterHolderTen) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                    }else {
+                        ((FooterHolderTen) holder).binding.contactText.setVisibility(View.GONE);
+                        ((FooterHolderTen) holder).binding.callImage.setVisibility(View.GONE);
+                    }
+
+
+                    if (!activeBrand.getEmail().isEmpty()){
+                        ((FooterHolderTen) holder).binding.gmailText.setText(activeBrand.getEmail());
+                    }else {
+                        ((FooterHolderTen) holder).binding.gmailText.setVisibility(View.GONE);
+                        ((FooterHolderTen) holder).binding.gmailImage.setVisibility(View.GONE);
+                    }
+
+                    if (!activeBrand.getAddress().isEmpty()){
+                        ((FooterHolderTen) holder).binding.locationText.setText(activeBrand.getAddress());
+                    }else {
+                        ((FooterHolderTen) holder).binding.locationText.setVisibility(View.GONE);
+                        ((FooterHolderTen) holder).binding.locationImage.setVisibility(View.GONE);
+                    }
+
+
+                    break;
+
             }
         }
     }
@@ -484,4 +717,43 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
         }
     }
+    static class FooterHolderSeven extends RecyclerView.ViewHolder {
+        ItemFooterSevenBinding binding;
+
+        FooterHolderSeven(ItemFooterSevenBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+    static class FooterHolderEight extends RecyclerView.ViewHolder {
+        ItemFooterEightBinding binding;
+
+        FooterHolderEight(ItemFooterEightBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+    static class FooterHolderNine extends RecyclerView.ViewHolder {
+        ItemFooterNineBinding binding;
+
+        FooterHolderNine(ItemFooterNineBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+    static class FooterHolderTen extends RecyclerView.ViewHolder {
+        ItemFooterTenBinding binding;
+
+        FooterHolderTen(ItemFooterTenBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+
+
+
 }

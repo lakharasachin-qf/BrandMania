@@ -7,6 +7,10 @@ public class FooterModel {
     public static final int LAYOUT_FRAME_FOUR=4;
     public static final int LAYOUT_FRAME_FIVE=5;
     public static final int LAYOUT_FRAME_SIX=6;
+    public static final int LAYOUT_FRAME_SEVEN=7;
+    public static final int LAYOUT_FRAME_EIGHT=8;
+    public static final int LAYOUT_FRAME_NINE=9;
+    public static final int LAYOUT_FRAME_TEN=10;
     public static final int LAYOUT_LOADING = 33;
     private int layoutType;
     private String emailId;
@@ -32,6 +36,25 @@ public class FooterModel {
     }
     public static int getLayoutFrameFour() {
         return LAYOUT_FRAME_FOUR;
+    }
+
+    public static int getLayoutFrameSix() {
+        return LAYOUT_FRAME_SIX;
+    }
+
+
+    public static int getLayoutFrameSeven() {
+        return LAYOUT_FRAME_SEVEN;
+    }
+    public static int getLayoutFrameEight() {
+        return LAYOUT_FRAME_EIGHT;
+    }
+    public static int getLayoutFrameNine() {
+        return LAYOUT_FRAME_NINE;
+    }
+
+    public static int getLayoutFrameTen() {
+        return LAYOUT_FRAME_TEN;
     }
 
     public boolean isFree() {

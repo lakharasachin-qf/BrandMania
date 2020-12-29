@@ -14,16 +14,14 @@
             app:cardElevation="@dimen/_4sdp"
             app:cardUseCompatPadding="true">
 
+
             <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical">
-
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
                 <TextView
                     android:layout_marginTop="@dimen/_10sdp"
-                   android:layout_centerHorizontal="true"
+                    android:layout_centerHorizontal="true"
                     android:id="@+id/brandNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -36,107 +34,76 @@
                     android:textSize="@dimen/_10sdp" />
 
                 <RelativeLayout
-                    android:id="@+id/element0"
-
-                    android:layout_centerHorizontal="true"
                     android:layout_below="@+id/brandNameText"
-                    android:paddingStart="@dimen/_7sdp"
-                    android:paddingEnd="@dimen/_7sdp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <RelativeLayout
-                        android:id="@+id/gmailLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_centerVertical="true"
-                        android:visibility="visible">
-
-                        <ImageView
-                            android:id="@+id/gmailImage"
-                            android:layout_width="@dimen/_12sdp"
-                            android:layout_height="@dimen/_12sdp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginTop="@dimen/_1sdp"
-                            android:src="@drawable/ic_outline_mail_24" />
-
-                        <TextView
-                            android:id="@+id/gmailText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/_5sdp"
-                            android:layout_toEndOf="@+id/gmailImage"
-                            android:includeFontPadding="false"
-                            android:padding="0dp"
-                            android:singleLine="true"
-                            android:text="qfsolution@gmail.com"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_8sdp" />
-
-                    </RelativeLayout>
-                    <View
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="@dimen/_2sdp"
-                        android:id="@+id/element"
-                        android:background="@color/colorPrimary"
-                        android:layout_toEndOf="@+id/gmailLayout"
-                        android:layout_centerVertical="true"
-                        android:layout_width="@dimen/_1sdp"
-                        android:layout_height="@dimen/_13sdp"
-                    ></View>
-                    <RelativeLayout
-                        android:layout_marginLeft="@dimen/_2sdp"
-                       android:layout_toRightOf="@+id/element"
-                        android:id="@+id/contactLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_20sdp"
-
-                        android:layout_centerVertical="true">
-
-                        <ImageView
-                            android:id="@+id/contactImage"
-                            android:layout_width="@dimen/_12sdp"
-                            android:layout_height="@dimen/_12sdp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginTop="@dimen/_1sdp"
-                            android:src="@drawable/ic_outline_call_24" />
-
-                        <TextView
-                            android:id="@+id/contactText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/_5sdp"
-                            android:layout_toEndOf="@+id/contactImage"
-                            android:includeFontPadding="false"
-                            android:padding="0dp"
-                            android:singleLine="true"
-
-                            android:text="8849896537"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_8sdp" />
-
-                    </RelativeLayout>
-                </RelativeLayout>
-                <LinearLayout
-                    android:layout_below="@+id/element0"
+                   android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
+                    <TextView
+                        android:id="@+id/gmailText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_toEndOf="@+id/gmailImage"
+                        android:includeFontPadding="false"
+                        android:padding="0dp"
+                        android:singleLine="true"
+                        android:text="qfsolution@gmail.com"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_8sdp" />
 
+
+
+                    <View
+
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:id="@+id/element"
+                        android:background="@color/colorPrimary"
+                        android:layout_toEndOf="@+id/gmailText"
+                        android:layout_centerVertical="true"
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        ></View>
+                    <TextView
+
+                        android:id="@+id/contactText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_toEndOf="@+id/element"
+                        android:includeFontPadding="false"
+                        android:padding="0dp"
+                        android:singleLine="true"
+
+                        android:text="8849896537"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_8sdp" />
+                    <View
+
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:id="@+id/element0"
+                        android:background="@color/colorPrimary"
+                        android:layout_toEndOf="@+id/contactText"
+                        android:layout_centerVertical="true"
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        ></View>
                     <ImageView
                         android:id="@+id/imgElement1"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:padding="@dimen/_4sdp"
+                        android:layout_toEndOf="@+id/element0"
                         android:src="@drawable/ic_social_media_facebook"
                         app:tint="@color/colorPrimary" />
 
                     <ImageView
+                        android:layout_toEndOf="@+id/imgElement1"
                         android:id="@+id/imgElement2"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
@@ -145,14 +112,16 @@
                         app:tint="@color/colorPrimary" />
 
                     <ImageView
+                        android:layout_toEndOf="@+id/imgElement2"
                         android:id="@+id/imgElement3"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_social_media_whatsapp"
                         app:tint="@color/colorPrimary" />
-                </LinearLayout>
-            </RelativeLayout>
+                </RelativeLayout>
+          </RelativeLayout>
+
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:id="@+id/elementSelected"

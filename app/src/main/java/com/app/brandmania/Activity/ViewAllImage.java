@@ -83,10 +83,14 @@ import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
+import com.app.brandmania.databinding.LayoutForLoadEightBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
 import com.app.brandmania.databinding.LayoutForLoadFourBinding;
+import com.app.brandmania.databinding.LayoutForLoadNineBinding;
 import com.app.brandmania.databinding.LayoutForLoadOneBinding;
+import com.app.brandmania.databinding.LayoutForLoadSevenBinding;
 import com.app.brandmania.databinding.LayoutForLoadSixBinding;
+import com.app.brandmania.databinding.LayoutForLoadTenBinding;
 import com.app.brandmania.databinding.LayoutForLoadThreeBinding;
 import com.app.brandmania.databinding.LayoutForLoadTwoBinding;
 import com.bumptech.glide.Glide;
@@ -1167,6 +1171,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private LayoutForLoadFourBinding fourBinding;
     private LayoutForLoadFiveBinding fiveBinding;
     private LayoutForLoadSixBinding sixBinding;
+    private LayoutForLoadSevenBinding sevenBinding;
+    private LayoutForLoadEightBinding eightBinding;
+    private LayoutForLoadNineBinding nineBinding;
+    private LayoutForLoadTenBinding tenBinding;
+
 
     private void addDynamicFooter(int layoutType) {
         binding.elementFooter.removeAllViews();
@@ -1200,6 +1209,30 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
             binding.elementFooter.addView(sixBinding.getRoot());
 
+
+        }
+        else if (layoutType== FooterModel.LAYOUT_FRAME_SEVEN) {
+            sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
+            binding.elementFooter.addView(sevenBinding.getRoot());
+            loadFrameSevenData();
+
+        }
+        else if (layoutType== FooterModel.LAYOUT_FRAME_EIGHT) {
+            eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
+            binding.elementFooter.addView(eightBinding.getRoot());
+            loadFrameEightData();
+
+        }
+        else if (layoutType== FooterModel.LAYOUT_FRAME_NINE) {
+            nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
+            binding.elementFooter.addView(nineBinding.getRoot());
+            loadFrameNineData();
+
+        }
+        else if (layoutType== FooterModel.LAYOUT_FRAME_TEN) {
+            tenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_ten, null, false);
+            binding.elementFooter.addView(tenBinding.getRoot());
+            loadFrameTenData();
         }
     }
 
@@ -1225,6 +1258,18 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }else if (footerLayout==6){
                 ChangeTextColorForFrameSix(colorCode);
             }
+            else if (footerLayout==7){
+                ChangeTextColorForFrameSeven(colorCode);
+            }
+            else if (footerLayout==8){
+                ChangeTextColorForFrameEight(colorCode);
+            }
+            else if (footerLayout==9){
+                ChangeTextColorForFrameNine(colorCode);
+            }
+            else if (footerLayout==10){
+                ChangeTextColorForFrameTen(colorCode);
+            }
         }
 
     }
@@ -1244,6 +1289,18 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 ChangeBackgroundColorForFrameFive(colorCode);
             }else if (footerLayout==6){
                 ChangeBackgroundColorForFrameSix(colorCode);
+            }
+            else if (footerLayout==7){
+                ChangeBackgroundColorForFrameSeven(colorCode);
+            }
+            else if (footerLayout==8){
+                ChangeBackgroundColorForFrameEight(colorCode);
+            }
+            else if (footerLayout==9){
+                ChangeBackgroundColorForFrameNine(colorCode);
+            }
+            else if (footerLayout==10){
+                ChangeBackgroundColorForFrameTen(colorCode);
             }
         }
 
@@ -1284,7 +1341,40 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 sixBinding.textElement1.setTypeface(custom_font);
 
             }
-    }
+            else if (footerLayout==7) {
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                sevenBinding.brandNameText.setTypeface(custom_font);
+                sevenBinding.gmailText.setTypeface(custom_font);
+                sevenBinding.contactText.setTypeface(custom_font);
+
+
+            }
+            else if (footerLayout==8) {
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                eightBinding.brandNameText.setTypeface(custom_font);
+                eightBinding.gmailText.setTypeface(custom_font);
+                eightBinding.contactText.setTypeface(custom_font);
+                eightBinding.locationText.setTypeface(custom_font);
+
+
+            }
+            else if (footerLayout==9) {
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                nineBinding.brandNameText.setTypeface(custom_font);
+                nineBinding.gmailText.setTypeface(custom_font);
+                nineBinding.contactText.setTypeface(custom_font);
+
+
+            }
+            else if (footerLayout==10) {
+                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+                tenBinding.locationText.setTypeface(custom_font);
+                tenBinding.gmailText.setTypeface(custom_font);
+                tenBinding.contactText.setTypeface(custom_font);
+
+
+            }
+               }
 
     //for underline
     @Override public void onUnderLineItalic(boolean Left) {
@@ -1322,6 +1412,38 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setUnderlineText(sixBinding.textElement1, true);
 
             }
+            else if (footerLayout==6) {
+                Utility.setUnderlineText(sevenBinding.brandNameText, true);
+                Utility.setUnderlineText(sevenBinding.gmailText, true);
+                Utility.setUnderlineText(sevenBinding.contactText, true);
+            }
+
+            else if (footerLayout==7) {
+                Utility.setUnderlineText(sevenBinding.brandNameText, true);
+                Utility.setUnderlineText(sevenBinding.gmailText, true);
+                Utility.setUnderlineText(sevenBinding.contactText, true);
+            }
+
+            else if (footerLayout==8) {
+                Utility.setUnderlineText(eightBinding.brandNameText, true);
+                Utility.setUnderlineText(eightBinding.gmailText, true);
+                Utility.setUnderlineText(eightBinding.contactText, true);
+                Utility.setUnderlineText(eightBinding.locationText, true);
+            }
+
+            else if (footerLayout==9) {
+                Utility.setUnderlineText(nineBinding.brandNameText, true);
+                Utility.setUnderlineText(nineBinding.gmailText, true);
+                Utility.setUnderlineText(nineBinding.contactText, true);
+
+            }
+            else if (footerLayout==10) {
+
+                Utility.setUnderlineText(tenBinding.gmailText, true);
+                Utility.setUnderlineText(tenBinding.contactText, true);
+                Utility.setUnderlineText(tenBinding.locationText, true);
+            }
+
         }
         else {
             if (footerLayout == 1) {
@@ -1352,6 +1474,34 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
                 Utility.setUnderlineText(sixBinding.textElement1, false);
 
+            }
+            else if (footerLayout == 7) {
+
+                Utility.setUnderlineText(sevenBinding.brandNameText, false);
+                Utility.setUnderlineText(sevenBinding.gmailText, false);
+                Utility.setUnderlineText(sevenBinding.contactText, false);
+
+
+            }
+
+            else if (footerLayout==8) {
+                Utility.setUnderlineText(eightBinding.brandNameText, false);
+                Utility.setUnderlineText(eightBinding.gmailText, false);
+                Utility.setUnderlineText(eightBinding.contactText, false);
+                Utility.setUnderlineText(eightBinding.locationText, false);
+            }
+
+            else if (footerLayout==9) {
+                Utility.setUnderlineText(nineBinding.brandNameText, false);
+                Utility.setUnderlineText(nineBinding.gmailText, false);
+                Utility.setUnderlineText(nineBinding.contactText, false);
+
+            }
+            else if (footerLayout==10) {
+
+                Utility.setUnderlineText(tenBinding.gmailText, false);
+                Utility.setUnderlineText(tenBinding.contactText, false);
+                Utility.setUnderlineText(tenBinding.locationText, false);
             }
 
         }
@@ -1390,6 +1540,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
             sixBinding.textElement1.setTextSize(textsize);
 
+        }
+        else if (footerLayout==7) {
+            sevenBinding.brandNameText.setTextSize(textsize);
+            sevenBinding.gmailText.setTextSize(textsize);
+            sevenBinding.contactText.setTextSize(textsize);
         }
 
     }
@@ -1430,6 +1585,36 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setBold(sixBinding.textElement1, true);
 
             }
+            else if (footerLayout == 7) {
+
+
+                Utility.setBold(sevenBinding.brandNameText, true);
+                Utility.setBold(sevenBinding.gmailText, true);
+                Utility.setBold(sevenBinding.contactText, true);
+            }
+
+
+            else if (footerLayout==8) {
+                Utility.setBold(eightBinding.brandNameText, true);
+                Utility.setBold(eightBinding.gmailText, true);
+                Utility.setBold(eightBinding.contactText, true);
+                Utility.setBold(eightBinding.locationText, true);
+            }
+
+            else if (footerLayout==9) {
+                Utility.setBold(nineBinding.brandNameText, true);
+                Utility.setBold(nineBinding.gmailText, true);
+                Utility.setBold(nineBinding.contactText, true);
+
+            }
+            else if (footerLayout==10) {
+
+                Utility.setBold(tenBinding.gmailText, true);
+                Utility.setBold(tenBinding.contactText, true);
+                Utility.setBold(tenBinding.locationText, true);
+            }
+
+
 
         }else {
             if (footerLayout == 1) {
@@ -1461,6 +1646,34 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 Utility.setBold(sixBinding.textElement1, false);
 
             }
+            else if (footerLayout == 7) {
+
+
+                Utility.setBold(sevenBinding.brandNameText, false);
+                Utility.setBold(sevenBinding.gmailText, false);
+                Utility.setBold(sevenBinding.contactText, false);
+            }
+
+            else if (footerLayout==8) {
+                Utility.setBold(eightBinding.brandNameText, false);
+                Utility.setBold(eightBinding.gmailText, false);
+                Utility.setBold(eightBinding.contactText, false);
+                Utility.setBold(eightBinding.locationText, false);
+            }
+
+            else if (footerLayout==9) {
+                Utility.setBold(nineBinding.brandNameText, false);
+                Utility.setBold(nineBinding.gmailText, false);
+                Utility.setBold(nineBinding.contactText, false);
+
+            }
+            else if (footerLayout==10) {
+
+                Utility.setBold(tenBinding.gmailText, false);
+                Utility.setBold(tenBinding.contactText, false);
+                Utility.setBold(tenBinding.locationText, false);
+            }
+
 
         }
 
@@ -1501,6 +1714,35 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             } else if (footerLayout == 6) {
                 Utility.setItalicText(sixBinding.textElement1, true);
             }
+            else if (footerLayout == 7) {
+
+                Utility.setItalicText(sevenBinding.brandNameText, true);
+                Utility.setItalicText(sevenBinding.gmailText, true);
+                Utility.setItalicText(sevenBinding.contactText, true);
+
+            }
+
+            else if (footerLayout==8) {
+                Utility.setItalicText(eightBinding.brandNameText, true);
+                Utility.setItalicText(eightBinding.gmailText, true);
+                Utility.setItalicText(eightBinding.contactText, true);
+                Utility.setItalicText(eightBinding.locationText, true);
+            }
+
+            else if (footerLayout==9) {
+                Utility.setItalicText(nineBinding.brandNameText, true);
+                Utility.setItalicText(nineBinding.gmailText, true);
+                Utility.setItalicText(nineBinding.contactText, true);
+
+            }
+            else if (footerLayout==10) {
+
+                Utility.setItalicText(tenBinding.gmailText, true);
+                Utility.setItalicText(tenBinding.contactText, true);
+                Utility.setItalicText(tenBinding.locationText, true);
+            }
+
+
 
         }
         else {
@@ -1532,6 +1774,32 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
                 Utility.setItalicText(sixBinding.textElement1, false);
 
+            }
+            else if (footerLayout == 7) {
+
+                Utility.setItalicText(sevenBinding.brandNameText, false);
+                Utility.setItalicText(sevenBinding.gmailText, false);
+                Utility.setItalicText(sevenBinding.contactText, false);
+
+            }
+            else if (footerLayout==8) {
+                Utility.setItalicText(eightBinding.brandNameText, false);
+                Utility.setItalicText(eightBinding.gmailText, false);
+                Utility.setItalicText(eightBinding.contactText, false);
+                Utility.setItalicText(eightBinding.locationText, false);
+            }
+
+            else if (footerLayout==9) {
+                Utility.setItalicText(nineBinding.brandNameText, false);
+                Utility.setItalicText(nineBinding.gmailText, false);
+                Utility.setItalicText(nineBinding.contactText, false);
+
+            }
+            else if (footerLayout==10) {
+
+                Utility.setItalicText(tenBinding.gmailText, false);
+                Utility.setItalicText(tenBinding.contactText, false);
+                Utility.setItalicText(tenBinding.locationText, false);
             }
 
 
@@ -1629,6 +1897,87 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         sixBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
         sixBinding.contactText.setTextColor(colodCode);
     }
+
+
+
+    public void ChangeBackgroundColorForFrameSeven(int colorCode) {
+
+        sevenBinding.element.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+
+    }
+
+    public void ChangeTextColorForFrameSeven(int colodCode) {
+        sevenBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        sevenBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        sevenBinding.imgElement1.setImageTintList(ColorStateList.valueOf(colodCode));
+        sevenBinding.imgElement2.setImageTintList(ColorStateList.valueOf(colodCode));
+        sevenBinding.imgElement3.setImageTintList(ColorStateList.valueOf(colodCode));
+        sevenBinding.gmailText.setTextColor(colodCode);
+        sevenBinding.contactText.setTextColor(colodCode);
+        sevenBinding.brandNameText.setTextColor(colodCode);
+
+    }
+    public void ChangeBackgroundColorForFrameEight(int colorCode) {
+
+        eightBinding.element.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+        eightBinding.topView1.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+        eightBinding.topView2.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+
+    }
+
+    public void ChangeTextColorForFrameEight(int colodCode) {
+
+        eightBinding.locationText.setTextColor(colodCode);
+        eightBinding.gmailText.setTextColor(colodCode);
+        eightBinding.contactText.setTextColor(colodCode);
+        eightBinding.brandNameText.setTextColor(colodCode);
+
+    }
+
+
+    public void ChangeBackgroundColorForFrameNine(int colorCode) {
+
+        nineBinding.element.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+        nineBinding.element0.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+
+    }
+
+    public void ChangeTextColorForFrameNine(int colodCode) {
+        nineBinding.imgElement1.setImageTintList(ColorStateList.valueOf(colodCode));
+        nineBinding.imgElement2.setImageTintList(ColorStateList.valueOf(colodCode));
+        nineBinding.imgElement3.setImageTintList(ColorStateList.valueOf(colodCode));
+        nineBinding.gmailText.setTextColor(colodCode);
+        nineBinding.contactText.setTextColor(colodCode);
+        nineBinding.brandNameText.setTextColor(colodCode);
+
+    }
+
+    public void ChangeBackgroundColorForFrameTen(int colorCode) {
+
+        tenBinding.gmailImage.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+        tenBinding.callImage.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+        tenBinding.locationImage.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+
+    }
+
+    public void ChangeTextColorForFrameTen(int colodCode) {
+
+        tenBinding.gmailText.setTextColor(colodCode);
+        tenBinding.contactText.setTextColor(colodCode);
+        tenBinding.locationText.setTextColor(colodCode);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public void loadFrameFirstData() {
         BrandListItem activeBrand = preafManager.getActiveBrand();
@@ -1762,6 +2111,103 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         } else {
             fiveBinding.element0.setVisibility(View.GONE);
         }
+    }
+
+
+    public void loadFrameSevenData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            sevenBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            sevenBinding.gmailLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            sevenBinding.contactText.setText(activeBrand.getPhonenumber());
+        } else {
+            sevenBinding.contactLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getName().isEmpty()) {
+            sevenBinding.brandNameText.setText(activeBrand.getName());
+        } else {
+            sevenBinding.brandNameText.setVisibility(View.GONE);
+        }
+    }
+
+    public void loadFrameEightData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            eightBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            eightBinding.gmailLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            eightBinding.contactText.setText(activeBrand.getPhonenumber());
+        } else {
+            eightBinding.contactLayout.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getName().isEmpty()) {
+            eightBinding.brandNameText.setText(activeBrand.getName());
+        } else {
+            eightBinding.brandNameText.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getAddress().isEmpty()) {
+            eightBinding.locationText.setText(activeBrand.getAddress());
+        } else {
+            eightBinding.addressLayoutElement.setVisibility(View.GONE);
+        }
+    }
+    public void loadFrameNineData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            nineBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            nineBinding.gmailText.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            nineBinding.contactText.setText(activeBrand.getPhonenumber());
+        } else {
+            nineBinding.contactText.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getName().isEmpty()) {
+            nineBinding.brandNameText.setText(activeBrand.getName());
+        } else {
+            nineBinding.brandNameText.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    public void loadFrameTenData() {
+        BrandListItem activeBrand = preafManager.getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            tenBinding.gmailText.setText(activeBrand.getEmail());
+        } else {
+            tenBinding.gmailText.setVisibility(View.GONE);
+            tenBinding.gmailImage.setVisibility(View.GONE);
+        }
+
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            tenBinding.contactText.setText(activeBrand.getPhonenumber());
+        } else {
+            tenBinding.contactText.setVisibility(View.GONE);
+            tenBinding.callImage.setVisibility(View.GONE);
+        }
+        if (!activeBrand.getAddress().isEmpty()) {
+            tenBinding.locationText.setText(activeBrand.getAddress());
+        } else {
+            tenBinding.locationText.setVisibility(View.GONE);
+            tenBinding.locationImage.setVisibility(View.GONE);
+        }
+
+
+
     }
 
     //to handle click and drag listener
