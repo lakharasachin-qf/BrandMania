@@ -946,20 +946,24 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
     //fire intent for share
-    public void triggerShareIntent(File new_file) {
-        Uri uri = Uri.parse(new_file.getPath());
+    public void triggerShareIntent(File new_file,Bitmap merged) {
+      //  Uri uri = Uri.parse();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, uri);
+        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act,merged));
         startActivity(Intent.createChooser(share, "Share Image"));
     }
-
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,"IMG_" + Calendar.getInstance().getTime(), null);
+        return Uri.parse(path);
+    }
 
 
 
     //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeDownloadLimitExpireBinding expireBinding;
-
     private void downloadLimitExpireDialog(String msg) {
         expireBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_download_limit_expire, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1131,7 +1135,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
                 }
                 Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
-                triggerShareIntent(new_file);
+                triggerShareIntent(new_file,merged);
             } else {
                 Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
                 if (isUsingCustomFrame) {
@@ -2905,16 +2909,24 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     try {
                         String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
                         FrameCountForDownload = Integer.parseInt(frameCount);
+                         int imageCounter=Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter"));
+
+                        int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0  : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
+
+                          int packageImageCounter=preafManager.getActiveBrand().getImage();
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
                             canDownload = true;
-                            if (flag.equalsIgnoreCase("Download"))
-                                askForDownloadImage();
-                            else {
-                                requestAgain();
-                                saveImageToGallery(true,false);
+                            if (imageCounter > used_img_counter) {
+                                if (flag.equalsIgnoreCase("Download"))
+                                    askForDownloadImage();
+                                else {
+                                    requestAgain();
+                                    saveImageToGallery(true, false);
 
+                                }
+                            }else {
+                                downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
                             }
-
                         } else {
                             canDownload = false;
                             downloadLimitExpireDialog("You have already used one image for today. To get more images please upgrade your package");

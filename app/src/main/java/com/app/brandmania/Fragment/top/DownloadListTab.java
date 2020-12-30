@@ -3,6 +3,7 @@ package com.app.brandmania.Fragment.top;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -59,6 +61,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -209,7 +212,20 @@ public class DownloadListTab extends Fragment {
         startActivity(Intent.createChooser(share, "Share Image"));
 
     }
-
+    //fire intent for share
+    public void triggerShareIntent(File new_file,Bitmap merged) {
+        //  Uri uri = Uri.parse();
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/*");
+        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act,merged));
+        startActivity(Intent.createChooser(share, "Share Image"));
+    }
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,"IMG_" + Calendar.getInstance().getTime(), null);
+        return Uri.parse(path);
+    }
 
     public void startsShare() {
         Drawable d = FrameDrawbable;
@@ -249,7 +265,7 @@ public class DownloadListTab extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        startShare(new_file);
+        triggerShareIntent(new_file,merged);
     }
 
     private void getDownloadListItem() {
