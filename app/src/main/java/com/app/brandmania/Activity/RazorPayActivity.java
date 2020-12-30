@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.text.HtmlCompat;
 import androidx.databinding.DataBindingUtil;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,8 +44,10 @@ import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,24 +107,27 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 addDynamicServices(sliderItemList.getSlideSubItems().get(i).getName());
             }
             addDynamicServices(sliderItemList.getImageTitle()+" Images Download / Year");
-            addDynamicServices(sliderItemList.getPayTitle()+" / "+sliderItemList.getDuration());
+            addDynamicServices(act.getString(R.string.Rs)+sliderItemList.getPayTitle()+" / "+sliderItemList.getDuration());
 
             //show for one month count
 
 
-            if (Utility.monthsBetweenDates("28-12-2021")<1){
+            if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate())<1){
+
                 int actualPrice=Integer.parseInt(sliderItemList.getPriceForPay());
                 int previousPackagePrice=Integer.parseInt(preafManager.getActiveBrand().getRate());
-                int countedPrice=actualPrice-previousPackagePrice;
-                sliderItem=String.valueOf(countedPrice);
-                Log.e("Price",preafManager.getActiveBrand().getRate() +" - "+sliderItemList.getPriceForPay());
-                binding.discountedAmountLayout.setVisibility(View.GONE);
-                binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
-                binding.prevAmount.setText(act.getString(R.string.Rs)+preafManager.getActiveBrand().getRate());
-                binding.previousLayout.setVisibility(View.VISIBLE);
-                binding.noticeTxt.setVisibility(View.VISIBLE);
-                //- and rs icon with red colpr
-                binding.noticeTxt.setText("Your currently active package is \""+preafManager.getActiveBrand().getPackagename()+"\". so your previous paid amount is deducted.");
+                if (actualPrice>previousPackagePrice) {
+                    int countedPrice = actualPrice - previousPackagePrice;
+                    sliderItem = String.valueOf(countedPrice);
+                    Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
+                    binding.discountedAmountLayout.setVisibility(View.GONE);
+                    binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
+                    binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
+                    binding.previousLayout.setVisibility(View.VISIBLE);
+                    binding.noticeTxt.setVisibility(View.VISIBLE);
+                    //- and rs icon with red colpr
+                    binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount is deducted.");
+                }
             }
             binding.finalAmountTxt.setText(act.getString(R.string.Rs) +sliderItem);
 
@@ -195,7 +201,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("amount", sliderItemList.getPriceForPay());
+                //hashMap.put("amount", sliderItemList.getPriceForPay());
+                hashMap.put("amount",sliderItem);
                 //hashMap.put("amount", "1");
                 hashMap.put("currency", "INR");
 
@@ -300,10 +307,12 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
             //{"status":true,"data":"","message":"Subscription Added Successfully."}
             if (ResponseHandler.isSuccess(response, null)) {
-                paymentSuccessDiaog();
+
+                getBrandList();
             } else {
                 JSONObject jsonObject=ResponseHandler.createJsonObject(response);
                 Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Error");
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -367,6 +376,75 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         stringRequest.setShouldCache(false);
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.getCache().clear();
+        queue.add(stringRequest);
+    }
+    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+    private void getBrandList() {
+        Utility.showLoadingTran(act);
+        Utility.Log("API : ", APIs.GET_BRAND);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            Utility.dismissLoadingTran();
+                Utility.Log("GET_BRAND : ", response);
+                try {
+                    paymentSuccessDiaog();
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                    preafManager.setAddBrandList(multiListItems);
+                    for (int i=0;i<multiListItems.size();i++){
+                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())){
+                            preafManager.setActiveBrand(multiListItems.get(i));
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Utility.dismissLoadingTran();
+                        error.printStackTrace();
+
+
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/json");
+                params.put("Authorization","Bearer "+preafManager.getUserToken());
+                Log.e("Token",params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                Log.e("DateNdClass", params.toString());
+                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
 

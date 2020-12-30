@@ -303,7 +303,9 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         }
                     }
 
-
+                    if (!Utility.isUserPaid(brandListItems.get(position))){
+                        ((BrandHolder)holder).binding.msg.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case LAYOUT_NOTIFICATIONlIST:
                     ((NotificationHolder) holder).binding.messgae.setText(model.getMessage());
@@ -349,7 +351,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
         usedImage.setText(brandListItems.get(position).getNo_of_used_image());
         remainingImage.setText(brandListItems.get(position).getNo_of_remaining());
         expirydate.setText(brandListItems.get(position).getExpiery_date());
-        priceContent.setText("("+brandListItems.get(position).getRate()+")");
+        priceContent.setText("("+activity.getString(R.string.Rs)+brandListItems.get(position).getRate()+")");
         builder.setView(customLayout);
 
 

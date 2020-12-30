@@ -55,7 +55,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
         binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, container, false);
         //  binding.seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
         if (activityType==1){
-            binding.seekBar.setVisibility(View.GONE);
+            //binding.seekBar.setVisibility(View.GONE);
         }
         binding.cancleClick.setOnClickListener(new View.OnClickListener() {
             @Override

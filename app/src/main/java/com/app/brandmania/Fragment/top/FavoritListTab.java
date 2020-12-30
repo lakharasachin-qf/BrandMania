@@ -44,7 +44,7 @@ import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
-import com.app.brandmania.databinding.DownloadlisTabBinding;
+import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
 import com.app.brandmania.databinding.FavoritItemListBinding;
 
 import org.json.JSONArray;
@@ -98,10 +98,20 @@ public class FavoritListTab extends Fragment{
         DownloadFavoriteAdapter.onShareImageClick onShareImageClick=new DownloadFavoriteAdapter.onShareImageClick() {
             @Override
             public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
-
                 requestAgain();
                 downloadingOject = favoriteItemList;
-                getImageDownloadRights();
+                if (!Utility.isUserPaid(preafManager.getActiveBrand())){
+                    if (favoriteItemList.isImageFree()){
+                        getImageDownloadRights();
+                    }else {
+                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                    }
+                }else {
+                    getImageDownloadRights();
+                }
+
+
+
             }
         };
         menuAddaptor.setOnShareImageClick(onShareImageClick);
@@ -192,7 +202,7 @@ public class FavoritListTab extends Fragment{
 
     public void startShare(File new_file) {
 
-        Uri uri= Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), BitmapFactory.decodeFile(new_file.getPath()),null,null));
+        Uri uri = Uri.parse(new_file.getPath());
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/*");
         share.putExtra(Intent.EXTRA_STREAM, uri);
@@ -228,7 +238,7 @@ public class FavoritListTab extends Fragment{
         new_file = new File(file_name);
         try {
             fileOutputStream = new FileOutputStream(new_file);
-            Bitmap bitmap = merged;//viewToBitmap(binding.allSetImage,binding.allSetImage.getWidth(),binding.recoImage.getHeight());
+            Bitmap bitmap = merged; //viewToBitmap(binding.allSetImage,binding.allSetImage.getWidth(),binding.recoImage.getHeight());
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
 
             fileOutputStream.flush();
@@ -421,4 +431,40 @@ public class FavoritListTab extends Fragment{
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
+    // ask for payment
+    public DialogUpgradeLayoutSecondBinding secondBinding;
+
+    public void askForPayTheirPayment(String msg) {
+        secondBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_second, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(secondBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(secondBinding.getRoot());
+        secondBinding.element3.setText(msg);
+        secondBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(act, PackageActivity.class);
+                intent.putExtra("Profile","1");
+
+                act.startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        secondBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        //   secondBinding.element3.setText("You haven't selected any package yet. Please choose any package for download more images");
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
+
 }

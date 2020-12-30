@@ -299,7 +299,7 @@
                     android:layout_width="wrap_content"
                     android:layout_marginBottom="@dimen/_30sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:text="I accept term and conditions"
+                    android:text="I accept terms and conditions"
                     android:textSize="@dimen/_9sdp" />
 
             </RelativeLayout>

@@ -19,6 +19,7 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
+import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.CategoryTabBinding;
 import com.app.brandmania.databinding.FooterTabBinding;
 
@@ -54,17 +55,11 @@ public class FooterTab extends Fragment {
         footerModels.add(model);
     }
     public void setAdapter() {
+
+
         FooterModel model=new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
         model.setFree(true);
-
-        setData(model);
-
-        model=new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_TWO);
-        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
-            model.setFree(true);
-        }
         setData(model);
 
         model=new FooterModel();
@@ -72,38 +67,53 @@ public class FooterTab extends Fragment {
         model.setFree(true);
         setData(model);
 
+
+
+        //premium
+
+        model=new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
+        if (Utility.isUserPaid(preafManager.getActiveBrand())){
+            model.setFree(true);
+        }
+        setData(model);
+
+        model=new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_TWO);
+        if (Utility.isUserPaid(preafManager.getActiveBrand())){
+            model.setFree(true);
+        }
+        setData(model);
+
+
+
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FOUR);
-        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+        if (Utility.isUserPaid(preafManager.getActiveBrand())){
             model.setFree(true);
         }
         setData(model);
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FIVE);
-        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+        if (Utility.isUserPaid(preafManager.getActiveBrand())){
             model.setFree(true);
         }
         setData(model);
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_SIX);
-        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+        if (Utility.isUserPaid(preafManager.getActiveBrand())){
             model.setFree(true);
         }
         setData(model);
 
 
-        model=new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
-        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
-            model.setFree(true);
-        }
-        setData(model);
+
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_EIGHT);
-        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+        if (Utility.isUserPaid(preafManager.getActiveBrand())){
             model.setFree(true);
         }
         setData(model);
@@ -111,14 +121,14 @@ public class FooterTab extends Fragment {
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_NINE);
-        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+        if (Utility.isUserPaid(preafManager.getActiveBrand())){
             model.setFree(true);
         }
         setData(model);
 
         model=new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_TEN);
-        if (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+        if (Utility.isUserPaid(preafManager.getActiveBrand())){
             model.setFree(true);
         }
         setData(model);

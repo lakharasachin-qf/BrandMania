@@ -202,7 +202,7 @@ public class DownloadListTab extends Fragment {
 
     public void startShare(File new_file) {
 
-        Uri uri= Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), BitmapFactory.decodeFile(new_file.getPath()),null,null));
+        Uri uri = Uri.parse(new_file.getPath());
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/*");
         share.putExtra(Intent.EXTRA_STREAM, uri);
@@ -243,13 +243,13 @@ public class DownloadListTab extends Fragment {
 
             fileOutputStream.flush();
             fileOutputStream.close();
-            startShare(new_file);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        startShare(new_file);
     }
 
     private void getDownloadListItem() {

@@ -5,18 +5,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
         android:orientation="vertical">
 
         <TextView
-            android:layout_marginTop="@dimen/_10sdp"
+
             android:layout_centerHorizontal="true"
             android:id="@+id/brandNameText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_5sdp"
-            android:includeFontPadding="false"
-            android:padding="0dp"
+            android:textAlignment="center"
             android:singleLine="true"
             android:text="Brand Mania"
             android:textColor="@color/colorPrimary"
@@ -29,6 +28,7 @@
             android:layout_below="@+id/brandNameText"
             android:paddingStart="@dimen/_7sdp"
             android:paddingEnd="@dimen/_7sdp"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

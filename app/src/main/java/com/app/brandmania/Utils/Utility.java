@@ -106,9 +106,9 @@ public class Utility {
     }
 
 
-    //return true if user is free
-    public static boolean isUserFree(BrandListItem activeBrand) {
-        if (activeBrand.getPackagename().isEmpty() && activeBrand.getIs_payment_pending().equalsIgnoreCase("0"))
+    //return true if user is paid
+    public static boolean isUserPaid(BrandListItem activeBrand) {
+        if (!activeBrand.getPackagename().isEmpty() && activeBrand.getIs_payment_pending().equalsIgnoreCase("0"))
             return true;
         else
             return false;

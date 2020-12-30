@@ -11,6 +11,26 @@ public class DownloadFavoriteItemList
     private String Frame;
     private int layoutType;
     private boolean isCustom=false;
+    private boolean isImageFree=false;
+    private String footerLayout;
+
+    public boolean isImageFree() {
+        return isImageFree;
+    }
+
+    public DownloadFavoriteItemList setImageFree(boolean imageFree) {
+        isImageFree = imageFree;
+        return this;
+    }
+
+    public String getFooterLayout() {
+        return footerLayout;
+    }
+
+    public DownloadFavoriteItemList setFooterLayout(String footerLayout) {
+        this.footerLayout = footerLayout;
+        return this;
+    }
 
     public DownloadFavoriteItemList() {
     }

@@ -362,6 +362,11 @@ public class ResponseHandler {
                         downloadFavoriteItemList.setCustom(getString(dataJsonObject, "is_custom").equalsIgnoreCase("1"));
 
                         downloadFavoriteItemList.setFrame(getString(dataJsonObject, "frame_path"));
+
+                        downloadFavoriteItemList.setCustom(getString(dataJsonObject, "is_custom").equalsIgnoreCase("1"));
+                        downloadFavoriteItemList.setImageFree(getString(dataJsonObject, "is_free").equalsIgnoreCase("1"));
+                        downloadFavoriteItemList.setFooterLayout(getString(dataJsonObject, "footer"));
+
                         strings.add(downloadFavoriteItemList);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -468,6 +473,12 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
                         downloadFavoriteItemList.setName(getString(dataJsonObject, "image_title"));
                         downloadFavoriteItemList.setImage(getString(dataJsonObject, "img_path"));
                         downloadFavoriteItemList.setFrame(getString(dataJsonObject, "frame_path"));
+
+                        //is_custom
+                        downloadFavoriteItemList.setCustom(getString(dataJsonObject, "is_custom").equalsIgnoreCase("1"));
+                        downloadFavoriteItemList.setImageFree(getString(dataJsonObject, "is_free").equalsIgnoreCase("1"));
+                        downloadFavoriteItemList.setFooterLayout(getString(dataJsonObject, "footer"));
+
                         strings.add(downloadFavoriteItemList);
                     } catch (JSONException e) {
                         e.printStackTrace();

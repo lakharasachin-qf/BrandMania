@@ -145,6 +145,8 @@
                 android:visibility="visible"
                 android:theme="@style/SeekBarColor"
                 android:id="@+id/seekBar"
+                android:max="7"
+                android:progress="100"
                 android:layout_toEndOf="@+id/underlineText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

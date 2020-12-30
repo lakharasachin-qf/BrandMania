@@ -19,6 +19,7 @@ public class ImageList {
     private String frame1Id;
     private boolean isCustom=true;
     private boolean isImageFree;
+    private String brandId;
     private Links links;
     private ArrayList<ImageList> catogaryImagesList;
     private String isFrame;
@@ -29,6 +30,15 @@ public class ImageList {
 
     public ImageList setIsFrame(String isFrame) {
         this.isFrame = isFrame;
+        return this;
+    }
+
+    public String getBrandId() {
+        return brandId;
+    }
+
+    public ImageList setBrandId(String brandId) {
+        this.brandId = brandId;
         return this;
     }
 

@@ -39,6 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/actionLayout"
             android:id="@+id/firsttitle"
             android:layout_below="@+id/businessName"
             android:text="Computer Hardware"
@@ -48,18 +50,20 @@
             android:layout_height="wrap_content">
 
         </TextView>
-        <TextView
 
+        <TextView
+            android:layout_width="match_parent"
             android:id="@+id/businessName"
-            android:text="QueryFinderSolution"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/actionLayout"
             android:textColor="@color/alltextcolor"
             android:textSize="@dimen/_12sdp"
             android:fontFamily="@font/inter_medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
+            android:singleLine="true"
+            android:text="QueryFinderSodfgfdgfgdfgfggdflution"></TextView>
 
         <LinearLayout
+            android:id="@+id/actionLayout"
             android:layout_marginRight="@dimen/_15sdp"
             android:layout_alignParentEnd="true"
              android:layout_width="wrap_content"
@@ -92,30 +96,34 @@
                 android:id="@+id/deletImage"
                 android:src="@drawable/ic_outline_close_24"
                 android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp">
+                android:layout_height="@dimen/_20sdp"
+                card_view:tint="@color/colorPrimary">
             </ImageView>
 
         </LinearLayout>
+
         <RelativeLayout
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_toStartOf="@+id/actionLayout"
             android:layout_below="@+id/firsttitle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp">
+            android:layout_height="wrap_content">
+
             <ImageView
-                android:layout_centerVertical="true"
                 android:id="@+id/locationimage"
                 android:src="@drawable/ic_baseline_location_on_24"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="@dimen/_10sdp"
-                android:layout_height="match_parent"
-                ></ImageView>
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/locationimage"
                 android:id="@+id/addressText"
-                android:text="Vastral, Ahmedabad"
-                android:textSize="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                 android:textSize="@dimen/_10sdp"
                 android:fontFamily="@font/inter_regular"
-                android:layout_width="wrap_content"
+                android:text="Vastral, fdhghgghhb tghgffd gdgdfh fdhf gnhn hnmngbt bfvg jbthbh Ahmed fgdb  esg r  trgr abad"
                 android:layout_height="wrap_content">
 
             </TextView>
@@ -138,14 +146,13 @@
     </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
     </RelativeLayout>
+
     <TextView
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="@dimen/_15sdp"
         android:layout_marginRight="@dimen/_15sdp"
         android:visibility="visible"
         android:id="@+id/warning"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/contentSection"
         android:text="dfgdgdgdfg"
         android:textColor="@color/colorRed"
         android:textSize="@dimen/_10sdp"
@@ -156,6 +163,23 @@
 
     </TextView>
 
+    <TextView
+        android:id="@+id/msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contentSection"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:fontFamily="@font/inter_regular"
+        android:text="As you are free user you can download or share only one image in a day for 7 days."
+        android:textAlignment="center"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/warning"
@@ -163,9 +187,10 @@
         android:id="@+id/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <TextView
-        android:backgroundTint="@color/colorthird"
-        android:background="@drawable/buttoncornar"
+
+        <TextView
+            android:background="@drawable/buttoncornar"
+            android:backgroundTint="@color/colorthird"
         android:id="@+id/selectPlane"
         android:gravity="center"
         android:layout_width="wrap_content"

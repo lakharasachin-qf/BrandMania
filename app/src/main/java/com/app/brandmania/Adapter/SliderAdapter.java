@@ -58,7 +58,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 }
             });
-
+            holder.payTitle.setText(activity.getString(R.string.Rs)+sliderItems.get(position).getPriceForPay()+" / "+sliderItems.get(position).getDuration());
             if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid()) && preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")){
                 holder.packageBtn.setVisibility(View.GONE);
                 holder.subcribedBtn.setVisibility(View.VISIBLE);
