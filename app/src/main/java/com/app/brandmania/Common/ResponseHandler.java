@@ -148,7 +148,9 @@ public class ResponseHandler {
                         examModel.setNo_of_used_image(getString(dataJsonObject, "no_of_used_img"));
                         examModel.setNo_of_frame(getString(dataJsonObject, "no_of_frame"));
                         examModel.setNo_of_remaining(getString(dataJsonObject, "remaining_img"));
+                        examModel.setSubscriptionDate(getString(dataJsonObject,"subscription_date"));
                         examModel.setRate(getString(dataJsonObject, "rate"));
+
 
                         examModel.setExpiery_date(getString(dataJsonObject, "expire_date"));
                         JSONArray jsonArray = dataJsonObject.getJSONArray("br_frame");

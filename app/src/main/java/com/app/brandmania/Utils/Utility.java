@@ -1,5 +1,6 @@
 package com.app.brandmania.Utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,22 +29,21 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.brandmania.Activity.PackageActivity;
-import com.app.brandmania.Activity.RazorPayActivity;
-import com.app.brandmania.Activity.ViewBrandActivity;
-import com.app.brandmania.Interface.IPaymentFlow;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.material.snackbar.Snackbar;
 import com.app.brandmania.Activity.alertListenerCallback;
 import com.app.brandmania.BuildConfig;
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.DetailImageviewBinding;
 import com.app.brandmania.databinding.DialogImageViewLayoutBinding;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class Utility {
@@ -78,6 +78,43 @@ public class Utility {
         });
     }
 
+    public static int monthsBetweenDates(String subscriptionDateStr){
+        Date c = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+        String currDateStr = fmt.format(c);
+        try {
+            Date subscriptionDate = fmt.parse(subscriptionDateStr);
+            Date currentDate = fmt.parse(currDateStr);
+
+            Calendar startCalendar = new GregorianCalendar();
+            startCalendar.setTime(subscriptionDate);
+            Calendar endCalendar = new GregorianCalendar();
+            endCalendar.setTime(currentDate);
+            int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
+            int diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
+            Log.e("Diffrenere",diffMonth+" "+diffYear);
+            if ((diffYear == 0) && (diffMonth == 0)){
+                return diffMonth;
+            }else {
+                return 1;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+
+    //return true if user is free
+    public static boolean isUserFree(BrandListItem activeBrand) {
+        if (activeBrand.getPackagename().isEmpty() && activeBrand.getIs_payment_pending().equalsIgnoreCase("0"))
+            return true;
+        else
+            return false;
+    }
+
+
     public static void dismissLoadingTran() {
         try {
             if (dialog != null && dialog.isShowing())
@@ -86,8 +123,9 @@ public class Utility {
             e.printStackTrace();
         }
     }
-    public static void setItalicText(TextView textView,boolean italic){
-        if (italic){
+
+    public static void setItalicText(TextView textView, boolean italic) {
+        if (italic) {
             textView.setTypeface(textView.getTypeface(), Typeface.ITALIC);
         }else {
             textView.setTypeface(null, Typeface.NORMAL);

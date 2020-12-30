@@ -125,6 +125,7 @@ public class OtpScreenActivity extends BaseActivity implements  alertListenerCal
         } else {
             binding.ResendText.setText(Html.fromHtml(Message));
         }
+
     }
     private void VerificationOtp(String otp, String mobileno) {
         if (isLoading)
@@ -280,6 +281,7 @@ public class OtpScreenActivity extends BaseActivity implements  alertListenerCal
                     binding.otpTwo.setText("");
                     binding.otpThree.setText("");
                     binding.otpFour.setText("");
+                    binding.otpOne.requestFocus();
                     counter();
                 } else {
                     JSONObject responseJson = ResponseHandler.createJsonObject(response);

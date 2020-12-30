@@ -108,7 +108,9 @@ public class FrameTab extends Fragment {
                 alertDialog.dismiss();
 
                     Intent intent = new Intent(act, PackageActivity.class);
-                    act.startActivity(intent);
+                intent.putExtra("Profile","1");
+
+                act.startActivity(intent);
                     act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
             }

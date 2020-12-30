@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme_material_theme"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorNavText">
     <androidx.appcompat.widget.Toolbar
         android:visibility="visible"
@@ -82,7 +81,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_bold"
+                    android:fontFamily="@font/montserrat_bold"
                     android:text="Basic"
                     android:textSize="@dimen/_15sdp" />
                 <TextView
@@ -91,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:id="@+id/durationTxt"
                     android:layout_height="wrap_content"
-                     android:fontFamily="@font/inter_regular"
+                     android:fontFamily="@font/montserrat_regular"
                     android:textStyle="bold"
                     android:text="Per Year"
                     android:layout_alignParentBottom="true"
@@ -109,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_7sdp"
                 android:layout_marginBottom="@dimen/_4sdp"
-                android:fontFamily="@font/inter_regular"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Features:"
                 android:textSize="@dimen/_11sdp"
                 android:textStyle="bold" />
@@ -124,13 +123,10 @@
             </LinearLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="#B1B1B1" />
+
 
             <RelativeLayout
+                android:layout_marginTop="@dimen/_20sdp"
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_5sdp"
                 android:layout_width="match_parent"
@@ -140,7 +136,7 @@
                     android:id="@+id/element1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_regular"
+                    android:fontFamily="@font/montserrat_regular"
                     android:text="Price"
                     android:textSize="@dimen/_11sdp" />
 
@@ -150,18 +146,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:fontFamily="@font/inter_regular"
+                    android:fontFamily="@font/montserrat_regular"
                     android:text="299"
                     android:textSize="@dimen/_11sdp" />
             </RelativeLayout>
 
-            <View
-                android:id="@+id/element2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                 android:background="#B1B1B1" />
 
             <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/previousLayout"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_5sdp"
                 android:layout_width="match_parent"
@@ -170,8 +164,54 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="Discount"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Previous Package Amount"
+                    android:textSize="@dimen/_11sdp" />
+
+                <RelativeLayout
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/prevAmount"
+                        android:src="@drawable/ic_sign"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:layout_width="@dimen/_6sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        app:tint="@color/red" />
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/prevAmount"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="299"
+                        android:textSize="@dimen/_11sdp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/discountedAmountLayout"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Discount Amount"
                     android:textSize="@dimen/_11sdp" />
 
                 <TextView
@@ -180,26 +220,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:fontFamily="@font/inter_regular"
+                    android:fontFamily="@font/montserrat_regular"
                     android:text="299"
                     android:textSize="@dimen/_11sdp" />
             </RelativeLayout>
 
-            <View
-                android:id="@+id/element3"
-
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#B1B1B1" />
 
             <RelativeLayout
+                android:layout_marginTop="@dimen/_5sdp"
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:fontFamily="@font/inter_bold"
+                    android:fontFamily="@font/montserrat_bold"
                     android:layout_width="wrap_content"
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
@@ -213,31 +248,61 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/inter_bold"
+                    android:fontFamily="@font/montserrat_bold"
                     android:text="299"
                     android:textSize="@dimen/_11sdp" />
             </RelativeLayout>
 
 
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_28sdp"
-                android:id="@+id/proceedToPayment"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginBottom="@dimen/_30sdp"
-                android:background="@drawable/buttoncornar"
-                android:backgroundTint="@color/colorthird"
-                android:fontFamily="@font/inter_regular"
-                android:gravity="center"
-                android:paddingStart="@dimen/_25sdp"
-                android:paddingEnd="@dimen/_25sdp"
-                android:text="Proceed"
+                android:visibility="gone"
+                android:id="@+id/noticeTxt"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/green"
                 android:textStyle="bold"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="#FFF"
+                android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                android:text="Your currently active package is"
                 android:textSize="@dimen/_10sdp" />
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_28sdp"
+                    android:id="@+id/proceedToPayment"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:background="@drawable/buttoncornar"
+                    android:backgroundTint="@color/colorthird"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_25sdp"
+                    android:paddingEnd="@dimen/_25sdp"
+                    android:text="Proceed"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_gravity="end"
+                    android:id="@+id/terms"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:text="I accept term and conditions"
+                    android:textSize="@dimen/_9sdp" />
+
+            </RelativeLayout>
 
 
 

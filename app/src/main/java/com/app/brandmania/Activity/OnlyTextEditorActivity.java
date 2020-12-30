@@ -185,6 +185,12 @@ public class OnlyTextEditorActivity extends AppCompatActivity implements ItemeIn
             selectedForBackgroundChange.setBackgroundColor(colorCode);
         }
     }
+
+    @Override
+    public void onBorderSizeChange(int size) {
+
+    }
+
     @Override public void onColorChanged(int colorCode) {
         if (editorFragment==3 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(colorCode);

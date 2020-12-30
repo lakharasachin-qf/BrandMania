@@ -219,7 +219,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         if (isLoading)
             return;
         isLoading = true;
-        Utility.showProgress(act);
+        Utility.showLoadingTran(act);
         Log.e("API", APIs.ADD_BRAND);
         Log.e("API", preafManager.getUserToken());
         File img1File = null;
@@ -264,7 +264,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                     @Override
                     public void onResponse(JSONObject response) {
                         isLoading = false;
-                        Utility.dismissProgress();
+                        Utility.dismissLoadingTran();
                         Utility.Log("Verify-Response", response);
                         ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                         try {
@@ -303,7 +303,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                     @Override
                     public void onError(ANError error) {
                         isLoading = false;
-                        Utility.dismissProgress();
+                        Utility.dismissLoadingTran();
                         if (error.getErrorCode() != 0) {
                             Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
                             Log.e("onError errorBody : ", error.getErrorBody());
@@ -344,6 +344,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
                         brandListItemm.setPackage_id(ResponseHandler.getString(jsonObject, "package_id"));
+                        brandListItemm.setSubscriptionDate(ResponseHandler.getString(jsonObject,"subscription_date"));
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));
                         brandListItemm.setIs_payment_pending(ResponseHandler.getString(jsonObject, "is_payment_pending"));

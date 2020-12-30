@@ -225,6 +225,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                         brandListItemm.setPackage_id(ResponseHandler.getString(jsonObject, "package_id"));
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
+                        brandListItemm.setSubscriptionDate(ResponseHandler.getString(jsonObject,"subscription_date"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));
                         brandListItemm.setIs_payment_pending(ResponseHandler.getString(jsonObject, "is_payment_pending"));
                         brandListItemm.setPayment_message(ResponseHandler.getString(jsonObject, "payment_message"));

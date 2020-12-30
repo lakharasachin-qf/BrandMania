@@ -31,6 +31,7 @@ import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Adapter.SliderAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
@@ -48,7 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PackageActivity extends AppCompatActivity {
+public class PackageActivity extends BaseActivity {
     private Activity act;
     private ActivityPackageBinding  binding;
     private int[] layouts;
@@ -57,19 +58,26 @@ public class PackageActivity extends AppCompatActivity {
     ArrayList<SliderItem>sliderItems=new ArrayList<>();
     String selectedBrand;
     Gson gson;
+    int layoutType=0;
+    //0 = profile,viewall, 2= brand list
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
         gson=new Gson();
         preafManager=new PreafManager(act);
         if (getIntent().hasExtra("fromBrandList")){
+            layoutType=2;
             selectedBrand=gson.fromJson(getIntent().getStringExtra("detailsObj"),BrandListItem.class).getId();
-        }else{
+        }
+        else{
+            //for profile
+            layoutType=0;
             selectedBrand=preafManager.getActiveBrand().getId();
         }
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
+      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override

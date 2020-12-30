@@ -1,20 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingStart="@dimen/_5sdp"
+    android:paddingTop="@dimen/_7sdp"
+    android:paddingEnd="@dimen/_5sdp"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="gone"
         android:id="@+id/colorRecycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent" />
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/colorthird"
+        android:fontFamily="@font/inter_regular"
+        android:text="Border"
+        android:textSize="@dimen/_12sdp" />
+
+    <SeekBar
+        android:background="@drawable/font_box_corner"
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkbox"
+        android:paddingTop="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp"
+        android:theme="@style/SeekBarColor"
+        android:visibility="visible" />
+
 
     <com.jaredrummler.android.colorpicker.ColorPickerView
-         android:id="@+id/colorPickerView"
+        android:id="@+id/colorPickerView"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="@dimen/_5sdp" />
+
     <TextView
         android:backgroundTint="@color/colorthird"
         android:background="@drawable/buttoncornar"

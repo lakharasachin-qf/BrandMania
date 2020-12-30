@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.PackageActivity;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
@@ -40,9 +43,11 @@ import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DownloadlisTabBinding;
 import com.app.brandmania.databinding.FavoritItemListBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,24 +69,19 @@ public class FavoritListTab extends Fragment{
     PreafManager preafManager;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.favorit_item_list,container,false);
         preafManager=new PreafManager(act);
-        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
-                R.color.colorsecond,
-                R.color.colorthird);
+
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
+
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 startAnimation();
-
                 getFavoritListItem();
-                // startAnimation();
-                //getNotice(startDate, endDate);
-
             }
         });
 
@@ -98,9 +98,10 @@ public class FavoritListTab extends Fragment{
         DownloadFavoriteAdapter.onShareImageClick onShareImageClick=new DownloadFavoriteAdapter.onShareImageClick() {
             @Override
             public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
+
                 requestAgain();
-                downloadingOject=favoriteItemList;
-                new FavouritImageTaskFrame(favoriteItemList.getFrame()).execute(favoriteItemList.getFrame());
+                downloadingOject = favoriteItemList;
+                getImageDownloadRights();
             }
         };
         menuAddaptor.setOnShareImageClick(onShareImageClick);
@@ -138,13 +139,13 @@ public class FavoritListTab extends Fragment{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Utility.showProgress(act);
+            Utility.showLoadingTran(act);
         }
 
         protected void onPostExecute(BitmapDrawable result) {
             //bmImage.setImageBitmap(result);
             FrameDrawbable=result;
-
+            Utility.dismissLoadingTran();
             new FavouritImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
 
         }
@@ -171,12 +172,14 @@ public class FavoritListTab extends Fragment{
             //bmImage.setImageBitmap(result);
             backgroundImageDrable=result;
             startsShare();
-            Utility.dismissProgress();
+            Utility.dismissLoadingTran();
 
         }
 
-
-
+        @Override
+        protected void onPreExecute() {
+            Utility.showLoadingTran(act);
+        }
     }
     //For CreatFileeDisc For Download Image.........................
     private File getDisc() {
@@ -199,9 +202,13 @@ public class FavoritListTab extends Fragment{
 
 
     public void startsShare() {
-        //Bitmap FrameDrawbable = drawableFromUrl(selectedModelFromView.getFrame1());
         Drawable d = FrameDrawbable;
         Drawable ImageDrawable =backgroundImageDrable;
+
+        if (downloadingOject.isCustom()) {
+            d = backgroundImageDrable;
+        }
+
         Bitmap merged = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(merged);
         d.setBounds(0, 0, 1000, 1000);
@@ -301,6 +308,111 @@ public class FavoritListTab extends Fragment{
 //                    params.put("image_category_id", selectedObject.getId());
 
                 Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
+
+    //show dialog for upgrading package for using all 6 frames
+    public DialogUpgradeDownloadLimitExpireBinding expireBinding;
+
+    private void downloadLimitExpireDialog() {
+        expireBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_download_limit_expire, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(expireBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(expireBinding.getRoot());
+
+        expireBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(act, PackageActivity.class);
+                act.startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        expireBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+    }
+
+    //api for access rights
+    private void getImageDownloadRights() {
+        Utility.showLoadingTran(act);
+        Utility.Log("API : ", APIs.CUSTOM_FRAME_ACCESS);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.CUSTOM_FRAME_ACCESS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.dismissLoadingTran();
+                Utility.Log("Access-Rights-Response:", response);
+                JSONObject respJson = ResponseHandler.createJsonObject(response);
+                if (ResponseHandler.getBool(respJson, "status")) {
+                    JSONArray dataJson = ResponseHandler.getJSONArray(respJson, "data");
+                    try {
+                        String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
+                        //FrameCountForDownload = Integer.parseInt(frameCount);
+                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
+                            if (!downloadingOject.isCustom())
+                                new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
+                            else
+                                new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
+                        } else {
+                            //  canDownload = false;
+                            downloadLimitExpireDialog();
+                            //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Utility.dismissLoadingTran();
+                        error.printStackTrace();
+//                        String body;
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Load-Get_Exam ", body);
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("brand_id", preafManager.getActiveBrand().getId());
+                Utility.Log("Params", params.toString());
                 return params;
             }
 

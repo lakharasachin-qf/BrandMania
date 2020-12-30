@@ -43,7 +43,16 @@ public class BrandListItem {
     private String package_id;
     private String rate;
     private String duration;
+    private String subscriptionDate;
 
+    public String getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public BrandListItem setSubscriptionDate(String subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
+        return this;
+    }
 
     public BrandListItem() {
     }

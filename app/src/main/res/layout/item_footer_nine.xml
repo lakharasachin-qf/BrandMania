@@ -25,7 +25,7 @@
                     android:id="@+id/brandNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:includeFontPadding="false"
                     android:padding="0dp"
                     android:singleLine="true"
@@ -36,9 +36,9 @@
                 <RelativeLayout
                     android:layout_below="@+id/brandNameText"
                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
@@ -46,8 +46,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toEndOf="@+id/gmailImage"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_toStartOf="@+id/element"
                         android:includeFontPadding="false"
                         android:padding="0dp"
                         android:singleLine="true"
@@ -56,25 +56,23 @@
                         android:textSize="@dimen/_8sdp" />
 
 
-
                     <View
-
-                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_7sdp"
                         android:id="@+id/element"
                         android:background="@color/colorPrimary"
-                        android:layout_toEndOf="@+id/gmailText"
+                        android:layout_toStartOf="@+id/contactText"
                         android:layout_centerVertical="true"
                         android:layout_width="@dimen/_1sdp"
-                        android:layout_height="@dimen/_13sdp"
-                        ></View>
+                        android:layout_height="@dimen/_10sdp" />
                     <TextView
 
+                        android:layout_centerHorizontal="true"
                         android:id="@+id/contactText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_toEndOf="@+id/element"
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:includeFontPadding="false"
                         android:padding="0dp"
                         android:singleLine="true"
@@ -82,21 +80,20 @@
                         android:text="8849896537"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_8sdp" />
-                    <View
 
-                        android:layout_marginLeft="@dimen/_2sdp"
+                    <View
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_7sdp"
                         android:id="@+id/element0"
                         android:background="@color/colorPrimary"
                         android:layout_toEndOf="@+id/contactText"
                         android:layout_centerVertical="true"
                         android:layout_width="@dimen/_1sdp"
-                        android:layout_height="@dimen/_13sdp"
-                        ></View>
+                        android:layout_height="@dimen/_10sdp" />
                     <ImageView
                         android:id="@+id/imgElement1"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
                         android:padding="@dimen/_4sdp"
                         android:layout_toEndOf="@+id/element0"
                         android:src="@drawable/ic_social_media_facebook"
@@ -158,40 +155,25 @@
                     android:layout_height="@dimen/_15sdp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/elementPremium"
+        <RelativeLayout
             android:visibility="gone"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
+            android:id="@+id/elementPremium"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
             android:layout_alignParentEnd="true"
-            app:cardElevation="@dimen/_4sdp"
-            app:cardBackgroundColor="@color/colorthird"
-            app:cardCornerRadius="@dimen/_3sdp"
+            android:elevation="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/white"
-                    android:text="Premimun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <ImageView
-                    android:visibility="gone"
-                    android:elevation="@dimen/_20sdp"
-                    android:src="@drawable/cpv_preset_checked"
-                    android:background="@color/colorPrimary"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:elevation="@dimen/_20sdp"
+                android:src="@drawable/ic_crown"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"/>
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

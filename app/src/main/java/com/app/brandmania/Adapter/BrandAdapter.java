@@ -178,6 +178,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         //payment done
                         //payment done  - isFrame=0, isPayment=0
                         if (brandListItems.get(position).getIs_payment_pending().equalsIgnoreCase("0")) {
+                            //((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
                             ((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
                             ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
                             ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.VISIBLE);
@@ -225,6 +226,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onClick(View view) {
                                     Intent i = new Intent(activity, PackageActivity.class);
+                                    i.putExtra("fromBrandList","fromBrandList");
                                     i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
                                     i.addCategory(Intent.CATEGORY_HOME);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

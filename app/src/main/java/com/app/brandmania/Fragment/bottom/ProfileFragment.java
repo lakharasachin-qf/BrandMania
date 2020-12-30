@@ -117,7 +117,7 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, AboutUsActivity.class);
-
+                i.putExtra("aboutUs","aboutUs");
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -185,6 +185,17 @@ public class ProfileFragment extends BaseFragment {
                 }
             }
         });
+
+        binding.privacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(act, AboutUsActivity.class);
+                i.putExtra("termsNCondition","aboutUs");
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+
         return binding.getRoot();
     }
 

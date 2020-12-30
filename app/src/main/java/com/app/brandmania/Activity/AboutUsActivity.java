@@ -15,22 +15,32 @@ import com.app.brandmania.databinding.ActivityAboutUsBinding;
 
 public class AboutUsActivity extends BaseActivity {
     Activity act;
-    ImageView BackButton;
-    WebView webViewhtml;
+
+    private ActivityAboutUsBinding binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        BackButton=findViewById(R.id.BackButton);
-        BackButton.setOnClickListener(new View.OnClickListener() {
+        act=this;
+        binding=DataBindingUtil.setContentView(act,R.layout.activity_about_us);
+
+        binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        webViewhtml = (WebView) findViewById(R.id.webView);
-        webViewhtml.loadUrl("http://site.queryfinders.com/brandmania/index.html");
-        webViewhtml.setWebViewClient(new MyWebViewClient(this));
+        if (getIntent().hasExtra("termsNCondition")) {
+            binding.webView.loadUrl("http://site.queryfinders.com/brandmania/privacy_policy.html");
+            binding.toolbarTitle.setText("Terms & Conditions");
+        }else {
+            binding.webView.loadUrl("http://site.queryfinders.com/brandmania/index.html");
+            binding.toolbarTitle.setText("About us");
+        }
+
+        binding.webView.setWebViewClient(new MyWebViewClient(this));
+
+
     }
 }

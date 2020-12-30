@@ -318,6 +318,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));
                         brandListItemm.setIs_payment_pending(ResponseHandler.getString(jsonObject, "is_payment_pending"));
+                        brandListItemm.setSubscriptionDate(ResponseHandler.getString(jsonObject,"subscription_date"));
                         brandListItemm.setPayment_message(ResponseHandler.getString(jsonObject, "payment_message"));
                         brandListItemm.setPackagename(ResponseHandler.getString(jsonObject, "package"));
                         brandListItemm.setPackagemessage(ResponseHandler.getString(jsonObject, "package_message"));

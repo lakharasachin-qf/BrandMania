@@ -48,7 +48,10 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class ColorAndTextEditActivity extends BaseActivity implements IColorChange,ItemeInterFace, ITextBoldEvent, IItaliTextEvent, IUnderLineTextEvent, ITextSizeEvent, IImageFromGalary,ColorPickerDialogListener, ColorPickerView.OnColorChangedListener,View.OnTouchListener,ITextColorChangeEvent, IFontChangeEvent {
+public class ColorAndTextEditActivity extends BaseActivity implements IColorChange,ItemeInterFace, ITextBoldEvent,
+        IItaliTextEvent, IUnderLineTextEvent, ITextSizeEvent, IImageFromGalary,ColorPickerDialogListener,
+        ColorPickerView.OnColorChangedListener,View.OnTouchListener,ITextColorChangeEvent,
+        IFontChangeEvent {
 
     Activity act;
     private ActivityColorAndTextEditBinding binding;
@@ -324,6 +327,12 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
             selectedForBackgroundChange.setBackgroundColor(colorCode);
         }
     }
+
+    @Override
+    public void onBorderSizeChange(int size) {
+
+    }
+
     @Override public void onItemSelection(int position, MultiListItem listModel) {
         binding.frameImage.setImageResource(listModel.getImage());
     }

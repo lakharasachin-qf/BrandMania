@@ -11,6 +11,7 @@ public class SliderItem {
    private String payTitle;
    private String packageid;
    private String brandId;
+   private String subscriptionDate;
 
    private String duration;
 
@@ -34,6 +35,15 @@ public class SliderItem {
     ArrayList<SlideSubItem> slideSubItems;
 
     public SliderItem() {
+    }
+
+    public String getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public SliderItem setSubscriptionDate(String subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
+        return this;
     }
 
     public String getPriceForPay() {

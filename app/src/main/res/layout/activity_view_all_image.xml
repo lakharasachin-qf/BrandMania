@@ -160,6 +160,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY" />
+
+
                     <ProgressBar
                         android:id="@+id/simpleProgressBar"
                         android:layout_width="wrap_content"
@@ -176,9 +178,16 @@
                         android:visibility="gone" />
 
                     <RelativeLayout
+                        android:background="@drawable/element_background"
                         android:id="@+id/elementCustomFrame"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/borderLayoutElement"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY" />
 
 
                         <LinearLayout
@@ -262,6 +271,16 @@
                         android:layout_height="wrap_content">
 
                         <com.google.android.material.tabs.TabLayout
+                            app:tabTextAppearance="@style/CustomViewAllTab"
+                            android:id="@+id/tabLayout"
+                            android:layout_width="match_parent"
+                            app:tabMode="scrollable"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/appbarLayout"
+                            android:layout_marginTop="-3dp"
+                            android:background="@color/colorNavText"
+                            app:tabIndicatorColor="@color/colorPrimary" />
+                      <!--  <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tabLayout"
                             style="@style/MyTabLayout"
                             android:layout_width="match_parent"
@@ -271,9 +290,11 @@
 
                             android:background="@android:color/transparent"
                             app:tabGravity="fill"
+                            app:tabIndicatorColor="@color/colorPrimary"
                             app:tabIndicatorHeight="0dp"
                             app:tabMinWidth="@dimen/_60sdp"
-                            app:tabMode="scrollable" />
+                            app:tabMode="scrollable" />-->
+
 
                         <!--android:layout_marginRight="@dimen/_60sdp"-->
                     </RelativeLayout>

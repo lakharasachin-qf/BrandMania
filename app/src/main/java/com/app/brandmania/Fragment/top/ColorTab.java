@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.SeekBar;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -16,6 +18,7 @@ import com.app.brandmania.Adapter.ColorPickerAdapter;
 import com.app.brandmania.Adapter.OnlyTextColorPickerAddaptor;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.ITextColorChangeEvent;
+import com.app.brandmania.Interface.ITextSizeEvent;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ColorTabBinding;
 import com.app.brandmania.databinding.FragmentCustomBinding;
@@ -29,6 +32,9 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
     private ColorTabBinding binding;
     private int mColorCode;
     private ColorTab context;
+
+    int textSize = 5;
+    int saveProgress;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,6 +53,43 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
         binding.colorPickerView.setOnColorChangedListener(this);
         binding.colorPickerView.setOnColorChangedListener(this);
        // binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
+
+
+        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textSize = textSize + (progress - saveProgress);
+                saveProgress = progress;
+                //  binding.seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+                ((IColorChange)act).onBorderSizeChange(textSize);
+
+
+            }
+        });
+        binding.seekBar.setEnabled(false);
+
+        binding.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    binding.seekBar.setEnabled(true);
+                }else {
+                    binding.seekBar.setProgress(0);
+                    ((IColorChange)act).onBorderSizeChange(0);
+                    binding.seekBar.setEnabled(false);
+                }
+            }
+        });
 
         return binding.getRoot();
     }

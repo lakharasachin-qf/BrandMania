@@ -4,16 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.text.HtmlCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -95,15 +99,31 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
             binding.packageNameTxt.setText(sliderItemList.getPackageTitle());
             binding.durationTxt.setText(sliderItemList.getDuration());
-
+            Log.e("Services",new Gson().toJson(sliderItemList.getSlideSubItems()));
             for (int i=0;i<sliderItemList.getSlideSubItems().size();i++){
                 addDynamicServices(sliderItemList.getSlideSubItems().get(i).getName());
             }
+            addDynamicServices(sliderItemList.getImageTitle()+" Images Download / Year");
+            addDynamicServices(sliderItemList.getPayTitle()+" / "+sliderItemList.getDuration());
 
             //show for one month count
 
 
-            binding.finalAmountTxt.setText(act.getString(R.string.Rs) +sliderItemList.getPriceForPay());
+            if (Utility.monthsBetweenDates("28-12-2021")<1){
+                int actualPrice=Integer.parseInt(sliderItemList.getPriceForPay());
+                int previousPackagePrice=Integer.parseInt(preafManager.getActiveBrand().getRate());
+                int countedPrice=actualPrice-previousPackagePrice;
+                sliderItem=String.valueOf(countedPrice);
+                Log.e("Price",preafManager.getActiveBrand().getRate() +" - "+sliderItemList.getPriceForPay());
+                binding.discountedAmountLayout.setVisibility(View.GONE);
+                binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
+                binding.prevAmount.setText(act.getString(R.string.Rs)+preafManager.getActiveBrand().getRate());
+                binding.previousLayout.setVisibility(View.VISIBLE);
+                binding.noticeTxt.setVisibility(View.VISIBLE);
+                //- and rs icon with red colpr
+                binding.noticeTxt.setText("Your currently active package is \""+preafManager.getActiveBrand().getPackagename()+"\". so your previous paid amount is deducted.");
+            }
+            binding.finalAmountTxt.setText(act.getString(R.string.Rs) +sliderItem);
 
         }
     }

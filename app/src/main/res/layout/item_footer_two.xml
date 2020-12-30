@@ -224,40 +224,25 @@
                     android:layout_height="@dimen/_15sdp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/elementPremium"
+        <RelativeLayout
             android:visibility="gone"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_alignParentEnd="true"
-            app:cardElevation="@dimen/_4sdp"
-            app:cardBackgroundColor="@color/colorthird"
-            app:cardCornerRadius="@dimen/_3sdp"
+            android:id="@+id/elementPremium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/white"
-                    android:text="Premimun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <ImageView
-                    android:visibility="gone"
-                    android:elevation="@dimen/_20sdp"
-                    android:src="@drawable/cpv_preset_checked"
-                    android:background="@color/colorPrimary"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:elevation="@dimen/_10sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp">
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:elevation="@dimen/_20sdp"
+                android:src="@drawable/ic_crown" />
+        </RelativeLayout>
 </RelativeLayout>
 </layout>

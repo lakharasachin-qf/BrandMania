@@ -69,6 +69,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -98,6 +103,26 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
+       /* Date c = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
+        String currDateStr = fmt.format(c);
+        try {
+            Date subscriptionDate = fmt.parse("28-10-2020");
+            Date currentDate = fmt.parse(currDateStr);
+
+            Calendar startCalendar = new GregorianCalendar();
+            startCalendar.setTime(subscriptionDate);
+            Calendar endCalendar = new GregorianCalendar();
+            endCalendar.setTime(currentDate);
+            int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
+            int diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
+            Log.e("Diffrenere",diffMonth+" "+diffYear);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
 
     }
 

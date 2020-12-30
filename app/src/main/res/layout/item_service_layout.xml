@@ -4,8 +4,8 @@
     android:id="@+id/servicesTxt"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:fontFamily="@font/inter_regular"
-    android:text="- 1 - Templates / Brand"
+    android:fontFamily="@font/montserrat_regular"
+
     android:textSize="@dimen/_10sdp"
     xmlns:android="http://schemas.android.com/apk/res/android" />
 
