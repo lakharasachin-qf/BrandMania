@@ -85,7 +85,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         binding = DataBindingUtil.setContentView(act, R.layout.activity_add_brandd);
 
         preafManager = new PreafManager(this);

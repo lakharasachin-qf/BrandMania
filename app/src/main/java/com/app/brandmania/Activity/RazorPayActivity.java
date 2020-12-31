@@ -88,6 +88,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 onBackPressed();
             }
         });
+
         sliderItem = sliderItemList.getPriceForPay();
 
         binding.proceedToPayment.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +97,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 generateOrderID();
             }
         });
-
 
         if (sliderItemList != null) {
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
@@ -126,12 +126,15 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                     binding.previousLayout.setVisibility(View.VISIBLE);
                     binding.noticeTxt.setVisibility(View.VISIBLE);
                     //- and rs icon with red colpr
-                    binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount is deducted.");
+                    binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount will be deducted. As It was purchased within one month");
                 }
             }
             binding.finalAmountTxt.setText(act.getString(R.string.Rs) +sliderItem);
 
         }
+
+
+
     }
 
     private void addDynamicServices(String featuresTxt) {
@@ -347,7 +350,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 hashMap.put("brand",sliderItemList.getBrandId());
                 hashMap.put("package",sliderItemList.getPackageid());
                 hashMap.put("amount",sliderItemList.getPriceForPay());
-                hashMap.put("total_amount",sliderItemList.getPriceForPay());
+                //hashMap.put("total_amount",sliderItemList.getPriceForPay());
+                hashMap.put("total_amount",sliderItem);
                 hashMap.put("img_counter",sliderItemList.getImageTitle());
                 hashMap.put("frame_counter",sliderItemList.getTemplateTitle());
                 hashMap.put("is_pending",subscription);

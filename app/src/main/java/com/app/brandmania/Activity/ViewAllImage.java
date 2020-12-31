@@ -25,7 +25,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -102,7 +104,9 @@ import com.google.gson.Gson;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorPickerView;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageOptions;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.yalantis.ucrop.UCrop;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,6 +117,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -131,6 +137,7 @@ import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent,
         IItaliTextEvent, ColorPickerDialogListener, IUnderLineTextEvent, IColorChange, ColorPickerView.OnColorChangedListener,
         ITextSizeEvent, onFooterSelectListener, IBackendFrameSelect {
+
     Activity act;
     ViewPager viewPager;
     private boolean isLoading = false;
@@ -172,6 +179,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     private boolean isUsingCustomFrame = true;
 
+
     //Version 3
     private ImageList selectedBackendFrame = null;
     private FooterModel selectedFooterModel;
@@ -185,6 +193,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private boolean isLoadUnderLine = false;
     private String loadDefaultFont="";
     private int previousFontSize=-1;
+    int isDownloadOrSharingOrFavPending=-1;
 
 
     @Override
@@ -204,6 +213,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         Website = preafManager.getActiveBrand().getWebsite();
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
+
        // getAllImages();
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
@@ -228,25 +238,41 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 onBackPressed();
             }
         });
+        if (!preafManager.getAppTutorial().isEmpty()){
+            binding.videoTutorial.setVisibility(View.VISIBLE);
+        }
 
+        binding.videoTutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(act, AppIntroActivity.class);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedObject.setBrandId(preafManager.getActiveBrand().getId());
-                if (selectedBackendFrame != null) {
-                    selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
 
+                    selectedObject.setBrandId(preafManager.getActiveBrand().getId());
+                    if (selectedBackendFrame != null) {
+                        selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
+
+                    }
+                    selectedObject.setCustom(isUsingCustomFrame);
+
+
+                    preafManager.AddToMyFavorites(selectedObject);
+
+                if (manuallyEnablePermission(0)) {
+                    if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
+                        binding.fabroutIcon.setVisibility(View.GONE);
+                        binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                    }
+
+                    saveImageToGallery(false, true);
                 }
-                selectedObject.setCustom(isUsingCustomFrame);
 
-
-                preafManager.AddToMyFavorites(selectedObject);
-
-                if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
-                    binding.fabroutIcon.setVisibility(View.GONE);
-                    binding.addfabroutIcon.setVisibility(View.VISIBLE);
-                }
-                saveImageToGallery(false,true);
                 //downloadAndShareApi(ADDFAV,null);
             }
         });
@@ -254,21 +280,23 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedBackendFrame != null) {
-                    selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
 
-                }
-                selectedObject.setBrandId(preafManager.getActiveBrand().getId());
-                selectedObject.setCustom(isUsingCustomFrame);
 
-                preafManager.removeFromMyFavorites(selectedObject);
+                    if (selectedBackendFrame != null) {
+                        selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
+                    }
+                    selectedObject.setBrandId(preafManager.getActiveBrand().getId());
+                    selectedObject.setCustom(isUsingCustomFrame);
 
-                if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
-                    binding.addfabroutIcon.setVisibility(View.GONE);
-                    binding.fabroutIcon.setVisibility(View.VISIBLE);
-                }
+                    preafManager.removeFromMyFavorites(selectedObject);
+               // if (manuallyEnablePermission()) {
+                    if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
+                        binding.addfabroutIcon.setVisibility(View.GONE);
+                        binding.fabroutIcon.setVisibility(View.VISIBLE);
+                    }
 
-                removeFromFavourite(REMOVEFAV);
+                    removeFromFavourite(REMOVEFAV);
+               // }
             }
         });
 
@@ -276,25 +304,27 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             @Override
             public void onClick(View v) {
 
+                if (manuallyEnablePermission(1)) {
 
-                if (!Utility.isUserPaid(preafManager.getActiveBrand())){
-                    //freee ------
-                    if (selectedObject.isImageFree()) {
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
+                    if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
+                        //freee ------
+                        if (selectedObject.isImageFree()) {
+                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                askForUpgradeToEnterpisePackage();
+                                return;
+                            }
+                            getImageDownloadRights("Download");
+                        } else {
+                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
-                        getImageDownloadRights("Download");
-                    }else{
-                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
-                    }
-                }else {
-                    //paid
+                    } else {
+                        //paid
                      /*if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                             askForUpgradeToEnterpisePackage();
                             return;
                         }*/
                         getImageDownloadRights("Download");
+                    }
                 }
             }
         });
@@ -302,23 +332,20 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (!Utility.isUserPaid(preafManager.getActiveBrand())){
-                    if (selectedObject.isImageFree()) {
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
+                if (manuallyEnablePermission(2)) {
+                    if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
+                        if (selectedObject.isImageFree()) {
+                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                askForUpgradeToEnterpisePackage();
+                                return;
+                            }
+                            getImageDownloadRights("Share");
+                        } else {
+                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
+                    } else {
                         getImageDownloadRights("Share");
-                    }else{
-                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                     }
-                }else {
-                   /* if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                        askForUpgradeToEnterpisePackage();
-                        return;
-                    }*/
-                    getImageDownloadRights("Share");
                 }
             }
         });
@@ -557,7 +584,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             needToIntro=true;
 
             if (binding.logoEmptyState.getVisibility()==View.VISIBLE)
-                startIntro(binding.logoEmptyState, "Brand Logo", "Click on icon for choose your logo\n you can also move logo around anywhere in the image");
+                startIntro(binding.logoEmptyState, "Brand Logo", "Click on icon for choose your logo\n you can resize and move logo around anywhere in the image");
             else
                 startIntro(binding.logoCustom, "Brand Logo", "Click your logo to move around anywhere in the image");
 
@@ -575,13 +602,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     public void loadFirstImage(){
 
         FooterModel model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
         model.setFree(true);
         model.setAddress(preafManager.getActiveBrand().getAddress());
         model.setEmailId(preafManager.getActiveBrand().getEmail());
         model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
         model.setWebsite(preafManager.getActiveBrand().getWebsite());
-        ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_ONE, model);
+        ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_SEVEN, model);
     }
 
     //For CustomFrame
@@ -817,6 +844,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 ((ImageView) findViewById(R.id.logoCustom)).setImageURI(result.getUri());
                 ImageView imageView = ((ImageView) findViewById(R.id.logoCustom));
                 selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
             }
         }
     }
@@ -828,13 +856,74 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         } else {
             //   Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
         }
+        if (requestCode==CodeReUse.ASK_PERMISSSION) {
+            if (isDownloadOrSharingOrFavPending != -1) {
+                //for favourit
+                if (isDownloadOrSharingOrFavPending==0){
+                    isDownloadOrSharingOrFavPending=-1;
+                    if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
+                        binding.fabroutIcon.setVisibility(View.GONE);
+                        binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                    }
+
+                    saveImageToGallery(false, true);
+                }
+                //for download
+                if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                    if (isDownloadOrSharingOrFavPending == 1) {
+                        Toast.makeText(act, "fdggdgd", Toast.LENGTH_SHORT).show();
+                        isDownloadOrSharingOrFavPending = -1;
+                        if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
+                            //freee ------
+                            if (selectedObject.isImageFree()) {
+                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                    askForUpgradeToEnterpisePackage();
+                                    return;
+                                }
+                                getImageDownloadRights("Download");
+                            } else {
+                                askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                            }
+                        } else {
+                            //paid
+                     /*if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                            askForUpgradeToEnterpisePackage();
+                            return;
+                        }*/
+                            getImageDownloadRights("Download");
+                        }
+                    }
+                    //for share
+                    if (isDownloadOrSharingOrFavPending == 2) {
+                        isDownloadOrSharingOrFavPending = -1;
+                        if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
+                            if (selectedObject.isImageFree()) {
+                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                    askForUpgradeToEnterpisePackage();
+                                    return;
+                                }
+                                getImageDownloadRights("Share");
+                            } else {
+                                askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                            }
+                        } else {
+                            getImageDownloadRights("Share");
+                        }
+                    }
+                }
+            }
+        }
     }
+    private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage";
 
     private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
+            CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMultiTouchEnabled(true)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                 .start(this);
+
     }
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
@@ -1042,7 +1131,18 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     if ((preafManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) || preafManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
                         onSelectImageClick(view);
                     } else {
-                        Toast.makeText(act, "You can't change your logo", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(act, "once you download or share image. You can't change your logo", Toast.LENGTH_SHORT).show();
+                        new AlertDialog.Builder(act)
+                                .setMessage("once you download or share image. You can't change your logo")
+                                .setCancelable(true)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                        ((alertListenerCallback) act).alertListenerClick();
+                                    }
+                                })
+                                .show();
                     }
                 }else {
                     final int x = (int) event.getRawX();
@@ -1064,8 +1164,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                             break;
 
                         case MotionEvent.ACTION_MOVE:
-                            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
-                                    .getLayoutParams();
+                            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
                             layoutParams.leftMargin = x - xDelta;
                             layoutParams.topMargin = y - yDelta;
                             layoutParams.rightMargin = 0;
@@ -1074,13 +1173,83 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                             break;
                     }
 
-                    mainLayout.invalidate();
+                   binding.elementCustomFrame.invalidate();
                 }
                 return true;
             }
         };
     }
 
+    public boolean manuallyEnablePermission(int pendingActivity) {
+        isDownloadOrSharingOrFavPending=pendingActivity;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    new AlertDialog.Builder(act)
+                            .setMessage("Allow BrandMania to access photos, files to download and share images ")
+                            .setCancelable(true)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                    startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                            Uri.fromParts("package", act.getPackageName(), null)));
+                                }
+                            })
+                            .show();
+                    return false;
+                }else {
+                    return true;
+                }
+
+            }else {
+                if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    new AlertDialog.Builder(act)
+                            .setMessage("Allow BrandMania to access photos, files to download and share images ")
+                            .setCancelable(true)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                    ActivityCompat.requestPermissions(act,
+                                            new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                                    Manifest.permission.READ_EXTERNAL_STORAGE},
+                                            CodeReUse.ASK_PERMISSSION);
+                                }
+                            })
+                            .show();
+                    return false;
+                }else {
+
+                    return true;
+                }
+
+
+            }
+        }else {
+             if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    new AlertDialog.Builder(act)
+                            .setMessage("Allow BrandMania to access photos, files to download and share images ")
+                            .setCancelable(true)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                    ActivityCompat.requestPermissions(act,
+                                            new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                                    Manifest.permission.READ_EXTERNAL_STORAGE},
+                                            CodeReUse.ASK_PERMISSSION);
+                                }
+                            })
+                            .show();
+                    return false;
+                }else {
+
+                    return true;
+                }
+        }
+
+    }
 
     //save image with frame either custome or from backend
     public void saveImageToGallery(boolean wantToShare,boolean isFavourite) {
@@ -2008,6 +2177,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             } else if (footerLayout == 6) {
 
                 sixBinding.textElement1.setTextSize(textsize);
+                sixBinding.contactText.setTextSize(textsize);
 
             } else if (footerLayout == 7) {
                 sevenBinding.brandNameText.setTextSize(textsize);
@@ -2294,7 +2464,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
 
-
     //change color for background and text of footer
 
     public void ChangeBackgroundColorForFrameOne(int colorCode) {
@@ -2508,7 +2677,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (!activeBrand.getWebsite().isEmpty()) {
             twoBinding.websiteText.setText(activeBrand.getWebsite());
         } else {
-            twoBinding.websiteText.setVisibility(View.GONE);
+            twoBinding.websiteLayout.setVisibility(View.GONE);
         }
 
         if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()) {
@@ -2539,7 +2708,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (!activeBrand.getWebsite().isEmpty()) {
             threeBinding.websiteText.setText(activeBrand.getWebsite());
         } else {
-            threeBinding.websiteText.setVisibility(View.GONE);
+            threeBinding.websiteEdtLayout.setVisibility(View.GONE);
         }
 
     }
@@ -2568,7 +2737,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (!activeBrand.getWebsite().isEmpty()) {
             fourBinding.websiteText.setText(activeBrand.getWebsite());
         } else {
-            fourBinding.websiteText.setVisibility(View.GONE);
+            fourBinding.websiteLayout.setVisibility(View.GONE);
         }
 
     }
@@ -2836,7 +3005,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             request.addMultipartParameter("brand_id",  preafManager.getActiveBrand().getId());
             request.addMultipartParameter("image_id", selectedObject.getImageid());
             request.addMultipartParameter("is_custom", "1");
-            request.addMultipartParameter("footer_id ", String.valueOf(selectedFooterModel.getLayoutType()));
+            request.addMultipartParameter("footer_id", String.valueOf(selectedFooterModel.getLayoutType()));
             if (img1File != null) {
                 request.addMultipartFile("image", img1File);
                 Log.e("br_logo", String.valueOf(img1File));
@@ -2909,27 +3078,38 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     try {
                         String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
                         FrameCountForDownload = Integer.parseInt(frameCount);
-                         int imageCounter=Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter"));
+                        int imageCounter=Integer.parseInt( ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter").equalsIgnoreCase("Unlimited") ?"-1": ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter"));
 
                         int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0  : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
-                          int packageImageCounter=preafManager.getActiveBrand().getImage();
+
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
                             canDownload = true;
-                            if (imageCounter > used_img_counter) {
-                                if (flag.equalsIgnoreCase("Download"))
-                                    askForDownloadImage();
-                                else {
-                                    requestAgain();
-                                    saveImageToGallery(true, false);
+                           if (Utility.isUserPaid(preafManager.getActiveBrand())){
 
-                                }
-                            }else {
-                                downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
-                            }
+                               if (imageCounter==-1 || used_img_counter <= imageCounter) {
+                                   if (flag.equalsIgnoreCase("Download"))
+                                       askForDownloadImage();
+                                   else {
+                                       requestAgain();
+                                       saveImageToGallery(true, false);
+                                   }
+                               }else {
+                                   downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
+                               }
+
+                           }else {
+                               if (flag.equalsIgnoreCase("Download"))
+                                   askForDownloadImage();
+                               else {
+                                   requestAgain();
+                                   saveImageToGallery(true, false);
+                               }
+                           }
+
                         } else {
                             canDownload = false;
-                            downloadLimitExpireDialog("You have already used one image for today. To get more images please upgrade your package");
+                            downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
                             //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {

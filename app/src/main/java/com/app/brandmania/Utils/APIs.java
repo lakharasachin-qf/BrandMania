@@ -37,4 +37,7 @@ public class APIs {
     public static final String GET_BRAND_BY_ID = URL + "getBrandById";
 
     public static final String CUSTOM_FRAME_ACCESS=URL+"getCustomFrameAccess";
+
+
+    public static final String GET_APP_VIDEO_LINK=URL+"getVideo";
 }

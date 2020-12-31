@@ -10,4 +10,6 @@ public class ObserverActionID {
     public static final int REFRESH_BRAND_NAME = 2;
     public static final int RELOAD_BRANDS = 3;
     public static final int JUSTBRAND = 4;
+
+    public static final int APP_INTRO_REFRESH = 5;
 }

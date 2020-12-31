@@ -32,6 +32,15 @@ public class PreafManager
     private static final String catogaryTab="Tab1";
     private static final String backgroundTab="Tab2";
     private static final String textTab="Tab3";
+    private static final String appTutorial="appTutorial";
+
+    public String getAppTutorial() {
+        return pref.getString(appTutorial, "");
+    }
+    public void setAppTutorial(String parameters) {
+        pref.edit().putString(appTutorial, parameters).apply();
+    }
+
 
     public Boolean getCatogaryTab() {
         return pref.getBoolean(catogaryTab, true);

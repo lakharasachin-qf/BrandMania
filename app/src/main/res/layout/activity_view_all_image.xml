@@ -6,6 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:id="@+id/rootBackground"
         android:layout_height="match_parent"
         android:theme="@style/AppTheme_material_theme"
         tools:context=".Activity.ViewAllImage">
@@ -56,13 +57,26 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:text="My Business"
+                        android:text="My Busineshfghfghfghfgfhghfhfs"
                         android:textColor="@color/colorNavText"
                         android:textSize="@dimen/_13sdp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
 
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/videoTutorial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/favSection"
+                    android:fontFamily="@font/inter_semibold"
+                    android:src="@drawable/ic_play_button"
+                    android:textColor="@color/colorNavText"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:tint="@color/white" />
 
                 <ImageView
                     android:id="@+id/downloadIcon"
@@ -87,31 +101,36 @@
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/fabroutIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/favSection"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_toLeftOf="@+id/shareIcon"
-                    android:fontFamily="@font/inter_semibold"
-                    android:src="@drawable/ic_baseline_favorite_border_24"
-                    android:textColor="@color/colorNavText"
-                    android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/addfabroutIcon"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_toLeftOf="@+id/shareIcon"
-                    android:fontFamily="@font/inter_semibold"
-                    android:src="@drawable/ic_baseline_favorite_24"
-                    android:textColor="@color/colorNavText"
-                    android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/fabroutIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_semibold"
+                        android:src="@drawable/ic_baseline_favorite_border_24"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/addfabroutIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:fontFamily="@font/inter_semibold"
+                        android:src="@drawable/ic_baseline_favorite_24"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+
+
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -217,10 +236,10 @@
 
                         <ImageView
                             android:id="@+id/logoCustom"
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/placeholder"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="@dimen/_80sdp"
+                            android:scaleType="centerInside"
+                            android:background="@android:color/transparent"
                             android:visibility="gone" />
 
 
@@ -237,6 +256,7 @@
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/backendFrame"
+
                         android:scaleType="fitXY"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>

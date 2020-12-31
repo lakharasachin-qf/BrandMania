@@ -70,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:fontFamily="@font/poppins_medium"
+
                     android:maxLines="1"
                     android:text="Student Name"
                     android:textColor="@color/black"

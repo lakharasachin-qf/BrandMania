@@ -54,7 +54,7 @@
         android:textSize="@dimen/_10sdp"
         android:textAlignment="center"
         android:fontFamily="@font/inter_regular"
-        android:text="Request for custom frame is only applicable to ENTERPRISE package"
+        android:text="Request for custom frame is only applicable to Standard and Enterprise package"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -68,7 +68,7 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:fontFamily="@font/inter_regular"
-        android:text="Currently you in standard packages"
+        android:text="Currently you in packages"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

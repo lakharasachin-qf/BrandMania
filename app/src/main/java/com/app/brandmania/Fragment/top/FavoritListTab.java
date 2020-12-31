@@ -2,8 +2,11 @@ package com.app.brandmania.Fragment.top;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -22,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -101,20 +105,18 @@ public class FavoritListTab extends Fragment{
         DownloadFavoriteAdapter.onShareImageClick onShareImageClick=new DownloadFavoriteAdapter.onShareImageClick() {
             @Override
             public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
-                requestAgain();
-                downloadingOject = favoriteItemList;
-                if (!Utility.isUserPaid(preafManager.getActiveBrand())){
-                    if (favoriteItemList.isImageFree()){
-                        getImageDownloadRights();
+                if (manuallyEnablePermission()) {
+                    downloadingOject = favoriteItemList;
+                    if (!Utility.isUserPaid(preafManager.getActiveBrand())){
+                        if (favoriteItemList.isImageFree()){
+                            getImageDownloadRights();
+                        }else {
+                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                        }
                     }else {
-                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                        getImageDownloadRights();
                     }
-                }else {
-                    getImageDownloadRights();
                 }
-
-
-
             }
         };
         menuAddaptor.setOnShareImageClick(onShareImageClick);
@@ -194,14 +196,64 @@ public class FavoritListTab extends Fragment{
             Utility.showLoadingTran(act);
         }
     }
-    //For CreatFileeDisc For Download Image.........................
+    //For Create File Disc For Download Image.........................
     private File getDisc() {
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        return new File(file, "Image Demo");
+        return new File(file, "BrandMania");
     }
     File new_file;
     BitmapDrawable FrameDrawbable;
     BitmapDrawable backgroundImageDrable;
+
+    public boolean manuallyEnablePermission() {
+        if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                new AlertDialog.Builder(act)
+                        .setMessage("Allow BrandMania to access photos, files to download and share images ")
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                        Uri.fromParts("package", act.getPackageName(), null)));
+                            }
+                        })
+                        .show();
+                return false;
+            }else {
+                return true;
+            }
+
+        }else {
+            if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                new AlertDialog.Builder(act)
+                        .setMessage("Allow BrandMania to access photos, files to download and share images ")
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                ActivityCompat.requestPermissions(act,
+                                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                                Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        CodeReUse.ASK_PERMISSSION);
+                            }
+                        })
+                        .show();
+                return false;
+            }else {
+
+                return true;
+            }
+
+
+        }
+
+
+    }
+
+
 
     public void startShare(File new_file) {
 
@@ -227,6 +279,7 @@ public class FavoritListTab extends Fragment{
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,"IMG_" + Calendar.getInstance().getTime(), null);
         return Uri.parse(path);
     }
+
     public void startsShare() {
         Drawable d = FrameDrawbable;
         Drawable ImageDrawable =backgroundImageDrable;
@@ -259,13 +312,13 @@ public class FavoritListTab extends Fragment{
 
             fileOutputStream.flush();
             fileOutputStream.close();
-            triggerShareIntent(new_file,merged);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        triggerShareIntent(new_file,merged);
     }
 
     private void getFavoritListItem() {
@@ -346,13 +399,13 @@ public class FavoritListTab extends Fragment{
     //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeDownloadLimitExpireBinding expireBinding;
 
-    private void downloadLimitExpireDialog() {
+    private void downloadLimitExpireDialog(String msg) {
         expireBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_download_limit_expire, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(expireBinding.getRoot());
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(expireBinding.getRoot());
-
+        expireBinding.element3.setText(msg);
         expireBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -387,7 +440,7 @@ public class FavoritListTab extends Fragment{
                 JSONObject respJson = ResponseHandler.createJsonObject(response);
                 if (ResponseHandler.getBool(respJson, "status")) {
                     JSONArray dataJson = ResponseHandler.getJSONArray(respJson, "data");
-                    try {
+                   /* try {
                         String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
                         //FrameCountForDownload = Integer.parseInt(frameCount);
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
@@ -399,6 +452,41 @@ public class FavoritListTab extends Fragment{
                             //  canDownload = false;
                             downloadLimitExpireDialog();
                             //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+*/
+
+                    try {
+                        String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
+
+                        int imageCounter=Integer.parseInt( ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter").equalsIgnoreCase("Unlimited") ?"-1": ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter"));
+
+                        int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0  : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
+
+
+                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
+                            if (Utility.isUserPaid(preafManager.getActiveBrand())){
+                                if (imageCounter==-1 || used_img_counter <= imageCounter) {
+                                    if (!downloadingOject.isCustom())
+                                        new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
+                                    else
+                                        new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
+                                }else {
+                                    downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
+                                }
+                            }else {
+                                if (!downloadingOject.isCustom())
+                                    new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
+                                else
+                                    new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
+                            }
+
+                        } else {
+
+                            downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

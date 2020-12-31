@@ -2,6 +2,7 @@ package com.app.brandmania.Fragment.top;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -135,9 +136,10 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 textSize = textSize + (progress - saveProgress);
                 saveProgress = progress;
+
                 //  binding.seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
                 ((ITextSizeEvent) act).onfontSize(textSize);
-
+               // ((ITextSizeEvent) act).onfontSize((int) (textSize / Resources.getSystem().getDisplayMetrics().density));
 
             }
         });

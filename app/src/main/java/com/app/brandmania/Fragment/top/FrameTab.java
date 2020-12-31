@@ -69,7 +69,7 @@ public class FrameTab extends Fragment {
         binding.subscribePlaneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") &&preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")){
+                if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") &&(preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")) || preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Standard")){
                     try {
                         String number = Constant.ADMIN_CONTACT_NUMBER;
                         String BrandContact="\nRegistered Number: ";

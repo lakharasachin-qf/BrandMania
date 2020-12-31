@@ -521,12 +521,20 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     //Update Token......................
     private void UpdateToken() {
-        Utility.Log("Verify-Responce-Api", APIs.UPDATE_TOKEN);
+        Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Utility.Log("UPDATE_TOKENnn", response);
+                // {"status":true,"data":[{"id":1,"video_url_path":"http:\/\/queryfinders.com\/brandmania_uat\/public\/storage\/uploads\/video\/Skype_Video.mp4"}],"message":"Device Token Updated."}
+                JSONObject jsonObject=ResponseHandler.createJsonObject(response);
+                try {
+                    preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject,"data").getJSONObject(0),"video_url_path"));
+                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {

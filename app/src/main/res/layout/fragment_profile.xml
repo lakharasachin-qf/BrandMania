@@ -86,7 +86,6 @@
         <ImageView
             android:layout_marginStart="-100dp"
             android:layout_alignParentBottom="true"
-
             android:src="@drawable/bottom"
             android:layout_width="@dimen/_300sdp"
             android:layout_height="@dimen/_300sdp">
@@ -190,9 +189,55 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:visibility="gone"
+                                    android:id="@+id/videoLine"
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
                                     android:background="@color/Graycolor" />
+
+                                <RelativeLayout
+                                    android:visibility="gone"
+                                    android:id="@+id/introLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_15sdp"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:layout_marginEnd="@dimen/_15sdp"
+                                    android:paddingTop="@dimen/_7sdp"
+                                    android:paddingBottom="@dimen/_7sdp">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_15sdp"
+                                            android:layout_height="@dimen/_15sdp"
+                                            android:layout_alignParentEnd="true"
+                                            android:padding="@dimen/_2sdp"
+                                            android:src="@drawable/ic_next" />
+
+                                        <ImageView
+                                            android:id="@+id/gdfgdfg"
+                                            android:layout_width="@dimen/_20sdp"
+                                            android:layout_height="@dimen/_20sdp"
+                                            android:src="@drawable/ic_sdsd"
+                                            android:contentDescription="TODO" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="@dimen/_10sdp"
+                                            android:layout_toEndOf="@+id/gdfgdfg"
+                                            android:fontFamily="@font/montserrat_medium"
+                                            android:text="How to use"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="@dimen/_12sdp" />
+
+                                </RelativeLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/Graycolor" />
+
 
                                 <RelativeLayout
                                     android:id="@+id/partnerProgRelative"
@@ -436,7 +481,7 @@
                                             android:id="@+id/fdg"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_insurance"
+                                            android:src="@drawable/ic_contract"
                                             android:contentDescription="TODO" />
 
                                         <TextView

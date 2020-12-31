@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.AboutUsActivity;
 import com.app.brandmania.Activity.AddReportAndBug;
+import com.app.brandmania.Activity.AppIntroActivity;
 import com.app.brandmania.Activity.FaqActivity;
 import com.app.brandmania.Activity.LoginActivity;
 import com.app.brandmania.Activity.PackageActivity;
@@ -70,6 +71,21 @@ public class ProfileFragment extends BaseFragment {
 
             }
         });
+        binding.introLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(act, AppIntroActivity.class);
+
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+
+            }
+        });
+        if (!preafManager.getAppTutorial().isEmpty()){
+            binding.introLayout.setVisibility(View.VISIBLE);
+            binding.videoLine.setVisibility(View.VISIBLE);
+        }
+
         binding.logoutRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,6 +301,12 @@ public class ProfileFragment extends BaseFragment {
 
             getBrandList();
         }
-
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.APP_INTRO_REFRESH) {
+            preafManager=new PreafManager(act);
+            if (!preafManager.getAppTutorial().isEmpty()){
+                binding.introLayout.setVisibility(View.VISIBLE);
+                binding.videoLine.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }
