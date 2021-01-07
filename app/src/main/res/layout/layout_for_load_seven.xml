@@ -9,7 +9,6 @@
         android:orientation="vertical">
 
         <TextView
-
             android:layout_centerHorizontal="true"
             android:id="@+id/brandNameText"
             android:layout_width="match_parent"
@@ -24,16 +23,16 @@
         <RelativeLayout
             android:id="@+id/element0"
 
-            android:layout_centerHorizontal="true"
+
             android:layout_below="@+id/brandNameText"
             android:paddingStart="@dimen/_7sdp"
             android:paddingEnd="@dimen/_7sdp"
-            android:gravity="center_horizontal"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/_20sdp">
 
             <RelativeLayout
-                android:layout_toStartOf="@+id/element"
+               android:layout_marginLeft="@dimen/_30sdp"
                 android:id="@+id/gmailLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
@@ -67,15 +66,14 @@
             <View
                 android:layout_marginStart="@dimen/_7sdp"
                 android:layout_marginEnd="@dimen/_7sdp"
-                android:layout_centerHorizontal="true"
+                android:layout_toEndOf="@+id/gmailLayout"
                 android:id="@+id/element"
                 android:background="@color/colorPrimary"
                 android:layout_centerVertical="true"
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="@dimen/_10sdp" />
             <RelativeLayout
-                android:layout_toEndOf="@+id/element"
-
+               android:layout_marginLeft="@dimen/_180sdp"
                 android:id="@+id/contactLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
@@ -106,11 +104,21 @@
 
             </RelativeLayout>
         </RelativeLayout>
-        <LinearLayout
+
+
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:id="@+id/socialFollow"
             android:layout_below="@+id/element0"
-            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp">
+        <RelativeLayout
+            android:id="@+id/socialLayout"
+            android:layout_centerVertical="true"
+           android:layout_marginLeft="@dimen/_150sdp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/_20sdp">
 
 
             <ImageView
@@ -122,6 +130,7 @@
                 app:tint="@color/colorPrimary" />
 
             <ImageView
+                android:layout_toEndOf="@+id/imgElement1"
                 android:id="@+id/imgElement2"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
@@ -130,13 +139,16 @@
                 app:tint="@color/colorPrimary" />
 
             <ImageView
+                android:layout_toEndOf="@+id/imgElement2"
                 android:id="@+id/imgElement3"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/ic_social_media_whatsapp"
                 app:tint="@color/colorPrimary" />
-        </LinearLayout>
+        </RelativeLayout>
+
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>

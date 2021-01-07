@@ -64,7 +64,7 @@
                 <RelativeLayout
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
+                   android:layout_marginLeft="@dimen/_150sdp"
                     android:paddingEnd="@dimen/_12sdp"
                     android:id="@+id/contactLayout"
                     android:layout_below="@+id/topView2"
@@ -114,7 +114,7 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_toStartOf="@+id/websiteLayout">
+                    >
 
                     <ImageView
                         android:layout_centerVertical="true"
@@ -135,7 +135,7 @@
                         android:includeFontPadding="false"
                         android:singleLine="true"
                         android:textColor="@color/colorNavText"
-                        android:text="Vastfdgdgfdfgfddfgfdgfgfdgdgdfgdfgdffdfdgfdfgdfral"
+                        android:text="ffdfdgfdfgdfral"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                     </TextView>
@@ -146,9 +146,8 @@
                     android:id="@+id/websiteLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
-                    android:layout_below="@+id/topView2"
+                  android:layout_marginLeft="@dimen/_150sdp"
 
-                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_12sdp"

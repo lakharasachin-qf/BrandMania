@@ -317,7 +317,6 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     @Override
     public void onChooseColor(int colorCode) {
         if (editorFragment==3 && selectedForEdit!=null) {
-            selectedForEdit.setTextColor(colorCode);
         }
         if (editorFragment==0 && selectedForBackgroundChange!=null){
             if (FramePrimaryOrSecondary==0){

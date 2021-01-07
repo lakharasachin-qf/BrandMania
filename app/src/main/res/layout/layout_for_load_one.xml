@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -31,13 +31,15 @@
                 android:background="@color/colorPrimary" />
 
             <RelativeLayout
+                android:id="@+id/main"
                 android:paddingStart="@dimen/_7sdp"
                 android:paddingEnd="@dimen/_7sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp">
 
 
                 <RelativeLayout
+
                     android:id="@+id/gmailLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
@@ -60,8 +62,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_toEndOf="@+id/gmailImage"
-                        android:includeFontPadding="false"
-                        android:padding="0dp"
+                        android:fontFamily="@font/inter_regular"
                         android:singleLine="true"
                         android:text="qfsolution@gmail.com"
                         android:textColor="@color/colorPrimary"
@@ -74,7 +75,7 @@
                     android:id="@+id/contactLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentEnd="true"
+                   android:layout_marginLeft="@dimen/_220sdp"
                     android:layout_centerVertical="true">
 
                     <ImageView
@@ -92,8 +93,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_toEndOf="@+id/contactImage"
-                        android:includeFontPadding="false"
-                        android:padding="0dp"
+                      android:fontFamily="@font/inter_regular"
                         android:singleLine="true"
 
                         android:text="8849896537"
@@ -103,16 +103,18 @@
                 </RelativeLayout>
             </RelativeLayout>
             <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_below="@+id/main"
                 android:id="@+id/addressLayoutElement2"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp"
                 android:paddingStart="@dimen/_7sdp"
                 android:paddingEnd="@dimen/_7sdp"
                 android:background="@color/colorPrimary">
-
-                <RelativeLayout
+                              <RelativeLayout
+                    android:layout_centerVertical="true"
                     android:id="@+id/addressLayoutElement"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
                     >
 
@@ -127,7 +129,7 @@
 
                     <TextView
                         android:id="@+id/locationText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="@dimen/_10sdp"
                         android:singleLine="true"
@@ -138,8 +140,9 @@
                         android:textColor="@color/colorNavText"
                         android:textSize="@dimen/_8sdp" />
                 </RelativeLayout>
-            </RelativeLayout>
-        </LinearLayout>
+
+                     </RelativeLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

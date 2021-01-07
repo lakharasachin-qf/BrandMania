@@ -6,26 +6,35 @@
         android:paddingBottom="@dimen/_10sdp"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/addressEdtLayout"
+        <RelativeLayout
+            android:id="@+id/addressLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_7sdp"
-            android:gravity="center_horizontal"
+            android:layout_height="@dimen/_20sdp">
+
+        <RelativeLayout
+
+            android:layout_marginLeft="@dimen/_130sdp"
+            android:id="@+id/addressEdtLayout"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
             android:orientation="horizontal">
 
             <ImageView
+                android:layout_centerVertical="true"
                 android:id="@+id/locationImage"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_5sdp"
+
                 android:background="@drawable/roundbackground"
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/ic_outline_location_on_24"
                 app:tint="@color/colorNavText" />
 
             <TextView
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/locationImage"
                 android:id="@+id/locationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,14 +46,20 @@
                 android:text="regre"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_8sdp" />
-        </LinearLayout>
-
+        </RelativeLayout>
+        </RelativeLayout>
         <RelativeLayout
-            android:layout_below="@+id/addressEdtLayout"
+            android:layout_below="@+id/addressLayout"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp">
+            <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:id="@+id/gmailLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp">
 
             <ImageView
                 android:id="@+id/gmailImage"
@@ -71,10 +86,16 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_8sdp" />
 
-
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_centerVertical="true"
+                android:id="@+id/contactLayout"
+                 android:layout_marginLeft="@dimen/_180sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp">
             <ImageView
                 android:layout_width="@dimen/_18sdp"
-                android:layout_toEndOf="@+id/gmailText"
+
                 android:id="@+id/callImage"
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/ic_outline_call_24"
@@ -97,7 +118,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_8sdp" />
 
-
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </layout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/_10sdp"
@@ -11,15 +12,16 @@
         android:weightSum="2">
 
         <RelativeLayout
+
             android:id="@+id/section1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_20sdp"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/section2"
-            android:layout_weight="1"
+
             android:orientation="vertical">
 
             <RelativeLayout
+                android:layout_centerVertical="true"
                 android:id="@+id/gmailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp">
@@ -48,53 +50,13 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/loactionLayout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_below="@+id/gmailLayout">
-
-                <ImageView
-                    android:id="@+id/loacationImage"
-                    android:layout_width="@dimen/_12sdp"
-
-                    android:layout_height="@dimen/_12sdp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_outline_location_on_24"
-                     />
-
-                <TextView
-                    android:id="@+id/locationText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_toEndOf="@+id/loacationImage"
-                    android:includeFontPadding="false"
-                    android:maxWidth="@dimen/_130sdp"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="Vastradfgdgdgfdgfdgfdgdfgfdgfdfgdfgdfgl"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_8sdp" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/section2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
 
             <RelativeLayout
+                android:layout_centerVertical="true"
                 android:id="@+id/contactLayout"
-
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_20sdp">
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_180sdp">
 
                 <ImageView
                     android:id="@+id/contactImage"
@@ -120,12 +82,57 @@
                     android:textSize="@dimen/_8sdp" />
 
             </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/section1"
+            android:id="@+id/section2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical">
+
 
             <RelativeLayout
+                android:layout_centerVertical="true"
+                android:id="@+id/loactionLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp">
+
+
+                <ImageView
+                    android:id="@+id/loacationImage"
+                    android:layout_width="@dimen/_12sdp"
+
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_outline_location_on_24"
+                    />
+
+                <TextView
+                    android:id="@+id/locationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/loacationImage"
+                    android:includeFontPadding="false"
+                    android:maxWidth="@dimen/_130sdp"
+                    android:padding="0dp"
+                    android:singleLine="true"
+                    android:text="Vastradfgdgdgfdgfdgfdgdfgfdgfdfgdfgdfgl"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_8sdp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_180sdp"
                 android:id="@+id/websiteEdtLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
-                android:layout_below="@+id/contactLayout">
+               >
 
                 <ImageView
                     android:id="@+id/websiteImage"
@@ -142,8 +149,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_toEndOf="@+id/websiteImage"
-
-                    android:minWidth="@dimen/_100sdp"
                     android:singleLine="true"
                     android:text="qfsolution.com"
                     android:textColor="@color/colorPrimary"

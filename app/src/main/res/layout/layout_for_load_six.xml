@@ -7,7 +7,7 @@
         android:layout_height="wrap_content">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -24,20 +24,25 @@
                 android:background="@color/colorPrimary" />
 
             <RelativeLayout
+                android:layout_below="@+id/viewElement2"
                 android:id="@+id/containerElement"
+                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_30sdp"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/_3sdp"
                 android:paddingBottom="@dimen/_3sdp">
-                <LinearLayout
+                <RelativeLayout
+                    android:layout_centerVertical="true"
+                    android:id="@+id/socialFollow"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="@dimen/_150sdp"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/_20sdp">
                     <TextView
+                        android:layout_centerVertical="true"
                         android:id="@+id/textElement1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -49,6 +54,8 @@
                         android:textSize="@dimen/_10sdp" />
 
                     <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/textElement1"
                         android:id="@+id/imgElement1"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
@@ -58,6 +65,8 @@
                         app:tint="@color/white" />
 
                     <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/imgElement1"
                         android:id="@+id/imgElement2"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
@@ -66,23 +75,27 @@
                         app:tint="@color/white" />
 
                     <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/imgElement2"
                         android:id="@+id/imgElement3"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_social_media_whatsapp"
                         app:tint="@color/white" />
-                </LinearLayout>
-                <LinearLayout
+                </RelativeLayout>
+                <RelativeLayout
                     android:id="@+id/contactLayout"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_alignParentStart="true"
+
                     android:orientation="horizontal"
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/_20sdp">
 
 
                     <ImageView
+                        android:layout_centerVertical="true"
                         android:id="@+id/contactImage"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
@@ -92,6 +105,7 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:layout_toEndOf="@+id/contactImage"
                         android:id="@+id/contactText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -99,15 +113,16 @@
                         android:fontFamily="@font/inter_regular"
                         android:gravity="center_vertical"
                         android:text="8849896537"
+                        android:layout_centerVertical="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </RelativeLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

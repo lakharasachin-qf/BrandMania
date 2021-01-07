@@ -10,7 +10,7 @@
             android:title="@string/title_home" />
 
         <item
-            android:visible="false"
+            app:itemTextAppearance="@style/Style_TextView"
             android:id="@+id/navigation_custom"
             android:icon="@drawable/custome_select"
             android:title="@string/title_custom" />

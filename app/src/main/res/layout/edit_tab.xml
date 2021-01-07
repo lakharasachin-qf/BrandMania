@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="visible"
+            android:clipToPadding="false"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_30sdp"
+            android:layout_height="wrap_content"
+            android:id="@+id/filterRecycler"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/parentColroChoose" />
+
+
+
+
+
+
+
+        <RelativeLayout
+
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:visibility="visible"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/colorboxtroundcorner"
+            android:id="@+id/boldRelative"
+            android:layout_below="@+id/filterRecycler"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:layout_height="@dimen/_32sdp">
+
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:visibility="visible"
+                android:id="@+id/rotateImage"
+                android:background="@drawable/ic_outline_cached_24"
+                android:layout_width="@dimen/_20sdp"
+                android:backgroundTint="@color/black"
+                android:layout_height="@dimen/_20sdp">
+            </ImageView>
+
+            <ImageView
+                android:layout_toEndOf="@+id/boldText"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@color/black"
+                android:id="@+id/italicText"
+                android:background="@drawable/ic_baseline_format_italic_24"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp">
+            </ImageView>
+
+            <ImageView
+
+                android:backgroundTint="@color/black"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/italicText"
+                android:id="@+id/underlineText"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_centerVertical="true"
+                android:layout_height="@dimen/_20sdp"
+
+                android:background="@drawable/ic_baseline_format_underlined_24"
+                android:visibility="gone" />
+
+
+            <SeekBar
+
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:visibility="visible"
+                android:theme="@style/SeekBarColor"
+                android:id="@+id/seekBar"
+                android:max="255"
+
+                android:layout_toEndOf="@+id/underlineText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

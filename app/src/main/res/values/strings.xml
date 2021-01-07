@@ -69,4 +69,14 @@
     <string name="Rs">\u20B9</string>
     <string name="please_check_your_internet_connectivity_amp_get_online"><![CDATA[Please Check your internet connectivity & get online.]]></string>
     <string name="chooese_custom_logo">Choose Your Logo</string>
+
+
+    <string name="lbl_brightness">BRIGHTNESS</string>
+    <string name="lbl_contrast">CONTRAST</string>
+    <string name="lbl_saturation">SATURATION</string>
+    <string name="tab_filters">FILTERS</string>
+    <string name="tab_edit">EDIT</string>
+
+
+
 </resources>

@@ -246,7 +246,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (!activeBrand.getWebsite().isEmpty()){
                         ((FooterHolderTwo) holder).binding.websiteText.setText(activeBrand.getWebsite());
                     }else {
-                        ((FooterHolderTwo) holder).binding.websiteText.setVisibility(View.GONE);
+                        ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
                     }
 
                     if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()){

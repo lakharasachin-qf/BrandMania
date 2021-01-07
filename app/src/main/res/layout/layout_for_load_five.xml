@@ -7,23 +7,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <LinearLayout
+        <RelativeLayout
                 android:orientation="vertical"
-
+                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp">
 
-            <LinearLayout
+
+
+            <RelativeLayout
+                android:id="@+id/main"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp">
+
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/_120sdp"
                 android:id="@+id/element0"
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_20sdp"
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:layout_centerVertical="true"
                     android:id="@+id/websiteImage"
                     android:layout_gravity="center_vertical"
                     android:layout_width="@dimen/_12sdp"
@@ -32,27 +41,32 @@
                     app:tint="@color/colorPrimary" />
 
                 <TextView
+                    android:layout_toEndOf="@id/websiteImage"
                     android:id="@+id/websiteText"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:text="Website"
                     android:textSize="@dimen/_8sdp" />
-            </LinearLayout>
-
+            </RelativeLayout>
+            </RelativeLayout>
             <View
+
                 android:id="@+id/viewElement2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/element0"
+               android:layout_below="@+id/main"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginBottom="@dimen/_4sdp"
                 android:background="@color/colorPrimary" />
 
             <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_below="@+id/viewElement2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/_20sdp">
 
                 <ImageView
                     android:id="@+id/element1"
@@ -61,25 +75,27 @@
                     android:layout_alignParentStart="true"
                     android:src="@drawable/shape_frame" />
 
-                <LinearLayout
+                <RelativeLayout
+                    android:layout_toRightOf="@+id/element3"
                     android:id="@+id/element2"
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_toEndOf="@+id/element1"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                   >
 
-                    <LinearLayout
-
+                    <RelativeLayout
+                        android:layout_centerVertical="true"
                         android:id="@+id/elementMobile"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:orientation="horizontal">
+                        android:layout_height="@dimen/_20sdp"
+                        >
 
                         <ImageView
+                            android:layout_centerVertical="true"
                             android:id="@+id/contactImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
@@ -88,26 +104,31 @@
                             app:tint="@color/colorPrimary" />
 
                         <TextView
+                            android:layout_toEndOf="@+id/contactImage"
                             android:id="@+id/phoneTxt"
                             android:layout_gravity="center_vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
+                            android:layout_centerVertical="true"
                             android:maxWidth="@dimen/_100sdp"
                             android:minWidth="@dimen/_70sdp"
                             android:text="+91 8200 0026 04"
-                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
                             android:textSize="@dimen/_8sdp" />
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_120sdp"
                         android:id="@+id/elementEmail"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        android:orientation="horizontal">
+                        android:layout_height="@dimen/_20sdp"
+
+                       >
 
                         <ImageView
+                            android:layout_centerVertical="true"
                             android:id="@+id/gmailImage"
                             android:layout_gravity="center_vertical"
                             android:layout_width="@dimen/_12sdp"
@@ -116,6 +137,8 @@
                             app:tint="@color/colorPrimary" />
 
                         <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/gmailImage"
                             android:id="@+id/gmailText"
                             android:layout_gravity="center_vertical"
                             android:maxWidth="@dimen/_120sdp"
@@ -125,8 +148,8 @@
                             android:layout_marginStart="@dimen/_5sdp"
                             android:text="lakharasachin.qf@gmail.com"
                             android:textSize="@dimen/_8sdp" />
-                    </LinearLayout>
-                </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/element3"
@@ -137,7 +160,7 @@
 
             </RelativeLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

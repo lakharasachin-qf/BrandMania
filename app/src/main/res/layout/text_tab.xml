@@ -129,6 +129,7 @@
         </ImageView>
 
             <ImageView
+
                 android:backgroundTint="@color/black"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_toEndOf="@+id/italicText"
@@ -138,15 +139,16 @@
                 android:layout_height="@dimen/_20sdp"
 
                 android:background="@drawable/ic_baseline_format_underlined_24"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
 
             <SeekBar
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:visibility="visible"
                 android:theme="@style/SeekBarColor"
                 android:id="@+id/seekBar"
                 android:max="15"
-                android:progress="100"
+
                 android:layout_toEndOf="@+id/underlineText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

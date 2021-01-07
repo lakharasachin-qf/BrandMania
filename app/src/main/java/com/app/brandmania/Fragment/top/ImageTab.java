@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
+import com.app.brandmania.Adapter.IImageFromGalary;
 import com.app.brandmania.Adapter.ImageFromGalaryAddpater;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.R;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 public class ImageTab extends Fragment {
     Activity act;
     private ImageTabBinding binding;
+    ArrayList<ImageFromGalaryModel> spacecrafts;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,12 +39,15 @@ public class ImageTab extends Fragment {
         binding= DataBindingUtil.inflate(inflater, R.layout.image_tab,container,false);
         binding.imageGalaryRecyclerVire.setLayoutManager(new GridLayoutManager(act,4));
         binding.imageGalaryRecyclerVire.setAdapter(new ImageFromGalaryAddpater(act,getData()));
+        if (spacecrafts!=null && spacecrafts.size()!=0){
+            ((IImageFromGalary) getActivity()).onImageFromGalaryItemSelection( 0, spacecrafts.get(0));
+        }
         return binding.getRoot();
     }
 
     private ArrayList<ImageFromGalaryModel> getData()
     {
-        ArrayList<ImageFromGalaryModel> spacecrafts = new ArrayList<>();
+         spacecrafts= new ArrayList<>();
 
         Uri uri;
         Cursor cursor;
