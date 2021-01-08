@@ -145,6 +145,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private ActivityViewAllImageBinding binding;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     ArrayList<ImageList> menuModels = new ArrayList<>();
+
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     public static final int DOWLOAD = 1;
     public static final int ADDFAV = 3;

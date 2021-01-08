@@ -32,6 +32,11 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
     private ColorTabBinding binding;
     private int mColorCode;
     private ColorTab context;
+    int tabLayou=0;
+
+    public void setTabLayou(int tabLayou) {
+        this.tabLayou = tabLayou;
+    }
 
     int textSize = 5;
     int saveProgress;
@@ -41,6 +46,10 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
         act = getActivity();
         context=this;
         binding= DataBindingUtil.inflate(inflater,R.layout.color_tab,container,false);
+        if (tabLayou==1){
+            binding.checkbox.setVisibility(View.GONE);
+            binding.seekBar.setVisibility(View.GONE);
+        }
         binding.colorRecycler.setLayoutManager(new GridLayoutManager(getActivity(),6));
         binding.colorRecycler.setHasFixedSize(true);
         OnlyTextColorPickerAddaptor colorPickerAdapter = new OnlyTextColorPickerAddaptor(getActivity());

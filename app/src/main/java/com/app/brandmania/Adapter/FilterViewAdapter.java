@@ -4,7 +4,12 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.app.brandmania.Connection.ThumbnailCallback;
+import com.app.brandmania.Model.ThumbnailItem;
 import com.app.brandmania.R;
+
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,90 +31,67 @@ import java.util.List;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
 
 
-public class FilterViewAdapter extends RecyclerView.Adapter<FilterViewAdapter.ViewHolder> {
+public class FilterViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+private static final String TAG = "THUMBNAILS_ADAPTER";
+private static int lastPosition = -1;
+private ThumbnailCallback thumbnailCallback;
+private List<ThumbnailItem> dataSet;
 
-    private FilterListener mFilterListener;
-    private List<Pair<String, PhotoFilter>> mPairList = new ArrayList<>();
-
-
-    public FilterViewAdapter(FilterListener filterListener) {
-        mFilterListener = filterListener;
-        setupFilters();
-    }
-
-
-    @Override
-    public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_filter_view, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder( ViewHolder holder, int position) {
-        Pair<String, PhotoFilter> filterPair = mPairList.get(position);
-        Bitmap fromAsset = getBitmapFromAsset(holder.itemView.getContext(), filterPair.first);
-        holder.mImageFilterView.setImageBitmap(fromAsset);
-        holder.mTxtFilterName.setText(filterPair.second.name().replace("_", " "));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mPairList.size();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mImageFilterView;
-        TextView mTxtFilterName;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            mImageFilterView = itemView.findViewById(R.id.imgFilterView);
-            mTxtFilterName = itemView.findViewById(R.id.txtFilterName);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mFilterListener.onFilterSelected(mPairList.get(getLayoutPosition()).second);
-                }
-            });
+public FilterViewAdapter(List<ThumbnailItem> dataSet, ThumbnailCallback thumbnailCallback) {
+        Log.v(TAG, "Thumbnails Adapter has " + dataSet.size() + " items");
+        this.dataSet = dataSet;
+        this.thumbnailCallback = thumbnailCallback;
         }
-    }
 
-    private Bitmap getBitmapFromAsset(Context context, String strName) {
-        AssetManager assetManager = context.getAssets();
-        InputStream istr = null;
-        try {
-            istr = assetManager.open(strName);
-            return BitmapFactory.decodeStream(istr);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+
+@Override
+public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        Log.v(TAG, "On Create View Holder Called");
+        View itemView = LayoutInflater.
+        from(viewGroup.getContext()).
+        inflate(R.layout.row_filter_view, viewGroup, false);
+        return new ThumbnailsViewHolder(itemView);
         }
-    }
 
-    private void setupFilters() {
-        mPairList.add(new Pair<>("filters/original.jpg", PhotoFilter.NONE));
-        mPairList.add(new Pair<>("filters/auto_fix.png", PhotoFilter.AUTO_FIX));
-        mPairList.add(new Pair<>("filters/brightness.png", PhotoFilter.BRIGHTNESS));
-        mPairList.add(new Pair<>("filters/contrast.png", PhotoFilter.CONTRAST));
-        mPairList.add(new Pair<>("filters/documentary.png", PhotoFilter.DOCUMENTARY));
-        mPairList.add(new Pair<>("filters/dual_tone.png", PhotoFilter.DUE_TONE));
-        mPairList.add(new Pair<>("filters/fill_light.png", PhotoFilter.FILL_LIGHT));
-        mPairList.add(new Pair<>("filters/fish_eye.png", PhotoFilter.FISH_EYE));
-        mPairList.add(new Pair<>("filters/grain.png", PhotoFilter.GRAIN));
-        mPairList.add(new Pair<>("filters/gray_scale.png", PhotoFilter.GRAY_SCALE));
-        mPairList.add(new Pair<>("filters/lomish.png", PhotoFilter.LOMISH));
-        mPairList.add(new Pair<>("filters/negative.png", PhotoFilter.NEGATIVE));
-        mPairList.add(new Pair<>("filters/posterize.png", PhotoFilter.POSTERIZE));
-        mPairList.add(new Pair<>("filters/saturate.png", PhotoFilter.SATURATE));
-        mPairList.add(new Pair<>("filters/sepia.png", PhotoFilter.SEPIA));
-        mPairList.add(new Pair<>("filters/sharpen.png", PhotoFilter.SHARPEN));
-        mPairList.add(new Pair<>("filters/temprature.png", PhotoFilter.TEMPERATURE));
-        mPairList.add(new Pair<>("filters/tint.png", PhotoFilter.TINT));
-        mPairList.add(new Pair<>("filters/vignette.png", PhotoFilter.VIGNETTE));
-        mPairList.add(new Pair<>("filters/cross_process.png", PhotoFilter.CROSS_PROCESS));
-        mPairList.add(new Pair<>("filters/b_n_w.png", PhotoFilter.BLACK_WHITE));
-        mPairList.add(new Pair<>("filters/flip_horizental.png", PhotoFilter.FLIP_HORIZONTAL));
-        mPairList.add(new Pair<>("filters/flip_vertical.png", PhotoFilter.FLIP_VERTICAL));
-        mPairList.add(new Pair<>("filters/rotate.png", PhotoFilter.ROTATE));
+@Override
+public void onBindViewHolder(RecyclerView.ViewHolder holder, final int i) {
+final ThumbnailItem thumbnailItem = dataSet.get(i);
+        Log.v(TAG, "On Bind View Called");
+        ThumbnailsViewHolder thumbnailsViewHolder = (ThumbnailsViewHolder) holder;
+        thumbnailsViewHolder.thumbnail.setImageBitmap(thumbnailItem.image);
+        thumbnailsViewHolder.thumbnail.setScaleType(ImageView.ScaleType.FIT_START);
+        //setAnimation(thumbnailsViewHolder.thumbnail, i);
+        thumbnailsViewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+        if (lastPosition != i) {
+        thumbnailCallback.onThumbnailClick(thumbnailItem.filter);
+        lastPosition = i;
+        }
+        }
+
+        });
+        }
+
+//        private void setAnimation(View viewToAnimate, int position) {
+//        {
+//        ViewHelper.setAlpha(viewToAnimate, .0f);
+//        com.nineoldandroids.view.ViewPropertyAnimator.animate(viewToAnimate).alpha(1).setDuration(250).start();
+//        lastPosition = position;
+//        }
+//        }
+
+@Override
+public int getItemCount() {
+        return dataSet.size();
+        }
+
+public static class ThumbnailsViewHolder extends RecyclerView.ViewHolder {
+    public ImageView thumbnail;
+
+    public ThumbnailsViewHolder(View v) {
+        super(v);
+        this.thumbnail = (ImageView) v.findViewById(R.id.thumbnail);
     }
+}
 }

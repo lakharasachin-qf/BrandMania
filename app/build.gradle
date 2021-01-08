@@ -145,13 +145,13 @@ dependencies {
 
     implementation 'com.github.yalantis:ucrop:2.2.6'
 
-    implementation 'ja.burhanrashid52:photoeditor:0.3.3'
+    implementation 'com.github.zomato:androidphotofilters:1.0.2'
 
-
+//    implementation project(':photofilterssdk')
 //video player
     implementation 'com.google.android.exoplayer:exoplayer-core:2.7.3'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.3'
     implementation 'com.github.HaarigerHarald:android-youtubeExtractor:v1.7.0'
-
+    implementation 'com.github.ksoichiro:android-observablescrollview:1.5.2'
 }
 apply plugin: 'com.google.firebase.crashlytics'

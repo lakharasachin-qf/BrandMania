@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:paddingBottom="@dimen/_10sdp"
-
+        android:paddingBottom="@dimen/_5sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
         <RelativeLayout
+            android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
@@ -19,27 +19,27 @@
                 android:layout_width="@dimen/_7sdp"
                 android:layout_height="@dimen/_65sdp"
                 android:layout_alignParentStart="true"
-
+                android:layout_centerVertical="true"
                 android:background="@color/colorPrimary" />
 
             <RelativeLayout
-                android:layout_toEndOf="@+id/topView2"
+android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:id="@+id/main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_2sdp"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:layout_height="@dimen/_65sdp"
+                >
 
                 <RelativeLayout
+
                     android:id="@+id/gmailLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_17sdp"
                     android:layout_marginStart="@dimen/_5sdp">
 
                     <ImageView
                         android:id="@+id/gmailImage"
-
+                        android:layout_centerVertical="true"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_1sdp"
@@ -62,14 +62,15 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+
                     android:id="@+id/websiteLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/gmailLayout"
+                    android:layout_height="@dimen/_17sdp"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_3sdp">
+                    android:layout_marginTop="@dimen/_15sdp">
 
                     <ImageView
+                        android:layout_centerVertical="true"
                         android:id="@+id/websiteImage"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
@@ -97,14 +98,15 @@
                 <RelativeLayout
                     android:id="@+id/contactLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/websiteLayout"
-                    android:layout_alignParentStart="true"
+                    android:layout_height="@dimen/_17sdp"
+
+
                     android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
                    >
 
                     <ImageView
+                        android:layout_centerVertical="true"
                         android:id="@+id/contactImage"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
@@ -131,11 +133,10 @@
 
                     android:id="@+id/locationLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/contactLayout"
-                    android:layout_alignParentStart="true"
+                    android:layout_height="@dimen/_17sdp"
+
                     android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_45sdp"
                   >
 
                     <ImageView

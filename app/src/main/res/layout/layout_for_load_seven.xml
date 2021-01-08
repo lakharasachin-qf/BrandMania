@@ -73,7 +73,7 @@
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="@dimen/_10sdp" />
             <RelativeLayout
-               android:layout_marginLeft="@dimen/_180sdp"
+               android:layout_marginLeft="@dimen/_150sdp"
                 android:id="@+id/contactLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"

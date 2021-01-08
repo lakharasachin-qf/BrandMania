@@ -1,10 +1,14 @@
 package com.app.brandmania.Fragment.top;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -22,37 +26,46 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.app.brandmania.Adapter.FilterListener;
 import com.app.brandmania.Adapter.FilterViewAdapter;
 import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Connection.FilterList;
+import com.app.brandmania.Connection.ThumbnailCallback;
+import com.app.brandmania.Connection.ThumbnailsManager;
 import com.app.brandmania.Interface.IImageBritnessEvent;
 import com.app.brandmania.Interface.ITextSizeEvent;
 import com.app.brandmania.Interface.IrotateEvent;
+import com.app.brandmania.Model.ThumbnailItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.EditTabBinding;
 import com.app.brandmania.databinding.FooterTabBinding;
+import com.zomato.photofilters.SampleFilters;
+
+import java.util.List;
 
 public class EditTab extends Fragment {
-    Activity act;
+    private Activity activity;
     private EditTabBinding binding;
-    private FilterViewAdapter mFilterViewAdapter;
+
     private boolean mIsFilterVisible;
     PreafManager preafManager;
     private ConstraintLayout mRootView;
+    static {
+        System.loadLibrary("NativeImageProcessor");
+    }
     private ConstraintSet mConstraintSet = new ConstraintSet();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        act = getActivity();
-        mFilterViewAdapter = new FilterViewAdapter((FilterListener) act);
-        preafManager=new PreafManager(act);
+        activity  = getActivity();
+
+        preafManager=new PreafManager(activity);
         binding = DataBindingUtil.inflate(inflater, R.layout.edit_tab, container, false);
-        LinearLayoutManager llmFilters = new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false);
-        binding.filterRecycler.setLayoutManager(llmFilters);
+        initHorizontalList();
         binding.rotateImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((IrotateEvent) act).onRotateImage(90);
+                ((IrotateEvent) activity).onRotateImage(90);
             }
         });
-        binding.filterRecycler.setAdapter(mFilterViewAdapter);
+
 
         binding.seekBar.setProgress(125);
 
@@ -61,7 +74,7 @@ public class EditTab extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                // im_brightness.setColorFilter(setBrightness(progress));
-                ((IImageBritnessEvent) act).onimageBritness(progress);
+                ((IImageBritnessEvent) activity).onimageBritness(progress);
 
             }
 
@@ -79,29 +92,77 @@ public class EditTab extends Fragment {
         return binding.getRoot();
     }
 
-    void showFilter(boolean isVisible) {
-        mIsFilterVisible = isVisible;
-        mConstraintSet.clone(mRootView);
-
-        if (isVisible) {
-            mConstraintSet.clear(binding.filterRecycler.getId(), ConstraintSet.START);
-            mConstraintSet.connect(binding.filterRecycler.getId(), ConstraintSet.START,
-                    ConstraintSet.PARENT_ID, ConstraintSet.START);
-            mConstraintSet.connect(binding.filterRecycler.getId(), ConstraintSet.END,
-                    ConstraintSet.PARENT_ID, ConstraintSet.END);
-        } else {
-            mConstraintSet.connect(binding.filterRecycler.getId(), ConstraintSet.START,
-                    ConstraintSet.PARENT_ID, ConstraintSet.END);
-            mConstraintSet.clear(binding.filterRecycler.getId(), ConstraintSet.END);
-        }
-
-        ChangeBounds changeBounds = new ChangeBounds();
-        changeBounds.setDuration(350);
-        changeBounds.setInterpolator(new AnticipateOvershootInterpolator(1.0f));
-        TransitionManager.beginDelayedTransition(mRootView, changeBounds);
-
-        mConstraintSet.applyTo(mRootView);
+//    private void initUIWidgets() {
+//        thumbListView = (RecyclerView) findViewById(R.id.thumbnails);
+//        placeHolderImageView = (ImageView) findViewById(R.id.place_holder_imageview);
+//        placeHolderImageView.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(this.getApplicationContext().getResources(), R.drawable.photo), 640, 640, false));
+//        initHorizontalList();
+//    }
+    private void initHorizontalList() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        layoutManager.scrollToPosition(0);
+        binding.filterRecycler.setLayoutManager(layoutManager);
+        binding.filterRecycler.setHasFixedSize(true);
+        bindDataToAdapter();
     }
+
+    private void bindDataToAdapter() {
+        final Context context = getActivity();
+        Handler handler = new Handler();
+        Runnable r = new Runnable() {
+            public void run() {
+                Bitmap thumbImage = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.filter_logo), 640, 640, false);
+                ThumbnailItem t1 = new ThumbnailItem();
+                ThumbnailItem t2 = new ThumbnailItem();
+                ThumbnailItem t3 = new ThumbnailItem();
+                ThumbnailItem t4 = new ThumbnailItem();
+                ThumbnailItem t5 = new ThumbnailItem();
+                ThumbnailItem t6 = new ThumbnailItem();
+                ThumbnailItem t7 = new ThumbnailItem();
+
+                t1.image = thumbImage;
+                t2.image = thumbImage;
+                t3.image = thumbImage;
+                t4.image = thumbImage;
+                t5.image = thumbImage;
+                t6.image = thumbImage;
+                t7.image = thumbImage;
+                ThumbnailsManager.clearThumbs();
+                ThumbnailsManager.addThumb(t1); // Original Image
+
+                t2.filter = FilterList.getStarLitFilter();
+                ThumbnailsManager.addThumb(t2);
+
+                t3.filter = FilterList.getBlueMessFilter();
+                ThumbnailsManager.addThumb(t3);
+
+                t4.filter = FilterList.getAweStruckVibeFilter();
+                ThumbnailsManager.addThumb(t4);
+
+                t5.filter = FilterList.getLimeStutterFilter();
+                ThumbnailsManager.addThumb(t5);
+
+                t6.filter = FilterList.getNightWhisperFilter();
+                ThumbnailsManager.addThumb(t6);
+
+//                t7.filter = FilterList.getBlueMessFilterrrr();
+//                ThumbnailsManager.addThumb(t7);
+
+                List<ThumbnailItem> thumbs = ThumbnailsManager.processThumbs(context);
+
+                FilterViewAdapter adapter = new FilterViewAdapter(thumbs, (ThumbnailCallback) getActivity());
+                binding.filterRecycler.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        };
+        handler.post(r);
+    }
+
+
+
+
+
 
     public static PorterDuffColorFilter setBrightness(int progress) {
         if (progress >=    100)

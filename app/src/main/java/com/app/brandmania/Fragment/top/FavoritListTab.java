@@ -43,6 +43,7 @@ import com.app.brandmania.Activity.PackageActivity;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.DataBase.DBManager;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
@@ -74,14 +75,14 @@ public class FavoritListTab extends Fragment{
     private FavoritItemListBinding binding;
     ArrayList<DownloadFavoriteItemList> menuModels = new ArrayList<>();
     PreafManager preafManager;
-
+    DBManager dbManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.favorit_item_list,container,false);
         preafManager=new PreafManager(act);
-
+        dbManager=new DBManager(act);
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
 
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -101,6 +102,10 @@ public class FavoritListTab extends Fragment{
         binding.favoritRecycler.setVisibility(View.GONE);
     }
     public void setAdapter() {
+        ArrayList<DownloadFavoriteItemList> downloadFavoriteItemLists=dbManager.getAllPracticeQuestion();
+        if (downloadFavoriteItemLists!=null)
+         menuModels.addAll(downloadFavoriteItemLists);
+
         DownloadFavoriteAdapter menuAddaptor = new DownloadFavoriteAdapter(menuModels, act);
         DownloadFavoriteAdapter.onShareImageClick onShareImageClick=new DownloadFavoriteAdapter.onShareImageClick() {
             @Override

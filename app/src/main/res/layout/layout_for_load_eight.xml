@@ -56,10 +56,9 @@
             android:layout_height="@dimen/_20sdp">
 
             <RelativeLayout
-                android:layout_toStartOf="@+id/viewOne"
+              android:layout_marginLeft="@dimen/_45sdp"
                 android:id="@+id/gmailLayout"
                 android:layout_width="wrap_content"
-
                 android:layout_height="@dimen/_20sdp"
                 android:layout_centerVertical="true"
                 android:visibility="visible">
@@ -90,17 +89,17 @@
 
 
             <View
+                android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_centerVertical="true"
+               android:layout_toEndOf="@+id/gmailLayout"
                 android:id="@+id/viewOne"
-                android:layout_marginStart="@dimen/_7sdp"
-                android:layout_marginEnd="@dimen/_7sdp"
                 android:background="@color/colorPrimary"
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="@dimen/_10sdp"
-                android:layout_centerHorizontal="true" />
+                 />
 
             <RelativeLayout
-                android:layout_toEndOf="@+id/viewOne"
+               android:layout_marginLeft="@dimen/_155sdp"
                 android:id="@+id/contactLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
@@ -131,12 +130,22 @@
 
             </RelativeLayout>
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/element2"
+            android:layout_below="@+id/element1"
+            android:visibility="visible"
+            android:paddingStart="@dimen/_7sdp"
+            android:paddingEnd="@dimen/_7sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp">
 
         <RelativeLayout
-            android:layout_below="@+id/element1"
+
             android:paddingStart="@dimen/_7sdp"
-            android:layout_centerHorizontal="true"
+           android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_80sdp"
             android:paddingEnd="@dimen/_7sdp"
+
             android:id="@+id/addressLayoutElement"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_20sdp"
@@ -165,6 +174,7 @@
                 android:layout_toEndOf="@+id/loacationImage"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_8sdp" />
+        </RelativeLayout>
         </RelativeLayout>
 
     </RelativeLayout>

@@ -39,6 +39,7 @@ public class ImageTab extends Fragment {
         binding= DataBindingUtil.inflate(inflater, R.layout.image_tab,container,false);
         binding.imageGalaryRecyclerVire.setLayoutManager(new GridLayoutManager(act,4));
         binding.imageGalaryRecyclerVire.setAdapter(new ImageFromGalaryAddpater(act,getData()));
+
         if (spacecrafts!=null && spacecrafts.size()!=0){
             ((IImageFromGalary) getActivity()).onImageFromGalaryItemSelection( 0, spacecrafts.get(0));
         }

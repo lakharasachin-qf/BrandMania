@@ -138,9 +138,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.navigation_custom:
-               // fragment = new CustomFragment();
-                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
-                startActivity(intent);
+                fragment = new CustomFragment();
+//                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
+//                startActivity(intent);
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 

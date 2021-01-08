@@ -52,11 +52,10 @@
 
 
             <RelativeLayout
-                android:layout_centerVertical="true"
                 android:id="@+id/contactLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_180sdp">
+                android:layout_marginLeft="@dimen/_170sdp">
 
                 <ImageView
                     android:id="@+id/contactImage"
@@ -128,7 +127,7 @@
 
             <RelativeLayout
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_180sdp"
+                android:layout_marginLeft="@dimen/_170sdp"
                 android:id="@+id/websiteEdtLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"

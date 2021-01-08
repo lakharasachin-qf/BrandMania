@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -13,6 +14,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,12 +30,17 @@ import android.widget.Toast;
 import com.app.brandmania.Adapter.IImageFromGalary;
 import com.app.brandmania.Adapter.ColorAndEditTabAdapter;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Connection.ThumbnailCallback;
+import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.IColorChange;
+import com.app.brandmania.Interface.IImageBritnessEvent;
 import com.app.brandmania.Interface.IItaliTextEvent;
 import com.app.brandmania.Interface.ITextBoldEvent;
 import com.app.brandmania.Interface.ITextSizeEvent;
 import com.app.brandmania.Interface.IUnderLineTextEvent;
+import com.app.brandmania.Interface.IrotateEvent;
 import com.app.brandmania.Model.ImageFromGalaryModel;
+import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Utils.IFontChangeEvent;
 import com.app.brandmania.Utils.Utility;
 import com.google.android.material.tabs.TabLayout;
@@ -44,14 +51,17 @@ import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityColorAndTextEditBinding;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorPickerView;
+import com.zomato.photofilters.imageprocessors.Filter;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
+
 public class ColorAndTextEditActivity extends BaseActivity implements IColorChange,ItemeInterFace, ITextBoldEvent,
         IItaliTextEvent, IUnderLineTextEvent, ITextSizeEvent, IImageFromGalary,ColorPickerDialogListener,
         ColorPickerView.OnColorChangedListener,View.OnTouchListener,ITextColorChangeEvent,
-        IFontChangeEvent {
+        IFontChangeEvent, IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect {
 
     Activity act;
     private ActivityColorAndTextEditBinding binding;
@@ -63,7 +73,7 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     private static final String TAG = "Touch";
     @SuppressWarnings("unused")
     private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
-
+    Bitmap selectedImageBitmap=null;
     Matrix matrix = new Matrix();
     Matrix savedMatrix = new Matrix();
 
@@ -80,7 +90,11 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     float scalediff;
     private float d = 0f;
     private float newRot = 0f;
-
+    RelativeLayout.LayoutParams parms;
+    int startwidth;
+    int startheight;
+    float dx = 0, dy = 0, x = 0, y = 0;
+    float angle = 0;
 
 
 
@@ -109,11 +123,7 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         layoutParams.rightMargin = -250;
         binding.editableImageview.setLayoutParams(layoutParams);
         binding.editableImageview.setOnTouchListener(new View.OnTouchListener() {
-            RelativeLayout.LayoutParams parms;
-            int startwidth;
-            int startheight;
-            float dx = 0, dy = 0, x = 0, y = 0;
-            float angle = 0;
+
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -233,16 +243,18 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
 
 
 
-
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Color")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Image")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frame")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Texture")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Edit")));
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ColorAndEditTabAdapter adapter = new ColorAndEditTabAdapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+       adapter.setTabLayou(1);
         binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setOffscreenPageLimit(7);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
 
 
@@ -268,8 +280,8 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
                 if (b==true)
                 {
                     selectedForEdit=myEditText;
-                    binding.viewPager.setCurrentItem(3);
-                    editorFragment=3;
+                    binding.viewPager.setCurrentItem(4);
+                    editorFragment=4;
                 }
             }
         });
@@ -307,6 +319,49 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         myEditText.setTypeface(custom_font);
     }
 
+    @Override
+    public void onThumbnailClick(Filter filter) {
+        int width = selectedImageBitmap.getWidth();
+        int height = selectedImageBitmap.getHeight();
+
+        Log.v("Pictures", "Width and height are " + width + "--" + height);
+
+        if (width > height) {
+            // landscape
+            float ratio = (float) width / binding.editableImageview.getWidth();
+            width = binding.editableImageview.getWidth();
+            height = (int)(height / ratio);
+        } else if (height > width) {
+            // portrait
+            float ratio = (float) height / binding.editableImageview.getHeight();
+            height = binding.editableImageview.getHeight();
+            width = (int)(width / ratio);
+        } else {
+            // square
+            height = binding.editableImageview.getHeight();
+            width = binding.editableImageview.getWidth();
+        }
+
+
+        binding.editableImageview.setImageBitmap(filter.processFilter(Bitmap.createScaledBitmap(selectedImageBitmap, width, height, false)));
+
+    }
+
+    @Override
+    public void onBackendFrameChoose(ImageList imageList, int position) {
+
+    }
+
+    @Override
+    public void onimageBritness(int britness) {
+        binding.editableImageview.setColorFilter(setBrightness(britness));
+    }
+
+    @Override
+    public void onRotateImage(int rotate) {
+        binding.editableImageview.setRotation(binding.backImage.getRotation() + 90);
+    }
+
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -316,10 +371,10 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     }
     @Override
     public void onChooseColor(int colorCode) {
-        if (editorFragment==3 && selectedForEdit!=null) {
+        if (editorFragment==4 && selectedForEdit!=null) {
         }
-        if (editorFragment==0 && selectedForBackgroundChange!=null){
-            if (FramePrimaryOrSecondary==0){
+        if (editorFragment==3 && selectedForBackgroundChange!=null){
+            if (FramePrimaryOrSecondary==3){
                 binding.backgroundClick.setVisibility(View.GONE);
                 binding.backImage.setBackgroundColor(colorCode);
             }
@@ -342,6 +397,8 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
             InputStream inputStream = getContentResolver().openInputStream(listModel.getUri());
             yourDrawable = Drawable.createFromStream(inputStream, listModel.getUri().toString() );
             binding.editableImageview.setImageDrawable(yourDrawable);
+            BitmapDrawable drawable = (BitmapDrawable) binding.editableImageview.getDrawable();
+            selectedImageBitmap=drawable.getBitmap();
         } catch (FileNotFoundException e) {
 
         }
@@ -360,10 +417,10 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         return (float) Math.toDegrees(radians);
     }
     @Override public void onColorSelected(int dialogId, int color) {
-        if (editorFragment==3 && selectedForEdit!=null) {
+        if (editorFragment==4 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(color);
         }
-        if (editorFragment==0 && selectedForBackgroundChange!=null){
+        if (editorFragment==3 && selectedForBackgroundChange!=null){
             if (FramePrimaryOrSecondary==0){
                 binding.backgroundClick.setVisibility(View.GONE);
                 binding.backImage.setBackgroundColor(color);
@@ -376,10 +433,10 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     }
 
     @Override public void onColorChanged(int newColor) {
-        if (editorFragment==3 && selectedForEdit!=null) {
+        if (editorFragment==4 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(newColor);
         }
-        if (editorFragment==0 && selectedForBackgroundChange!=null){
+        if (editorFragment==3 && selectedForBackgroundChange!=null){
             if (FramePrimaryOrSecondary==0){
                 binding.backgroundClick.setVisibility(View.GONE);
                 binding.backImage.setBackgroundColor(newColor);
@@ -446,12 +503,16 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
                 case MotionEvent.ACTION_POINTER_UP:
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                    mRparams.leftMargin = X - _xDelta;
-                    mRparams.topMargin = Y - _yDelta;
-                    mRparams.rightMargin = -250;
-                    mRparams.bottomMargin = -250;
-                    view.setLayoutParams(mRparams);
+
+                        RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                        mRparams.leftMargin = X - _xDelta;
+                        mRparams.topMargin = Y - _yDelta;
+                        mRparams.rightMargin = -250;
+                        mRparams.bottomMargin = -250;
+                        view.setLayoutParams(mRparams);
+
+
+
                     break;
             }
             // root.invalidate();

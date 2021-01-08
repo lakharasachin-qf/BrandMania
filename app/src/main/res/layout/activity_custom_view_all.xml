@@ -151,20 +151,18 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/CustomImageCardView"
-                android:elevation="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:background="@color/colorNavText"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_250sdp"
-                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_height="@dimen/_300sdp"
+                android:background="@color/colorNavText"
+                android:elevation="@dimen/_5sdp"
+                app:cardElevation="@dimen/_15sdp"
+
                 >
                 <RelativeLayout
                     android:background="@color/colorNavText"
                     android:id="@+id/CustomImageMain"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_250sdp">
+                    android:layout_height="@dimen/_300sdp">
 
 
 
@@ -231,8 +229,8 @@
 
                         <ImageView
                             android:id="@+id/logoCustom"
-                            android:layout_width="@dimen/_80sdp"
-                            android:layout_height="@dimen/_80sdp"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
                             android:scaleType="centerInside"
                             android:background="@android:color/transparent"
                             android:visibility="gone" />
