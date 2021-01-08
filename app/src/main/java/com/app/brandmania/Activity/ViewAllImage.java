@@ -64,6 +64,7 @@ import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCateItemeInterFace;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.ViewAllTopTabAdapter;
+import com.app.brandmania.Common.FooterHelper;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -135,7 +136,7 @@ import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent,
-        IItaliTextEvent, ColorPickerDialogListener, IUnderLineTextEvent, IColorChange, ColorPickerView.OnColorChangedListener,
+        IItaliTextEvent, ColorPickerDialogListener, IColorChange, ColorPickerView.OnColorChangedListener,
         ITextSizeEvent, onFooterSelectListener, IBackendFrameSelect {
 
     Activity act;
@@ -145,7 +146,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private ActivityViewAllImageBinding binding;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     ArrayList<ImageList> menuModels = new ArrayList<>();
-
+    private ViewGroup mainLayout1;
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     public static final int DOWLOAD = 1;
     public static final int ADDFAV = 3;
@@ -1488,53 +1489,111 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (layoutType== FooterModel.LAYOUT_FRAME_ONE) {
             oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
             binding.elementFooter.addView(oneBinding.getRoot());
-            loadFrameFirstData();
+            FooterHelper.loadFrameFirstData(act,oneBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.main);
+            mainLayout1=(RelativeLayout) findViewById(R.id.addressLayoutElement2);
+            oneBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
+            oneBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
+            oneBinding.addressLayoutElement.setOnTouchListener(onTouchListenerrr());
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_TWO) {
             twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
             binding.elementFooter.addView(twoBinding.getRoot());
-            loadFrameTwoData();
+
+            FooterHelper.loadFrameTwoData(act,twoBinding);
+
+            mainLayout = (RelativeLayout) findViewById(R.id.firstView);
+            mainLayout1=(RelativeLayout) findViewById(R.id.secondView);
+            twoBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
+            twoBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
+            twoBinding.locationLayout.setOnTouchListener(onTouchListenerrr());
+            twoBinding.websiteLayout.setOnTouchListener(onTouchListenerrr());
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_THREE) {
             threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
-            loadFrameThreeData();
+
+            FooterHelper.loadFrameThreeData(act,threeBinding);
+
+            mainLayout = (RelativeLayout) findViewById(R.id.section1);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
+            threeBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
+            threeBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
+            threeBinding.loactionLayout.setOnTouchListener(onTouchListenerrr());
+            threeBinding.websiteEdtLayout.setOnTouchListener(onTouchListenerrr());
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_FOUR) {
             fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
-            loadFrameFourData();
+
+            FooterHelper.loadFrameFourData(act,fourBinding);
+
+            mainLayout = (RelativeLayout) findViewById(R.id.section1);
+            //   mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
+            fourBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
+            fourBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
+            fourBinding.locationLayout.setOnTouchListener(onTouchListenerrr());
+            fourBinding.websiteLayout.setOnTouchListener(onTouchListenerrr());
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIVE) {
             fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_five, null, false);
             binding.elementFooter.addView(fiveBinding.getRoot());
-            loadFrameFiveData();
+
+            FooterHelper.loadFrameFiveData(act,fiveBinding);
+
+            mainLayout = (RelativeLayout) findViewById(R.id.main);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.element2);
+            //   mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
+            fiveBinding.element0.setOnTouchListener(onTouchListenerrr());
+            fiveBinding.elementMobile.setOnTouchListener(onTouchListenerrr());
+            fiveBinding.elementEmail.setOnTouchListener(onTouchListenerrr());
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIX) {
             sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
             binding.elementFooter.addView(sixBinding.getRoot());
-            loadFrameSixData();
+            FooterHelper.loadFrameSixData(act,sixBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.containerElement);
+            sixBinding.socialFollow.setOnTouchListener(onTouchListenerrr());
+            sixBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_SEVEN) {
             sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
             binding.elementFooter.addView(sevenBinding.getRoot());
-            loadFrameSevenData();
+            FooterHelper.loadFrameSevenData(act,sevenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.element0);
+            sevenBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
+            mainLayout1 = (RelativeLayout) findViewById(R.id.socialFollow);
+            sevenBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
+            sevenBinding.socialLayout.setOnTouchListener(onTouchListenerrr());
 
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_EIGHT) {
             eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
             binding.elementFooter.addView(eightBinding.getRoot());
-            loadFrameEightData();
-
+            FooterHelper.loadFrameEightData(act,eightBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.element1);
+            eightBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
+            eightBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
+            mainLayout1= (RelativeLayout) findViewById(R.id.element2);
+            eightBinding.addressLayoutElement.setOnTouchListener(onTouchListenerrr());
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_NINE) {
             nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
             binding.elementFooter.addView(nineBinding.getRoot());
-            loadFrameNineData();
+            FooterHelper.loadFrameNineData(act,nineBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.alrelative);
+            nineBinding.gmailText.setOnTouchListener(onTouchListenerrr());
+            nineBinding.contactText.setOnTouchListener(onTouchListenerrr());
+            nineBinding.soialLayout.setOnTouchListener(onTouchListenerrr());
 
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_TEN) {
             tenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_ten, null, false);
             binding.elementFooter.addView(tenBinding.getRoot());
-            loadFrameTenData();
+            FooterHelper.loadFrameTenData(act,tenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            tenBinding.addressEdtLayout.setOnTouchListener(onTouchListenerrr());
+            tenBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
+            tenBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
         }
     }
 
@@ -1547,236 +1606,104 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         if (colorCodeForTextColor!=0) {
             if (footerLayout == 1) {
-                ChangeTextColorForFrameOne(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameOne(act,oneBinding,colorCodeForTextColor);
             } else if (footerLayout == 2) {
-                ChangeTextColorForFrameTwo(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameTwo(act,twoBinding,colorCodeForTextColor);
             } else if (footerLayout == 3) {
-                ChangeTextColorForFrameThree(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameThree(act,threeBinding,colorCodeForTextColor);
             } else if (footerLayout == 4) {
-                ChangeTextColorForFrameFour(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameFour(act,fourBinding,colorCodeForTextColor);
             } else if (footerLayout == 5) {
-                ChangeTextColorForFrameFive(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameFive(act,fiveBinding,colorCodeForTextColor);
             } else if (footerLayout == 6) {
-                ChangeTextColorForFrameSix(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameSix(act,sixBinding,colorCodeForTextColor);
             }else if (footerLayout == 7) {
-                ChangeTextColorForFrameSeven(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameSeven(act,sevenBinding,colorCodeForTextColor);
             }else if (footerLayout == 8) {
-                ChangeTextColorForFrameEight(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameEight(act,eightBinding,colorCodeForTextColor);
             }else if (footerLayout == 9) {
-                ChangeTextColorForFrameNine(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameNine(act,nineBinding,colorCodeForTextColor);
             }else if (footerLayout == 10) {
-                ChangeTextColorForFrameTen(colorCodeForTextColor);
+                FooterHelper.ChangeTextColorForFrameTen(act,tenBinding,colorCodeForTextColor);
             }
 
         }
 
 
         if (footerLayout == 1) {
-            ChangeBackgroundColorForFrameOne(colorCodeForBackground);
+            FooterHelper. ChangeBackgroundColorForFrameOne(act,oneBinding,colorCodeForBackground);
         } else if (footerLayout == 2) {
-            ChangeBackgroundColorForFrameTwo(colorCodeForBackground);
+            FooterHelper. ChangeBackgroundColorForFrameTwo(act,twoBinding,colorCodeForBackground);
         } else if (footerLayout == 3) {
 
         } else if (footerLayout == 4) {
-            ChangeBackgroundColorForFrameFour(colorCodeForBackground);
+            FooterHelper.ChangeBackgroundColorForFrameFour(act,fourBinding,colorCodeForBackground);
         } else if (footerLayout == 5) {
-            ChangeBackgroundColorForFrameFive(colorCodeForBackground);
+            FooterHelper.ChangeBackgroundColorForFrameFive(act,fiveBinding,colorCodeForBackground);
         } else if (footerLayout == 6) {
-            ChangeBackgroundColorForFrameSix(colorCodeForBackground);
+            FooterHelper.ChangeBackgroundColorForFrameSix(act,sixBinding,colorCodeForBackground);
         }else if (footerLayout == 7) {
-            ChangeBackgroundColorForFrameSeven(colorCodeForBackground);
+            FooterHelper.ChangeBackgroundColorForFrameSeven(act,sevenBinding,colorCodeForBackground);
         }else if (footerLayout == 8) {
-            ChangeBackgroundColorForFrameEight(colorCodeForBackground);
+            FooterHelper.ChangeBackgroundColorForFrameEight(act,eightBinding,colorCodeForBackground);
         }else if (footerLayout == 9) {
-            ChangeBackgroundColorForFrameNine(colorCodeForBackground);
+            FooterHelper.ChangeBackgroundColorForFrameNine(act,nineBinding,colorCodeForBackground);
         }else if (footerLayout == 10) {
-            ChangeBackgroundColorForFrameTen(colorCodeForBackground);
+            FooterHelper.ChangeBackgroundColorForFrameTen(act,tenBinding,colorCodeForBackground);
         }
 
         changeBorderColorAsFrame();
 
         //bold
-        if (footerLayout == 1) {
-            Utility.setBold(oneBinding.gmailText, isLoadBold);
-            Utility.setBold(oneBinding.contactText, isLoadBold);
-            Utility.setBold(oneBinding.locationText, isLoadBold);
-
-        } else if (footerLayout == 2) {
-            Utility.setBold(twoBinding.gmailText, isLoadBold);
-            Utility.setBold(twoBinding.contactText, isLoadBold);
-            Utility.setBold(twoBinding.locationText, isLoadBold);
-            Utility.setBold(twoBinding.websiteText, isLoadBold);
-
-        } else if (footerLayout == 3) {
-            Utility.setBold(threeBinding.gmailText, isLoadBold);
-            Utility.setBold(threeBinding.contactText, isLoadBold);
-            Utility.setBold(threeBinding.locationText, isLoadBold);
-            Utility.setBold(threeBinding.websiteText, isLoadBold);
-
-
-        } else if (footerLayout == 4) {
-
-            Utility.setBold(fourBinding.gmailText, isLoadBold);
-            Utility.setBold(fourBinding.contactText, isLoadBold);
-            Utility.setBold(fourBinding.locationText, isLoadBold);
-            Utility.setBold(fourBinding.websiteText, isLoadBold);
-        } else if (footerLayout == 5) {
-            Utility.setBold(fiveBinding.gmailText, isLoadBold);
-            Utility.setBold(fiveBinding.phoneTxt, isLoadBold);
-            Utility.setBold(fiveBinding.websiteText, isLoadBold);
-        } else if (footerLayout == 6) {
-            Utility.setBold(sixBinding.textElement1, isLoadBold);
-            Utility.setBold(sixBinding.contactText, isLoadBold);
-        }
-        else if (footerLayout == 7) {
-
-
-            Utility.setBold(sevenBinding.brandNameText, isLoadBold);
-            Utility.setBold(sevenBinding.gmailText, isLoadBold);
-            Utility.setBold(sevenBinding.contactText, isLoadBold);
-        }
-
-        else if (footerLayout==8) {
-            Utility.setBold(eightBinding.brandNameText, isLoadBold);
-            Utility.setBold(eightBinding.gmailText, isLoadBold);
-            Utility.setBold(eightBinding.contactText, isLoadBold);
-            Utility.setBold(eightBinding.locationText, isLoadBold);
-        }
-
-        else if (footerLayout==9) {
-            Utility.setBold(nineBinding.brandNameText, isLoadBold);
-            Utility.setBold(nineBinding.gmailText, isLoadBold);
-            Utility.setBold(nineBinding.contactText, isLoadBold);
-        }
-        else if (footerLayout==10) {
-            Utility.setBold(tenBinding.gmailText, isLoadBold);
-            Utility.setBold(tenBinding.contactText, isLoadBold);
-            Utility.setBold(tenBinding.locationText, isLoadBold);
-        }
+        if (footerLayout == 1) { FooterHelper.makeBoldForOne(oneBinding,isLoadBold);}
+        else if (footerLayout == 2) {  FooterHelper.makeItalicForTwo(twoBinding,isLoadBold);}
+        else if (footerLayout == 3) { FooterHelper.makeItalicForThree(threeBinding,isLoadBold);}
+        else if (footerLayout == 4) { FooterHelper.makeBoldForFour(fourBinding,isLoadBold);}
+        else if (footerLayout == 5) { FooterHelper.makeBoldForFive(fiveBinding,isLoadBold); }
+        else if (footerLayout == 6) {  FooterHelper.makeBoldForSix(sixBinding,isLoadBold);}
+        else if (footerLayout == 7) {  FooterHelper.makeBoldForSeven(sevenBinding,isLoadBold);}
+        else if (footerLayout == 8)   {  FooterHelper.makeBoldForEight(eightBinding,isLoadBold);}
+        else if (footerLayout==9) { FooterHelper.makeBoldForNine(nineBinding,isLoadBold); }
+        else if (footerLayout==10) { FooterHelper.makeBoldForOne(oneBinding,isLoadBold); }
 
 
 
         //italic
         if (footerLayout == 1) {
-            Utility.setItalicText(oneBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(oneBinding.contactText, isLoadItalic);
-            Utility.setItalicText(oneBinding.locationText, isLoadItalic);
-
+            FooterHelper.makeItalicForOne(oneBinding,isLoadItalic);
         } else if (footerLayout == 2) {
-
-            Utility.setItalicText(twoBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(twoBinding.contactText, isLoadItalic);
-            Utility.setItalicText(twoBinding.locationText, isLoadItalic);
-            Utility.setItalicText(twoBinding.websiteText, isLoadItalic);
+            FooterHelper.makeItalicForTwo(twoBinding,isLoadItalic);
 
         } else if (footerLayout == 3) {
 
-            Utility.setItalicText(threeBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(threeBinding.contactText, isLoadItalic);
-            Utility.setItalicText(threeBinding.locationText, isLoadItalic);
-            Utility.setItalicText(threeBinding.websiteText, isLoadItalic);
+            FooterHelper.makeItalicForThree(threeBinding,isLoadItalic);
 
         } else if (footerLayout == 4) {
-            Utility.setItalicText(fourBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(fourBinding.contactText, isLoadItalic);
-            Utility.setItalicText(fourBinding.locationText, isLoadItalic);
-            Utility.setItalicText(fourBinding.websiteText, isLoadItalic);
+            FooterHelper.makeItalicForFour(fourBinding,isLoadItalic);
         } else if (footerLayout == 5) {
-            Utility.setItalicText(fiveBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(fiveBinding.phoneTxt, isLoadItalic);
-            Utility.setItalicText(fiveBinding.websiteText, isLoadItalic);
+            FooterHelper.makeItalicForFive(fiveBinding,isLoadItalic);
         } else if (footerLayout == 6) {
-            Utility.setItalicText(sixBinding.textElement1, isLoadItalic);
-            Utility.setItalicText(sixBinding.contactText, isLoadItalic);
+            FooterHelper.makeItalicForSix(sixBinding,isLoadItalic);
         }
         else if (footerLayout == 7) {
 
-            Utility.setItalicText(sevenBinding.brandNameText, isLoadItalic);
-            Utility.setItalicText(sevenBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(sevenBinding.contactText, isLoadItalic);
+            FooterHelper.makeItalicForSeven(sevenBinding,isLoadItalic);
 
         }
 
         else if (footerLayout==8) {
-            Utility.setItalicText(eightBinding.brandNameText, isLoadItalic);
-            Utility.setItalicText(eightBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(eightBinding.contactText, isLoadItalic);
-            Utility.setItalicText(eightBinding.locationText, isLoadItalic);
+            FooterHelper.makeItalicForEight(eightBinding,isLoadItalic);
         }
 
         else if (footerLayout==9) {
-            Utility.setItalicText(nineBinding.brandNameText, isLoadItalic);
-            Utility.setItalicText(nineBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(nineBinding.contactText, isLoadItalic);
-
+            FooterHelper.makeItalicForNine(nineBinding,isLoadItalic);
         }
         else if (footerLayout==10) {
+            FooterHelper.makeItalicForTen(tenBinding,isLoadItalic);
 
-            Utility.setItalicText(tenBinding.gmailText, isLoadItalic);
-            Utility.setItalicText(tenBinding.contactText, isLoadItalic);
-            Utility.setItalicText(tenBinding.locationText, isLoadItalic);
         }
 
 
-        // underline
-        if (footerLayout==1) {
-            Utility.setUnderlineText(oneBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(oneBinding.contactText, isLoadUnderLine);
-            Utility.setUnderlineText(oneBinding.locationText, isLoadUnderLine);
-
-
-        }else if (footerLayout==2) {
-            Utility.setUnderlineText(twoBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(twoBinding.contactText, isLoadUnderLine);
-            Utility.setUnderlineText(twoBinding.locationText, isLoadUnderLine);
-            Utility.setUnderlineText(twoBinding.websiteText, isLoadUnderLine);
-
-        }else if (footerLayout==3) {
-            Utility.setUnderlineText(threeBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(threeBinding.contactText, isLoadUnderLine);
-            Utility.setUnderlineText(threeBinding.locationText, isLoadUnderLine);
-            Utility.setUnderlineText(threeBinding.websiteText, isLoadUnderLine);
-
-
-        }else if (footerLayout==4) {
-
-            Utility.setUnderlineText(fourBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(fourBinding.contactText, isLoadUnderLine);
-            Utility.setUnderlineText(fourBinding.locationText, isLoadUnderLine);
-            Utility.setUnderlineText(fourBinding.websiteText, isLoadUnderLine);
-        }else if (footerLayout==5) {
-            Utility.setUnderlineText(fiveBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(fiveBinding.phoneTxt, isLoadUnderLine);
-            Utility.setUnderlineText(fiveBinding.websiteText, isLoadUnderLine);
-        }else if (footerLayout==6) {
-            Utility.setUnderlineText(sixBinding.textElement1, isLoadUnderLine);
-            Utility.setUnderlineText(sixBinding.contactText, isLoadUnderLine);
-        }
-
-        else if (footerLayout==7) {
-            Utility.setUnderlineText(sevenBinding.brandNameText, isLoadUnderLine);
-            Utility.setUnderlineText(sevenBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(sevenBinding.contactText, isLoadUnderLine);
-        }
-
-        else if (footerLayout==8) {
-            Utility.setUnderlineText(eightBinding.brandNameText, isLoadUnderLine);
-            Utility.setUnderlineText(eightBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(eightBinding.contactText, isLoadUnderLine);
-            Utility.setUnderlineText(eightBinding.locationText, isLoadUnderLine);
-        }
-
-        else if (footerLayout==9) {
-            Utility.setUnderlineText(nineBinding.brandNameText, isLoadUnderLine);
-            Utility.setUnderlineText(nineBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(nineBinding.contactText, isLoadUnderLine);
-
-        } else if (footerLayout == 10) {
-
-            Utility.setUnderlineText(tenBinding.gmailText, isLoadUnderLine);
-            Utility.setUnderlineText(tenBinding.contactText, isLoadUnderLine);
-            Utility.setUnderlineText(tenBinding.locationText, isLoadUnderLine);
-        }
 
         if (!loadDefaultFont.isEmpty()) {
             if (footerLayout == 1) {
@@ -1847,35 +1774,34 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
     //for Text Color change
-    @Override
-    public void onColorChanged(int colorCode) {
+    @Override public void onColorChanged(int colorCode) {
         colorCodeForTextColor = colorCode;
         if (editorFragment == 4) {
 
             if (footerLayout == 1) {
-                ChangeTextColorForFrameOne(colorCode);
+                FooterHelper.ChangeTextColorForFrameOne(act,oneBinding,colorCode);
             } else if (footerLayout == 2) {
-                ChangeTextColorForFrameTwo(colorCode);
+                FooterHelper.ChangeTextColorForFrameTwo(act,twoBinding,colorCode);
             } else if (footerLayout == 3) {
-                ChangeTextColorForFrameThree(colorCode);
+                FooterHelper.ChangeTextColorForFrameThree(act,threeBinding,colorCode);
             }else if (footerLayout==4){
-                ChangeTextColorForFrameFour(colorCode);
+                FooterHelper.ChangeTextColorForFrameFour(act,fourBinding,colorCode);
             }else if (footerLayout==5){
-                ChangeTextColorForFrameFive(colorCode);
+                FooterHelper. ChangeTextColorForFrameFive(act,fiveBinding,colorCode);
             }else if (footerLayout==6){
-                ChangeTextColorForFrameSix(colorCode);
+                FooterHelper.ChangeTextColorForFrameSix(act,sixBinding,colorCode);
             }
             else if (footerLayout==7){
-                ChangeTextColorForFrameSeven(colorCode);
+                FooterHelper.ChangeTextColorForFrameSeven(act,sevenBinding,colorCode);
             }
             else if (footerLayout==8){
-                ChangeTextColorForFrameEight(colorCode);
+                FooterHelper.ChangeTextColorForFrameEight(act,eightBinding,colorCode);
             }
             else if (footerLayout==9){
-                ChangeTextColorForFrameNine(colorCode);
+                FooterHelper.ChangeTextColorForFrameNine(act,nineBinding,colorCode);
             }
             else if (footerLayout==10){
-                ChangeTextColorForFrameTen(colorCode);
+                FooterHelper.ChangeTextColorForFrameTen(act,tenBinding,colorCode);
             }
         }
 
@@ -1895,35 +1821,35 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         colorCodeForBackground = colorCode;
         if (editorFragment==3){
             if (footerLayout==1){
-                ChangeBackgroundColorForFrameOne(colorCode);
+                FooterHelper.ChangeBackgroundColorForFrameOne(act,oneBinding,colorCode);
             }else if (footerLayout==2){
-                ChangeBackgroundColorForFrameTwo(colorCode);
+                FooterHelper. ChangeBackgroundColorForFrameTwo(act,twoBinding,colorCode);
             }else if (footerLayout==3){
 
             }else if (footerLayout==4){
-                ChangeBackgroundColorForFrameFour(colorCode);
+                FooterHelper.ChangeBackgroundColorForFrameFour(act,fourBinding,colorCode);
             } else if (footerLayout == 5) {
-                ChangeBackgroundColorForFrameFive(colorCode);
+                FooterHelper.ChangeBackgroundColorForFrameFive(act,fiveBinding,colorCode);
             } else if (footerLayout == 6) {
-                ChangeBackgroundColorForFrameSix(colorCode);
+                FooterHelper.ChangeBackgroundColorForFrameSix(act,sixBinding,colorCode);
             }
             else if (footerLayout==7){
-                ChangeBackgroundColorForFrameSeven(colorCode);
+                FooterHelper.ChangeBackgroundColorForFrameSeven(act,sevenBinding,colorCode);
             }
             else if (footerLayout==8){
-                ChangeBackgroundColorForFrameEight(colorCode);
+                FooterHelper.ChangeBackgroundColorForFrameEight(act,eightBinding,colorCode);
             }
             else if (footerLayout==9){
-                ChangeBackgroundColorForFrameNine(colorCode);
+                FooterHelper.ChangeBackgroundColorForFrameNine(act,nineBinding,colorCode);
             }
             else if (footerLayout==10){
-                ChangeBackgroundColorForFrameTen(colorCode);
+
+                FooterHelper.ChangeBackgroundColorForFrameTen(act,tenBinding,colorCode);
             }
             GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
             drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
         }
     }
-
     private int convertDpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
@@ -2012,196 +1938,24 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     }
 
     //for underline
-    @Override public void onUnderLineItalic(boolean Left) {
-        isLoadUnderLine=Left;
-        if (Left) {
-            if (footerLayout==1) {
-                Utility.setUnderlineText(oneBinding.gmailText, true);
-                Utility.setUnderlineText(oneBinding.contactText, true);
-                Utility.setUnderlineText(oneBinding.locationText, true);
 
 
-            }else if (footerLayout==2) {
-                Utility.setUnderlineText(twoBinding.gmailText, true);
-                Utility.setUnderlineText(twoBinding.contactText, true);
-                Utility.setUnderlineText(twoBinding.locationText, true);
-                Utility.setUnderlineText(twoBinding.websiteText, true);
-
-            }else if (footerLayout==3) {
-                Utility.setUnderlineText(threeBinding.gmailText, true);
-                Utility.setUnderlineText(threeBinding.contactText, true);
-                Utility.setUnderlineText(threeBinding.locationText, true);
-                Utility.setUnderlineText(threeBinding.websiteText, true);
-
-
-            }else if (footerLayout==4) {
-
-                Utility.setUnderlineText(fourBinding.gmailText, true);
-                Utility.setUnderlineText(fourBinding.contactText, true);
-                Utility.setUnderlineText(fourBinding.locationText, true);
-                Utility.setUnderlineText(fourBinding.websiteText, true);
-            }else if (footerLayout==5) {
-                Utility.setUnderlineText(fiveBinding.gmailText, true);
-                Utility.setUnderlineText(fiveBinding.phoneTxt, true);
-                Utility.setUnderlineText(fiveBinding.websiteText, true);
-            }else if (footerLayout==6) {
-                Utility.setUnderlineText(sixBinding.textElement1, true);
-                Utility.setUnderlineText(sixBinding.contactText, true);
-            }
-
-            else if (footerLayout==7) {
-                Utility.setUnderlineText(sevenBinding.brandNameText, true);
-                Utility.setUnderlineText(sevenBinding.gmailText, true);
-                Utility.setUnderlineText(sevenBinding.contactText, true);
-            }
-
-            else if (footerLayout==8) {
-                Utility.setUnderlineText(eightBinding.brandNameText, true);
-                Utility.setUnderlineText(eightBinding.gmailText, true);
-                Utility.setUnderlineText(eightBinding.contactText, true);
-                Utility.setUnderlineText(eightBinding.locationText, true);
-            }
-
-            else if (footerLayout==9) {
-                Utility.setUnderlineText(nineBinding.brandNameText, true);
-                Utility.setUnderlineText(nineBinding.gmailText, true);
-                Utility.setUnderlineText(nineBinding.contactText, true);
-
-            }
-            else if (footerLayout==10) {
-
-                Utility.setUnderlineText(tenBinding.gmailText, true);
-                Utility.setUnderlineText(tenBinding.contactText, true);
-                Utility.setUnderlineText(tenBinding.locationText, true);
-            }
-
-        }
-        else {
-            if (footerLayout == 1) {
-                Utility.setUnderlineText(oneBinding.gmailText, false);
-                Utility.setUnderlineText(oneBinding.contactText, false);
-                Utility.setUnderlineText(oneBinding.locationText, false);
-            } else if (footerLayout == 2) {
-                Utility.setUnderlineText(twoBinding.gmailText, false);
-                Utility.setUnderlineText(twoBinding.contactText, false);
-                Utility.setUnderlineText(twoBinding.locationText, false);
-                Utility.setUnderlineText(twoBinding.websiteText, false);
-            } else if (footerLayout == 3) {
-                Utility.setUnderlineText(threeBinding.gmailText, false);
-                Utility.setUnderlineText(threeBinding.contactText, false);
-                Utility.setUnderlineText(threeBinding.locationText, false);
-                Utility.setUnderlineText(threeBinding.websiteText, false);
-            } else if (footerLayout == 4) {
-
-                Utility.setUnderlineText(fourBinding.gmailText, false);
-                Utility.setUnderlineText(fourBinding.contactText, false);
-                Utility.setUnderlineText(fourBinding.locationText, false);
-                Utility.setUnderlineText(fourBinding.websiteText, false);
-            } else if (footerLayout == 5) {
-                Utility.setUnderlineText(fiveBinding.gmailText, false);
-                Utility.setUnderlineText(fiveBinding.phoneTxt, false);
-                Utility.setUnderlineText(fiveBinding.websiteText, false);
-            } else if (footerLayout == 6) {
-                Utility.setUnderlineText(sixBinding.contactText, false);
-                Utility.setUnderlineText(sixBinding.textElement1, false);
-
-            }
-            else if (footerLayout == 7) {
-
-                Utility.setUnderlineText(sevenBinding.brandNameText, false);
-                Utility.setUnderlineText(sevenBinding.gmailText, false);
-                Utility.setUnderlineText(sevenBinding.contactText, false);
-
-
-            }
-
-            else if (footerLayout==8) {
-                Utility.setUnderlineText(eightBinding.brandNameText, false);
-                Utility.setUnderlineText(eightBinding.gmailText, false);
-                Utility.setUnderlineText(eightBinding.contactText, false);
-                Utility.setUnderlineText(eightBinding.locationText, false);
-            }
-
-            else if (footerLayout==9) {
-                Utility.setUnderlineText(nineBinding.brandNameText, false);
-                Utility.setUnderlineText(nineBinding.gmailText, false);
-                Utility.setUnderlineText(nineBinding.contactText, false);
-
-            }
-            else if (footerLayout==10) {
-
-                Utility.setUnderlineText(tenBinding.gmailText, false);
-                Utility.setUnderlineText(tenBinding.contactText, false);
-                Utility.setUnderlineText(tenBinding.locationText, false);
-            }
-
-        }
-        loadSameColorToBackgroundAndTextAgain();
-        changeBorderColorAsFrame();
-
-
-        Log.e("NewColor", colorCodeForBackground + " " + colorCodeForTextColor);
-    }
 
     //for font size
     @Override public void onfontSize(int textsize) {
 
         previousFontSize=textsize;
         if (previousFontSize!=-1) {
-            if (footerLayout == 1) {
-                oneBinding.gmailText.setTextSize(textsize);
-                oneBinding.contactText.setTextSize(textsize);
-                oneBinding.locationText.setTextSize(textsize);
-            } else if (footerLayout == 2) {
-
-                twoBinding.gmailText.setTextSize(textsize);
-                twoBinding.contactText.setTextSize(textsize);
-                twoBinding.locationText.setTextSize(textsize);
-                twoBinding.websiteText.setTextSize(textsize);
-            } else if (footerLayout == 3) {
-
-                threeBinding.gmailText.setTextSize(textsize);
-                threeBinding.contactText.setTextSize(textsize);
-                threeBinding.locationText.setTextSize(textsize);
-                threeBinding.websiteText.setTextSize(textsize);
-            } else if (footerLayout == 4) {
-
-                fourBinding.gmailText.setTextSize(textsize);
-                fourBinding.contactText.setTextSize(textsize);
-                fourBinding.locationText.setTextSize(textsize);
-                fourBinding.websiteText.setTextSize(textsize);
-            } else if (footerLayout == 5) {
-
-                fiveBinding.gmailText.setTextSize(textsize);
-                fiveBinding.phoneTxt.setTextSize(textsize);
-                fiveBinding.websiteText.setTextSize(textsize);
-            } else if (footerLayout == 6) {
-
-                sixBinding.textElement1.setTextSize(textsize);
-                sixBinding.contactText.setTextSize(textsize);
-
-            } else if (footerLayout == 7) {
-                sevenBinding.brandNameText.setTextSize(textsize);
-                sevenBinding.gmailText.setTextSize(textsize);
-                sevenBinding.contactText.setTextSize(textsize);
-            } else if (footerLayout == 8) {
-                eightBinding.brandNameText.setTextSize(textsize);
-                eightBinding.gmailText.setTextSize(textsize);
-                eightBinding.contactText.setTextSize(textsize);
-                eightBinding.locationText.setTextSize(textsize);
-
-            } else if (footerLayout == 9) {
-                nineBinding.brandNameText.setTextSize(textsize);
-                nineBinding.gmailText.setTextSize(textsize);
-                nineBinding.contactText.setTextSize(textsize);
-
-
-            } else if (footerLayout == 10) {
-
-                tenBinding.gmailText.setTextSize(textsize);
-                tenBinding.contactText.setTextSize(textsize);
-                tenBinding.locationText.setTextSize(textsize);
-            }
+            if (footerLayout == 1) { FooterHelper.makeTextSizeForOne(oneBinding,textsize); }
+            else if (footerLayout == 2) { FooterHelper.makeTextSizeForTwo(twoBinding,textsize); }
+            else if (footerLayout == 3) {  FooterHelper.makeTextSizeForThree(threeBinding,textsize);}
+            else if (footerLayout == 4) {  FooterHelper.makeTextSizeForFour(fourBinding,textsize);}
+            else if (footerLayout == 5) {  FooterHelper.makeTextSizeForFive(fiveBinding,textsize);}
+            else if (footerLayout == 6) { FooterHelper.makeTextSizeForSix(sixBinding,textsize); }
+            else if (footerLayout == 7) {  FooterHelper.makeTextSizeForSeven(sevenBinding,textsize);}
+            else if (footerLayout == 8) {  FooterHelper.makeTextSizeForEight(eightBinding,textsize);}
+            else if (footerLayout == 9) { FooterHelper.makeTextSizeForNine(nineBinding,textsize); }
+            else if (footerLayout == 10) {  FooterHelper.makeTextSizeForTen(tenBinding,textsize);}
         }
     }
 
@@ -2209,668 +1963,67 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     @Override public void onBoldTextChange(boolean Bold) {
         isLoadBold=Bold;
         if (Bold) {
-            if (footerLayout == 1) {
-                Utility.setBold(oneBinding.gmailText, true);
-                Utility.setBold(oneBinding.contactText, true);
-                Utility.setBold(oneBinding.locationText, true);
-
-
-            } else if (footerLayout == 2) {
-                Utility.setBold(twoBinding.gmailText, true);
-                Utility.setBold(twoBinding.contactText, true);
-                Utility.setBold(twoBinding.locationText, true);
-                Utility.setBold(twoBinding.websiteText, true);
-
-            } else if (footerLayout == 3) {
-                Utility.setBold(threeBinding.gmailText, true);
-                Utility.setBold(threeBinding.contactText, true);
-                Utility.setBold(threeBinding.locationText, true);
-                Utility.setBold(threeBinding.websiteText, true);
-
-
-            } else if (footerLayout == 4) {
-
-                Utility.setBold(fourBinding.gmailText, true);
-                Utility.setBold(fourBinding.contactText, true);
-                Utility.setBold(fourBinding.locationText, true);
-                Utility.setBold(fourBinding.websiteText, true);
-            } else if (footerLayout == 5) {
-                Utility.setBold(fiveBinding.gmailText, true);
-                Utility.setBold(fiveBinding.phoneTxt, true);
-                Utility.setBold(fiveBinding.websiteText, true);
-            } else if (footerLayout == 6) {
-                Utility.setBold(sixBinding.textElement1, true);
-                Utility.setBold(sixBinding.contactText, true);
-            }
-            else if (footerLayout == 7) {
-
-
-                Utility.setBold(sevenBinding.brandNameText, true);
-                Utility.setBold(sevenBinding.gmailText, true);
-                Utility.setBold(sevenBinding.contactText, true);
-            }
-
-
-            else if (footerLayout==8) {
-                Utility.setBold(eightBinding.brandNameText, true);
-                Utility.setBold(eightBinding.gmailText, true);
-                Utility.setBold(eightBinding.contactText, true);
-                Utility.setBold(eightBinding.locationText, true);
-            }
-
-            else if (footerLayout==9) {
-                Utility.setBold(nineBinding.brandNameText, true);
-                Utility.setBold(nineBinding.gmailText, true);
-                Utility.setBold(nineBinding.contactText, true);
-
-            }
-            else if (footerLayout==10) {
-
-                Utility.setBold(tenBinding.gmailText, true);
-                Utility.setBold(tenBinding.contactText, true);
-                Utility.setBold(tenBinding.locationText, true);
-            }
-
-
-
+            if (footerLayout == 1) { FooterHelper.makeBoldForOne(oneBinding,false);}
+            else if (footerLayout == 2) {  FooterHelper.makeBoldForTwo(twoBinding,false);}
+            else if (footerLayout == 3) { FooterHelper.makeBoldForThree(threeBinding,false);}
+            else if (footerLayout == 4) { FooterHelper.makeBoldForFour(fourBinding,false);}
+            else if (footerLayout == 5) { FooterHelper.makeBoldForFive(fiveBinding,false); }
+            else if (footerLayout == 6) {  FooterHelper.makeBoldForSix(sixBinding,false);}
+            else if (footerLayout == 7) {  FooterHelper.makeBoldForSeven(sevenBinding,false);}
+            else if (footerLayout == 8)   {  FooterHelper.makeBoldForEight(eightBinding,false);}
+            else if (footerLayout==9) { FooterHelper.makeBoldForNine(nineBinding,false); }
+            else if (footerLayout==10) { FooterHelper.makeBoldForOne(oneBinding,false); }
         }else {
-            if (footerLayout == 1) {
-                Utility.setBold(oneBinding.gmailText, false);
-                Utility.setBold(oneBinding.contactText, false);
-                Utility.setBold(oneBinding.locationText, false);
-            } else if (footerLayout == 2) {
-                Utility.setBold(twoBinding.gmailText, false);
-                Utility.setBold(twoBinding.contactText, false);
-                Utility.setBold(twoBinding.locationText, false);
-                Utility.setBold(twoBinding.websiteText, false);
-            } else if (footerLayout == 3) {
-                Utility.setBold(threeBinding.gmailText, false);
-                Utility.setBold(threeBinding.contactText, false);
-                Utility.setBold(threeBinding.locationText, false);
-                Utility.setBold(threeBinding.websiteText, false);
-            } else if (footerLayout == 4) {
-
-                Utility.setBold(fourBinding.gmailText, false);
-                Utility.setBold(fourBinding.contactText, false);
-                Utility.setBold(fourBinding.locationText, false);
-                Utility.setBold(fourBinding.websiteText, false);
-            } else if (footerLayout == 5) {
-                Utility.setBold(fiveBinding.gmailText, false);
-                Utility.setBold(fiveBinding.phoneTxt, false);
-                Utility.setBold(fiveBinding.websiteText, false);
-            } else if (footerLayout == 6) {
-                Utility.setBold(sixBinding.contactText, false);
-                Utility.setBold(sixBinding.textElement1, false);
-
-            }
-            else if (footerLayout == 7) {
-
-
-                Utility.setBold(sevenBinding.brandNameText, false);
-                Utility.setBold(sevenBinding.gmailText, false);
-                Utility.setBold(sevenBinding.contactText, false);
-            }
-
-            else if (footerLayout==8) {
-                Utility.setBold(eightBinding.brandNameText, false);
-                Utility.setBold(eightBinding.gmailText, false);
-                Utility.setBold(eightBinding.contactText, false);
-                Utility.setBold(eightBinding.locationText, false);
-            }
-
-            else if (footerLayout==9) {
-                Utility.setBold(nineBinding.brandNameText, false);
-                Utility.setBold(nineBinding.gmailText, false);
-                Utility.setBold(nineBinding.contactText, false);
-
-            }
-            else if (footerLayout==10) {
-
-                Utility.setBold(tenBinding.gmailText, false);
-                Utility.setBold(tenBinding.contactText, false);
-                Utility.setBold(tenBinding.locationText, false);
-            }
+            if (footerLayout == 1) { FooterHelper.makeBoldForOne(oneBinding,true);}
+            else if (footerLayout == 2) {  FooterHelper.makeBoldForTwo(twoBinding,true);}
+            else if (footerLayout == 3) { FooterHelper.makeBoldForThree(threeBinding,true);}
+            else if (footerLayout == 4) { FooterHelper.makeBoldForFour(fourBinding,true);}
+            else if (footerLayout == 5) { FooterHelper.makeBoldForFive(fiveBinding,true); }
+            else if (footerLayout == 6) {  FooterHelper.makeBoldForSix(sixBinding,true);}
+            else if (footerLayout == 7) {  FooterHelper.makeBoldForSeven(sevenBinding,true);}
+            else if (footerLayout == 8)   {  FooterHelper.makeBoldForEight(eightBinding,true);}
+            else if (footerLayout==9) { FooterHelper.makeBoldForNine(nineBinding,true); }
+            else if (footerLayout==10) { FooterHelper.makeBoldForOne(oneBinding,true); }
 
 
         }
 
     }
-
     //for italic
     @Override public void onItalicTextChange(boolean Italic) {
         isLoadItalic=Italic;
         if (Italic) {
-            if (footerLayout == 1) {
-                Utility.setItalicText(oneBinding.gmailText, true);
-                Utility.setItalicText(oneBinding.contactText, true);
-                Utility.setItalicText(oneBinding.locationText, true);
-
-            } else if (footerLayout == 2) {
-
-                Utility.setItalicText(twoBinding.gmailText, true);
-                Utility.setItalicText(twoBinding.contactText, true);
-                Utility.setItalicText(twoBinding.locationText, true);
-                Utility.setItalicText(twoBinding.websiteText, true);
-
-            } else if (footerLayout == 3) {
-
-                Utility.setItalicText(threeBinding.gmailText, true);
-                Utility.setItalicText(threeBinding.contactText, true);
-                Utility.setItalicText(threeBinding.locationText, true);
-                Utility.setItalicText(threeBinding.websiteText, true);
-
-            } else if (footerLayout == 4) {
-                Utility.setItalicText(fourBinding.gmailText, true);
-                Utility.setItalicText(fourBinding.contactText, true);
-                Utility.setItalicText(fourBinding.locationText, true);
-                Utility.setItalicText(fourBinding.websiteText, true);
-            } else if (footerLayout == 5) {
-                Utility.setItalicText(fiveBinding.gmailText, true);
-                Utility.setItalicText(fiveBinding.phoneTxt, true);
-                Utility.setItalicText(fiveBinding.websiteText, true);
-            } else if (footerLayout == 6) {
-                Utility.setItalicText(sixBinding.textElement1, true);
-                Utility.setItalicText(sixBinding.contactText, true);
-            }
-            else if (footerLayout == 7) {
-
-                Utility.setItalicText(sevenBinding.brandNameText, true);
-                Utility.setItalicText(sevenBinding.gmailText, true);
-                Utility.setItalicText(sevenBinding.contactText, true);
-
-            }
-
-            else if (footerLayout==8) {
-                Utility.setItalicText(eightBinding.brandNameText, true);
-                Utility.setItalicText(eightBinding.gmailText, true);
-                Utility.setItalicText(eightBinding.contactText, true);
-                Utility.setItalicText(eightBinding.locationText, true);
-            }
-
-            else if (footerLayout==9) {
-                Utility.setItalicText(nineBinding.brandNameText, true);
-                Utility.setItalicText(nineBinding.gmailText, true);
-                Utility.setItalicText(nineBinding.contactText, true);
-
-            }
-            else if (footerLayout==10) {
-
-                Utility.setItalicText(tenBinding.gmailText, true);
-                Utility.setItalicText(tenBinding.contactText, true);
-                Utility.setItalicText(tenBinding.locationText, true);
-            }
-
-
-
+            if (footerLayout == 1) {  FooterHelper.makeItalicForOne(oneBinding,true);}
+            else if (footerLayout == 2) {  FooterHelper.makeItalicForTwo(twoBinding,true);}
+            else if (footerLayout == 3) {  FooterHelper.makeItalicForThree(threeBinding,true);}
+            else if (footerLayout == 4) {  FooterHelper.makeItalicForFour(fourBinding,true);}
+            else if (footerLayout == 5) {  FooterHelper.makeItalicForFive(fiveBinding,true);}
+            else if (footerLayout == 6) {  FooterHelper.makeItalicForSix(sixBinding,true);}
+            else if (footerLayout == 7) {  FooterHelper.makeItalicForSeven(sevenBinding,true);}
+            else if (footerLayout==8) {  FooterHelper.makeItalicForEight(eightBinding,true);}
+            else if (footerLayout==9) { FooterHelper.makeItalicForNine(nineBinding,true); }
+            else if (footerLayout==10) { FooterHelper.makeItalicForTen(tenBinding,true); }
         }
         else {
             if (footerLayout == 1) {
-                Utility.setItalicText(oneBinding.gmailText, false);
-                Utility.setItalicText(oneBinding.contactText, false);
-                Utility.setItalicText(oneBinding.locationText, false);
-            } else if (footerLayout == 2) {
-                Utility.setItalicText(twoBinding.gmailText, false);
-                Utility.setItalicText(twoBinding.contactText, false);
-                Utility.setItalicText(twoBinding.locationText, false);
-                Utility.setItalicText(twoBinding.websiteText, false);
-            } else if (footerLayout == 3) {
-                Utility.setItalicText(threeBinding.gmailText, false);
-                Utility.setItalicText(threeBinding.contactText, false);
-                Utility.setItalicText(threeBinding.locationText, false);
-                Utility.setItalicText(threeBinding.websiteText, false);
-            } else if (footerLayout == 4) {
-
-                Utility.setItalicText(fourBinding.gmailText, false);
-                Utility.setItalicText(fourBinding.contactText, false);
-                Utility.setItalicText(fourBinding.locationText, false);
-                Utility.setItalicText(fourBinding.websiteText, false);
-            } else if (footerLayout == 5) {
-                Utility.setItalicText(fiveBinding.gmailText, false);
-                Utility.setItalicText(fiveBinding.phoneTxt, false);
-                Utility.setItalicText(fiveBinding.websiteText, false);
-            } else if (footerLayout == 6) {
-                Utility.setItalicText(sixBinding.contactText, false);
-                Utility.setItalicText(sixBinding.textElement1, false);
-
-            }
-            else if (footerLayout == 7) {
-
-                Utility.setItalicText(sevenBinding.brandNameText, false);
-                Utility.setItalicText(sevenBinding.gmailText, false);
-                Utility.setItalicText(sevenBinding.contactText, false);
-
-            }
-            else if (footerLayout==8) {
-                Utility.setItalicText(eightBinding.brandNameText, false);
-                Utility.setItalicText(eightBinding.gmailText, false);
-                Utility.setItalicText(eightBinding.contactText, false);
-                Utility.setItalicText(eightBinding.locationText, false);
-            }
-
-            else if (footerLayout==9) {
-                Utility.setItalicText(nineBinding.brandNameText, false);
-                Utility.setItalicText(nineBinding.gmailText, false);
-                Utility.setItalicText(nineBinding.contactText, false);
-
-            }
-            else if (footerLayout==10) {
-
-                Utility.setItalicText(tenBinding.gmailText, false);
-                Utility.setItalicText(tenBinding.contactText, false);
-                Utility.setItalicText(tenBinding.locationText, false);
-            }
+                FooterHelper.makeItalicForOne(oneBinding,false); }
+            else if (footerLayout == 2) { FooterHelper.makeItalicForTwo(twoBinding,false); }
+            else if (footerLayout == 3) { FooterHelper.makeItalicForThree(threeBinding,false); }
+            else if (footerLayout == 4) { FooterHelper.makeItalicForFour(fourBinding,false); }
+            else if (footerLayout == 5) { FooterHelper.makeItalicForFive(fiveBinding,false); }
+            else if (footerLayout == 6) { FooterHelper.makeItalicForSix(sixBinding,false); }
+            else if (footerLayout == 7) { FooterHelper.makeItalicForSeven(sevenBinding,false); }
+            else if (footerLayout==8) { FooterHelper.makeItalicForEight(eightBinding,false); }
+            else if (footerLayout==9) { FooterHelper.makeItalicForNine(nineBinding,false); }
+            else if (footerLayout==10) { FooterHelper.makeItalicForTen(tenBinding,false); }
 
 
         }
     }
 
 
-    //change color for background and text of footer
 
-    public void ChangeBackgroundColorForFrameOne(int colorCode) {
-        oneBinding.topView.setBackgroundColor(colorCode);
-        oneBinding.topView2.setBackgroundColor(colorCode);
-        oneBinding.addressLayoutElement2.setBackgroundColor(colorCode);
-    }
 
-    public void ChangeTextColorForFrameOne(int colodCode) {
-        oneBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        oneBinding.gmailText.setTextColor(colodCode);
-        oneBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        oneBinding.contactText.setTextColor(colodCode);
-    }
-
-    public void ChangeBackgroundColorForFrameTwo(int colorCode) {
-        twoBinding.firstView.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-        twoBinding.secondView.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-
-    }
-
-    public void ChangeTextColorForFrameTwo(int colodCode) {
-        twoBinding.gmailImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
-        twoBinding.gmailText.setTextColor(colodCode);
-        twoBinding.contactImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
-        twoBinding.contactText.setTextColor(colodCode);
-        twoBinding.websiteImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
-        twoBinding.websiteText.setTextColor(colodCode);
-        twoBinding.locationImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
-        twoBinding.locationText.setTextColor(colodCode);
-
-    }
-
-    public void ChangeTextColorForFrameThree(int colodCode){
-        threeBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        threeBinding.gmailText.setTextColor(colodCode);
-        threeBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        threeBinding.contactText.setTextColor(colodCode);
-        threeBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        threeBinding.websiteText.setTextColor(colodCode);
-        threeBinding.loacationImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        threeBinding.locationText.setTextColor(colodCode);
-
-    }
-
-    public void ChangeBackgroundColorForFrameFour(int colorCode) {
-        fourBinding.topView2.setBackgroundColor(colorCode);
-    }
-
-    public void ChangeTextColorForFrameFour(int colodCode) {
-        fourBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        fourBinding.gmailText.setTextColor(colodCode);
-        fourBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        fourBinding.contactText.setTextColor(colodCode);
-        fourBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        fourBinding.websiteText.setTextColor(colodCode);
-        fourBinding.locationImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        fourBinding.locationText.setTextColor(colodCode);
-
-    }
-
-    public void ChangeBackgroundColorForFrameFive(int colorCode) {
-        fiveBinding.element1.setImageTintList(ColorStateList.valueOf(colorCode));
-        fiveBinding.element3.setImageTintList(ColorStateList.valueOf(colorCode));
-        fiveBinding.viewElement2.setBackgroundColor(colorCode);
-
-    }
-
-    public void ChangeTextColorForFrameFive(int colodCode) {
-        fiveBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        fiveBinding.gmailText.setTextColor(colodCode);
-        fiveBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        fiveBinding.phoneTxt.setTextColor(colodCode);
-        fiveBinding.websiteImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        fiveBinding.websiteText.setTextColor(colodCode);
-    }
-
-    public void ChangeBackgroundColorForFrameSix(int colorCode) {
-        sixBinding.containerElement.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-        sixBinding.viewElement2.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-
-    }
-
-    public void ChangeTextColorForFrameSix(int colodCode) {
-        sixBinding.imgElement1.setImageTintList(ColorStateList.valueOf(colodCode));
-        sixBinding.imgElement2.setImageTintList(ColorStateList.valueOf(colodCode));
-        sixBinding.imgElement3.setImageTintList(ColorStateList.valueOf(colodCode));
-        sixBinding.textElement1.setTextColor(colodCode);
-        sixBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        sixBinding.contactText.setTextColor(colodCode);
-    }
-
-    public void ChangeBackgroundColorForFrameSeven(int colorCode) {
-
-        sevenBinding.element.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-
-    }
-
-    public void ChangeTextColorForFrameSeven(int colodCode) {
-        sevenBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        sevenBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        sevenBinding.imgElement1.setImageTintList(ColorStateList.valueOf(colodCode));
-        sevenBinding.imgElement2.setImageTintList(ColorStateList.valueOf(colodCode));
-        sevenBinding.imgElement3.setImageTintList(ColorStateList.valueOf(colodCode));
-        sevenBinding.gmailText.setTextColor(colodCode);
-        sevenBinding.contactText.setTextColor(colodCode);
-        sevenBinding.brandNameText.setTextColor(colodCode);
-
-    }
-
-    public void ChangeBackgroundColorForFrameEight(int colorCode) {
-
-        eightBinding.topView2.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-        eightBinding.viewone.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-        eightBinding.topView2.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-
-    }
-
-    public void ChangeTextColorForFrameEight(int colodCode) {
-
-        eightBinding.locationText.setTextColor(colodCode);
-        eightBinding.gmailText.setTextColor(colodCode);
-        eightBinding.contactText.setTextColor(colodCode);
-        eightBinding.brandNameText.setTextColor(colodCode);
-        eightBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        eightBinding.loacationImage.setImageTintList(ColorStateList.valueOf(colodCode));
-        eightBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
-    }
-
-    public void ChangeBackgroundColorForFrameNine(int colorCode) {
-
-        nineBinding.element.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-        nineBinding.element0.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-
-    }
-
-    public void ChangeTextColorForFrameNine(int colodCode) {
-        nineBinding.imgElement1.setImageTintList(ColorStateList.valueOf(colodCode));
-        nineBinding.imgElement2.setImageTintList(ColorStateList.valueOf(colodCode));
-        nineBinding.imgElement3.setImageTintList(ColorStateList.valueOf(colodCode));
-        nineBinding.gmailText.setTextColor(colodCode);
-        nineBinding.contactText.setTextColor(colodCode);
-        nineBinding.brandNameText.setTextColor(colodCode);
-
-    }
-
-    public void ChangeBackgroundColorForFrameTen(int colorCode) {
-
-            tenBinding.gmailImage.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-            tenBinding.callImage.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-            tenBinding.locationImage.setBackgroundTintList(ColorStateList.valueOf(colorCode));
-
-    }
-
-    public void ChangeTextColorForFrameTen(int colodCode) {
-
-        tenBinding.gmailText.setTextColor(colodCode);
-        tenBinding.contactText.setTextColor(colodCode);
-        tenBinding.locationText.setTextColor(colodCode);
-
-    }
-
-
-
-    //Footer Data Load
-
-    public void loadFrameFirstData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            oneBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            oneBinding.gmailLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            oneBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            oneBinding.contactLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getAddress().isEmpty()) {
-            oneBinding.locationText.setText(activeBrand.getAddress());
-        } else {
-            oneBinding.addressLayoutElement.setVisibility(View.GONE);
-        }
-    }
-
-    public void loadFrameTwoData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            twoBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            twoBinding.gmailLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            twoBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            twoBinding.contactLayout.setVisibility(View.GONE);
-        }
-        if (activeBrand.getPhonenumber().isEmpty() && activeBrand.getEmail().isEmpty()) {
-            twoBinding.firstView.setVisibility(View.GONE);
-        }
-
-
-        if (!activeBrand.getAddress().isEmpty()) {
-            twoBinding.locationText.setText(activeBrand.getAddress());
-        } else {
-            twoBinding.locationLayout.setVisibility(View.GONE);
-        }
-        if (!activeBrand.getWebsite().isEmpty()) {
-            twoBinding.websiteText.setText(activeBrand.getWebsite());
-        } else {
-            twoBinding.websiteLayout.setVisibility(View.GONE);
-        }
-
-        if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()) {
-            twoBinding.secondView.setVisibility(View.GONE);
-        }
-    }
-
-    public void loadFrameThreeData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            threeBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            threeBinding.gmailLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            threeBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            threeBinding.contactLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getAddress().isEmpty()) {
-            threeBinding.locationText.setText(activeBrand.getAddress());
-        } else {
-            threeBinding.loactionLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getWebsite().isEmpty()) {
-            threeBinding.websiteText.setText(activeBrand.getWebsite());
-        } else {
-            threeBinding.websiteEdtLayout.setVisibility(View.GONE);
-        }
-
-    }
-
-    public void loadFrameFourData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            fourBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            fourBinding.gmailLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            fourBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            fourBinding.contactLayout.setVisibility(View.GONE);
-        }
-
-
-        if (!activeBrand.getAddress().isEmpty()) {
-            fourBinding.locationText.setText(activeBrand.getAddress());
-        } else {
-            fourBinding.locationLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getWebsite().isEmpty()) {
-            fourBinding.websiteText.setText(activeBrand.getWebsite());
-        } else {
-            fourBinding.websiteLayout.setVisibility(View.GONE);
-        }
-
-    }
-
-    public void loadFrameFiveData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            fiveBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            fiveBinding.elementEmail.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            fiveBinding.phoneTxt.setText(activeBrand.getPhonenumber());
-        } else {
-            fiveBinding.elementMobile.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getWebsite().isEmpty()) {
-            fiveBinding.websiteText.setText(activeBrand.getWebsite());
-        } else {
-            fiveBinding.element0.setVisibility(View.GONE);
-        }
-    }
-
-    public void loadFrameSixData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            sixBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            sixBinding.contactLayout.setVisibility(View.GONE);
-        }
-
-    }
-
-    public void loadFrameSevenData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            sevenBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            sevenBinding.gmailLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            sevenBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            sevenBinding.contactLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getName().isEmpty()) {
-            sevenBinding.brandNameText.setText(activeBrand.getName());
-        } else {
-            sevenBinding.brandNameText.setVisibility(View.GONE);
-        }
-    }
-
-    public void loadFrameEightData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            eightBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            eightBinding.gmailLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            eightBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            eightBinding.contactLayout.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getName().isEmpty()) {
-            eightBinding.brandNameText.setText(activeBrand.getName());
-        } else {
-            eightBinding.brandNameText.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getAddress().isEmpty()) {
-            eightBinding.locationText.setText(activeBrand.getAddress());
-        } else {
-            eightBinding.addressLayoutElement.setVisibility(View.GONE);
-        }
-    }
-
-    public void loadFrameNineData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            nineBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            nineBinding.gmailText.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            nineBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            nineBinding.contactText.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getName().isEmpty()) {
-            nineBinding.brandNameText.setText(activeBrand.getName());
-        } else {
-            nineBinding.brandNameText.setVisibility(View.GONE);
-        }
-
-
-    }
-
-    public void loadFrameTenData() {
-        BrandListItem activeBrand = preafManager.getActiveBrand();
-        if (!activeBrand.getEmail().isEmpty()) {
-            tenBinding.gmailText.setText(activeBrand.getEmail());
-        } else {
-            tenBinding.gmailText.setVisibility(View.GONE);
-            tenBinding.gmailImage.setVisibility(View.GONE);
-        }
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            tenBinding.contactText.setText(activeBrand.getPhonenumber());
-        } else {
-            tenBinding.contactText.setVisibility(View.GONE);
-            tenBinding.callImage.setVisibility(View.GONE);
-        }
-        if (!activeBrand.getAddress().isEmpty()) {
-            tenBinding.locationText.setText(activeBrand.getAddress());
-        } else {
-            tenBinding.locationText.setVisibility(View.GONE);
-            tenBinding.locationImage.setVisibility(View.GONE);
-        }
-
-
-
-    }
 
 
 
@@ -3209,6 +2362,48 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     }
                 });
 
+    }
+
+    private View.OnTouchListener onTouchListenerrr() {
+        return new View.OnTouchListener() {
+
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                final int x = (int) event.getRawX();
+                final int y = (int) event.getRawY();
+
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+                    case MotionEvent.ACTION_DOWN:
+                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)
+                                view.getLayoutParams();
+
+                        xDelta = x - lParams.leftMargin;
+                        yDelta = y - lParams.topMargin;
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        Toast.makeText(act,
+                                "thanks for new location!", Toast.LENGTH_SHORT)
+                                .show();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
+                                .getLayoutParams();
+                        layoutParams.leftMargin = x - xDelta;
+                        layoutParams.topMargin = y - yDelta;
+                        layoutParams.rightMargin = 0;
+                        layoutParams.bottomMargin = 0;
+                        view.setLayoutParams(layoutParams);
+                        break;
+                }
+//                mainLayout1.invalidate();
+                return true;
+            }
+        };
     }
 
 }

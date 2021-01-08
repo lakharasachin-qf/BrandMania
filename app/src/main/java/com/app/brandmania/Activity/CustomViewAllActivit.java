@@ -948,6 +948,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
         }
     }
+
     private int convertDpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
