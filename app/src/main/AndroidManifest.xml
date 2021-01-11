@@ -32,7 +32,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".Activity.AppIntroActivity"></activity>
+        <activity android:name=".Activity.ViewAllFrameImageActivity"></activity>
+        <activity android:name=".Activity.AppIntroActivity" />
         <activity android:name=".Activity.CustomViewAllActivit" />
         <activity android:name=".Activity.RazorPayActivity" />
         <activity android:name=".Activity.ViewNotificationActivity" />
@@ -100,11 +101,10 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-<!--          <meta-data-->
-<!--                    android:name="com.razorpay.ApiKey"-->
-<!--                    android:value="rzp_live_Sq3SAdZBt9Vec4" />-->
-       <meta-data
+        </provider> <!-- <meta-data -->
+        <!-- android:name="com.razorpay.ApiKey" -->
+        <!-- android:value="rzp_live_Sq3SAdZBt9Vec4" /> -->
+        <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_g34adOBwCItfce" />
 

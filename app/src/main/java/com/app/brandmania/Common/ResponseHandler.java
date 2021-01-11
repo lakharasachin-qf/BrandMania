@@ -686,5 +686,116 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
+
+    public static DashBoardItem HandleGetFrameCategory(JSONObject jsonObject) throws JSONException {
+        DashBoardItem dashBoardItem=new DashBoardItem();
+        ArrayList<DashBoardItem> string = null;
+        if (isSuccess(null, jsonObject)) {
+            JSONArray datajsonArray = getJSONArray(jsonObject, "data");
+            if (!datajsonArray.isNull(0) && datajsonArray.length() != 0) {
+                string = new ArrayList<>();
+                for (int i = 0; i < datajsonArray.length(); i++) {
+                    try {
+                        JSONObject datajsonObject = datajsonArray.getJSONObject(i);
+                        DashBoardItem model = new DashBoardItem();
+
+                        model.setId(getString(datajsonObject, "id"));
+                        model.setName(getString(datajsonObject, "img_cat_name"));
+                        model.setDescription(getString(datajsonObject, "img_cat_desc"));
+                        model.setTag(getString(datajsonObject, "img_cat_tagd"));
+
+                        model.setImageFree(getString(datajsonObject, "is_cat_free").equalsIgnoreCase("1"));
+
+                        JSONArray detailjsonArray = getJSONArray(datajsonObject, "images");
+                        ArrayList<ImageList> stringg = null;
+                        if (!detailjsonArray.isNull(0) && detailjsonArray.length() != 0) {
+                            stringg = new ArrayList<>();
+                            for (int j = 0; j < detailjsonArray.length(); j++) {
+                                try {
+                                    JSONObject detailjsonobject = detailjsonArray.getJSONObject(j);
+                                    ImageList data = new ImageList();
+                                    data.setLayoutType(ImageList.LAYOUT_FRAME_CATEGORY);
+                                    data.setId(getString(detailjsonobject, "id"));
+                                    data.setImagecatid(getString(detailjsonobject, "img_cat_id"));
+                                    data.setImageid(getString(detailjsonobject, "img_id"));
+                                    data.setLogo(getString(detailjsonobject, "img_thumb_path"));
+                                    data.setFrame(getString(detailjsonobject, "img_path"));
+                                    data.setImageFree(getString(detailjsonobject, "is_img_free").equalsIgnoreCase("1"));
+                                    stringg.add(data);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        }
+
+                        model.setImageLists(stringg);
+
+                        if (stringg!=null &&  stringg.size()!=0)
+                            string.add(model);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            dashBoardItem.setDashBoardItems(string);
+
+            JSONObject linkObj=getJSONObject(jsonObject,"link");
+            Links links=new Links();
+            links.setFirstPage(getString(linkObj,"first_page_url"));
+            links.setLastPageUrl(getString(linkObj,"last_page_url"));
+            links.setNextPageUrl(getString(linkObj,"next_page_url"));
+            links.setPrevPageUrl(getString(linkObj,"prev_page_url"));
+            links.setTotalStr(getString(linkObj,"total"));
+            dashBoardItem.setLinks(links);
+
+
+
+        }
+
+        return dashBoardItem;
+    }
+
+    public static ImageList HandleGetFrameByIdCategory(JSONObject jsonObject) {
+        ImageList imageList=new ImageList();
+        ArrayList<ImageList> string = null;
+        if (isSuccess(null, jsonObject)) {
+            JSONArray datajsonArray = getJSONArray(jsonObject, "data");
+            if (!datajsonArray.isNull(0) && datajsonArray.length() != 0) {
+                string = new ArrayList<>();
+                for (int i = 0; i < datajsonArray.length(); i++) {
+                    try {
+                        JSONObject datajsonObject = datajsonArray.getJSONObject(i);
+                        ImageList model = new ImageList();
+                        model.setLayoutType(ImageList.LAYOUT_FRAME_CATEGORY_BY_ID);
+                        model.setName(getString(datajsonObject, "title"));
+                        model.setId(getString(datajsonObject,"img_cat_map_id"));
+                        model.setImagecatid(getString(datajsonObject, "img_cat_id"));
+                        model.setImageid(getString(datajsonObject, "image_id"));
+                        model.setLogo(getString(datajsonObject, "img_thumb_path"));
+                        model.setFrame(getString(datajsonObject, "img_path"));
+                        model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
+                        string.add(model);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
+            imageList.setCatogaryImagesList(string);
+            JSONObject linkObj=getJSONObject(jsonObject,"link");
+            Links links=new Links();
+            links.setFirstPage(getString(linkObj,"first_page_url"));
+            links.setLastPageUrl(getString(linkObj,"last_page_url"));
+            links.setNextPageUrl(getString(linkObj,"next_page_url"));
+            links.setPrevPageUrl(getString(linkObj,"prev_page_url"));
+            links.setTotalStr(getString(linkObj,"total"));
+            imageList.setLinks(links);
+        }
+        return imageList;
+    }
 }
 

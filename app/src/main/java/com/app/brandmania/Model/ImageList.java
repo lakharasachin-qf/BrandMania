@@ -6,6 +6,8 @@ public class ImageList {
     public static final int LAYOUT_IMAGE_CATEGORY = 1;
     public static final int LAYOUT_IMAGE_CATEGORY_BY_ID = 2;
     public static final int LAYOUT_FRAME = 3;
+    public static final int LAYOUT_FRAME_CATEGORY = 4;
+    public static final int LAYOUT_FRAME_CATEGORY_BY_ID=5;
     public static final int LAYOUT_LOADING = 30;
     private int layoutType;
     private String name;
@@ -90,9 +92,19 @@ public class ImageList {
     public static int getLayoutFrame() {
         return LAYOUT_FRAME;
     }
+    public static int getLayoutFrameCategory() {
+        return LAYOUT_FRAME_CATEGORY;
+    }
+    public static int getLayoutFrameByIdCategory() {
+        return LAYOUT_FRAME_CATEGORY_BY_ID;
+    }
+
     public static int getLayoutLoading() {
         return LAYOUT_LOADING;
     }
+
+
+
 
     public int getLayoutType() {
         return layoutType;

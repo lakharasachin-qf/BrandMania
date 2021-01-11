@@ -188,7 +188,13 @@
                                 android:layout_height="wrap_content">
                             </ImageView>
 
+                    <RelativeLayout
+                        android:id="@+id/elementFooter"
+                        android:layout_alignParentBottom="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
+                    </RelativeLayout>
 
                     <ImageView
                         android:visibility="gone"
@@ -220,6 +226,7 @@
 
 
                 </RelativeLayout>
+
             </androidx.cardview.widget.CardView>
             <LinearLayout
                 android:id="@+id/clorframeLayout"

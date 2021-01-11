@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Activity.ViewAllFrameImageActivity;
 import com.google.gson.Gson;
 import com.app.brandmania.Activity.ViewAllImage;
 import com.app.brandmania.Model.DashBoardItem;
@@ -23,14 +25,14 @@ import java.util.List;
 import static com.app.brandmania.Utils.Utility.Log;
 
 
-public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.DasboardViewHolder> {
+public class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordAddapter.DasboardViewHolder> {
 
     private ArrayList<DashBoardItem> dashBoardItemList;
 
     private final Gson gson;
     Activity activity;
 
-    public DasboardAddaptor(ArrayList<DashBoardItem> dashBoardItemList, Activity activity) {
+    public CustomDashbordAddapter(ArrayList<DashBoardItem> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
         gson=new Gson();
@@ -48,7 +50,7 @@ public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.Dasb
         dasboardViewHolder.title.setSelected(true);
         Log.e("LLLLLL", String.valueOf(dashBoardItemList.get(position).getImageLists().size()));
         ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(dashBoardItemList.get(position).getImageLists(), activity);
-        menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_HOMEFRAGEMENT);
+        menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_CATEGORYFRAGEMENT);
         dasboardViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         dasboardViewHolder.recyclerView.setHasFixedSize(true);
         menuAddaptor.setDashBoardItem(dashBoardItemList.get(position));
@@ -56,8 +58,9 @@ public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.Dasb
         dasboardViewHolder.viewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i =new Intent(activity, ViewAllImage.class);
+                Intent i =new Intent(activity, ViewAllFrameImageActivity.class);
                 i.putExtra("viewAll","12");
+                Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
                 i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
                 activity.startActivity(i);
                 i.addCategory(Intent.CATEGORY_HOME);
@@ -82,9 +85,9 @@ public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.Dasb
 
         public DasboardViewHolder(@NonNull View itemView) {
             super(itemView);
-          title=itemView.findViewById(R.id.title);
-          viewAll=itemView.findViewById(R.id.viewAll);
-          recyclerView=itemView.findViewById(R.id.imageCategoryRecycler);
+            title=itemView.findViewById(R.id.title);
+            viewAll=itemView.findViewById(R.id.viewAll);
+            recyclerView=itemView.findViewById(R.id.imageCategoryRecycler);
 
         }
 
