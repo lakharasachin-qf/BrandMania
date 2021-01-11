@@ -56,6 +56,11 @@ public class ViewAllFrameImageActivity extends BaseActivity {
     private String is_frame="";
     Gson gson;
 
+
+
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
