@@ -29,6 +29,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Name
     public static final String TABLE_NAME = "userActivities";
 
+    public static final int FLAG_DOWNLOAD=0;
+    public static final int FLAG_FAVORITE=1;
+
 
     // Table columns
     public static final String ID = "id";

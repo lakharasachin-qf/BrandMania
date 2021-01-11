@@ -1,34 +1,19 @@
 package com.app.brandmania.Adapter;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Connection.ThumbnailCallback;
 import com.app.brandmania.Model.ThumbnailItem;
 import com.app.brandmania.R;
 
-import android.util.Log;
-import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.app.brandmania.databinding.LayoutForLoadTenBinding;
-
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
-
-import ja.burhanrashid52.photoeditor.PhotoFilter;
 
 
 public class FilterViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -61,7 +46,7 @@ final ThumbnailItem thumbnailItem = dataSet.get(i);
         thumbnailsViewHolder.thumbnail.setImageBitmap(thumbnailItem.image);
         thumbnailsViewHolder.thumbnail.setScaleType(ImageView.ScaleType.FIT_START);
         //setAnimation(thumbnailsViewHolder.thumbnail, i);
-        thumbnailsViewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
+        thumbnailsViewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
 @Override
 public void onClick(View v) {
         if (lastPosition != i) {
@@ -88,9 +73,10 @@ public int getItemCount() {
 
 public static class ThumbnailsViewHolder extends RecyclerView.ViewHolder {
     public ImageView thumbnail;
-
+        public CardView itemLayout;
     public ThumbnailsViewHolder(View v) {
         super(v);
+        this.itemLayout=v.findViewById(R.id.itemLayout);
         this.thumbnail = (ImageView) v.findViewById(R.id.thumbnail);
     }
 }

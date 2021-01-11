@@ -69,6 +69,8 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Connection.ThumbnailCallback;
+import com.app.brandmania.DataBase.DBManager;
+import com.app.brandmania.DataBase.DatabaseHelper;
 import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IImageBritnessEvent;
@@ -195,13 +197,15 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     Bitmap selectedImageBitmap=null;
 
     private PhotoEditor mPhotoEditor;
+
+    public DBManager dbManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_custom_view_all);
-
+        dbManager=new DBManager(act);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson = new Gson();
         preafManager=new PreafManager(act);
@@ -225,9 +229,9 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             public void onClick(View v) {
 
                 if (manuallyEnablePermission(1)) {
-
+/*
                     if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
-                        //freee ------
+
 
                         if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                 askForUpgradeToEnterpisePackage();
@@ -237,12 +241,18 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
                     } else {
                         //paid
-                     /*if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                     *//*if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                             askForUpgradeToEnterpisePackage();
                             return;
-                        }*/
+                        }*//*
                         getImageDownloadRights("Download");
                     }
+                    */
+                    requestAgain();
+                    saveImageToGallery(false, false);
+
+
+
                 }
             }
         });
@@ -414,11 +424,13 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
         try {
           //  mPhotoEditor.clearAllViews();
+            imageFromGalaryModel=listModel;
             InputStream inputStream = getContentResolver().openInputStream(listModel.getUri());
             yourDrawable = Drawable.createFromStream(inputStream, listModel.getUri().toString() );
             binding.backImage.setImageDrawable(yourDrawable);
             BitmapDrawable drawable = (BitmapDrawable) binding.backImage.getDrawable();
-             selectedImageBitmap=drawable.getBitmap();
+             selectedImageBitmap= drawable.getBitmap();
+             selectedImageBitmap=selectedImageBitmap.copy(Bitmap.Config.ARGB_8888 , true);
         } catch (FileNotFoundException e) {
 
         }
@@ -1390,10 +1402,10 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
     //save image with frame either custome or from backend
     public void saveImageToGallery(boolean wantToShare,boolean isFavourite) {
-
+        Utility.showLoadingTran(act);
         Drawable bitmapFrame;
         if (isUsingCustomFrame){
-            bitmapFrame=new BitmapDrawable(getResources(), FooterHelper.getCustomFrameInBitmap(binding.elementCustomFrame,binding.FrameImageDuplicate));
+            bitmapFrame=new BitmapDrawable(getResources(), FooterHelper.getCustomFrameInBitmap(binding.CustomImageMain,binding.backImage));
         }else{
             bitmapFrame=(BitmapDrawable) binding.frameImage.getDrawable();
         }
@@ -1406,33 +1418,33 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         ImageDrawable.draw(canvas);
         bitmapFrame.draw(canvas);
 
+        FileOutputStream fileOutputStream = null;
+        File file = FooterHelper.createNewFolderForImages();
+        if (!file.exists() && !file.mkdirs()) {
+            return;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
+        String date = simpleDateFormat.format(new Date());
+        String name = "image" +System.currentTimeMillis()+ ".jpg";
+        String file_name = file.getAbsolutePath() + "/" + name;
+        new_file = new File(file_name);
+        Log.e("new_file",new_file.getAbsolutePath()+"\n"+new_file.getPath());
+
+        try {
+            fileOutputStream = new FileOutputStream(new_file);
+            Bitmap bitmap = merged;
+            bitmap.compress(Bitmap.CompressFormat.PNG, 80, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        FooterHelper.refreshgallery(act,new_file);
+
         if (!isFavourite) {
-            FileOutputStream fileOutputStream = null;
-            File file = FooterHelper.createNewFolderForImages();
-            if (!file.exists() && !file.mkdirs()) {
-                return;
-            }
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
-            String date = simpleDateFormat.format(new Date());
-            String name = "image" +System.currentTimeMillis()+ ".jpg";
-            String file_name = file.getAbsolutePath() + "/" + name;
-            new_file = new File(file_name);
-            Log.e("new_file",new_file.getAbsolutePath()+"\n"+new_file.getPath());
-
-            try {
-                fileOutputStream = new FileOutputStream(new_file);
-                Bitmap bitmap = merged;
-                bitmap.compress(Bitmap.CompressFormat.PNG, 80, fileOutputStream);
-                fileOutputStream.flush();
-                fileOutputStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            FooterHelper.refreshgallery(act,new_file);
-
             if (wantToShare) {
                 if (isUsingCustomFrame) {
                     ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(),selectedFooterModel);
@@ -1441,6 +1453,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 } else {
                 }
                 FooterHelper.triggerShareIntent(act,new_file,merged);
+                dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
             } else {
                 Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
                 if (isUsingCustomFrame) {
@@ -1452,6 +1465,19 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 } else {
                    // Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
                 }
+
+                dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
+            }
+
+            InputStream inputStream = null;
+            try {
+                inputStream = getContentResolver().openInputStream(imageFromGalaryModel.getUri());
+                yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString() );
+                binding.backImage.setImageDrawable(yourDrawable);
+                BitmapDrawable drawable = (BitmapDrawable) binding.backImage.getDrawable();
+                selectedImageBitmap=drawable.getBitmap();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
 
 
@@ -1463,9 +1489,9 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             } else {
               //  Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
             }
-
+            dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_FAVORITE);
         }
-
+        Utility.dismissLoadingTran();
     }
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
