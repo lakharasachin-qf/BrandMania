@@ -40,4 +40,5 @@ public class APIs {
 
 
     public static final String GET_APP_VIDEO_LINK=URL+"getVideo";
+   public static final String GET_CUSTOME_FRAME_CATEGORY = URL + "getCustomeImageCategory";
 }

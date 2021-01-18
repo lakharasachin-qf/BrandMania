@@ -132,11 +132,11 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
     private void getImageCtegory() {
         Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY + "?page=1");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_CUSTOME_FRAME_CATEGORY + "?page=1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_IMAGE_CATEGORY : ", response);
+                Utility.Log("GET_CUSTOME_FRAME_CATEGORY : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);

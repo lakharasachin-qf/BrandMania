@@ -81,7 +81,6 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
 
             case LAYOUT_DOWNLOAD:
                 DownloadlisItemListBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.downloadlis_item_list, viewGroup, false);
-
                 return new DownloadFavoriteAdapter.DownloadHolder(layoutBinding);
             case LAYOUT_DOWNLOADGRID:
                 ItemDownloadGridBinding layoutBinding1 = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.item_download_grid, viewGroup, false);

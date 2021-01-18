@@ -185,7 +185,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             // if (layoutType==FROM_HOMEFRAGEMENT) {
-                            Toast.makeText(activity,"bjhdshdj4545454",Toast.LENGTH_LONG).show();
+                         //   Toast.makeText(activity,"bjhdshdj4545454",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(activity, ViewAllFrameImageActivity.class);
                             Gson  gson=new Gson();
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));

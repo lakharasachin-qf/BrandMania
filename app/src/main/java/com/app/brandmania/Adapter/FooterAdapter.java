@@ -156,6 +156,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                             if (model.isFree()) {
                                 checkedPosition = position;
                                 footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                Toast.makeText(activity,"jhgdhdghsdg",Toast.LENGTH_LONG).show();
                                 ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
                                 checkedPosition = position;

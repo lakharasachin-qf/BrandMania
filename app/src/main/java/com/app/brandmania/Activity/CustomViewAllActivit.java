@@ -133,7 +133,8 @@ import ja.burhanrashid52.photoeditor.PhotoFilter;
 
 import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
 
-public class CustomViewAllActivit extends BaseActivity implements FrameInterFace, ItemeInterFace,
+public class CustomViewAllActivit extends
+        BaseActivity implements FrameInterFace, ItemeInterFace,
         IImageFromGalary,ITextColorChangeEvent,IFontChangeEvent,ITextBoldEvent,IItaliTextEvent,ColorPickerDialogListener,IColorChange,
         ColorPickerView.OnColorChangedListener,ITextSizeEvent,onFooterSelectListener, View.OnTouchListener,FilterListener,
         IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect {
@@ -197,7 +198,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     Bitmap selectedImageBitmap=null;
 
     private PhotoEditor mPhotoEditor;
-
     public DBManager dbManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -215,39 +215,15 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
         binding.logoCustom.setOnTouchListener(onTouchListener());
         gestureDetector = new GestureDetector(this, new CustomViewAllActivit.SingleTapConfirm());
-//        mPhotoEditor = new PhotoEditor.Builder(this, binding.backImage)
-//                .setPinchTextScalable(true) // set flag to make text scalable when pinch
-//                //.setDefaultTextTypeface(mTextRobotoTf)
-//                //.setDefaultEmojiTypeface(mEmojiTypeFace)
-//                .build(); // build photo editor sdk
-//
-//        mPhotoEditor.setOnPhotoEditorListener((OnPhotoEditorListener) act);
-
-
         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (manuallyEnablePermission(1)) {
-/*
-                    if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
-
-
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                     if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                 askForUpgradeToEnterpisePackage();
                                 return;
                             }
-                            getImageDownloadRights("Download");
-
-                    } else {
-                        //paid
-                     *//*if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
-                        }*//*
-                        getImageDownloadRights("Download");
-                    }
-                    */
                     requestAgain();
                     saveImageToGallery(false, false);
 
@@ -256,6 +232,15 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 }
             }
         });
+
+        binding.backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,58 +249,23 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 binding.backImage.setRotation(binding.backImage.getRotation() + 90);
             }
         });
-
-
-
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (manuallyEnablePermission(2)) {
-                    if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
 
-                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                askForUpgradeToEnterpisePackage();
-                                return;
-                            }
-                            getImageDownloadRights("Share");
 
-                    } else {
-                        getImageDownloadRights("Share");
+                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                            askForUpgradeToEnterpisePackage();
+                            return;
+                        }
+                        requestAgain();
+                        saveImageToGallery(true, false);
+
                     }
-                }
+
             }
         });
-//        binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                if (selectedBackendFrame != null) {
-//                    selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
-//                }
-//                selectedObject.setBrandId(preafManager.getActiveBrand().getId());
-//                selectedObject.setCustom(isUsingCustomFrame);
-//
-//                preafManager.removeFromMyFavorites(selectedObject);
-//                // if (manuallyEnablePermission()) {
-//                if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
-//                    binding.addfabroutIcon.setVisibility(View.GONE);
-//                    binding.fabroutIcon.setVisibility(View.VISIBLE);
-//                }
-//
-//                removeFromFavourite(REMOVEFAV);
-//                // }
-//            }
-//        });
-
-
-
-
-
-
-
-
-
         if (getIntent().hasExtra("flag")) {
             int flag = getIntent().getIntExtra("flag", -1);
             if (flag == VIEW_RECOMDATION) {
@@ -324,16 +274,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
         bottomFramgment();
         binding.backImage.setTag("0");
-
-
-//        InputStream inputStream = null;
-//        try {
-//            inputStream = getContentResolver().openInputStream(imageFromGalaryModel.getUri());
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString() );
-//        binding.backImage.setImageDrawable(yourDrawable);
         loadFirstImage();
     }
     public static String convertFirstUpper(String str) {
@@ -709,9 +649,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             tenBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
         }
     }
-
     @Override public void onColorSelected(int dialogId, int colorCode) {
-
     }
     @Override public void onDialogDismissed(int dialogId) {
 
@@ -929,7 +867,9 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     //for background color change
     @Override public void onChooseColor(int colorCode) {
         colorCodeForBackground = colorCode;
+        Toast.makeText(act, editorFragment+"fdgdf", Toast.LENGTH_SHORT).show();
         if (editorFragment==3){
+
             if (footerLayout==1){
                 FooterHelper.ChangeBackgroundColorForFrameOne(act,oneBinding,colorCode);
             }else if (footerLayout==2){
@@ -1178,9 +1118,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             }
         };
     }
-
-
-
     public boolean manuallyEnablePermission(int pendingActivity) {
         isDownloadOrSharingOrFavPending=pendingActivity;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1407,9 +1344,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         if (isUsingCustomFrame){
             bitmapFrame=new BitmapDrawable(getResources(), FooterHelper.getCustomFrameInBitmap(binding.CustomImageMain,binding.backImage));
         }else{
-            bitmapFrame=(BitmapDrawable) binding.frameImage.getDrawable();
+            bitmapFrame=new BitmapDrawable(getResources(), FooterHelper.getCustomFrameInBitmap1(binding.CustomImageMain,binding.backImage,binding.frameImage));
         }
-
         Drawable ImageDrawable = (BitmapDrawable) binding.backImage.getDrawable();
         Bitmap merged = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(merged);
@@ -1511,28 +1447,19 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         model.setWebsite(preafManager.getActiveBrand().getWebsite());
         ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_SEVEN, model);
     }
-
-
-    @Override
-    public void onFilterSelected(PhotoFilter photoFilter) {
+    @Override public void onFilterSelected(PhotoFilter photoFilter) {
         mPhotoEditor.setFilterEffect(photoFilter);
 
     }
-
-    @Override
-    public void onimageBritness(int britness) {
+    @Override public void onimageBritness(int britness) {
 
         binding.backImage.setColorFilter(setBrightness(britness));
 
     }
-
-    @Override
-    public void onRotateImage(int rotate) {
+    @Override public void onRotateImage(int rotate) {
         binding.backImage.setRotation(binding.backImage.getRotation() + 90);
     }
-
-    @Override
-    public void onThumbnailClick(Filter filter) {
+    @Override public void onThumbnailClick(Filter filter) {
         int width = selectedImageBitmap.getWidth();
         int height = selectedImageBitmap.getHeight();
 
@@ -1557,7 +1484,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         Log.v("filter", "Width and height are " + width + "--" +height);
 
     }
-
     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
 
@@ -1616,7 +1542,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             }
         };
     }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -1648,8 +1573,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             }
         }
     }
-
-
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -1662,7 +1585,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
     }
-
     //to handle click and drag listener
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
         @Override
@@ -1670,15 +1592,17 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             return true;
         }
     }
-
-    @Override
-    public void onBackendFrameChoose(ImageList imageList, int position) {
+    @Override public void onBackendFrameChoose(ImageList imageList, int position) {
         binding.frameImage.setVisibility(View.VISIBLE);
         binding.elementCustomFrame.setVisibility(View.GONE);
         selectedBackendFrame=imageList;
         Glide.with(getApplicationContext()).load(imageList.getFrame1()).into(binding.frameImage);
         isUsingCustomFrame = false;
       //  forCheckFavorite();
+    }
+    @Override
+    public void onBackPressed() {
+        CodeReUse.activityBackPress(act);
     }
 }
 

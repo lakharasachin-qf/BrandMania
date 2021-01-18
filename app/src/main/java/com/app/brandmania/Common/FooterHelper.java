@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -657,7 +658,38 @@ public class FooterHelper {
 
     }
 
+    //create custom image from relative layout and view
+    public static Bitmap getCustomFrameInBitmap1(RelativeLayout customeFrame, ImageView actualImage, ImageView frameImage) {
 
+        Bitmap newFinal;
+        Bitmap returnedBitmap = Bitmap.createBitmap(customeFrame.getWidth(), customeFrame.getHeight(),Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(returnedBitmap);
+
+        Drawable bgDrawable =customeFrame.getBackground();
+        if (bgDrawable!=null) {
+            bgDrawable.draw(canvas);
+        }   else{
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        }
+        customeFrame.draw(canvas);
+
+        actualImage.setVisibility(View.VISIBLE);
+        frameImage.setVisibility(View.VISIBLE);
+        actualImage.setImageBitmap(returnedBitmap);
+        frameImage.setImageBitmap(returnedBitmap);
+        BitmapDrawable drawable = (BitmapDrawable) actualImage.getDrawable();
+
+        newFinal = drawable.getBitmap();
+
+
+        actualImage.setVisibility(View.VISIBLE);
+        frameImage.setVisibility(View.VISIBLE);
+        //newFinal bitmap
+        return newFinal;
+
+    }
 
 
     //For CreatFileeDisc For Download Image.........................
