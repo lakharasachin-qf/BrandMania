@@ -167,6 +167,9 @@ public class FooterAdapter extends RecyclerView.Adapter{
                             }
                         }
                     });
+
+
+
                     if (checkedPosition == position) {
                         ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.VISIBLE);
 
