@@ -46,111 +46,73 @@
             android:layout_below="@+id/my_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-                <LinearLayout
-                            android:visibility="gone"
-                            android:id="@+id/textAndImageEditorLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                                <LinearLayout
-                                    android:id="@+id/textAndImageLayout"
-                                    android:layout_marginRight="@dimen/_7sdp"
-                                    android:layout_marginLeft="@dimen/_7sdp"
-                                    android:layout_width="0dp"
-                                    android:layout_weight="1"
-                                    android:background="@drawable/rounded_border_text_view"
-                                    android:padding="@dimen/_10sdp"
-                                    android:layout_height="wrap_content">
-                                        <RelativeLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
-                                                <ImageView
-                                                    android:layout_centerVertical="true"
-                                                    android:background="@drawable/ic_outlineima_format_size_24"
-                                                    android:id="@+id/textandImage"
-                                                    android:layout_width="@dimen/_50sdp"
-                                                    android:layout_height="@dimen/_50sdp">
-                                                </ImageView>
-                                                <TextView
-                                                    android:layout_centerVertical="true"
-                                                    android:layout_toEndOf="@+id/textandImage"
-                                                    android:textColor="@color/colorPrimary"
-                                                    android:fontFamily="@font/inter_medium"
-                                                    android:text="@string/magazine"
-                                                    android:layout_marginLeft="@dimen/_10sdp"
-                                                    android:textSize="@dimen/_13sdp"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"></TextView>
-                                        </RelativeLayout>
 
-                                </LinearLayout>
 
-                                <LinearLayout
-                                    android:id="@+id/textLayout"
-                                    android:layout_marginRight="@dimen/_7sdp"
-                                    android:layout_marginLeft="@dimen/_7sdp"
-                                    android:layout_width="0dp"
-                                    android:layout_weight="1"
-                                    android:background="@drawable/rounded_border_text_view"
-                                    android:padding="@dimen/_10sdp"
-                                    android:layout_height="wrap_content">
-                                        <RelativeLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
-                                                <ImageView
-                                                    android:layout_centerVertical="true"
-                                                    android:background="@drawable/ic_outline_font_download_24"
-                                                    android:id="@+id/text"
-                                                    android:layout_width="@dimen/_50sdp"
-                                                    android:layout_height="@dimen/_50sdp">
-                                                </ImageView>
-                                                <TextView
-                                                    android:layout_centerVertical="true"
-                                                    android:layout_toEndOf="@+id/text"
-                                                    android:textColor="@color/colorPrimary"
-                                                    android:fontFamily="@font/inter_medium"
-                                                    android:text="Text"
-                                                    android:layout_marginLeft="@dimen/_10sdp"
-                                                    android:textSize="@dimen/_13sdp"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"></TextView>
-                                        </RelativeLayout>
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_10sdp"
+                android:id="@+id/customImageRelative"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:layout_height="@dimen/_90sdp"
+                card_view:cardCornerRadius="@dimen/_10sdp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.cardview.widget.CardView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/ImageForText"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_7sdp"
 
-                                </LinearLayout>
+                    android:layout_height="@dimen/_60sdp"
+                    card_view:cardCornerRadius="@dimen/_5sdp">
+                <ImageView
 
-                        </LinearLayout>
-                <RelativeLayout
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_outlineima_format_size_24"
+                    android:id="@+id/textandImage1"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp">
+                </ImageView>
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_marginTop="@dimen/_15sdp"
+                  android:id="@+id/textAndImage"
+                    android:layout_toEndOf="@+id/ImageForText"
+                    android:textColor="@color/colorthird"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/magazine"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
 
-                            android:layout_below="@+id/textAndImageEditorLayout"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:id="@+id/recommendationRelativ11"
-                            android:background="@android:color/transparent"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                                <TextView
-                                    android:layout_marginLeft="@dimen/_10sdp"
-                                    android:id="@+id/recommendationText"
-                                    android:text="@string/recommendation_text"
-                                    android:textColor="@color/alltextcolor"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:fontFamily="@font/inter_regular"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-                                </TextView>
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:layout_below="@id/recommendationText"
-                                    android:id="@+id/rocommRecycler"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="@dimen/_1sdp"
-                                    android:clipToPadding="false" />
-                        </RelativeLayout>
+                <TextView
+                    android:layout_toEndOf="@+id/ImageForText"
+                    android:layout_below="@+id/textAndImage"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Creat Custome Image"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
 
+            </RelativeLayout>
+            </androidx.cardview.widget.CardView>
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/swipeContainer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/recommendationRelativ11"
+                    android:layout_below="@+id/customImageRelative"
                     android:scrollbars="none">
                      <androidx.core.widget.NestedScrollView
                          android:layout_width="match_parent"
@@ -168,12 +130,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                             <RelativeLayout
-                                android:layout_marginTop="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
                                 android:id="@+id/recommendationRelativ"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
                                 <androidx.recyclerview.widget.RecyclerView
-                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
                                     android:id="@+id/frameRecycler"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"

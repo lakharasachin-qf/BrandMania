@@ -27,6 +27,7 @@
                 android:layout_width="@dimen/_12sdp"
                 android:layout_margin="@dimen/_5sdp"
                 android:layout_height="@dimen/_12sdp"/>
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

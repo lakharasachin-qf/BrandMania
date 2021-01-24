@@ -76,13 +76,11 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     Bitmap selectedImageBitmap=null;
     Matrix matrix = new Matrix();
     Matrix savedMatrix = new Matrix();
-
     // The 3 states (events) which the user is trying to perform
     static final int NONE = 0;
     static final int DRAG = 1;
     static final int ZOOM = 2;
     int mode = NONE;
-
     // these PointF objects are used to record the point(s) the user is touching
     PointF start = new PointF();
     PointF mid = new PointF();
@@ -95,11 +93,6 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     int startheight;
     float dx = 0, dy = 0, x = 0, y = 0;
     float angle = 0;
-
-
-
-
-
     private int _xDelta;
     private int _yDelta;
     EditText myEditText;
@@ -112,10 +105,7 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_color_and_text_edit);
-
         init();
-
-
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(250, 250);
         layoutParams.leftMargin = 50;
         layoutParams.topMargin = 50;
@@ -224,11 +214,7 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         }
 
 });
-
-
-
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
-
         RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.main);
         RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         myEditText = new EditText(act,null);
@@ -239,10 +225,6 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         myEditText.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
         myEditText.setOnTouchListener((View.OnTouchListener) act);
         mRlayout.addView(myEditText);
-
-
-
-
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Image")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frame")));
@@ -293,12 +275,7 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
                 binding.viewPager.setCurrentItem(0);
             }
         });
-
-
-
     }
-
-
     public static String convertFirstUpper(String str) {
 
         if (str == null || str.isEmpty()) {
@@ -307,20 +284,14 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-
-    @Override
-    public void onColorItemChange(int colorcode) {
+    @Override public void onColorItemChange(int colorcode) {
         myEditText.setTextColor(colorcode);
     }
-
-    @Override
-    public void onFontChangeListenert(String Font) {
+    @Override public void onFontChangeListenert(String Font) {
         Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
         myEditText.setTypeface(custom_font);
     }
-
-    @Override
-    public void onThumbnailClick(Filter filter) {
+    @Override public void onThumbnailClick(Filter filter) {
         int width = selectedImageBitmap.getWidth();
         int height = selectedImageBitmap.getHeight();
 
@@ -346,22 +317,15 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
         binding.editableImageview.setImageBitmap(filter.processFilter(Bitmap.createScaledBitmap(selectedImageBitmap, width, height, false)));
 
     }
-
-    @Override
-    public void onBackendFrameChoose(ImageList imageList, int position) {
+    @Override public void onBackendFrameChoose(ImageList imageList, int position) {
 
     }
-
-    @Override
-    public void onimageBritness(int britness) {
+    @Override public void onimageBritness(int britness) {
         binding.editableImageview.setColorFilter(setBrightness(britness));
     }
-
-    @Override
-    public void onRotateImage(int rotate) {
+    @Override public void onRotateImage(int rotate) {
         binding.editableImageview.setRotation(binding.backImage.getRotation() + 90);
     }
-
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -369,8 +333,7 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
             return true;
         }
     }
-    @Override
-    public void onChooseColor(int colorCode) {
+    @Override public void onChooseColor(int colorCode) {
         if (editorFragment==4 && selectedForEdit!=null) {
         }
         if (editorFragment==3 && selectedForBackgroundChange!=null){
@@ -381,16 +344,12 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
             selectedForBackgroundChange.setBackgroundColor(colorCode);
         }
     }
-
-    @Override
-    public void onBorderSizeChange(int size) {
+    @Override public void onBorderSizeChange(int size) {
 
     }
-
     @Override public void onItemSelection(int position, MultiListItem listModel) {
         binding.frameImage.setImageResource(listModel.getImage());
     }
-
     @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
         try {
             binding.editableImageview.setVisibility(View.VISIBLE);
@@ -431,7 +390,6 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     @Override public void onDialogDismissed(int dialogId) {
 
     }
-
     @Override public void onColorChanged(int newColor) {
         if (editorFragment==4 && selectedForEdit!=null) {
             selectedForEdit.setTextColor(newColor);

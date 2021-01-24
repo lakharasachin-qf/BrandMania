@@ -21,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.CustomViewAllActivit;
+import com.app.brandmania.Activity.ViewAllFrameImageActivity;
 import com.app.brandmania.Adapter.CustomDashbordAddapter;
 import com.app.brandmania.Adapter.DasboardAddaptor;
 import com.app.brandmania.Adapter.MenuAddaptor;
@@ -58,29 +60,17 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_custom,container,false);
-        binding.textAndImageLayout.setOnClickListener(new View.OnClickListener() {
+        binding.customImageRelative.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ColorAndTextEditActivity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CustomViewAllActivit.class);
                 startActivity(intent);
-
             }
         });
         preafManager=new PreafManager(act);
-        binding.textLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), OnlyTextEditorActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        Recommendation();
         startAnimation();
         getImageCtegory();
-        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
-                R.color.colorsecond,
-                R.color.colorthird);
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,R.color.colorsecond, R.color.colorthird);
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -96,32 +86,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
         return binding.getRoot();
 
     }
-    public void Recommendation() {
-        ArrayList<MultiListItem> menuModels = new ArrayList<>();
-        MultiListItem model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.img_one);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.imgd_o);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.img_three);
-        menuModels.add(model);
-
-        model = new MultiListItem();
-        model.setLayoutType(MultiListItem.LAYOUT_RECOMMANDATION);
-        model.setImage(R.drawable.img_four);
-        menuModels.add(model);
-        MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
-        binding.rocommRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));
-        binding.rocommRecycler.setHasFixedSize(true);
-        binding.rocommRecycler.setAdapter(menuAddaptor);
-    }
     public void setAdapter() {
         dasboardAddaptor = new CustomDashbordAddapter(menuModels, act);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
@@ -131,7 +95,7 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     }
     private void getImageCtegory() {
-        Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY + "?page=1");
+        Utility.Log("API : ", APIs.GET_CUSTOME_FRAME_CATEGORY + "?page=1");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_CUSTOME_FRAME_CATEGORY + "?page=1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -318,31 +282,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                     JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
                     is_frame= datajsonobjecttt.getString("is_frame");
 
-//                    if (is_frame.equals("1")) {
-//                      //  Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();
-//                        binding.alertRelative.setVisibility(View.GONE);
-//                        is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
-//                        is_package= datajsonobjecttt.getString("package");
-//
-//                        if(is_package.equals(""))
-//                        {
-//                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
-//                          //  binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
-//
-//                        }
-//                        else if (is_payment_pending.equals("1"))
-//                        {
-//                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
-//                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
-//
-//                        }
-//
-//
-//                    }
-//                    else if (is_frame.equals("0")) {
-//                        binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "frame_message"));
-//                        binding.contactTxtLayout.setVisibility(View.VISIBLE);
-//                    }
 
 
                 } catch (JSONException e) {

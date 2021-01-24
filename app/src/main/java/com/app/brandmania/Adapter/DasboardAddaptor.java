@@ -24,21 +24,15 @@ import static com.app.brandmania.Utils.Utility.Log;
 
 
 public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.DasboardViewHolder> {
-
     private ArrayList<DashBoardItem> dashBoardItemList;
-
     private final Gson gson;
     Activity activity;
-
     public DasboardAddaptor(ArrayList<DashBoardItem> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
         gson=new Gson();
     }
-
-    @NonNull
-    @Override
-    public DasboardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    @NonNull @Override public DasboardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View layout = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.dashboard_item_layout, viewGroup, false);
 
         return new DasboardViewHolder(layout);

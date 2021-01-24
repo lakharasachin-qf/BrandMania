@@ -30,7 +30,6 @@ public class ResponseHandler {
     public ResponseHandler(Context context) {
         this.context = context;
     }
-
     public static ArrayList<String> getListFromJSon(JSONArray food_types) {
         ArrayList<String> strings = new ArrayList<>();
 
@@ -50,7 +49,6 @@ public class ResponseHandler {
         }
 
     }
-
     public static boolean isSuccess(String strResponse, JSONObject jsonResponse) {
         if (strResponse != null) {
             JSONObject jsonObject = createJsonObject(strResponse);
@@ -378,8 +376,7 @@ public class ResponseHandler {
 
         return strings;
     }
-
-//    public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
+    //    public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 //        ArrayList<FrameItem> strings = null;
 //        if (isSuccess(null, jsonObject)) {
 //            //list fetch
@@ -404,7 +401,7 @@ public class ResponseHandler {
 //
 //        return strings;
 //    }
-public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
+    public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
     ArrayList<FrameItem> strings = null;
     if (isSuccess(null, jsonObject)) {
         //list fetch
@@ -430,7 +427,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
     return strings;
 }
-
     public static ArrayList<DownloadFavoriteItemList> HandleGetIDownloadFavoritGrid(JSONObject jsonObject) {
         ArrayList<DownloadFavoriteItemList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -457,7 +453,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
-
     public static ArrayList<DownloadFavoriteItemList> HandleGetIFavoritList(JSONObject jsonObject) {
         ArrayList<DownloadFavoriteItemList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -490,7 +485,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
-
     public static ArrayList<DownloadFavoriteItemList> HandleGetIFavoritListGrid(JSONObject jsonObject) {
         ArrayList<DownloadFavoriteItemList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -517,7 +511,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
-
     public static ArrayList<BrandListItem> HandleGetNotificationList(JSONObject jsonObject) {
         ArrayList<BrandListItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -544,7 +537,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
-
     public static ArrayList<SliderItem> HandleGetPackageList(JSONObject jsonObject) {
         ArrayList<SliderItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -596,7 +588,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
-
     public static ArrayList<BrandListItem> HandleGetBrandById(JSONObject jsonObject) {
         ArrayList<BrandListItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -660,7 +651,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
-
     public static ArrayList<ImageList> HandleGetFrameList(JSONObject jsonObject) {
         ArrayList<ImageList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -686,7 +676,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return strings;
     }
-
     public static DashBoardItem HandleGetFrameCategory(JSONObject jsonObject) throws JSONException {
         DashBoardItem dashBoardItem=new DashBoardItem();
         ArrayList<DashBoardItem> string = null;
@@ -721,6 +710,8 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
                                     data.setLogo(getString(detailjsonobject, "img_thumb_path"));
                                     data.setFrame(getString(detailjsonobject, "img_path"));
                                     data.setImageFree(getString(detailjsonobject, "is_img_free").equalsIgnoreCase("1"));
+                                    data.setX_conrdinate(getString(detailjsonobject, "x_cor"));
+                                    data.setY_cordinate(getString(detailjsonobject, "y_cor"));
                                     stringg.add(data);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -756,7 +747,6 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 
         return dashBoardItem;
     }
-
     public static ImageList HandleGetFrameByIdCategory(JSONObject jsonObject) {
         ImageList imageList=new ImageList();
         ArrayList<ImageList> string = null;
@@ -776,6 +766,8 @@ public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
                         model.setLogo(getString(datajsonObject, "img_thumb_path"));
                         model.setFrame(getString(datajsonObject, "img_path"));
                         model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
+                        model.setX_conrdinate(getString(datajsonObject, "x_cor"));
+                        model.setY_cordinate(getString(datajsonObject, "y_cor"));
                         string.add(model);
                     } catch (JSONException e) {
                         e.printStackTrace();

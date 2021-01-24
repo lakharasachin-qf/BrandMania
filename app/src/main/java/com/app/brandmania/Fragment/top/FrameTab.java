@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.PackageActivity;
+import com.app.brandmania.Activity.ViewAllFrameImageActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.MenuAddaptor;
@@ -32,6 +33,8 @@ import com.app.brandmania.Adapter.MultiListItem;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Interface.IBackendFrameSelect;
+import com.app.brandmania.Interface.IRemoveFrame;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
@@ -60,8 +63,7 @@ public class FrameTab extends Fragment {
     private String is_frame="";
     PreafManager preafManager;
     ArrayList<ImageList> menuModels = new ArrayList<>();
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater,R.layout.frame_tab,container,false);
         preafManager=new PreafManager(Objects.requireNonNull(getActivity()));
@@ -84,6 +86,16 @@ public class FrameTab extends Fragment {
                 }else {
                     triggerUpgradePackage();
                 }
+            }
+        });
+        if (this
+                .getActivity().getClass() == ViewAllFrameImageActivity.class){
+            binding.removeFrameBtn.setVisibility(View.VISIBLE);
+        }
+        binding.removeFrameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((IRemoveFrame) act).onRemoveSelectEvent();
             }
         });
         return binding.getRoot();
@@ -136,7 +148,6 @@ public class FrameTab extends Fragment {
         binding.frameRecycler.setHasFixedSize(true);
         binding.frameRecycler.setAdapter(menuAddaptor);
     }
-
     private void getFrame() {
         Utility.Log("API : ", APIs.GET_FRAME);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME,new Response.Listener<String>() {

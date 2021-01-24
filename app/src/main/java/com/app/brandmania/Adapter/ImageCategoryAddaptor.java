@@ -2,9 +2,17 @@ package com.app.brandmania.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.ViewAllFrameImageActivity;
 import com.app.brandmania.Activity.ViewAllImage;
+import com.app.brandmania.Activity.ViewOnlyCustomeFrame;
 import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
@@ -132,7 +141,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     if (!model.isImageFree()){
                         ((ImageCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     }
-
+                    else
+                    {
+                        ((ImageCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case LAYOUT_IMAGE_CATEGORY_BY_ID:
 
@@ -160,6 +172,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     if (!model.isImageFree()){
                         ((ImageCategoryByIdHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     }
+                    else
+                    {
+                        ((ImageCategoryByIdHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case LAYOUT_FRAME:
 
@@ -174,6 +190,13 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             ((IBackendFrameSelect) activity).onBackendFrameChoose(model, position);
                         }
                     });
+                    ((FrameHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((IBackendFrameSelect) activity).onBackendFrameChoose(model, position);
+                        }
+                    });
+
                     break;
 
                 case LAYOUT_FRAME_CATEGORY:
@@ -184,8 +207,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     ((FrameCategoryHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // if (layoutType==FROM_HOMEFRAGEMENT) {
-                         //   Toast.makeText(activity,"bjhdshdj4545454",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(activity, ViewAllFrameImageActivity.class);
                             Gson  gson=new Gson();
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
@@ -194,6 +215,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             activity.startActivity(intent);
                         }
                     });
+
 
                     if (!model.isImageFree()){
                         ((FrameCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
@@ -206,6 +228,12 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .load(model.getFrame())
                             .placeholder(R.drawable.placeholder)
                             .into(((FrameCategoryByIdHolder) holder).binding.image);
+
+
+
+
+
+
                     ((FrameCategoryByIdHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -218,6 +246,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                                 activity.startActivity(intent);
 
                             }
+
+
                             if (layoutType==FROM_VIEWALLFRAME) {
                                 Toast.makeText(activity,"birthday",Toast.LENGTH_LONG).show();
                                 ((ImageCateItemeInterFace) activity).ImageCateonItemSelection(position, model);

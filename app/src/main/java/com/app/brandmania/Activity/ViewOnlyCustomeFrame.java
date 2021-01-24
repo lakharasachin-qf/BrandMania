@@ -1,16 +1,14 @@
-package com.app.brandmania.Fragment.top;
+package com.app.brandmania.Activity;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,14 +21,14 @@ import com.app.brandmania.Adapter.ImageCateItemeInterFace;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.top.CategoryFrameTab;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.Utility;
-import com.app.brandmania.databinding.CategoryFrameTabBinding;
-import com.app.brandmania.databinding.CategoryTabBinding;
-import com.google.android.gms.dynamic.IFragmentWrapper;
+import com.app.brandmania.databinding.ActivityViewOnlyCustomeFrameBinding;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -42,42 +40,45 @@ import java.util.Map;
 
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALLFRAME;
 
+public class ViewOnlyCustomeFrame extends AppCompatActivity implements ImageCateItemeInterFace{
 
-public class CategoryFrameTab extends FrameTab {
-    Activity act;
-    private CategoryFrameTabBinding binding;
-    private int mColorCode;
-    private DashBoardItem imageList;
-    private ImageList selectedObject;
-    private ColorTab context;
-    PreafManager preafManager;
-    ImageList apiObject;
+    private Activity act;
+    private ActivityViewOnlyCustomeFrameBinding binding;
+    ImageCategoryAddaptor menuAddaptor;
     ArrayList<ImageList> menuModels = new ArrayList<>();
-    Gson gson;
     boolean isViewAll=false;
-
-    public CategoryFrameTab setViewAll(boolean viewAll) {
+    ImageList apiObject;
+    private ImageList selectedObject;
+    PreafManager preafManager;
+    private DashBoardItem imageList;
+    public void setViewAll(boolean viewAll) {
         isViewAll = viewAll;
-        return this;
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        act = getActivity();
-        binding = DataBindingUtil.inflate(inflater, R.layout.category_frame_tab, container, false);
+    Gson gson;
+    @Override protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_material_theme);
+        super.onCreate(savedInstanceState);
+        act=this;
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_view_only_custome_frame);
+        preafManager=new PreafManager(act);
         gson=new Gson();
-
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
         // Toast.makeText(getActivity(),imageList.getId(),Toast.LENGTH_LONG).show();
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory();
-        preafManager=new PreafManager(getActivity());
-        return binding.getRoot();
+        LoadDataToUI();
     }
-    ImageCategoryAddaptor menuAddaptor;
+    public void LoadDataToUI(){
+        preafManager=new PreafManager(act);
+        if (selectedObject != null) {
+            //binding.simpleProgressBar.setVisibility(View.GONE);
+            Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.frameShow);
+        } else {
+            // binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
     public void setAdapter() {
         menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
         if (isViewAll)
@@ -85,10 +86,10 @@ public class CategoryFrameTab extends FrameTab {
 
         menuAddaptor.setLayoutType(FROM_VIEWALLFRAME);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
-        binding.viewRecoRecycler.setLayoutManager(mLayoutManager);
-        binding.viewRecoRecycler.setHasFixedSize(true);
-        binding.viewRecoRecycler.setAdapter(menuAddaptor);
-        binding.viewRecoRecycler.setVisibility(View.VISIBLE);
+        binding.customeFrameRelative.setLayoutManager(mLayoutManager);
+        binding.customeFrameRelative.setHasFixedSize(true);
+        binding.customeFrameRelative.setAdapter(menuAddaptor);
+        binding.customeFrameRelative.setVisibility(View.VISIBLE);
     }
     private void getImageCtegory() {
 
@@ -181,9 +182,6 @@ public class CategoryFrameTab extends FrameTab {
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
-
-
     private void getImageCtegoryNextPage(String nextPageUrl) {
         Utility.Log("API : ",nextPageUrl);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
@@ -265,5 +263,10 @@ public class CategoryFrameTab extends FrameTab {
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+    @Override public void ImageCateonItemSelection(int position, ImageList listModel){
+       selectedObject = listModel;
+        LoadDataToUI();
 
+
+    }
 }

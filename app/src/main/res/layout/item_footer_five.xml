@@ -201,5 +201,26 @@
                 android:elevation="@dimen/_20sdp"
                 android:src="@drawable/ic_crown" />
         </RelativeLayout>
+        <RelativeLayout
+
+            android:visibility="gone"
+            android:id="@+id/freePremium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:elevation="@dimen/_10sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp">
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:elevation="@dimen/_20sdp"
+                android:src="@drawable/ic_freee" />
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.ViewAllFrameImageActivity;
+import com.app.brandmania.Activity.ViewOnlyCustomeFrame;
 import com.google.gson.Gson;
 import com.app.brandmania.Activity.ViewAllImage;
 import com.app.brandmania.Model.DashBoardItem;
@@ -25,7 +26,8 @@ import java.util.List;
 import static com.app.brandmania.Utils.Utility.Log;
 
 
-public class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordAddapter.DasboardViewHolder> {
+public
+class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordAddapter.DasboardViewHolder> {
 
     private ArrayList<DashBoardItem> dashBoardItemList;
 
@@ -39,8 +41,7 @@ public class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordA
     }
 
     @NonNull
-    @Override
-    public DasboardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    @Override public DasboardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View layout = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.dashboard_item_layout, viewGroup, false);
 
         return new DasboardViewHolder(layout);

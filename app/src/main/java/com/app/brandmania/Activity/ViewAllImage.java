@@ -68,6 +68,7 @@ import com.app.brandmania.Common.FooterHelper;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.DataBase.DBManager;
 import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IItaliTextEvent;
@@ -138,7 +139,6 @@ import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFace,alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent,ITextBoldEvent,
         IItaliTextEvent, ColorPickerDialogListener, IColorChange, ColorPickerView.OnColorChangedListener,
         ITextSizeEvent, onFooterSelectListener, IBackendFrameSelect {
-
     Activity act;
     ViewPager viewPager;
     private boolean isLoading = false;
@@ -153,6 +153,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private static final int REQUEST_CALL = 1;
     public static final int REMOVEFAV = 3;
     private String is_frame="";
+    public DBManager dbManager;
     private String is_payment_pending="";
     private String packagee="";
     ArrayList<FrameItem> viewPagerItems = new ArrayList<>();
@@ -164,7 +165,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     LinearLayout sliderDotspanel;
     private int dotscount;
     private ImageView[] dots;
-
     FrameItem selectedModelFromView;
     AlertDialog.Builder alertDialogBuilder;
     File new_file;
@@ -178,16 +178,12 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private boolean isUserFree = true;
     private boolean canDownload = true;
     private int FrameCountForDownload = 2;
-
     private boolean isUsingCustomFrame = true;
-
-
     //Version 3
     private ImageList selectedBackendFrame = null;
     private FooterModel selectedFooterModel;
     private boolean updateLogo = false;
     private Bitmap selectedLogo;
-
     private int colorCodeForBackground;
     private int colorCodeForTextColor=0;
     private boolean isLoadBold=false;
@@ -196,8 +192,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private String loadDefaultFont="";
     private int previousFontSize=-1;
     int isDownloadOrSharingOrFavPending=-1;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -215,25 +209,17 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         Website = preafManager.getActiveBrand().getWebsite();
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
-
-       // getAllImages();
+        // getAllImages();
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
         mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
-
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(0), colorCodeForBackground);
-
         updateLogo = preafManager.getActiveBrand().getLogo().isEmpty();
-
         colorCodeForBackground= ContextCompat.getColor(act,R.color.colorPrimary);
        // colorCodeForTextColor= ContextCompat.getColor(act,R.color.colorPrimary);
-
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
         binding.logoCustom.setOnTouchListener(onTouchListener());
-
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
-
         binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,7 +229,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         if (!preafManager.getAppTutorial().isEmpty()){
             binding.videoTutorial.setVisibility(View.VISIBLE);
         }
-
         binding.videoTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -278,7 +263,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 //downloadAndShareApi(ADDFAV,null);
             }
         });
-
         binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,7 +285,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                // }
             }
         });
-
         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,7 +313,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 }
             }
         });
-
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -351,7 +333,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 }
             }
         });
-
         if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty() ) {
             binding.logoEmptyState.setVisibility(View.GONE);
             binding.logoCustom.setVisibility(View.VISIBLE);
@@ -366,8 +347,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 }
             });
         }
-        else
-        {
+        else {
             binding.logoEmptyState.setVisibility(View.VISIBLE);
             binding.logoCustom.setVisibility(View.GONE);
 
@@ -874,7 +854,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
                     if (isDownloadOrSharingOrFavPending == 1) {
-                        Toast.makeText(act, "fdggdgd", Toast.LENGTH_SHORT).show();
+                     //   Toast.makeText(act, "fdggdgd", Toast.LENGTH_SHORT).show();
                         isDownloadOrSharingOrFavPending = -1;
                         if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
                             //freee ------
@@ -2137,7 +2117,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     //For Download,Share and Fav
     private void downloadAndShareApi(final int download,Bitmap customImage) {
 
@@ -2216,7 +2195,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     }
                 });
     }
-
     //api for access rights
     private void getImageDownloadRights(String flag) {
         Utility.showLoadingTran(act);
@@ -2313,7 +2291,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     //update logo to brand
     private void uploadLogoForBrand(Bitmap img) {
         Utility.showLoadingTran(act);
@@ -2363,7 +2340,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 });
 
     }
-
     private View.OnTouchListener onTouchListenerrr() {
         return new View.OnTouchListener() {
 
@@ -2385,9 +2361,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        Toast.makeText(act,
-                                "thanks for new location!", Toast.LENGTH_SHORT)
-                                .show();
+                     //   Toast.makeText(act, "thanks for new location!", Toast.LENGTH_SHORT).show();
                         break;
 
                     case MotionEvent.ACTION_MOVE:

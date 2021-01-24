@@ -2,6 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
+        android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/_10sdp"
         android:layout_height="wrap_content">

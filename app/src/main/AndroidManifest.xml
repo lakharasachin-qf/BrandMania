@@ -32,7 +32,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".Activity.ViewAllFrameImageActivity"></activity>
+        <activity android:name=".Activity.ViewOnlyCustomeFrame"></activity>
+        <activity android:name=".Activity.ViewAllFrameImageActivity" />
         <activity android:name=".Activity.AppIntroActivity" />
         <activity android:name=".Activity.CustomViewAllActivit" />
         <activity android:name=".Activity.RazorPayActivity" />

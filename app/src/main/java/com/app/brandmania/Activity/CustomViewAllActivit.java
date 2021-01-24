@@ -75,6 +75,7 @@ import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IImageBritnessEvent;
 import com.app.brandmania.Interface.IItaliTextEvent;
+import com.app.brandmania.Interface.IRemoveFrame;
 import com.app.brandmania.Interface.ITextBoldEvent;
 import com.app.brandmania.Interface.ITextColorChangeEvent;
 import com.app.brandmania.Interface.ITextSizeEvent;
@@ -134,10 +135,10 @@ import ja.burhanrashid52.photoeditor.PhotoFilter;
 import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
 
 public class CustomViewAllActivit extends
-        BaseActivity implements FrameInterFace, ItemeInterFace,
+        BaseActivity implements FrameInterFace, ItemeInterFace,alertListenerCallback,
         IImageFromGalary,ITextColorChangeEvent,IFontChangeEvent,ITextBoldEvent,IItaliTextEvent,ColorPickerDialogListener,IColorChange,
         ColorPickerView.OnColorChangedListener,ITextSizeEvent,onFooterSelectListener, View.OnTouchListener,FilterListener,
-        IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect {
+        IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect, IRemoveFrame {
 
     public static final int VIEW_RECOMDATION = 0;
     Activity act;
@@ -180,11 +181,12 @@ public class CustomViewAllActivit extends
 
     private ViewGroup mainLayout1;
     private boolean isUsingCustomFrame = true;
+    private boolean isRemoveFrame=false;
     private static final String TAG = "Touch";
     @SuppressWarnings("unused")
     private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
     Matrix matrix = new Matrix();
-    Matrix savedMatrix = new Matrix();
+
     // The 3 states (events) which the user is trying to perform
     static final int NONE = 0;
     static final int DRAG = 1;
@@ -192,6 +194,7 @@ public class CustomViewAllActivit extends
     int mode = NONE;
     int isDownloadOrSharingOrFavPending=-1;
     // these PointF objects are used to record the point(s) the user is touching
+    Matrix savedMatrix = new Matrix();
     PointF start = new PointF();
     PointF mid = new PointF();
     float oldDist = 1f;
@@ -209,7 +212,6 @@ public class CustomViewAllActivit extends
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson = new Gson();
         preafManager=new PreafManager(act);
-
         binding.backImage.setOnTouchListener((View.OnTouchListener) act);
         colorCodeForBackground= ContextCompat.getColor(act,R.color.colorPrimary);
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
@@ -232,15 +234,12 @@ public class CustomViewAllActivit extends
                 }
             }
         });
-
         binding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
-
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,6 +265,33 @@ public class CustomViewAllActivit extends
 
             }
         });
+        if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty() ) {
+            binding.logoEmptyState.setVisibility(View.GONE);
+            binding.logoCustom.setVisibility(View.VISIBLE);
+            binding.logoCustom.setVisibility(View.VISIBLE);
+            Glide.with(act)
+                    .load(preafManager.getActiveBrand().getLogo())
+                    .into(binding.logoCustom);
+            binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onSelectImageClick(view);
+                }
+            });
+        }
+        else {
+            binding.logoEmptyState.setVisibility(View.VISIBLE);
+            binding.logoCustom.setVisibility(View.GONE);
+
+            binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onSelectImageClick(view);
+                }
+            });
+
+
+        }
         if (getIntent().hasExtra("flag")) {
             int flag = getIntent().getIntExtra("flag", -1);
             if (flag == VIEW_RECOMDATION) {
@@ -342,7 +368,7 @@ public class CustomViewAllActivit extends
 
                         }
 
-                        Toast.makeText(act, "Transperent", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(act, "Transperent", Toast.LENGTH_SHORT).show();
                         return true;
                     } else {
 
@@ -361,6 +387,19 @@ public class CustomViewAllActivit extends
         });
 
     }
+    public void LoadDataToUI(){
+        preafManager=new PreafManager(act);
+        if (imageFromGalaryModel != null) {
+           // binding.simpleProgressBar.setVisibility(View.GONE);
+            Glide.with(getApplicationContext()).load(imageFromGalaryModel.getUri()).into(binding.backImage);
+        } else {
+            // binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        if (selectedFooterModel==null)
+            loadFirstImage();
+    }
+
     @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
         try {
           //  mPhotoEditor.clearAllViews();
@@ -368,9 +407,14 @@ public class CustomViewAllActivit extends
             InputStream inputStream = getContentResolver().openInputStream(listModel.getUri());
             yourDrawable = Drawable.createFromStream(inputStream, listModel.getUri().toString() );
             binding.backImage.setImageDrawable(yourDrawable);
+           // LoadDataToUI();
             BitmapDrawable drawable = (BitmapDrawable) binding.backImage.getDrawable();
              selectedImageBitmap= drawable.getBitmap();
              selectedImageBitmap=selectedImageBitmap.copy(Bitmap.Config.ARGB_8888 , true);
+            if (selectedFooterModel==null)
+                loadFirstImage();
+
+
         } catch (FileNotFoundException e) {
 
         }
@@ -444,8 +488,6 @@ public class CustomViewAllActivit extends
         float y = event.getY(0) - event.getY(1);
         return (float) Math.sqrt(x * x + y * y);
     }
-
-
     private void midPoint(PointF point, MotionEvent event) {
         float x = event.getX(0) + event.getX(1);
         float y = event.getY(0) + event.getY(1);
@@ -505,6 +547,8 @@ public class CustomViewAllActivit extends
         isUsingCustomFrame = true;
         binding.frameImage.setVisibility(View.GONE);
         binding.elementCustomFrame.setVisibility(View.VISIBLE);
+//        binding.elementFooter.setVisibility(View.VISIBLE);
+//        binding.elementFooter.setVisibility(View.VISIBLE);
 
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
@@ -533,8 +577,6 @@ public class CustomViewAllActivit extends
     private LayoutForLoadEightBinding eightBinding;
     private LayoutForLoadNineBinding nineBinding;
     private LayoutForLoadTenBinding tenBinding;
-
-
     private void addDynamicFooter(int layoutType,boolean isReload) {
         binding.elementFooter.removeAllViews();
         footerLayout=layoutType;
@@ -867,7 +909,7 @@ public class CustomViewAllActivit extends
     //for background color change
     @Override public void onChooseColor(int colorCode) {
         colorCodeForBackground = colorCode;
-        Toast.makeText(act, editorFragment+"fdgdf", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(act, editorFragment+"fdgdf", Toast.LENGTH_SHORT).show();
         if (editorFragment==3){
 
             if (footerLayout==1){
@@ -904,18 +946,16 @@ public class CustomViewAllActivit extends
     private int convertDpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
+
     public void changeBorderColorAsFrame(){
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
     }
+
     @Override public void onColorItemChange(int colorCode) {
     }
-
-
-
     //for font change
-    @Override
-    public void onFontChangeListenert(String Font) {
+    @Override public void onFontChangeListenert(String Font) {
         loadDefaultFont = Font;
         if (footerLayout == 1) {
             Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
@@ -984,8 +1024,6 @@ public class CustomViewAllActivit extends
 
         }
     }
-
-
     //for font size
     @Override public void onfontSize(int textsize) {
 
@@ -1003,7 +1041,6 @@ public class CustomViewAllActivit extends
             else if (footerLayout == 10) {  FooterHelper.makeTextSizeForTen(tenBinding,textsize);}
         }
     }
-
     //for bold text
     @Override public void onBoldTextChange(boolean Bold) {
         isLoadBold=Bold;
@@ -1065,18 +1102,6 @@ public class CustomViewAllActivit extends
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
     private View.OnTouchListener onTouchListenerrr() {
         return new View.OnTouchListener() {
 
@@ -1098,9 +1123,7 @@ public class CustomViewAllActivit extends
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        Toast.makeText(act,
-                                "thanks for new location!", Toast.LENGTH_SHORT)
-                                .show();
+                      //  Toast.makeText(act, "thanks for new location!", Toast.LENGTH_SHORT).show();
                         break;
 
                     case MotionEvent.ACTION_MOVE:
@@ -1219,6 +1242,11 @@ public class CustomViewAllActivit extends
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
+    @Override public void alertListenerClick() {
+        requestAgain();
+    }
+
+
     public void askForDownloadImage(){
         alertDialogBuilder = new AlertDialog.Builder(act);
         alertDialogBuilder.setTitle("Save image");
@@ -1383,6 +1411,7 @@ public class CustomViewAllActivit extends
         if (!isFavourite) {
             if (wantToShare) {
                 if (isUsingCustomFrame) {
+                    if (!isRemoveFrame)
                     ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(),selectedFooterModel);
                     binding.FrameImageDuplicate.setVisibility(View.GONE);
                     binding.FrameImageDuplicate.setImageBitmap(null);
@@ -1392,14 +1421,18 @@ public class CustomViewAllActivit extends
                 dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
             } else {
                 Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
-                if (isUsingCustomFrame) {
+                if (isUsingCustomFrame)
+                {
+                    if (!isRemoveFrame)
                     ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(),selectedFooterModel);
-
                     // addDynamicFooter(selectedFooterModel.getLayoutType(), true);
                     binding.FrameImageDuplicate.setVisibility(View.GONE);
                     binding.FrameImageDuplicate.setImageBitmap(null);
                 } else {
-                   // Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
+                    binding.FrameImageDuplicate.setImageBitmap(null);
+                    binding.FrameImageDuplicate.setVisibility(View.GONE);
+
+                   Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.frameImage);
                 }
 
                 dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
@@ -1419,11 +1452,12 @@ public class CustomViewAllActivit extends
 
         }else {
             if (isUsingCustomFrame) {
+                if (!isRemoveFrame)
                 ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(),selectedFooterModel);
                 binding.FrameImageDuplicate.setVisibility(View.GONE);
                 binding.FrameImageDuplicate.setImageBitmap(null);
             } else {
-              //  Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
+                Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.frameImage);
             }
             dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_FAVORITE);
         }
@@ -1435,7 +1469,6 @@ public class CustomViewAllActivit extends
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
-
     //load firstImage
     public void loadFirstImage(){
         FooterModel model = new FooterModel();
@@ -1488,8 +1521,7 @@ public class CustomViewAllActivit extends
         return new View.OnTouchListener() {
 
             @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
+            @Override public boolean onTouch(View view, MotionEvent event) {
                 if (gestureDetector.onTouchEvent(event)) {
                     if ((preafManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) || preafManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
                         onSelectImageClick(view);
@@ -1585,10 +1617,19 @@ public class CustomViewAllActivit extends
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
     }
+    @Override public void onRemoveSelectEvent() {
+        isUsingCustomFrame=true;
+        isRemoveFrame=true;
+        Toast.makeText(act, "dsgfgds", Toast.LENGTH_SHORT).show();
+        binding.elementCustomFrame.setVisibility(View.GONE);
+        binding.frameImage.setImageBitmap(null);
+        binding.FrameImageDuplicate.setImageBitmap(null);
+
+        //    binding.frameImage.setVisibility(View.GONE);
+    }
     //to handle click and drag listener
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onSingleTapUp(MotionEvent event) {
+        @Override public boolean onSingleTapUp(MotionEvent event) {
             return true;
         }
     }
@@ -1600,8 +1641,7 @@ public class CustomViewAllActivit extends
         isUsingCustomFrame = false;
       //  forCheckFavorite();
     }
-    @Override
-    public void onBackPressed() {
+    @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
 }

@@ -14,7 +14,8 @@ public class DashBoardItem {
     private String Tag;
     ArrayList<ImageList> imageLists;
     private Links links;
-
+    private String x_conrdinate;
+    private String y_cordinate;
     private boolean isImageFree=false;
 
     public boolean isImageFree() {
@@ -96,5 +97,21 @@ public class DashBoardItem {
 
     public void setCat_id(String cat_id) {
         Cat_id = cat_id;
+    }
+
+    public String getX_conrdinate() {
+        return x_conrdinate;
+    }
+
+    public void setX_conrdinate(String x_conrdinate) {
+        this.x_conrdinate = x_conrdinate;
+    }
+
+    public String getY_cordinate() {
+        return y_cordinate;
+    }
+
+    public void setY_cordinate(String y_cordinate) {
+        this.y_cordinate = y_cordinate;
     }
 }

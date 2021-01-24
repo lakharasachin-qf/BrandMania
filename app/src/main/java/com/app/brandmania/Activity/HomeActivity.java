@@ -46,6 +46,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
+import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.VersionListIItem;
 import com.app.brandmania.Utils.APIs;
@@ -87,6 +88,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private AppUpdateManager appUpdateManager;
     private Task<AppUpdateInfo> appUpdateInfoTask;
     private Activity act;
+    private boolean iscutomEnable = false;
 
 
     @Override
@@ -94,10 +96,12 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        FetchCustomeFrameStatus();
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
         act=this;
         getUpadte();
+
         checkForUpdates();
         loadFragment(new HomeFragment());
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -105,47 +109,35 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 
-       /* Date c = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
-        String currDateStr = fmt.format(c);
-        try {
-            Date subscriptionDate = fmt.parse("28-10-2020");
-            Date currentDate = fmt.parse(currDateStr);
-
-            Calendar startCalendar = new GregorianCalendar();
-            startCalendar.setTime(subscriptionDate);
-            Calendar endCalendar = new GregorianCalendar();
-            endCalendar.setTime(currentDate);
-            int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
-            int diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
-            Log.e("Diffrenere",diffMonth+" "+diffYear);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
     }
-
-
     @SuppressLint("NonConstantResourceId")
     @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 fragment = new HomeFragment();
-
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
             case R.id.navigation_custom:
-                fragment = new CustomFragment();
+
+                if (iscutomEnable)
+                {
+                    fragment = new CustomFragment();
 //                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
 //                startActivity(intent);
-                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                }
+                else
+                {
+                    Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+
+                }
                 break;
 
-
-            case R.id.navigation_download:
+                case R.id.navigation_download:
                 fragment = new DownloadsFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
@@ -155,6 +147,10 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
         }
+//        if (iscutomEnable)
+//        {
+//         return false;
+//        }
         return loadFragment(fragment);
     }
     private boolean loadFragment(Fragment fragment) {
@@ -372,6 +368,61 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                   }
 
 
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+//                        String body;
+//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+//                        Log.e("Load-Get_Exam ", body);
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
+    }
+    private void FetchCustomeFrameStatus() {
+
+        Utility.Log("API : ", APIs.FETCH_CUSTOME_FRAME_STATUS);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.FETCH_CUSTOME_FRAME_STATUS,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("FETCH_CUSTOME_FRAME_STATUS : ", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                  //  JSONObject jsonArray1 = jsonObject.getJSONObject("data");
+                    if (ResponseHandler.getBool(jsonObject,"status")){
+                        iscutomEnable=true;
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

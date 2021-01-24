@@ -27,6 +27,15 @@
                 android:layout_width="@dimen/_12sdp"
                 android:layout_margin="@dimen/_5sdp"
                 android:layout_height="@dimen/_12sdp"/>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/freePremium"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/ic_freee"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_height="@dimen/_15sdp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

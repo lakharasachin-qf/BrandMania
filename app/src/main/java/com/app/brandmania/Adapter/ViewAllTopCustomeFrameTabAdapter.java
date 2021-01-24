@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.app.brandmania.Fragment.top.CategoryFrameTab;
 import com.app.brandmania.Fragment.top.CategoryTab;
 import com.app.brandmania.Fragment.top.ColorTab;
 import com.app.brandmania.Fragment.top.EditTab;
@@ -33,11 +34,10 @@ public class ViewAllTopCustomeFrameTabAdapter  extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                CategoryTab categoryTab = new CategoryTab();
+                CategoryFrameTab categoryFrameTab = new CategoryFrameTab();
                 if (isViewAll)
-                    categoryTab.setViewAll(isViewAll);
-
-                return categoryTab;
+                    categoryFrameTab.setViewAll(isViewAll);
+                return categoryFrameTab;
             case 1:
                 FooterTab footerTab = new FooterTab();
                 return footerTab;

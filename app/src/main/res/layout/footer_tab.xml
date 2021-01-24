@@ -8,6 +8,13 @@
             android:id="@+id/footerRecycler"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/_40sdp"
+            android:scrollbars="vertical"
+            android:scrollbarSize="@dimen/_3sdp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarStyle="insideOverlay"
+            android:fadeScrollbars="false"
+
+            android:scrollbarThumbVertical="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
