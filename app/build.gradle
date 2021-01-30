@@ -144,9 +144,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'com.github.yalantis:ucrop:2.2.6'
-
+    implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'com.github.zomato:androidphotofilters:1.0.2'
-
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 //    implementation project(':photofilterssdk')
 //video player
     implementation 'com.google.android.exoplayer:exoplayer-core:2.7.3'

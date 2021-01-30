@@ -11,7 +11,7 @@
     <color name="endcolor1">#F005074C</color>
     <color name="colorNavIcon">#dae9f6</color>
     <color name="colorNavText">#fff</color>
-    <color name="lightGraycolor">#BE7C7A7A</color>
+    <color name="lightGraycolor">#2F777575</color>
     <color name="alltextcolor">#0C0C0C</color>
     <color name="Graycolor">#b5b5b5</color>
     <color name="colorRed">#FF0000</color>
@@ -26,7 +26,7 @@
     <color name="simmerColor">#CDCDCD</color>
     <color name="viewColor">#DFD8D7D7</color>
     <color name="trans">#00000000</color>
-
+    <color name="linkColo">#0000EE</color>
 
 
 

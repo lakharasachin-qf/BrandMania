@@ -293,8 +293,7 @@ public class ProfileFragment extends BaseFragment {
         queue.add(stringRequest);
     }
 
-    @Override
-    public void update(Observable observable, Object data) {
+    @Override public void update(Observable observable, Object data) {
 
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
 

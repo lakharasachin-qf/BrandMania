@@ -1644,7 +1644,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         else if (footerLayout == 7) {  FooterHelper.makeBoldForSeven(sevenBinding,isLoadBold);}
         else if (footerLayout == 8)   {  FooterHelper.makeBoldForEight(eightBinding,isLoadBold);}
         else if (footerLayout==9) { FooterHelper.makeBoldForNine(nineBinding,isLoadBold); }
-        else if (footerLayout==10) { FooterHelper.makeBoldForOne(oneBinding,isLoadBold); }
+        else if (footerLayout==10) { FooterHelper.makeBoldForTen(tenBinding,isLoadBold); }
 
 
 

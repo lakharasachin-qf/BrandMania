@@ -1,19 +1,44 @@
 package com.app.brandmania.Fragment.bottom;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.pdf.PdfDocument;
+import android.graphics.text.LineBreaker;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.ParagraphStyle;
+import android.text.style.URLSpan;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -52,15 +77,38 @@ import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.FragmentHomeBinding;
+import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.text.Cue;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.CMYKColor;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -71,6 +119,7 @@ import angtrim.com.fivestarslibrary.FiveStarsDialog;
 import angtrim.com.fivestarslibrary.NegativeReviewListener;
 import angtrim.com.fivestarslibrary.ReviewListener;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class HomeFragment extends BaseFragment implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
@@ -81,6 +130,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     DashBoardItem apiResponse;
     BrandListItem brandListItem;
     private int[] layouts;
+    String ContactNo;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     FiveStarsDialog fiveStarsDialog;
     private static final int REQUEST_CALL = 1;
@@ -95,6 +145,15 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private boolean mIsTheTitleContainerVisible = true;
     private RelativeLayout mTitleContainer;
     Activity act;
+    Bitmap bmp;
+    Bitmap bmpGmail;
+    Bitmap bmpContact;
+    Bitmap bmpWebsite;
+    Bitmap scaledbmp;
+    Bitmap scaledbmpPhone;
+    Bitmap scaledbmpGmail;
+    Bitmap scaledbmpWebsite;
+    int pageWidth=1200;
     private String is_frame="";
     private String is_payment_pending="";
     private String is_package="";
@@ -137,7 +196,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 preafManager = new PreafManager(act);
             }
         }
-
         requestAgain();
         RateUs();
 
@@ -153,7 +211,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 act.overridePendingTransition(R.anim.right_enter, R.anim.left_out);
             }
         });
-
+        binding.creatPdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createPdf1();
+            }
+        });
         getBrandList();
         getFrame();
 
@@ -170,6 +233,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
             }
         });
+        ContactNo= String.valueOf(Html.fromHtml( "<p>Tel: <a href= 441274 433043</a></p> Email: <a href=\"mailto:careers@bradfordcollege.ac.uk\"> careers@bradfordcollege.ac.uk</a>"));
+
 
         getDeviceToken(act);
         // AddUserActivity();
@@ -209,6 +274,25 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         getBanner();
 
 
+        if (!checkPermission())
+        {
+            requestPermission();
+        }
+
+
+//        bmp= BitmapFactory.decodeResource(getResources(),R.drawable.logoo);
+//        bmpGmail= BitmapFactory.decodeResource(getResources(),R.drawable.mail);
+//        bmpContact= BitmapFactory.decodeResource(getResources(),R.drawable.phone);
+//        bmpWebsite= BitmapFactory.decodeResource(getResources(),R.drawable.world_wide_web);
+
+Log.e("BrandMainiaImageURL",preafManager.getActiveBrand().getLogo());
+      //  byte[] decodedString = Base64.decode(preafManager.getActiveBrand().getLogo(), Base64.DEFAULT);
+        //Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 100, decodedString.length);
+
+//        scaledbmp= Bitmap.createScaledBitmap(bmp,300,300,false);
+//        scaledbmpGmail= Bitmap.createScaledBitmap(bmpGmail,64,64,false);
+//         scaledbmpPhone= Bitmap.createScaledBitmap(bmpContact,64,64,false);
+//          scaledbmpWebsite= Bitmap.createScaledBitmap(bmpWebsite,64,64,false);
         binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -518,7 +602,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     //Update Token......................
     private void UpdateToken() {
         Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
@@ -571,7 +654,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     //Back Event.........................
     public void onBackPressed() {
         CodeReUse.activityBackPress(act);
@@ -594,12 +676,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         Log.e("Second", gson.toJson(preafManager.getActiveBrand()));
 
     }
-
-    @Override
-    public void ImageCateonItemSelection(int position, ImageList listModel) {
+    @Override public void ImageCateonItemSelection(int position, ImageList listModel) {
 
     }
-
     public void resetData() {
         binding.businessName.setText(preafManager.getActiveBrand().getName());
 
@@ -618,13 +697,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         }
     }
-    @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) { if (requestCode == REQUEST_CALL) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                makePhoneCall();
-            } else {
-                Toast.makeText(getActivity(), "Permission DENIED", Toast.LENGTH_SHORT).show();
-            }
-        }}
+
     private void RateUs() {
 //        AppRate.with(act)
 //                .setInstallDays(1)
@@ -650,6 +723,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     }
     private void getBrandList() {
+
         binding.swipeContainer.setRefreshing(true);
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
@@ -887,4 +961,383 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
 
     }
+    private static void addEmptyLine(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
+        }
+    }
+
+
+
+    private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 22, Font.BOLD,BaseColor.BLACK);
+    private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.NORMAL);
+    private static Font clckableText = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD,BaseColor.BLUE);
+    private  void addTitlePage(Document document) throws DocumentException {
+        Paragraph preface = new Paragraph();
+        // We add one empty line
+        addEmptyLine(preface, 2);
+        // Lets write a big header
+        preface.add(new Paragraph( preafManager.getActiveBrand().getName(), catFont));
+        addEmptyLine(preface, 0);
+        // Will create: Report generated by: _name, _date
+        preface.add(new Paragraph(preafManager.getActiveBrand().getAddress() ,smallBold));
+        document.add(preface);
+
+//        PdfContentByte canvas = writer.getDirectContent();
+//        CMYKColor magentaColor = new CMYKColor(0.f, 0.f, 0.f, 100.f);
+//        canvas.setColorStroke(magentaColor);
+//        canvas.moveTo(36, 36);
+//        canvas.lineTo(36, 806);
+//        canvas.lineTo(559, 36);
+//        canvas.lineTo(559, 806);
+//        canvas.closePathStroke();
+
+
+
+
+        // Start a new page
+        document.newPage();
+    }
+
+
+
+    //Creat PDF
+    private static final int PERMISSION_REQUEST_CODE = 200;
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(act, WRITE_EXTERNAL_STORAGE);
+
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+    private void requestPermission() {
+
+
+        ActivityCompat.requestPermissions(act, new String[]{WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+
+    }
+    @Override public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+
+                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if (locationAccepted)
+                        Snackbar.make(binding.creatPdf, "Permission Granted, Now you can access location data and camera.", Snackbar.LENGTH_LONG).show();
+                    else {
+
+                        Snackbar.make(binding.creatPdf, "Permission Denied, You cannot access location data and camera.", Snackbar.LENGTH_LONG).show();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE},
+                                    PERMISSION_REQUEST_CODE);
+                        }
+
+                    }
+                }
+
+
+                break;
+        }
+    }
+    public static final BaseColor blue = new BaseColor(0, 0, 255);
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void createPdf1() {
+
+        Document document=new Document();
+        String outpath=Environment.getExternalStorageDirectory()+"/MytPdfBrand.pdf";
+
+        try {
+
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(outpath));
+            //PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
+            document.open();
+
+
+            Drawable d = act.getResources().getDrawable(R.drawable.logoo);
+            BitmapDrawable bitDw = ((BitmapDrawable) d);
+            Bitmap bmp = bitDw.getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            Image image = Image.getInstance(stream.toByteArray());
+            image.scalePercent(20);
+            image.setAlignment(Element.ALIGN_CENTER);
+            document.add(image);
+
+            Paragraph preface = new Paragraph();
+            addEmptyLine(preface, 2);
+            // Lets write a big header
+            preface.add(new Paragraph( preafManager.getActiveBrand().getName(), catFont));
+
+            addEmptyLine(preface, 0);
+            // Will create: Report generated by: _name, _date
+            preface.add(new Paragraph(preafManager.getActiveBrand().getAddress() ,smallBold));
+            preface.setIndentationLeft(0);
+            document.add(preface);
+
+
+
+            Paragraph prefaceClicable = new Paragraph();
+            //  PdfContentByte pdfContentByte=new PdfContentByte(writer);
+            PdfContentByte canvas = writer.getDirectContent();
+            CMYKColor magentaColor = new CMYKColor(0.f, 0.f, 0.f, 100.f);
+            canvas.setColorStroke(magentaColor);
+            canvas.moveTo(30, 570);
+            canvas.lineTo(570, 570);
+            canvas.closePathStroke();
+
+            Drawable contact = act.getResources().getDrawable(R.drawable.phone);
+            BitmapDrawable bitContact = ((BitmapDrawable) contact);
+            Bitmap bmpContact = bitContact.getBitmap();
+            ByteArrayOutputStream streamContact = new ByteArrayOutputStream();
+            bmpContact.compress(Bitmap.CompressFormat.PNG, 100, streamContact);
+            Image imageContact = Image.getInstance(streamContact.toByteArray());
+            imageContact.scalePercent(30);
+            imageContact.setAbsolutePosition(30f, 507f);
+            imageContact.setAlignment(Element.ALIGN_LEFT);
+            document.add(imageContact);
+            addEmptyLine(prefaceClicable, 2);
+            prefaceClicable.add(new Phrase(""));
+            prefaceClicable.setIndentationLeft(50);
+            Anchor anchor = new Anchor( preafManager.getActiveBrand().getPhonenumber(),clckableText);
+            anchor.setReference(String.valueOf(Uri.parse("tel:"+91+preafManager.getActiveBrand().getPhonenumber())));
+            prefaceClicable.add(anchor);
+
+            Drawable email = act.getResources().getDrawable(R.drawable.email);
+            BitmapDrawable bitEmail = ((BitmapDrawable) email);
+            Bitmap bmpEmail = bitEmail.getBitmap();
+            ByteArrayOutputStream streamEmail = new ByteArrayOutputStream();
+            bmpEmail.compress(Bitmap.CompressFormat.PNG, 100, streamEmail);
+            Image imageEmail = Image.getInstance(streamEmail.toByteArray());
+            imageEmail.scalePercent(30);
+            imageEmail.setAbsolutePosition(30f, 462f);
+            imageEmail.setAlignment(Element.ALIGN_LEFT);
+            document.add(imageEmail);
+            addEmptyLine(prefaceClicable,1);
+            prefaceClicable.add(new Phrase(""));
+            prefaceClicable.setIndentationLeft(50);
+            Anchor anchorEmail = new Anchor( preafManager.getActiveBrand().getEmail(),clckableText);
+            anchorEmail.setReference(String.valueOf(Uri.parse("mailto:"+preafManager.getActiveBrand().getEmail())));
+            prefaceClicable.add(anchorEmail);
+
+            Drawable website = act.getResources().getDrawable(R.drawable.internet);
+            BitmapDrawable bitWebsite = ((BitmapDrawable) website);
+            Bitmap bmpWebsite = bitWebsite.getBitmap();
+            ByteArrayOutputStream streamWebsite = new ByteArrayOutputStream();
+            bmpWebsite.compress(Bitmap.CompressFormat.PNG, 100, streamWebsite);
+            Image imageWebsite = Image.getInstance(streamWebsite.toByteArray());
+            imageWebsite.scalePercent(30);
+            imageWebsite.setAbsolutePosition(30f, 415f);
+            imageWebsite.setAlignment(Element.ALIGN_LEFT);
+            document.add(imageWebsite);
+            addEmptyLine(prefaceClicable,1 );
+            prefaceClicable.add(new Phrase(""));
+            prefaceClicable.setIndentationLeft(50);
+            Anchor anchorWebsite = new Anchor( preafManager.getActiveBrand().getWebsite(),clckableText);
+            anchorWebsite.setReference(preafManager.getActiveBrand().getWebsite());
+            prefaceClicable.add(anchorWebsite);
+            document.add(prefaceClicable);
+
+
+            ByteArrayOutputStream streamBack = new ByteArrayOutputStream();
+            Bitmap bitmap = BitmapFactory.decodeResource(act.getResources(), R.drawable.logoo);
+            bitmap.compress(Bitmap.CompressFormat.JPEG , 100, streamBack);
+            Image img;
+            img = Image.getInstance(stream.toByteArray());
+            img.setAbsolutePosition(100, 100);
+            document.add(img);
+
+
+
+            document.close();
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+
+
+    private void createPdf(){
+//        // create a new document
+        PdfDocument document = new PdfDocument();
+        Paint mypaint=new Paint();
+        Paint titlePaint=new Paint();
+       TextPaint p = new TextPaint();
+//        // crate a page description
+       PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
+        // start a page
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+     //   canvas.drawBitmap(scaledbmp,0,0,mypaint);
+
+        mypaint.setColor(Color.rgb(0,113,188));
+        mypaint.setTextAlign(Paint.Align.RIGHT);
+
+        mypaint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawBitmap(scaledbmp,500,100,mypaint);
+//
+//
+//        titlePaint.setTextAlign(Paint.Align.LEFT);
+//        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.BOLD));
+//        titlePaint.setTextSize(50);
+//        canvas.drawText(preafManager.getActiveBrand().getName(),60,600,titlePaint);
+//
+//
+//        titlePaint.setTextAlign(Paint.Align.LEFT);
+//        titlePaint.setStyle(Paint.Style.FILL);
+//        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
+//        titlePaint.setTextSize(40);
+//        canvas.drawText(preafManager.getActiveBrand().getAddress(),60,660,titlePaint);
+     //   canvas.drawLine(1140,700,60,700,titlePaint);
+//
+//
+//        titlePaint.setTextAlign(Paint.Align.LEFT);
+//        titlePaint.setStyle(Paint.Style.FILL);
+//        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
+//        titlePaint.setTextSize(50);
+//        canvas.drawText(preafManager.getActiveBrand().getName(),60,770,titlePaint);
+//
+//        titlePaint.setTextAlign(Paint.Align.LEFT);
+//        titlePaint.setStyle(Paint.Style.FILL);
+//        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
+//        titlePaint.setTextSize(40);
+//        canvas.drawText("Director",60,820,titlePaint);
+//
+//
+//
+//
+//        titlePaint.setTextAlign(Paint.Align.LEFT);
+//        titlePaint.setStyle(Paint.Style.FILL);
+//        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
+//        titlePaint.setTextSize(45);
+//        canvas.drawText(preafManager.getActiveBrand().getEmail(),180,940,titlePaint);
+//       // canvas.drawColor(R.color.colorPrimary);
+//        canvas.drawBitmap(scaledbmpGmail,60,890,mypaint);
+//
+//
+//
+////        String link = "https://example.com";
+////        SpannableString s = new SpannableString("some link");
+////        s.setSpan(new URLSpan(link), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+////        canvas.drawText(s.toString(), 60, 990, titlePaint);
+//
+//
+//        p.setTextAlign(Paint.Align.LEFT);
+//        p.setStyle(Paint.Style.FILL);
+//        p.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
+//        p.setTextSize(45);
+//        canvas.drawText("<a href=https://www.google.com/>https://www.google.com/</a>",180,1040,p);
+//         canvas.drawColor(R.color.colorPrimary);
+//        //canvas.drawText("<a href='https://example.com'>some link</a>", 30, 30, titlePaint);
+////        String link = "https://www.google.com/";
+////        SpannableString l = new SpannableString("https://www.google.com/");
+////        l.setSpan(new URLSpan(link), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+////        canvas.drawText(l.toString(), 180, 1040, p);
+//        canvas.drawBitmap(scaledbmpPhone,60,990,mypaint);
+//
+//
+//
+//
+//      //  canvas.drawText(, 30, 30, titlePaint);
+//        if (preafManager.getActiveBrand().getWebsite()!=null) {
+//            titlePaint.setTextAlign(Paint.Align.LEFT);
+//            titlePaint.setStyle(Paint.Style.FILL);
+//            titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+//            titlePaint.setTextSize(45);
+//            canvas.drawText(preafManager.getActiveBrand().getWebsite(), 180, 1140, titlePaint);
+//            // canvas.drawColor(R.color.colorPrimary);
+//            canvas.drawBitmap(scaledbmpWebsite, 60, 1090, mypaint);
+//        }
+//        else
+//        {
+//
+//        }
+
+
+        LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.pdf_person_container, null);
+
+//        PdfDocument document = new PdfDocument();
+//        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200,2010,1).create();
+//        PdfDocument.Page page = document.startPage(pageInfo);
+//        ImageView Logo=(ImageView) view.findViewById(R.id.logo);
+//        TextView BrandName=(TextView)view.findViewById(R.id.brandName);
+//        TextView Address=(TextView)view.findViewById(R.id.address);
+//        TextView ContactNumber=(TextView)view.findViewById(R.id.contactNumber);
+//        TextView EmailId=(TextView)view.findViewById(R.id.gmailText);
+//        TextView WebSite=(TextView)view.findViewById(R.id.websiteText);
+//        Glide.with(act)
+//                .load(preafManager.getActiveBrand().getLogo())
+//                .into(Logo);
+//        BrandName.setText(preafManager.getActiveBrand().getName());
+//        Address.setText(preafManager.getActiveBrand().getAddress());
+//        ContactNumber.setText(preafManager.getActiveBrand().getPhonenumber());
+
+
+//        ContactNumber.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(act, "bvnvbnvbn", Toast.LENGTH_SHORT).show();
+//                Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                callIntent.setData(Uri.parse("tel:0377778888"));
+//
+//                if (ActivityCompat.checkSelfPermission(act,
+//                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                    return;
+//                }
+//                startActivity(callIntent);
+//            }
+//        });
+//        EmailId.setText(preafManager.getActiveBrand().getEmail());
+//        WebSite.setText(preafManager.getActiveBrand().getWebsite());
+//        int measureWidth = View.MeasureSpec.makeMeasureSpec(page.getCanvas().getWidth(), View.MeasureSpec.EXACTLY);
+//        int measuredHeight = View.MeasureSpec.makeMeasureSpec(page.getCanvas().getHeight(), View.MeasureSpec.EXACTLY);
+//        view.measure(measureWidth, measuredHeight);
+//        view.layout(0, 0, page.getCanvas().getWidth(), page.getCanvas().getHeight());
+//        view.draw(page.getCanvas());
+
+
+
+
+
+
+
+
+        document.finishPage(page);
+
+
+
+       // document.finishPage(page);
+        // write the document content
+          String directory_path = Environment.getExternalStorageDirectory().getPath() + "/BrandManiaPdf/";
+          File file = new File(directory_path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        String name = "BrandManiaPdf" +System.currentTimeMillis()+ ".pdf";
+        String targetPdf=file.getAbsolutePath() + "/" + name;
+        File filePath = new File(targetPdf);
+        try {
+            document.writeTo(new FileOutputStream(filePath));
+            Toast.makeText(act, "Done", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e("main", "error "+e.toString());
+            Toast.makeText(act, "Something wrong: " + e.toString(),  Toast.LENGTH_LONG).show();
+        }
+
+        // close the document
+        document.close();
+    }
+
 }
