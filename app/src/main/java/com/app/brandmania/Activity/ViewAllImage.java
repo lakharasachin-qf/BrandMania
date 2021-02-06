@@ -617,7 +617,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         intent.setData(Uri.fromFile(file));
         sendBroadcast(intent);
     }
-
     //For CreatFileeDisc For Download Image.........................
     private File getDisc() {
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
@@ -907,6 +906,11 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 .start(this);
 
     }
+
+
+
+
+
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
@@ -1102,7 +1106,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
     //for logo drag and click event handle
     GestureDetector gestureDetector;
-
     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
 
@@ -1161,7 +1164,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         };
     }
-
     public boolean manuallyEnablePermission(int pendingActivity) {
         isDownloadOrSharingOrFavPending=pendingActivity;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1232,7 +1234,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
 
     }
-
     //save image with frame either custome or from backend
     public void saveImageToGallery(boolean wantToShare,boolean isFavourite) {
 
@@ -1314,8 +1315,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
 
     }
-
-
     //generate custom frame from relative layout
     private Bitmap getCustomFrameInBitmap(boolean isFavourite) {
 
@@ -1371,8 +1370,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         return newFinal;
 
     }
-
-
     //backend frame load
     @Override
     public void onBackendFrameChoose(ImageList imageList, int position) {
@@ -1383,7 +1380,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         isUsingCustomFrame = false;
         forCheckFavorite();
     }
-
     //fire on footer select listener
     @Override
     public void onFooterSelectEvent(int footerLayout, FooterModel footerModel) {
@@ -1402,7 +1398,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         loadSameColorToBackgroundAndTextAgain();
         ((ITextSizeEvent) act).onfontSize(previousFontSize);
     }
-
     //check for added to fav or not
     public void forCheckFavorite(){
         preafManager=new PreafManager(act);
@@ -1448,7 +1443,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             }
         }
     }
-
     //for adding footer dynamically
     int footerLayout = 1;
     private LayoutForLoadOneBinding oneBinding;
@@ -1461,8 +1455,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private LayoutForLoadEightBinding eightBinding;
     private LayoutForLoadNineBinding nineBinding;
     private LayoutForLoadTenBinding tenBinding;
-
-
     private void addDynamicFooter(int layoutType,boolean isReload) {
         binding.elementFooter.removeAllViews();
         footerLayout=layoutType;
@@ -1576,12 +1568,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             tenBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
         }
     }
-
-    @Override
-    public void onColorSelected(int dialogId, int colorCode) {
+    @Override public void onColorSelected(int dialogId, int colorCode) {
 
     }
-
     public void loadSameColorToBackgroundAndTextAgain() {
 
         if (colorCodeForTextColor!=0) {
@@ -1752,7 +1741,6 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
 
     }
-
     //for Text Color change
     @Override public void onColorChanged(int colorCode) {
         colorCodeForTextColor = colorCode;
@@ -1786,16 +1774,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         }
 
     }
-
     //on border size change
     int borderSize;
-    @Override
-    public void onBorderSizeChange(int size) {
+    @Override public void onBorderSizeChange(int size) {
         borderSize=size;
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(size), colorCodeForBackground);
     }
-
     //for background color change
     @Override public void onChooseColor(int colorCode) {
         colorCodeForBackground = colorCode;
@@ -1833,21 +1818,14 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
     private int convertDpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-
     public void changeBorderColorAsFrame(){
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
     }
-
-    @Override
-    public void onColorItemChange(int colorCode) {
+    @Override public void onColorItemChange(int colorCode) {
     }
-
-
-
     //for font change
-    @Override
-    public void onFontChangeListenert(String Font) {
+    @Override public void onFontChangeListenert(String Font) {
         loadDefaultFont = Font;
         if (footerLayout == 1) {
             Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
@@ -1916,12 +1894,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
         }
     }
-
     //for underline
-
-
-
-    //for font size
+    // for font size
     @Override public void onfontSize(int textsize) {
 
         previousFontSize=textsize;
@@ -1937,9 +1911,7 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             else if (footerLayout == 9) { FooterHelper.makeTextSizeForNine(nineBinding,textsize); }
             else if (footerLayout == 10) {  FooterHelper.makeTextSizeForTen(tenBinding,textsize);}
         }
-    }
-
-    //for bold text
+    }//for bold text
     @Override public void onBoldTextChange(boolean Bold) {
         isLoadBold=Bold;
         if (Bold) {

@@ -155,11 +155,10 @@ import static com.app.brandmania.Activity.ViewAllImage.REMOVEFAV;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
 
-public class ViewAllFrameImageActivity extends BaseActivity implements FrameInterFace, alertListenerCallback,
-        ItemeInterFace, ImageCateItemeInterFace, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent,
-        ColorPickerDialogListener, IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent,
-        onFooterSelectListener, View.OnTouchListener, FilterListener, IImageBritnessEvent, IImageFromGalary, IRemoveFrame,
-        IrotateEvent, ThumbnailCallback, IBackendFrameSelect {
+public class ViewAllFrameImageActivity extends BaseActivity implements FrameInterFace, alertListenerCallback, ItemeInterFace,
+        ImageCateItemeInterFace, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener,
+        IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent,onFooterSelectListener, View.OnTouchListener,
+        FilterListener, IImageBritnessEvent, IImageFromGalary, IRemoveFrame, IrotateEvent, ThumbnailCallback, IBackendFrameSelect {
     private Activity act;
     private ActivityViewAllFrameImageBinding binding;
     PreafManager preafManager;
@@ -174,9 +173,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     private boolean isLoading = false;
     int startwidth;
     private boolean isRemoveFrame=false;
-
     EditText selectedForEdit;
-
     Bitmap selectedImageBitmap=null;
     int startheight;
     private float d = 0f;
@@ -277,8 +274,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         });
         //for Image
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(500, 500);
-        layoutParams.leftMargin = Integer.parseInt(imageList.getX_conrdinate());
-        layoutParams.topMargin = Integer.parseInt(imageList.getY_cordinate());
+        layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
+        layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate());
         layoutParams.bottomMargin = -250;
         layoutParams.rightMargin = -250;
         binding.editableImageview.setLayoutParams(layoutParams);
@@ -724,7 +721,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     public void frameViewPager() {
 
     }
-
     public void AlertBoxForSaveFrame() {
         alertDialogBuilder = new AlertDialog.Builder(act);
         alertDialogBuilder.setTitle("Save Frame");
@@ -765,21 +761,16 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
 
     }
-
     //For GetFrame
     @Override public void alertListenerClick() {
         requestAgain();
     }
-
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
-
-
-
     @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
@@ -847,7 +838,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -879,7 +869,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         }
     }
-
     @Override public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // required permissions granted, start crop image activity
@@ -946,9 +935,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         }
     }
-
     private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage";
-
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -957,7 +944,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 .start(this);
 
     }
-
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
@@ -1017,10 +1003,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-
-
-
-
     public static String convertFirstUpper(String str) {
 
         if (str == null || str.isEmpty()) {
@@ -1029,13 +1011,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-
-
     //version 3 ======================================
-
     // ask for payment
     public DialogUpgradeLayoutSecondBinding secondBinding;
-
     public void askForPayTheirPayment(String msg) {
         secondBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_second, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1066,7 +1044,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-
     //fire intent for share
     public void triggerShareIntent(File new_file,Bitmap merged) {
         //  Uri uri = Uri.parse();
@@ -1148,10 +1125,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         return bitmap;
     }
-
-
-
-
     //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeDownloadLimitExpireBinding expireBinding;
     private void downloadLimitExpireDialog(String msg) {
@@ -1184,10 +1157,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         alertDialog.show();
 
     }
-
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutEnterpriseBinding enterpriseBinding;
-
     public void askForUpgradeToEnterpisePackage() {
         enterpriseBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_enterprise, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1217,11 +1188,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-
-
     //for logo drag and click event handle
-
-
     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
 
@@ -1280,7 +1247,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         };
     }
-
     public boolean manuallyEnablePermission(int pendingActivity) {
         isDownloadOrSharingOrFavPending=pendingActivity;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1351,9 +1317,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
 
     }
-
     //save image with frame either custome or from backend
-   public void saveImageToGallery(boolean wantToShare,boolean isFavourite) {
+    public void saveImageToGallery(boolean wantToShare,boolean isFavourite) {
         Utility.showLoadingTran(act);
         Drawable bitmapFrame;
         if (isUsingCustomFrame){
@@ -1451,8 +1416,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
         Utility.dismissLoadingTran();
     }
-
-
     //generate custom frame from relative layout
     private Bitmap getCustomFrameInBitmap(boolean isFavourite) {
 
@@ -1508,11 +1471,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         return newFinal;
 
     }
-
-
     //backend frame load
-    @Override
-    public void onBackendFrameChoose(ImageList imageList, int position) {
+    @Override public void onBackendFrameChoose(ImageList imageList, int position) {
         binding.backendFrame.setVisibility(View.VISIBLE);
         binding.elementCustomFrame.setVisibility(View.GONE);
         selectedBackendFrame=imageList;
@@ -1520,10 +1480,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         isUsingCustomFrame = false;
         forCheckFavorite();
     }
-
     //fire on footer select listener
-    @Override
-    public void onFooterSelectEvent(int footerLayout, FooterModel footerModel) {
+    @Override public void onFooterSelectEvent(int footerLayout, FooterModel footerModel) {
 
         isUsingCustomFrame = true;
         binding.backendFrame.setVisibility(View.GONE);
@@ -1540,7 +1498,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         loadSameColorToBackgroundAndTextAgain();
         ((ITextSizeEvent) act).onfontSize(previousFontSize);
     }
-
     //check for added to fav or not
     public void forCheckFavorite(){
         preafManager=new PreafManager(act);
@@ -1586,9 +1543,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         }
     }
-
-    //for adding footer dynamically
-
     //for adding footer dynamically
     int footerLayout = 1;
     private LayoutForLoadOneBinding oneBinding;
@@ -1601,8 +1555,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     private LayoutForLoadEightBinding eightBinding;
     private LayoutForLoadNineBinding nineBinding;
     private LayoutForLoadTenBinding tenBinding;
-
-
     private void addDynamicFooter(int layoutType,boolean isReload) {
         binding.elementFooter.removeAllViews();
         footerLayout=layoutType;
@@ -1791,12 +1743,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             });
         }
     }
-
-    @Override
-    public void onColorSelected(int dialogId, int colorCode) {
+    @Override public void onColorSelected(int dialogId, int colorCode) {
 
     }
-
     public void loadSameColorToBackgroundAndTextAgain() {
 
         if (colorCodeForTextColor!=0) {
@@ -1967,7 +1916,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
 
     }
-
     //for Text Color change
     @Override public void onColorChanged(int colorCode) {
 
@@ -2007,69 +1955,61 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
 
     }
-
     //on border size change
     int borderSize;
-    @Override
-    public void onBorderSizeChange(int size) {
+    @Override public void onBorderSizeChange(int size) {
         borderSize=size;
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(size), colorCodeForBackground);
     }
-
     //for background color change
     @Override public void onChooseColor(int colorCode) {
+    colorCodeForBackground = colorCode;
+    // Toast.makeText(act, editorFragment+"dfgdfgf", Toast.LENGTH_SHORT).show();
+    if (editorFragment==4){
+        if (footerLayout==1){
+            FooterHelper.ChangeBackgroundColorForFrameOne(act,oneBinding,colorCode);
+        }
+        else if (footerLayout==2){
+            FooterHelper. ChangeBackgroundColorForFrameTwo(act,twoBinding,colorCode);
+        }
+        else if (footerLayout==3){
 
-
-        colorCodeForBackground = colorCode;
-
-       // Toast.makeText(act, editorFragment+"dfgdfgf", Toast.LENGTH_SHORT).show();
-        if (editorFragment==4){
-            if (footerLayout==1){
-                FooterHelper.ChangeBackgroundColorForFrameOne(act,oneBinding,colorCode);
-            }else if (footerLayout==2){
-                FooterHelper. ChangeBackgroundColorForFrameTwo(act,twoBinding,colorCode);
-            }else if (footerLayout==3){
-
-            }else if (footerLayout==4){
-                FooterHelper.ChangeBackgroundColorForFrameFour(act,fourBinding,colorCode);
-            } else if (footerLayout == 5) {
-                FooterHelper.ChangeBackgroundColorForFrameFive(act,fiveBinding,colorCode);
-            } else if (footerLayout == 6) {
-                FooterHelper.ChangeBackgroundColorForFrameSix(act,sixBinding,colorCode);
-            }
-            else if (footerLayout==7){
-                FooterHelper.ChangeBackgroundColorForFrameSeven(act,sevenBinding,colorCode);
-            }
-            else if (footerLayout==8){
-                FooterHelper.ChangeBackgroundColorForFrameEight(act,eightBinding,colorCode);
-            }
-            else if (footerLayout==9){
-                FooterHelper.ChangeBackgroundColorForFrameNine(act,nineBinding,colorCode);
-            }
-            else if (footerLayout==10){
-
-                FooterHelper.ChangeBackgroundColorForFrameTen(act,tenBinding,colorCode);
-            }
-            GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
-            drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
+        }
+        else if (footerLayout==4){
+            FooterHelper.ChangeBackgroundColorForFrameFour(act,fourBinding,colorCode);
+        }
+        else if (footerLayout == 5) {
+            FooterHelper.ChangeBackgroundColorForFrameFive(act,fiveBinding,colorCode);
+        }
+        else if (footerLayout == 6) {
+            FooterHelper.ChangeBackgroundColorForFrameSix(act,sixBinding,colorCode);
+        }
+        else if (footerLayout==7){
+            FooterHelper.ChangeBackgroundColorForFrameSeven(act,sevenBinding,colorCode);
+        }
+        else if (footerLayout==8){
+            FooterHelper.ChangeBackgroundColorForFrameEight(act,eightBinding,colorCode);
+        }
+        else if (footerLayout==9){
+            FooterHelper.ChangeBackgroundColorForFrameNine(act,nineBinding,colorCode);
+        }
+        else if (footerLayout==10){
+            FooterHelper.ChangeBackgroundColorForFrameTen(act,tenBinding,colorCode);
+        }
+        GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
+        drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
         }
     }
     private int convertDpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-
     public void changeBorderColorAsFrame(){
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
     }
-
-    @Override
-    public void onColorItemChange(int colorCode) {
+    @Override public void onColorItemChange(int colorCode) {
     }
-
-
-
     //for font change
     @Override
     public void onFontChangeListenert(String Font) {
@@ -2148,11 +2088,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         }
     }
-
     //for underline
-
-
-
     //for font size
     @Override public void onfontSize(int textsize) {
         if (editorFragment==5 && selectedForEdit!=null) {
@@ -2172,7 +2108,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             else if (footerLayout == 10) {  FooterHelper.makeTextSizeForTen(tenBinding,textsize);}
 
     }
-
     //for bold text
     @Override public void onBoldTextChange(boolean Bold) {
         if (Bold) {
@@ -2250,7 +2185,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         }
     }
-
     @Override public void onRemoveSelectEvent() {
         isUsingCustomFrame=true;
         isRemoveFrame=true;
@@ -2264,30 +2198,16 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     @Override public boolean onTouch(View view, MotionEvent motionEvent) {
         return false;
     }
-
-
-
-
-
-
-
-    @Override
-    public void onFilterSelected(PhotoFilter photoFilter) {
+    @Override public void onFilterSelected(PhotoFilter photoFilter) {
         //mPhotoEditor.setFilterEffect(photoFilter);
     }
-
-    @Override
-    public void onFrameItemSelection(int position, MultiListItem listModel) {
+    @Override public void onFrameItemSelection(int position, MultiListItem listModel) {
 
     }
-
-    @Override
-    public void onItemSelection(int position, MultiListItem listModel) {
+    @Override public void onItemSelection(int position, MultiListItem listModel) {
         binding.backendFrame.setImageResource(listModel.getImage());
     }
-
-    @Override
-    public void onThumbnailClick(Filter filter) {
+    @Override public void onThumbnailClick(Filter filter) {
         int width = selectedImageBitmap.getWidth();
         int height = selectedImageBitmap.getHeight();
 
@@ -2312,18 +2232,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         binding.editableImageview.setImageBitmap(filter.processFilter(Bitmap.createScaledBitmap(selectedImageBitmap, width, height, false)));
     }
-
-    @Override
-    public void onimageBritness(int britness) {
+    @Override public void onimageBritness(int britness) {
         binding.editableImageview.setColorFilter(setBrightness(britness));
     }
-
-    @Override
-    public void onRotateImage(int rotate) {
+    @Override public void onRotateImage(int rotate) {
         binding.editableImageview.setRotation(binding.editableImageview.getRotation() + 90);
     }
-
-
     //to handle click and drag listener
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
         @Override
@@ -2637,14 +2551,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 });
 
     }
-
-
-
-
-
-
-
-
     private View.OnTouchListener onTouchListenerrr() {
         return new View.OnTouchListener() {
 
@@ -2726,10 +2632,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         };
     }
-
-
-
-
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
@@ -2741,8 +2643,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         double radians = Math.atan2(delta_y, delta_x);
         return (float) Math.toDegrees(radians);
     }
-    public void TouchImageMotion()
-    {
+    public void TouchImageMotion() {
           binding.editableImageview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

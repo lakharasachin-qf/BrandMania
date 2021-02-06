@@ -1627,6 +1627,10 @@ public class CustomViewAllActivit extends
 
         //    binding.frameImage.setVisibility(View.GONE);
     }
+
+
+
+
     //to handle click and drag listener
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
         @Override public boolean onSingleTapUp(MotionEvent event) {

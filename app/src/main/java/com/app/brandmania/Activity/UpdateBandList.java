@@ -66,6 +66,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
     private int showingView = -1;
     private boolean isEditModeEnable = false;
     private BrandListItem listModel;
+    private BrandListItem data;
     private boolean isLoading=false;
     private ActivityUpdateBandListBinding binding;
     private Activity act;
@@ -108,10 +109,14 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             }
         });
         listModel = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
+        data = gson.fromJson(getIntent().getStringExtra("data"), BrandListItem.class);
       //  getConversation();
-        Log.e("-- ", getIntent().getStringExtra("detailsObj"));
+//        Log.e("-- ", getIntent().getStringExtra("detailsObj"));
         //not filled conditions remains ask to mem
+
         if (listModel != null) {
+            binding.catIdEdt.setText(listModel.getId());
+            binding.IdEdt.setText(listModel.getId());
             binding.categoryEdt.setText(listModel.getCategoryName());
             binding.nameTxt.setText(listModel.getName());
             binding.phoneTxt.setText(listModel.getPhonenumber());
@@ -128,8 +133,28 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             Glide.with(act).load(listModel.getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
             Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
         }
+        else
+        {
+            binding.catIdEdt.setText(prefManager.getActiveBrand().getCategoryId());
+            binding.IdEdt.setText(prefManager.getActiveBrand().getId());
+             binding.categoryEdt.setText(prefManager.getActiveBrand().getCategoryName());
+            binding.nameTxt.setText(prefManager.getActiveBrand().getName());
+            binding.phoneTxt.setText(prefManager.getActiveBrand().getPhonenumber());
+            binding.addressEdt.setText(prefManager.getActiveBrand().getAddress());
+            binding.websiteEdt.setText(prefManager.getActiveBrand().getWebsite());
+            binding.emailIdEdt.setText(prefManager.getActiveBrand().getEmail());
+//            binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onBackPressed();
+//                }
+//
+//            });
+            Glide.with(act).load(prefManager.getActiveBrand().getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
+          //  Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
+        }
 
-        if (listModel.getNo_of_used_image().isEmpty() || listModel.getNo_of_used_image().equalsIgnoreCase("0") || listModel.getLogo().isEmpty()) {
+     //   if (listModel.getNo_of_used_image().isEmpty() || listModel.getNo_of_used_image().equalsIgnoreCase("0") || listModel.getLogo().isEmpty()) {
             binding.viewImgFirst.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -141,10 +166,10 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                     }
                 }
             });
-        }else
-        {
-            binding.nameTxt.setEnabled(true);
-        }
+//        }else
+//        {
+//            binding.nameTxt.setEnabled(true);
+//        }
     }
     private void getBrandCategory(int flag) {
         String apiUrl = "";
@@ -294,7 +319,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
                 .addHeaders("Authorization", "Bearer"+prefManager.getUserToken())
-                .addMultipartParameter("brand_id",listModel.getId())
+                .addMultipartParameter("brand_id", binding.IdEdt.getText().toString())
                 .addMultipartParameter("br_category",  binding.categoryEdt.getText().toString())
                 .addMultipartParameter("br_name", binding.nameTxt.getText().toString())
                 .addMultipartParameter("br_phone", binding.phoneTxt.getText().toString())
@@ -310,7 +335,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         }
         else
         {
-            request.addMultipartParameter("br_category",listModel.getCategoryId());
+            request.addMultipartParameter("br_category",binding.catIdEdt.getText().toString());
         }
 
         if (img1File != null) {

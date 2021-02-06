@@ -145,6 +145,9 @@ dependencies {
 
     implementation 'com.github.yalantis:ucrop:2.2.6'
     implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.itextpdf:kernel:7.0.3'
+
+
     implementation 'com.github.zomato:androidphotofilters:1.0.2'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 //    implementation project(':photofilterssdk')

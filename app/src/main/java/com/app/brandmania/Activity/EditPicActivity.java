@@ -205,6 +205,13 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
         }
     }
     boolean isAdded=false;
+    private void startCrop(Uri data) {
+        String name = getFileName(data);
+        File file = new File(getCacheDir(), name);
+        filename = name;
+        UCrop uCrop = UCrop.of(data, Uri.fromFile(file));
+        uCrop.start(this);
+    }
     private void createImageView() {
         File file = new File(getCacheDir(), filename);
         Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
@@ -227,13 +234,7 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
         scaleGestureDetector.onTouchEvent(motionEvent);
         return true;
     }
-    private void startCrop(Uri data) {
-        String name = getFileName(data);
-        File file = new File(getCacheDir(), name);
-        filename = name;
-        UCrop uCrop = UCrop.of(data, Uri.fromFile(file));
-        uCrop.start(this);
-    }
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
