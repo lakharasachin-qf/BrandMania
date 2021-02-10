@@ -67,7 +67,9 @@ public class FrameTab extends Fragment {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater,R.layout.frame_tab,container,false);
         preafManager=new PreafManager(Objects.requireNonNull(getActivity()));
-        getFrame();
+
+            getFrame();
+
         binding.subscribePlaneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,14 +160,25 @@ public class FrameTab extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     menuModels = ResponseHandler.HandleGetFrameList(jsonObject);
-                    if (menuModels!=null && menuModels.size()!=0 && jsonObject.getJSONObject("data").getString("is_frame").equalsIgnoreCase("1")) {
-                        ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
-                        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
-                        binding.frameRecycler.setLayoutManager(mLayoutManager);
-                        binding.frameRecycler.setHasFixedSize(true);
-                        binding.frameRecycler.setAdapter(menuAddaptor);
-                    }else {
+                    if (preafManager.getActiveBrand()!=null) {
+                        if (menuModels != null && menuModels.size() != 0 && jsonObject.getJSONObject("data").getString("is_frame").equalsIgnoreCase("1")) {
+                            ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
+                            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
+                            binding.frameRecycler.setLayoutManager(mLayoutManager);
+                            binding.frameRecycler.setHasFixedSize(true);
+                            binding.frameRecycler.setAdapter(menuAddaptor);
+                        } else {
+
+                            binding.frameRecycler.setVisibility(View.GONE);
+
+                        }
+                    }
+                    else
+                    {
+                        binding.subscribePlaneBtn.setVisibility(View.GONE);
+                        binding.removeFrameBtn.setVisibility(View.GONE);
                         binding.frameRecycler.setVisibility(View.GONE);
+                        binding.addbrandTag.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {
@@ -202,7 +215,10 @@ public class FrameTab extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("brand_id",preafManager.getActiveBrand().getId());
+               if (preafManager.getActiveBrand()!=null)
+                {
+                    params.put("brand_id", preafManager.getActiveBrand().getId());
+                }
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
@@ -210,7 +226,9 @@ public class FrameTab extends Fragment {
         };
 
         RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
+        if (preafManager.getActiveBrand()!=null) {
+            queue.add(stringRequest);
+        }
     }
 
 }

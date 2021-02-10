@@ -42,17 +42,36 @@ public class FooterTab extends Fragment {
         act = getActivity();
         preafManager=new PreafManager(act);
         binding = DataBindingUtil.inflate(inflater, R.layout.footer_tab, container, false);
-        setAdapter();
+        if (preafManager.getActiveBrand()!=null)
+        {
+            setAdapter();
+        }
+        else
+        {
+            binding.footerRecycler.setVisibility(View.GONE);
+            binding.addbrandTag.setVisibility(View.VISIBLE);
+        }
+
         return binding.getRoot();
     }
 
 
     public void setData(FooterModel model){
-        model.setAddress(preafManager.getActiveBrand().getAddress());
-        model.setEmailId(preafManager.getActiveBrand().getEmail());
-        model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
-        model.setWebsite(preafManager.getActiveBrand().getWebsite());
-        footerModels.add(model);
+        if (preafManager.getActiveBrand()!=null) {
+            model.setAddress(preafManager.getActiveBrand().getAddress());
+            model.setEmailId(preafManager.getActiveBrand().getEmail());
+            model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
+            model.setWebsite(preafManager.getActiveBrand().getWebsite());
+            footerModels.add(model);
+        }
+        else
+        {
+            model.setAddress("");
+            model.setEmailId("");
+            model.setContactNo("");
+            model.setWebsite("");
+            footerModels.add(model);
+        }
     }
     public void setAdapter() {
 

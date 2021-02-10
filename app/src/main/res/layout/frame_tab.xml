@@ -70,6 +70,16 @@
                     android:textAllCaps="false"
                     android:textSize="@dimen/_10sdp"
                     />
+
+                <TextView
+                    android:id="@+id/addbrandTag"
+                    android:visibility="gone"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_70sdp"
+                    android:text="Please add Your Brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
             </RelativeLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

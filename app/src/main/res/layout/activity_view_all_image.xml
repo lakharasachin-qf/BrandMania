@@ -79,6 +79,7 @@
                     app:tint="@color/white" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/downloadIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_toLeftOf="@+id/downloadIcon"
+                   android:layout_alignParentEnd="true"
                     android:fontFamily="@font/inter_semibold"
                     android:src="@drawable/ic_baseline_share_24"
                     android:textColor="@color/colorNavText"

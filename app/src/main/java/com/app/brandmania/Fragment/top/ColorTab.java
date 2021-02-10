@@ -106,6 +106,7 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
 
     @Override
     public void onColorChanged(int newColor) {
+
         Log.e("OnColorChoose",String.valueOf(newColor));
         ((IColorChange)act).onChooseColor(newColor);
     }

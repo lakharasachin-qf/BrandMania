@@ -3,6 +3,7 @@ package com.app.brandmania.Fragment.bottom;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,10 +24,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -98,8 +101,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -177,9 +183,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         fiveStarsDialog = new FiveStarsDialog(getActivity(), "brandmania@gmail.com");
         preafManager = new PreafManager(act);
 
-//            Glide.with(act)
-//                    .load(preafManager.getActiveBrand().getLogo())
-//                    .into(binding.pdfLogo);
+            Glide.with(act)
+                    .load(preafManager.getActiveBrand().getLogo())
+                    .into(binding.pdfLogo);
 
 
         Log.e("LogoForPdf", binding.pdfLogo.toString());
@@ -1042,19 +1048,28 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
 
         Document document = new Document(PageSize.A4);
-        String outpath = Environment.getExternalStorageDirectory() + "/MytPdfBrand.pdf";
+//        String outpath = Environment.getExternalStorageDirectory() + "/MytPdfBrand.pdf";
+//
+//
+//
+//
+//        File file = getDisc();
+//        if (!file.exists() && !file.mkdirs()) {
+//            return;
+//        }
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
+//        String date = simpleDateFormat.format(new Date());
+//        String name = "BrandPdf" +System.currentTimeMillis()+ ".pdf";
+//        String file_name = file.getAbsolutePath() + "/" + name;
 
 
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/BrandManiaPdf";
 
+        File dir = new File(path);
+        if(!dir.exists())
+            dir.mkdirs();
 
-        File file = getDisc();
-        if (!file.exists() && !file.mkdirs()) {
-            return;
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
-        String date = simpleDateFormat.format(new Date());
-        String name = "BrandPdf" +System.currentTimeMillis()+ ".pdf";
-        String file_name = file.getAbsolutePath() + "/" + name;
+        File file = new File(dir, "brandmania.pdf");
 
 
 
@@ -1072,13 +1087,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             img = Image.getInstance(stream.toByteArray());
             img.setAbsolutePosition(0, 0);
             img.scalePercent(60f,60f);
-
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file_name));
+            FileOutputStream fOut = new FileOutputStream(file);
+            PdfWriter writer = PdfWriter.getInstance(document, fOut);
             writer.setPageEvent(new MyPdfPageEventHelper(act));
             document.open();
 
-            Drawable d = act.getResources().getDrawable(R.drawable.pdf_banner);
-            BitmapDrawable bitDw = ((BitmapDrawable) d);
+           // Drawable d = act.getResources().getDrawable(R.drawable.pdf_banner);
+            //BitmapDrawable bitDw = ((BitmapDrawable) d);
             Bitmap bmp = ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap();//bitDw.getBitmap();
             ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream1);
@@ -1235,7 +1250,25 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         paragraphClicableService.setIndentationLeft(0);
         document.add(paragraphClicableService);
         document.close();
+//        try {
+//            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " +file_name);
+//        }catch (Exception exc) {
+//            System.out.println("Houston we got a problem! : "+exc);
+//        }
 
+//            File pdfFile = new File(outpath);
+//            Uri path = Uri.fromFile(pdfFile);
+//            // Setting the intent for pdf reader
+//            Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+//            pdfIntent.setDataAndType(path, "application/pdf");
+//            pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//            try {
+//                startActivity(pdfIntent);
+//            } catch (ActivityNotFoundException e) {
+//                Toast.makeText(act, "Can't read pdf file", Toast.LENGTH_SHORT).show();
+//            }
+            viewPdf("brandmania.pdf", "BrandManiaPdf");
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -1247,9 +1280,24 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
 
     }
+    // Method for opening a pdf file
+    private void viewPdf(String file, String directory) {
 
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + directory + "/" + file);
+      //  Uri path = Uri.fromFile(pdfFile);
+        Uri path = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", pdfFile);
+        // Setting the intent for pdf reader
+        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+        pdfIntent.setDataAndType(path, "application/pdf");
+        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        pdfIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-
+        try {
+            startActivity(pdfIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(act, "Can't read pdf file", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 

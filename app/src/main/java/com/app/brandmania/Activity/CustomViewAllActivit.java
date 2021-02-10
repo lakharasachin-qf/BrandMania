@@ -143,6 +143,7 @@ public class CustomViewAllActivit extends
     public static final int VIEW_RECOMDATION = 0;
     Activity act;
     File new_file;
+    EditText selectedForEdit;
     private int _xDelta;
     private int _yDelta;
     EditText myEditText;
@@ -220,6 +221,27 @@ public class CustomViewAllActivit extends
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
         binding.logoCustom.setOnTouchListener(onTouchListener());
         gestureDetector = new GestureDetector(this, new CustomViewAllActivit.SingleTapConfirm());
+//        binding.backImage.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                myEditText.setCursorVisible(false);
+//                myEditText.clearFocus();
+//
+//                return false;
+//            }
+//        });
+//        binding.elementCustomFrame.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                myEditText.setCursorVisible(false);
+//                myEditText.clearFocus();
+//
+//                return false;
+//            }
+//        });
+
         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,9 +341,9 @@ public class CustomViewAllActivit extends
                 if (b)
                 {
 
-                   // selectedForEdit=myEditText;
+                   selectedForEdit=myEditText;
                     myEditText.setCursorVisible(true);
-                    binding.viewPager.setCurrentItem(5);
+                    binding.viewPager.setCurrentItem(4);
                     editorFragment=5;
                 }
             }
@@ -462,6 +484,8 @@ public class CustomViewAllActivit extends
         ImageView view = (ImageView) v;
         view.setScaleType(ImageView.ScaleType.MATRIX);
         float scale;
+        myEditText.setCursorVisible(false);
+        myEditText.clearFocus();
 
         dumpEvent(event);
         // Handle touch events here...
@@ -535,6 +559,10 @@ public class CustomViewAllActivit extends
     @Override public void onItemSelection(int position, MultiListItem listModel) {
         binding.frameImage.setImageResource(listModel.getImage());
     }
+
+
+
+
     private void dumpEvent(MotionEvent event) {
         String names[] = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE",
                 "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };
@@ -629,6 +657,13 @@ public class CustomViewAllActivit extends
             oneBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
             oneBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
             oneBinding.addressLayoutElement.setOnTouchListener(onTouchListenerrr());
+            oneBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_TWO) {
             twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
@@ -642,6 +677,13 @@ public class CustomViewAllActivit extends
             twoBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
             twoBinding.locationLayout.setOnTouchListener(onTouchListenerrr());
             twoBinding.websiteLayout.setOnTouchListener(onTouchListenerrr());
+            twoBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_THREE) {
             threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
@@ -655,6 +697,13 @@ public class CustomViewAllActivit extends
             threeBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
             threeBinding.loactionLayout.setOnTouchListener(onTouchListenerrr());
             threeBinding.websiteEdtLayout.setOnTouchListener(onTouchListenerrr());
+            threeBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_FOUR) {
             fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
@@ -668,6 +717,13 @@ public class CustomViewAllActivit extends
             fourBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
             fourBinding.locationLayout.setOnTouchListener(onTouchListenerrr());
             fourBinding.websiteLayout.setOnTouchListener(onTouchListenerrr());
+            fourBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIVE) {
             fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_five, null, false);
             binding.elementFooter.addView(fiveBinding.getRoot());
@@ -680,6 +736,13 @@ public class CustomViewAllActivit extends
             fiveBinding.element0.setOnTouchListener(onTouchListenerrr());
             fiveBinding.elementMobile.setOnTouchListener(onTouchListenerrr());
             fiveBinding.elementEmail.setOnTouchListener(onTouchListenerrr());
+            fiveBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIX) {
             sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
             binding.elementFooter.addView(sixBinding.getRoot());
@@ -687,6 +750,13 @@ public class CustomViewAllActivit extends
             mainLayout = (RelativeLayout) findViewById(R.id.containerElement);
             sixBinding.socialFollow.setOnTouchListener(onTouchListenerrr());
             sixBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
+            sixBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_SEVEN) {
             sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
@@ -697,6 +767,13 @@ public class CustomViewAllActivit extends
             mainLayout1 = (RelativeLayout) findViewById(R.id.socialFollow);
             sevenBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
             sevenBinding.socialLayout.setOnTouchListener(onTouchListenerrr());
+            sevenBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_EIGHT) {
             eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
@@ -707,6 +784,13 @@ public class CustomViewAllActivit extends
             eightBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
             mainLayout1= (RelativeLayout) findViewById(R.id.element2);
             eightBinding.addressLayoutElement.setOnTouchListener(onTouchListenerrr());
+            eightBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
 
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_NINE) {
@@ -717,6 +801,13 @@ public class CustomViewAllActivit extends
             nineBinding.gmailText.setOnTouchListener(onTouchListenerrr());
             nineBinding.contactText.setOnTouchListener(onTouchListenerrr());
             nineBinding.soialLayout.setOnTouchListener(onTouchListenerrr());
+            nineBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
 
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_TEN) {
@@ -728,6 +819,13 @@ public class CustomViewAllActivit extends
             tenBinding.addressEdtLayout.setOnTouchListener(onTouchListenerrr());
             tenBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
             tenBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
+            tenBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedForEdit=null;
+                    myEditText.clearFocus();
+                }
+            });
         }
     }
     @Override public void onColorSelected(int dialogId, int colorCode) {
@@ -907,8 +1005,14 @@ public class CustomViewAllActivit extends
     }
     //for Text Color change
     @Override public void onColorChanged(int colorCode) {
-        colorCodeForTextColor = colorCode;
-        if (editorFragment == 4) {
+
+        if (editorFragment==4 && selectedForEdit!=null) {
+            selectedForEdit.setTextColor(colorCode);
+
+        }
+
+        else if (editorFragment == 4) {
+            colorCodeForTextColor = colorCode;
 
             if (footerLayout == 1) {
                 FooterHelper.ChangeTextColorForFrameOne(act,oneBinding,colorCode);
@@ -981,22 +1085,26 @@ public class CustomViewAllActivit extends
             drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
         }
     }
-
     private int convertDpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-
     public void changeBorderColorAsFrame(){
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
     }
-
     @Override public void onColorItemChange(int colorCode) {
     }
     //for font change
-    @Override public void onFontChangeListenert(String Font) {
+    public void onFontChangeListenert(String Font) {
         loadDefaultFont = Font;
-        if (footerLayout == 1) {
+
+        if (editorFragment==4 && selectedForEdit!=null) {
+            Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
+            selectedForEdit.setTypeface(custom_font);
+            // selectedForEdit.setTextColor(colorCode);
+        }
+
+        else if (footerLayout == 1) {
             Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
             oneBinding.gmailText.setTypeface(custom_font);
             oneBinding.contactText.setTypeface(custom_font);
@@ -1065,37 +1173,32 @@ public class CustomViewAllActivit extends
     }
     //for font size
     @Override public void onfontSize(int textsize) {
-
-        previousFontSize=textsize;
-        if (previousFontSize!=-1) {
-            if (footerLayout == 1) { FooterHelper.makeTextSizeForOne(oneBinding,textsize); }
-            else if (footerLayout == 2) { FooterHelper.makeTextSizeForTwo(twoBinding,textsize); }
-            else if (footerLayout == 3) {  FooterHelper.makeTextSizeForThree(threeBinding,textsize);}
-            else if (footerLayout == 4) {  FooterHelper.makeTextSizeForFour(fourBinding,textsize);}
-            else if (footerLayout == 5) {  FooterHelper.makeTextSizeForFive(fiveBinding,textsize);}
-            else if (footerLayout == 6) { FooterHelper.makeTextSizeForSix(sixBinding,textsize); }
-            else if (footerLayout == 7) {  FooterHelper.makeTextSizeForSeven(sevenBinding,textsize);}
-            else if (footerLayout == 8) {  FooterHelper.makeTextSizeForEight(eightBinding,textsize);}
-            else if (footerLayout == 9) { FooterHelper.makeTextSizeForNine(nineBinding,textsize); }
-            else if (footerLayout == 10) {  FooterHelper.makeTextSizeForTen(tenBinding,textsize);}
+        if (editorFragment==4 && selectedForEdit!=null) {
+            selectedForEdit.setTextSize(textsize);
         }
+
+
+        else if (footerLayout == 1) { FooterHelper.makeTextSizeForOne(oneBinding,textsize); }
+        else if (footerLayout == 2) { FooterHelper.makeTextSizeForTwo(twoBinding,textsize); }
+        else if (footerLayout == 3) {  FooterHelper.makeTextSizeForThree(threeBinding,textsize);}
+        else if (footerLayout == 4) {  FooterHelper.makeTextSizeForFour(fourBinding,textsize);}
+        else if (footerLayout == 5) {  FooterHelper.makeTextSizeForFive(fiveBinding,textsize);}
+        else if (footerLayout == 6) { FooterHelper.makeTextSizeForSix(sixBinding,textsize); }
+        else if (footerLayout == 7) {  FooterHelper.makeTextSizeForSeven(sevenBinding,textsize);}
+        else if (footerLayout == 8) {  FooterHelper.makeTextSizeForEight(eightBinding,textsize);}
+        else if (footerLayout == 9) { FooterHelper.makeTextSizeForNine(nineBinding,textsize); }
+        else if (footerLayout == 10) {  FooterHelper.makeTextSizeForTen(tenBinding,textsize);}
+
     }
     //for bold text
     @Override public void onBoldTextChange(boolean Bold) {
-        isLoadBold=Bold;
         if (Bold) {
-            if (footerLayout == 1) { FooterHelper.makeBoldForOne(oneBinding,false);}
-            else if (footerLayout == 2) {  FooterHelper.makeBoldForTwo(twoBinding,false);}
-            else if (footerLayout == 3) { FooterHelper.makeBoldForThree(threeBinding,false);}
-            else if (footerLayout == 4) { FooterHelper.makeBoldForFour(fourBinding,false);}
-            else if (footerLayout == 5) { FooterHelper.makeBoldForFive(fiveBinding,false); }
-            else if (footerLayout == 6) {  FooterHelper.makeBoldForSix(sixBinding,false);}
-            else if (footerLayout == 7) {  FooterHelper.makeBoldForSeven(sevenBinding,false);}
-            else if (footerLayout == 8)   {  FooterHelper.makeBoldForEight(eightBinding,false);}
-            else if (footerLayout==9) { FooterHelper.makeBoldForNine(nineBinding,false); }
-            else if (footerLayout==10) { FooterHelper.makeBoldForOne(oneBinding,false); }
-        }else {
-            if (footerLayout == 1) { FooterHelper.makeBoldForOne(oneBinding,true);}
+            isLoadBold=Bold;
+            if (editorFragment==4 && selectedForEdit!=null) {
+                Utility.setBold(selectedForEdit, true);
+
+            }
+            else if (footerLayout == 1) { FooterHelper.makeBoldForOne(oneBinding,true);}
             else if (footerLayout == 2) {  FooterHelper.makeBoldForTwo(twoBinding,true);}
             else if (footerLayout == 3) { FooterHelper.makeBoldForThree(threeBinding,true);}
             else if (footerLayout == 4) { FooterHelper.makeBoldForFour(fourBinding,true);}
@@ -1106,7 +1209,21 @@ public class CustomViewAllActivit extends
             else if (footerLayout==9) { FooterHelper.makeBoldForNine(nineBinding,true); }
             else if (footerLayout==10) { FooterHelper.makeBoldForOne(oneBinding,true); }
 
+        }else {
+            if (editorFragment==4 && selectedForEdit!=null) {
+                Utility.setBold(selectedForEdit, false);
 
+            }
+            else if (footerLayout == 1) { FooterHelper.makeBoldForOne(oneBinding,false);}
+            else if (footerLayout == 2) {  FooterHelper.makeBoldForTwo(twoBinding,false);}
+            else if (footerLayout == 3) { FooterHelper.makeBoldForThree(threeBinding,false);}
+            else if (footerLayout == 4) { FooterHelper.makeBoldForFour(fourBinding,false);}
+            else if (footerLayout == 5) { FooterHelper.makeBoldForFive(fiveBinding,false); }
+            else if (footerLayout == 6) {  FooterHelper.makeBoldForSix(sixBinding,false);}
+            else if (footerLayout == 7) {  FooterHelper.makeBoldForSeven(sevenBinding,false);}
+            else if (footerLayout == 8)   {  FooterHelper.makeBoldForEight(eightBinding,false);}
+            else if (footerLayout==9) { FooterHelper.makeBoldForNine(nineBinding,false); }
+            else if (footerLayout==10) { FooterHelper.makeBoldForOne(oneBinding,false); }
         }
 
     }
@@ -1114,7 +1231,11 @@ public class CustomViewAllActivit extends
     @Override public void onItalicTextChange(boolean Italic) {
         isLoadItalic=Italic;
         if (Italic) {
-            if (footerLayout == 1) {  FooterHelper.makeItalicForOne(oneBinding,true);}
+            if (editorFragment==4 && selectedForEdit!=null) {
+
+                Utility.setItalicText(selectedForEdit, true);
+            }
+            else if (footerLayout == 1) {  FooterHelper.makeItalicForOne(oneBinding,true);}
             else if (footerLayout == 2) {  FooterHelper.makeItalicForTwo(twoBinding,true);}
             else if (footerLayout == 3) {  FooterHelper.makeItalicForThree(threeBinding,true);}
             else if (footerLayout == 4) {  FooterHelper.makeItalicForFour(fourBinding,true);}
@@ -1126,7 +1247,12 @@ public class CustomViewAllActivit extends
             else if (footerLayout==10) { FooterHelper.makeItalicForTen(tenBinding,true); }
         }
         else {
-            if (footerLayout == 1) {
+
+            if (editorFragment==4 && selectedForEdit!=null) {
+
+                Utility.setItalicText(selectedForEdit, false);
+            }
+            else if (footerLayout == 1) {
                 FooterHelper.makeItalicForOne(oneBinding,false); }
             else if (footerLayout == 2) { FooterHelper.makeItalicForTwo(twoBinding,false); }
             else if (footerLayout == 3) { FooterHelper.makeItalicForThree(threeBinding,false); }
@@ -1141,6 +1267,10 @@ public class CustomViewAllActivit extends
 
         }
     }
+
+
+
+
     private View.OnTouchListener onTouchListenerrr() {
         return new View.OnTouchListener() {
 
@@ -1180,6 +1310,10 @@ public class CustomViewAllActivit extends
             }
         };
     }
+
+
+
+
     public boolean manuallyEnablePermission(int pendingActivity) {
         isDownloadOrSharingOrFavPending=pendingActivity;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1250,8 +1384,18 @@ public class CustomViewAllActivit extends
         }
 
     }
+
+
+
+
+
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutEnterpriseBinding enterpriseBinding;
+
+
+
+
+
     public void askForUpgradeToEnterpisePackage() {
         enterpriseBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_enterprise, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1281,9 +1425,17 @@ public class CustomViewAllActivit extends
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
+
+
+
+
+
+
     @Override public void alertListenerClick() {
         requestAgain();
     }
+
+
 
 
     public void askForDownloadImage(){
@@ -1308,6 +1460,11 @@ public class CustomViewAllActivit extends
         alertDialog.setCancelable(false);
         alertDialog.show();
     }
+
+
+
+
+
     //api for access rights
     private void getImageDownloadRights(String flag) {
         Utility.showLoadingTran(act);
@@ -1404,6 +1561,12 @@ public class CustomViewAllActivit extends
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
+
+
+
+
+
     //save image with frame either custome or from backend
     public void saveImageToGallery(boolean wantToShare,boolean isFavourite) {
         Utility.showLoadingTran(act);
@@ -1502,12 +1665,20 @@ public class CustomViewAllActivit extends
         }
         Utility.dismissLoadingTran();
     }
+
+
+
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
+
+
+
+
+
     //load firstImage
     public void loadFirstImage(){
         FooterModel model = new FooterModel();
@@ -1520,18 +1691,35 @@ public class CustomViewAllActivit extends
 
         ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_SEVEN, model);
     }
+
+
+
     @Override public void onFilterSelected(PhotoFilter photoFilter) {
         mPhotoEditor.setFilterEffect(photoFilter);
 
     }
+
+
+
+
     @Override public void onimageBritness(int britness) {
 
         binding.backImage.setColorFilter(setBrightness(britness));
 
     }
+
+
+
+
+
     @Override public void onRotateImage(int rotate) {
         binding.backImage.setRotation(binding.backImage.getRotation() + 90);
     }
+
+
+
+
+
     @Override public void onThumbnailClick(Filter filter) {
         int width = selectedImageBitmap.getWidth();
         int height = selectedImageBitmap.getHeight();
@@ -1557,6 +1745,10 @@ public class CustomViewAllActivit extends
         Log.v("filter", "Width and height are " + width + "--" +height);
 
     }
+
+
+
+
     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
 
@@ -1615,6 +1807,9 @@ public class CustomViewAllActivit extends
         };
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
+
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         // handle result of pick image chooser
@@ -1645,6 +1840,11 @@ public class CustomViewAllActivit extends
             }
         }
     }
+
+
+
+
+
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -1653,10 +1853,17 @@ public class CustomViewAllActivit extends
                 .start(this);
 
     }
+
+
+
     //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
     }
+
+
+
+
     @Override public void onRemoveSelectEvent() {
         isUsingCustomFrame=true;
         isRemoveFrame=true;
@@ -1677,6 +1884,9 @@ public class CustomViewAllActivit extends
             return true;
         }
     }
+
+
+
     @Override public void onBackendFrameChoose(ImageList imageList, int position) {
         binding.frameImage.setVisibility(View.VISIBLE);
         binding.elementCustomFrame.setVisibility(View.GONE);
@@ -1685,10 +1895,19 @@ public class CustomViewAllActivit extends
         isUsingCustomFrame = false;
       //  forCheckFavorite();
     }
+
+
+
+
+
     @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
-    //to handle click and drag listener
+
+
+
+
+    //to handle click and drag listener EditBox
     private View.OnTouchListener onTouchListeneForEditText() {
         return new View.OnTouchListener() {
 

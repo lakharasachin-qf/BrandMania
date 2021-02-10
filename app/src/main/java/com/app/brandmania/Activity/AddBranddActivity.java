@@ -1,11 +1,13 @@
 package com.app.brandmania.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.app.Activity;
@@ -45,8 +47,12 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Connection.ItemSelectionInterface;
+import com.app.brandmania.Fragment.bottom.CustomFragment;
+import com.app.brandmania.Fragment.bottom.DownloadsFragment;
+import com.app.brandmania.Fragment.bottom.HomeFragment;
 import com.app.brandmania.Fragment.bottom.ListBottomFragment;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
+import com.app.brandmania.Fragment.bottom.ProfileFragment;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.Model.FrameItem;
@@ -56,6 +62,7 @@ import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 
 import com.app.brandmania.databinding.ActivityAddBranddBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -69,12 +76,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddBranddActivity extends BaseActivity implements ItemSelectionInterface ,alertListenerCallback  , PopupMenu.OnMenuItemClickListener {
+public class AddBranddActivity extends BaseActivity implements ItemSelectionInterface ,alertListenerCallback  , PopupMenu.OnMenuItemClickListener,BottomNavigationView.OnNavigationItemSelectedListener {
     Activity act;
     private ActivityAddBranddBinding binding;
     public static int BRAND_CATEGORY = 0;
     private String BrandTitle;
     CommonListModel commonListModel;
+    private boolean iscutomEnable = false;
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     ArrayList<CommonListModel> BRANDTypeList = new ArrayList<>();
     PreafManager preafManager;
@@ -109,6 +117,13 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
             }
         });
+
+        binding.navigation.setOnNavigationItemSelectedListener(this);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
+
+
         binding.websiteEdt.setText("https://");
         alertDialogBuilder = new AlertDialog.Builder(act);
         String NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
@@ -741,7 +756,60 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
 
 
+//For Fragment
+@Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    Fragment fragment = null;
+    switch (menuItem.getItemId()) {
+        case R.id.navigation_home:
+          //  fragment = new HomeFragment();
+            //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            break;
 
+        case R.id.navigation_custom:
+
+          //  if (iscutomEnable)
+           //{
+                binding.fragmentContainer.setVisibility(View.VISIBLE);
+                binding.scrollView.setVisibility(View.GONE);
+                fragment = new CustomFragment();
+//                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
+//                startActivity(intent);
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            //}
+//            else
+//            {
+//                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//
+//            }
+            break;
+
+        case R.id.navigation_download:
+          //  fragment = new DownloadsFragment();
+            //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            break;
+
+        case R.id.navigation_profile:
+            //fragment = new ProfileFragment();
+            //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            break;
+    }
+//        if (iscutomEnable)
+//        {
+//         return false;
+//        }
+    return loadFragment(fragment);
+}
+
+    private boolean loadFragment(Fragment fragment) {
+        //switching fragment
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+            return true;
+        }
+        return false;
+    }
 
 
 
