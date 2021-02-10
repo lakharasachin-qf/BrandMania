@@ -60,7 +60,7 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:text="My Busineshfghfghfghfgfhghfhfs"
+                        android:text="Custome Image"
                         android:textColor="@color/colorNavText"
                         android:textSize="@dimen/_13sdp"
                         android:textStyle="bold" />

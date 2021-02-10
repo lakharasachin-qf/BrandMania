@@ -133,6 +133,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                     Log.e("CurrentBrand",model.getId());
                     ((BrandHolder) holder).binding.firsttitle.setText(model.getWebsite());
                     ((BrandHolder) holder).binding.addressText.setText(model.getAddress());
+                    ((BrandHolder)holder).binding.brandService.setText(model.getBrandService());
                    // getFrame();
                     Glide.with(activity)
                             .load(model.getLogo())
@@ -345,6 +346,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
         TextView remainingImage=customLayout.findViewById(R.id.remainingImage);
         TextView expirydate=customLayout.findViewById(R.id.expieryDateName);
         TextView priceContent=customLayout.findViewById(R.id.priceContent);
+
         ImageView closed=customLayout.findViewById(R.id.CloseImg);
         packageName.setText(brandListItems.get(position).getPackagename());
         totalImage.setText(brandListItems.get(position).getNo_of_total_image());

@@ -44,7 +44,7 @@ public class BrandListItem {
     private String rate;
     private String duration;
     private String subscriptionDate;
-
+    private String brandService;
     public String getSubscriptionDate() {
         return subscriptionDate;
     }
@@ -352,5 +352,13 @@ public class BrandListItem {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public String getBrandService() {
+        return brandService;
+    }
+
+    public void setBrandService(String brandService) {
+        this.brandService = brandService;
     }
 }

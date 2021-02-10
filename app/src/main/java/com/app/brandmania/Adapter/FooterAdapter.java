@@ -227,15 +227,22 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         }
                     });
 
+
+
+
+
                     if (!model.isFree()) {
 
-                        ((FooterHolderTwo) holder).binding.freePremium.setVisibility(View.GONE);
+                        ((FooterHolderTwo) holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     }
                     else
                     {
 
                         ((FooterHolderTwo) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+
+
+
 
                     if (!activeBrand.getEmail().isEmpty()){
                         ((FooterHolderTwo) holder).binding.gmailText.setText(activeBrand.getEmail());
@@ -267,6 +274,10 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()){
                         ((FooterHolderTwo) holder).binding.secondView.setVisibility(View.GONE);
                     }
+
+
+
+
                     if (checkedPosition == position) {
                         ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderTwo) holder).binding.freePremium.setVisibility(View.GONE);

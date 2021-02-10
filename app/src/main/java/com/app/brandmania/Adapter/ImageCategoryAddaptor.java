@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.brandmania.Activity.ViewAllFrameImageActivity;
 import com.app.brandmania.Activity.ViewAllImage;
 import com.app.brandmania.Activity.ViewOnlyCustomeFrame;
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
@@ -48,9 +49,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
     public static final int FROM_CATEGORYFRAGEMENT=1;
     public static final int FROM_VIEWALLFRAME=2;
-
     private List<ImageList> imageLists;
     Activity activity;
+    PreafManager preafManager;
     private boolean isLoadingAdded = false;
     private DashBoardItem dashBoardItem;
     public DashBoardItem getDashBoardItem() {
@@ -62,6 +63,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     public ImageCategoryAddaptor(List<ImageList> imageLists, Activity activity) {
         this.imageLists = imageLists;
         this.activity = activity;
+        preafManager=new PreafManager(activity);
         // Log.e("menuModels",new Gson().toJson(imageLists));
     }
     int layoutType;
@@ -138,12 +140,19 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     });
 
+
                     if (!model.isImageFree()){
                         ((ImageCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     }
                     else
                     {
                         ((ImageCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equals(0)) {
+                            ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                            ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
+
                     }
                     break;
                 case LAYOUT_IMAGE_CATEGORY_BY_ID:
@@ -176,6 +185,13 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     {
                         ((ImageCategoryByIdHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (preafManager.getActiveBrand() !=null) {
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                            ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                            ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                        }
+                    }
+
                     break;
                 case LAYOUT_FRAME:
 
@@ -220,7 +236,12 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     if (!model.isImageFree()){
                         ((FrameCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     }
-
+                    if (preafManager.getActiveBrand() !=null) {
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                            ((FrameCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                            // ((FrameCategoryHolder)holder).binding.freePremium.setVisibility(View.GONE);
+                        }
+                    }
                     break;
                 case LAYOUT_FRAME_CATEGORY_BY_ID:
 

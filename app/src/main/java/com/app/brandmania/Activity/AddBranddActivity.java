@@ -1,5 +1,6 @@
 package com.app.brandmania.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
@@ -13,6 +14,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -52,6 +56,8 @@ import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 
 import com.app.brandmania.databinding.ActivityAddBranddBinding;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,12 +80,13 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
     PreafManager preafManager;
     private boolean isLoading = false;
     private String is_completed = "";
+    private Bitmap selectedLogo;
     private ListBottomFragment bottomSheetFragment;
     private Bitmap selectedImagesBitmap;
     private boolean isEditModeEnable = false;
     AlertDialog.Builder alertDialogBuilder;
     private ImageView menuOtpion;
-
+    private Uri mCropImageUri;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -87,9 +94,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         act = this;
 
         binding = DataBindingUtil.setContentView(act, R.layout.activity_add_brandd);
-
         preafManager = new PreafManager(this);
-
         preafManager.setIs_Registration(true);
         binding.menuOtpion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +125,6 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 popup.show();
             }
         });
-
         //LoginFlow();
         binding.addExpenceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +139,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         CodeReUse.RemoveError(binding.addressEdt, binding.addressEdtLayout);
         CodeReUse.RemoveError(binding.websiteEdt, binding.websiteEdtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
+        CodeReUse.RemoveError(binding.businessServiceEdt,binding.businessFacilityEdtLayout);
         binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,21 +149,76 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         });
         binding.viewImgFirst.setTag("0");
 
-
+    binding.skipp.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
+            startActivity(intent);
+        }
+    });
         binding.imgCardFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isEditModeEnable) {
-                    if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
-                        pickerView(Constant.PICKER_FIRST, true, selectedImagesBitmap);
-                    else
-                        pickerView(Constant.PICKER_FIRST, false, null);
-                }
+
+                onSelectImageClick(v);
+
+//                if (!isEditModeEnable) {
+//                    if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
+//                        pickerView(Constant.PICKER_FIRST, true, selectedImagesBitmap);
+//                    else
+//                        pickerView(Constant.PICKER_FIRST, false, null);
+//                }
             }
         });
 
 
     }
+
+    //For CustomFrame
+    public void onSelectImageClick(View view) {
+        CropImage.startPickImageActivity(this);
+    }
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .start(this);
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // handle result of pick image chooser
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri imageUri = CropImage.getPickImageResultUri(this, data);
+
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+                mCropImageUri = imageUri;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                }
+            } else {
+                startCropImageActivity(imageUri);
+            }
+        }
+
+        // handle result of CropImageActivity
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                binding.viewImgFirst.setVisibility(View.VISIBLE);
+                binding.imgEmptyStateFirst.setVisibility(View.GONE);
+                binding.actionDeleteFirst.setVisibility(View.VISIBLE);
+                ((ImageView) findViewById(R.id.viewImgFirst)).setImageURI(result.getUri());
+                ImageView imageView = ((ImageView) findViewById(R.id.viewImgFirst));
+                selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+            }
+        }
+    }
+
 
     private void Validation() {
         boolean isError = false;
@@ -227,8 +287,9 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
         if (!isError) {
             Bitmap bitmap = null;
-            if (selectedImagesBitmap != null) {
-                bitmap = selectedImagesBitmap;
+
+            if (selectedLogo != null) {
+                bitmap = selectedLogo;
             }
             Bitmap bitmap1 = null;
             if (selectedImagesBitmap != null) {
@@ -238,7 +299,6 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
 
     }
-
     public void showFragmentList(int callingFlag, String title, ArrayList<CommonListModel> datalist) {
         bottomSheetFragment = new ListBottomFragment();
         Log.e("Size---", String.valueOf(datalist.size()));
@@ -251,7 +311,6 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
-
     private void addBrand(Bitmap img, Bitmap img1) {
         if (isLoading)
             return;
@@ -278,6 +337,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 .addMultipartParameter("br_address", binding.addressEdt.getText().toString())
                 .addMultipartParameter("br_website", binding.websiteEdt.getText().toString())
                 .addMultipartParameter("br_email", binding.emailIdEdt.getText().toString())
+                .addMultipartParameter("br_service",binding.businessServiceEdt.getText().toString())
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
 
@@ -350,12 +410,9 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 });
 
     }
-
-    @Override
-    public void alertListenerClick() {
+    @Override public void alertListenerClick() {
         requestAgain();
     }
-
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -680,4 +737,16 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 return super.onOptionsItemSelected(item);
         }
     }*/
+
+
+
+
+
+
+
+
+
+
+
+
 }

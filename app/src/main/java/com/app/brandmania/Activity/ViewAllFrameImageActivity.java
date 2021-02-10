@@ -212,6 +212,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     ArrayList<ImageList> menuModels = new ArrayList<>();
     private int colorCodeForTextColor=0;
     private ImageList selectedObject;
+    private DashBoardItem selectedObjectViewAll;
     private String is_payment_pending = "";
     private String is_frame = "";
     private ViewGroup mainLayout1;
@@ -233,6 +234,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         gson = new Gson();
         dbManager=new DBManager(act);
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
+        selectedObjectViewAll = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
+
         getFrame();
         getBrandList();
         Website = preafManager.getActiveBrand().getWebsite();
@@ -272,12 +275,24 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 return false;
             }
         });
+        binding.backImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                myEditText.setCursorVisible(false);
+                myEditText.clearFocus();
+
+                return false;
+            }
+        });
+
+
         //for Image
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(500, 500);
-        layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
-        layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate());
-        layoutParams.bottomMargin = -250;
-        layoutParams.rightMargin = -250;
+        if (!getIntent().hasExtra("detailsObj")) {
+            layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
+            layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate());
+       }
         binding.editableImageview.setLayoutParams(layoutParams);
         //For EditText
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
@@ -287,12 +302,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         mRparams.leftMargin = 200;
         mRparams.topMargin = 600;
         myEditText.setLayoutParams(mRparams);
-        myEditText.setCursorVisible(false);
         myEditText.setHint("Add Text");
         myEditText.setHintTextColor(Color.parseColor("#0C0C0C"));
         myEditText.setTextSize(13);
         Typeface face = Typeface.createFromAsset(getAssets(), "font/inter_semibold.otf");
         myEditText.setTypeface(face);
+        myEditText.setCursorVisible(true);
         myEditText.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
         myEditText.setOnTouchListener(onTouchListeneForEditText());
         mRlayout.addView(myEditText);
@@ -303,8 +318,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 {
 
                     selectedForEdit=myEditText;
-                    binding.viewPager.setCurrentItem(5);
                     myEditText.setCursorVisible(true);
+                    binding.viewPager.setCurrentItem(5);
                     editorFragment=5;
                 }
             }
@@ -703,10 +718,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         selectedObject = listModel;
         LoadDataToUI();
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(500, 500);
-        layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
-        layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate());
-        layoutParams.bottomMargin = -250;
-        layoutParams.rightMargin = -250;
+        if (!getIntent().hasExtra("detailsObj")) {
+            layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
+            layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate());
+        }
+
         binding.editableImageview.setLayoutParams(layoutParams);
         // else {
         // binding.simpleProgressBar.setVisibility(View.VISIBLE);
@@ -1065,10 +1081,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
                 binding.editableImageview.setVisibility(View.VISIBLE);
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(500, 500);
-                layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
-                layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate());
-                layoutParams.bottomMargin = -250;
-                layoutParams.rightMargin = -250;
+               if (!getIntent().hasExtra("detailsObj")) {
+                    layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
+                    layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate());
+                }
+
                 binding.editableImageview.setLayoutParams(layoutParams);
                 TouchImageMotion();
                 InputStream inputStream = getContentResolver().openInputStream(listModel.getUri());
@@ -1081,9 +1098,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         }else {
             binding.editableImageview.setVisibility(View.VISIBLE);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(250, 250);
-            layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
-            layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate());
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(500, 500);
+       if (!getIntent().hasExtra("detailsObj")) {
+           layoutParams.leftMargin = Integer.parseInt(selectedObject.getX_conrdinate());
+           layoutParams.topMargin = Integer.parseInt(selectedObject.getY_cordinate()); }
             binding.editableImageview.setLayoutParams(layoutParams);
             binding.backImage.setVisibility(View.VISIBLE);
             selectedImageBitmap=drawableToBitmap(ContextCompat.getDrawable(act,R.drawable.ic_gallry));
@@ -2188,7 +2206,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     @Override public void onRemoveSelectEvent() {
         isUsingCustomFrame=true;
         isRemoveFrame=true;
-        Toast.makeText(act, "dsgfgds", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(act, "dsgfgds", Toast.LENGTH_SHORT).show();
         binding.elementCustomFrame.setVisibility(View.GONE);
         binding.backendFrame.setImageBitmap(null);
         binding.FrameImageDuplicate.setImageBitmap(null);

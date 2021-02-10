@@ -46,6 +46,7 @@ import com.app.brandmania.Activity.alertListenerCallback;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.DataBase.DBManager;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
@@ -164,6 +165,12 @@ public class DownloadListTab extends Fragment {
 
     DownloadFavoriteItemList downloadingOject;
     public void setAdapter() {
+//        DBManager dbManager;
+//        dbManager=new DBManager(act);
+//        ArrayList<DownloadFavoriteItemList> downloadFavoriteItemLists=dbManager.getAllPracticeQuestion();
+//        if (downloadFavoriteItemLists!=null)
+//            menuModels.addAll(downloadFavoriteItemLists);
+
         DownloadFavoriteAdapter menuAddaptor = new DownloadFavoriteAdapter(menuModels, act);
         DownloadFavoriteAdapter.onShareImageClick onShareImageClick=new DownloadFavoriteAdapter.onShareImageClick() {
             @Override

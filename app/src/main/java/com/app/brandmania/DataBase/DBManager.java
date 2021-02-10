@@ -68,8 +68,9 @@ public class DBManager {
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                Log.e("All Practice Data", cursor.toString());
+                Log.e("All Practice Data", cursor.getString(DatabaseHelper.IMAGE_PATH_INDEX));
                 DownloadFavoriteItemList downloadFavoriteItemList = new DownloadFavoriteItemList();
+                downloadFavoriteItemList.setLayoutType(DownloadFavoriteItemList.LAYOUT_FAVOURIT);
                 downloadFavoriteItemList.setId(cursor.getInt(DatabaseHelper.ID_INDEX));
                 downloadFavoriteItemList.setImage(cursor.getString(DatabaseHelper.IMAGE_PATH_INDEX));
                 downloadFavoriteItemList.setFlag(cursor.getInt(DatabaseHelper.FLAG_INDEX));

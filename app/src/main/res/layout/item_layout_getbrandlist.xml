@@ -126,7 +126,18 @@
                 android:text="Vastral, fdhghgghhb tghgffd gdgdfh fdhf gnhn hnmngbt bfvg jbthbh Ahmed fgdb  esg r  trgr abad"
                 android:layout_height="wrap_content">
 
+
             </TextView>
+            <TextView
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/locationimage"
+                android:id="@+id/brandService"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/inter_regular"
+                android:layout_height="wrap_content"></TextView>
+
         </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout

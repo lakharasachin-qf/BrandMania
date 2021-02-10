@@ -206,7 +206,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
         getFrame();
         getBrandList();
-        Website = preafManager.getActiveBrand().getWebsite();
+
+            Website = preafManager.getActiveBrand().getWebsite();
+
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         // getAllImages();
@@ -214,7 +216,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
         mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(0), colorCodeForBackground);
-        updateLogo = preafManager.getActiveBrand().getLogo().isEmpty();
+
+            updateLogo = preafManager.getActiveBrand().getLogo().isEmpty();
+
         colorCodeForBackground= ContextCompat.getColor(act,R.color.colorPrimary);
        // colorCodeForTextColor= ContextCompat.getColor(act,R.color.colorPrimary);
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
@@ -226,9 +230,9 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                 onBackPressed();
             }
         });
-        if (!preafManager.getAppTutorial().isEmpty()){
+
             binding.videoTutorial.setVisibility(View.VISIBLE);
-        }
+
         binding.videoTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,14 +255,15 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
 
                     preafManager.AddToMyFavorites(selectedObject);
 
-                if (manuallyEnablePermission(0)) {
-                    if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
-                        binding.fabroutIcon.setVisibility(View.GONE);
-                        binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                    if (manuallyEnablePermission(0)) {
+                        if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
+                            binding.fabroutIcon.setVisibility(View.GONE);
+                            binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                        }
+
+                        saveImageToGallery(false, true);
                     }
 
-                    saveImageToGallery(false, true);
-                }
 
                 //downloadAndShareApi(ADDFAV,null);
             }
@@ -268,22 +273,23 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
             public void onClick(View v) {
 
 
-                    if (selectedBackendFrame != null) {
-                        selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
-                    }
-                    selectedObject.setBrandId(preafManager.getActiveBrand().getId());
-                    selectedObject.setCustom(isUsingCustomFrame);
+                if (selectedBackendFrame != null) {
+                    selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
+                }
+                selectedObject.setBrandId(preafManager.getActiveBrand().getId());
+                selectedObject.setCustom(isUsingCustomFrame);
 
-                    preafManager.removeFromMyFavorites(selectedObject);
-               // if (manuallyEnablePermission()) {
-                    if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
-                        binding.addfabroutIcon.setVisibility(View.GONE);
-                        binding.fabroutIcon.setVisibility(View.VISIBLE);
-                    }
+                preafManager.removeFromMyFavorites(selectedObject);
+                // if (manuallyEnablePermission()) {
+                if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
+                    binding.addfabroutIcon.setVisibility(View.GONE);
+                    binding.fabroutIcon.setVisibility(View.VISIBLE);
+                }
 
-                    removeFromFavourite(REMOVEFAV);
-               // }
+                removeFromFavourite(REMOVEFAV);
+                // }
             }
+
         });
         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,11 +318,13 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     }
                 }
             }
+
         });
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (manuallyEnablePermission(2)) {
+
                     if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
                         if (selectedObject.isImageFree()) {
                             if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
@@ -330,6 +338,8 @@ public class ViewAllImage extends BaseActivity implements ImageCateItemeInterFac
                     } else {
                         getImageDownloadRights("Share");
                     }
+
+
                 }
             }
         });

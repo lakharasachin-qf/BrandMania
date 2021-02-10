@@ -44,6 +44,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -139,10 +140,12 @@ public class CustomViewAllActivit extends
         IImageFromGalary,ITextColorChangeEvent,IFontChangeEvent,ITextBoldEvent,IItaliTextEvent,ColorPickerDialogListener,IColorChange,
         ColorPickerView.OnColorChangedListener,ITextSizeEvent,onFooterSelectListener, View.OnTouchListener,FilterListener,
         IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect, IRemoveFrame {
-
     public static final int VIEW_RECOMDATION = 0;
     Activity act;
     File new_file;
+    private int _xDelta;
+    private int _yDelta;
+    EditText myEditText;
     AlertDialog.Builder alertDialogBuilder;
     private boolean isUserFree = true;
     private boolean canDownload = true;
@@ -292,6 +295,42 @@ public class CustomViewAllActivit extends
 
 
         }
+
+       // gestureDetector = new GestureDetector(this, new CustomViewAllActivit().SingleTapConfirm());
+        RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.CustomImageMain);
+        RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        myEditText = new EditText(act,null);
+        mRparams.leftMargin = 200;
+        mRparams.topMargin = 600;
+        myEditText.setLayoutParams(mRparams);
+        myEditText.setHint("Add Text");
+        myEditText.setHintTextColor(Color.parseColor("#0C0C0C"));
+        myEditText.setTextSize(13);
+        Typeface face = Typeface.createFromAsset(getAssets(), "font/inter_semibold.otf");
+        myEditText.setTypeface(face);
+        myEditText.setCursorVisible(true);
+        myEditText.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+        myEditText.setOnTouchListener(onTouchListeneForEditText());
+        mRlayout.addView(myEditText);
+        myEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b)
+                {
+
+                   // selectedForEdit=myEditText;
+                    myEditText.setCursorVisible(true);
+                    binding.viewPager.setCurrentItem(5);
+                    editorFragment=5;
+                }
+            }
+        });
+
+
+
+
+
         if (getIntent().hasExtra("flag")) {
             int flag = getIntent().getIntExtra("flag", -1);
             if (flag == VIEW_RECOMDATION) {
@@ -1478,6 +1517,7 @@ public class CustomViewAllActivit extends
         model.setEmailId(preafManager.getActiveBrand().getEmail());
         model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
         model.setWebsite(preafManager.getActiveBrand().getWebsite());
+
         ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_SEVEN, model);
     }
     @Override public void onFilterSelected(PhotoFilter photoFilter) {
@@ -1647,6 +1687,49 @@ public class CustomViewAllActivit extends
     }
     @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
+    }
+    //to handle click and drag listener
+    private View.OnTouchListener onTouchListeneForEditText() {
+        return new View.OnTouchListener() {
+
+            public boolean onTouch(View view, MotionEvent event) {
+                if (gestureDetector.onTouchEvent(event)) {
+                    //   binding.viewPager.setCurrentItem(5);
+                    //   Toast.makeText(act, "click", Toast.LENGTH_SHORT).show();
+                    return true;
+                }else {
+                    final int X = (int) event.getRawX();
+                    final int Y = (int) event.getRawY();
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_DOWN:
+                            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                            _xDelta = X - lParams.leftMargin;
+                            _yDelta = Y - lParams.topMargin;
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            break;
+                        case MotionEvent.ACTION_POINTER_DOWN:
+                            break;
+                        case MotionEvent.ACTION_POINTER_UP:
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+
+                            RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                            mRparams.leftMargin = X - _xDelta;
+                            mRparams.topMargin = Y - _yDelta;
+                            mRparams.rightMargin = -250;
+                            mRparams.bottomMargin = -250;
+                            view.setLayoutParams(mRparams);
+
+
+
+                            break;
+                    }
+                    // root.invalidate();
+                    return false;
+                }
+            }
+        };
     }
 }
 

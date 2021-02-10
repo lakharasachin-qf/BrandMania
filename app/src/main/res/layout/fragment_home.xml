@@ -42,18 +42,13 @@
                         <TextView
 
                             android:id="@+id/businessName"
-                            android:text="QueryFinderSolution"
                             android:textColor="@color/colorNavText"
                             android:textSize="@dimen/_12sdp"
-
                             android:fontFamily="@font/montserrat_semibold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                         </TextView>
-
-
-
-                        <ImageView
+                                <ImageView
                             android:layout_width="wrap_content"
                             android:layout_toEndOf="@+id/businessName"
                             android:src="@drawable/ic_outline_expand_more_24"

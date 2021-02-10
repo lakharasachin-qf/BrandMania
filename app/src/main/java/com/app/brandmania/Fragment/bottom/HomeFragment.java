@@ -52,6 +52,8 @@ import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.ItemMultipleSelectionInterface;
+import com.app.brandmania.Connection.MyPdfPageEventHelper;
+import com.app.brandmania.Connection.WatermarkPageEvent;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.DashBoardItem;
@@ -89,6 +91,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.CMYKColor;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
+import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -96,11 +99,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -122,8 +128,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     DashBoardItem apiResponse;
     BrandListItem brandListItem;
     private int[] layouts;
-    Uri uri;
-    public static final int RequestPermissionCode = 1;
+     BaseColor red = new BaseColor(77, 86, 222);
     String ContactNo;
     Intent CamIntent, GalIntent, CropIntent;
     private Bitmap selectedLogo;
@@ -133,28 +138,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     FiveStarsDialog fiveStarsDialog;
     private static final int REQUEST_CALL = 1;
     private DasboardAddaptor dasboardAddaptor;
-    ArrayList<FrameItem> FramePagerItems = new ArrayList<>();
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
-    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.8f;
-    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.2f;
-    private static final int ALPHA_ANIMATIONS_DURATION = 100;
-    private boolean mIsTheTitleVisible = false;
-    private boolean mIsTheTitleContainerVisible = true;
     private RelativeLayout mTitleContainer;
     Activity act;
-    Bitmap bmp;
-    Bitmap bmpGmail;
-    Bitmap bmpContact;
-    Bitmap bmpWebsite;
-    Bitmap scaledbmp;
-    Bitmap scaledbmpPhone;
-    Bitmap scaledbmpGmail;
-    Bitmap scaledbmpWebsite;
     int pageWidth = 1200;
     private String is_frame = "";
-    private String is_payment_pending = "";
-    private String is_package = "";
     PreafManager preafManager;
     private String deviceToken = "";
     private FragmentHomeBinding binding;
@@ -187,22 +176,33 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         homeFragment = this;
         fiveStarsDialog = new FiveStarsDialog(getActivity(), "brandmania@gmail.com");
         preafManager = new PreafManager(act);
-        Glide.with(act)
-                .load(preafManager.getActiveBrand().getLogo())
-                .into(binding.pdfLogo);
+
+//            Glide.with(act)
+//                    .load(preafManager.getActiveBrand().getLogo())
+//                    .into(binding.pdfLogo);
+
 
         Log.e("LogoForPdf", binding.pdfLogo.toString());
-        if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
-            if (preafManager.getActiveBrand() == null) {
+
+
                 preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
                 preafManager = new PreafManager(act);
-            }
-        }
+
+
         requestAgain();
         RateUs();
 
 
-        binding.businessName.setText(preafManager.getActiveBrand().getName());
+
+
+            Glide.with(act).load(preafManager.getActiveBrand().getLogo());
+
+
+
+
+
+
+
         mTitleContainer = act.findViewById(R.id.main_linearlayout_title);
         // binding.alertText.setSelected(true);
         binding.showNotification.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +213,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 act.overridePendingTransition(R.anim.right_enter, R.anim.left_out);
             }
         });
-        Glide.with(act).load(preafManager.getActiveBrand().getLogo());
+
         binding.creatPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -276,17 +276,19 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.whatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    String number = "8460638464";
-                    String BrandContact = "\nRegistered Number: ";
-                    String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:" + binding.businessName.getText().toString() + BrandContact + preafManager.getMobileNumber();
-                    String toNumber = "91" + number;
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+                    try {
+                        String number = "8460638464";
+                        String BrandContact = "\nRegistered Number: ";
+                        String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:" + binding.businessName.getText().toString() + BrandContact + preafManager.getMobileNumber();
+                        String toNumber = "91" + number;
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
             }
         });
         startAnimation();
@@ -300,17 +302,19 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    String number = Constant.ADMIN_CONTACT_NUMBER;
-                    String BrandContact = "\nRegistered Number: ";
-                    String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:" + preafManager.getActiveBrand().getName() + BrandContact + preafManager.getMobileNumber();
-                    String toNumber = "91" + number;
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+                    try {
+                        String number = Constant.ADMIN_CONTACT_NUMBER;
+                        String BrandContact = "\nRegistered Number: ";
+                        String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:" + preafManager.getActiveBrand().getName() + BrandContact + preafManager.getMobileNumber();
+                        String toNumber = "91" + number;
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
             }
         });
         return binding.getRoot();
@@ -685,7 +689,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         brandListItem = listModel;
         preafManager.setActiveBrand(listModel);
         Gson gson = new Gson();
-        Log.e("Second", gson.toJson(preafManager.getActiveBrand()));
+
 
     }
 
@@ -694,10 +698,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     }
 
-    public void resetData() {
-        binding.businessName.setText(preafManager.getActiveBrand().getName());
-
-    }
 
     private void makePhoneCall() {
         String number = "8460638464";
@@ -753,6 +753,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     preafManager.setAddBrandList(multiListItems);
+
                     for (int i = 0; i < multiListItems.size(); i++) {
                         if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
                             preafManager.setActiveBrand(multiListItems.get(i));
@@ -990,30 +991,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private static Font smallBold = new Font(Font.FontFamily.UNDEFINED, 22, Font.NORMAL);
     private static Font clckableText = new Font(Font.FontFamily.UNDEFINED, 25, Font.BOLD, BaseColor.BLUE);
 
-    private void addTitlePage(Document document) throws DocumentException {
-        Paragraph preface = new Paragraph();
-        // We add one empty line
-        addEmptyLine(preface, 2);
-        // Lets write a big header
-        preface.add(new Paragraph(preafManager.getActiveBrand().getName(), catFont));
-        addEmptyLine(preface, 0);
-        // Will create: Report generated by: _name, _date
-        preface.add(new Paragraph(preafManager.getActiveBrand().getAddress(), smallBold));
-        document.add(preface);
-
-//        PdfContentByte canvas = writer.getDirectContent();
-//        CMYKColor magentaColor = new CMYKColor(0.f, 0.f, 0.f, 100.f);
-//        canvas.setColorStroke(magentaColor);
-//        canvas.moveTo(36, 36);
-//        canvas.lineTo(36, 806);
-//        canvas.lineTo(559, 36);
-//        canvas.lineTo(559, 806);
-//        canvas.closePathStroke();
-
-
-        // Start a new page
-        document.newPage();
-    }
 
     //Creat PDF
     private static final int PERMISSION_REQUEST_CODE = 200;
@@ -1056,27 +1033,50 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 break;
         }
     }
-
+    private File getDisc() {
+        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        return new File(file, "BrandManiaPdf");
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT) private void createPdf1() {
 
 
         Document document = new Document(PageSize.A4);
         String outpath = Environment.getExternalStorageDirectory() + "/MytPdfBrand.pdf";
-        try {
-            Bitmap bitmap = ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap();//bitDw.getBitmap();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-          //  bitmap = addWaterMark(bitmap);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            Image img;
-            img = Image.getInstance(stream.toByteArray());
-            img.scalePercent(40);
 
-            // img.setAlignment(Element.ALIGN_CENTER);
-            img.setAbsolutePosition(200, 300);
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(outpath));
+
+
+
+        File file = getDisc();
+        if (!file.exists() && !file.mkdirs()) {
+            return;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
+        String date = simpleDateFormat.format(new Date());
+        String name = "BrandPdf" +System.currentTimeMillis()+ ".pdf";
+        String file_name = file.getAbsolutePath() + "/" + name;
+
+
+
+
+        try {
+
+
+
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            Bitmap bitmap = BitmapFactory.decodeResource(act.getResources(), R.drawable.pdfbackk);
+            bitmap.compress(Bitmap.CompressFormat.JPEG , 100, stream);
+            Image img;
+
+            img = Image.getInstance(stream.toByteArray());
+            img.setAbsolutePosition(0, 0);
+            img.scalePercent(60f,60f);
+
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file_name));
+            writer.setPageEvent(new MyPdfPageEventHelper(act));
             document.open();
-            document.add(img);
+
             Drawable d = act.getResources().getDrawable(R.drawable.pdf_banner);
             BitmapDrawable bitDw = ((BitmapDrawable) d);
             Bitmap bmp = ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap();//bitDw.getBitmap();
@@ -1091,99 +1091,150 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
 
 
+
             Paragraph preface = new Paragraph();
 
             //For Brand Name..............
-            Font brandName = FontFactory.getFont("assets/font/robotobold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 30); //10 is the size
+            Font brandName = FontFactory.getFont("assets/font/montserrat_bold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 40); //10 is the size
             brandName.setColor(WebColors.getRGBColor("#faa81e"));
             addEmptyLine(preface, 11);
             preface.add(new Paragraph(preafManager.getActiveBrand().getName(), brandName));
 
 
+
             //For Address
-            Font address = FontFactory.getFont("assets/font/robotoblack.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 23); //10 is the size
+            Font address = FontFactory.getFont("assets/font/montserrat_medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 23); //10 is the size
             preface.add(new Paragraph(preafManager.getActiveBrand().getAddress(), address));
             addEmptyLine(preface, 0);
             preface.setIndentationLeft(0);
             document.add(preface);
 
-
-            //For UnderLine
-            Paragraph prefaceClicable = new Paragraph();
-            //  PdfContentByte pdfContentByte=new PdfContentByte(writer);
+            //For First UnderLine
             PdfContentByte canvas = writer.getDirectContent();
-            CMYKColor magentaColor = new CMYKColor(0.f, 0.f, 0.f, 100.f);
-            canvas.setColorStroke(magentaColor);
+            BaseColor baseColorFirst=new BaseColor(173,39,83);
+            canvas.setColorStroke(baseColorFirst);
             canvas.moveTo(30, 500);
             canvas.lineTo(570, 500);
+            canvas.setLineWidth(2f);
             canvas.closePathStroke();
 
+            //For Second UnderLine
+            PdfContentByte canvasSecond = writer.getDirectContent();
+            BaseColor baseColorSecond=new BaseColor(173,39,83);
+            canvasSecond.setColorStroke(baseColorSecond);
+            canvasSecond.moveTo(30, 492);
+            canvasSecond.lineTo(570, 492);
+            canvasSecond.setLineWidth(5f);
+            canvasSecond.closePathStroke();
 
-            //For Contact Number and Contact Logo..........
-            Drawable contact = act.getResources().getDrawable(R.drawable.phone);
-            BitmapDrawable bitContact = ((BitmapDrawable) contact);
-            Bitmap bmpContact = bitContact.getBitmap();
-            ByteArrayOutputStream streamContact = new ByteArrayOutputStream();
-            bmpContact.compress(Bitmap.CompressFormat.PNG, 100, streamContact);
-            Image imageContact = Image.getInstance(streamContact.toByteArray());
-            imageContact.scalePercent(30);
-            imageContact.setAbsolutePosition(30f, 442f);
-            imageContact.setAlignment(Element.ALIGN_LEFT);
-            document.add(imageContact);
-
-            addEmptyLine(prefaceClicable, 2);
-            prefaceClicable.add(new Phrase(""));
-            prefaceClicable.setIndentationLeft(50);
-            Font contactFont = FontFactory.getFont("assets/font/robotomedium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
-            contactFont.setColor(WebColors.getRGBColor("#ad2753"));
-            Anchor anchor = new Anchor(preafManager.getActiveBrand().getPhonenumber(), contactFont);
-            anchor.setReference(String.valueOf(Uri.parse("tel:" + 91 + preafManager.getActiveBrand().getPhonenumber())));
-            prefaceClicable.add(anchor);
+            //For Third UnderLine
+             PdfContentByte canvasThird = writer.getDirectContent();
+             BaseColor baseColorThird=new BaseColor(173,39,83);
+             canvasThird.setColorStroke(baseColorThird);
+             canvasThird.moveTo(30, 484);
+             canvasThird.lineTo(570, 484);
+             canvasThird.setLineWidth(2f);
+             canvasThird.closePathStroke();
 
 
-            //For Gmail Id and Gmail logo................
-            Drawable email = act.getResources().getDrawable(R.drawable.email);
-            BitmapDrawable bitEmail = ((BitmapDrawable) email);
-            Bitmap bmpEmail = bitEmail.getBitmap();
-            ByteArrayOutputStream streamEmail = new ByteArrayOutputStream();
-            bmpEmail.compress(Bitmap.CompressFormat.PNG, 100, streamEmail);
-            Image imageEmail = Image.getInstance(streamEmail.toByteArray());
-            imageEmail.scalePercent(30);
-            imageEmail.setAbsolutePosition(30f, 387f);
-            imageEmail.setAlignment(Element.ALIGN_LEFT);
-            document.add(imageEmail);
-            addEmptyLine(prefaceClicable, 1);
-            prefaceClicable.add(new Phrase(""));
-            prefaceClicable.setIndentationLeft(50);
-
-            Font emailFont = FontFactory.getFont("assets/font/robotomedium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
-            emailFont.setColor(WebColors.getRGBColor("#ad2753"));
-            Anchor anchorEmail = new Anchor(preafManager.getActiveBrand().getEmail(), emailFont);
-            anchorEmail.setReference(String.valueOf(Uri.parse("mailto:" + preafManager.getActiveBrand().getEmail())));
-            prefaceClicable.add(anchorEmail);
 
 
-            //For Website and websiteLogo..................
-            Drawable website = act.getResources().getDrawable(R.drawable.internet);
-            BitmapDrawable bitWebsite = ((BitmapDrawable) website);
-            Bitmap bmpWebsite = bitWebsite.getBitmap();
-            ByteArrayOutputStream streamWebsite = new ByteArrayOutputStream();
-            bmpWebsite.compress(Bitmap.CompressFormat.PNG, 100, streamWebsite);
-            Image imageWebsite = Image.getInstance(streamWebsite.toByteArray());
-            imageWebsite.scalePercent(30);
-            imageWebsite.setAbsolutePosition(30f, 332f);
-            imageWebsite.setAlignment(Element.ALIGN_LEFT);
-            document.add(imageWebsite);
-            addEmptyLine(prefaceClicable, 3 / 2);
-            prefaceClicable.setIndentationLeft(50);
-            Font websiteFont = FontFactory.getFont("assets/font/robotomedium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
-            websiteFont.setColor(WebColors.getRGBColor("#ad2753"));
-            Anchor anchorWebsite = new Anchor(preafManager.getActiveBrand().getWebsite(), websiteFont);
-            anchorWebsite.setReference(preafManager.getActiveBrand().getWebsite());
-            prefaceClicable.add(anchorWebsite);
-            document.add(prefaceClicable);
 
-            document.close();
+        //For Contact Number and Contact Logo..........
+        if (preafManager.getActiveBrand().getPhonenumber()!=null && !prefManager.getActiveBrand().getPhonenumber().isEmpty()) {
+         Drawable contact = act.getResources().getDrawable(R.drawable.phone);
+         Paragraph prefaceClicableContact = new Paragraph();
+         BitmapDrawable bitContact = ((BitmapDrawable) contact);
+         Bitmap bmpContact = bitContact.getBitmap();
+         ByteArrayOutputStream streamContact = new ByteArrayOutputStream();
+         bmpContact.compress(Bitmap.CompressFormat.PNG, 100, streamContact);
+         Image imageContact = Image.getInstance(streamContact.toByteArray());
+         imageContact.scalePercent(30);
+         imageContact.setAbsolutePosition(30f, 415f);
+         imageContact.setAlignment(Element.ALIGN_LEFT);
+         document.add(imageContact);
+         addEmptyLine(prefaceClicableContact, 3);
+         prefaceClicableContact.add(new Phrase(""));
+         prefaceClicableContact.setIndentationLeft(50);
+         Font contactFont = FontFactory.getFont("assets/font/montserrat_medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
+         contactFont.setColor(WebColors.getRGBColor("#ad2753"));
+         Anchor anchor = new Anchor(preafManager.getActiveBrand().getPhonenumber(), contactFont);
+         anchor.setReference(String.valueOf(Uri.parse("tel:" + 91 + preafManager.getActiveBrand().getPhonenumber())));
+         prefaceClicableContact.add(anchor);
+         document.add(prefaceClicableContact);
+        }
+        //For Gmail Id and Gmail logo................
+        if (preafManager.getActiveBrand().getEmail()!=null &&  !prefManager.getActiveBrand().getEmail().isEmpty()) {
+                Paragraph prefaceClicableEmail = new Paragraph();
+                Drawable email = act.getResources().getDrawable(R.drawable.email);
+                BitmapDrawable bitEmail = ((BitmapDrawable) email);
+                Bitmap bmpEmail = bitEmail.getBitmap();
+                ByteArrayOutputStream streamEmail = new ByteArrayOutputStream();
+                bmpEmail.compress(Bitmap.CompressFormat.PNG, 100, streamEmail);
+                Image imageEmail = Image.getInstance(streamEmail.toByteArray());
+                imageEmail.scalePercent(30);
+                imageEmail.setAbsolutePosition(30f, 355f);
+                imageEmail.setAlignment(Element.ALIGN_LEFT);
+                document.add(imageEmail);
+                addEmptyLine(prefaceClicableEmail, 1);
+                prefaceClicableEmail.add(new Phrase(""));
+                prefaceClicableEmail.setIndentationLeft(50);
+                Font emailFont = FontFactory.getFont("assets/font/montserrat_medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
+                emailFont.setColor(WebColors.getRGBColor("#ad2753"));
+                Anchor anchorEmail = new Anchor(preafManager.getActiveBrand().getEmail(), emailFont);
+                anchorEmail.setReference(String.valueOf(Uri.parse("mailto:" + preafManager.getActiveBrand().getEmail())));
+                prefaceClicableEmail.add(anchorEmail);
+                document.add(prefaceClicableEmail);
+            }
+        //For Website and websiteLogo..................
+        if (prefManager.getActiveBrand().getWebsite()!=null && !prefManager.getActiveBrand().getWebsite().isEmpty()) {
+                Paragraph prefaceClicableWebsite = new Paragraph();
+                Drawable website = act.getResources().getDrawable(R.drawable.internet);
+                BitmapDrawable bitWebsite = ((BitmapDrawable) website);
+                Bitmap bmpWebsite = bitWebsite.getBitmap();
+                ByteArrayOutputStream streamWebsite = new ByteArrayOutputStream();
+                bmpWebsite.compress(Bitmap.CompressFormat.PNG, 100, streamWebsite);
+                Image imageWebsite = Image.getInstance(streamWebsite.toByteArray());
+                imageWebsite.scalePercent(30);
+                imageWebsite.setAbsolutePosition(30f, 300f);
+                imageWebsite.setAlignment(Element.ALIGN_LEFT);
+                document.add(imageWebsite);
+                addEmptyLine(prefaceClicableWebsite, 1);
+                prefaceClicableWebsite.setIndentationLeft(50);
+                Font websiteFont = FontFactory.getFont("assets/font/montserrat_medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
+                websiteFont.setColor(WebColors.getRGBColor("#ad2753"));
+                Anchor anchorWebsite = new Anchor(preafManager.getActiveBrand().getWebsite(), websiteFont);
+                anchorWebsite.setReference(preafManager.getActiveBrand().getWebsite());
+                prefaceClicableWebsite.add(anchorWebsite);
+                document.add(prefaceClicableWebsite);
+            }
+
+
+        Paragraph prefaceClicableServicesTag = new Paragraph();
+        addEmptyLine(prefaceClicableServicesTag, 1);
+        Font brandServicetag = FontFactory.getFont("assets/font/robotobold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 30); //10 is the size
+        brandServicetag.setColor(WebColors.getRGBColor("#faa81e"));
+        prefaceClicableServicesTag.add(new Paragraph("Service:",brandServicetag));
+        prefaceClicableServicesTag.setIndentationLeft(0);
+        document.add(prefaceClicableServicesTag);
+
+
+
+        Paragraph paragraphClicableService=new Paragraph();
+        addEmptyLine(paragraphClicableService, 0);
+        paragraphClicableService.setIndentationLeft(0);
+        Font bsuinessService = FontFactory.getFont("assets/font/montserrat_medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
+        bsuinessService.setColor(WebColors.getRGBColor("#000"));
+        String list[]=preafManager.getActiveBrand().getBrandService().split(",|\\\n");
+
+        for (int i=0;i<list.length;i++) {
+           // Log.e("pdfff",list[i]);
+            paragraphClicableService.add(new Paragraph("\u2022\u00a0" + list[i],bsuinessService ));
+
+        }
+        paragraphClicableService.setIndentationLeft(0);
+        document.add(paragraphClicableService);
+        document.close();
 
         } catch (DocumentException e) {
             e.printStackTrace();
@@ -1196,68 +1247,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
 
     }
-
-
-
-
-//    private Bitmap addWaterMark(Bitmap src) {
-//        int w = src.getWidth();
-//        int h = src.getHeight();
-//        Bitmap result = Bitmap.createBitmap(w, h, src.getConfig());
-//        Canvas canvas = new Canvas(result);
-//        canvas.drawBitmap(src, 0, 0, null);
-//
-//        Bitmap waterMark = BitmapFactory.decodeResource(getResources(), R.drawable.logoo);
-//        //  canvas.drawBitmap(waterMark, 0, 0, null);
-//        int startX= (canvas.getWidth()-waterMark.getWidth())/2;//for horisontal position
-//        int startY=(canvas.getHeight()-waterMark.getHeight())/2;//for vertical position
-//        canvas.drawBitmap(waterMark,startX,startY,null);
-//
-//        return result;
-//    }
-//    private static void addWatermark(PdfStamper stamper, Rectangle pageRectangle, int waterMarkCount,
-//                                     String waterMarkName) {
-//        PdfContentByte content;
-//        BaseFont base = null;
-//        try {
-//      // Set the font
-//                    base = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
-//        } catch (DocumentException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-// //Calculate the watermark X, Y coordinates
-//        float x = pageRectangle.getWidth() / 2;
-//        float y = pageRectangle.getHeight() / 2;
-//        for (int i = 1; i < waterMarkCount + 1; i++) {
-//
-//            content  = stamper.getOverContent(i);//Get the top level of PDF
-//            content.saveState();
-//            // set Transparency
-//            PdfGState gs = new PdfGState();
-//            gs.setFillOpacity(0.2f);//Set the transparency to 0.2
-//            content.setGState(gs);
-//
-//
-//            content.beginText();
-//            content.setColorFill(BaseColor.GRAY);
-//            content.setFontAndSize(base, 40);
-//            content.showTextAligned(Element.ALIGN_CENTER, waterMarkName, x, y, 35);//Watermark text is tilted at a 35 degree angle
-//            content.endText();
-//            content.beginText();
-//
-//            content.setColorFill(BaseColor.GRAY);
-//            content.setFontAndSize(base, 30);
-//            String seeAttached="(See attached digital certificate)";
-//            content.showTextAligned(Element.ALIGN_CENTER, seeAttached, x, y-42, 35);
-//            content.endText();
-//
-//            content.restoreState();//Note that restoreState must be called once, otherwise the setting is invalid.
-//
-//        }
-//    }
 
 
 

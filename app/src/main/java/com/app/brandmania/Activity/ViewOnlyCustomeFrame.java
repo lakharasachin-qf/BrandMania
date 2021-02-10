@@ -69,6 +69,7 @@ public class ViewOnlyCustomeFrame extends AppCompatActivity implements ImageCate
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory();
         LoadDataToUI();
+
     }
     public void LoadDataToUI(){
         preafManager=new PreafManager(act);

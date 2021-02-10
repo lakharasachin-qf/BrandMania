@@ -1,5 +1,6 @@
 package com.app.brandmania.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -11,10 +12,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -48,6 +53,8 @@ import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityUpdateBandListBinding;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,6 +82,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
     CommonListModel commonListModel;
     private Bitmap selectedImagesBitmap;
     private AlertDialog.Builder alertDialogBuilder;
+    private Uri mCropImageUri;
+    private Bitmap selectedLogo;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -91,6 +100,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         CodeReUse.RemoveError(binding.addressEdt, binding.addressEdtLayout);
         CodeReUse.RemoveError(binding.websiteEdt, binding.websiteEdtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
+        CodeReUse.RemoveError(binding.businessServiceEdt, binding.businessFacilityEdtLayout);
         alertDialogBuilder=new AlertDialog.Builder(act);
         binding.viewImgFirst.setTag("0");
 
@@ -123,6 +133,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             binding.addressEdt.setText(listModel.getAddress());
             binding.websiteEdt.setText(listModel.getWebsite());
             binding.emailIdEdt.setText(listModel.getEmail());
+            binding.businessServiceEdt.setText(listModel.getBrandService());
             binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -143,7 +154,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             binding.addressEdt.setText(prefManager.getActiveBrand().getAddress());
             binding.websiteEdt.setText(prefManager.getActiveBrand().getWebsite());
             binding.emailIdEdt.setText(prefManager.getActiveBrand().getEmail());
-//            binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
+            binding.businessServiceEdt.setText(prefManager.getActiveBrand().getBrandService());
+            //            binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
 //                    onBackPressed();
@@ -158,18 +170,66 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             binding.viewImgFirst.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!isEditModeEnable) {
-                        if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
-                            pickerView(Constant.PICKER_FIRST, true, selectedImagesBitmap);
-                        else
-                            pickerView(Constant.PICKER_FIRST, false, null);
-                    }
+
+
+                    onSelectImageClick(v);
+
+//                    if (!isEditModeEnable) {
+//                        if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
+//                            pickerView(Constant.PICKER_FIRST, true, selectedImagesBitmap);
+//                        else
+//                            pickerView(Constant.PICKER_FIRST, false, null);
+//                    }
                 }
             });
 //        }else
 //        {
 //            binding.nameTxt.setEnabled(true);
 //        }
+    }
+    //For CustomFrame
+    public void onSelectImageClick(View view) {
+        CropImage.startPickImageActivity(this);
+    }
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .start(this);
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // handle result of pick image chooser
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri imageUri = CropImage.getPickImageResultUri(this, data);
+
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+                mCropImageUri = imageUri;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                }
+            } else {
+                startCropImageActivity(imageUri);
+            }
+        }
+
+        // handle result of CropImageActivity
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                binding.viewImgFirst.setVisibility(View.VISIBLE);
+                binding.imgEmptyStateFirst.setVisibility(View.GONE);
+                binding.actionDeleteFirst.setVisibility(View.VISIBLE);
+                ((ImageView) findViewById(R.id.viewImgFirst)).setImageURI(result.getUri());
+                ImageView imageView = ((ImageView) findViewById(R.id.viewImgFirst));
+                selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+            }
+        }
     }
     private void getBrandCategory(int flag) {
         String apiUrl = "";
@@ -292,8 +352,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 
         if (!isError) {
             Bitmap bitmap = null;
-            if (selectedImagesBitmap != null) {
-                bitmap = selectedImagesBitmap;
+            if (selectedLogo != null) {
+                bitmap = selectedLogo;
             }
             Bitmap bitmap1 = null;
             if (selectedImagesBitmap != null) {
@@ -326,6 +386,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 .addMultipartParameter("br_address", binding.addressEdt.getText().toString())
                 .addMultipartParameter("br_website", binding.websiteEdt.getText().toString())
                 .addMultipartParameter("br_email", binding.emailIdEdt.getText().toString())
+                .addMultipartParameter("br_service",binding.businessServiceEdt.getText().toString())
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
 
@@ -474,4 +535,15 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
     {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
+
+
+
+
+
+
+
+
+
+
+
 }

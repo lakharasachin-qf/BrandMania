@@ -113,7 +113,7 @@ public class ResponseHandler {
         }
     }
     public static ArrayList<BrandListItem> HandleGetBrandList(JSONObject jsonObject) {
-        ArrayList<BrandListItem> strings = null;
+        ArrayList<BrandListItem> strings = new ArrayList<>();
         if (isSuccess(null, jsonObject)) {
             //list fetch
             JSONArray dataJsonArray = getJSONArray(jsonObject, "data");
@@ -134,6 +134,7 @@ public class ResponseHandler {
                         examModel.setEmail(getString(dataJsonObject, "br_email"));
                         examModel.setAddress(getString(dataJsonObject, "br_address"));
                         examModel.setLogo(getString(dataJsonObject,"br_logo"));
+                        examModel.setBrandService(getString(dataJsonObject,"br_service"));
                         examModel.setIs_frame(getString(dataJsonObject, "is_frame"));
                         examModel.setFrame_message(getString(dataJsonObject, "frame_message"));
                         examModel.setFrambaseyrl(getString(dataJsonObject, "fream_base_url"));
