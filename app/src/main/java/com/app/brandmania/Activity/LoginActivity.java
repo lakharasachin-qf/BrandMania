@@ -58,7 +58,7 @@ public class LoginActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+         //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_login);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);

@@ -141,6 +141,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     });
 
 
+
                     if (!model.isImageFree()){
                         ((ImageCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     }
@@ -149,7 +150,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         ((ImageCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                        if (preafManager.getActiveBrand()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals(0)) {
+                     if (preafManager.getActiveBrand()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                             ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
 

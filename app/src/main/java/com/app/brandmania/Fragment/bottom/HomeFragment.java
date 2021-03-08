@@ -1,6 +1,7 @@
 package com.app.brandmania.Fragment.bottom;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -26,7 +27,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -115,6 +118,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -180,7 +184,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, parent, false);
         homeFragment = this;
-        fiveStarsDialog = new FiveStarsDialog(getActivity(), "brandmania@gmail.com");
+        fiveStarsDialog = new FiveStarsDialog(Objects.requireNonNull(getActivity()), "brandmania@gmail.com");
         preafManager = new PreafManager(act);
 
             Glide.with(act)
@@ -222,7 +226,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         });
 
-        binding.creatPdf.setOnClickListener(new View.OnClickListener() {
+        binding.creatPdfCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
@@ -232,7 +236,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     alertDialogBuilder = new AlertDialog.Builder(act);
 
                     alertDialogBuilder.setTitle("Save image");
-                    alertDialogBuilder.setMessage("Your Logo is emplyt..!");
+                    alertDialogBuilder.setMessage("Your Logo is empty..!");
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -251,10 +255,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 }
             }
         });
+
         getBrandList();
+
         getFrame();
 
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
+
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -1079,12 +1086,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         File file = new File(dir, "brandmania.pdf");
 
 
-
-
         try {
-
-
-
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             Bitmap bitmap = BitmapFactory.decodeResource(act.getResources(), R.drawable.pdfbackk);
@@ -1099,13 +1101,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             writer.setPageEvent(new MyPdfPageEventHelper(act));
             document.open();
 
-           // Drawable d = act.getResources().getDrawable(R.drawable.pdf_banner);
+            //Drawable d = act.getResources().getDrawable(R.drawable.pdf_banner);
             //BitmapDrawable bitDw = ((BitmapDrawable) d);
             Bitmap bmp = ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap();//bitDw.getBitmap();
             ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream1);
             Image image = Image.getInstance(stream1.toByteArray());
             image.scalePercent(25);
+
             // image.setAlignment(Element.ALIGN_CENTER);
             image.setAbsolutePosition(240, 670);
 
@@ -1164,14 +1167,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         //For Contact Number and Contact Logo..........
         if (preafManager.getActiveBrand().getPhonenumber()!=null && !prefManager.getActiveBrand().getPhonenumber().isEmpty()) {
-         Drawable contact = act.getResources().getDrawable(R.drawable.phone);
+       //  Drawable contact = act.getResources().getDrawable(R.drawable.ic_call_for_pdf);
          Paragraph prefaceClicableContact = new Paragraph();
-         BitmapDrawable bitContact = ((BitmapDrawable) contact);
-         Bitmap bmpContact = bitContact.getBitmap();
+       //BitmapDrawable bitContact = ((BitmapDrawable) contact);
+         @SuppressLint("UseCompatLoadingForDrawables") Bitmap bmpContact = getBitmapFromDrawable(act.getResources().getDrawable(R.drawable.ic_call_for_pdf));//bitContact.getBitmap();
          ByteArrayOutputStream streamContact = new ByteArrayOutputStream();
          bmpContact.compress(Bitmap.CompressFormat.PNG, 100, streamContact);
          Image imageContact = Image.getInstance(streamContact.toByteArray());
-         imageContact.scalePercent(30);
+         imageContact.scalePercent(50);
          imageContact.setAbsolutePosition(30f, 415f);
          imageContact.setAlignment(Element.ALIGN_LEFT);
          document.add(imageContact);
@@ -1188,14 +1191,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         //For Gmail Id and Gmail logo................
         if (preafManager.getActiveBrand().getEmail()!=null &&  !prefManager.getActiveBrand().getEmail().isEmpty()) {
                 Paragraph prefaceClicableEmail = new Paragraph();
-                Drawable email = act.getResources().getDrawable(R.drawable.email);
-                BitmapDrawable bitEmail = ((BitmapDrawable) email);
-                Bitmap bmpEmail = bitEmail.getBitmap();
+             //   Drawable email = act.getResources().getDrawable(R.drawable.ic_call_for_pdf);
+             //   BitmapDrawable bitEmail = ((BitmapDrawable) email);
+                @SuppressLint("UseCompatLoadingForDrawables") Bitmap bmpEmail =getBitmapFromDrawable(act.getResources().getDrawable(R.drawable.ic_gmail_for_pdf)); //bitEmail.getBitmap();
                 ByteArrayOutputStream streamEmail = new ByteArrayOutputStream();
                 bmpEmail.compress(Bitmap.CompressFormat.PNG, 100, streamEmail);
                 Image imageEmail = Image.getInstance(streamEmail.toByteArray());
-                imageEmail.scalePercent(30);
-                imageEmail.setAbsolutePosition(30f, 355f);
+                imageEmail.scalePercent(50);
+                imageEmail.setAbsolutePosition(30f, 358f);
                 imageEmail.setAlignment(Element.ALIGN_LEFT);
                 document.add(imageEmail);
                 addEmptyLine(prefaceClicableEmail, 1);
@@ -1211,13 +1214,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         //For Website and websiteLogo..................
         if (prefManager.getActiveBrand().getWebsite()!=null && !prefManager.getActiveBrand().getWebsite().isEmpty()) {
                 Paragraph prefaceClicableWebsite = new Paragraph();
-                Drawable website = act.getResources().getDrawable(R.drawable.internet);
-                BitmapDrawable bitWebsite = ((BitmapDrawable) website);
-                Bitmap bmpWebsite = bitWebsite.getBitmap();
+              //  Drawable website = act.getResources().getDrawable(R.drawable.ic_call_for_pdf);
+             //   BitmapDrawable bitWebsite = ((BitmapDrawable) website);
+                @SuppressLint("UseCompatLoadingForDrawables") Bitmap bmpWebsite = getBitmapFromDrawable(act.getResources().getDrawable(R.drawable.ic_website_for_pdf));//bitWebsite.getBitmap();
                 ByteArrayOutputStream streamWebsite = new ByteArrayOutputStream();
                 bmpWebsite.compress(Bitmap.CompressFormat.PNG, 100, streamWebsite);
                 Image imageWebsite = Image.getInstance(streamWebsite.toByteArray());
-                imageWebsite.scalePercent(30);
+                imageWebsite.scalePercent(50);
                 imageWebsite.setAbsolutePosition(30f, 300f);
                 imageWebsite.setAlignment(Element.ALIGN_LEFT);
                 addEmptyLine(prefaceClicableWebsite, 1);
@@ -1287,6 +1290,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
 
     }
+
+    @NonNull
+    static private Bitmap getBitmapFromDrawable(@NonNull Drawable drawable) {
+        final Bitmap bmp = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bmp);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bmp;
+    }
+
     // Method for opening a pdf file
     private void viewPdf(String file, String directory) {
 
