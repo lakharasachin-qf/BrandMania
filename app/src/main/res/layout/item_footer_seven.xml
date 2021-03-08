@@ -37,6 +37,7 @@
                     android:textSize="@dimen/_10sdp" />
 
                 <RelativeLayout
+
                     android:id="@+id/element0"
                     android:gravity="center_horizontal"
                     android:layout_centerHorizontal="true"
@@ -47,13 +48,16 @@
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
-                        android:layout_toStartOf="@+id/element"
+                        android:visibility="visible"
+                        android:layout_toEndOf="@+id/element"
                         android:id="@+id/gmailLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_20sdp"
                         android:layout_centerVertical="true">
 
                         <ImageView
+
+                            app:tint="@color/colorPrimary"
                             android:id="@+id/gmailImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
@@ -79,6 +83,7 @@
                     </RelativeLayout>
 
                     <View
+                        android:visibility="visible"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_marginEnd="@dimen/_7sdp"
                         android:layout_centerHorizontal="true"
@@ -88,14 +93,15 @@
                         android:layout_width="@dimen/_1sdp"
                         android:layout_height="@dimen/_10sdp" />
                     <RelativeLayout
-                       android:layout_toEndOf="@+id/element"
-
+                       android:layout_toStartOf="@+id/element"
+                        android:visibility="visible"
                         android:id="@+id/contactLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_20sdp"
                         android:layout_centerVertical="true">
 
                         <ImageView
+                            app:tint="@color/colorPrimary"
                             android:id="@+id/contactImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"

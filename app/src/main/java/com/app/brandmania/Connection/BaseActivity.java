@@ -38,7 +38,6 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     private ResponseHandler responseHandler;
     private boolean isLoading = false;
     private boolean LIVE_MODE=true;
-
     Gson gson;
     private static void showNoConnectionDialog() {
         if (!noconnectionAlertDialog.isShowing()) {
@@ -82,7 +81,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         registerNetworkBroadcastForNougat();
 
         if (LIVE_MODE){
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+           // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         }
 
     }
@@ -126,8 +125,4 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     @Override public void update(Observable observable, Object data) {
 
     }
-
-
-
-
 }

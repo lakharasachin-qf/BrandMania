@@ -112,7 +112,7 @@ public class EditTab extends Fragment {
         Handler handler = new Handler();
         Runnable r = new Runnable() {
             public void run() {
-                Bitmap thumbImage = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.filter_logo), 640, 640, false);
+                Bitmap thumbImage = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.filter_logo), 640, 640, false);
                 ThumbnailItem t1 = new ThumbnailItem();
                 ThumbnailItem t2 = new ThumbnailItem();
                 ThumbnailItem t3 = new ThumbnailItem();

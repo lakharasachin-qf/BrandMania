@@ -61,7 +61,7 @@ class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordAddapter
             public void onClick(View v) {
                 Intent i =new Intent(activity, ViewAllFrameImageActivity.class);
                 i.putExtra("viewAll","12");
-                Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
+              //  Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
                 i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
                 activity.startActivity(i);
                 i.addCategory(Intent.CATEGORY_HOME);

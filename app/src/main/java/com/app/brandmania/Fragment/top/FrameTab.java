@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.AddBranddActivity;
 import com.app.brandmania.Activity.PackageActivity;
 import com.app.brandmania.Activity.ViewAllFrameImageActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
@@ -90,16 +92,32 @@ public class FrameTab extends Fragment {
                 }
             }
         });
-        if (this
-                .getActivity().getClass() == ViewAllFrameImageActivity.class){
-            binding.removeFrameBtn.setVisibility(View.VISIBLE);
-        }
-        binding.removeFrameBtn.setOnClickListener(new View.OnClickListener() {
+        binding.addbrandTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((IRemoveFrame) act).onRemoveSelectEvent();
+                Intent i=new Intent(act, AddBranddActivity.class);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
+        if (preafManager.getActiveBrand()!=null) {
+            if (this.getActivity().getClass() == ViewAllFrameImageActivity.class) {
+                binding.removeFrameBtn.setVisibility(View.VISIBLE);
+                binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
+            }
+            binding.removeFrameBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((IRemoveFrame) act).onRemoveSelectEvent();
+                }
+            });
+        }
+        else {
+            binding.removeFrameBtn.setVisibility(View.GONE);
+            binding.subscribePlaneBtn.setVisibility(View.GONE);
+            binding.addbrandTag.setVisibility(View.VISIBLE);
+
+        }
         return binding.getRoot();
     }
 
@@ -161,20 +179,23 @@ public class FrameTab extends Fragment {
                     JSONObject jsonObject = new JSONObject(response);
                     menuModels = ResponseHandler.HandleGetFrameList(jsonObject);
                     if (preafManager.getActiveBrand()!=null) {
+                      //  Toast.makeText(act, "NotNull", Toast.LENGTH_SHORT).show();
                         if (menuModels != null && menuModels.size() != 0 && jsonObject.getJSONObject("data").getString("is_frame").equalsIgnoreCase("1")) {
                             ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
                             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
                             binding.frameRecycler.setLayoutManager(mLayoutManager);
                             binding.frameRecycler.setHasFixedSize(true);
                             binding.frameRecycler.setAdapter(menuAddaptor);
+                            binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
                         } else {
 
                             binding.frameRecycler.setVisibility(View.GONE);
-
+                            binding.subscribePlaneBtn.setVisibility(View.GONE);
                         }
                     }
                     else
                     {
+                      //  Toast.makeText(act, "Null", Toast.LENGTH_SHORT).show();
                         binding.subscribePlaneBtn.setVisibility(View.GONE);
                         binding.removeFrameBtn.setVisibility(View.GONE);
                         binding.frameRecycler.setVisibility(View.GONE);

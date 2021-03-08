@@ -27,9 +27,8 @@
                 android:layout_height="wrap_content">
                 <TextView
 
-
                     android:layout_gravity="center_horizontal"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginBottom="@dimen/_30sdp"
                     android:backgroundTint="@color/colorthird"
 
@@ -42,6 +41,27 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/inter_regular"
                     android:text="Reuqest For Frame"
+                    android:textColor="#FFF"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_10sdp"
+                    />
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:backgroundTint="@color/colorthird"
+                    android:background="@drawable/buttoncornar"
+                    android:id="@+id/addbrandTag"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_28sdp"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Add Brand"
                     android:textColor="#FFF"
                     android:gravity="center"
                     android:textAlignment="center"
@@ -71,15 +91,7 @@
                     android:textSize="@dimen/_10sdp"
                     />
 
-                <TextView
-                    android:id="@+id/addbrandTag"
-                    android:visibility="gone"
-                    android:textSize="@dimen/_15sdp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_70sdp"
-                    android:text="Please add Your Brand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></TextView>
+
             </RelativeLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

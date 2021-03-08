@@ -34,22 +34,20 @@
 
             <RelativeLayout
                 android:id="@+id/main"
-                android:paddingStart="@dimen/_7sdp"
-                android:paddingEnd="@dimen/_7sdp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp">
-
-
                 <RelativeLayout
-
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/_7sdp"
                     android:id="@+id/gmailLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentStart="true"
+
                     android:layout_centerVertical="true"
                     android:visibility="visible">
 
                     <ImageView
+                        app:tint="@color/colorPrimary"
                         android:id="@+id/gmailImage"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
@@ -71,36 +69,39 @@
                         android:textSize="@dimen/_8sdp" />
 
                 </RelativeLayout>
-
                 <RelativeLayout
-
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_7sdp"
                     android:id="@+id/contactLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_20sdp"
-                   android:layout_marginLeft="@dimen/_190sdp"
-                    android:layout_centerVertical="true">
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp">
 
                     <ImageView
-                        android:id="@+id/contactImage"
-                        android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:src="@drawable/ic_outline_call_24" />
-
+                        android:backgroundTint="@color/colorPrimary"
+                        android:id="@+id/contactImage"
+                        app:tint="@color/colorPrimary"
+                        android:background="@drawable/ic_outline_call_24"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_centerVertical="true" />
                     <TextView
-                        android:id="@+id/contactText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_toEndOf="@+id/contactImage"
-                      android:fontFamily="@font/inter_regular"
+                        android:textSize="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:padding="0dp"
+                        android:maxWidth="@dimen/_100sdp"
+                        android:layout_centerVertical="true"
+                        android:includeFontPadding="false"
                         android:singleLine="true"
 
-                        android:text="8849896537"
+                        android:id="@+id/contactText"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_8sdp" />
+                        android:text="+91 8849896537"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TextView>
 
                 </RelativeLayout>
             </RelativeLayout>

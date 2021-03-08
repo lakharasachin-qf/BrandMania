@@ -60,24 +60,27 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+
                     android:id="@+id/element1"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
                     android:layout_below="@+id/BrandNameLayout"
-                    android:visibility="visible"
                     android:paddingStart="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_7sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_20sdp">
+                    android:layout_height="wrap_content">
 
                     <RelativeLayout
-                        android:layout_toStartOf="@+id/viewOne"
+                        android:visibility="visible"
+                        android:layout_toEndOf="@+id/element"
                         android:id="@+id/gmailLayout"
                         android:layout_width="wrap_content"
-
                         android:layout_height="@dimen/_20sdp"
-                        android:layout_centerVertical="true"
-                        android:visibility="visible">
+                        android:layout_centerVertical="true">
 
                         <ImageView
+
+                            app:tint="@color/colorPrimary"
                             android:id="@+id/gmailImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
@@ -93,33 +96,35 @@
                             android:layout_marginLeft="@dimen/_5sdp"
                             android:layout_toEndOf="@+id/gmailImage"
                             android:includeFontPadding="false"
+                            android:maxWidth="@dimen/_100sdp"
                             android:padding="0dp"
                             android:singleLine="true"
-                            android:text="qfsolution@gmail.com"
+                            android:text="qfsolfddgdfgfdgdfgdgdfution@gmail.com"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_8sdp" />
 
                     </RelativeLayout>
 
-
                     <View
-                        android:layout_centerVertical="true"
-                        android:id="@+id/viewOne"
+                        android:visibility="visible"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_marginEnd="@dimen/_7sdp"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/element"
                         android:background="@color/colorPrimary"
+                        android:layout_centerVertical="true"
                         android:layout_width="@dimen/_1sdp"
-                        android:layout_height="@dimen/_10sdp"
-                        android:layout_centerHorizontal="true" />
-
+                        android:layout_height="@dimen/_10sdp" />
                     <RelativeLayout
-                         android:layout_toEndOf="@+id/viewOne"
+                        android:layout_toStartOf="@+id/element"
+                        android:visibility="visible"
                         android:id="@+id/contactLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_20sdp"
                         android:layout_centerVertical="true">
 
                         <ImageView
+                            app:tint="@color/colorPrimary"
                             android:id="@+id/contactImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
@@ -138,7 +143,7 @@
                             android:padding="0dp"
                             android:singleLine="true"
 
-                            android:text="8849896537"
+                            android:text="+91 8849896537"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_8sdp" />
 
@@ -149,16 +154,23 @@
 
                     <RelativeLayout
                         android:layout_below="@+id/element1"
-                        android:paddingStart="@dimen/_7sdp"
+
                         android:layout_marginBottom="@dimen/_2sdp"
                         android:layout_centerHorizontal="true"
-                        android:paddingEnd="@dimen/_7sdp"
+
                         android:id="@+id/addressLayoutElement"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/_20sdp"
                         >
+                        <RelativeLayout
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
 
                         <ImageView
+
+                            android:layout_marginLeft="@dimen/_18sdp"
                             android:id="@+id/loacationImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
@@ -181,6 +193,7 @@
                             android:layout_toEndOf="@+id/loacationImage"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_8sdp" />
+                        </RelativeLayout>
                     </RelativeLayout>
 
             </RelativeLayout>

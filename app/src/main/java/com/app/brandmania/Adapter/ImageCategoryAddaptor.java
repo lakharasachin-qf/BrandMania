@@ -149,7 +149,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         ((ImageCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                        if (preafManager.getActiveBrand().getIs_payment_pending().equals(0)) {
+                        if (preafManager.getActiveBrand()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals(0)) {
                             ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                             ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
 
@@ -259,7 +259,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             if (layoutType==FROM_CATEGORYFRAGEMENT) {
-                                Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
+                              //  Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
                                 Intent intent=new Intent(activity,ViewAllFrameImageActivity.class);
                                 Gson  gson=new Gson();
                                 intent.putExtra("selectedimage",gson.toJson(model));
@@ -270,7 +270,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
 
                             if (layoutType==FROM_VIEWALLFRAME) {
-                                Toast.makeText(activity,"birthday",Toast.LENGTH_LONG).show();
+                             //   Toast.makeText(activity,"birthday",Toast.LENGTH_LONG).show();
                                 ((ImageCateItemeInterFace) activity).ImageCateonItemSelection(position, model);
                             }
                         }
@@ -280,7 +280,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
             }
 
         } else {
-            Toast.makeText(activity, "dfgdgdfgfdg", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(activity, "dfgdgdfgfdg", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -295,7 +295,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
-
     static class ImageCategoryByIdHolder extends RecyclerView.ViewHolder {
         ItemLayoutViewallimageBinding binding;
 
@@ -305,7 +304,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
-
     static class FrameHolder extends RecyclerView.ViewHolder {
         ItemLayoutViewallimageBinding binding;
 

@@ -443,7 +443,7 @@ public class ColorAndTextEditActivity extends BaseActivity implements IColorChan
     }
     public boolean onTouch(View view, MotionEvent event) {
         if (gestureDetector.onTouchEvent(event)) {
-            Toast.makeText(act, "click", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(act, "click", Toast.LENGTH_SHORT).show();
             return true;
         }else {
             final int X = (int) event.getRawX();

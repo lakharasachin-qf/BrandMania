@@ -70,25 +70,23 @@
             android:layout_alignParentStart="true"
             android:src="@drawable/shape_frame" />
 
-        <LinearLayout
+        <RelativeLayout
+
             android:id="@+id/element2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/_20sdp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <LinearLayout
-
+            <RelativeLayout
                 android:id="@+id/elementMobile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal">
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_35sdp">
 
                 <ImageView
+                    android:id="@+id/contactLoho"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
                     android:layout_gravity="center_vertical"
@@ -97,43 +95,47 @@
 
                 <TextView
                     android:id="@+id/phoneTxt"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/contactLoho"
                     android:maxWidth="@dimen/_100sdp"
                     android:minWidth="@dimen/_70sdp"
+                    android:singleLine="true"
                     android:text="+91 8200 0026 04"
-                    android:layout_marginStart="@dimen/_5sdp"
                     android:textSize="@dimen/_8sdp" />
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/elementEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:orientation="horizontal">
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_35sdp">
 
                 <ImageView
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/gmailLogo"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_outline_mail_24"
                     app:tint="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/gmailText"
-                    android:layout_gravity="center_vertical"
-                    android:maxWidth="@dimen/_120sdp"
-                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/gmailLogo"
+                    android:maxWidth="@dimen/_120sdp"
+                    android:singleLine="true"
                     android:text="lakharasachin.qf@gmail.com"
                     android:textSize="@dimen/_8sdp" />
-            </LinearLayout>
-        </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/element3"

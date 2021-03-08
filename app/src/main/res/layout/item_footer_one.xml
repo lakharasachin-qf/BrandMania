@@ -54,7 +54,7 @@
                         android:id="@+id/gmailLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_20sdp"
-                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:visibility="visible">
 
@@ -64,6 +64,7 @@
                             android:layout_height="@dimen/_12sdp"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_1sdp"
+                            app:tint="@color/colorPrimary"
                             android:src="@drawable/ic_outline_mail_24" />
 
                         <TextView
@@ -85,12 +86,13 @@
                     <RelativeLayout
 
                         android:id="@+id/contactLayout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/_20sdp"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentStart="true"
                         android:layout_centerVertical="true">
 
                         <ImageView
+                            app:tint="@color/colorPrimary"
                             android:id="@+id/contactImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"

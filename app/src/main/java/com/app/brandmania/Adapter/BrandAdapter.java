@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -344,17 +345,35 @@ public class BrandAdapter extends RecyclerView.Adapter {
         TextView totalImage=customLayout.findViewById(R.id.totalImage);
         TextView usedImage=customLayout.findViewById(R.id.usedImage);
         TextView remainingImage=customLayout.findViewById(R.id.remainingImage);
+        RelativeLayout remainingImageRelative=customLayout.findViewById(R.id.ramainingImageRelative);
         TextView expirydate=customLayout.findViewById(R.id.expieryDateName);
         TextView priceContent=customLayout.findViewById(R.id.priceContent);
+        TextView subscribeddate=customLayout.findViewById(R.id.SubscribedDateName);
+
+
+
+        if (brandListItems.get(position).getPackagename().equalsIgnoreCase("Enterprise"))
+        {
+            remainingImageRelative.setVisibility(View.GONE);
+        }
+        else
+        {
+            remainingImageRelative.setVisibility(View.VISIBLE);
+            remainingImage.setText(brandListItems.get(position).getNo_of_remaining());
+
+        }
 
         ImageView closed=customLayout.findViewById(R.id.CloseImg);
         packageName.setText(brandListItems.get(position).getPackagename());
         totalImage.setText(brandListItems.get(position).getNo_of_total_image());
         usedImage.setText(brandListItems.get(position).getNo_of_used_image());
-        remainingImage.setText(brandListItems.get(position).getNo_of_remaining());
         expirydate.setText(brandListItems.get(position).getExpiery_date());
+        subscribeddate.setText(brandListItems.get(position).getSubscriptionDate());
         priceContent.setText("("+activity.getString(R.string.Rs)+brandListItems.get(position).getRate()+")");
         builder.setView(customLayout);
+
+
+
 
 
         AlertDialog dialog

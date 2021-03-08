@@ -189,10 +189,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
 
         Log.e("LogoForPdf", binding.pdfLogo.toString());
-
-
+        if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
+            if (preafManager.getActiveBrand() == null) {
                 preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
                 preafManager = new PreafManager(act);
+            }
+        }
 
 
         requestAgain();
@@ -676,7 +678,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     //Back Event.........................
     public void onBackPressed() {
-        CodeReUse.activityBackPress(act);
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+      //  a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(a);
     }
 
     @Override
@@ -685,6 +691,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
             bottomSheetFragment.dismiss();
         }
+        preafManager.setActiveBrand(listModel);
         Intent i = new Intent(act, HomeActivity.class);
         i.addCategory(Intent.CATEGORY_HOME);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1213,7 +1220,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 imageWebsite.scalePercent(30);
                 imageWebsite.setAbsolutePosition(30f, 300f);
                 imageWebsite.setAlignment(Element.ALIGN_LEFT);
-                document.add(imageWebsite);
                 addEmptyLine(prefaceClicableWebsite, 1);
                 prefaceClicableWebsite.setIndentationLeft(50);
                 Font websiteFont = FontFactory.getFont("assets/font/montserrat_medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
@@ -1222,33 +1228,34 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 anchorWebsite.setReference(preafManager.getActiveBrand().getWebsite());
                 prefaceClicableWebsite.add(anchorWebsite);
                 document.add(prefaceClicableWebsite);
+                document.add(imageWebsite);
             }
 
+        if (prefManager.getActiveBrand().getBrandService()!=null && !prefManager.getActiveBrand().getBrandService().isEmpty()) {
+            Paragraph prefaceClicableServicesTag = new Paragraph();
+            addEmptyLine(prefaceClicableServicesTag, 1);
+            Font brandServicetag = FontFactory.getFont("assets/font/robotobold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 30); //10 is the size
+            brandServicetag.setColor(WebColors.getRGBColor("#faa81e"));
+            prefaceClicableServicesTag.add(new Paragraph("Service:", brandServicetag));
+            prefaceClicableServicesTag.setIndentationLeft(0);
+            document.add(prefaceClicableServicesTag);
 
-        Paragraph prefaceClicableServicesTag = new Paragraph();
-        addEmptyLine(prefaceClicableServicesTag, 1);
-        Font brandServicetag = FontFactory.getFont("assets/font/robotobold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 30); //10 is the size
-        brandServicetag.setColor(WebColors.getRGBColor("#faa81e"));
-        prefaceClicableServicesTag.add(new Paragraph("Service:",brandServicetag));
-        prefaceClicableServicesTag.setIndentationLeft(0);
-        document.add(prefaceClicableServicesTag);
 
+            Paragraph paragraphClicableService = new Paragraph();
+            addEmptyLine(paragraphClicableService, 0);
+            paragraphClicableService.setIndentationLeft(0);
+            Font bsuinessService = FontFactory.getFont("assets/font/montserrat_medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
+            bsuinessService.setColor(WebColors.getRGBColor("#000"));
+            String list[] = preafManager.getActiveBrand().getBrandService().split(",|\\\n");
 
+            for (int i = 0; i < list.length; i++) {
+                // Log.e("pdfff",list[i]);
+                paragraphClicableService.add(new Paragraph("\u2022\u00a0" + list[i], bsuinessService));
 
-        Paragraph paragraphClicableService=new Paragraph();
-        addEmptyLine(paragraphClicableService, 0);
-        paragraphClicableService.setIndentationLeft(0);
-        Font bsuinessService = FontFactory.getFont("assets/font/montserrat_medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 25); //10 is the size
-        bsuinessService.setColor(WebColors.getRGBColor("#000"));
-        String list[]=preafManager.getActiveBrand().getBrandService().split(",|\\\n");
-
-        for (int i=0;i<list.length;i++) {
-           // Log.e("pdfff",list[i]);
-            paragraphClicableService.add(new Paragraph("\u2022\u00a0" + list[i],bsuinessService ));
-
+            }
+            paragraphClicableService.setIndentationLeft(0);
+            document.add(paragraphClicableService);
         }
-        paragraphClicableService.setIndentationLeft(0);
-        document.add(paragraphClicableService);
         document.close();
 //        try {
 //            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " +file_name);
@@ -1304,9 +1311,3 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
 
 }
-
-
-
-
-
-

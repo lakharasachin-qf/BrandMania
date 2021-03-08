@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+<!--    android:id="@+id/itemLayout"-->
+<!--    android:layout_width="@dimen/_50sdp"-->
+<!--    android:elevation="@dimen/_30sdp"-->
+<!--    android:layout_marginTop="@dimen/_4sdp"-->
+<!--    android:layout_marginLeft="@dimen/_4sdp"-->
+<!--    android:layout_marginRight="@dimen/_4sdp"-->
+<!--    card_view:cardCornerRadius="@dimen/_10sdp"-->
+<!--    android:layout_height="@dimen/_50sdp">-->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/itemLayout"
     android:layout_width="@dimen/_50sdp"
-    android:elevation="@dimen/_30sdp"
+
     android:layout_marginTop="@dimen/_4sdp"
     android:layout_marginLeft="@dimen/_4sdp"
     android:layout_marginRight="@dimen/_4sdp"
-    card_view:cardCornerRadius="@dimen/_10sdp"
+
     android:layout_height="@dimen/_50sdp">
 
     <ImageView
@@ -19,5 +29,5 @@
         android:layout_height="match_parent">
 
     </ImageView>
-</androidx.cardview.widget.CardView>
+</RelativeLayout>
 </layout>

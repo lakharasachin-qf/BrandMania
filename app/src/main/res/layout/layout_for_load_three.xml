@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/_10sdp"
-
         android:orientation="horizontal"
-        android:paddingStart="@dimen/_10sdp"
         android:paddingEnd="@dimen/_10sdp"
         android:weightSum="2">
 
@@ -21,12 +20,14 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:id="@+id/gmailLayout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp">
 
                 <ImageView
+                    app:tint="@color/colorPrimary"
                     android:id="@+id/gmailImage"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
@@ -53,32 +54,38 @@
 
             <RelativeLayout
                 android:id="@+id/contactLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_170sdp">
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal"
+
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp">
+
 
                 <ImageView
-                    android:id="@+id/contactImage"
-
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_outline_call_24" />
+                    android:id="@+id/contactImage"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:padding="@dimen/_4sdp"
+                    android:src="@drawable/ic_phone"
+                    app:tint="@color/colorPrimary" />
 
                 <TextView
+
+                    android:layout_toEndOf="@+id/contactImage"
                     android:id="@+id/contactText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/inter_regular"
+                    android:gravity="center_vertical"
+                    android:text="8849896537"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_toEndOf="@+id/contactImage"
-                    android:includeFontPadding="false"
-                    android:minWidth="@dimen/_80sdp"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="+91 8849 8965 37"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_8sdp" />
+
 
             </RelativeLayout>
         </RelativeLayout>
@@ -86,6 +93,7 @@
         <RelativeLayout
             android:layout_below="@+id/section1"
             android:id="@+id/section2"
+            android:layout_marginLeft="@dimen/_7sdp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_20sdp"
             android:layout_alignParentEnd="true"
@@ -95,14 +103,14 @@
             <RelativeLayout
                 android:layout_centerVertical="true"
                 android:id="@+id/loactionLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp">
 
 
                 <ImageView
                     android:id="@+id/loacationImage"
                     android:layout_width="@dimen/_12sdp"
-
+                    app:tint="@color/colorPrimary"
                     android:layout_height="@dimen/_12sdp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_outline_location_on_24"
@@ -127,13 +135,14 @@
 
             <RelativeLayout
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_170sdp"
+               android:layout_alignParentEnd="true"
                 android:id="@+id/websiteEdtLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
                >
 
                 <ImageView
+                    app:tint="@color/colorPrimary"
                     android:id="@+id/websiteImage"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"

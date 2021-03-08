@@ -238,8 +238,8 @@
 
                         <ImageView
                             android:id="@+id/logoCustom"
-                            android:layout_width="@dimen/_80sdp"
-                            android:layout_height="@dimen/_80sdp"
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="@dimen/_60sdp"
                             android:scaleType="centerInside"
                             android:background="@android:color/transparent"
                             android:visibility="gone" />

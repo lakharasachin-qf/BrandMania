@@ -88,6 +88,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private AppUpdateManager appUpdateManager;
     private Task<AppUpdateInfo> appUpdateInfoTask;
     private Activity act;
+    AlertDialog.Builder alertDialogBuilder;
     private boolean iscutomEnable = false;
 
 
@@ -250,7 +251,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         }
     }
     public void onBackPressed() {
-        CodeReUse.activityBackPress(this);
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        //  a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(a);
     }
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);

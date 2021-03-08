@@ -370,4 +370,7 @@ public class OtpScreenActivity extends BaseActivity implements  alertListenerCal
         String OtpString= binding.otpOne.getText().toString()+binding.otpTwo.getText().toString()+binding.otpThree.getText().toString()+binding.otpFour.getText().toString();
         VerificationOtp(OtpString.trim(), NumberShow);
     }
+    @Override
+    public void onBackPressed() {CodeReUse.activityBackPress(act);
+    }
 }

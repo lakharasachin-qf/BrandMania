@@ -6,13 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools">
     <androidx.appcompat.widget.Toolbar
-        android:visibility="visible"
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_80sdp"
-        android:background="@drawable/toolbar_background_second"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:visibility="visible"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
         <RelativeLayout
             android:layout_marginTop="@dimen/_10sdp"

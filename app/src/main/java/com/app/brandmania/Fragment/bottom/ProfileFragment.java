@@ -55,8 +55,7 @@ public class ProfileFragment extends BaseFragment {
     PreafManager preafManager;
 
 
-    @Override
-    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    @Override public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_profile,parent,false);
         preafManager=new PreafManager(act);
@@ -292,7 +291,6 @@ public class ProfileFragment extends BaseFragment {
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
     @Override public void update(Observable observable, Object data) {
 
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {

@@ -28,6 +28,8 @@ public class PreafManager
     private static final String MOBILE_NUMBER="MOBILE_NUMBER";
 
     private static final String ViewAllActivityIntro="viewAllActivityIntro";
+    private static final String ViewAllFrameActivityIntro="viewAllFrameActivityIntro";
+    private static final String ViewAllCustomeImageActivityIntro="viewAllCustomeImageActivityIntro";
     private static final String FORCUSTOMEFRAME="FORCUSTOMEFRAME";
     private static final String catogaryTab="Tab1";
     private static final String backgroundTab="Tab2";
@@ -102,6 +104,24 @@ public class PreafManager
     public void setViewAllActivityIntro(Boolean parameters) {
         pref.edit().putBoolean(ViewAllActivityIntro, parameters).apply();
     }
+
+
+    public Boolean getViewAllFrameActivityIntro() {
+        return pref.getBoolean(ViewAllFrameActivityIntro, true);
+    }
+    public void setViewAllFrameActivityIntro(Boolean parameters) {
+        pref.edit().putBoolean(ViewAllFrameActivityIntro, parameters).apply();
+    }
+
+
+    public Boolean getViewAllCustomeImageActivityIntro() {
+        return pref.getBoolean(ViewAllCustomeImageActivityIntro, true);
+    }
+    public void setViewAllCustomeImageActivityIntro(Boolean parameters) {
+        pref.edit().putBoolean(ViewAllCustomeImageActivityIntro, parameters).apply();
+    }
+
+
 
 
     public String getMobileNumber() {

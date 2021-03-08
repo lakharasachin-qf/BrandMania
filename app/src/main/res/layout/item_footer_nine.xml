@@ -34,21 +34,41 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_10sdp" />
 
+
                 <RelativeLayout
                     android:layout_below="@+id/brandNameText"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_centerHorizontal="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                <RelativeLayout
+
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
                     <TextView
+
+                        android:layout_marginLeft="@dimen/_3sdp"
+                        android:id="@+id/contactText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:singleLine="true"
+
+                        android:text="8849896537"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_8sdp" />
+
+                    <TextView
+                        android:layout_toEndOf="@+id/element0"
                         android:id="@+id/gmailText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_toStartOf="@+id/element"
+
                         android:includeFontPadding="false"
                         android:padding="0dp"
                         android:singleLine="true"
@@ -56,15 +76,15 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_8sdp" />
                     <View
-                        android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_marginEnd="@dimen/_7sdp"
+                        android:layout_marginLeft="@dimen/_3sdp"
                         android:id="@+id/element"
                         android:background="@color/colorPrimary"
-                        android:layout_toStartOf="@+id/soialLayout"
+                        android:layout_toEndOf="@+id/contactText"
                         android:layout_centerVertical="true"
                         android:layout_width="@dimen/_1sdp"
                         android:layout_height="@dimen/_10sdp" />
                     <LinearLayout
+                        android:layout_toEndOf="@+id/element"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/soialLayout"
                         android:orientation="horizontal"
@@ -98,8 +118,7 @@
                     </LinearLayout>
 
                     <View
-                        android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_marginEnd="@dimen/_7sdp"
+
                         android:id="@+id/element0"
                         android:background="@color/colorPrimary"
                         android:layout_toEndOf="@+id/soialLayout"
@@ -107,24 +126,10 @@
                         android:layout_width="@dimen/_1sdp"
                         android:layout_height="@dimen/_10sdp" />
 
-                    <TextView
-
-                        android:layout_centerHorizontal="true"
-                        android:id="@+id/contactText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:includeFontPadding="false"
-                        android:padding="0dp"
-                        android:singleLine="true"
-                        android:layout_toEndOf="@+id/element0"
-                        android:text="8849896537"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_8sdp" />
 
 
 
+                </RelativeLayout>
 
                 </RelativeLayout>
             </RelativeLayout>

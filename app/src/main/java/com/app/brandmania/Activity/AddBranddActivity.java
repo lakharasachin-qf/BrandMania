@@ -164,13 +164,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         });
         binding.viewImgFirst.setTag("0");
 
-    binding.skipp.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
-            startActivity(intent);
-        }
-    });
+
         binding.imgCardFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -685,84 +679,13 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         return false;
     }
 
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater mi = getMenuInflater();
-        mi.inflate(R.menu.menu,menu);
-        return true;
-    }
-    public void pop(View v){
-        PopupMenu popup = new PopupMenu(this,v);
-        MenuInflater mi = getMenuInflater();
-        mi.inflate(R.menu.menu,popup.getMenu());
-        popup.show();
-
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.log_out_brand:
-                preafManager.Logout();
-                Intent i = new Intent(act, LoginActivity.class);
-                i.addCategory(Intent.CATEGORY_HOME);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                act.finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.log_out_brand:
-                preafManager.Logout();
-                Intent i = new Intent(act, LoginActivity.class);
-                i.addCategory(Intent.CATEGORY_HOME);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                act.finish();
-                break;
-
-        }
-        return true;
-    }*/
-
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();
-        switch (item.getItemId()) {
-            case R.id.logo:
-
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
-
-
-
-
-//For Fragment
+    //For Fragment
 @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
     Fragment fragment = null;
     switch (menuItem.getItemId()) {
         case R.id.navigation_home:
-          //  fragment = new HomeFragment();
-            //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            addbrandAlertBox();
             break;
 
         case R.id.navigation_custom:
@@ -771,28 +694,20 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
            //{
                 binding.fragmentContainer.setVisibility(View.VISIBLE);
                 binding.scrollView.setVisibility(View.GONE);
+               // binding.my_toolbar.setVisibility(View.GONE);
+                binding.myToolbar.setVisibility(View.GONE);
+                binding.backImageLogo.setVisibility(View.GONE);
                 fragment = new CustomFragment();
-//                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
-//                startActivity(intent);
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            //}
-//            else
-//            {
-//                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-//
-//            }
+
             break;
 
         case R.id.navigation_download:
-          //  fragment = new DownloadsFragment();
-            //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            addbrandAlertBox();
             break;
 
         case R.id.navigation_profile:
-            //fragment = new ProfileFragment();
-            //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            addbrandAlertBox();
             break;
     }
 //        if (iscutomEnable)
@@ -811,6 +726,29 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         return false;
     }
 
+    public void addbrandAlertBox(){
+        alertDialogBuilder = new AlertDialog.Builder(act);
+        alertDialogBuilder.setTitle("Add Barand");
+        alertDialogBuilder.setMessage("Please Add Your Brand");
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent i = new Intent(act,AddBranddActivity.class);
+                        startActivity(i);
+                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    }
+                });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+       AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
 
 
 

@@ -14,9 +14,11 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Utils.Utility;
@@ -236,7 +238,7 @@ public class FooterHelper {
     public static void ChangeTextColorForFrameOne(Activity act,LayoutForLoadOneBinding oneBinding,int colodCode) {
         oneBinding.gmailImage.setImageTintList(ColorStateList.valueOf(colodCode));
         oneBinding.gmailText.setTextColor(colodCode);
-        oneBinding.contactImage.setImageTintList(ColorStateList.valueOf(colodCode));
+        oneBinding.contactImage.setBackgroundTintList(ColorStateList.valueOf(colodCode));
         oneBinding.contactText.setTextColor(colodCode);
     }
     
@@ -386,6 +388,7 @@ public class FooterHelper {
             oneBinding.gmailText.setText(activeBrand.getEmail());
         } else {
             oneBinding.gmailLayout.setVisibility(View.GONE);
+            oneBinding.contactLayout.setGravity(Gravity.CENTER);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
@@ -406,14 +409,16 @@ public class FooterHelper {
             twoBinding.gmailText.setText(activeBrand.getEmail());
         } else {
             twoBinding.gmailLayout.setVisibility(View.GONE);
-            twoBinding.contactText.setGravity(android.view.Gravity.CENTER);
+            twoBinding.contactLayout.setGravity(Gravity.CENTER);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
             twoBinding.contactText.setText(activeBrand.getPhonenumber());
         } else {
             twoBinding.contactLayout.setVisibility(View.GONE);
+            twoBinding.gmailLayout.setGravity(Gravity.CENTER);
         }
+
         if (activeBrand.getPhonenumber().isEmpty() && activeBrand.getEmail().isEmpty()) {
             twoBinding.firstView.setVisibility(View.GONE);
         }
@@ -423,13 +428,34 @@ public class FooterHelper {
             twoBinding.locationText.setText(activeBrand.getAddress());
         } else {
             twoBinding.locationLayout.setVisibility(View.GONE);
-
+            twoBinding.websiteLayout.setGravity(Gravity.CENTER);
         }
+
+
+
         if (!activeBrand.getWebsite().isEmpty()) {
             twoBinding.websiteText.setText(activeBrand.getWebsite());
         } else {
             twoBinding.websiteLayout.setVisibility(View.GONE);
+            twoBinding.locationLayout.setGravity(Gravity.CENTER);
         }
+        if (activeBrand.getWebsite().equals("https://"))
+        {
+            //Toast.makeText(act, "33333333", Toast.LENGTH_SHORT).show();
+            twoBinding.websiteLayout.setVisibility(View.GONE);
+            twoBinding.locationLayout.setGravity(Gravity.CENTER);
+        }
+        else
+        {
+           // Toast.makeText(act, "121212", Toast.LENGTH_SHORT).show();
+            twoBinding.websiteLayout.setVisibility(View.VISIBLE);
+        }
+
+
+
+
+
+
 
         if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()) {
             twoBinding.secondView.setVisibility(View.GONE);
@@ -441,6 +467,7 @@ public class FooterHelper {
             threeBinding.gmailText.setText(activeBrand.getEmail());
         } else {
             threeBinding.gmailLayout.setVisibility(View.GONE);
+            threeBinding.contactLayout.setGravity(Gravity.CENTER);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
@@ -462,7 +489,19 @@ public class FooterHelper {
         }
         else {
             threeBinding.websiteEdtLayout.setVisibility(View.GONE);
+            threeBinding.loactionLayout.setGravity(Gravity.CENTER);
         }
+        if (activeBrand.getWebsite().equals("https://"))
+        {
+            threeBinding.websiteEdtLayout.setVisibility(View.GONE);
+            threeBinding.loactionLayout.setGravity(Gravity.CENTER);
+        }
+        else
+        {
+            threeBinding.websiteEdtLayout.setVisibility(View.VISIBLE);
+        }
+
+
 
     }
     public static void loadFrameFourData(Activity act,LayoutForLoadFourBinding fourBinding) {
@@ -471,6 +510,8 @@ public class FooterHelper {
             fourBinding.gmailText.setText(activeBrand.getEmail());
         } else {
             fourBinding.gmailLayout.setVisibility(View.GONE);
+            fourBinding.topView2.setVisibility(View.GONE);
+            fourBinding.topView22.setVisibility(View.VISIBLE);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
@@ -485,11 +526,20 @@ public class FooterHelper {
         } else {
             fourBinding.locationLayout.setVisibility(View.GONE);
         }
-
         if (!activeBrand.getWebsite().isEmpty()) {
             fourBinding.websiteText.setText(activeBrand.getWebsite());
         } else {
             fourBinding.websiteLayout.setVisibility(View.GONE);
+            fourBinding.topView2.setVisibility(View.GONE);
+            fourBinding.topView22.setVisibility(View.VISIBLE);
+        }
+        if (activeBrand.getWebsite().equals("https://"))
+        {
+            fourBinding.websiteLayout.setVisibility(View.GONE);
+        }
+        else
+        {
+            fourBinding.websiteLayout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -499,7 +549,7 @@ public class FooterHelper {
             fiveBinding.gmailText.setText(activeBrand.getEmail());
         } else {
             fiveBinding.elementEmail.setVisibility(View.GONE);
-
+            fiveBinding.elementMobile.setGravity(Gravity.CENTER);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
@@ -512,6 +562,14 @@ public class FooterHelper {
             fiveBinding.websiteText.setText(activeBrand.getWebsite());
         } else {
             fiveBinding.element0.setVisibility(View.GONE);
+        }
+        if (activeBrand.getWebsite().equals("https://"))
+        {
+            fiveBinding.element0.setVisibility(View.GONE);
+        }
+        else
+        {
+            fiveBinding.element0.setVisibility(View.VISIBLE);
         }
     }
 
@@ -533,6 +591,7 @@ public class FooterHelper {
         } else {
             sevenBinding.gmailLayout.setVisibility(View.GONE);
             sevenBinding.element.setVisibility(View.GONE);
+            sevenBinding.contactLayout.setGravity(Gravity.CENTER);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
@@ -555,7 +614,8 @@ public class FooterHelper {
             eightBinding.gmailText.setText(activeBrand.getEmail());
         } else {
             eightBinding.gmailLayout.setVisibility(View.GONE);
-            eightBinding.viewOne.setVisibility(View.GONE);
+            eightBinding.element.setVisibility(View.GONE);
+            eightBinding.contactLayout.setGravity(Gravity.CENTER);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
@@ -608,7 +668,7 @@ public class FooterHelper {
             nineBinding.gmailText.setText(activeBrand.getEmail());
         } else {
             nineBinding.gmailText.setVisibility(View.GONE);
-            nineBinding.element.setVisibility(View.GONE);
+            nineBinding.element0.setVisibility(View.GONE);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {

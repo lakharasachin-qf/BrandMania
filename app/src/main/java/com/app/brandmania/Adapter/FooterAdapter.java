@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,6 +186,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderOne) holder).binding.gmailText.setText(activeBrand.getEmail());
                     }else {
                         ((FooterHolderOne) holder).binding.gmailLayout.setVisibility(View.GONE);
+                        ((FooterHolderOne) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
 
                     if (!activeBrand.getPhonenumber().isEmpty()){
@@ -248,6 +250,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderTwo) holder).binding.gmailText.setText(activeBrand.getEmail());
                     }else {
                         ((FooterHolderTwo) holder).binding.gmailLayout.setVisibility(View.GONE);
+                        ((FooterHolderTwo) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
 
                     if (!activeBrand.getPhonenumber().isEmpty()){
@@ -269,6 +272,16 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderTwo) holder).binding.websiteText.setText(activeBrand.getWebsite());
                     }else {
                         ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
+                        ((FooterHolderTwo) holder).binding.locationLayout.setGravity(Gravity.CENTER);
+                    }
+                    if (activeBrand.getWebsite().equals("https://"))
+                    {
+                        ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
+                        ((FooterHolderTwo) holder).binding.locationLayout.setGravity(Gravity.CENTER);
+                    }
+                    else
+                    {
+                        ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.VISIBLE);
                     }
 
                     if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()){
@@ -317,6 +330,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderThree) holder).binding.gmailText.setText(activeBrand.getEmail());
                     }else {
                         ((FooterHolderThree) holder).binding.gmailLayout.setVisibility(View.GONE);
+                        ((FooterHolderThree) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
 
                     if (!activeBrand.getPhonenumber().isEmpty()){
@@ -336,7 +350,17 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (!activeBrand.getWebsite().isEmpty()){
                         ((FooterHolderThree) holder).binding.websiteText.setText(activeBrand.getWebsite());
                     }else {
-                        ((FooterHolderThree) holder).binding.websiteText.setVisibility(View.GONE);
+                        ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.GONE);
+                        ((FooterHolderThree) holder).binding.loactionLayout.setGravity(Gravity.CENTER);
+                    }
+                    if (activeBrand.getWebsite().equals("https://"))
+                    {
+                        ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.GONE);
+                        ((FooterHolderThree) holder).binding.loactionLayout.setGravity(Gravity.CENTER);
+                    }
+                    else
+                    {
+                        ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.VISIBLE);
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
@@ -378,6 +402,8 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderFour) holder).binding.gmailText.setText(activeBrand.getEmail());
                     }else {
                         ((FooterHolderFour) holder).binding.gmailLayout.setVisibility(View.GONE);
+                        ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
+                        ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
                     }
 
                     if (!activeBrand.getPhonenumber().isEmpty()){
@@ -397,7 +423,19 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (!activeBrand.getWebsite().isEmpty()){
                         ((FooterHolderFour) holder).binding.websiteText.setText(activeBrand.getWebsite());
                     }else {
-                        ((FooterHolderFour) holder).binding.websiteText.setVisibility(View.GONE);
+                        ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.GONE);
+                        ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
+                        ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
+                    }
+                    if (activeBrand.getWebsite().equals("https://"))
+                    {
+                        ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.GONE);
+                        ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
+                        ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.VISIBLE);
                     }
 
                     if (checkedPosition == position) {
@@ -441,6 +479,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderFive) holder).binding.gmailText.setText(activeBrand.getEmail());
                     }else {
                         ((FooterHolderFive) holder).binding.elementEmail.setVisibility(View.GONE);
+                            ((FooterHolderFive) holder).binding.elementMobile.setGravity(Gravity.CENTER);
                     }
 
                     if (!activeBrand.getPhonenumber().isEmpty()){
@@ -453,6 +492,14 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderFive) holder).binding.websiteText.setText(activeBrand.getWebsite());
                     }else {
                         ((FooterHolderFive) holder).binding.element0.setVisibility(View.GONE);
+                    }
+                    if (activeBrand.getWebsite().equals("https://"))
+                    {
+                        ((FooterHolderFive) holder).binding.element0.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        ((FooterHolderFive) holder).binding.element0.setVisibility(View.VISIBLE);
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.VISIBLE);
@@ -545,6 +592,8 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderSeven) holder).binding.gmailText.setText(activeBrand.getEmail());
                     }else {
                         ((FooterHolderSeven) holder).binding.gmailLayout.setVisibility(View.GONE);
+                        ((FooterHolderSeven) holder).binding.element.setVisibility(View.GONE);
+                        ((FooterHolderSeven) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
                         if (!activeBrand.getName().isEmpty()){
                             ((FooterHolderSeven) holder).binding.brandNameText.setText(activeBrand.getName());
@@ -591,6 +640,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderEight) holder).binding.contactText.setText(activeBrand.getPhonenumber());
                     }else {
                         ((FooterHolderEight) holder).binding.contactLayout.setVisibility(View.GONE);
+
                     }
 
 
@@ -598,6 +648,8 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderEight) holder).binding.gmailText.setText(activeBrand.getEmail());
                     }else {
                         ((FooterHolderEight) holder).binding.gmailLayout.setVisibility(View.GONE);
+                        ((FooterHolderEight) holder).binding.element.setVisibility(View.GONE);
+                        ((FooterHolderEight) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
 
                     if (!activeBrand.getAddress().isEmpty()){
@@ -658,6 +710,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderNine) holder).binding.gmailText.setText(activeBrand.getEmail());
                     }else {
                         ((FooterHolderNine) holder).binding.gmailText.setVisibility(View.GONE);
+                        ((FooterHolderNine) holder).binding.element0.setVisibility(View.GONE);
                     }
 
 

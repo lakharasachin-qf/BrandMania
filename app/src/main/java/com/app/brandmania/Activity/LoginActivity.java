@@ -3,15 +3,23 @@ package com.app.brandmania.Activity;
 import androidx.databinding.DataBindingUtil;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -43,7 +51,8 @@ public class LoginActivity extends BaseActivity {
     private boolean isLoading = false;
     private ProgressDialog pDialog;
     PreafManager preafManager;
-
+    AlertDialog.Builder alertdialogbuilder;
+    String ContactNO;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -64,34 +73,36 @@ public class LoginActivity extends BaseActivity {
             binding.signupText.setText(Html.fromHtml(Message));
             binding.welcome.setText(Html.fromHtml(WELCOME));
         }
+
+
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                ContactNO = binding.mobileNumber.getText().toString();
+
+
                 if (!binding.mobileNumber.getText().toString().equals("")) {
-                    String ContactNO = binding.mobileNumber.getText().toString();
+
                     if (ContactNO.length() < 10) {
                         binding.mobileNumber.setError("Enter Valid Mobile Number");
                         binding.mobileNumber.requestFocus();
                         return;
-                    }
-                   else
-                    {
-                        Intent intent=new Intent(act, OtpScreenActivity.class);
+                    } else {
+                        Intent intent = new Intent(act, OtpScreenActivity.class);
                         intent.putExtra(Constant.MOBILE_NUMBER, binding.mobileNumber.getText().toString());
                         intent.addCategory(Intent.CATEGORY_HOME);
                         preafManager.setMobileNumber(binding.mobileNumber.getText().toString());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                        finish();
+
                     }
-                }
-                else
-                {
+                } else {
 
                     String ContactNO = binding.mobileNumber.getText().toString();
-                    if (ContactNO.isEmpty())
-                    {
+                    if (ContactNO.isEmpty()) {
                         binding.mobileNumber.setError("Enter Mobile Number");
                         binding.mobileNumber.requestFocus();
                         return;
@@ -100,8 +111,9 @@ public class LoginActivity extends BaseActivity {
                 }
 
 
-
             }
+
+
 
         });
 

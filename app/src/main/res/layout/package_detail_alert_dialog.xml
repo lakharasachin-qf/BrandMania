@@ -84,6 +84,9 @@
             </TextView>
 
         </RelativeLayout>
+
+
+
         <RelativeLayout
 
             android:layout_below="@+id/totalImageRelative"
@@ -120,6 +123,7 @@
             android:layout_below="@+id/usedImageRelative"
             android:layout_marginTop="@dimen/_7sdp"
             android:layout_marginLeft="@dimen/_10sdp"
+
             android:layout_marginRight="@dimen/_10sdp"
             android:id="@+id/ramainingImageRelative"
             android:layout_width="wrap_content"
@@ -146,8 +150,42 @@
             </TextView>
 
         </RelativeLayout>
+
         <RelativeLayout
-            android:layout_below="@+id/usedImageRelative"
+            android:layout_below="@+id/ramainingImageRelative"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:id="@+id/subscribeDateRelative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/subscribeDateTitle"
+                android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textColor="@color/colorNavText"
+                android:text="Subscribed On"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+            <TextView
+                android:layout_below="@+id/subscribeDateTitle"
+                android:id="@+id/SubscribedDateName"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/colorNavText"
+                android:text="12/05/2020"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_below="@+id/ramainingImageRelative"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/_7sdp"
             android:layout_marginLeft="@dimen/_10sdp"

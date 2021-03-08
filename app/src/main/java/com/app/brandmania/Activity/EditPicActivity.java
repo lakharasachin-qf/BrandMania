@@ -109,78 +109,77 @@ public class EditPicActivity extends AppCompatActivity implements ItemeInterFace
         ArrayList<MultiListItem> menuModels = new ArrayList<>();
         MultiListItem model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.recfirs);
+     //   model.setImage(R.drawable.recfirs);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.firstn);
+       // model.setImage(R.drawable.firstn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.secondn);
+       // model.setImage(R.drawable.secondn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.thirdn);
+       // model.setImage(R.drawable.thirdn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.fourn);
+       // model.setImage(R.drawable.fourn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.five);
+       // model.setImage(R.drawable.five);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.sixn);
+        //model.setImage(R.drawable.sixn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.
-                firstn);
+       // model.setImage(R.drawable.firstn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.secondn);
+        //model.setImage(R.drawable.secondn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.thirdn);
+       // model.setImage(R.drawable.thirdn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.fourn);
+        //model.setImage(R.drawable.fourn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.recofifth);
+        //model.setImage(R.drawable.recofifth);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.five);
+        //model.setImage(R.drawable.five);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.sixn);
+        //model.setImage(R.drawable.sixn);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.recfirs);
+      //  model.setImage(R.drawable.recfirs);
         menuModels.add(model);
         MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
         binding.viewRecoRecyclerrrr.setLayoutManager(new GridLayoutManager(this,3));

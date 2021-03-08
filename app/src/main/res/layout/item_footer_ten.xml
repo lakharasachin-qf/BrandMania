@@ -58,38 +58,19 @@
                     android:layout_below="@+id/addressEdtLayout"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/gmailImage"
-                        android:padding="@dimen/_4sdp"
-                        android:src="@drawable/ic_outline_mail_24"
-                        android:background="@drawable/roundbackground"
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        app:tint="@color/colorNavText" />
 
-
-                    <TextView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:id="@+id/gmailText"
+                    <RelativeLayout
+                        android:layout_centerHorizontal="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/_7sdp"
-                        android:layout_toEndOf="@+id/gmailImage"
-                        android:includeFontPadding="false"
-                        android:padding="0dp"
-                        android:singleLine="true"
-                        android:text="qfsolution@gmail.com"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_8sdp" />
+                        android:layout_height="wrap_content">
 
 
                     <ImageView
                         android:layout_width="@dimen/_18sdp"
-                        android:layout_toEndOf="@+id/gmailText"
+
                         android:id="@+id/callImage"
                         android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_outline_call_24"
@@ -112,6 +93,37 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_8sdp" />
 
+
+                        <ImageView
+
+                            android:layout_toEndOf="@+id/contactText"
+                            android:id="@+id/gmailImage"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:padding="@dimen/_4sdp"
+                            android:src="@drawable/ic_outline_mail_24"
+                            android:background="@drawable/roundbackground"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            app:tint="@color/colorNavText" />
+
+
+                        <TextView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:id="@+id/gmailText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_toEndOf="@+id/gmailImage"
+                            android:includeFontPadding="false"
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:text="qfsolution@gmail.com"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_8sdp" />
+
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
             </RelativeLayout>

@@ -8,118 +8,123 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+
             android:id="@+id/firstLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_20sdp">
 
-        <TextView
-             android:layout_centerHorizontal="true"
-            android:id="@+id/brandNameText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:textAlignment="center"
-            android:singleLine="true"
-            android:text="Brand Mania"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_10sdp" />
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/brandNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:text="Brand Mania"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_10sdp" />
 
         </RelativeLayout>
 
 
         <RelativeLayout
-            android:id="@+id/main"
             android:layout_below="@+id/firstLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp">
+            android:layout_height="wrap_content">
 
-        <RelativeLayout
-
-            android:id="@+id/alrelative"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp">
-
-            <TextView
-                android:id="@+id/gmailText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:text="qfsolution@gmail.com"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_8sdp" />
-            <View
-                android:layout_toEndOf="@+id/gmailText"
-                android:layout_marginStart="@dimen/_7sdp"
-                android:layout_marginEnd="@dimen/_7sdp"
-                android:id="@+id/element"
-                android:background="@color/colorPrimary"
-
-                android:layout_centerVertical="true"
-                android:layout_width="@dimen/_1sdp"
-                android:layout_height="@dimen/_10sdp" />
             <RelativeLayout
-                android:layout_marginLeft="@dimen/_100sdp"
-                android:id="@+id/soialLayout"
                 android:layout_centerVertical="true"
-                android:orientation="horizontal"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_20sdp">
-                <ImageView
-                    android:id="@+id/imgElement1"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:padding="@dimen/_4sdp"
-                    android:src="@drawable/ic_social_media_facebook"
-                    app:tint="@color/colorPrimary" />
+                android:layout_height="wrap_content">
+                <TextView
 
-                <ImageView
-                    android:layout_toEndOf="@+id/imgElement1"
-                    android:id="@+id/imgElement2"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:padding="@dimen/_4sdp"
-                    android:src="@drawable/ic_social_media_instagram"
-                    app:tint="@color/colorPrimary" />
+                    android:layout_marginLeft="@dimen/_3sdp"
+                    android:id="@+id/contactText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:singleLine="true"
 
-                <ImageView
-                    android:layout_toEndOf="@+id/imgElement2"
-                    android:id="@+id/imgElement3"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:padding="@dimen/_4sdp"
-                    android:src="@drawable/ic_social_media_whatsapp"
-                    app:tint="@color/colorPrimary" />
+                    android:text="8849896537"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_8sdp" />
+
+                <TextView
+                    android:layout_toEndOf="@+id/element0"
+                    android:id="@+id/gmailText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+
+                    android:includeFontPadding="false"
+                    android:padding="0dp"
+                    android:singleLine="true"
+                    android:text="qfsolution@gmail.com"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_8sdp" />
+                <View
+                    android:layout_marginLeft="@dimen/_3sdp"
+                    android:id="@+id/element"
+                    android:background="@color/colorPrimary"
+                    android:layout_toEndOf="@+id/contactText"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="@dimen/_10sdp" />
+                <LinearLayout
+                    android:layout_toEndOf="@+id/element"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/soialLayout"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imgElement1"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/ic_social_media_facebook"
+                        app:tint="@color/colorPrimary" />
+
+                    <ImageView
+                        android:layout_toEndOf="@+id/imgElement1"
+                        android:id="@+id/imgElement2"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/ic_social_media_instagram"
+                        app:tint="@color/colorPrimary" />
+
+                    <ImageView
+                        android:layout_toEndOf="@+id/imgElement2"
+                        android:id="@+id/imgElement3"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/ic_social_media_whatsapp"
+                        app:tint="@color/colorPrimary" />
+                </LinearLayout>
+
+                <View
+
+                    android:id="@+id/element0"
+                    android:background="@color/colorPrimary"
+                    android:layout_toEndOf="@+id/soialLayout"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="@dimen/_10sdp" />
+
+
+
+
+
+
             </RelativeLayout>
 
-            <View
-                android:layout_marginStart="@dimen/_7sdp"
-                android:layout_marginEnd="@dimen/_7sdp"
-                android:id="@+id/element0"
-                android:background="@color/colorPrimary"
-                android:layout_toEndOf="@+id/soialLayout"
-                android:layout_centerVertical="true"
-                android:layout_width="@dimen/_1sdp"
-                android:layout_height="@dimen/_10sdp" />
-
-            <TextView
-                android:id="@+id/contactText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_180sdp"
-                android:singleLine="true"
-                android:text="8849896537"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_8sdp" />
-
-
-
-        </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </layout>

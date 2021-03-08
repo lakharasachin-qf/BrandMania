@@ -38,7 +38,6 @@ public class AboutUsActivity extends BaseActivity {
             binding.webView.loadUrl("http://site.queryfinders.com/brandmania/index.html");
             binding.toolbarTitle.setText("About us");
         }
-
         binding.webView.setWebViewClient(new MyWebViewClient(this));
 
 

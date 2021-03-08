@@ -1,6 +1,7 @@
 package com.app.brandmania.Fragment.top;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Activity.AddBranddActivity;
 import com.app.brandmania.Adapter.FooterAdapter;
 import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
@@ -42,16 +44,21 @@ public class FooterTab extends Fragment {
         act = getActivity();
         preafManager=new PreafManager(act);
         binding = DataBindingUtil.inflate(inflater, R.layout.footer_tab, container, false);
-        if (preafManager.getActiveBrand()!=null)
-        {
+        binding.addbrandTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(act, AddBranddActivity.class);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        if (preafManager.getActiveBrand()!=null) {
             setAdapter();
         }
-        else
-        {
+        else {
             binding.footerRecycler.setVisibility(View.GONE);
             binding.addbrandTag.setVisibility(View.VISIBLE);
         }
-
         return binding.getRoot();
     }
 

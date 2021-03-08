@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,22 +59,13 @@ public void onClick(View v) {
         });
         }
 
-//        private void setAnimation(View viewToAnimate, int position) {
-//        {
-//        ViewHelper.setAlpha(viewToAnimate, .0f);
-//        com.nineoldandroids.view.ViewPropertyAnimator.animate(viewToAnimate).alpha(1).setDuration(250).start();
-//        lastPosition = position;
-//        }
-//        }
-
-@Override
-public int getItemCount() {
+        @Override
+        public int getItemCount() {
         return dataSet.size();
         }
-
-public static class ThumbnailsViewHolder extends RecyclerView.ViewHolder {
+        public static class ThumbnailsViewHolder extends RecyclerView.ViewHolder {
     public ImageView thumbnail;
-        public CardView itemLayout;
+        public RelativeLayout itemLayout;
     public ThumbnailsViewHolder(View v) {
         super(v);
         this.itemLayout=v.findViewById(R.id.itemLayout);
