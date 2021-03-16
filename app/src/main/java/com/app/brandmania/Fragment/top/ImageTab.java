@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +13,11 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-
-import com.app.brandmania.Adapter.IImageFromGalary;
 import com.app.brandmania.Adapter.ImageFromGalaryAddpater;
+import com.app.brandmania.Interface.IImageFromGalary;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.R;
-import com.app.brandmania.databinding.FrameTabBinding;
 import com.app.brandmania.databinding.ImageTabBinding;
 import com.google.gson.Gson;
 

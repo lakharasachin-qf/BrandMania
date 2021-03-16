@@ -10,12 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -25,27 +23,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.brandmania.Activity.AddBranddActivity;
-import com.app.brandmania.Activity.PackageActivity;
-import com.app.brandmania.Activity.ViewAllFrameImageActivity;
-import com.app.brandmania.Adapter.BrandAdapter;
+import com.app.brandmania.Activity.brand.AddBranddActivity;
+import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
-import com.app.brandmania.Adapter.MenuAddaptor;
-import com.app.brandmania.Adapter.MultiListItem;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
-import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.IRemoveFrame;
-import com.app.brandmania.Model.BrandListItem;
-import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
 import com.app.brandmania.databinding.FrameTabBinding;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -55,8 +46,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 public class FrameTab extends Fragment {
 

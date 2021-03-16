@@ -7,7 +7,7 @@
     android:background="@drawable/login_screen"
     android:theme="@style/AppTheme_material_theme"
     android:layout_height="match_parent"
-    tools:context=".Activity.LoginActivity">
+    tools:context=".Activity.basics.LoginActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userNameTextLayout"

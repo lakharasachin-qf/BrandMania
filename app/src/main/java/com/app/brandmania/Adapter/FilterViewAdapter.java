@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Connection.ThumbnailCallback;
+import com.app.brandmania.Interface.ThumbnailCallback;
 import com.app.brandmania.Model.ThumbnailItem;
 import com.app.brandmania.R;
 

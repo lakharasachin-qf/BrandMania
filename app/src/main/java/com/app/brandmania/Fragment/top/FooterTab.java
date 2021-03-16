@@ -9,25 +9,19 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Activity.AddBranddActivity;
+import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Adapter.FooterAdapter;
 import com.app.brandmania.Adapter.FooterModel;
-import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.onFooterSelectListener;
-import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.Utility;
-import com.app.brandmania.databinding.CategoryTabBinding;
 import com.app.brandmania.databinding.FooterTabBinding;
 
 import java.util.ArrayList;
-
-import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 public class FooterTab extends Fragment {
     Activity act;

@@ -32,9 +32,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.brandmania.Activity.PackageActivity;
-import com.app.brandmania.Activity.UpdateBandList;
-import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Activity.brand.UpdateBandList;
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
@@ -89,16 +88,14 @@ public class BrandAdapter extends RecyclerView.Adapter {
     @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
 
-            case LAYOUT_BRANDLIST :
+            case LAYOUT_BRANDLIST:
+
+            case LAYOUT_BRANDLISTBYID:
                 ItemLayoutGetbrandlistBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_getbrandlist, viewGroup, false);
                 return new BrandHolder(layoutBinding);
-            case LAYOUT_NOTIFICATIONlIST :
+            case LAYOUT_NOTIFICATIONlIST:
                 ItemNotificationLayoutBinding notificationLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_notification_layout, viewGroup, false);
                 return new NotificationHolder(notificationLayoutBinding);
-
-            case LAYOUT_BRANDLISTBYID :
-                ItemLayoutGetbrandlistBinding layoutBinding1 = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_getbrandlist, viewGroup, false);
-                return new BrandHolder(layoutBinding1);
 
 
         }

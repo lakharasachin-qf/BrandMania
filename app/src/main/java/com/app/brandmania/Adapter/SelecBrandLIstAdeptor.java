@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Common.PreafManager;
-import com.app.brandmania.Connection.ItemMultipleSelectionInterface;
 import com.app.brandmania.Fragment.bottom.HomeFragment;
+import com.app.brandmania.Interface.ItemMultipleSelectionInterface;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 

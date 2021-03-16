@@ -9,13 +9,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,7 +27,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -47,20 +44,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
-import com.app.brandmania.Activity.UpdateBandList;
 import com.app.brandmania.Activity.ViewNotificationActivity;
+import com.app.brandmania.Activity.brand.UpdateBandList;
+import com.app.brandmania.Activity.custom.CustomViewAllActivit;
+import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
 import com.app.brandmania.Adapter.DasboardAddaptor;
-import com.app.brandmania.Adapter.ImageCateItemeInterFace;
 import com.app.brandmania.Adapter.ViewPagerAdapter;
+import com.app.brandmania.BuildConfig;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
-import com.app.brandmania.Connection.ItemMultipleSelectionInterface;
 import com.app.brandmania.Connection.MyPdfPageEventHelper;
-import com.app.brandmania.Connection.WatermarkPageEvent;
 import com.app.brandmania.Fragment.BaseFragment;
+import com.app.brandmania.Interface.ImageCateItemeInterFace;
+import com.app.brandmania.Interface.ItemMultipleSelectionInterface;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.FrameItem;
@@ -77,10 +76,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
-import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.color.DeviceGray;
-import com.itextpdf.kernel.geom.Rectangle;
-import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -94,28 +89,19 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.html.WebColors;
 import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.CMYKColor;
 import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfGState;
-import com.itextpdf.text.pdf.PdfImportedPage;
-import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -133,16 +119,10 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 public class HomeFragment extends BaseFragment implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
     public static int BUSINESS_TYPE = 1;
     private String BusinessTitle;
-    ArrayList<BrandListItem> BusinessTypeList = new ArrayList<>();
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
     DashBoardItem apiResponse;
     BrandListItem brandListItem;
     private int[] layouts;
-     BaseColor red = new BaseColor(77, 86, 222);
-    String ContactNo;
-    Intent CamIntent, GalIntent, CropIntent;
-    private Bitmap selectedLogo;
-    private Uri mCropImageUri;
     AlertDialog.Builder alertDialogBuilder;
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     FiveStarsDialog fiveStarsDialog;
@@ -152,8 +132,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
     private RelativeLayout mTitleContainer;
     Activity act;
-    int pageWidth = 1200;
-    private String is_frame = "";
     PreafManager preafManager;
     private String deviceToken = "";
     private FragmentHomeBinding binding;
@@ -161,7 +139,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private HomeFragment homeFragment;
     private SelectBrandListBottomFragment bottomSheetFragment;
 
-    public String getDeviceToken(Activity act) {
+    public void getDeviceToken(Activity act) {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
                     @Override
@@ -170,7 +148,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         UpdateToken();
                     }
                 });
-        return deviceToken;
     }
 
     @Override
@@ -226,7 +203,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         });
 
-        binding.creatPdfCard.setOnClickListener(new View.OnClickListener() {
+        binding.createDigitalCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
@@ -255,6 +232,32 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 }
             }
         });
+        binding.createCustomImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(act, CustomViewAllActivit.class);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+
+        binding.createGreetingImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent i =new Intent(activity, ViewAllFrameImageActivity.class);
+//                i.putExtra("viewAll","12");
+//                //  Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
+//                i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
+//                activity.startActivity(i);
+//                i.addCategory(Intent.CATEGORY_HOME);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//
+                Intent i = new Intent(act, CustomViewAllActivit.class);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
 
         getBrandList();
 
@@ -268,7 +271,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                 startAnimation();
                 getFrame();
-                getImageCtegory();
+                loadImagesCategory();
 
             }
         });
@@ -307,7 +310,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         });
         startAnimation();
-        getImageCtegory();
+        loadImagesCategory();
         getBanner();
 
 
@@ -332,6 +335,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
             }
         });
+
         return binding.getRoot();
     }
 
@@ -382,32 +386,29 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_BANNER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 Utility.Log("GET_BANNER : ", response);
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
                     binding.swipeContainer.setRefreshing(false);
                     viewPagerItems = ResponseHandler.HandleGetBanneList(jsonObject);
+
                     if (viewPagerItems != null && viewPagerItems.size() != 0) {
-                        final ViewPagerAdapter viewPagerAddeptor = new ViewPagerAdapter(viewPagerItems, act);
-                        binding.ViewPagerView.setAdapter(viewPagerAddeptor);
+                        ViewPagerAdapter sliderAdapter = new ViewPagerAdapter(viewPagerItems, act);
+                        binding.ViewPagerView.setAdapter(sliderAdapter);
                         TimerTask timerTask = new TimerTask() {
                             @Override
                             public void run() {
                                 binding.ViewPagerView.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        binding.ViewPagerView.setCurrentItem((binding.ViewPagerView.getCurrentItem() + 1) % viewPagerAddeptor.getCount(), true);
+                                        binding.ViewPagerView.setCurrentItem((binding.ViewPagerView.getCurrentItem() + 1) % sliderAdapter.getCount(), true);
                                     }
                                 });
                             }
                         };
                         timer = new Timer();
-                        timer.schedule(timerTask, 3000, 3000);
-
-                    } else {
-                        Log.e("Condidtion", "Else");
+                        timer.schedule(timerTask, 7000, 3000);
 
                     }
 
@@ -423,14 +424,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-
-
                     }
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
@@ -441,15 +437,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 return params;
             }
 
-
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-
-                Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 
@@ -460,7 +450,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     //GetImageCategory..................
-    private void getImageCtegory() {
+    private void loadImagesCategory() {
         Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY + "?page=1");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", new Response.Listener<String>() {
             @Override
@@ -866,7 +856,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public void onRefresh() {
         startAnimation();
         getFrame();
-        getImageCtegory();
+        loadImagesCategory();
         getBrandList();
         getBanner();
 
@@ -922,7 +912,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     JSONObject jsonObject = new JSONObject(response);
                     brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
                     JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
-                    is_frame = datajsonobjecttt.getString("is_frame");
 
 //                    if (is_frame.equals("1")) {
 //                      //  Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();

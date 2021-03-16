@@ -1,7 +1,11 @@
 package com.app.brandmania.Fragment.bottom;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -19,31 +22,31 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.brandmania.Activity.AboutUsActivity;
-import com.app.brandmania.Activity.AddReportAndBug;
-import com.app.brandmania.Activity.AppIntroActivity;
-import com.app.brandmania.Activity.FaqActivity;
-import com.app.brandmania.Activity.LoginActivity;
-import com.app.brandmania.Activity.PackageActivity;
+import com.app.brandmania.Activity.about_us.AboutUsActivity;
+import com.app.brandmania.Activity.about_us.AddReportAndBug;
+import com.app.brandmania.Activity.about_us.AppIntroActivity;
+import com.app.brandmania.Activity.about_us.FaqActivity;
+import com.app.brandmania.Activity.about_us.HelpAndSupport;
+import com.app.brandmania.Activity.about_us.PartnerProgramActivity;
+import com.app.brandmania.Activity.basics.LoginActivity;
+import com.app.brandmania.Activity.brand.ViewBrandActivity;
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
-import com.app.brandmania.Activity.HelpAndSupport;
-import com.app.brandmania.Activity.PartnerProgramActivity;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Activity.ViewBrandActivity;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.databinding.DialogFacebookLikesBinding;
 import com.app.brandmania.databinding.FragmentProfileBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -190,8 +193,8 @@ public class ProfileFragment extends BaseFragment {
                 try {
                     String number = Constant.ADMIN_CONTACT_NUMBER;
                     String BrandContact="\nRegistered Number: ";
-                    String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:"+ preafManager.getActiveBrand().getName() +BrandContact+preafManager.getMobileNumber();
-                    String toNumber ="91"+number;
+                    String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:" + preafManager.getActiveBrand().getName() + BrandContact + preafManager.getMobileNumber();
+                    String toNumber = "91" + number;
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
                     startActivity(intent);
@@ -200,12 +203,18 @@ public class ProfileFragment extends BaseFragment {
                 }
             }
         });
+        binding.visitFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                facebookPageDialog();
+            }
+        });
 
         binding.privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, AboutUsActivity.class);
-                i.putExtra("termsNCondition","aboutUs");
+                i.putExtra("termsNCondition", "aboutUs");
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
@@ -213,7 +222,23 @@ public class ProfileFragment extends BaseFragment {
 
         return binding.getRoot();
     }
+    public static String FACEBOOK_URL = "https://www.facebook.com/brandmania2020";
+    public static String FACEBOOK_PAGE_ID = "brandmania2020";
 
+    //method to get the right URL to use in the intent
+    public String getFacebookPageURL(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850) {
+                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            } else { //older versions of fb app
+                return "fb://page/" + FACEBOOK_PAGE_ID;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return FACEBOOK_URL; //normal web url
+        }
+    }
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     private void getBrandList() {
 
@@ -305,5 +330,36 @@ public class ProfileFragment extends BaseFragment {
                 binding.videoLine.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public DialogFacebookLikesBinding facebookLikesBinding;
+    private void facebookPageDialog() {
+        facebookLikesBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_facebook_likes, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(facebookLikesBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(facebookLikesBinding.getRoot());
+
+        facebookLikesBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+                String facebookUrl = getFacebookPageURL(act);
+                facebookIntent.setData(Uri.parse(facebookUrl));
+                startActivity(facebookIntent);
+            }
+        });
+        facebookLikesBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
     }
 }

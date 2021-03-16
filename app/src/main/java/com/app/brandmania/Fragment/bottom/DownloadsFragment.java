@@ -11,17 +11,18 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.tabs.TabLayout;
-
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.FragmentDownloadsBinding;
-import com.app.brandmania.databinding.FragmentHomeBinding;
+import com.google.android.material.tabs.TabLayout;
+
+import org.jetbrains.annotations.NotNull;
 
 public class DownloadsFragment extends Fragment {
     Activity act;
     private FragmentDownloadsBinding binding;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_downloads, container, false);
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("DOWNLOAD"));

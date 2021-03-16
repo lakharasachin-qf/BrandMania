@@ -10,20 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Activity.CustomViewAllActivit;
-import com.google.gson.Gson;
-import com.app.brandmania.Activity.EditPicActivity;
+import com.app.brandmania.Activity.custom.CustomViewAllActivit;
+import com.app.brandmania.Interface.FrameInterFace;
+import com.app.brandmania.Interface.ItemeInterFace;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ItemFaqLayoutBinding;
 import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import static com.app.brandmania.Adapter.MultiListItem.ACTIVITY_VIEWALLFRAME;
 import static com.app.brandmania.Adapter.MultiListItem.ACTIVITY_VIEWALLIMAGE;
 import static com.app.brandmania.Adapter.MultiListItem.LAYOUT_COLOR;
-
 import static com.app.brandmania.Adapter.MultiListItem.LAYOUT_FAQ;
 import static com.app.brandmania.Adapter.MultiListItem.LAYOUT_RECOMMANDATION;
 

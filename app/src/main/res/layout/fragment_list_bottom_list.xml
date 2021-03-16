@@ -16,11 +16,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="Expence"
+            android:text="Title"
             android:textColor="@color/alltextcolor"
             android:textSize="@dimen/_12sdp" />
 
-
+        <RelativeLayout
+            android:layout_marginTop="@dimen/_7sdp"
+            android:id="@+id/addBrandLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/addIcon"
+                android:src="@drawable/fab_add"
+                android:padding="@dimen/_2sdp"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                app:tint="@color/colorPrimary" />
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/addIcon"
+            android:id="@+id/addBrandText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Add Brand"
+            android:textColor="@color/alltextcolor"
+            android:textSize="@dimen/_10sdp" />
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerList"

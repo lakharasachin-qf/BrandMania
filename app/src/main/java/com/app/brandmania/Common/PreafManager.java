@@ -12,25 +12,17 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
-public class PreafManager
-
-{
+public class PreafManager {
     private static final String PREF_NAME = "makemybrand";
     private static final String USER_TOKEN = "user_token";
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
-    private static final  String IS_Brand="is_brand";
-    private static final  String IS_Registration="is_registration";
-    private static final String ADD_BRAND_LIST="add_brand_list";
-    private static final String ADD_TO_FAVOURIT="add_to_favourit";
-    private static final String EMAIL_Id="email_id";
-    private static final String MOBILE_NUMBER="MOBILE_NUMBER";
 
-    private static final String ViewAllActivityIntro="viewAllActivityIntro";
-    private static final String ViewAllFrameActivityIntro="viewAllFrameActivityIntro";
-    private static final String ViewAllCustomeImageActivityIntro="viewAllCustomeImageActivityIntro";
-    private static final String FORCUSTOMEFRAME="FORCUSTOMEFRAME";
+    private static final String ViewAllActivityIntro = "viewAllActivityIntro";
+    private static final String ViewAllFrameActivityIntro = "viewAllFrameActivityIntro";
+    private static final String ViewAllCustomeImageActivityIntro = "viewAllCustomeImageActivityIntro";
+    private static final String FORCUSTOMEFRAME = "FORCUSTOMEFRAME";
     private static final String catogaryTab="Tab1";
     private static final String backgroundTab="Tab2";
     private static final String textTab="Tab3";
@@ -44,26 +36,7 @@ public class PreafManager
     }
 
 
-    public Boolean getCatogaryTab() {
-        return pref.getBoolean(catogaryTab, true);
-    }
-    public void setCatogaryTab(Boolean parameters) {
-        pref.edit().putBoolean(catogaryTab, parameters).apply();
-    }
 
-    public Boolean getBackgroundTab() {
-        return pref.getBoolean(backgroundTab, true);
-    }
-    public void setBackgroundTab(Boolean parameters) {
-        pref.edit().putBoolean(backgroundTab, parameters).apply();
-    }
-
-    public Boolean gettextTab() {
-        return pref.getBoolean(textTab, true);
-    }
-    public void setTextTab(Boolean parameters) {
-        pref.edit().putBoolean(textTab, parameters).apply();
-    }
 
 
     @SuppressLint("CommitPrefEdits")
@@ -205,11 +178,7 @@ public class PreafManager
       editor.commit();
         Log.e("Your List",gson.toJson(FavouritImage));
     }
-    public void removeAllSavedFav(){
-        editor.putString("favouritImage","");
-        editor.apply();
-        editor.commit();
-    }
+
     public ArrayList<ImageList> getSavedFavorites() {
         ArrayList<ImageList> favouritImageItem=new ArrayList<>();
         String jsonFavorites = pref.getString("favouritImage", null);
@@ -254,9 +223,6 @@ public class PreafManager
         editor.putString("is_completed",is_completed);
         editor.commit();
         editor.apply();
-    }
-    public String getLoginStep(){
-        return  pref.getString("is_completed","0");
     }
 
     public void setUserToken(String token) {

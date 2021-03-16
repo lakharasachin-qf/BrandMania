@@ -17,6 +17,17 @@ public class ImageList {
     private String frame;
     private String frameId;
     private String logo;
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public ImageList setIndex(int index) {
+        this.index = index;
+        return this;
+    }
+
     private String frame1;
     private String frame1Id;
     private boolean isCustom=true;

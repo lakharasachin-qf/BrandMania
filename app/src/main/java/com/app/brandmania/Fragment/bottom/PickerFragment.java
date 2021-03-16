@@ -33,13 +33,13 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.app.brandmania.BuildConfig;
 import com.app.brandmania.Common.Constant;
-import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.R;
+import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.FragmentPickerBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -59,15 +59,12 @@ public class PickerFragment extends BottomSheetDialogFragment {
     private FragmentPickerBinding binding;
     private final boolean isVideoMode = false;
 
-    private boolean isEnableViewMode = false;
     private TiggerEventParents eventParents;
+
     private HandlerImageLoad imageLoad;
     private int actionId;
-    private Bitmap selectedBitmapForFullView;
-    private String imageUrl;
     private String cameraFilePath;
     public final static String FOLDER = Environment.getExternalStorageDirectory() + "/PDF";
-    private int calledFragmentContext = 0;
 
     public PickerFragment(Activity act) {
         this.act = act;
@@ -115,17 +112,14 @@ public class PickerFragment extends BottomSheetDialogFragment {
     }
 
     public void setSelectedBitmapForFullView(Bitmap selectedBitmapForFullView) {
-        this.selectedBitmapForFullView = selectedBitmapForFullView;
     }
 
 
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public void setEnableViewMode(boolean enableViewMode) {
-        isEnableViewMode = enableViewMode;
     }
 
 
@@ -139,7 +133,6 @@ public class PickerFragment extends BottomSheetDialogFragment {
     }
 
     public void setCalledFragmentContext(int calledFragmentContext) {
-        this.calledFragmentContext = calledFragmentContext;
     }
 
     public int getActionId() {

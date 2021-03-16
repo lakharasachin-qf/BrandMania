@@ -28,9 +28,9 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.app.brandmania.Activity.PackageActivity;
-import com.app.brandmania.Activity.alertListenerCallback;
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.BuildConfig;
+import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.DetailImageviewBinding;

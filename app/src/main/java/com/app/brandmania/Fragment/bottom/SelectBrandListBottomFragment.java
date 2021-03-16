@@ -3,6 +3,7 @@ package com.app.brandmania.Fragment.bottom;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
+import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.app.brandmania.Adapter.SelecBrandLIstAdeptor;
 import com.app.brandmania.Common.PreafManager;
@@ -83,6 +86,7 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
             context=this;
             fragment = this;
             preafManager=new PreafManager(act);
+
             listModels=preafManager.getAddBrandList();
             binding.titleText.setText("Your Brands");
             Log.e("Prefrancedata", String.valueOf(preafManager.getAddBrandList().size()));
@@ -94,10 +98,17 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
                 binding.recyclerList.setLayoutManager(mLayoutManager);
                 binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
                 binding.recyclerList.setAdapter(adpt);
-
-
-
             }
+
+            binding.addBrandLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.dismiss();
+                    Intent i = new Intent(act, AddBrandMultipleActivity.class);
+                    startActivity(i);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                }
+            });
             binding.recyclerList.requestFocus();
 
             return view;

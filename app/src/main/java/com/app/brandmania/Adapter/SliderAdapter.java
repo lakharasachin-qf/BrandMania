@@ -2,26 +2,20 @@ package com.app.brandmania.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.app.brandmania.Activity.RazorPayActivity;
-import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Activity.packages.RazorPayActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
 import com.google.gson.Gson;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 

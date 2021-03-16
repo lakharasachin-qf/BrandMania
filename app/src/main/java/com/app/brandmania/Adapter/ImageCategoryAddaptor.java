@@ -2,28 +2,19 @@ package com.app.brandmania.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Activity.ViewAllFrameImageActivity;
-import com.app.brandmania.Activity.ViewAllImage;
-import com.app.brandmania.Activity.ViewOnlyCustomeFrame;
+import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
+import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.IBackendFrameSelect;
+import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
@@ -131,8 +122,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             // if (layoutType==FROM_HOMEFRAGEMENT) {
-                            Intent intent=new Intent(activity,ViewAllImage.class);
-                            Gson  gson=new Gson();
+                            Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                            Gson gson = new Gson();
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
                             intent.putExtra("selectedimage",gson.toJson(model));
                             intent.putExtra("position",position);
@@ -149,7 +140,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     {
                         ((ImageCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
-
+                    preafManager = new PreafManager(activity);
                      if (preafManager.getActiveBrand()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                             ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
@@ -166,8 +157,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             if (layoutType==FROM_HOMEFRAGEMENT) {
-                                Intent intent=new Intent(activity,ViewAllImage.class);
-                                Gson  gson=new Gson();
+                                Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                                Gson gson = new Gson();
                                 intent.putExtra("selectedimage",gson.toJson(model));
                                 intent.putExtra("position",position);
                                 activity.startActivity(intent);

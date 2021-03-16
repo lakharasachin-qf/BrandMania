@@ -9,12 +9,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.transition.ChangeBounds;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.SeekBar;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,20 +20,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.app.brandmania.Adapter.FilterListener;
 import com.app.brandmania.Adapter.FilterViewAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Connection.FilterList;
-import com.app.brandmania.Connection.ThumbnailCallback;
 import com.app.brandmania.Connection.ThumbnailsManager;
 import com.app.brandmania.Interface.IImageBritnessEvent;
-import com.app.brandmania.Interface.ITextSizeEvent;
 import com.app.brandmania.Interface.IrotateEvent;
+import com.app.brandmania.Interface.ThumbnailCallback;
 import com.app.brandmania.Model.ThumbnailItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.EditTabBinding;
-import com.app.brandmania.databinding.FooterTabBinding;
-import com.zomato.photofilters.SampleFilters;
 
 import java.util.List;
 

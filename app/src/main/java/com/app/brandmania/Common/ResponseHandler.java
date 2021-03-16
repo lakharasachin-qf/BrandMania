@@ -755,13 +755,14 @@ public class ResponseHandler {
             JSONArray datajsonArray = getJSONArray(jsonObject, "data");
             if (!datajsonArray.isNull(0) && datajsonArray.length() != 0) {
                 string = new ArrayList<>();
-                for (int i = 0; i < datajsonArray.length(); i++) {
+                for (int i = 7; i < datajsonArray.length(); i++) {
                     try {
                         JSONObject datajsonObject = datajsonArray.getJSONObject(i);
                         ImageList model = new ImageList();
                         model.setLayoutType(ImageList.LAYOUT_FRAME_CATEGORY_BY_ID);
                         model.setName(getString(datajsonObject, "title"));
                         model.setId(getString(datajsonObject,"img_cat_map_id"));
+                        model.setIndex(i);
                         model.setImagecatid(getString(datajsonObject, "img_cat_id"));
                         model.setImageid(getString(datajsonObject, "image_id"));
                         model.setLogo(getString(datajsonObject, "img_thumb_path"));

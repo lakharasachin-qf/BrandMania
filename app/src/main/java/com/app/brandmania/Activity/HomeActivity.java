@@ -1,14 +1,5 @@
 package com.app.brandmania.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,8 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -34,7 +23,11 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -43,22 +36,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.custom.CustomViewAllActivit;
 import com.app.brandmania.Common.Constant;
-import com.app.brandmania.Common.MakeMyBrandApp;
-import com.app.brandmania.Common.ObserverActionID;
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
-import com.app.brandmania.Model.VersionListIItem;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.Utility;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Fragment.bottom.CustomFragment;
 import com.app.brandmania.Fragment.bottom.DownloadsFragment;
 import com.app.brandmania.Fragment.bottom.HomeFragment;
 import com.app.brandmania.Fragment.bottom.ProfileFragment;
+import com.app.brandmania.Model.VersionListIItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.CodeReUse;
+import com.app.brandmania.Utils.APIs;
+import com.app.brandmania.Utils.Utility;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
@@ -66,19 +57,11 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Timer;
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
@@ -98,7 +81,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         FetchCustomeFrameStatus();
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
         act=this;
         getUpadte();
@@ -122,23 +105,18 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
             case R.id.navigation_custom:
 
-                if (iscutomEnable)
-                {
+                if (iscutomEnable) {
                     fragment = new CustomFragment();
 //                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
 //                startActivity(intent);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                }
-                else
-                {
-                    Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), CustomViewAllActivit.class);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
                 }
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
-                case R.id.navigation_download:
+            case R.id.navigation_download:
                 fragment = new DownloadsFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
@@ -155,40 +133,37 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         return loadFragment(fragment);
     }
     private boolean loadFragment(Fragment fragment) {
-        //switching fragment
+
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
             return true;
         }
         return false;
+
     }
 
 
     //app updates
     private void checkForUpdates() {
+
         appUpdateManager = AppUpdateManagerFactory.create(act);
         appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
 
-        // Checks that the platform will allow the specified type of update.
+        //Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                        // For a flexible update, use AppUpdateType.FLEXIBLE
-                        && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
                     startAppUpdates(appUpdateInfo);
                 }
             }
         });
+
     }
 
     private void startAppUpdates(AppUpdateInfo appUpdateInfo) {
         try {
-            appUpdateManager.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    IMMEDIATE,
-                    act,
-                    Constant.APP_UPDATES);
+            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE, act, Constant.APP_UPDATES);
         } catch (IntentSender.SendIntentException e) {
             e.printStackTrace();
         }

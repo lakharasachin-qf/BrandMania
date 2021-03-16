@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:theme="@style/AppTheme_material_theme"
         android:layout_height="match_parent"
-        tools:context=".Activity.AddBranddActivity">
+        tools:context=".Activity.brand.AddBranddActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"

@@ -1,13 +1,6 @@
 package com.app.brandmania.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.app.brandmania.Activity.VIewAllDownloadImage;
-import com.app.brandmania.Activity.ViewAllFavouritActivity;
+import com.app.brandmania.Interface.FrameCateItemeInterFace;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.DownloadlisItemListBinding;
 import com.app.brandmania.databinding.ItemDownloadGridBinding;
-import com.app.brandmania.databinding.ItemLayoutGetbrandlistBinding;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import static com.app.brandmania.Model.DownloadFavoriteItemList.LAYOUT_DOWNLOAD;
 import static com.app.brandmania.Model.DownloadFavoriteItemList.LAYOUT_DOWNLOADGRID;

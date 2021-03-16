@@ -16,15 +16,13 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
 import com.app.brandmania.Activity.HomeActivity;
-import com.app.brandmania.Activity.ViewAllImage;
-import com.app.brandmania.Activity.ViewBrandActivity;
-import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Activity.brand.ViewBrandActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;

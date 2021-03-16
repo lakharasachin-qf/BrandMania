@@ -12,10 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-import com.app.brandmania.Activity.ViewAllImage;
+import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class DasboardAddaptor extends RecyclerView.Adapter<DasboardAddaptor.Dasb
         dasboardViewHolder.viewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i =new Intent(activity, ViewAllImage.class);
+                Intent i = new Intent(activity, ImageCategoryDetailActivity.class);
                 i.putExtra("viewAll","12");
                 i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
                 activity.startActivity(i);

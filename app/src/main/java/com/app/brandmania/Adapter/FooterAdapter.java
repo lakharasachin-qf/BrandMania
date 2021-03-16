@@ -8,15 +8,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Activity.PackageActivity;
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Common.PreafManager;
-import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ItemFooterEightBinding;
@@ -42,7 +40,6 @@ import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SIX;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_THREE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWO;
-import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
 
 
 public class FooterAdapter extends RecyclerView.Adapter{

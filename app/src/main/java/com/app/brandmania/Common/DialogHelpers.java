@@ -9,7 +9,7 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.app.brandmania.Activity.PackageActivity;
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 

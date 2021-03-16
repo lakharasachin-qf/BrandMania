@@ -9,7 +9,8 @@
         android:id="@+id/rootBackground"
         android:layout_height="match_parent"
         android:theme="@style/AppTheme_material_theme"
-        tools:context=".Activity.ViewAllFrameImageActivity">
+        tools:context=".Activity.custom.ViewAllFrameImageActivity">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Interface.IImageFromGalary;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.R;
 import com.bumptech.glide.Glide;
