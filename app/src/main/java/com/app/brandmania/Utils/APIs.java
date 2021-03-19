@@ -2,9 +2,9 @@ package com.app.brandmania.Utils;
 
 public class APIs {
 
-    public static final String URL = "http://queryfinders.com/brandmania_uat/public/api/";
+    //public static final String URL = "http://queryfinders.com/brandmania_uat/public/api/";
     //public static final String URL = "http://queryfinders.com/Brand360/public/api/";
-   // public static final String URL= "http://192.168.1.131/brand365/public/api/";
+    public static final String URL= "http://192.168.1.133/brandmania_uat/public/api/";
     public static final String USER_REGISTRATION =URL+"userRegistration";
     public static final String ADD_BRAND = URL+"addBrand";
     public static final String GET_BRAND_CATEGORY = URL + "getBrandCategory";
@@ -36,7 +36,7 @@ public class APIs {
     public static final String GET_BRAND_BY_ID = URL + "getBrandById";
     public static final String CUSTOM_FRAME_ACCESS=URL+"getCustomFrameAccess";
     public static final String GET_APP_VIDEO_LINK=URL+"getVideo";
-   public static final String GET_CUSTOME_FRAME_CATEGORY = URL + "getCustomeImageCategory";
+    public static final String GET_CUSTOME_FRAME_CATEGORY = URL + "getCustomeImageCategory";
     public static final String GET_FRAMEBYID_CATEGORY = URL + "getCustomImageCategoryImage";
-   public static final String FETCH_CUSTOME_FRAME_STATUS=URL+"fetchCustomFrameStatus";
+    public static final String FETCH_CUSTOME_FRAME_STATUS=URL+"fetchCustomFrameStatus";
 }

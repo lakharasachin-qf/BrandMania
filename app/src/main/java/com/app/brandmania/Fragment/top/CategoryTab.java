@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -66,6 +67,9 @@ public class CategoryTab extends FrameTab {
 
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
+        Log.e("IMAGELIST--",new Gson().toJson(imageList));
+        Log.e("selectedObject--",new Gson().toJson(selectedObject));
+
        // Toast.makeText(getActivity(),imageList.getId(),Toast.LENGTH_LONG).show();
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
@@ -163,10 +167,16 @@ public class CategoryTab extends FrameTab {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                if (imageList != null)
+                if (imageList != null) {
                     params.put("image_category_id", imageList.getId());
-                else
+                }
+                else {
                     params.put("image_category_id", selectedObject.getId());
+                }
+
+                if (act.getIntent().hasExtra("dailyImages")){
+                    params.put("image_category_id", selectedObject.getId());
+                }
 
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -248,10 +258,16 @@ public class CategoryTab extends FrameTab {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                if (imageList != null)
+                if (imageList != null) {
+
                     params.put("image_category_id", imageList.getId());
+                }
                 else
                     params.put("image_category_id", selectedObject.getId());
+
+                if (act.getIntent().hasExtra("dailyImages")){
+                    params.put("image_category_id", selectedObject.getId());
+                }
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }

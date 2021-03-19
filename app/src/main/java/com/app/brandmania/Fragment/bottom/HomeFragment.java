@@ -58,6 +58,7 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.MyPdfPageEventHelper;
 import com.app.brandmania.Fragment.BaseFragment;
+import com.app.brandmania.Interface.IImageFromGalary;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Interface.ItemMultipleSelectionInterface;
 import com.app.brandmania.Model.BrandListItem;
@@ -138,6 +139,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     Timer timer;
     private HomeFragment homeFragment;
     private SelectBrandListBottomFragment bottomSheetFragment;
+    CUSTOM_TAB_CHANGE_INTERFACE custom_tab_change_interface;
+
+    public HomeFragment setCustom_tab_change_interface(CUSTOM_TAB_CHANGE_INTERFACE custom_tab_change_interface) {
+        this.custom_tab_change_interface = custom_tab_change_interface;
+        return this;
+    }
+
+    public interface CUSTOM_TAB_CHANGE_INTERFACE{
+        void makeTabChange(int i);
+    }
 
     public void getDeviceToken(Activity act) {
         FirebaseInstanceId.getInstance().getInstanceId()
@@ -182,9 +193,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         RateUs();
 
 
-
-
             Glide.with(act).load(preafManager.getActiveBrand().getLogo());
+
 
 
 
@@ -244,18 +254,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.createGreetingImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i =new Intent(activity, ViewAllFrameImageActivity.class);
-//                i.putExtra("viewAll","12");
-//                //  Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
-//                i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
-//                activity.startActivity(i);
-//                i.addCategory(Intent.CATEGORY_HOME);
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-//
-                Intent i = new Intent(act, CustomViewAllActivit.class);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                ((CUSTOM_TAB_CHANGE_INTERFACE) Objects.requireNonNull(getActivity())).makeTabChange(1);
             }
         });
 
@@ -309,9 +308,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
             }
         });
-        startAnimation();
-        loadImagesCategory();
-        getBanner();
+
 
 
         if (!checkPermission()) {
@@ -785,6 +782,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                     }
 
+                    startAnimation();
+                    loadImagesCategory();
+                    getBanner();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -913,33 +914,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
                     JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
 
-//                    if (is_frame.equals("1")) {
-//                      //  Toast.makeText(act,"Frame is added",Toast.LENGTH_LONG).show();
-//                        binding.alertRelative.setVisibility(View.GONE);
-//                        is_payment_pending= datajsonobjecttt.getString("is_payment_pending");
-//                        is_package= datajsonobjecttt.getString("package");
-//
-//                        if(is_package.equals(""))
-//                        {
-//                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
-//                          //  binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "package_message"));
-//
-//                        }
-//                        else if (is_payment_pending.equals("1"))
-//                        {
-//                            binding.contactTxtLayout.setVisibility(View.VISIBLE);
-//                            binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "payment_message"));
-//
-//                        }
-//
-//
-//                    }
-//                    else if (is_frame.equals("0")) {
-//                        binding.alertText.setText(ResponseHandler.getString(datajsonobjecttt, "frame_message"));
-//                        binding.contactTxtLayout.setVisibility(View.VISIBLE);
-//                    }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1051,20 +1025,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
 
         Document document = new Document(PageSize.A4);
-//        String outpath = Environment.getExternalStorageDirectory() + "/MytPdfBrand.pdf";
-//
-//
-//
-//
-//        File file = getDisc();
-//        if (!file.exists() && !file.mkdirs()) {
-//            return;
-//        }
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
-//        String date = simpleDateFormat.format(new Date());
-//        String name = "BrandPdf" +System.currentTimeMillis()+ ".pdf";
-//        String file_name = file.getAbsolutePath() + "/" + name;
-
 
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/BrandManiaPdf";
 

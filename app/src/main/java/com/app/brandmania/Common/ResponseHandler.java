@@ -211,15 +211,47 @@ public class ResponseHandler {
     public static DashBoardItem HandleGetImageCategory(JSONObject jsonObject) throws JSONException {
         DashBoardItem dashBoardItem=new DashBoardItem();
         ArrayList<DashBoardItem> string = null;
+        string = new ArrayList<>();
         if (isSuccess(null, jsonObject)) {
-            JSONArray datajsonArray = getJSONArray(jsonObject, "data");
+            ArrayList<ImageList> DailyImages = null;
+            JSONArray datajsonArray=null;
+            if (jsonObject.get("dailyImages") instanceof JSONArray) {
+                  datajsonArray = getJSONArray(jsonObject, "dailyImages");
+                DailyImages = new ArrayList<>();
+                DashBoardItem model1 = new DashBoardItem();
+                model1.setLayout(DashBoardItem.DAILY_IMAGES);
+                if (!datajsonArray.isNull(0) && datajsonArray.length() != 0) {
+
+                    for (int i = 0; i < datajsonArray.length(); i++) {
+                        try {
+                            JSONObject datajsonObject = datajsonArray.getJSONObject(i);
+                            ImageList model = new ImageList();
+                            model.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
+                            model.setId(getString(datajsonObject, "id"));
+                            model.setName(getString(datajsonObject, "name"));
+                            model.setFrame(getString(datajsonObject, "thumbnail_url"));
+                            DailyImages.add(model);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    model1.setDailyImages(DailyImages);
+                    string.add(model1);
+
+                }
+            }
+
+
+            datajsonArray = getJSONArray(jsonObject, "data");
             if (!datajsonArray.isNull(0) && datajsonArray.length() != 0) {
-                string = new ArrayList<>();
+
                 for (int i = 0; i < datajsonArray.length(); i++) {
                     try {
                         JSONObject datajsonObject = datajsonArray.getJSONObject(i);
                         DashBoardItem model = new DashBoardItem();
-
+                        model.setLayout(DashBoardItem.FESTIVAL_IMAGES);
                         model.setId(getString(datajsonObject, "id"));
                         model.setName(getString(datajsonObject, "img_cat_name"));
                         model.setDescription(getString(datajsonObject, "img_cat_desc"));
@@ -260,6 +292,7 @@ public class ResponseHandler {
 
                 }
             }
+
             dashBoardItem.setDashBoardItems(string);
 
             JSONObject linkObj=getJSONObject(jsonObject,"link");

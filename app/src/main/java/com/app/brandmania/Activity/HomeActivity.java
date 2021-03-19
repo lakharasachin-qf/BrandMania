@@ -65,7 +65,7 @@ import java.util.Map;
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
-public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HomeFragment.CUSTOM_TAB_CHANGE_INTERFACE {
     VersionListIItem versionListIItem;
     PreafManager preafManager;
     private AppUpdateManager appUpdateManager;
@@ -74,7 +74,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     AlertDialog.Builder alertDialogBuilder;
     private boolean iscutomEnable = false;
 
-
+    BottomNavigationView navigation;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -88,7 +88,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
         checkForUpdates();
         loadFragment(new HomeFragment());
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -446,4 +446,14 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         queue.add(stringRequest);
     }
 
+    @Override
+    public void makeTabChange(int i) {
+        Fragment fragment = null;
+        if (i==1) {
+            navigation.setSelectedItemId(R.id.navigation_custom);
+            fragment = new CustomFragment();
+        }
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        loadFragment(fragment);
+    }
 }

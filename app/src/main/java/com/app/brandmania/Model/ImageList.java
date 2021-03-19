@@ -8,7 +8,9 @@ public class ImageList {
     public static final int LAYOUT_FRAME = 3;
     public static final int LAYOUT_FRAME_CATEGORY = 4;
     public static final int LAYOUT_FRAME_CATEGORY_BY_ID=5;
+    public static final int LAYOUT_DAILY_IMAGES=6;
     public static final int LAYOUT_LOADING = 30;
+
     private int layoutType;
     private String name;
     private String id;
@@ -38,6 +40,27 @@ public class ImageList {
     private String isFrame;
     private String x_conrdinate;
     private String y_cordinate;
+    private String textX_Cordinate;
+    private String textY_Cordinate;
+
+    public String getTextX_Cordinate() {
+        return textX_Cordinate;
+    }
+
+    public ImageList setTextX_Cordinate(String textX_Cordinate) {
+        this.textX_Cordinate = textX_Cordinate;
+        return this;
+    }
+
+    public String getTextY_Cordinate() {
+        return textY_Cordinate;
+    }
+
+    public ImageList setTextY_Cordinate(String textY_Cordinate) {
+        this.textY_Cordinate = textY_Cordinate;
+        return this;
+    }
+
     public String getIsFrame() {
         return isFrame;
     }

@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Activity.DailyImagesActivity;
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Common.PreafManager;
@@ -18,6 +20,7 @@ import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ItemLayoutDailyImagesBinding;
 import com.app.brandmania.databinding.ItemLayoutFrameBinding;
 import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallframeBinding;
@@ -27,6 +30,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_IMAGES;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY_BY_ID;
@@ -71,6 +75,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
             case LAYOUT_IMAGE_CATEGORY:
                 ItemLayoutHomeBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_home, viewGroup, false);
                 return new ImageCategoryHolder(layoutBinding);
+            case LAYOUT_DAILY_IMAGES:
+                ItemLayoutDailyImagesBinding inflate = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_daily_images, viewGroup, false);
+                return new DailyHolder(inflate);
             case LAYOUT_IMAGE_CATEGORY_BY_ID:
                 ItemLayoutViewallimageBinding viewallimageBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_viewallimage, viewGroup, false);
                 return new ImageCategoryByIdHolder(viewallimageBinding);
@@ -100,6 +107,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                 return LAYOUT_FRAME_CATEGORY;
             case 5:
                 return LAYOUT_FRAME_CATEGORY_BY_ID;
+            case 6:
+                return LAYOUT_DAILY_IMAGES;
             default:
                 return -1;
         }
@@ -141,11 +150,29 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         ((ImageCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
                     preafManager = new PreafManager(activity);
-                     if (preafManager.getActiveBrand()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                     if (preafManager.getActiveBrand()!=null &&  preafManager.getActiveBrand().getIs_payment_pending()!=null &&preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                             ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
-
                     }
+                    break;
+                case LAYOUT_DAILY_IMAGES:
+                    Glide.with(activity)
+                            .load(model.getFrame())
+                            .placeholder(R.drawable.placeholder)
+                            .into(((DailyHolder) holder).binding.image);
+                    ((DailyHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(activity, model.getId()+"", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                            Gson gson = new Gson();
+                            intent.putExtra("dailyImages","1");
+                            intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
+                            intent.putExtra("selectedimage",gson.toJson(model));
+                            intent.putExtra("position",position);
+                            activity.startActivity(intent);
+                        }
+                    });
                     break;
                 case LAYOUT_IMAGE_CATEGORY_BY_ID:
 
@@ -277,7 +304,15 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
 
     }
+    static class DailyHolder extends RecyclerView.ViewHolder {
+        ItemLayoutDailyImagesBinding binding;
 
+        DailyHolder(ItemLayoutDailyImagesBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
     static class ImageCategoryHolder extends RecyclerView.ViewHolder {
         ItemLayoutHomeBinding binding;
 

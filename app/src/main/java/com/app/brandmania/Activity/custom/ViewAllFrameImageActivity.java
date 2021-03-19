@@ -282,10 +282,15 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.CustomImageMain);
         RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         myEditText = new EditText(act,null);
+
+//        mRparams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        mRparams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+
         mRparams.leftMargin = 200;
         mRparams.topMargin = 600;
         myEditText.setLayoutParams(mRparams);
         myEditText.setCursorVisible(false);
+
         myEditText.setText("Add Text");
         myEditText.setTextColor(Color.parseColor("#0C0C0C"));
         myEditText.setTextSize(13);
@@ -685,45 +690,72 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     public void LoadDataToUI(){
         preafManager=new PreafManager(act);
         if (selectedObject != null) {
+            selectedObject.setTextX_Cordinate("100");
+            selectedObject.setTextY_Cordinate("100");
             if (selectedObject.getX_conrdinate()==null || selectedObject.getX_conrdinate().equalsIgnoreCase("null") || selectedObject.getX_conrdinate().isEmpty()) {
                 selectedObject.setX_conrdinate(String.valueOf("330"));
                 selectedObject.setY_cordinate(String.valueOf("380"));
+//                selectedObject.setTextX_Cordinate("100");
+//                selectedObject.setTextY_Cordinate("100");
             }
             if (selectedObject.getIndex() == 15){
                 selectedObject.setX_conrdinate(String.valueOf("520"));
                 selectedObject.setY_cordinate(String.valueOf("280"));
+//                selectedObject.setTextX_Cordinate("100");
+//                selectedObject.setTextY_Cordinate("260");
             }
             if (selectedObject.getIndex() == 14){
                 selectedObject.setX_conrdinate(String.valueOf("400"));
                 selectedObject.setY_cordinate(String.valueOf("330"));
+//                selectedObject.setTextX_Cordinate("220");
+//                selectedObject.setTextY_Cordinate("280");
             }
             if (selectedObject.getIndex() == 13){
                 selectedObject.setX_conrdinate(String.valueOf("350"));
-                selectedObject.setY_cordinate(String.valueOf("270"));
+                selectedObject.setY_cordinate(String.valueOf("290"));
+//                selectedObject.setTextX_Cordinate("230");
+//                selectedObject.setTextY_Cordinate("280");
             }
             if (selectedObject.getIndex() == 12){
                 selectedObject.setX_conrdinate(String.valueOf("250"));
                 selectedObject.setY_cordinate(String.valueOf("270"));
+//                selectedObject.setTextX_Cordinate("50");
+//                selectedObject.setTextY_Cordinate("250");
             }
 
             if (selectedObject.getIndex() == 11){
                 selectedObject.setX_conrdinate(String.valueOf("250"));
                 selectedObject.setY_cordinate(String.valueOf("380"));
+//                selectedObject.setTextX_Cordinate("250");
+//                selectedObject.setTextY_Cordinate("250");
+
             }
             if (selectedObject.getIndex() == 10){
                 selectedObject.setX_conrdinate(String.valueOf("450"));
                 selectedObject.setY_cordinate(String.valueOf("200"));
+//                selectedObject.setTextX_Cordinate("50");
+//                selectedObject.setTextY_Cordinate("250");
             }
+
+            if (selectedObject.getIndex() == 9){
+//                selectedObject.setTextX_Cordinate("50");
+//                selectedObject.setTextY_Cordinate("280");
+            }
+
+//            if (selectedObject.getIndex() == 7){
+//                selectedObject.setTextX_Cordinate("50");
+//                selectedObject.setTextY_Cordinate("250");
+//            }
 
 
             binding.simpleProgressBar.setVisibility(View.GONE);
             Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.backImage);
 
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(250, 250);
-            int WeidthRefDevice=1080;
-            int HeightRefDevice=2028;
+//            int WeidthRefDevice=1080;
+//            int HeightRefDevice=2028;
             int dpValuex = Integer.parseInt(selectedObject.getX_conrdinate());
-            int dpValuey = Integer.parseInt(selectedObject.getY_cordinate());// margin in dips
+            int dpValuey = Integer.parseInt(selectedObject.getY_cordinate()); //margin in dips
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int height = displayMetrics.heightPixels;
@@ -733,9 +765,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             Resources r=getResources();
             Log.e("last", String.valueOf(d));
             int marginx = Math.round(TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, dpValuex,r.getDisplayMetrics()));;//(int)((dpValuex * width)/WeidthRefDevice);  // margin in pixels
+                    TypedValue.COMPLEX_UNIT_DIP, dpValuex,r.getDisplayMetrics()));  ;//(int)((dpValuex * width)/WeidthRefDevice);  // margin in pixels
             int marginy = Math.round(TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, dpValuex,r.getDisplayMetrics()));;//(int)((dpValuey * height)/HeightRefDevice);  // margin in pixels
+                    TypedValue.COMPLEX_UNIT_DIP, dpValuey,r.getDisplayMetrics())); ;//(int)((dpValuey * height)/HeightRefDevice);  // margin in pixels
 
             layoutParams.leftMargin = marginx;
             layoutParams.topMargin = marginy;
@@ -743,20 +775,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutParams.rightMargin = -250;
 
 
-         //   binding.editableImageview.setLayoutParams(layoutParams);
-            //binding.editableImageview.setVisibility(View.VISIBLE);
-            //binding.backImage.setVisibility(View.VISIBLE);
-            //selectedImageBitmap=drawableToBitmap(ContextCompat.getDrawable(act,R.drawable.ic_gallry));
-          //  binding.editableImageview.setImageBitmap(selectedImageBitmap);
-
-//            binding.editableImageview.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                    binding.viewPager.setCurrentItem(2);
-//                    TouchImageMotion();
-//                    return false;
-//                }
-//            });
 
 
 

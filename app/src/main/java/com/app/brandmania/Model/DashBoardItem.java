@@ -6,6 +6,19 @@ public class DashBoardItem {
 
     private ArrayList<DashBoardItem> dashBoardItems;
 
+    public static final int DAILY_IMAGES=0;
+    public static final int FESTIVAL_IMAGES=1;
+
+    private int layout;
+
+    public int getLayout() {
+        return layout;
+    }
+
+    public DashBoardItem setLayout(int layout) {
+        this.layout = layout;
+        return this;
+    }
 
     private String id;
     private String Cat_id;
@@ -17,6 +30,27 @@ public class DashBoardItem {
     private String x_conrdinate;
     private String y_cordinate;
     private boolean isImageFree=false;
+    private String thumbnail;
+
+    ArrayList<ImageList> dailyImages;
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public DashBoardItem setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+        return this;
+    }
+
+    public ArrayList<ImageList> getDailyImages() {
+        return dailyImages;
+    }
+
+    public DashBoardItem setDailyImages(ArrayList<ImageList> dailyImages) {
+        this.dailyImages = dailyImages;
+        return this;
+    }
 
     public boolean isImageFree() {
         return isImageFree;
