@@ -160,10 +160,11 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .load(model.getFrame())
                             .placeholder(R.drawable.placeholder)
                             .into(((DailyHolder) holder).binding.image);
+                    ((DailyHolder)holder).binding.title.setText(model.getName());
                     ((DailyHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(activity, model.getId()+"", Toast.LENGTH_SHORT).show();
+
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages","1");

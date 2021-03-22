@@ -425,7 +425,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             askForUpgradeToEnterpisePackage();
                             return;
                         }
-                        getImageDownloadRights("Share");
+                       // getImageDownloadRights("Share");
+
                 requestAgain();
                 saveImageToGallery(true, false);
 
@@ -433,6 +434,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         });
         LoadDataToUI();
+
         if (preafManager.getActiveBrand()!=null) {
             if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty()) {
                 binding.logoEmptyState.setVisibility(View.GONE);
@@ -457,8 +459,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                         onSelectImageClick(view);
                     }
                 });
-
-
             }
         }
         else {
@@ -688,6 +688,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
     @SuppressLint("ClickableViewAccessibility")
     public void LoadDataToUI(){
+
         preafManager=new PreafManager(act);
         if (selectedObject != null) {
             selectedObject.setTextX_Cordinate("100");
@@ -775,16 +776,55 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutParams.rightMargin = -250;
 
 
+           layoutParams = new RelativeLayout.LayoutParams(200, 200);
+            int WeidthRefDevice=1080;
+            int HeightRefDevice=2028;
+              dpValuex = Integer.parseInt(selectedObject.getX_conrdinate()); // margin in dips
+              dpValuey = Integer.parseInt(selectedObject.getY_cordinate()); // margin in dips
+              displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+              height = displayMetrics.heightPixels;
+              width = displayMetrics.widthPixels;
+            Log.e("last3", String.valueOf(d));
+              marginx = (int)((dpValuex * width)/WeidthRefDevice); // margin in pixels
+              marginy = (int)((dpValuey * height)/HeightRefDevice); // margin in pixels
+            layoutParams.leftMargin = marginx;
+            layoutParams.topMargin = marginy;
+            layoutParams.bottomMargin = -250;
+            layoutParams.rightMargin = -250;
+            binding.editableImageview.setOnTouchListener(null);
+            layoutParams.height=200;
+            layoutParams.width=200;
+            binding.editableImageview.setScaleX(DefaultScaleX);
+            binding.editableImageview.setScaleY(DefaultScaleY);
+            binding.editableImageview.setRotation(0);
+            binding.editableImageview.setLayoutParams(layoutParams);
+            binding.editableImageview.setVisibility(View.VISIBLE);
+            binding.backImage.setVisibility(View.VISIBLE);
+            selectedImageBitmap=drawableToBitmap(ContextCompat.getDrawable(act,R.drawable.ic_gallry));
+            binding.editableImageview.setImageBitmap(selectedImageBitmap);
 
+
+            binding.editableImageview.requestLayout();
+
+            binding.editableImageview.setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    binding.viewPager.setCurrentItem(2);
+                    TouchImageMotion();
+                    return false;
+                }
+            });
 
 
         } else {
             // binding.simpleProgressBar.setVisibility(View.VISIBLE);
         }
-    if (preafManager.getActiveBrand()!=null) {
-        if (selectedFooterModel == null)
-            loadFirstImage();
-    }
+        if (preafManager.getActiveBrand()!=null) {
+            if (selectedFooterModel == null)
+                loadFirstImage();
+        }
     }
     //For RefresGalary
     public void refreshgallery(File file) {

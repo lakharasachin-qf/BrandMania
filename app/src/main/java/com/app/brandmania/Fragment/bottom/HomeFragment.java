@@ -404,8 +404,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                                 });
                             }
                         };
+
                         timer = new Timer();
-                        timer.schedule(timerTask, 7000, 3000);
+                        timer.schedule(timerTask, 10000, 10000);
 
                     }
 

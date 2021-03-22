@@ -30,28 +30,8 @@ import java.net.URL;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-//    @Override
-//    public void onNewToken(String s) {
-//        super.onNewToken(s);
-//        Log.e("NEW_TOKEN",s);
-//    }
-//
-//    @Override
-//    public void onMessageReceived(RemoteMessage remoteMessage) {
-//        super.onMessageReceived(remoteMessage);
-//        Log.e("remoteMessage", remoteMessage.getData().toString());
-//
-//        // Checking for first time launch - before calling setContentView()
-//        PreafManager prefManager = new PreafManager(getApplicationContext());
-//
-//        //if (prefManager.getReceiveNotification()) {
-//        ///         removePendingOrders(remoteMessage.getData().get("message"));
-//        Utility.Log("Notification", remoteMessage.getData().get("title") + "-" + remoteMessage.getData().get("msg") + "-" + remoteMessage.getData().get("flag"));
-//
-//
-//    }
-
     public static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
+    String GROUP_KEY = "com.app.brandmania.FESTIVALS";
 
 
     @Override
@@ -63,21 +43,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived( RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.e("remoteMessage", remoteMessage.getData().toString());
-
-        // Checking for first time launch - before calling setContentView()
-        Utility.Log("Notification", remoteMessage.getData().get("title") + "-" + remoteMessage.getData().get("msg") + "-" + remoteMessage.getData().get("flag"));
-
         shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"),remoteMessage.getData().get("image"));
-
-
     }
 
 
     private void shownotification(String title, String msg, String message,String url) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel mChannel = new NotificationChannel(CodeReUse.CHANNEL_ID, CodeReUse.CHANNEL_NAME, importance);
             mChannel.setDescription(CodeReUse.CHANNEL_DESCRIPTION);
@@ -98,7 +73,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent = new Intent(this, HomeActivity.class);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CodeReUse.CHANNEL_ID)
@@ -107,10 +81,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setContentText(msg)
+                .setGroupSummary(true)
                 .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setSound(defaultSoundUri)
+                .setGroup(GROUP_KEY)
                 .setDeleteIntent(createOnDismissedIntent(this))
                 .setContentIntent(pendingIntent);
 
@@ -127,7 +103,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify("Brand Mania",( int ) System. currentTimeMillis (), notificationBuilder.build());
     }
 
     private PendingIntent createOnDismissedIntent(Context context) {

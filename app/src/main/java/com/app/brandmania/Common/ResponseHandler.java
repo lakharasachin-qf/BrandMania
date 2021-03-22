@@ -215,7 +215,7 @@ public class ResponseHandler {
         if (isSuccess(null, jsonObject)) {
             ArrayList<ImageList> DailyImages = null;
             JSONArray datajsonArray=null;
-            if (jsonObject.get("dailyImages") instanceof JSONArray) {
+            if ( jsonObject.has("dailyImages") && jsonObject.get("dailyImages") instanceof JSONArray) {
                   datajsonArray = getJSONArray(jsonObject, "dailyImages");
                 DailyImages = new ArrayList<>();
                 DashBoardItem model1 = new DashBoardItem();

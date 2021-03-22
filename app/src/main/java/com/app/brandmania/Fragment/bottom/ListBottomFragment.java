@@ -74,6 +74,9 @@ public class ListBottomFragment  extends BottomSheetDialogFragment {
 
 
         }
+        if (calledFlag==0){
+            binding.addBrandLayout.setVisibility(View.GONE);
+        }
         binding.recyclerList.requestFocus();
 
         return view;

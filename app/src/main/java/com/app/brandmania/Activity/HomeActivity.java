@@ -381,7 +381,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                Utility.Log("POSTED-PARAMS-", params.toString());
+                Utility.Log("PARS", params.toString());
                 return params;
             }
 
