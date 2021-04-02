@@ -81,17 +81,15 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         FetchCustomeFrameStatus();
-        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
         act=this;
         getUpadte();
-
         checkForUpdates();
         loadFragment(new HomeFragment());
-         navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
 
     }
     @SuppressLint("NonConstantResourceId")
@@ -107,8 +105,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
                 if (iscutomEnable) {
                     fragment = new CustomFragment();
-//                Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
-//                startActivity(intent);
+                    //Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
+                    //startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), CustomViewAllActivit.class);
                     startActivity(intent);
@@ -141,6 +139,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         return false;
 
     }
+
 
 
     //app updates

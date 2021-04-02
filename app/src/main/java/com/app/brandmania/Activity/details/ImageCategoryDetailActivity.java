@@ -192,7 +192,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        //triggerUpgradePackage();
+        //triggerUpgradePackage(); taflon tape
+        //valve
         act.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
         preafManager = new PreafManager(this);

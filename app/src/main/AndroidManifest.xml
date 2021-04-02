@@ -27,7 +27,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".Activity.DailyImagesActivity"></activity>
+        <activity android:name=".newModule.EditingActivity"></activity>
+        <activity android:name=".Activity.DailyImagesActivity" />
         <activity android:name=".Activity.custom.ViewAllFrameImageActivity" />
         <activity android:name=".Activity.about_us.AppIntroActivity" />
         <activity android:name=".Activity.custom.CustomViewAllActivit" />

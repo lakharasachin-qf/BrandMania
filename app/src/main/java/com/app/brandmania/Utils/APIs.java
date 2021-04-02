@@ -1,10 +1,9 @@
 package com.app.brandmania.Utils;
 
 public class APIs {
-
-   // public static final String URL = "http://queryfinders.com/brandmania_uat/public/api/";
+     public static final String URL = "http://queryfinders.com/brandmania_uat/public/api/";
     //public static final String URL = "http://queryfinders.com/Brand360/public/api/";
-    public static final String URL= "http://192.168.1.133/brandmania_uat/public/api/";
+   // public static final String URL= "http://192.168.1.131/brandmania_uat/public/api/";
     public static final String USER_REGISTRATION =URL+"userRegistration";
     public static final String ADD_BRAND = URL+"addBrand";
     public static final String GET_BRAND_CATEGORY = URL + "getBrandCategory";
