@@ -6,27 +6,29 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Html;
-import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
@@ -49,6 +51,7 @@ import com.app.brandmania.Model.VersionListIItem;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.databinding.DialogPermissionsLayoutBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -63,6 +66,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HomeFragment.CUSTOM_TAB_CHANGE_INTERFACE {
@@ -80,20 +87,27 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        FetchCustomeFrameStatus();
+        FetchCustomFrameStatus();
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager=new PreafManager(this);
         act=this;
-        getUpadte();
+        getUpdate();
         checkForUpdates();
         loadFragment(new HomeFragment());
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            askPermissions();
+        }
+
     }
     @SuppressLint("NonConstantResourceId")
-    @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
@@ -124,10 +138,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
         }
-//        if (iscutomEnable)
-//        {
-//         return false;
-//        }
         return loadFragment(fragment);
     }
     private boolean loadFragment(Fragment fragment) {
@@ -140,7 +150,179 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     }
 
+    // ask for payment
+    public DialogPermissionsLayoutBinding permissionsLayoutBinding;
+    private int REQUESTED_ALL=0001;
+    private int REQUESTED_CAMERA=0002;
+    private int REQUESTED_STORAGE=0003;
+    private int REQUESTED_CONTACT=0004;
+    private int REQUEST_SETTINGS=0005;
+    androidx.appcompat.app.AlertDialog alertDialog;
+    public void askPermissions() {
+        permissionsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_permissions_layout, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle);
+        builder.setView(permissionsLayoutBinding.getRoot());
+        alertDialog = builder.create();
+        alertDialog.setContentView(permissionsLayoutBinding.getRoot());
 
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
+        }
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
+        }
+//        if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+//            permissionsLayoutBinding.checked3.setVisibility(View.VISIBLE);
+//        }
+
+        permissionsLayoutBinding.permissionLayout1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(act,
+                        new String[]{CAMERA}, REQUESTED_CAMERA);
+            }
+        });
+        permissionsLayoutBinding.permissionLayout2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(act,
+                        new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                        REQUESTED_STORAGE);
+            }
+        });
+
+//        permissionsLayoutBinding.permissionLayout3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ActivityCompat.requestPermissions(act,
+//                        new String[]{READ_EXTERNAL_STORAGE},
+//                        3);
+//            }
+//        });
+
+        permissionsLayoutBinding.allowPermission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    alertDialog.dismiss();
+                }else {
+                    ActivityCompat.requestPermissions(act,
+                            new String[]{CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
+                            REQUESTED_ALL);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean targetSetting=false;
+        if (requestCode == REQUESTED_ALL) {
+            if (grantResults.length > 0) {
+                boolean cameraGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                boolean readStorageGrant = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                boolean writeStorageGrant = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                if (cameraGrant) {
+                    permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
+                }
+                if (readStorageGrant && writeStorageGrant){
+                    permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
+                }
+                if (cameraGrant && readStorageGrant && writeStorageGrant){
+                    return;
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (shouldShowRequestPermissionRationale(CAMERA)) {
+                        showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(new String[]{ CAMERA}, REQUESTED_CAMERA);
+                            }
+                        });
+                    }else if(shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
+                        requestPermissions(new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE}, REQUESTED_STORAGE);
+                    }
+                    else {
+                        targetSetting=true;
+                    }
+
+                }
+            }else {
+                Toast.makeText(act, "You need to allow permission for better performance", Toast.LENGTH_SHORT).show();
+            }
+        }else if(requestCode == REQUESTED_CAMERA){
+            boolean cameraGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+
+            if (cameraGrant) {
+                permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
+                return;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(CAMERA)) {
+                    showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(new String[]{ CAMERA}, REQUESTED_CAMERA);
+                        }
+                    });
+                }
+                else {
+                    targetSetting=true;
+                }
+
+            }
+        }else if (requestCode == REQUESTED_STORAGE){
+
+            boolean readStorageGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            boolean writeStorageGrant = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            if (readStorageGrant && writeStorageGrant){
+                permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
+                return;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
+                    showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(new String[]{ READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE}, REQUESTED_CAMERA);
+                        }
+                    });
+                }else {
+                    targetSetting=true;
+                }
+            }
+        }
+        if (targetSetting){
+            showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivityForResult(intent, REQUEST_SETTINGS);
+                }
+            });
+        }
+    }
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
 
     //app updates
     private void checkForUpdates() {
@@ -205,37 +387,30 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                             });
         }
 
-    }
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public void setWhiteNavigationBar( Activity act) {
-        Window window = getWindow();
-        if (window != null) {
-            DisplayMetrics metrics = new DisplayMetrics();
-            window.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            GradientDrawable dimDrawable = new GradientDrawable();
-            // ...customize your dim effect here
-            GradientDrawable navigationBarDrawable = new GradientDrawable();
-            navigationBarDrawable.setShape(GradientDrawable.RECTANGLE);
-            navigationBarDrawable.setColor(act.getColor(R.color.Graycolor));
-            // navigationBarDrawable.setTint(act.getColor(R.color.WhiteColor));
-            Drawable[] layers = {dimDrawable, navigationBarDrawable};
-            LayerDrawable windowBackground = new LayerDrawable(layers);
-            windowBackground.setLayerInsetTop(1, metrics.heightPixels);
-            window.setBackgroundDrawable(windowBackground);
+        if (alertDialog!=null && alertDialog.isShowing()){
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
+            }
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
+            }
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                permissionsLayoutBinding.allowPermission.setText("Close");
+            }
         }
+
     }
+
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);
         a.addCategory(Intent.CATEGORY_HOME);
-        //  a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(a);
     }
-    public void captureScreenShort() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-    }
-    private void getUpadte() {
 
+    private void getUpdate() {
         Utility.Log("API : ", APIs.GET_UPDATE);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_UPDATE,new Response.Listener<String>() {
             @Override
@@ -389,7 +564,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-    private void FetchCustomeFrameStatus() {
+    private void FetchCustomFrameStatus() {
 
         Utility.Log("API : ", APIs.FETCH_CUSTOME_FRAME_STATUS);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.FETCH_CUSTOME_FRAME_STATUS,new Response.Listener<String>() {
@@ -444,7 +619,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-
     @Override
     public void makeTabChange(int i) {
         Fragment fragment = null;

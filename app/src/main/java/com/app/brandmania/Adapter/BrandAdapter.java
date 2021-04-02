@@ -149,7 +149,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                             activity.finish();
-
                         }
                     });
 
@@ -387,18 +386,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
         Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         pbutton.setBackgroundColor(Color.WHITE);
     }
-    private void makePhoneCall() {
-        String number ="8460638464";
-        if (number.trim().length() > 0) {
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
-            } else {
-                String dial = "tel:" + number;
-                activity.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
-            }
-        }
-    }
+
     private void DeletAssigement(final String BrandId) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.DELETE_BRAND, new Response.Listener<String>() {
             @Override

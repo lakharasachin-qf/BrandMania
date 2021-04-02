@@ -178,6 +178,7 @@ public class FrameTab extends Fragment {
                             binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
                         } else {
 
+                          //  binding.text1.setVisibility(View.VISIBLE);
                             binding.frameRecycler.setVisibility(View.GONE);
                             binding.subscribePlaneBtn.setVisibility(View.GONE);
                         }
