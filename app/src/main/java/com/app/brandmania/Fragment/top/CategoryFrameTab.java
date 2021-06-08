@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -101,9 +102,12 @@ public class CategoryFrameTab extends FrameTab {
                     apiObject = ResponseHandler.HandleGetFrameByIdCategory(jsonObject);
                     if (apiObject.getCatogaryImagesList() != null){
                         menuModels=apiObject.getCatogaryImagesList();
+
                         if (menuModels != null && menuModels.size() != 0) {
                             setAdapter();
+
                         }else {
+
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }

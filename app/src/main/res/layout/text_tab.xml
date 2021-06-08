@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+       <LinearLayout
+           android:id="@+id/addTextLayout"
+           android:gravity="end"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <Button
+               android:id="@+id/addText"
+               android:textColor="@color/colorPrimary"
+               android:background="@android:color/transparent"
+               android:layout_gravity="end"
+               android:text="Add Text"
+               android:textAllCaps="false"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"/>
+       </LinearLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/addTextLayout"
+             android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-        <com.jaredrummler.android.colorpicker.ColorPickerView
-            android:visibility="gone"
-            android:layout_below="@+id/cancleClick"
-            android:id="@+id/colorPickerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.jaredrummler.android.colorpicker.ColorPickerView
+                android:id="@+id/colorPickerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cancleClick"
+                android:visibility="gone" />
 
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/cancleClick"
+            <ImageView
+                android:id="@+id/cancleClick"
+                android:visibility="gone"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="@dimen/_10sdp"
             android:src="@drawable/ic_outline_close_24"
@@ -53,27 +73,30 @@
                 android:visibility="visible" />
         </androidx.cardview.widget.CardView>
 
-<RelativeLayout
-    android:layout_below="@+id/cancleClick"
-    android:id="@+id/fontStyleList"
-    android:layout_marginTop="@dimen/_5sdp"
-    android:layout_toEndOf="@id/parentColroChoose"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-     <com.google.android.material.textfield.TextInputLayout
-         android:id="@+id/categoryEdtLayout"
-         style="@style/fontStyle"
-         android:layout_width="match_parent"
-         android:layout_marginLeft="@dimen/_10sdp"
-         android:layout_marginRight="@dimen/_10sdp"
-         app:hintTextColor="@color/colorPrimary"
-         app:errorEnabled="true"
-         android:layout_height="@dimen/_35sdp">
 
-      <com.google.android.material.textfield.TextInputEditText
-          android:id="@+id/categoryEdt"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
+            <RelativeLayout
+
+                android:id="@+id/fontStyleList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cancleClick"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toEndOf="@id/parentColroChoose">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/categoryEdtLayout"
+                    style="@style/fontStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/categoryEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
           android:clickable="true"
           android:drawableEnd="@drawable/ic_drop_arrow"
           android:focusable="false"
@@ -151,9 +174,10 @@
                 android:layout_toEndOf="@+id/underlineText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                />
+                android:layout_centerVertical="true" />
 
         </RelativeLayout>
+        </RelativeLayout>
+
     </RelativeLayout>
 </layout>

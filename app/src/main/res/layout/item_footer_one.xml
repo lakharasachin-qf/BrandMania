@@ -121,15 +121,17 @@
                 <RelativeLayout
                     android:id="@+id/addressLayoutElement2"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_height="wrap_content"
                     android:background="@color/colorPrimary">
 
                     <RelativeLayout
                         android:paddingStart="@dimen/_7sdp"
                         android:paddingEnd="@dimen/_7sdp"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
                         android:id="@+id/addressLayoutElement"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
                        >
 
                         <ImageView
@@ -146,7 +148,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingEnd="@dimen/_10sdp"
-                            android:singleLine="true"
                             android:layout_centerVertical="true"
                             android:includeFontPadding="false"
                             android:layout_marginStart="@dimen/_5sdp"

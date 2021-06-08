@@ -257,19 +257,8 @@ public class PickerFragment extends BottomSheetDialogFragment {
         try {
 
             bitmap = MediaStore.Images.Media.getBitmap(act.getContentResolver(), selectedImage);
-            Bitmap imageRotate;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                ExifInterface exifObject = new ExifInterface(selectedImagePath);
-                int orientation = exifObject.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-                imageRotate = rotateBitmap(bitmap, orientation);
-            } else {
-                imageRotate = bitmap;
-            }
 
-            if (imageRotate == null || imageRotate.getByteCount() == 0) {
-                imageRotate = bitmap;
-            }
-            imageLoad.onGalleryResult(actionId, imageRotate);
+            imageLoad.onGalleryResult(actionId, bitmap);
             this.dismiss();
         } catch (IOException e) {
             e.printStackTrace();
@@ -308,48 +297,53 @@ public class PickerFragment extends BottomSheetDialogFragment {
 
                 if (data != null) {
                     Uri selectedImage = data.getData();
+                    CropImage.activity(selectedImage)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setMultiTouchEnabled(true)
+                            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                            .start(getContext(), this);
 
-                    String selectedImagePath = getRealPathFromURIPath(selectedImage, act);
-                    if (eventParents != null)
-                        eventParents.handleEventOnImageSelection(1);
-                    Utility.loadImageOnURI(act, binding.selectedImage, selectedImage);
-                    Bitmap bitmap;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(act.getContentResolver(), selectedImage);
-                        Bitmap imageRotate;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            ExifInterface exifObject = new ExifInterface(selectedImagePath);
-                            int orientation = exifObject.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-                            imageRotate = rotateBitmap(bitmap, orientation);
-                        } else {
-                            imageRotate = bitmap;
-                        }
-
-                        if (imageRotate == null || imageRotate.getByteCount() == 0) {
-                            imageRotate = bitmap;
-                        }
-
-                        if (actionId == Constant.PICKER_PROFILE) {
-                            CropImage.activity(selectedImage)
-                                    .setGuidelines(CropImageView.Guidelines.ON)
-                                    .setAspectRatio(1, 1)
-                                    .setOutputCompressQuality(100)
-                                    .setRequestedSize(700, 700)
-                                    .start(getContext(), this);
-                        } else {
-
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
-
-                            byte[] byteArray = stream.toByteArray();
-                            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-                            imageLoad.onGalleryResult(actionId, compressedBitmap);
-                            this.dismiss();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    String selectedImagePath = getRealPathFromURIPath(selectedImage, act);
+//                    if (eventParents != null)
+//                        eventParents.handleEventOnImageSelection(1);
+//                    Utility.loadImageOnURI(act, binding.selectedImage, selectedImage);
+//                    Bitmap bitmap;
+//                    try {
+//                        bitmap = MediaStore.Images.Media.getBitmap(act.getContentResolver(), selectedImage);
+//                        Bitmap imageRotate;
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                            ExifInterface exifObject = new ExifInterface(selectedImagePath);
+//                            int orientation = exifObject.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+//                            imageRotate = rotateBitmap(bitmap, orientation);
+//                        } else {
+//                            imageRotate = bitmap;
+//                        }
+//
+//                        if (imageRotate == null || imageRotate.getByteCount() == 0) {
+//                            imageRotate = bitmap;
+//                        }
+//
+//                        if (actionId == Constant.PICKER_PROFILE) {
+//                            CropImage.activity(selectedImage)
+//                                    .setGuidelines(CropImageView.Guidelines.ON)
+//                                    .setAspectRatio(1, 1)
+//                                    .setOutputCompressQuality(100)
+//                                    .setRequestedSize(700, 700)
+//                                    .start(getContext(), this);
+//                        } else {
+//
+//                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+//
+//                            byte[] byteArray = stream.toByteArray();
+//                            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+//
+//                            imageLoad.onGalleryResult(actionId, compressedBitmap);
+//                            this.dismiss();
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
             } else if (requestCode == CodeReUse.CAMERA_INTENT && resultCode == RESULT_OK) {

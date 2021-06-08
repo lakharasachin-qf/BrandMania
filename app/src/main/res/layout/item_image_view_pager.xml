@@ -20,11 +20,9 @@
         android:visibility="visible"
         android:id="@+id/pageFrame"
         android:layout_width="match_parent"
-        android:scaleType="fitXY"
 
         android:layout_height="@dimen/_150sdp"
-        android:adjustViewBounds="true"
-        >
+         >
 
     </ImageView>
 

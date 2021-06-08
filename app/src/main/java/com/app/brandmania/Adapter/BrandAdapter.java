@@ -34,6 +34,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.packages.PackageActivity;
+import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
@@ -148,7 +150,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             i.addCategory(Intent.CATEGORY_HOME);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                            activity.finish();
+
                         }
                     });
 
@@ -193,17 +195,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             ((BrandHolder)holder).binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    try {
-                                        String number ="8460638464";
-                                        String BrandContact="\nRegistered Number: ";
-                                        String text = "Hello *BrandMania* ,  \n" + "this is request to add *Frame* For BrandName:"+ ((BrandHolder)holder).binding.businessName.getText().toString() +BrandContact+preafManager.getMobileNumber();
-                                        String toNumber ="91"+number;
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
-                                        activity.startActivity(intent);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                    HELPER.WHATSAPP_REDIRECTION(activity,((BrandHolder)holder).binding.businessName.getText().toString(),preafManager.getMobileNumber());
                                 }
                             });
                         }

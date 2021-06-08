@@ -84,7 +84,7 @@ public class TextureTab extends Fragment {
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.bluevignet);
+        //model.setImage(R.drawable.bluevignet);
         menuModels.add(model);
 
         model = new MultiListItem();

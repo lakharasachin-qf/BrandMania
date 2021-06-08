@@ -90,9 +90,9 @@ public class ApplicationLifeCycle implements Application.ActivityLifecycleCallba
                 }
             }
 
-            Log.i(TAG, "Enter foreground");
+            Log.e(TAG, "Enter foreground");
         } else {
-            Log.i(TAG, "still foreground");
+            Log.e(TAG, "still foreground");
         }
     }
 
@@ -107,9 +107,9 @@ public class ApplicationLifeCycle implements Application.ActivityLifecycleCallba
                 }
             }
 
-            Log.i(TAG, "Enter background");
+            Log.e(TAG, "Enter background");
         } else {
-            Log.i(TAG, "still background");
+            Log.e(TAG, "still background");
         }
     }
 

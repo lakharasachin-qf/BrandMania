@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout
+
+    <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp">
 
-        >
         <RelativeLayout
             android:id="@+id/BrandNameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <View
 
+            <View
                 android:layout_toStartOf="@+id/brandNameText"
                 android:id="@+id/viewone"
                 android:layout_width="match_parent"
@@ -48,13 +49,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-
             android:id="@+id/element1"
             android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/BrandNameLayout"
-            android:paddingStart="@dimen/_7sdp"
-            android:paddingEnd="@dimen/_7sdp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -62,8 +59,8 @@
                 android:visibility="visible"
                 android:layout_toEndOf="@+id/element"
                 android:id="@+id/gmailLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true">
 
                 <ImageView
@@ -78,18 +75,17 @@
 
                 <TextView
                     android:id="@+id/gmailText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_toEndOf="@+id/gmailImage"
                     android:includeFontPadding="false"
-                    android:maxWidth="@dimen/_100sdp"
                     android:padding="0dp"
                     android:singleLine="true"
-                    android:text="qfsolfddgdfgfdgdfgdgdfution@gmail.com"
+                    android:text="lakharasachin047sdfj@gmail.com"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_8sdp" />
+                    android:textSize="@dimen/_9sdp" />
 
             </RelativeLayout>
 
@@ -117,7 +113,6 @@
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/_1sdp"
                     android:src="@drawable/ic_outline_call_24" />
 
                 <TextView
@@ -133,34 +128,26 @@
 
                     android:text="+91 8849896537"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_8sdp" />
+                    android:textSize="@dimen/_9sdp" />
 
             </RelativeLayout>
         </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/element2"
-            android:layout_below="@+id/element1"
-            android:visibility="visible"
-            android:paddingStart="@dimen/_7sdp"
-            android:paddingEnd="@dimen/_7sdp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp">
+
 
         <RelativeLayout
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
             android:id="@+id/addressLayoutElement"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_20sdp"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/_3sdp">
 
             <ImageView
-                android:layout_marginLeft="@dimen/_18sdp"
+                android:layout_width="@dimen/_13sdp"
                 android:id="@+id/loacationImage"
-                android:layout_width="@dimen/_12sdp"
-                android:layout_height="@dimen/_12sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/_1sdp"
                 android:src="@drawable/ic_outline_location_on_24"
                 app:tint="@color/colorPrimary" />
 
@@ -168,18 +155,16 @@
                 android:id="@+id/locationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/_10sdp"
-                android:singleLine="true"
-
-                android:text="326,Rudra Complex Vastral"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:includeFontPadding="false"
-                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="326,Rudra Complex  , Ahmedabad, Gujarat,\n India - 2344554"
                 android:layout_toEndOf="@+id/loacationImage"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_8sdp" />
-        </RelativeLayout>
+                android:textSize="@dimen/_9sdp" />
+
         </RelativeLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

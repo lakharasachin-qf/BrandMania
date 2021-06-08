@@ -4,17 +4,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
@@ -25,9 +30,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
+import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
+import com.app.brandmania.Adapter.BannerAdapter;
 import com.app.brandmania.Adapter.DasboardAddaptor;
 import com.app.brandmania.Adapter.ViewPagerAdapter;
 import com.app.brandmania.Common.HELPER;
@@ -46,16 +53,27 @@ import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.databinding.DialogDigitalCardLayoutBinding;
+import com.app.brandmania.databinding.DialogRequestBusinessCategoryRemarksBinding;
 import com.app.brandmania.databinding.FragmentHomeBinding;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +98,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     AlertDialog.Builder alertDialogBuilder;
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     FiveStarsDialog fiveStarsDialog;
-
     private DasboardAddaptor dasboardAddaptor;
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
@@ -145,7 +162,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             @Override
             public void onClick(View view) {
                 if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
-                    HELPER.generatePDF(act, preafManager, ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
+                    //layoutToImage();
+                    HELPER.ROUTE(act, PdfActivity.class);
+                    //HELPER.generatePDF(act, preafManager, ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
                 } else {
                     alertDialogBuilder = new AlertDialog.Builder(act);
                     alertDialogBuilder.setTitle("Save image");
@@ -161,6 +180,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     alertDialog.setCancelable(false);
                     alertDialog.show();
                 }
+            }
+        });
+
+        binding.request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRequestForm();
             }
         });
 
@@ -195,7 +221,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         });
         getDeviceToken(act);
-        // AddUserActivity();
 
         binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,6 +245,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         return binding.getRoot();
     }
+
 
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
@@ -267,6 +293,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     viewPagerItems = ResponseHandler.HandleGetBanneList(jsonObject);
 
                     if (viewPagerItems != null && viewPagerItems.size() != 0) {
+//
+//                        BannerAdapter bannerAdapter = new BannerAdapter(act,viewPagerItems);
+//                        SnapHelper startSnapHelper = new PagerSnapHelper();
+//                        binding.sliderRecycler.setHasFixedSize(true);
+//                        binding.sliderRecycler.setOnFlingListener(null);
+//                        startSnapHelper.attachToRecyclerView(binding.sliderRecycler);
+//                        binding.sliderRecycler.setAdapter(bannerAdapter);
+
                         ViewPagerAdapter sliderAdapter = new ViewPagerAdapter(viewPagerItems, act);
                         binding.ViewPagerView.setAdapter(sliderAdapter);
                         TimerTask timerTask = new TimerTask() {
@@ -669,20 +703,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         queue.add(stringRequest);
     }
 
-    /* private void requestAgain() {
-         ActivityCompat.requestPermissions(act,
-                 new String[]{
-                         Manifest.permission.READ_CONTACTS,
-                         Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                         Manifest.permission.CAMERA,
-                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                         Manifest.permission.READ_EXTERNAL_STORAGE
-                 },
-                 CodeReUse.ASK_PERMISSSION);
-     }
- */
     @Override
     public void onNegativeReview(int stars) {
         Log.d(TAG, "Negative review " + stars);
@@ -766,7 +786,84 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
 
+    private androidx.appcompat.app.AlertDialog alertDialog;
+    private DialogRequestBusinessCategoryRemarksBinding reqBinding;
+    public void showRequestForm(){
+
+        if (alertDialog != null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
+        reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_request_business_category_remarks, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend2);
+        builder.setView(reqBinding.getRoot());
+        alertDialog = builder.create();
+        alertDialog.setContentView(reqBinding.getRoot());
+
+        Utility.RemoveError(reqBinding.nameTxt);
+        reqBinding.close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        reqBinding.submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (reqBinding.nameTxt.getText().toString().trim().length() == 0){
+                    reqBinding.nameTxt.setError("Enter category");
+                    reqBinding.nameTxt.requestFocus();
+                    return;
+                }
+                alertDialog.dismiss();
+                apiForCategoryRequest(reqBinding.nameTxt.getText().toString());
+
+            }
+        });
+        alertDialog.show();
+
+    }
 
 
+    private void apiForCategoryRequest(String catString){
+        Utility.Log("BusinessCategory", APIs.REQUEST_BUSINESS_CATEGORY);
+        Utility.showProgress(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REQUEST_BUSINESS_CATEGORY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("Request-Business-response", response);
+                Utility.dismissProgress();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Utility.dismissProgress();
+                error.printStackTrace();
+            }
+        }) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("cat_name", catString);
+                Utility.Log("param", hashMap.toString());
+                return hashMap;
+            }
+        };
+
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
 
 }

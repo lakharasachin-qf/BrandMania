@@ -32,6 +32,7 @@ import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Activity.brand.ViewBrandActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
@@ -190,17 +191,7 @@ public class ProfileFragment extends BaseFragment {
         binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    String number = Constant.ADMIN_CONTACT_NUMBER;
-                    String BrandContact="\nRegistered Number: ";
-                    String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:" + preafManager.getActiveBrand().getName() + BrandContact + preafManager.getMobileNumber();
-                    String toNumber = "91" + number;
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                HELPER.WHATSAPP_REDIRECTION(act,preafManager.getActiveBrand().getName(),preafManager.getMobileNumber());
             }
         });
         binding.visitFacebook.setOnClickListener(new View.OnClickListener() {

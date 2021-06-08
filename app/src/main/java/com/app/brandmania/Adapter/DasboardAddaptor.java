@@ -95,9 +95,10 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                             Intent i = new Intent(activity, ImageCategoryDetailActivity.class);
                             i.putExtra("viewAll","12");
                             i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
-                            activity.startActivity(i);
                             i.addCategory(Intent.CATEGORY_HOME);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            activity.startActivity(i);
+
                             activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
                         }
@@ -105,24 +106,16 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                     break;
                 case DAILY_IMAGES:
 
-                    ((DasboardViewHolder) holder).binding.title.setText(convertFirstUpper("Daily Images"));
-                    ((DasboardViewHolder) holder).binding.title.setVisibility(View.GONE);
-                    ((DasboardViewHolder) holder).binding.rootBackground.setVisibility(View.GONE);
-
+                    ((DasboardViewHolder) holder).binding.title.setText(convertFirstUpper(dashBoardItemList.get(position).getName()));
+                    ((DasboardViewHolder) holder).binding.viewAll.setVisibility(View.GONE);
+                   // ((DasboardViewHolder) holder).binding.rootBackground.setVisibility(View.GONE);
                     menuAddaptor = new ImageCategoryAddaptor(dashBoardItemList.get(position).getDailyImages(), activity);
                     menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_HOMEFRAGEMENT);
-                    int spacingInPixels = activity.getResources().getDimensionPixelSize(R.dimen.space);
-                    ((DasboardViewHolder) holder).binding.imageCategoryRecycler.addItemDecoration(new SpacesItemDecoration(3, spacingInPixels, true, 0));
-                  //  ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setLayoutManager(new GridLayoutManager(activity, 3));
+                   // int spacingInPixels = activity.getResources().getDimensionPixelSize(R.dimen.space);
+                   // ((DasboardViewHolder) holder).binding.imageCategoryRecycler.addItemDecoration(new SpacesItemDecoration(3, spacingInPixels, true, 0));
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setHasFixedSize(true);
-
-//                  RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)((DasboardViewHolder)holder).binding.rootBackground.getLayoutParams();
-//                  params.topMargin=0;
-//                  ((DasboardViewHolder)holder).binding.rootBackground.setLayoutParams(params);
                     menuAddaptor.setDashBoardItem(dashBoardItemList.get(position));
-
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setAdapter(menuAddaptor);
                     break;
 

@@ -42,6 +42,7 @@
             android:visibility="visible"
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:background="@drawable/colorboxtroundcorner"
             android:id="@+id/boldRelative"
             android:layout_below="@+id/filterRecycler"

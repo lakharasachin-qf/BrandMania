@@ -4,10 +4,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -22,6 +22,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -29,11 +30,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
+import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -41,24 +45,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.EditPicAddapter;
 import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.MultiListItem;
-import com.app.brandmania.Common.DialogHelpers;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.FooterHelper;
 import com.app.brandmania.Common.PreafManager;
-import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.DataBase.DBManager;
 import com.app.brandmania.DataBase.DatabaseHelper;
+import com.app.brandmania.Fragment.bottom.PickerFragment;
+import com.app.brandmania.Interface.AddTextEvent;
 import com.app.brandmania.Interface.FilterListener;
 import com.app.brandmania.Interface.FrameInterFace;
 import com.app.brandmania.Interface.IBackendFrameSelect;
@@ -77,8 +75,8 @@ import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.Model.ImageList;
+import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.IFontChangeEvent;
 import com.app.brandmania.Utils.Utility;
@@ -103,10 +101,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.zomato.photofilters.imageprocessors.Filter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -115,8 +109,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
@@ -130,14 +122,14 @@ import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
 public class CustomViewAllActivit extends BaseActivity implements FrameInterFace, ItemeInterFace, alertListenerCallback,
         IImageFromGalary, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IColorChange,
         ColorPickerView.OnColorChangedListener, ITextSizeEvent, onFooterSelectListener, View.OnTouchListener, FilterListener,
-        IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect, IRemoveFrame {
+        IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect, IRemoveFrame, AddTextEvent {
     public static final int VIEW_RECOMDATION = 0;
     Activity act;
     File new_file;
-    EditText selectedForEdit;
+    TextView selectedForEdit;
     private int _xDelta;
     private int _yDelta;
-    EditText myEditText;
+    //EditText myEditText;
     AlertDialog.Builder alertDialogBuilder;
     private boolean isUserFree = true;
     private boolean canDownload = true;
@@ -185,66 +177,81 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     static final int DRAG = 1;
     static final int ZOOM = 2;
     int mode = NONE;
-    int isDownloadOrSharingOrFavPending=-1;
-    // these PointF objects are used to record the point(s) the user is touching
+    int isDownloadOrSharingOrFavPending = -1;
     Matrix savedMatrix = new Matrix();
     PointF start = new PointF();
     PointF mid = new PointF();
     float oldDist = 1f;
-    Bitmap selectedImageBitmap=null;
+    Bitmap selectedImageBitmap = null;
 
     private PhotoEditor mPhotoEditor;
     public DBManager dbManager;
+
+
+    int CurrentFlagAlign = 1;
+    private int selectedTextAlignment;
+
+    public void setIconForAlignment() {
+
+        binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_centered_align));
+        binding.editingBox.setGravity(android.view.Gravity.CENTER);
+        binding.textAlignment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (CurrentFlagAlign == 0) {
+                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_centered_align));
+                    CurrentFlagAlign = 1;
+                    binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    selectedTextAlignment = View.TEXT_ALIGNMENT_CENTER;
+                    binding.editingBox.setGravity(android.view.Gravity.CENTER);
+                } else if (CurrentFlagAlign == 1) {
+                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_right_align));
+                    CurrentFlagAlign = 2;
+                    selectedTextAlignment = View.TEXT_ALIGNMENT_TEXT_END;
+                    binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                    binding.editingBox.setGravity(android.view.Gravity.RIGHT | android.view.Gravity.CENTER);
+                } else if (CurrentFlagAlign == 2) {
+                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_left_align));
+                    CurrentFlagAlign = 0;
+                    selectedTextAlignment = View.TEXT_ALIGNMENT_TEXT_START;
+                    binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                    binding.editingBox.setGravity(android.view.Gravity.LEFT | android.view.Gravity.CENTER);
+                }
+            }
+        });
+
+
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_custom_view_all);
-        dbManager=new DBManager(act);
+        dbManager = new DBManager(act);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson = new Gson();
-        preafManager=new PreafManager(act);
+        preafManager = new PreafManager(act);
         binding.backImage.setOnTouchListener((View.OnTouchListener) act);
         colorCodeForBackground= ContextCompat.getColor(act,R.color.colorPrimary);
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
+        setIconForAlignment();
         binding.logoCustom.setOnTouchListener(onTouchListener());
-        gestureDetector = new GestureDetector(this, new CustomViewAllActivit.SingleTapConfirm());
-//        binding.backImage.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                myEditText.setCursorVisible(false);
-//                myEditText.clearFocus();
-//
-//                return false;
-//            }
-//        });
-//        binding.elementCustomFrame.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                myEditText.setCursorVisible(false);
-//                myEditText.clearFocus();
-//
-//                return false;
-//            }
-//        });
-
+        gestureDetector = new GestureDetector(this, new SingleTapConfirm());
         binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (manuallyEnablePermission(1)) {
-                     if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                askForUpgradeToEnterpisePackage();
-                                return;
-                            }
+                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                        askForUpgradeToEnterpisePackage();
+                        return;
+                    }
                     requestAgain();
                     saveImageToGallery(false, false);
-
-
-
                 }
             }
         });
@@ -257,8 +264,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-              //  Toast.makeText(act,"hghjgjh",Toast.LENGTH_LONG).show();
                 binding.backImage.setRotation(binding.backImage.getRotation() + 90);
             }
         });
@@ -266,19 +271,17 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             @Override
             public void onClick(View v) {
                 if (manuallyEnablePermission(2)) {
-
-
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
-                        }
-                        requestAgain();
-                        saveImageToGallery(true, false);
-
+                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                        askForUpgradeToEnterpisePackage();
+                        return;
                     }
+                    requestAgain();
+                    saveImageToGallery(true, false);
+                }
 
             }
         });
+
         if (preafManager.getActiveBrand()!=null) {
             if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty()) {
                 binding.logoEmptyState.setVisibility(View.GONE);
@@ -306,46 +309,10 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
 
             }
-        }
-        else
-        {
+        } else {
             binding.logoEmptyState.setVisibility(View.GONE);
             binding.logoCustom.setVisibility(View.GONE);
         }
-
-       // gestureDetector = new GestureDetector(this, new CustomViewAllActivit().SingleTapConfirm());
-        RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.CustomImageMain);
-        RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        myEditText = new EditText(act,null);
-        mRparams.leftMargin = 200;
-        mRparams.topMargin = 600;
-        myEditText.setLayoutParams(mRparams);
-        myEditText.setText("Add Text");
-        myEditText.setTextColor(Color.parseColor("#0C0C0C"));
-        myEditText.setTextSize(13);
-        Typeface face = Typeface.createFromAsset(getAssets(), "font/inter_semibold.otf");
-        myEditText.setTypeface(face);
-        myEditText.setCursorVisible(true);
-        myEditText.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
-        myEditText.setOnTouchListener(onTouchListeneForEditText());
-        mRlayout.addView(myEditText);
-        myEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b)
-                {
-
-                   selectedForEdit=myEditText;
-                    myEditText.setCursorVisible(true);
-                    binding.viewPager.setCurrentItem(4);
-                    editorFragment=4;
-                }
-            }
-        });
-
-
-
 
 
         if (getIntent().hasExtra("flag")) {
@@ -357,16 +324,125 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         bottomFramgment();
         binding.backImage.setTag("0");
         loadFirstImage();
-    }
-    public static String convertFirstUpper(String str) {
 
-        if (str == null || str.isEmpty()) {
-            return str;
-        }
-        //  Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+
+        binding.done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isTextEditing) {
+                    binding.textEditorView.setVisibility(View.GONE);
+                    binding.contentView.setEnabled(true);
+                    binding.contentView.setClickable(true);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+                    if (binding.editingBox.getText().toString().trim().length() != 0) {
+                        selectedTextView.setText(binding.editingBox.getText().toString());
+                        selectedTextView.setTextAlignment(selectedTextAlignment);
+                    } else {
+                        binding.CustomImageMain.removeView(selectedTextView);
+                        selectedTextView = null;
+                    }
+                } else {
+                    binding.textEditorView.setVisibility(View.GONE);
+                    binding.contentView.setEnabled(true);
+                    binding.contentView.setClickable(true);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+                    addTextViewToLayout(binding.editingBox.getText().toString());
+                }
+                binding.editingBox.setText("");
+            }
+        });
+
+        binding.CustomImageCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedTextView = null;
+                selectedForEdit = null;
+                for (int i = 0; i < binding.CustomImageMain.getChildCount(); i++) {
+                    if (binding.CustomImageMain.getChildAt(i) instanceof TextView) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+                        TextView textView = (TextView) binding.CustomImageMain.getChildAt(i);
+                        textView.setBackground(null);
+                    }
+                }
+
+            }
+        });
+
+        binding.logoCustom.setTag("0");
     }
+
+    abstract static class DoubleClickListener implements View.OnClickListener {
+        long lastClickTime = 0;
+        long DOUBLE_CLICK_TIME_DELTA = 500;
+
+        @Override
+        public void onClick(View v) {
+            long clickTime = System.currentTimeMillis();
+
+            if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
+                onDoubleClick(v);
+            } else {
+                onSingleClick(v);
+            }
+            lastClickTime = clickTime;
+
+        }
+
+        protected abstract void onDoubleClick(View v);
+
+        protected abstract void onSingleClick(View v);
+    }
+
+    private boolean isTextEditing = false;
+    private TextView selectedTextView;
+
+    public void addTextViewToLayout(String string) {
+
+        if (selectedForEdit != null)
+            selectedForEdit.setBackground(null);
+
+        TextView textView = new TextView(act, null);
+        RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.CustomImageMain);
+        RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mRparams.leftMargin = 200;
+        mRparams.topMargin = 600;
+        textView.setPadding(20, 20, 20, 20);
+        textView.setLayoutParams(mRparams);
+        textView.setText(string);
+        textView.setTextColor(Color.parseColor("#0C0C0C"));
+        textView.setTextSize(13);
+        Typeface face = Typeface.createFromAsset(getAssets(), "font/inter_semibold.otf");
+        textView.setTypeface(face);
+        textView.setTextAlignment(selectedTextAlignment);
+        //textView.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+        textView.setOnTouchListener(onTouchListeneForEditText());
+        mRlayout.addView(textView);
+        textView.setOnClickListener(new DoubleClickListener() {
+            @Override
+            protected void onDoubleClick(View v) {
+              /*  isTextEditing=true;
+                binding.textEditorView.setVisibility(View.VISIBLE);
+                binding.contentView.setEnabled(false);
+                selectedTextView = textView;
+                binding.editingBox.setText(textView.getText().toString());*/
+            }
+
+            @Override
+            protected void onSingleClick(View v) {
+                selectedTextView = textView;
+                textView.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
+            }
+        });
+
+
+    }
+
+
     private int IntroCounter = 0;
+
     public void startIntro(View view, String title, String desc) {
 
         new GuideView.Builder(this)
@@ -381,56 +457,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                     @Override
                     public void onDismiss(View view) {
                         IntroCounter++;
-
                         showTabIntro(binding.viewPager.getChildAt(0), "Image", "Choose your image as you want");
-
-                           /* if (IntroCounter == 1) {
-                                startIntro(binding.shareIcon, "Share", "Share Your Image Directly");
-                            }
-                            else if (IntroCounter == 2) {
-                                startIntro(binding.fabroutIcon, "Save", "Save To Your Brand");
-                            }
-                            else if (IntroCounter == 3) {
-                                if (binding.logoEmptyState.getVisibility()==View.VISIBLE)
-                                    startIntro(binding.logoEmptyState, "Brand Logo", "Click on icon for choose your logo\n you can also move logo around anywhere in the image");
-                                else
-                                    startIntro(binding.logoCustom, "Brand Logo", "Click your logo to move around anywhere in the image");
-                            }else {
-                                showTabIntro(binding.viewPager.getChildAt(0), "Category", "Choose your image as you want");
-                            }*/
-                    }
-                })
-                .build()
-                .show();
-    }
-    public void startIntroForFrameOnly(View view, String title, String desc) {
-
-        new GuideView.Builder(this)
-                .setTitle(title)
-                .setContentText(desc)
-                .setGravity(Gravity.center)
-                .setDismissType(DismissType.anywhere)
-                .setTargetView(view)
-                .setContentTextSize(12)
-                .setTitleTextSize(14)
-                .setGuideListener(new GuideListener() {
-                    @Override
-                    public void onDismiss(View view) {
-                        IntroCounter++;
-/*
-                            if (IntroCounter == 1) {
-                                startIntroForFrameOnly(binding.customAddressEdit1, "Add Text", "Add text like email-id or address");
-                            }
-                            if (IntroCounter == 2) {
-                                startIntroForFrameOnly(binding.customeContactEdit1, "Add Text", "Add your contact no. here");
-                            }
-                            if (IntroCounter == 3) {
-                                startIntroForFrameOnly(binding.bottomBarView1, "Background", "Change background color as you want");
-                            }
-                            if (IntroCounter == 4) {
-                                startIntroForFrameOnly(binding.bottomBarView2, "Background", "Change background color as you want");
-                            }*/
-
                     }
                 })
                 .build()
@@ -438,10 +465,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
     int tabIndex=1;
     boolean needToIntro=false;
-    public void showIntroForTabLayout(){
-
-
-    }
     public void showTabIntro(View view, String title, String desc) {
 
         new GuideView.Builder(this)
@@ -462,30 +485,24 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 .build()
                 .show();
     }
-
-
     public void bottomFramgment() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Image")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frame")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Background")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Text")));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Edit")));
-        binding.tabLayout.setTabTextColors(Color.parseColor("#727272"),Color.parseColor("#ad2753"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Image")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Footer")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Frame")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Background")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Text")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Edit")));
+        binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final EditPicAddapter adapter = new EditPicAddapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setOffscreenPageLimit(7);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
-        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
-
-        {
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected (TabLayout.Tab tab){
+            public void onTabSelected(TabLayout.Tab tab) {
                 binding.viewPager.setCurrentItem(tab.getPosition());
-                editorFragment=tab.getPosition();
-               // handler(editorFragment);
-
+                editorFragment = tab.getPosition();
                 if (needToIntro) {
                     if (tabIndex == 1) {
                         showTabIntro(binding.viewPager, "Footer", "if you want to custom frame then choose your own footer");
@@ -506,7 +523,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                         needToIntro=false;
                     }
 
-
                 }
 
             }
@@ -523,46 +539,34 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         if (preafManager.getViewAllCustomeImageActivityIntro()) {
             needToIntro=true;
 
-            if (binding.logoEmptyState.getVisibility()==View.VISIBLE)
+            if (binding.logoEmptyState.getVisibility() == View.VISIBLE)
                 startIntro(binding.logoEmptyState, "Brand Logo", "Click on icon for choose your logo\n you can resize and move logo around anywhere in the image");
             else
                 startIntro(binding.logoCustom, "Brand Logo", "Click your logo to move around anywhere in the image");
 
             preafManager.setViewAllCustomeImageActivityIntro(false);
 
-        }else {
-            //showTabIntro(binding.viewPager.getChildAt(0), "Category", "Choose your image as you want");
         }
 
     }
-    @Override public void onFrameItemSelection(int position, MultiListItem listModel) {
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public void onFrameItemSelection(int position, MultiListItem listModel) {
         binding.frameImage.setDrawingCacheEnabled(true);
-        binding.frameImage.setImageDrawable(ContextCompat.getDrawable(act,listModel.getImage()));
-        //binding.backImage.setOnTouchListener(touchListener);
-        //binding.frameImage.setOnTouchListener(null);
+        binding.frameImage.setImageDrawable(ContextCompat.getDrawable(act, listModel.getImage()));
         binding.frameImage.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
-                if (bmp!=null) {
+                if (bmp != null) {
                     @SuppressLint("ClickableViewAccessibility") int color = bmp.getPixel((int) event.getX(), (int) event.getY());
                     if (color == Color.TRANSPARENT) {
-
-
                         binding.frameImage.setOnTouchListener(null);
                         isFirstTouchOnImage=true;
-                        if (binding.backImage.getTag().toString().equals("1"))
-                        {
-                            // binding.backImage.setOnTouchListener(touchListener);
-                        }else{
-
-                        }
-
-                      //  Toast.makeText(act, "Transperent", Toast.LENGTH_SHORT).show();
                         return true;
                     } else {
-
                         return false;
                     }
                 }
@@ -578,22 +582,10 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         });
 
     }
-    public void LoadDataToUI(){
-        preafManager=new PreafManager(act);
-        if (imageFromGalaryModel != null) {
-           // binding.simpleProgressBar.setVisibility(View.GONE);
-            Glide.with(getApplicationContext()).load(imageFromGalaryModel.getUri()).into(binding.backImage);
-        } else {
-            // binding.simpleProgressBar.setVisibility(View.VISIBLE);
-        }
 
-        if (selectedFooterModel==null)
-            loadFirstImage();
-    }
 
     @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
         try {
-          //  mPhotoEditor.clearAllViews();
             imageFromGalaryModel=listModel;
             InputStream inputStream = getContentResolver().openInputStream(listModel.getUri());
             yourDrawable = Drawable.createFromStream(inputStream, listModel.getUri().toString() );
@@ -606,75 +598,10 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 loadFirstImage();
 
         } catch (FileNotFoundException e) {
-
+            e.printStackTrace();
         }
     }
-    @Override public boolean onTouch(View v, MotionEvent event) {
-        ImageView view = (ImageView) v;
-        view.setScaleType(ImageView.ScaleType.MATRIX);
-        float scale;
-        myEditText.setCursorVisible(false);
-        myEditText.clearFocus();
 
-        dumpEvent(event);
-        // Handle touch events here...
-
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN: // first finger down only
-                savedMatrix.set(matrix);
-                start.set(event.getX(), event.getY());
-                Log.d(TAG, "mode=DRAG"); // write to LogCat
-                mode = DRAG;
-                break;
-
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
-
-                mode = NONE;
-                Log.d(TAG, "mode=NONE");
-                break;
-
-            case MotionEvent.ACTION_POINTER_DOWN:
-                oldDist = spacing(event);
-                Log.d(TAG, "oldDist=" + oldDist);
-                if (oldDist > 5f) {
-                    savedMatrix.set(matrix);
-                    midPoint(mid, event);
-                    mode = ZOOM;
-                    Log.d(TAG, "mode=ZOOM");
-                }
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-
-                if (mode == DRAG) {
-                    matrix.set(savedMatrix);
-                    matrix.postTranslate(event.getX() - start.x, event.getY()
-                            - start.y); /*
-                     * create the transformation in the matrix
-                     * of points
-                     */
-                } else if (mode == ZOOM) {
-                    // pinch zooming
-                    float newDist = spacing(event);
-                    Log.d(TAG, "newDist=" + newDist);
-                    if (newDist > 5f) {
-                        matrix.set(savedMatrix);
-                        scale = newDist / oldDist;
-                        /*
-                         * setting the scaling of the matrix...if scale > 1 means
-                         * zoom in...if scale < 1 means zoom out
-                         */
-                        matrix.postScale(scale, scale, mid.x, mid.y);
-                    }
-                }
-                break;
-        }
-
-        view.setImageMatrix(matrix); // display the transformation on screen
-
-        return true;
-    }
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
@@ -685,6 +612,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
     }
+
     @Override public void onItemSelection(int position, MultiListItem listModel) {
         binding.frameImage.setImageResource(listModel.getImage());
     }
@@ -721,240 +649,102 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         Log.d("Touch Event", sb.toString());
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //fire on footer select listener
     @Override
     public void onFooterSelectEvent(int footerLayout, FooterModel footerModel) {
         isUsingCustomFrame = true;
         binding.frameImage.setVisibility(View.GONE);
         binding.elementCustomFrame.setVisibility(View.VISIBLE);
-//        binding.elementFooter.setVisibility(View.VISIBLE);
-//        binding.elementFooter.setVisibility(View.VISIBLE);
-
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
-
         selectedFooterModel = footerModel;
         addDynamicFooter(footerLayout,false);
-      ///  forCheckFavorite();
-
         changeBorderColorAsFrame();
         loadSameColorToBackgroundAndTextAgain();
         ((ITextSizeEvent) act).onfontSize(previousFontSize);
     }
 
-
-
-
     //for adding footer dynamically
     int footerLayout = 1;
-    private LayoutForLoadOneBinding oneBinding;
-    private LayoutForLoadTwoBinding twoBinding;
-    private LayoutForLoadThreeBinding threeBinding;
-    private LayoutForLoadFourBinding fourBinding;
-    private LayoutForLoadFiveBinding fiveBinding;
-    private LayoutForLoadSixBinding sixBinding;
-    private LayoutForLoadSevenBinding sevenBinding;
-    private LayoutForLoadEightBinding eightBinding;
-    private LayoutForLoadNineBinding nineBinding;
-    private LayoutForLoadTenBinding tenBinding;
+    LayoutModelClass layoutModelClass;
     private void addDynamicFooter(int layoutType,boolean isReload) {
+        layoutModelClass = new LayoutModelClass();
         binding.elementFooter.removeAllViews();
         footerLayout=layoutType;
         if (layoutType== FooterModel.LAYOUT_FRAME_ONE) {
-            oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
+            LayoutForLoadOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
             binding.elementFooter.addView(oneBinding.getRoot());
-
-            FooterHelper.loadFrameFirstData(act,oneBinding);
+            FooterHelper.loadFrameFirstData(act, oneBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
-            mainLayout1=(RelativeLayout) findViewById(R.id.addressLayoutElement2);
-//            oneBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
-//            oneBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
-//            oneBinding.addressLayoutElement.setOnTouchListener(onTouchListenerrr());
-            oneBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
+            mainLayout1 = (RelativeLayout) findViewById(R.id.addressLayoutElement2);
+            layoutModelClass.setOneBinding(oneBinding);
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_TWO) {
-            twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
+            LayoutForLoadTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
             binding.elementFooter.addView(twoBinding.getRoot());
-
-            FooterHelper.loadFrameTwoData(act,twoBinding);
-
+            layoutModelClass.setTwoBinding(twoBinding);
+            FooterHelper.loadFrameTwoData(act, twoBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.firstView);
-            mainLayout1=(RelativeLayout) findViewById(R.id.secondView);
-//            twoBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
-//            twoBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
-//            twoBinding.locationLayout.setOnTouchListener(onTouchListenerrr());
-//            twoBinding.websiteLayout.setOnTouchListener(onTouchListenerrr());
-            twoBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
+            mainLayout1 = (RelativeLayout) findViewById(R.id.secondView);
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_THREE) {
-            threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
+            LayoutForLoadThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
-
-            FooterHelper.loadFrameThreeData(act,threeBinding);
-
+            layoutModelClass.setThreeBinding(threeBinding);
+            FooterHelper.loadFrameThreeData(act, threeBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
             mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
-//            threeBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
-//            threeBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
-//            threeBinding.loactionLayout.setOnTouchListener(onTouchListenerrr());
-//            threeBinding.websiteEdtLayout.setOnTouchListener(onTouchListenerrr());
-            threeBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_FOUR) {
-            fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
+            LayoutForLoadFourBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
-
-            FooterHelper.loadFrameFourData(act,fourBinding);
-
+            layoutModelClass.setFourBinding(fourBinding);
+            FooterHelper.loadFrameFourData(act, fourBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
-            //   mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
-//            fourBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
-//            fourBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
-//            fourBinding.locationLayout.setOnTouchListener(onTouchListenerrr());
-//            fourBinding.websiteLayout.setOnTouchListener(onTouchListenerrr());
-            fourBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIVE) {
-            fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_five, null, false);
+            LayoutForLoadFiveBinding fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_five, null, false);
             binding.elementFooter.addView(fiveBinding.getRoot());
-
-            FooterHelper.loadFrameFiveData(act,fiveBinding);
-
+            layoutModelClass.setFiveBinding(fiveBinding);
+            FooterHelper.loadFrameFiveData(act, fiveBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.element2);
-            //   mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
-//            fiveBinding.element0.setOnTouchListener(onTouchListenerrr());
-//            fiveBinding.elementMobile.setOnTouchListener(onTouchListenerrr());
-//            fiveBinding.elementEmail.setOnTouchListener(onTouchListenerrr());
-            fiveBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIX) {
-            sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
+            LayoutForLoadSixBinding sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
             binding.elementFooter.addView(sixBinding.getRoot());
-            FooterHelper.loadFrameSixData(act,sixBinding);
+            layoutModelClass.setSixBinding(sixBinding);
+            FooterHelper.loadFrameSixData(act, sixBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.containerElement);
-//            sixBinding.socialFollow.setOnTouchListener(onTouchListenerrr());
-//            sixBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
-            sixBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_SEVEN) {
-            sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
+            LayoutForLoadSevenBinding sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
             binding.elementFooter.addView(sevenBinding.getRoot());
-            FooterHelper.loadFrameSevenData(act,sevenBinding);
+            layoutModelClass.setSevenBinding(sevenBinding);
+            FooterHelper.loadFrameSevenData(act, sevenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element0);
-           // sevenBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
             mainLayout1 = (RelativeLayout) findViewById(R.id.socialFollow);
-            //sevenBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
-            //sevenBinding.socialLayout.setOnTouchListener(onTouchListenerrr());
-            sevenBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
+
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_EIGHT) {
-            eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
+           LayoutForLoadEightBinding eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
             binding.elementFooter.addView(eightBinding.getRoot());
-            FooterHelper.loadFrameEightData(act,eightBinding);
+            layoutModelClass.setEightBinding(eightBinding);
+            FooterHelper.loadFrameEightData(act, eightBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element1);
-           // eightBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
-            //eightBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
-            mainLayout1= (RelativeLayout) findViewById(R.id.element2);
-            //eightBinding.addressLayoutElement.setOnTouchListener(onTouchListenerrr());
-            eightBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
-
+            mainLayout1 = (RelativeLayout) findViewById(R.id.element2);
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_NINE) {
-            nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
+            LayoutForLoadNineBinding nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
             binding.elementFooter.addView(nineBinding.getRoot());
-            FooterHelper.loadFrameNineData(act,nineBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.firstLayout);
-//            nineBinding.gmailText.setOnTouchListener(onTouchListenerrr());
-//            nineBinding.contactText.setOnTouchListener(onTouchListenerrr());
-//            nineBinding.soialLayout.setOnTouchListener(onTouchListenerrr());
-            nineBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
-
+            layoutModelClass.setNineBinding(nineBinding);
+            FooterHelper.loadFrameNineData(act, nineBinding);
+           // mainLayout = (RelativeLayout) findViewById(R.id.firstLayout);
         }
         else if (layoutType== FooterModel.LAYOUT_FRAME_TEN) {
-            tenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_ten, null, false);
+            LayoutForLoadTenBinding tenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_ten, null, false);
             binding.elementFooter.addView(tenBinding.getRoot());
-            FooterHelper.loadFrameTenData(act,tenBinding);
+            layoutModelClass.setTenBinding(tenBinding);
+            FooterHelper.loadFrameTenData(act, tenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
             mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
-         //                    tenBinding.addressEdtLayout.setOnTouchListener(onTouchListenerrr());
-            //tenBinding.gmailLayout.setOnTouchListener(onTouchListenerrr());
-            //tenBinding.contactLayout.setOnTouchListener(onTouchListenerrr());
-            tenBinding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectedForEdit=null;
-                    myEditText.clearFocus();
-                }
-            });
         }
     }
     @Override public void onColorSelected(int dialogId, int colorCode) {
@@ -964,209 +754,30 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
     public void loadSameColorToBackgroundAndTextAgain() {
 
-        if (colorCodeForTextColor!=0) {
-            if (footerLayout == 1) {
-                FooterHelper.ChangeTextColorForFrameOne(act,oneBinding,colorCodeForTextColor);
-            } else if (footerLayout == 2) {
-                FooterHelper.ChangeTextColorForFrameTwo(act,twoBinding,colorCodeForTextColor);
-            } else if (footerLayout == 3) {
-                FooterHelper.ChangeTextColorForFrameThree(act,threeBinding,colorCodeForTextColor);
-            } else if (footerLayout == 4) {
-                FooterHelper.ChangeTextColorForFrameFour(act,fourBinding,colorCodeForTextColor);
-            } else if (footerLayout == 5) {
-                FooterHelper.ChangeTextColorForFrameFive(act,fiveBinding,colorCodeForTextColor);
-            } else if (footerLayout == 6) {
-                FooterHelper.ChangeTextColorForFrameSix(act,sixBinding,colorCodeForTextColor);
-            }else if (footerLayout == 7) {
-                FooterHelper.ChangeTextColorForFrameSeven(act,sevenBinding,colorCodeForTextColor);
-            }else if (footerLayout == 8) {
-                FooterHelper.ChangeTextColorForFrameEight(act,eightBinding,colorCodeForTextColor);
-            }else if (footerLayout == 9) {
-                FooterHelper.ChangeTextColorForFrameNine(act,nineBinding,colorCodeForTextColor);
-            }else if (footerLayout == 10) {
-                FooterHelper.ChangeTextColorForFrameTen(act,tenBinding,colorCodeForTextColor);
-            }
-
+        if (colorCodeForTextColor != 0) {
+            FooterHelper.baseForTextColor(act, footerLayout, layoutModelClass, colorCodeForTextColor);
         }
-
-
-        if (footerLayout == 1) {
-            FooterHelper. ChangeBackgroundColorForFrameOne(act,oneBinding,colorCodeForBackground);
-        } else if (footerLayout == 2) {
-            FooterHelper. ChangeBackgroundColorForFrameTwo(act,twoBinding,colorCodeForBackground);
-        } else if (footerLayout == 3) {
-
-        } else if (footerLayout == 4) {
-            FooterHelper.ChangeBackgroundColorForFrameFour(act,fourBinding,colorCodeForBackground);
-        } else if (footerLayout == 5) {
-            FooterHelper.ChangeBackgroundColorForFrameFive(act,fiveBinding,colorCodeForBackground);
-        } else if (footerLayout == 6) {
-            FooterHelper.ChangeBackgroundColorForFrameSix(act,sixBinding,colorCodeForBackground);
-        }else if (footerLayout == 7) {
-            FooterHelper.ChangeBackgroundColorForFrameSeven(act,sevenBinding,colorCodeForBackground);
-        }else if (footerLayout == 8) {
-            FooterHelper.ChangeBackgroundColorForFrameEight(act,eightBinding,colorCodeForBackground);
-        }else if (footerLayout == 9) {
-            FooterHelper.ChangeBackgroundColorForFrameNine(act,nineBinding,colorCodeForBackground);
-        }else if (footerLayout == 10) {
-            FooterHelper.ChangeBackgroundColorForFrameTen(act,tenBinding,colorCodeForBackground);
-        }
-
+        FooterHelper.baseForBackground(act, footerLayout, layoutModelClass, colorCodeForBackground);
         changeBorderColorAsFrame();
 
-        //bold
-        if (footerLayout == 1) { FooterHelper.makeBoldForOne(oneBinding,isLoadBold);}
-        else if (footerLayout == 2) {  FooterHelper.makeItalicForTwo(twoBinding,isLoadBold);}
-        else if (footerLayout == 3) { FooterHelper.makeItalicForThree(threeBinding,isLoadBold);}
-        else if (footerLayout == 4) { FooterHelper.makeBoldForFour(fourBinding,isLoadBold);}
-        else if (footerLayout == 5) { FooterHelper.makeBoldForFive(fiveBinding,isLoadBold); }
-        else if (footerLayout == 6) {  FooterHelper.makeBoldForSix(sixBinding,isLoadBold);}
-        else if (footerLayout == 7) {  FooterHelper.makeBoldForSeven(sevenBinding,isLoadBold);}
-        else if (footerLayout == 8)   {  FooterHelper.makeBoldForEight(eightBinding,isLoadBold);}
-        else if (footerLayout==9) { FooterHelper.makeBoldForNine(nineBinding,isLoadBold); }
-        else if (footerLayout==10) { FooterHelper.makeBoldForTen(tenBinding,isLoadBold); }
-
-
-
-        //italic
-        if (footerLayout == 1) {
-            FooterHelper.makeItalicForOne(oneBinding,isLoadItalic);
-        } else if (footerLayout == 2) {
-            FooterHelper.makeItalicForTwo(twoBinding,isLoadItalic);
-
-        } else if (footerLayout == 3) {
-
-            FooterHelper.makeItalicForThree(threeBinding,isLoadItalic);
-
-        } else if (footerLayout == 4) {
-            FooterHelper.makeItalicForFour(fourBinding,isLoadItalic);
-        } else if (footerLayout == 5) {
-            FooterHelper.makeItalicForFive(fiveBinding,isLoadItalic);
-        } else if (footerLayout == 6) {
-            FooterHelper.makeItalicForSix(sixBinding,isLoadItalic);
-        }
-        else if (footerLayout == 7) {
-
-            FooterHelper.makeItalicForSeven(sevenBinding,isLoadItalic);
-
-        }
-
-        else if (footerLayout==8) {
-            FooterHelper.makeItalicForEight(eightBinding,isLoadItalic);
-        }
-
-        else if (footerLayout==9) {
-            FooterHelper.makeItalicForNine(nineBinding,isLoadItalic);
-        }
-        else if (footerLayout==10) {
-            FooterHelper.makeItalicForTen(tenBinding,isLoadItalic);
-
-        }
-
-
+        FooterHelper.baseForBold(isLoadBold, footerLayout, layoutModelClass);
+        FooterHelper.baseForItalic(isLoadItalic, footerLayout, layoutModelClass);
 
         if (!loadDefaultFont.isEmpty()) {
-            if (footerLayout == 1) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                oneBinding.gmailText.setTypeface(custom_font);
-                oneBinding.contactText.setTypeface(custom_font);
-                oneBinding.locationText.setTypeface(custom_font);
-            } else if (footerLayout == 2) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                twoBinding.gmailText.setTypeface(custom_font);
-                twoBinding.contactText.setTypeface(custom_font);
-                twoBinding.locationText.setTypeface(custom_font);
-                twoBinding.websiteText.setTypeface(custom_font);
-            } else if (footerLayout == 3) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                threeBinding.gmailText.setTypeface(custom_font);
-                threeBinding.contactText.setTypeface(custom_font);
-                threeBinding.locationText.setTypeface(custom_font);
-                threeBinding.websiteText.setTypeface(custom_font);
-            } else if (footerLayout == 4) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                fourBinding.gmailText.setTypeface(custom_font);
-                fourBinding.contactText.setTypeface(custom_font);
-                fourBinding.locationText.setTypeface(custom_font);
-                fourBinding.websiteText.setTypeface(custom_font);
-            } else if (footerLayout == 5) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                fiveBinding.gmailText.setTypeface(custom_font);
-                fiveBinding.phoneTxt.setTypeface(custom_font);
-                fiveBinding.websiteText.setTypeface(custom_font);
-            } else if (footerLayout == 6) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                sixBinding.textElement1.setTypeface(custom_font);
-                sixBinding.contactText.setTypeface(custom_font);
-            } else if (footerLayout == 7) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                sevenBinding.brandNameText.setTypeface(custom_font);
-                sevenBinding.gmailText.setTypeface(custom_font);
-                sevenBinding.contactText.setTypeface(custom_font);
-
-
-            } else if (footerLayout == 8) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                eightBinding.brandNameText.setTypeface(custom_font);
-                eightBinding.gmailText.setTypeface(custom_font);
-                eightBinding.contactText.setTypeface(custom_font);
-                eightBinding.locationText.setTypeface(custom_font);
-
-
-            } else if (footerLayout == 9) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                nineBinding.brandNameText.setTypeface(custom_font);
-                nineBinding.gmailText.setTypeface(custom_font);
-                nineBinding.contactText.setTypeface(custom_font);
-
-
-            } else if (footerLayout == 10) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), loadDefaultFont);
-                tenBinding.locationText.setTypeface(custom_font);
-                tenBinding.gmailText.setTypeface(custom_font);
-                tenBinding.contactText.setTypeface(custom_font);
-
-
-            }
+            FooterHelper.baseForFontChange(act, footerLayout, loadDefaultFont, layoutModelClass);
         }
 
 
     }
+
     //for Text Color change
     @Override public void onColorChanged(int colorCode) {
-
-
-
-
         if (preafManager.getActiveBrand()!=null) {
-
             if (editorFragment == 4 && selectedForEdit != null) {
                 selectedForEdit.setTextColor(colorCode);
-
             } else if (editorFragment == 4) {
                 colorCodeForTextColor = colorCode;
-
-                if (footerLayout == 1) {
-                    FooterHelper.ChangeTextColorForFrameOne(act, oneBinding, colorCode);
-                } else if (footerLayout == 2) {
-                    FooterHelper.ChangeTextColorForFrameTwo(act, twoBinding, colorCode);
-                } else if (footerLayout == 3) {
-                    FooterHelper.ChangeTextColorForFrameThree(act, threeBinding, colorCode);
-                } else if (footerLayout == 4) {
-                    FooterHelper.ChangeTextColorForFrameFour(act, fourBinding, colorCode);
-                } else if (footerLayout == 5) {
-                    FooterHelper.ChangeTextColorForFrameFive(act, fiveBinding, colorCode);
-                } else if (footerLayout == 6) {
-                    FooterHelper.ChangeTextColorForFrameSix(act, sixBinding, colorCode);
-                } else if (footerLayout == 7) {
-                    FooterHelper.ChangeTextColorForFrameSeven(act, sevenBinding, colorCode);
-                } else if (footerLayout == 8) {
-                    FooterHelper.ChangeTextColorForFrameEight(act, eightBinding, colorCode);
-                } else if (footerLayout == 9) {
-                    FooterHelper.ChangeTextColorForFrameNine(act, nineBinding, colorCode);
-                } else if (footerLayout == 10) {
-                    FooterHelper.ChangeTextColorForFrameTen(act, tenBinding, colorCode);
-                }
+                FooterHelper.baseForTextColor(act, footerLayout, layoutModelClass, colorCode);
             }
         }
         else
@@ -1188,35 +799,9 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     //for background color change
     @Override public void onChooseColor(int colorCode) {
         colorCodeForBackground = colorCode;
-      //  Toast.makeText(act, editorFragment+"fdgdf", Toast.LENGTH_SHORT).show();
+
         if (editorFragment==3){
-
-            if (footerLayout==1){
-                FooterHelper.ChangeBackgroundColorForFrameOne(act,oneBinding,colorCode);
-            }else if (footerLayout==2){
-                FooterHelper. ChangeBackgroundColorForFrameTwo(act,twoBinding,colorCode);
-            }else if (footerLayout==3){
-
-            }else if (footerLayout==4){
-                FooterHelper.ChangeBackgroundColorForFrameFour(act,fourBinding,colorCode);
-            } else if (footerLayout == 5) {
-                FooterHelper.ChangeBackgroundColorForFrameFive(act,fiveBinding,colorCode);
-            } else if (footerLayout == 6) {
-                FooterHelper.ChangeBackgroundColorForFrameSix(act,sixBinding,colorCode);
-            }
-            else if (footerLayout==7){
-                FooterHelper.ChangeBackgroundColorForFrameSeven(act,sevenBinding,colorCode);
-            }
-            else if (footerLayout==8){
-                FooterHelper.ChangeBackgroundColorForFrameEight(act,eightBinding,colorCode);
-            }
-            else if (footerLayout==9){
-                FooterHelper.ChangeBackgroundColorForFrameNine(act,nineBinding,colorCode);
-            }
-            else if (footerLayout==10){
-
-                FooterHelper.ChangeBackgroundColorForFrameTen(act,tenBinding,colorCode);
-            }
+            FooterHelper.baseForBackground(act, footerLayout, layoutModelClass, colorCode);
             GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
             drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
         }
@@ -1237,75 +822,14 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             if (editorFragment == 4 && selectedForEdit != null) {
                 Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
                 selectedForEdit.setTypeface(custom_font);
-                // selectedForEdit.setTextColor(colorCode);
-            } else if (footerLayout == 1) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                oneBinding.gmailText.setTypeface(custom_font);
-                oneBinding.contactText.setTypeface(custom_font);
-                oneBinding.locationText.setTypeface(custom_font);
-            } else if (footerLayout == 2) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                twoBinding.gmailText.setTypeface(custom_font);
-                twoBinding.contactText.setTypeface(custom_font);
-                twoBinding.locationText.setTypeface(custom_font);
-                twoBinding.websiteText.setTypeface(custom_font);
-            } else if (footerLayout == 3) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                threeBinding.gmailText.setTypeface(custom_font);
-                threeBinding.contactText.setTypeface(custom_font);
-                threeBinding.locationText.setTypeface(custom_font);
-                threeBinding.websiteText.setTypeface(custom_font);
-            } else if (footerLayout == 4) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                fourBinding.gmailText.setTypeface(custom_font);
-                fourBinding.contactText.setTypeface(custom_font);
-                fourBinding.locationText.setTypeface(custom_font);
-                fourBinding.websiteText.setTypeface(custom_font);
-            } else if (footerLayout == 5) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                fiveBinding.gmailText.setTypeface(custom_font);
-                fiveBinding.phoneTxt.setTypeface(custom_font);
-                fiveBinding.websiteText.setTypeface(custom_font);
-            } else if (footerLayout == 6) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                sixBinding.textElement1.setTypeface(custom_font);
-                sixBinding.contactText.setTypeface(custom_font);
-            } else if (footerLayout == 7) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                sevenBinding.brandNameText.setTypeface(custom_font);
-                sevenBinding.gmailText.setTypeface(custom_font);
-                sevenBinding.contactText.setTypeface(custom_font);
-
-
-            } else if (footerLayout == 8) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                eightBinding.brandNameText.setTypeface(custom_font);
-                eightBinding.gmailText.setTypeface(custom_font);
-                eightBinding.contactText.setTypeface(custom_font);
-                eightBinding.locationText.setTypeface(custom_font);
-
-
-            } else if (footerLayout == 9) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                nineBinding.brandNameText.setTypeface(custom_font);
-                nineBinding.gmailText.setTypeface(custom_font);
-                nineBinding.contactText.setTypeface(custom_font);
-
-
-            } else if (footerLayout == 10) {
-                Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
-                tenBinding.locationText.setTypeface(custom_font);
-                tenBinding.gmailText.setTypeface(custom_font);
-                tenBinding.contactText.setTypeface(custom_font);
-
-
+            } else {
+                FooterHelper.baseForFontChange(act, footerLayout, Font, layoutModelClass);
             }
         }
         else {
             if (editorFragment == 4 && selectedForEdit != null) {
                 Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
                 selectedForEdit.setTypeface(custom_font);
-                // selectedForEdit.setTextColor(colorCode);
             }
         }
 
@@ -1317,26 +841,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
             if (editorFragment == 4 && selectedForEdit != null) {
                 selectedForEdit.setTextSize(textsize);
-            } else if (footerLayout == 1) {
-                FooterHelper.makeTextSizeForOne(oneBinding, textsize);
-            } else if (footerLayout == 2) {
-                FooterHelper.makeTextSizeForTwo(twoBinding, textsize);
-            } else if (footerLayout == 3) {
-                FooterHelper.makeTextSizeForThree(threeBinding, textsize);
-            } else if (footerLayout == 4) {
-                FooterHelper.makeTextSizeForFour(fourBinding, textsize);
-            } else if (footerLayout == 5) {
-                FooterHelper.makeTextSizeForFive(fiveBinding, textsize);
-            } else if (footerLayout == 6) {
-                FooterHelper.makeTextSizeForSix(sixBinding, textsize);
-            } else if (footerLayout == 7) {
-                FooterHelper.makeTextSizeForSeven(sevenBinding, textsize);
-            } else if (footerLayout == 8) {
-                FooterHelper.makeTextSizeForEight(eightBinding, textsize);
-            } else if (footerLayout == 9) {
-                FooterHelper.makeTextSizeForNine(nineBinding, textsize);
-            } else if (footerLayout == 10) {
-                FooterHelper.makeTextSizeForTen(tenBinding, textsize);
+            } else {
+                FooterHelper.baseForTextSize(textsize, footerLayout, layoutModelClass);
             }
         }
         else
@@ -1357,27 +863,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 isLoadBold = Bold;
                 if (editorFragment == 4 && selectedForEdit != null) {
                     Utility.setBold(selectedForEdit, true);
-
-                } else if (footerLayout == 1) {
-                    FooterHelper.makeBoldForOne(oneBinding, true);
-                } else if (footerLayout == 2) {
-                    FooterHelper.makeBoldForTwo(twoBinding, true);
-                } else if (footerLayout == 3) {
-                    FooterHelper.makeBoldForThree(threeBinding, true);
-                } else if (footerLayout == 4) {
-                    FooterHelper.makeBoldForFour(fourBinding, true);
-                } else if (footerLayout == 5) {
-                    FooterHelper.makeBoldForFive(fiveBinding, true);
-                } else if (footerLayout == 6) {
-                    FooterHelper.makeBoldForSix(sixBinding, true);
-                } else if (footerLayout == 7) {
-                    FooterHelper.makeBoldForSeven(sevenBinding, true);
-                } else if (footerLayout == 8) {
-                    FooterHelper.makeBoldForEight(eightBinding, true);
-                } else if (footerLayout == 9) {
-                    FooterHelper.makeBoldForNine(nineBinding, true);
-                } else if (footerLayout == 10) {
-                    FooterHelper.makeBoldForOne(oneBinding, true);
+                } else {
+                    FooterHelper.baseForBold(Bold, footerLayout, layoutModelClass);
                 }
             }
             else
@@ -1394,33 +881,14 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 if (editorFragment == 4 && selectedForEdit != null) {
                     Utility.setBold(selectedForEdit, false);
 
-                } else if (footerLayout == 1) {
-                    FooterHelper.makeBoldForOne(oneBinding, false);
-                } else if (footerLayout == 2) {
-                    FooterHelper.makeBoldForTwo(twoBinding, false);
-                } else if (footerLayout == 3) {
-                    FooterHelper.makeBoldForThree(threeBinding, false);
-                } else if (footerLayout == 4) {
-                    FooterHelper.makeBoldForFour(fourBinding, false);
-                } else if (footerLayout == 5) {
-                    FooterHelper.makeBoldForFive(fiveBinding, false);
-                } else if (footerLayout == 6) {
-                    FooterHelper.makeBoldForSix(sixBinding, false);
-                } else if (footerLayout == 7) {
-                    FooterHelper.makeBoldForSeven(sevenBinding, false);
-                } else if (footerLayout == 8) {
-                    FooterHelper.makeBoldForEight(eightBinding, false);
-                } else if (footerLayout == 9) {
-                    FooterHelper.makeBoldForNine(nineBinding, false);
-                } else if (footerLayout == 10) {
-                    FooterHelper.makeBoldForOne(oneBinding, false);
+                } else {
+                    FooterHelper.baseForBold(Bold, footerLayout, layoutModelClass);
                 }
             }
             else
             {
                 if (editorFragment == 4 && selectedForEdit != null) {
                     Utility.setBold(selectedForEdit, false);
-
                 }
             }
         }
@@ -1430,32 +898,12 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     @Override public void onItalicTextChange(boolean Italic) {
         isLoadItalic=Italic;
         if (Italic) {
-
-
             if (preafManager.getActiveBrand() != null) {
                 if (editorFragment == 4 && selectedForEdit != null) {
 
                     Utility.setItalicText(selectedForEdit, true);
-                } else if (footerLayout == 1) {
-                    FooterHelper.makeItalicForOne(oneBinding, true);
-                } else if (footerLayout == 2) {
-                    FooterHelper.makeItalicForTwo(twoBinding, true);
-                } else if (footerLayout == 3) {
-                    FooterHelper.makeItalicForThree(threeBinding, true);
-                } else if (footerLayout == 4) {
-                    FooterHelper.makeItalicForFour(fourBinding, true);
-                } else if (footerLayout == 5) {
-                    FooterHelper.makeItalicForFive(fiveBinding, true);
-                } else if (footerLayout == 6) {
-                    FooterHelper.makeItalicForSix(sixBinding, true);
-                } else if (footerLayout == 7) {
-                    FooterHelper.makeItalicForSeven(sevenBinding, true);
-                } else if (footerLayout == 8) {
-                    FooterHelper.makeItalicForEight(eightBinding, true);
-                } else if (footerLayout == 9) {
-                    FooterHelper.makeItalicForNine(nineBinding, true);
-                } else if (footerLayout == 10) {
-                    FooterHelper.makeItalicForTen(tenBinding, true);
+                } else   {
+                    FooterHelper.baseForItalic(Italic,footerLayout,layoutModelClass);
                 }
             }
             else
@@ -1473,26 +921,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 if (editorFragment == 4 && selectedForEdit != null) {
 
                     Utility.setItalicText(selectedForEdit, false);
-                } else if (footerLayout == 1) {
-                    FooterHelper.makeItalicForOne(oneBinding, false);
-                } else if (footerLayout == 2) {
-                    FooterHelper.makeItalicForTwo(twoBinding, false);
-                } else if (footerLayout == 3) {
-                    FooterHelper.makeItalicForThree(threeBinding, false);
-                } else if (footerLayout == 4) {
-                    FooterHelper.makeItalicForFour(fourBinding, false);
-                } else if (footerLayout == 5) {
-                    FooterHelper.makeItalicForFive(fiveBinding, false);
-                } else if (footerLayout == 6) {
-                    FooterHelper.makeItalicForSix(sixBinding, false);
-                } else if (footerLayout == 7) {
-                    FooterHelper.makeItalicForSeven(sevenBinding, false);
-                } else if (footerLayout == 8) {
-                    FooterHelper.makeItalicForEight(eightBinding, false);
-                } else if (footerLayout == 9) {
-                    FooterHelper.makeItalicForNine(nineBinding, false);
-                } else if (footerLayout == 10) {
-                    FooterHelper.makeItalicForTen(tenBinding, false);
+                } else   {
+                    FooterHelper.baseForItalic(Italic,footerLayout,layoutModelClass);
                 }
             }
             else
@@ -1504,54 +934,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             }
         }
     }
-
-
-
-
-    private View.OnTouchListener onTouchListenerrr() {
-        return new View.OnTouchListener() {
-
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-
-                final int x = (int) event.getRawX();
-                final int y = (int) event.getRawY();
-
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-
-                    case MotionEvent.ACTION_DOWN:
-                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)
-                                view.getLayoutParams();
-
-                        xDelta = x - lParams.leftMargin;
-                        yDelta = y - lParams.topMargin;
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                      //  Toast.makeText(act, "thanks for new location!", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
-                                .getLayoutParams();
-                        layoutParams.leftMargin = x - xDelta;
-                        layoutParams.topMargin = y - yDelta;
-                        layoutParams.rightMargin = 0;
-                        layoutParams.bottomMargin = 0;
-                        view.setLayoutParams(layoutParams);
-                        break;
-                }
-//                mainLayout1.invalidate();
-                return true;
-            }
-        };
-    }
-
-
-
-
-    public boolean manuallyEnablePermission(int pendingActivity) {
+     public boolean manuallyEnablePermission(int pendingActivity) {
         isDownloadOrSharingOrFavPending=pendingActivity;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -1621,18 +1004,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
 
     }
-
-
-
-
-
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutEnterpriseBinding enterpriseBinding;
-
-
-
-
-
     public void askForUpgradeToEnterpisePackage() {
         enterpriseBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_enterprise, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1662,156 +1035,19 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-
-
-
-
-
-
     @Override public void alertListenerClick() {
         requestAgain();
     }
-
-
-
-
-    public void askForDownloadImage(){
-        alertDialogBuilder = new AlertDialog.Builder(act);
-        alertDialogBuilder.setTitle("Save image");
-        alertDialogBuilder.setMessage("You sure to save your image?");
-        alertDialogBuilder.setPositiveButton("yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        requestAgain();
-                        saveImageToGallery(false,false);
-                    }
-                });
-        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.setCancelable(false);
-        alertDialog.show();
-    }
-
-
-
-
-
-    //api for access rights
-    private void getImageDownloadRights(String flag) {
-        Utility.showLoadingTran(act);
-        Utility.Log("API : ", APIs.CUSTOM_FRAME_ACCESS);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.CUSTOM_FRAME_ACCESS, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.dismissLoadingTran();
-                Utility.Log("Access-Rights-Response:", response);
-                JSONObject respJson = ResponseHandler.createJsonObject(response);
-                if (ResponseHandler.getBool(respJson, "status")) {
-                    JSONArray dataJson = ResponseHandler.getJSONArray(respJson, "data");
-                    try {
-                        String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
-                        FrameCountForDownload = Integer.parseInt(frameCount);
-                        int imageCounter=Integer.parseInt( ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter").equalsIgnoreCase("Unlimited") ?"-1": ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter"));
-
-                        int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0  : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
-
-
-                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
-                            canDownload = true;
-                            if (Utility.isUserPaid(preafManager.getActiveBrand())){
-
-                                if (imageCounter==-1 || used_img_counter <= imageCounter) {
-                                    if (flag.equalsIgnoreCase("Download"))
-                                        askForDownloadImage();
-                                    else {
-                                        requestAgain();
-                                        saveImageToGallery(true, false);
-                                    }
-                                }else {
-                                    DialogHelpers.downloadLimitExpireDialog(act,"Your download limit is expired for your current package. To get more images please upgrade your package");
-                                }
-
-                            }else {
-                                if (flag.equalsIgnoreCase("Download"))
-                                    askForDownloadImage();
-                                else {
-                                    requestAgain();
-                                    saveImageToGallery(true, false);
-                                }
-                            }
-
-                        } else {
-                            canDownload = false;
-                            DialogHelpers.downloadLimitExpireDialog(act,"You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
-                            //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    canDownload = false;
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Utility.dismissLoadingTran();
-                        error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("brand_id", preafManager.getActiveBrand().getId());
-                Utility.Log("Params", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
-
-
-
-
-
-
     //save image with frame either custome or from backend
     public void saveImageToGallery(boolean wantToShare,boolean isFavourite) {
         Log.e("TTTT", "sSSS");
         Utility.showLoadingTran(act);
         Drawable bitmapFrame;
-        if (myEditText.getText().toString().equalsIgnoreCase("Add Text")) {
-            myEditText.setVisibility(View.GONE);
-
+        for (int i = 0; i < binding.CustomImageMain.getChildCount(); i++) {
+            if (binding.CustomImageMain.getChildAt(i) instanceof TextView) {
+                TextView textView = (TextView) binding.CustomImageMain.getChildAt(i);
+                textView.setBackground(null);
+            }
         }
         if (isUsingCustomFrame) {
             bitmapFrame = new BitmapDrawable(getResources(), FooterHelper.getCustomFrameInBitmap(binding.CustomImageMain, binding.backImage));
@@ -1850,9 +1086,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (myEditText.getVisibility() == View.GONE) {
-            myEditText.setVisibility(View.VISIBLE);
-        }
+
         FooterHelper.refreshgallery(act, new_file);
 
         if (!isFavourite) {
@@ -1911,22 +1145,12 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
         Utility.dismissLoadingTran();
     }
-
-
-
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
-
-
-
-
-
-    //load firstImage
-
     public void loadFirstImage(){
         if (preafManager.getActiveBrand()!=null) {
             FooterModel model = new FooterModel();
@@ -1984,68 +1208,219 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             // portrait
             float ratio = (float) height / binding.backImage.getHeight();
             height = binding.backImage.getHeight();
-            width = (int)(width / ratio);
+            width = (int) (width / ratio);
         } else {
             // square
             height = binding.backImage.getHeight();
             width = binding.backImage.getWidth();
         }
-       binding.backImage.setImageBitmap(filter.processFilter(Bitmap.createScaledBitmap(selectedImageBitmap, width, height, false)));
-        Log.v("filter", "Width and height are " + width + "--" +height);
+        binding.backImage.setImageBitmap(filter.processFilter(Bitmap.createScaledBitmap(selectedImageBitmap, width, height, false)));
+        Log.v("filter", "Width and height are " + width + "--" + height);
 
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (selectedTextView != null) {
 
+            selectedTextView.setBackground(null);
+            selectedTextView = null;
+            selectedForEdit = null;
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+        }
 
+        ImageView view = (ImageView) v;
+        view.setScaleType(ImageView.ScaleType.MATRIX);
+        float scale;
+
+        dumpEvent(event);
+        // Handle touch events here...
+
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN: // first finger down only
+                savedMatrix.set(matrix);
+                start.set(event.getX(), event.getY());
+                Log.d(TAG, "mode=DRAG"); // write to LogCat
+                mode = DRAG;
+                break;
+
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+
+                mode = NONE;
+                Log.d(TAG, "mode=NONE");
+                break;
+
+            case MotionEvent.ACTION_POINTER_DOWN:
+                oldDist = spacing(event);
+                Log.d(TAG, "oldDist=" + oldDist);
+                if (oldDist > 5f) {
+                    savedMatrix.set(matrix);
+                    midPoint(mid, event);
+                    mode = ZOOM;
+                    Log.d(TAG, "mode=ZOOM");
+                }
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+
+                if (mode == DRAG) {
+                    matrix.set(savedMatrix);
+                    matrix.postTranslate(event.getX() - start.x, event.getY()
+                            - start.y); /*
+                     * create the transformation in the matrix
+                     * of points
+                     */
+                } else if (mode == ZOOM) {
+                    // pinch zooming
+                    float newDist = spacing(event);
+                    Log.d(TAG, "newDist=" + newDist);
+                    if (newDist > 5f) {
+                        matrix.set(savedMatrix);
+                        scale = newDist / oldDist;
+                        /*
+                         * setting the scaling of the matrix...if scale > 1 means
+                         * zoom in...if scale < 1 means zoom out
+                         */
+                        matrix.postScale(scale, scale, mid.x, mid.y);
+                    }
+                }
+                break;
+        }
+
+        view.setImageMatrix(matrix); // display the transformation on screen
+
+        return true;
+    }
+
+    float scalediff;
+    float angle = 0;
+    private float newRot = 0f;
+    float dx = 0, dy = 0, x = 0, y = 0;
+    private float d = 0f;
 
     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
+            Handler handler = new Handler();
+
+            int numberOfTaps = 0;
+            long lastTapTimeMs = 0;
+            long touchDownMs = 0;
 
             @SuppressLint("ClickableViewAccessibility")
-            @Override public boolean onTouch(View view, MotionEvent event) {
-                if (gestureDetector.onTouchEvent(event)) {
-                    if ((preafManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) || preafManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
-                        onSelectImageClick(view);
-                    } else {
-                        // Toast.makeText(act, "once you download or share image. You can't change your logo", Toast.LENGTH_SHORT).show();
-                        new AlertDialog.Builder(act)
-                                .setMessage("once you download or share image. You can't change your logo")
-                                .setCancelable(true)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                        ((alertListenerCallback) act).alertListenerClick();
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchDownMs = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        handler.removeCallbacksAndMessages(null);
+
+                        if ((System.currentTimeMillis() - touchDownMs) > ViewConfiguration.getTapTimeout()) {
+                            //it was not a tap
+                            numberOfTaps = 0;
+                            lastTapTimeMs = 0;
+                            break;
+                        }
+
+                        if (numberOfTaps > 0 && (System.currentTimeMillis() - lastTapTimeMs) < ViewConfiguration.getDoubleTapTimeout()) {
+                            numberOfTaps += 1;
+                        } else {
+                            numberOfTaps = 1;
+                        }
+
+                        lastTapTimeMs = System.currentTimeMillis();
+
+                        if (numberOfTaps == 1) {
+
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (preafManager.getActiveBrand().getLogo().isEmpty()) {
+                                        onSelectImageClick(view);
+                                    } else {
+                                        if (!preafManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
+                                            new AlertDialog.Builder(act)
+                                                    .setMessage("once you download or share image. You can't change your logo.\nIf you want to change logo please contact to admin.")
+                                                    .setCancelable(true)
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            dialogInterface.dismiss();
+                                                            ((alertListenerCallback) act).alertListenerClick();
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
                                     }
-                                })
-                                .show();
-                    }
-                }else {
-                    final int x = (int) event.getRawX();
-                    final int y = (int) event.getRawY();
+                                }
+                            }, ViewConfiguration.getDoubleTapTimeout());
+                        }
+                }
+                if (gestureDetector.onTouchEvent(event)) {
+
+                } else {
+                    int x = (int) event.getRawX();
+                    int y = (int) event.getRawY();
 
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
                         case MotionEvent.ACTION_DOWN:
                             RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)
                                     view.getLayoutParams();
-
+                            mode = DRAG;
                             xDelta = x - lParams.leftMargin;
                             yDelta = y - lParams.topMargin;
                             break;
 
                         case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_POINTER_UP:
 
-//                            Toast.makeText(act, "I'm here!", Toast.LENGTH_SHORT).show();
+                            mode = NONE;
+                            Log.d(TAG, "mode=NONE");
                             break;
-
+                        case MotionEvent.ACTION_POINTER_DOWN:
+                            oldDist = spacing(event);
+                            Log.d(TAG, "oldDist=" + oldDist);
+                            if (oldDist > 5f) {
+                                midPoint(mid, event);
+                                mode = ZOOM;
+                                Log.d(TAG, "mode=ZOOM");
+                            }
+                            break;
                         case MotionEvent.ACTION_MOVE:
                             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                            layoutParams.leftMargin = x - xDelta;
-                            layoutParams.topMargin = y - yDelta;
-                            layoutParams.rightMargin = 0;
-                            layoutParams.bottomMargin = 0;
-                            view.setLayoutParams(layoutParams);
+
+
+                            if (mode == DRAG) {
+                                layoutParams.leftMargin = x - xDelta;
+                                layoutParams.topMargin = y - yDelta;
+                                layoutParams.rightMargin = 0;
+                                layoutParams.bottomMargin = 0;
+                                view.setLayoutParams(layoutParams);
+                            } else if (mode == ZOOM) {
+
+                                if (event.getPointerCount() == 2) {
+                                    newRot = rotation(event);
+                                    float r = newRot - d;
+                                    angle = r;
+                                    x = (int) event.getRawX();
+                                    y = (int) event.getRawY();
+                                    float newDist = spacing(event);
+                                    if (newDist > 10f) {
+                                        float scale = newDist / oldDist * view.getScaleX();
+                                        if (scale > 0.6) {
+                                            scalediff = scale;
+                                            view.setScaleX(scale);
+                                            view.setScaleY(scale);
+                                        }
+                                    }
+
+                                    view.setLayoutParams(layoutParams);
+                                }
+                            }
                             break;
                     }
 
@@ -2055,8 +1430,15 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             }
         };
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
 
+    private float rotation(MotionEvent event) {
+        double delta_x = (event.getX(0) - event.getX(1));
+        double delta_y = (event.getY(0) - event.getY(1));
+        double radians = Math.atan2(delta_y, delta_x);
+        return (float) Math.toDegrees(radians);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -2090,10 +1472,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
     }
 
-
-
-
-
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -2104,19 +1482,45 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
 
 
-
     //For CustomFrame
     public void onSelectImageClick(View view) {
-        CropImage.startPickImageActivity(this);
+        if (binding.logoCustom.getTag().toString().equalsIgnoreCase("1"))
+            pickerView(true, selectedLogo);
+        else
+            pickerView(false, null);
+    }
+
+    private void pickerView(boolean viewMode, Bitmap selectedBitmap) {
+        PickerFragment pickerFragment = new PickerFragment(act);
+        pickerFragment.setEnableViewMode(viewMode);
+        pickerFragment.setActionId(Constant.PICKER_FIRST);
+
+        if (viewMode) {
+            pickerFragment.setSelectedBitmapForFullView(selectedBitmap);
+        }
+        PickerFragment.HandlerImageLoad imageLoad = new PickerFragment.HandlerImageLoad() {
+            @Override
+            public void onGalleryResult(int flag, Bitmap bitmap) {
+                if (flag == Constant.PICKER_FIRST) {
+                    selectedLogo = bitmap;
+                    binding.logoCustom.setTag("1");
+                    binding.logoCustom.setImageBitmap(bitmap);
+                    binding.logoCustom.setVisibility(View.VISIBLE);
+                    binding.logoEmptyState.setVisibility(View.GONE);
+                }
+
+            }
+        };
+        pickerFragment.setImageLoad(imageLoad);
+        pickerFragment.show(getSupportFragmentManager(), pickerFragment.getTag());
     }
 
 
-
-
-    @Override public void onRemoveSelectEvent() {
-        isUsingCustomFrame=true;
-        isRemoveFrame=true;
-       // Toast.makeText(act, "dsgfgds", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onRemoveSelectEvent() {
+        isUsingCustomFrame = true;
+        isRemoveFrame = true;
+        // Toast.makeText(act, "dsgfgds", Toast.LENGTH_SHORT).show();
         binding.elementCustomFrame.setVisibility(View.GONE);
         binding.frameImage.setImageBitmap(null);
         binding.FrameImageDuplicate.setImageBitmap(null);
@@ -2150,22 +1554,100 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
 
     @Override public void onBackPressed() {
+        if (binding.textEditorView.getVisibility() == View.VISIBLE) {
+            binding.textEditorView.setVisibility(View.GONE);
+            binding.contentView.setEnabled(true);
+            binding.contentView.setClickable(true);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 1);
+            return;
+        }
+
         CodeReUse.activityBackPress(act);
     }
 
 
-
-
+    int editMode;
     //to handle click and drag listener EditBox
     private View.OnTouchListener onTouchListeneForEditText() {
         return new View.OnTouchListener() {
+            Handler handler = new Handler();
+
+            int numberOfTaps = 0;
+            long lastTapTimeMs = 0;
+            long touchDownMs = 0;
 
             public boolean onTouch(View view, MotionEvent event) {
+                if (selectedForEdit != null)
+                    selectedForEdit.setBackground(null);
+                selectedForEdit = null;
+                if (selectedTextView != null)
+                    selectedTextView.setBackground(null);
+                selectedTextView = null;
+
+                TextView textView = (TextView) view;
+
+                textView.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
+                selectedForEdit = textView;
+                selectedTextView = textView;
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchDownMs = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        handler.removeCallbacksAndMessages(null);
+
+                        if ((System.currentTimeMillis() - touchDownMs) > ViewConfiguration.getTapTimeout()) {
+                            //it was not a tap
+                            numberOfTaps = 0;
+                            lastTapTimeMs = 0;
+                            break;
+                        }
+
+                        if (numberOfTaps > 0
+                                && (System.currentTimeMillis() - lastTapTimeMs) < ViewConfiguration.getDoubleTapTimeout()) {
+                            numberOfTaps += 1;
+                        } else {
+                            numberOfTaps = 1;
+                        }
+
+                        lastTapTimeMs = System.currentTimeMillis();
+
+                        if (numberOfTaps == 2) {
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //handle double tap
+                                    selectedTextAlignment = textView.getTextAlignment();
+                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_TEXT_START) {
+                                        CurrentFlagAlign = 0;
+                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_left_align));
+                                    }
+                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_CENTER) {
+                                        CurrentFlagAlign = 1;
+                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_centered_align));
+                                    }
+                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_TEXT_END) {
+                                        CurrentFlagAlign = 2;
+                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_right_align));
+                                    }
+
+                                    isTextEditing = true;
+                                    binding.textEditorView.setVisibility(View.VISIBLE);
+                                    binding.contentView.setEnabled(false);
+                                    binding.contentView.setClickable(false);
+                                    selectedTextView = textView;
+                                    binding.editingBox.setText(selectedTextView.getText().toString());
+                                }
+                            }, ViewConfiguration.getDoubleTapTimeout());
+                        }
+                }
                 if (gestureDetector.onTouchEvent(event)) {
-                    //   binding.viewPager.setCurrentItem(5);
-                    //   Toast.makeText(act, "click", Toast.LENGTH_SHORT).show();
+
+
                     return true;
-                }else {
+                } else {
                     final int X = (int) event.getRawX();
                     final int Y = (int) event.getRawY();
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -2173,24 +1655,49 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                             RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
                             _xDelta = X - lParams.leftMargin;
                             _yDelta = Y - lParams.topMargin;
+                            editMode = DRAG;
+                            break;
+                        case MotionEvent.ACTION_POINTER_DOWN:
+                            oldDist = spacing(event);
+                            if (oldDist > 10f) {
+                                editMode = ZOOM;
+                            }
+                            d = rotation(event);
                             break;
                         case MotionEvent.ACTION_UP:
                             break;
-                        case MotionEvent.ACTION_POINTER_DOWN:
-                            break;
                         case MotionEvent.ACTION_POINTER_UP:
+                            editMode = NONE;
                             break;
+
                         case MotionEvent.ACTION_MOVE:
+                            if (editMode == DRAG) {
+                                RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                                mRparams.leftMargin = X - _xDelta;
+                                mRparams.topMargin = Y - _yDelta;
+                                mRparams.rightMargin = -250;
+                                mRparams.bottomMargin = -250;
+                                view.setLayoutParams(mRparams);
+                            } else if (editMode == ZOOM) {
+                                RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
 
-                            RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                            mRparams.leftMargin = X - _xDelta;
-                            mRparams.topMargin = Y - _yDelta;
-                            mRparams.rightMargin = -250;
-                            mRparams.bottomMargin = -250;
-                            view.setLayoutParams(mRparams);
+                                if (event.getPointerCount() == 2) {
+                                    newRot = rotation(event);
+                                    float r = newRot - d;
+                                    angle = r;
+                                    x = event.getRawX();
+                                    y = event.getRawY();
 
-
-
+                                    view.animate().rotationBy(angle).setDuration(0).setInterpolator(new LinearInterpolator()).start();
+                                    x = event.getRawX();
+                                    y = event.getRawY();
+                                    mRparams.leftMargin = X - _xDelta;
+                                    mRparams.topMargin = Y - _yDelta;
+                                    mRparams.rightMargin = -250;
+                                    mRparams.bottomMargin = -250;
+                                    view.setLayoutParams(mRparams);
+                                }
+                            }
                             break;
                     }
                     // root.invalidate();
@@ -2198,6 +1705,21 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 }
             }
         };
+    }
+
+
+    @Override
+    public void onAddTextTrigger() {
+        CurrentFlagAlign = 1;
+        binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_centered_align));
+        selectedTextAlignment = View.TEXT_ALIGNMENT_TEXT_START;
+        binding.editingBox.setGravity(android.view.Gravity.CENTER);
+
+        isTextEditing = false;
+        binding.textEditorView.setVisibility(View.VISIBLE);
+        binding.contentView.setEnabled(false);
+        binding.contentView.setClickable(false);
     }
 }
 

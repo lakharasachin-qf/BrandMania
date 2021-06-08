@@ -8,7 +8,10 @@
         android:id="@+id/rootBackground"
         android:layout_height="match_parent"
         tools:context=".Activity.custom.CustomViewAllActivit">
-
+    <RelativeLayout
+        android:id="@+id/contentView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
@@ -397,7 +400,56 @@
                 </RelativeLayout>
            <!-- </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
         </RelativeLayout>
+    </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/textEditorView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="@dimen/_20sdp"
+            android:visibility="gone">
+
+
+            <com.github.mmin18.widget.RealtimeBlurView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:realtimeBlurRadius="10dp"
+                app:realtimeOverlayColor="#88959595" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_margin="@dimen/_2sdp"
+                    android:id="@+id/textAlignment"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/white"
+                    android:src="@drawable/ic_centered_align"
+                    android:background="@android:color/transparent"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    />
+                <Button
+                    android:id="@+id/done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/montserrat_extrabold"
+                    android:text="Done"
+                    android:textSize="@dimen/_12sdp" />
+
+                <EditText
+                    android:layout_below="@+id/done"
+                    android:hint="Enter Your\nText"
+                    android:id="@+id/editingBox"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

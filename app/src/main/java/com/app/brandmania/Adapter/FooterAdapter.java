@@ -696,20 +696,16 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderNine) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    
+
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderNine) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
-                        ((FooterHolderNine) holder).binding.contactText.setVisibility(View.GONE);
                     }
 
-
-                    if (!activeBrand.getEmail().isEmpty()){
-                        ((FooterHolderNine) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
-                        ((FooterHolderNine) holder).binding.gmailText.setVisibility(View.GONE);
-                        ((FooterHolderNine) holder).binding.element0.setVisibility(View.GONE);
+                    if (!activeBrand.getEmail().isEmpty()) {
+                        ((FooterHolderNine) holder).binding.contactText.append("\n");
+                        ((FooterHolderNine) holder).binding.contactText.append(activeBrand.getEmail());
                     }
-
 
                     if (!activeBrand.getName().isEmpty()){
                         ((FooterHolderNine) holder).binding.brandNameText.setText(activeBrand.getName());

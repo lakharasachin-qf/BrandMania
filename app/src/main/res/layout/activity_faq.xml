@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/BackButtonIcon"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="Faq"
+                    android:text="FAQ"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold"></TextView>

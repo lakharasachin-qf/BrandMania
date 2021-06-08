@@ -134,7 +134,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
         boolean isError = false;
         boolean isFocus = false;
 
-        if (binding.firstName.getText().toString().length() == 0) {
+        if (binding.firstName.getText().toString().trim().length() == 0) {
             isError = true;
             isFocus = true;
             binding.userNameTextLayout.setError(getString(R.string.enter_first_name));
@@ -145,7 +145,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
 
 
 
-        if (binding.lastName.getText().toString().length() == 0) {
+        if (binding.lastName.getText().toString().trim().length() == 0) {
             isError = true;
             isFocus = true;
             binding.lastNameTextLayout.setError(getString(R.string.enter_last_name));
@@ -154,7 +154,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
 
         }
         if (!binding.emailId.getText().toString().equals("")) {
-            if (!CodeReUse.isEmailValid(binding.emailId.getText().toString())) {
+            if (!CodeReUse.isEmailValid(binding.emailId.getText().toString().trim())) {
                 isError = true;
                 isFocus = true;
                 binding.emailIdTextLayout.setError(getString(R.string.enter_valid_email_address));
@@ -169,7 +169,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
 
         }
         else {
-            if (binding.emailId.getText().toString().length() == 0) {
+            if (binding.emailId.getText().toString().trim().length() == 0) {
                 isError = true;
                 isFocus = true;
                 binding.emailIdTextLayout.setError(getString(R.string.enter_email_id));

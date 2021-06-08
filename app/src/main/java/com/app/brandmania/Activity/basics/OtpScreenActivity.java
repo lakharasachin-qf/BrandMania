@@ -16,9 +16,12 @@ import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -98,23 +101,28 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
+            binding.changeContact.setText(Html.fromHtml("<u>Change</u>", Html.FROM_HTML_MODE_COMPACT));
             binding.verifyOtp.setText(Html.fromHtml(Verify, Html.FROM_HTML_MODE_COMPACT));
         } else {
-
+            binding.changeContact.setText(Html.fromHtml("<u>Change</u>"));
             binding.verifyOtp.setText(Html.fromHtml(Verify));
         }
 
-
+        binding.changeContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
         TextChanger();
         deviceToken = getDeviceToken(this);
-        preafManager=new PreafManager(this);
+        preafManager = new PreafManager(this);
         binding.regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String OtpString= binding.otpOne.getText().toString()+binding.otpTwo.getText().toString()+binding.otpThree.getText().toString()+binding.otpFour.getText().toString();
+                String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
                 VerificationOtp(OtpString.trim(), NumberShow);
             }
         });
@@ -217,6 +225,15 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             public void onErrorResponse(VolleyError error) {
                 isLoading = false;
                 Utility.dismissProgress();
+                if (error instanceof TimeoutError) {
+                    Toast.makeText(act, "Time out error", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(act, "AuthFailureError", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(act, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(act, "ParseError", Toast.LENGTH_SHORT).show();
+                }
                 onBackPressed();
                 error.printStackTrace();
             }

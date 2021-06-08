@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.brand.ViewBrandActivity;
+import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.Utility;
@@ -34,6 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String GROUP_KEY = "com.app.brandmania.FESTIVALS";
 
 
+
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
@@ -43,11 +45,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived( RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.e("remoteMessage", remoteMessage.getData().toString());
-        shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"),remoteMessage.getData().get("image"));
+
+        shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"),remoteMessage.getData().get("image"),remoteMessage.getData().get("cat_id"));
     }
 
 
-    private void shownotification(String title, String msg, String message,String url) {
+    private void shownotification(String title, String msg, String message, String url, String cat_id) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -70,7 +73,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent = new Intent(this, ViewBrandActivity.class);
         }
         else {
-            intent = new Intent(this, HomeActivity.class);
+            if (cat_id.equals("0"))
+                intent = new Intent(this, HomeActivity.class);
+            else{
+                intent = new Intent(this, ImageCategoryDetailActivity.class);
+                intent.putExtra("notification","1");
+                intent.putExtra("cat_id",cat_id);
+            }
+
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

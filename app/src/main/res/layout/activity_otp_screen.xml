@@ -32,6 +32,18 @@
         android:layout_marginTop="@dimen/_340sdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@+id/verificationChildTitle"
+            android:id="@+id/changeContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Change"
+            android:textSize="@dimen/_12sdp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"/>
 
     <TextView
         android:visibility="gone"
@@ -50,7 +62,7 @@
 
         android:id="@+id/otpRelative"
       android:gravity="center"
-        android:layout_below="@+id/verificationChildTitle"
+        android:layout_below="@+id/changeContact"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -125,32 +137,38 @@
         android:background="@drawable/roundbackground"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp" />
-
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_below="@+id/regBtn"
-        android:id="@+id/ResendText"
-        android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/poppins_regular"
-        android:textSize="@dimen/_12sdp"
-        android:textAlignment="center"
-        android:gravity="center"
-
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:layout_below="@+id/regBtn"
-        android:id="@+id/CouterText"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/poppins_bold"
-        android:textSize="@dimen/_14sdp"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:visibility="gone" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_below="@+id/regBtn"
+            android:id="@+id/ResendText"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="@dimen/_12sdp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/CouterText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="@dimen/_14sdp"
+            android:textAlignment="center"
+            android:gravity="center"
+             android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
 </RelativeLayout>
 </layout>

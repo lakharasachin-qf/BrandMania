@@ -35,7 +35,7 @@
             <RelativeLayout
                 android:id="@+id/main"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp">
+                android:layout_height="wrap_content">
                 <RelativeLayout
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="@dimen/_7sdp"
@@ -110,16 +110,18 @@
                 android:layout_below="@+id/main"
                 android:id="@+id/addressLayoutElement2"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_height="wrap_content"
                 android:paddingStart="@dimen/_7sdp"
                 android:paddingEnd="@dimen/_7sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
                 android:background="@color/colorPrimary">
-                              <RelativeLayout
+
+                <RelativeLayout
                     android:layout_centerVertical="true"
                     android:id="@+id/addressLayoutElement"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_20sdp"
-                    >
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/loacationImage"
@@ -135,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="@dimen/_10sdp"
-                        android:singleLine="true"
+                        android:text="sdf dsjof dofsdklfj  lifjsd kfsd fjdsfkl sdflk sfksd fklsd fklsdjf sd djfklsdfjksdkdsjfksd kjdflsd fldsfk fkds"
                         android:layout_centerVertical="true"
                         android:includeFontPadding="false"
                         android:layout_marginStart="@dimen/_5sdp"

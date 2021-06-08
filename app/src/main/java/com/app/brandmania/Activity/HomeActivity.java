@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,6 +60,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,6 +84,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private boolean iscutomEnable = false;
 
     BottomNavigationView navigation;
+    private  boolean isHomeTab=true;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -111,12 +114,13 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
+                isHomeTab=true;
                 fragment = new HomeFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
             case R.id.navigation_custom:
-
+                isHomeTab=false;
                 if (iscutomEnable) {
                     fragment = new CustomFragment();
                     //Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
@@ -129,11 +133,13 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.navigation_download:
+                isHomeTab=false;
                 fragment = new DownloadsFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
             case R.id.navigation_profile:
+                isHomeTab=false;
                 fragment = new ProfileFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
@@ -262,8 +268,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             }
         }else if(requestCode == REQUESTED_CAMERA){
             boolean cameraGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-
-
             if (cameraGrant) {
                 permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
                 return;
@@ -329,11 +333,12 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
         appUpdateManager = AppUpdateManagerFactory.create(act);
         appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
+        Log.e("dateee", new Gson().toJson(appUpdateManager.getAppUpdateInfo()));
         //Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                Log.e("appUpdateInfo", new Gson().toJson(appUpdateInfo));
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
                     startAppUpdates(appUpdateInfo);
                 }
@@ -398,16 +403,23 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 permissionsLayoutBinding.allowPermission.setText("Close");
+                if (alertDialog!=null)
+                    alertDialog.dismiss();
             }
         }
 
     }
 
     public void onBackPressed() {
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(a);
+        if (isHomeTab) {
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(a);
+        }
+        else {
+            navigation.setSelectedItemId(R.id.navigation_home);
+        }
     }
 
     private void getUpdate() {

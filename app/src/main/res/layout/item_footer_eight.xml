@@ -75,7 +75,7 @@
                         android:layout_toEndOf="@+id/element"
                         android:id="@+id/gmailLayout"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true">
 
                         <ImageView
@@ -96,7 +96,6 @@
                             android:layout_marginLeft="@dimen/_5sdp"
                             android:layout_toEndOf="@+id/gmailImage"
                             android:includeFontPadding="false"
-                            android:maxWidth="@dimen/_100sdp"
                             android:padding="0dp"
                             android:singleLine="true"
                             android:text="qfsolfddgdfgfdgdfgdgdfution@gmail.com"
@@ -120,7 +119,7 @@
                         android:visibility="visible"
                         android:id="@+id/contactLayout"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true">
 
                         <ImageView
@@ -155,22 +154,25 @@
                     <RelativeLayout
                         android:layout_below="@+id/element1"
 
-                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:layout_centerHorizontal="true"
-
                         android:id="@+id/addressLayoutElement"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
+
                         >
                         <RelativeLayout
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center_horizontal"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                         <ImageView
 
-                            android:layout_marginLeft="@dimen/_18sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:id="@+id/loacationImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
@@ -183,12 +185,10 @@
                             android:id="@+id/locationText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingEnd="@dimen/_10sdp"
-                            android:singleLine="true"
-
                             android:text="326,Rudra Complex Vastral"
                             android:layout_centerVertical="true"
                             android:includeFontPadding="false"
+                            android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_toEndOf="@+id/loacationImage"
                             android:textColor="@color/colorPrimary"

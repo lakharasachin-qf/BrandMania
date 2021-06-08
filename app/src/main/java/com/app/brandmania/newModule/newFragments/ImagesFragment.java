@@ -1,16 +1,14 @@
 package com.app.brandmania.newModule.newFragments;
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,13 +22,13 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
-import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.Utils.APIs;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.FragmentImagesBinding;
-import com.google.gson.Gson;
+import com.app.brandmania.newModule.BaseInterface;
+import com.app.brandmania.newModule.adpatersBase.BusinessCategoryAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,23 +40,15 @@ import java.util.Map;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 public class ImagesFragment extends BaseFragment {
-
     private FragmentImagesBinding binding;
     ArrayList<ImageList> menuModels = new ArrayList<>();
     ImageList apiObject;
-    private DashBoardItem imageList;
-    private ImageList selectedObject;
+    private ImageList selectedImageCategory;
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_images, parent, false);
-
-
-        imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
-        selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
-        Log.e("IMAGELIST--",new Gson().toJson(imageList));
-        Log.e("selectedObject--",new Gson().toJson(selectedObject));
-        // Toast.makeText(getActivity(),imageList.getId(),Toast.LENGTH_LONG).show();
+        selectedImageCategory = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory();
@@ -66,27 +56,25 @@ public class ImagesFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    ImageCategoryAddaptor menuAddaptor;
+    BusinessCategoryAdapter businessCategoryAdapter;
 
     public void setAdapter() {
-        menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
-
-
-        menuAddaptor.setLayoutType(FROM_VIEWALL);
+        businessCategoryAdapter = new BusinessCategoryAdapter(menuModels, act);
+        businessCategoryAdapter.setLayoutType(FROM_VIEWALL);
+        ((BaseInterface) act).loadFirstImageEvent(0, menuModels.get(0));
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
         binding.viewRecoRecycler.setLayoutManager(mLayoutManager);
         binding.viewRecoRecycler.setHasFixedSize(true);
-        binding.viewRecoRecycler.setAdapter(menuAddaptor);
+        binding.viewRecoRecycler.setAdapter(businessCategoryAdapter);
         binding.viewRecoRecycler.setVisibility(View.VISIBLE);
     }
 
     private void getImageCtegory() {
-
-        Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
+        Utility.Log("API: ", APIs.GET_IMAGEBUID_CATEGORY);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Utility.Log("GET_IMAGE_CATEGORYyyyyyyyyyyyy : ", response);
+                Utility.Log("ImagesFragments:", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -106,7 +94,7 @@ public class ImagesFragment extends BaseFragment {
                             if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                                 binding.shimmerForPagination.startShimmer();
                                 binding.shimmerForPagination.setVisibility(View.VISIBLE);
-                                getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                                getPagination(apiObject.getLinks().getNextPageUrl());
                             } else {
                                 binding.shimmerForPagination.stopShimmer();
                                 binding.shimmerForPagination.setVisibility(View.GONE);
@@ -130,7 +118,6 @@ public class ImagesFragment extends BaseFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         error.printStackTrace();
 //                        String body;
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
@@ -139,9 +126,6 @@ public class ImagesFragment extends BaseFragment {
                     }
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
@@ -156,17 +140,14 @@ public class ImagesFragment extends BaseFragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                if (imageList != null) {
-                    params.put("image_category_id", imageList.getId());
+                if (act.getIntent().hasExtra("notification")) {
+                    params.put("image_category_id", act.getIntent().getStringExtra("cat_id"));
                 } else {
-                    params.put("image_category_id", selectedObject.getId());
+                    params.put("image_category_id", selectedImageCategory.getId());
                 }
 
-                if (act.getIntent().hasExtra("dailyImages")) {
-                    params.put("image_category_id", selectedObject.getId());
-                }
 
-                Utility.Log("POSTED-PARAMS-", params.toString());
+                Utility.Log("params", params.toString());
                 return params;
             }
 
@@ -177,7 +158,7 @@ public class ImagesFragment extends BaseFragment {
     }
 
 
-    private void getImageCtegoryNextPage(String nextPageUrl) {
+    private void getPagination(String nextPageUrl) {
         Utility.Log("API : ", nextPageUrl);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
             @Override
@@ -189,19 +170,17 @@ public class ImagesFragment extends BaseFragment {
                         if (menuModels != null && menuModels.size() != 0) {
                             int lastPos = menuModels.size();
                             menuModels.addAll(menuModels.size(), apiObject.getCatogaryImagesList());
-                            menuAddaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
-                            Log.e("GGG", new Gson().toJson(menuModels));
+                            businessCategoryAdapter.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
                         } else {
                             menuModels = new ArrayList<>();
                             menuModels.addAll(0, apiObject.getCatogaryImagesList());
                         }
                     }
                     if (apiObject.getLinks() != null) {
-                        Log.e("APIIII", new Gson().toJson(apiObject.getLinks()));
                         if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
-                            getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                            getPagination(apiObject.getLinks().getNextPageUrl());
                         } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
@@ -222,9 +201,7 @@ public class ImagesFragment extends BaseFragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
+
 
                     }
                 }
@@ -245,14 +222,11 @@ public class ImagesFragment extends BaseFragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                if (imageList != null) {
 
-                    params.put("image_category_id", imageList.getId());
-                } else
-                    params.put("image_category_id", selectedObject.getId());
-
-                if (act.getIntent().hasExtra("dailyImages")) {
-                    params.put("image_category_id", selectedObject.getId());
+                if (act.getIntent().hasExtra("notification")) {
+                    params.put("image_category_id", act.getIntent().getStringExtra("cat_id"));
+                } else {
+                    params.put("image_category_id", selectedImageCategory.getId());
                 }
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;

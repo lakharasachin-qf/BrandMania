@@ -1,123 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout
-        android:id="@+id/itemLayout"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <!-- <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:paddingBottom="@dimen/_10sdp"
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/addressLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp">
 
-            <RelativeLayout
-                android:layout_centerHorizontal="true"
-                android:id="@+id/addressEdtLayout"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_20sdp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/locationImage"
-                    android:layout_width="@dimen/_18sdp"
-                    android:layout_height="@dimen/_18sdp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:background="@drawable/roundbackground"
-                    android:padding="@dimen/_4sdp"
-                    android:src="@drawable/ic_outline_location_on_24"
-                    app:tint="@color/colorNavText" />
-
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/locationImage"
-                    android:id="@+id/locationText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:includeFontPadding="false"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="regre"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_8sdp" />
-            </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_below="@+id/addressLayout"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:scaleType="fitXY"
+                android:tint="@color/colorPrimary"
+                android:src="@drawable/ic_footer_material_one" />
+
+            <TextView
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+91 8200002604"
+                android:textSize="@dimen/_14sdp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@drawable/ic_phone"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"/>
+            <TextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/black"
+                android:text="Vastral road, Vastral Ahmedabaad, Gujarat, India - 2393949"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>-->
+        <RelativeLayout
+            android:id="@+id/itemLayout"
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/_10sdp"
+            android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/addressLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp">
+
+                <RelativeLayout
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/addressEdtLayout"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/locationImage"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:background="@drawable/roundbackground"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/ic_outline_location_on_24"
+                        app:tint="@color/colorNavText" />
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/locationImage"
+                        android:id="@+id/locationText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:includeFontPadding="false"
+                        android:padding="0dp"
+                        android:text="rudra bussiness park complext vastral varstral road ahemdabadg Gujarata india 23943494"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_8sdp" />
+                </RelativeLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_below="@+id/addressLayout"
+                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
-
-                <ImageView
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_width="@dimen/_18sdp"
-                    android:id="@+id/callImage"
-                    android:padding="@dimen/_4sdp"
-                    android:src="@drawable/ic_outline_call_24"
-                    android:background="@drawable/roundbackground"
-                    android:layout_height="@dimen/_18sdp"
-                    app:tint="@color/colorNavText" />
-                <TextView
-
-                    android:id="@+id/contactText"
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_toEndOf="@+id/callImage"
-                    android:includeFontPadding="false"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="8849896537"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_8sdp" />
+                    android:layout_height="wrap_content">
 
 
+                    <ImageView
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_width="@dimen/_18sdp"
+                        android:id="@+id/callImage"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/ic_outline_call_24"
+                        android:background="@drawable/roundbackground"
+                        android:layout_height="@dimen/_18sdp"
+                        app:tint="@color/colorNavText" />
+                    <TextView
 
-                <ImageView
-                    android:layout_toEndOf="@+id/contactText"
-                    android:id="@+id/gmailImage"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:padding="@dimen/_4sdp"
-                    android:src="@drawable/ic_outline_mail_24"
-                    android:background="@drawable/roundbackground"
-                    android:layout_width="@dimen/_18sdp"
-                    android:layout_height="@dimen/_18sdp"
-                    app:tint="@color/colorNavText" />
+                        android:id="@+id/contactText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_toEndOf="@+id/callImage"
+                        android:includeFontPadding="false"
+                        android:padding="0dp"
+                        android:singleLine="true"
+                        android:text="8849896537"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_8sdp" />
 
 
-                <TextView
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:id="@+id/gmailText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_7sdp"
-                    android:layout_toEndOf="@+id/gmailImage"
-                    android:includeFontPadding="false"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="qfsolution@gmail.com"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_8sdp" />
+                    <ImageView
+                        android:layout_toEndOf="@+id/contactText"
+                        android:id="@+id/gmailImage"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/ic_outline_mail_24"
+                        android:background="@drawable/roundbackground"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        app:tint="@color/colorNavText" />
+
+
+                    <TextView
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:id="@+id/gmailText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_7sdp"
+                        android:layout_toEndOf="@+id/gmailImage"
+                        android:includeFontPadding="false"
+                        android:padding="0dp"
+                        android:singleLine="true"
+                        android:text="qfsolution@gmail.com"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_8sdp" />
+
+                </RelativeLayout>
 
             </RelativeLayout>
-
         </RelativeLayout>
-    </RelativeLayout>
 </layout>

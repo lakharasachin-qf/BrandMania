@@ -15,7 +15,7 @@ import com.app.brandmania.Fragment.top.FooterTab;
 import com.app.brandmania.Fragment.top.FrameTab;
 import com.app.brandmania.Fragment.top.ImageTab;
 import com.app.brandmania.Fragment.top.TextTab;
-import com.app.brandmania.Fragment.top.TextureTab;
+
 
 public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
     Context context;

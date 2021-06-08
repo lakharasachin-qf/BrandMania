@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/itemLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+android:layout_margin="@dimen/_5sdp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:background="@drawable/editing_text_border"
+        android:id="@+id/label"
+        android:padding="@dimen/_7sdp"
+        android:text="Sachin"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="-10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_toEndOf="@+id/label"
+        android:tint="@color/black"
+        android:layout_alignParentTop="true"
+         android:src="@drawable/ic_editor_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

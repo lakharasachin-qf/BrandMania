@@ -18,7 +18,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
                 <RelativeLayout
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_7sdp"
                     android:id="@+id/main_linearlayout_title"
                     android:elevation="0dp"
                     android:layout_width="match_parent"
@@ -34,27 +34,29 @@
                             android:layout_height="wrap_content">
 
                         </TextView>
+
                         <RelativeLayout
                             android:id="@+id/businessNameDropDown"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
-                        <TextView
 
-                            android:id="@+id/businessName"
-                            android:textColor="@color/colorNavText"
-                            android:textSize="@dimen/_12sdp"
-                            android:fontFamily="@font/montserrat_semibold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                        </TextView>
+                                <TextView
+
+                                    android:id="@+id/businessName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/montserrat_semibold"
+                                    android:textColor="@color/colorNavText"
+                                    android:textSize="@dimen/_12sdp" />
+
                                 <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_toEndOf="@+id/businessName"
-                            android:src="@drawable/ic_outline_expand_more_24"
-                            android:layout_height="wrap_content">
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@+id/businessName"
+                                    android:src="@drawable/ic_outline_expand_more_24">
 
-                        </ImageView>
+                                </ImageView>
                         </RelativeLayout>
                         <ImageView
                             android:id="@+id/showNotification"
@@ -93,32 +95,23 @@
             android:scrollbars="none"
             app:behavior_overlapTop="50dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                        <RelativeLayout
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:id="@+id/viewpagerRelativ"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-                                <androidx.cardview.widget.CardView
-                                    android:layout_marginRight="@dimen/_7sdp"
-                                    android:layout_width="match_parent"
-                                    android:layout_marginLeft="@dimen/_7sdp"
-                                    android:layout_height="@dimen/_140sdp"
-                                    card_view:cardCornerRadius="@dimen/_10sdp">
-                                        <androidx.viewpager.widget.ViewPager
-                                            android:id="@+id/ViewPagerView"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/_140sdp"
-                                            android:visibility="visible" />
-                                </androidx.cardview.widget.CardView>
 
-                        </RelativeLayout>
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/ViewPagerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_150sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:visibility="visible" />
+
+
                         <RelativeLayout
                             android:visibility="gone"
                             android:background="@android:color/transparent"
-                            android:layout_below="@+id/viewpagerRelativ"
+                            android:layout_below="@+id/ViewPagerView"
                             android:layout_marginTop="@dimen/_7sdp"
                             android:id="@+id/alertForFrmae"
                             android:layout_width="match_parent"
@@ -191,7 +184,7 @@
 
                         </ImageView>
                         <LinearLayout
-                            android:layout_below="@+id/viewpagerRelativ"
+                            android:layout_below="@+id/ViewPagerView"
                             android:id="@+id/setcion2"
                             android:orientation="horizontal"
                             android:weightSum="3"
@@ -201,6 +194,7 @@
                                     android:layout_weight="1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
+
                                         <androidx.cardview.widget.CardView
                                             android:id="@+id/createDigitalCard"
                                             android:foreground="?android:attr/selectableItemBackground"
@@ -210,7 +204,8 @@
                                             card_view:cardElevation="@dimen/_7sdp"
                                             card_view:cardCornerRadius="@dimen/_7sdp"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
+                                            android:layout_height="match_parent"
+                                            android:focusable="true">
 
                                                 <LinearLayout
                                                     android:paddingTop="@dimen/_10sdp"
@@ -242,6 +237,7 @@
                                     android:layout_weight="1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
+
                                         <androidx.cardview.widget.CardView
                                             android:id="@+id/createCustomImages"
                                             android:foreground="?android:attr/selectableItemBackground"
@@ -251,11 +247,12 @@
                                             card_view:cardElevation="@dimen/_7sdp"
                                             card_view:cardCornerRadius="@dimen/_7sdp"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
+                                            android:layout_height="match_parent"
+                                            android:focusable="true">
 
                                                 <LinearLayout
                                                     android:layout_gravity="center_horizontal"
-                                                     android:gravity="center_horizontal"
+                                                    android:gravity="center_horizontal"
                                                     android:paddingTop="@dimen/_10sdp"
                                                     android:paddingBottom="@dimen/_10sdp"
                                                     android:orientation="vertical"
@@ -308,7 +305,7 @@
                                                     android:layout_height="match_parent">
 
                                                         <ImageView
-                                                            android:src="@drawable/ic_creating"
+                                                            android:src="@drawable/ic_birthday_card"
                                                             android:layout_width="@dimen/_30sdp"
                                                             android:layout_height="@dimen/_30sdp"/>
                                                         <TextView
@@ -345,7 +342,6 @@
                                     android:layout_height="match_parent">
                                         <ImageView
                                             android:scaleType="centerCrop"
-                                            android:background="@drawable/unnamedd"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"></ImageView>
                                         <RelativeLayout
@@ -447,6 +443,129 @@
 
                         </com.facebook.shimmer.ShimmerFrameLayout>
                         </RelativeLayout>
+                        <!--android:layout_below="@+id/recommendationRelativ"-->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/requestBusLayout"
+                            android:layout_width="match_parent"
+
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/recommendationRelativ"
+                            android:focusable="true"
+                            card_view:cardCornerRadius="@dimen/_7sdp"
+                            card_view:cardElevation="@dimen/_7sdp"
+                            card_view:cardPreventCornerOverlap="true"
+                            card_view:cardUseCompatPadding="true">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_180sdp"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+                                        <RelativeLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_alignParentEnd="true">
+
+                                                <ImageView
+                                                    android:layout_width="@dimen/_130sdp"
+                                                    android:layout_height="@dimen/_130sdp"
+                                                    android:layout_alignParentTop="true"
+                                                    android:layout_alignParentEnd="true"
+                                                    android:src="@drawable/background_blue"
+                                                    card_view:tint="@color/colorthird" />
+
+                                                <ImageView
+                                                    android:layout_width="@dimen/_100sdp"
+                                                    android:layout_height="@dimen/_100sdp"
+                                                    android:layout_alignParentTop="true"
+                                                    android:layout_alignParentEnd="true"
+                                                    android:layout_marginTop="@dimen/_65sdp"
+                                                    android:layout_marginEnd="@dimen/_15sdp"
+                                                    android:src="@drawable/ic_undraw_request_bussiness_cat" />
+                                        </RelativeLayout>
+
+                                        <LinearLayout
+                                            android:id="@+id/label2"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                                <TextView
+                                                    android:id="@+id/label3"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/montserrat_semibold"
+                                                    android:paddingStart="@dimen/_14sdp"
+                                                    android:paddingTop="@dimen/_12sdp"
+                                                    android:text="Request New"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/_12sdp"
+                                                    android:textStyle="bold" />
+
+                                                <TextView
+
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/montserrat_extrabold"
+                                                    android:paddingStart="@dimen/_14sdp"
+                                                    android:text="Business Category"
+                                                    android:textColor="@color/colorPrimary"
+                                                    android:textSize="@dimen/_16sdp" />
+
+                                        </LinearLayout>
+
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_below="@+id/label2"
+                                            android:layout_marginEnd="@dimen/_100sdp"
+                                            android:orientation="vertical"
+                                            android:paddingStart="@dimen/_14sdp"
+                                            android:paddingEnd="@dimen/_14sdp"
+                                            android:paddingBottom="@dimen/_14sdp">
+
+
+                                                <TextView
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginTop="@dimen/_8sdp"
+                                                    android:fontFamily="@font/montserrat_regular"
+                                                    android:text="Hey user, are you want more business category images?\nSend us your required business category images request"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/_10sdp" />
+
+                                                <androidx.cardview.widget.CardView
+                                                    android:id="@+id/request"
+                                                    android:layout_width="@dimen/_100sdp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginTop="@dimen/_7sdp"
+                                                    android:clickable="true"
+                                                    android:foreground="?android:attr/selectableItemBackground"
+                                                    card_view:cardBackgroundColor="@color/colorPrimary"
+                                                    card_view:cardCornerRadius="@dimen/_14sdp"
+                                                    card_view:cardUseCompatPadding="true">
+
+                                                        <TextView
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="wrap_content"
+                                                            android:fontFamily="@font/montserrat_semibold"
+                                                            android:paddingTop="@dimen/_5sdp"
+                                                            android:paddingBottom="@dimen/_5sdp"
+                                                            android:text="Request"
+                                                            android:textAlignment="center"
+                                                            android:textColor="@color/white"
+                                                            android:textSize="@dimen/_10sdp" />
+                                                </androidx.cardview.widget.CardView>
+
+                                        </LinearLayout>
+
+
+                                </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
                 </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

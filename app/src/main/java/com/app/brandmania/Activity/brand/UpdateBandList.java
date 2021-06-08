@@ -79,7 +79,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
     ArrayList<CommonListModel> BRANDTypeList = new ArrayList<>();
     private ListBottomFragment bottomSheetFragment;
     CommonListModel commonListModel;
-    private Bitmap selectedImagesBitmap;
+
     private AlertDialog.Builder alertDialogBuilder;
     private Uri mCropImageUri;
     private Bitmap selectedLogo;
@@ -119,9 +119,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         });
         listModel = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
         data = gson.fromJson(getIntent().getStringExtra("data"), BrandListItem.class);
-      //  getConversation();
-//        Log.e("-- ", getIntent().getStringExtra("detailsObj"));
-        //not filled conditions remains ask to mem
+        Log.e("SSSS",gson.toJson(listModel));
+        Log.e("data",gson.toJson(data));
 
         if (listModel != null) {
             binding.catIdEdt.setText(listModel.getId());
@@ -142,10 +141,39 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             });
             Glide.with(act).load(listModel.getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
             Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
+
+            binding.viewImgFirst.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if ((listModel.getNo_of_used_image().isEmpty() || listModel.getLogo().isEmpty()) || listModel.getNo_of_used_image().equalsIgnoreCase("0")) {
+                        //         onSelectImageClick(v);
+
+                        if (!isEditModeEnable) {
+                            if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
+                                pickerView(Constant.PICKER_FIRST, true, selectedLogo);
+                            else
+                                pickerView(Constant.PICKER_FIRST, false, null);
+                        }
+                    } else {
+                        new AlertDialog.Builder(act)
+                                .setMessage("once you download or share image. You can't change your logo.\nIf you want to change logo please contact to admin.")
+                                .setCancelable(true)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                        ((alertListenerCallback) act).alertListenerClick();
+                                    }
+                                })
+                                .show();
+                    }
+                }
+            });
         }
         else
         {
-            binding.catIdEdt.setText(prefManager.getActiveBrand().getCategoryId());
+            binding.catIdEdt.setText(prefManager.getActiveBrand().getCategoryName());
             binding.IdEdt.setText(prefManager.getActiveBrand().getId());
              binding.categoryEdt.setText(prefManager.getActiveBrand().getCategoryName());
             binding.nameTxt.setText(prefManager.getActiveBrand().getName());
@@ -163,28 +191,48 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 //            });
             Glide.with(act).load(prefManager.getActiveBrand().getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
           //  Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
-        }
 
-     //   if (listModel.getNo_of_used_image().isEmpty() || listModel.getNo_of_used_image().equalsIgnoreCase("0") || listModel.getLogo().isEmpty()) {
+
             binding.viewImgFirst.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    if ((prefManager.getActiveBrand().getNo_of_used_image().isEmpty() || prefManager.getActiveBrand().getLogo().isEmpty()) || prefManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
+                        //         onSelectImageClick(v);
 
-                    onSelectImageClick(v);
-
-//                    if (!isEditModeEnable) {
-//                        if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
-//                            pickerView(Constant.PICKER_FIRST, true, selectedImagesBitmap);
-//                        else
-//                            pickerView(Constant.PICKER_FIRST, false, null);
-//                    }
+                        if (!isEditModeEnable) {
+                            if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
+                                pickerView(Constant.PICKER_FIRST, true, selectedLogo);
+                            else
+                                pickerView(Constant.PICKER_FIRST, false, null);
+                        }
+                    } else {
+                        new AlertDialog.Builder(act)
+                                .setMessage("once you download or share image. You can't change your logo.\nIf you want to change logo please contact to admin.")
+                                .setCancelable(true)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                        ((alertListenerCallback) act).alertListenerClick();
+                                    }
+                                })
+                                .show();
+                    }
                 }
             });
-//        }else
-//        {
-//            binding.nameTxt.setEnabled(true);
-//        }
+        }
+
+
+
+        binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+
+        });
+
     }
     //For CustomFrame
     public void onSelectImageClick(View view) {
@@ -300,50 +348,67 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         boolean isError = false;
         boolean isFocus = false;
 
-        if (binding.categoryEdt.getText().toString().length() == 0) {
+        if (binding.categoryEdt.getText().toString().trim().length() == 0) {
             isError = true;
             isFocus = true;
             binding.categoryEdtLayout.setError(getString(R.string.brandcategory_text));
             binding.categoryEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             binding.categoryEdt.requestFocus();
-
+            binding.scrollView.scrollTo(0,binding.categoryEdt.getBottom());
         }
-        if (binding.nameTxt.getText().toString().length() == 0) {
+        if (binding.nameTxt.getText().toString().trim().length() == 0) {
             isError = true;
-            isFocus = true;
+
             binding.nameTxtLayout.setError(getString(R.string.brandname_text));
             binding.nameTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             binding.nameTxt.requestFocus();
-
+            if (!isFocus) {
+                binding.nameTxt.requestFocus();
+                isFocus = true;
+                binding.scrollView.scrollTo(0,binding.nameTxt.getBottom());
+            }
         }
 
-        if (!binding.phoneTxt.getText().toString().equals("")) {
-            if (binding.phoneTxt.getText().toString().length() < 10) {
+        if (!binding.phoneTxt.getText().toString().trim().equals("")) {
+            if (binding.phoneTxt.getText().toString().trim().length() < 10) {
+                isError = true;
                 binding.phoneTxtLayout.setError(getString(R.string.validphoneno_txt));
                 binding.phoneTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                binding.phoneTxt.requestFocus();
+                if (!isFocus) {
+                    binding.phoneTxt.requestFocus();
+                    isFocus = true;
+                    binding.scrollView.scrollTo(0,binding.phoneTxt.getBottom());
+                }
                 return;
             }
 
         }
         else
         {
-            if (binding.phoneTxt.getText().toString().equals(""))
-            {
+            if (binding.phoneTxt.getText().toString().trim().equals(""))
+            {isError = true;
                 binding.phoneTxtLayout.setError(getString(R.string.entermobileno_text));
                 binding.phoneTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                binding.phoneTxt.requestFocus();
+                if (!isFocus) {
+                    binding.emailIdEdt.requestFocus();
+                    isFocus = true;
+                    binding.scrollView.scrollTo(0,binding.emailIdEdt.getBottom());
+                }
                 return;
             }
 
         }
 
-        if (binding.addressEdt.getText().toString().length() == 0) {
+        if (binding.addressEdt.getText().toString().trim().length() == 0) {
             isError = true;
-            isFocus = true;
+
             binding.addressEdtLayout.setError(getString(R.string.enter_address));
             binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            binding.addressEdt.requestFocus();
+            if (!isFocus) {
+                binding.addressEdt.requestFocus();
+                isFocus = true;
+                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
+            }
 
         }
 
@@ -354,10 +419,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             if (selectedLogo != null) {
                 bitmap = selectedLogo;
             }
-            Bitmap bitmap1 = null;
-            if (selectedImagesBitmap != null) {
-                bitmap1 = selectedImagesBitmap;
-            }
+
             EditBrandBrand(bitmap);
         }
 
@@ -395,7 +457,10 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         }
         else
         {
-            request.addMultipartParameter("br_category",binding.catIdEdt.getText().toString());
+            if (listModel != null)
+                request.addMultipartParameter("br_category",listModel.getCategoryId());
+            else
+                request.addMultipartParameter("br_category",prefManager.getActiveBrand().getCategoryId());
         }
 
         if (img1File != null) {
@@ -403,10 +468,12 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             Log.e("br_logo", String.valueOf(img1File));
         }
 
-//        if (img1File1 != null) {
-//            request.addMultipartFile("frame", img1File1);
-//            Log.e("frame", String.valueOf(img1File1));
-//        }
+        if (img1File != null) {
+            request.addMultipartFile("frame", img1File);
+            Log.e("br_logo", String.valueOf(img1File));
+        }
+
+        Log.e("PARAM",gson.toJson(request));
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
@@ -494,7 +561,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                     binding.viewImgFirst.setImageBitmap(bitmap);
                     binding.imgEmptyStateFirst.setVisibility(View.GONE);
                     binding.actionDeleteFirst.setVisibility(View.VISIBLE);
-                    selectedImagesBitmap = bitmap;
+                    selectedLogo = bitmap;
                     binding.viewImgFirst.setTag("1");
                     if (!isEditModeEnable) {
 

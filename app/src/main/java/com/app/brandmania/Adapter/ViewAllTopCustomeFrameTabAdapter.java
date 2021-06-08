@@ -57,7 +57,7 @@ public class ViewAllTopCustomeFrameTabAdapter  extends FragmentPagerAdapter {
 
             case 5:
                 TextTab textTab = new TextTab();
-                textTab.setActivityType(1);
+                textTab.setActivityType(2);
                 return textTab;
 
             case 6:

@@ -80,6 +80,7 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
         return binding.getRoot();
 
     }
+
     public void setAdapter() {
         dasboardAddaptor = new CustomDashbordAddapter(menuModels, act);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);

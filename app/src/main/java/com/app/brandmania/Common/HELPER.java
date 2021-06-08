@@ -95,7 +95,7 @@ public class HELPER {
             Image image = Image.getInstance(stream1.toByteArray());
             image.scalePercent(25);
 
-            // image.setAlignment(Element.ALIGN_CENTER);
+            image.setAlignment(Element.ALIGN_CENTER);
             image.setAbsolutePosition(240, 670);
 
             document.add(image);
@@ -272,7 +272,7 @@ public class HELPER {
 
     public static void WHATSAPP_REDIRECTION(Activity act, String businessName,String mobileNumber){
         try {
-            String number = "8460638464";
+            String number = Constant.ADMIN_CONTACT_NUMBER;
             String BrandContact = "\nRegistered Number: ";
             String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:" +businessName + BrandContact + mobileNumber;
             String toNumber = "91" + number;

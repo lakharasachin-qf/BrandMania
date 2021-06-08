@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.DailyImagesActivity;
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
+import com.app.brandmania.Activity.details.GifCategoryDetailActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.IBackendFrameSelect;
@@ -61,6 +62,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
         preafManager=new PreafManager(activity);
         // Log.e("menuModels",new Gson().toJson(imageLists));
     }
+
     int layoutType;
     public int getLayoutType() {
         return layoutType;
@@ -68,6 +70,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     public void setLayoutType(int layoutType) {
         this.layoutType = layoutType;
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -93,6 +96,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
         }
         return null;
     }
+
     @Override
     public int getItemViewType(int position) {
 
@@ -113,10 +117,12 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                 return -1;
         }
     }
+
     @Override
     public int getItemCount() {
         return imageLists.size();
     }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ImageList model = imageLists.get(position);
@@ -164,10 +170,13 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     ((DailyHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            //ImageCategoryDetailActivity
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                           // Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages","1");
+                           // intent.putExtra("viewAll","12");
+
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
                             intent.putExtra("selectedimage",gson.toJson(model));
                             intent.putExtra("position",position);
@@ -305,6 +314,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
 
     }
+
     static class DailyHolder extends RecyclerView.ViewHolder {
         ItemLayoutDailyImagesBinding binding;
 
@@ -359,9 +369,5 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
-
-
-
-
 }
 

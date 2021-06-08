@@ -26,8 +26,10 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
+import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Interface.IRemoveFrame;
@@ -65,17 +67,7 @@ public class FrameTab extends Fragment {
             @Override
             public void onClick(View v) {
                 if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") &&(preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")) || preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Standard")){
-                    try {
-                        String number = Constant.ADMIN_CONTACT_NUMBER;
-                        String BrandContact="\nRegistered Number: ";
-                        String text = "Hello *BrandMania* , \n" + "this is request to add *Frame* For BrandName:"+ preafManager.getActiveBrand().getName() +BrandContact+preafManager.getMobileNumber();
-                        String toNumber ="91"+number;
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    HELPER.WHATSAPP_REDIRECTION(act,preafManager.getActiveBrand().getName(),preafManager.getMobileNumber());
                 }else {
                     triggerUpgradePackage();
                 }
@@ -163,7 +155,7 @@ public class FrameTab extends Fragment {
             @Override
             public void onResponse(String response) {
 
-                Utility.Log("GET_FRdsdAME : ", response);
+                Utility.Log("FrameTab: ", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     menuModels = ResponseHandler.HandleGetFrameList(jsonObject);
@@ -178,7 +170,7 @@ public class FrameTab extends Fragment {
                             binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
                         } else {
 
-                          //  binding.text1.setVisibility(View.VISIBLE);
+                            binding.text1.setVisibility(View.VISIBLE);
                             binding.frameRecycler.setVisibility(View.GONE);
                             binding.subscribePlaneBtn.setVisibility(View.GONE);
                         }

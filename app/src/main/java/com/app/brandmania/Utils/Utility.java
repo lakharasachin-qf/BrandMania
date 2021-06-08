@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,7 +39,9 @@ import com.app.brandmania.databinding.DialogImageViewLayoutBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -126,9 +129,15 @@ public class Utility {
 
     public static void setItalicText(TextView textView, boolean italic) {
         if (italic) {
-            textView.setTypeface(textView.getTypeface(), Typeface.ITALIC);
+            if (textView.getTypeface()!=null && textView.getTypeface().isBold())
+                textView.setTypeface(textView.getTypeface(), Typeface.BOLD_ITALIC);
+            else
+                textView.setTypeface(textView.getTypeface(), Typeface.ITALIC);
         }else {
-            textView.setTypeface(null, Typeface.NORMAL);
+            if (textView.getTypeface()!=null && textView.getTypeface().isBold() && textView.getTypeface().isItalic())
+                textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+            else
+                textView.setTypeface(null, Typeface.NORMAL);
         }
     }
     public static void setUnderlineText(TextView textView,boolean underline){
@@ -139,10 +148,17 @@ public class Utility {
         }
     }
     public static void setBold(TextView textView,boolean bold){
-        if (bold){
-            textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+
+        if (bold) {
+            if (textView.getTypeface()!=null && textView.getTypeface().isItalic())
+                textView.setTypeface(textView.getTypeface(), Typeface.BOLD_ITALIC);
+            else
+                textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
         }else {
-            textView.setTypeface(null, Typeface.NORMAL);
+            if (textView.getTypeface()!=null && textView.getTypeface().isBold() && textView.getTypeface().isItalic())
+                textView.setTypeface(textView.getTypeface(), Typeface.ITALIC);
+            else
+                textView.setTypeface(null, Typeface.NORMAL);
         }
     }
     public static void RemoveError(EditText editText) {
@@ -461,5 +477,20 @@ public class Utility {
         snackbar.show();
     }
 
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "IMG_" + Calendar.getInstance().getTime(), null);
+        return Uri.parse(path);
+    }
+
+    public static String convertFirstUpper(String str) {
+
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
 
 }

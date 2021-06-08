@@ -46,8 +46,10 @@
         </TextView>
         </RelativeLayout>
        <androidx.recyclerview.widget.RecyclerView
+           android:paddingEnd="@dimen/_10sdp"
            android:layout_below="@+id/rootBackground"
             android:layout_marginTop="@dimen/_3sdp"
+           android:paddingStart="@dimen/_5sdp"
            android:id="@+id/imageCategoryRecycler"
            android:layout_width="match_parent"
            android:clipToPadding="false"

@@ -3,25 +3,24 @@ package com.app.brandmania.Common;
 import android.content.Context;
 import android.util.Log;
 
-
-import com.app.brandmania.Model.Links;
-import com.app.brandmania.Model.SlideSubItem;
-import com.app.brandmania.Model.SliderItem;
-import com.google.gson.Gson;
 import com.app.brandmania.Adapter.MultiListItem;
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
-import com.app.brandmania.Model.BrandListItem;
+import com.app.brandmania.Model.Links;
+import com.app.brandmania.Model.SlideSubItem;
+import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.Model.ViewPagerItem;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 public class ResponseHandler {
     Context context;
@@ -208,107 +207,54 @@ public class ResponseHandler {
 
         return strings;
     }
-    public static DashBoardItem HandleGetImageCategory(JSONObject jsonObject) throws JSONException {
-        DashBoardItem dashBoardItem=new DashBoardItem();
-        ArrayList<DashBoardItem> string = null;
-        string = new ArrayList<>();
-        if (isSuccess(null, jsonObject)) {
-            ArrayList<ImageList> DailyImages = null;
-            JSONArray datajsonArray=null;
-            if ( jsonObject.has("dailyImages") && jsonObject.get("dailyImages") instanceof JSONArray) {
-                  datajsonArray = getJSONArray(jsonObject, "dailyImages");
-                DailyImages = new ArrayList<>();
-                DashBoardItem model1 = new DashBoardItem();
-                model1.setLayout(DashBoardItem.DAILY_IMAGES);
-                if (!datajsonArray.isNull(0) && datajsonArray.length() != 0) {
 
-                    for (int i = 0; i < datajsonArray.length(); i++) {
-                        try {
-                            JSONObject datajsonObject = datajsonArray.getJSONObject(i);
-                            ImageList model = new ImageList();
-                            model.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
-                            model.setId(getString(datajsonObject, "id"));
-                            model.setName(getString(datajsonObject, "name"));
-                            model.setFrame(getString(datajsonObject, "thumbnail_url"));
-                            DailyImages.add(model);
+    public static DashBoardItem HandleGetImageCategory(JSONObject jsonObject) {
+        DashBoardItem returnModel = new DashBoardItem();
+        ArrayList<DashBoardItem> dataList = null;
+        dataList = new ArrayList<>();
+        try {
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            if (isSuccess(null, jsonObject)) {
+                JSONObject data = getJSONObject(jsonObject, "data");
+                Iterator<String> keys = data.keys();
 
-                    }
-                    model1.setDailyImages(DailyImages);
-                    string.add(model1);
-
-                }
-            }
-
-
-            datajsonArray = getJSONArray(jsonObject, "data");
-            if (!datajsonArray.isNull(0) && datajsonArray.length() != 0) {
-
-                for (int i = 0; i < datajsonArray.length(); i++) {
-                    try {
-                        JSONObject datajsonObject = datajsonArray.getJSONObject(i);
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    if (!key.equalsIgnoreCase("custom Images") && !key.equalsIgnoreCase("custome Images")) {
+                        JSONArray dataItemArray = data.getJSONArray(key);
                         DashBoardItem model = new DashBoardItem();
-                        model.setLayout(DashBoardItem.FESTIVAL_IMAGES);
-                        model.setId(getString(datajsonObject, "id"));
-                        model.setName(getString(datajsonObject, "img_cat_name"));
-                        model.setDescription(getString(datajsonObject, "img_cat_desc"));
-                        model.setTag(getString(datajsonObject, "img_cat_tagd"));
-
-                        model.setImageFree(getString(datajsonObject, "is_cat_free").equalsIgnoreCase("1"));
-
-                        JSONArray detailjsonArray = getJSONArray(datajsonObject, "images");
-                        ArrayList<ImageList> stringg = null;
-                        if (!detailjsonArray.isNull(0) && detailjsonArray.length() != 0) {
-                            stringg = new ArrayList<>();
-                            for (int j = 0; j < detailjsonArray.length(); j++) {
-                                try {
-                                    JSONObject detailjsonobject = detailjsonArray.getJSONObject(j);
-                                    ImageList data = new ImageList();
-                                    data.setLayoutType(ImageList.LAYOUT_IMAGE_CATEGORY);
-                                    data.setId(getString(detailjsonobject, "id"));
-                                    data.setImagecatid(getString(detailjsonobject, "img_cat_id"));
-                                    data.setImageid(getString(detailjsonobject, "img_id"));
-                                    data.setLogo(getString(detailjsonobject, "img_thumb_path"));
-                                    data.setFrame(getString(detailjsonobject, "img_path"));
-                                    data.setImageFree(getString(detailjsonobject, "is_img_free").equalsIgnoreCase("1"));
-                                    stringg.add(data);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
+                        model.setName(key);
+                        model.setLayout(DashBoardItem.DAILY_IMAGES);
+                        ArrayList<ImageList> innerImagesList = new ArrayList<>();
+                        for (int m = 0; m < dataItemArray.length(); m++) {
+                            JSONObject innerObject = dataItemArray.getJSONObject(m);
+                            ImageList imageCategory = new ImageList();
+                            imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
+                            imageCategory.setId(getString(innerObject, "id"));
+                            imageCategory.setName(getString(innerObject, "name"));
+                            imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
+                            innerImagesList.add(imageCategory);
                         }
-
-                        model.setImageLists(stringg);
-
-                        if (stringg!=null &&  stringg.size()!=0)
-                        string.add(model);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        model.setDailyImages(innerImagesList);
+                        dataList.add(model);
                     }
-
                 }
+
             }
+            returnModel.setDashBoardItems(dataList);
+            JSONObject linkObj = getJSONObject(jsonObject, "link");
+            Links links = new Links();
+            links.setFirstPage(getString(linkObj, "first_page_url"));
+            links.setLastPageUrl(getString(linkObj, "last_page_url"));
+            links.setNextPageUrl(getString(linkObj, "next_page_url"));
+            links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
+            links.setTotalStr(getString(linkObj, "total"));
+            returnModel.setLinks(links);
 
-            dashBoardItem.setDashBoardItems(string);
-
-            JSONObject linkObj=getJSONObject(jsonObject,"link");
-            Links links=new Links();
-            links.setFirstPage(getString(linkObj,"first_page_url"));
-            links.setLastPageUrl(getString(linkObj,"last_page_url"));
-            links.setNextPageUrl(getString(linkObj,"next_page_url"));
-            links.setPrevPageUrl(getString(linkObj,"prev_page_url"));
-            links.setTotalStr(getString(linkObj,"total"));
-            dashBoardItem.setLinks(links);
-
-
-
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-        return dashBoardItem;
+        return returnModel;
     }
     public static ImageList HandleGetImageByIdCategory(JSONObject jsonObject) {
         ImageList imageList=new ImageList();
@@ -788,7 +734,7 @@ public class ResponseHandler {
             JSONArray datajsonArray = getJSONArray(jsonObject, "data");
             if (!datajsonArray.isNull(0) && datajsonArray.length() != 0) {
                 string = new ArrayList<>();
-                for (int i = 7; i < datajsonArray.length(); i++) {
+                for (int i = 0; i < datajsonArray.length(); i++) {
                     try {
                         JSONObject datajsonObject = datajsonArray.getJSONObject(i);
                         ImageList model = new ImageList();
@@ -813,6 +759,7 @@ public class ResponseHandler {
 
             }
             imageList.setCatogaryImagesList(string);
+
             JSONObject linkObj=getJSONObject(jsonObject,"link");
             Links links=new Links();
             links.setFirstPage(getString(linkObj,"first_page_url"));
