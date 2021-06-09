@@ -2,7 +2,18 @@ package com.app.brandmania.Model;
 
 import java.util.ArrayList;
 
-public class DashBoardItem {
+public class DashBoardItem   implements Comparable<DashBoardItem> {
+
+    private int filterIndex;
+
+    public int getFilterIndex() {
+        return filterIndex;
+    }
+
+    public DashBoardItem setFilterIndex(int filterIndex) {
+        this.filterIndex = filterIndex;
+        return this;
+    }
 
     private ArrayList<DashBoardItem> dashBoardItems;
 
@@ -147,5 +158,14 @@ public class DashBoardItem {
 
     public void setY_cordinate(String y_cordinate) {
         this.y_cordinate = y_cordinate;
+    }
+
+    @Override
+    public int compareTo(DashBoardItem dashBoardItem) {
+        int compareage= ((DashBoardItem)dashBoardItem).getFilterIndex();
+        //  For Ascending order
+        return this.getFilterIndex() - compareage;
+        // For Descending order do like this
+        // return compareage-this.studentage;
     }
 }

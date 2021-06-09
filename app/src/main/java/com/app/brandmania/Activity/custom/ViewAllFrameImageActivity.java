@@ -104,6 +104,7 @@ import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.IFontChangeEvent;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllFrameImageBinding;
+import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
@@ -1013,7 +1014,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 1);
             return;
         }
-        CodeReUse.activityBackPress(act);
+        screenExistDialog();
     }
     @Override public void onDialogDismissed(int dialogId) {
     }
@@ -1436,6 +1437,35 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         alertDialog.show();
 
     }
+
+    DialogDiscardImageBinding discardImageBinding;
+    public void screenExistDialog() {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                CodeReUse.activityBackPress(act);
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
 
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutEnterpriseBinding enterpriseBinding;

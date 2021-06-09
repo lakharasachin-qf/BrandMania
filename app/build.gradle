@@ -166,6 +166,7 @@ dependencies {
     implementation 'com.github.mmin18:realtimeblurview:1.2.1'
 
 
+  //  implementation 'com.airbnb.android:lottie:3.5.0'
 
 }
 apply plugin: 'com.google.firebase.crashlytics'

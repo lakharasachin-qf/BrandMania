@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class ResponseHandler {
@@ -223,22 +224,41 @@ public class ResponseHandler {
                     if (!key.equalsIgnoreCase("custom Images") && !key.equalsIgnoreCase("custome Images")) {
                         JSONArray dataItemArray = data.getJSONArray(key);
                         DashBoardItem model = new DashBoardItem();
+                        if (key.equalsIgnoreCase("Business Images")){
+                            model.setFilterIndex(1);
+                        }
+                        if (key.equalsIgnoreCase("Daily Images")){
+                            model.setFilterIndex(2);
+                        }
+                        if (key.equalsIgnoreCase("Festival Images")){
+                            model.setFilterIndex(0);
+                        }
                         model.setName(key);
                         model.setLayout(DashBoardItem.DAILY_IMAGES);
                         ArrayList<ImageList> innerImagesList = new ArrayList<>();
                         for (int m = 0; m < dataItemArray.length(); m++) {
                             JSONObject innerObject = dataItemArray.getJSONObject(m);
                             ImageList imageCategory = new ImageList();
+                            if (key.equalsIgnoreCase("Daily Images")){
+                                imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_ROUND_IMAGES);
+                            }else
                             imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
+
                             imageCategory.setId(getString(innerObject, "id"));
                             imageCategory.setName(getString(innerObject, "name"));
                             imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
                             innerImagesList.add(imageCategory);
                         }
                         model.setDailyImages(innerImagesList);
-                        dataList.add(model);
+                        if (innerImagesList.size()!=0 ){
+                            dataList.add(model);
+                        }
                     }
                 }
+
+                Collections.sort(dataList);
+
+
 
             }
             returnModel.setDashBoardItems(dataList);
@@ -256,6 +276,15 @@ public class ResponseHandler {
         }
         return returnModel;
     }
+
+    // Comparison done using compareTo function
+    public static void sort(ArrayList<DashBoardItem> list)
+    {
+
+       // list.sort((o1, o2)-> o1.getFilterIndex().compareTo(o2.getFilterIndex()));
+    }
+
+
     public static ImageList HandleGetImageByIdCategory(JSONObject jsonObject) {
         ImageList imageList=new ImageList();
         ArrayList<ImageList> string = null;

@@ -657,6 +657,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:src="@drawable/ic_whatsapp"
                                     android:visibility="gone" />
+
                                 <LinearLayout
                                     android:gravity="center_horizontal"
                                     android:layout_gravity="center_horizontal"

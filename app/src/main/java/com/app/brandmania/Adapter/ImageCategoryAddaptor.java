@@ -22,6 +22,7 @@ import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ItemLayoutDailyImagesBinding;
+import com.app.brandmania.databinding.ItemLayoutDailyRoundImagesBinding;
 import com.app.brandmania.databinding.ItemLayoutFrameBinding;
 import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallframeBinding;
@@ -32,6 +33,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_IMAGES;
+import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_ROUND_IMAGES;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY_BY_ID;
@@ -81,6 +83,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
             case LAYOUT_DAILY_IMAGES:
                 ItemLayoutDailyImagesBinding inflate = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_daily_images, viewGroup, false);
                 return new DailyHolder(inflate);
+            case LAYOUT_DAILY_ROUND_IMAGES:
+                ItemLayoutDailyRoundImagesBinding infdlate = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_daily_round_images, viewGroup, false);
+                return new DailyRoundHolder(infdlate);
             case LAYOUT_IMAGE_CATEGORY_BY_ID:
                 ItemLayoutViewallimageBinding viewallimageBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_viewallimage, viewGroup, false);
                 return new ImageCategoryByIdHolder(viewallimageBinding);
@@ -113,6 +118,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                 return LAYOUT_FRAME_CATEGORY_BY_ID;
             case 6:
                 return LAYOUT_DAILY_IMAGES;
+            case 7:
+                return LAYOUT_DAILY_ROUND_IMAGES;
             default:
                 return -1;
         }
@@ -128,6 +135,29 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
         ImageList model = imageLists.get(position);
         if (model != null) {
             switch (model.getLayoutType()) {
+                case LAYOUT_DAILY_ROUND_IMAGES:
+                    Glide.with(activity)
+                            .load(model.getFrame())
+                            .placeholder(R.drawable.placeholder)
+                            .into(((DailyRoundHolder) holder).binding.image);
+                    ((DailyRoundHolder)holder).binding.title.setText(model.getName());
+                    ((DailyRoundHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //ImageCategoryDetailActivity
+                            Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                            // Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
+                            Gson gson = new Gson();
+                            intent.putExtra("dailyImages","1");
+                            // intent.putExtra("viewAll","12");
+
+                            intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
+                            intent.putExtra("selectedimage",gson.toJson(model));
+                            intent.putExtra("position",position);
+                            activity.startActivity(intent);
+                        }
+                    });
+                    break;
                 case LAYOUT_IMAGE_CATEGORY:
                     Glide.with(activity)
                             .load(model.getLogo())
@@ -319,6 +349,15 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
         ItemLayoutDailyImagesBinding binding;
 
         DailyHolder(ItemLayoutDailyImagesBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+    static class DailyRoundHolder extends RecyclerView.ViewHolder {
+        ItemLayoutDailyRoundImagesBinding binding;
+
+        DailyRoundHolder(ItemLayoutDailyRoundImagesBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
 

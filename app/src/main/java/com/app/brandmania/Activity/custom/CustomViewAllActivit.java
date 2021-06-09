@@ -81,6 +81,7 @@ import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.IFontChangeEvent;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityCustomViewAllBinding;
+import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
@@ -1563,7 +1564,34 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             return;
         }
 
-        CodeReUse.activityBackPress(act);
+        screenExistDialog();
+    }
+    DialogDiscardImageBinding discardImageBinding;
+    public void screenExistDialog() {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                CodeReUse.activityBackPress(act);
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
 

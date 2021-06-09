@@ -9,6 +9,7 @@ public class ImageList {
     public static final int LAYOUT_FRAME_CATEGORY = 4;
     public static final int LAYOUT_FRAME_CATEGORY_BY_ID=5;
     public static final int LAYOUT_DAILY_IMAGES=6;
+    public static final int LAYOUT_DAILY_ROUND_IMAGES=7;
     public static final int LAYOUT_LOADING = 30;
 
     private int layoutType;

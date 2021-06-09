@@ -62,11 +62,13 @@ import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.ViewAllTopTabAdapter;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.FooterHelper;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.DataBase.DBManager;
+import com.app.brandmania.Fragment.bottom.PickerFragment;
 import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IItaliTextEvent;
@@ -87,6 +89,7 @@ import com.app.brandmania.Utils.CodeReUse;
 import com.app.brandmania.Utils.IFontChangeEvent;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
+import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
@@ -367,6 +370,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         }
 //        if (!getIntent().hasExtra("viewAll"))
 //            LoadDataToUI();
+
+        binding.logoCustom.setTag("0");
     }
 
 
@@ -535,7 +540,38 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     //For CustomFrame
     public void onSelectImageClick(View view) {
-        CropImage.startPickImageActivity(this);
+        if (binding.logoCustom.getTag().toString().equalsIgnoreCase("1"))
+            pickerView(true, selectedLogo);
+        else
+            pickerView(false, null);
+
+     //   CropImage.startPickImageActivity(this);
+    }
+
+
+    private void pickerView(boolean viewMode, Bitmap selectedBitmap) {
+        PickerFragment pickerFragment = new PickerFragment(act);
+        pickerFragment.setEnableViewMode(viewMode);
+        pickerFragment.setActionId(Constant.PICKER_FIRST);
+
+        if (viewMode) {
+            pickerFragment.setSelectedBitmapForFullView(selectedBitmap);
+        }
+        PickerFragment.HandlerImageLoad imageLoad = new PickerFragment.HandlerImageLoad() {
+            @Override
+            public void onGalleryResult(int flag, Bitmap bitmap) {
+                if (flag == Constant.PICKER_FIRST) {
+                    selectedLogo = bitmap;
+                    binding.logoCustom.setTag("1");
+                    binding.logoCustom.setImageBitmap(bitmap);
+                    binding.logoCustom.setVisibility(View.VISIBLE);
+                    binding.logoEmptyState.setVisibility(View.GONE);
+                }
+
+            }
+        };
+        pickerFragment.setImageLoad(imageLoad);
+        pickerFragment.show(getSupportFragmentManager(), pickerFragment.getTag());
     }
 
     public void LoadDataToUI(){
@@ -605,7 +641,34 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     @Override
     public void onBackPressed() {
-        CodeReUse.activityBackPress(act);
+        screenExistDialog();
+    }
+    DialogDiscardImageBinding discardImageBinding;
+    public void screenExistDialog() {
+        discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(discardImageBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(discardImageBinding.getRoot());
+
+        discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+
+            }
+        });
+        discardImageBinding.yesTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                CodeReUse.activityBackPress(act);
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
     @Override
@@ -901,7 +964,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if (gestureDetector.onTouchEvent(event)) {
-                    if ((preafManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) || preafManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
+                    Log.e("getActiveBrand","d"+preafManager.getActiveBrand().getLogo());
+                    if ((preafManager.getActiveBrand().getLogo().isEmpty() && selectedLogo == null) || preafManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
                        onSelectImageClick(view);
                     } else {
                        // Toast.makeText(act, "once you download or share image. You can't change your logo", Toast.LENGTH_SHORT).show();
