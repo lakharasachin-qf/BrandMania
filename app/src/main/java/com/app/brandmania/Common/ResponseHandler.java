@@ -218,9 +218,8 @@ public class ResponseHandler {
             if (isSuccess(null, jsonObject)) {
                 JSONObject data = getJSONObject(jsonObject, "data");
                 Iterator<String> keys = data.keys();
-                Log.e("Data","Sachin");
-                Log.e("Data","Sachin this is done finally");
-                Log.e("Data","Sachin");
+                Log.e("From","version-5");
+
                 while (keys.hasNext()) {
                     String key = keys.next();
                     if (!key.equalsIgnoreCase("custom Images") && !key.equalsIgnoreCase("custome Images")) {
