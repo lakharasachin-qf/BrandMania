@@ -99,13 +99,7 @@
     <style name="CustomCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>
     </style>
-    <style name="helperTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorRed</item>
-        <item name="android:textSize">@dimen/_8sdp</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-        <item name="android:layout_marginTop">@dimen/_3sdp</item>
-        <item name="helperTextTextColor">@color/colorRed</item>
-    </style>
+
     <style name="AppThemeMyLight" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
@@ -126,7 +120,13 @@
         <item name="helperTextTextColor">@color/colorRed</item>
         <item name="helperTextTextAppearance">@style/helperTextAppearance</item>
     </style>
-
+    <style name="helperTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textSize">@dimen/_8sdp</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:layout_marginTop">@dimen/_3sdp</item>
+        <item name="helperTextTextColor">@color/colorRed</item>
+    </style>
     <style name="fontStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/colorPrimary</item>
         <item name="boxCornerRadiusTopStart">@dimen/_5sdp</item>

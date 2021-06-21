@@ -11,7 +11,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -24,7 +24,7 @@
                 android:id="@+id/main_linearlayout_title"
                 android:elevation="0dp"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp">
+                android:layout_height="wrap_content">
                 <ImageView
                     android:layout_width="23dp"
                     android:layout_height="23dp"
@@ -51,11 +51,11 @@
 
             android:layout_width="match_parent"
             android:layout_below="@+id/my_toolbar"
-            android:padding="16dp"
             android:layout_height="match_parent">
 
 
             <WebView
+                android:scrollbars="none"
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

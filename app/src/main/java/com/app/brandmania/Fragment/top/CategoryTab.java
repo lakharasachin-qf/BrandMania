@@ -260,15 +260,18 @@ public class CategoryTab extends FrameTab {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                if (imageList != null) {
+                if (!act.getIntent().hasExtra("notification")) {
+                    if (imageList != null) {
+                        params.put("image_category_id", imageList.getId());
+                    } else {
+                        params.put("image_category_id", selectedObject.getId());
+                    }
 
-                    params.put("image_category_id", imageList.getId());
-                }
-                else
-                    params.put("image_category_id", selectedObject.getId());
-
-                if (act.getIntent().hasExtra("dailyImages")){
-                    params.put("image_category_id", selectedObject.getId());
+                    if (act.getIntent().hasExtra("dailyImages")) {
+                        params.put("image_category_id", selectedObject.getId());
+                    }
+                }else{
+                    params.put("image_category_id", act.getIntent().getStringExtra("cat_id"));
                 }
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;

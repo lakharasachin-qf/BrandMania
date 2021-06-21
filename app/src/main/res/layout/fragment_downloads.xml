@@ -9,7 +9,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -22,7 +22,7 @@
                     android:id="@+id/main_linearlayout_title"
                     android:elevation="0dp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_70sdp">
+                    android:layout_height="wrap_content">
 
                         <TextView
                             android:layout_marginTop="@dimen/_10sdp"

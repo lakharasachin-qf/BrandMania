@@ -250,7 +250,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
-        binding.rocommRecycler.setVisibility(View.GONE);
+        binding.swipeContainer.setVisibility(View.GONE);
     }
 
     //Show Fragment For BrandList
@@ -375,23 +375,23 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                             setAdapter();
                             binding.shimmerViewContainer.stopShimmer();
                             binding.shimmerViewContainer.setVisibility(View.GONE);
-                            binding.rocommRecycler.setVisibility(View.VISIBLE);
+                            binding.swipeContainer.setVisibility(View.VISIBLE);
                         }
                     }
 
                     if (apiResponse.getLinks() != null) {
 
                         if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
-                            binding.shimmerForPagination.startShimmer();
-                            binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                          //  binding.shimmerForPagination.startShimmer();
+                           // binding.shimmerForPagination.setVisibility(View.VISIBLE);
                             getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
                         } else {
-                            binding.shimmerForPagination.stopShimmer();
-                            binding.shimmerForPagination.setVisibility(View.GONE);
+                           // binding.shimmerForPagination.stopShimmer();
+                          //  binding.shimmerForPagination.setVisibility(View.GONE);
                         }
                     } else {
-                        binding.shimmerForPagination.stopShimmer();
-                        binding.shimmerForPagination.setVisibility(View.GONE);
+                      //  binding.shimmerForPagination.stopShimmer();
+                     //   binding.shimmerForPagination.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {
@@ -406,7 +406,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
                         binding.swipeContainer.setRefreshing(false);
-                        binding.rocommRecycler.setVisibility(View.GONE);
+                        binding.swipeContainer.setVisibility(View.GONE);
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                     }
@@ -465,17 +465,17 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     if (apiResponse.getLinks() != null) {
                         Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
                         if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
-                            binding.shimmerForPagination.startShimmer();
-                            binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                           // binding.shimmerForPagination.startShimmer();
+                          //  binding.shimmerForPagination.setVisibility(View.VISIBLE);
                             getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
                         } else {
-                            binding.shimmerForPagination.stopShimmer();
-                            binding.shimmerForPagination.setVisibility(View.GONE);
+                           // binding.shimmerForPagination.stopShimmer();
+                           // binding.shimmerForPagination.setVisibility(View.GONE);
                         }
                     }
                     if (apiResponse.getDashBoardItems() == null || apiResponse.getDashBoardItems().size() == 0) {
-                        binding.shimmerForPagination.stopShimmer();
-                        binding.shimmerForPagination.setVisibility(View.GONE);
+                      //  binding.shimmerForPagination.stopShimmer();
+                       // binding.shimmerForPagination.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {
@@ -489,8 +489,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-                        binding.shimmerForPagination.stopShimmer();
-                        binding.shimmerForPagination.setVisibility(View.GONE);
+                      //  binding.shimmerForPagination.stopShimmer();
+                       // binding.shimmerForPagination.setVisibility(View.GONE);
 
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
 //                        Log.e("Load-Get_Exam ", body);

@@ -8,30 +8,29 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         android:visibility="visible"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
         <RelativeLayout
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
             android:id="@+id/main_linearlayout_title"
             android:elevation="0dp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_80sdp">
+            android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:id="@+id/businessName"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/colorNavText"
-                    android:textSize="@dimen/_13sdp"
-                    android:text="Custom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </TextView>
+            <TextView
+                android:id="@+id/businessName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Custom"
+                android:textColor="@color/colorNavText"
+                android:textSize="@dimen/_13sdp" />
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -40,115 +39,117 @@
             android:layout_alignParentBottom="true"
             android:src="@drawable/bottom"
             android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_300sdp">
-        </ImageView>
-        <RelativeLayout
-            android:layout_below="@+id/my_toolbar"
+            android:layout_height="@dimen/_300sdp"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
+        android:scrollbars="none">
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+                         app:behavior_overlapTop="50dp"
+                         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-            <androidx.cardview.widget.CardView
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                app:cardCornerRadius="@dimen/_7sdp"
-                app:cardElevation="@dimen/_10sdp"
-                android:id="@+id/customImageRelative"
-                android:layout_marginRight="@dimen/_7sdp"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginLeft="@dimen/_7sdp"
-                android:layout_height="@dimen/_90sdp"
-                card_view:cardCornerRadius="@dimen/_10sdp">
             <RelativeLayout
+                android:id="@+id/alertForFrmae"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_below="@+id/viewpagerRelativ"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:background="@android:color/transparent"
+                android:visibility="visible">
+
                 <androidx.cardview.widget.CardView
-
-                    android:layout_centerVertical="true"
-                    android:id="@+id/ImageForText"
-                    android:padding="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:layout_marginEnd="@dimen/_7sdp"
-                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:id="@+id/customImageRelative"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/_7sdp"
-                    android:layout_height="@dimen/_60sdp"
+                    app:cardElevation="@dimen/_10sdp"
+                    card_view:cardCornerRadius="@dimen/_10sdp">
 
-                    card_view:cardCornerRadius="@dimen/_7sdp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <ImageView
+                        <androidx.cardview.widget.CardView
 
-                        android:id="@+id/textandImage1"
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:background="@drawable/ic_setting_new" />
+                            android:id="@+id/ImageForText"
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:padding="@dimen/_10sdp"
+                            app:cardCornerRadius="@dimen/_7sdp"
+
+                            card_view:cardCornerRadius="@dimen/_7sdp">
+
+                            <ImageView
+
+                                android:id="@+id/textandImage1"
+                                android:layout_width="@dimen/_40sdp"
+                                android:layout_height="@dimen/_40sdp"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                android:background="@drawable/ic_setting_new" />
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/textAndImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_toEndOf="@+id/ImageForText"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="@string/magazine"
+                            android:textColor="@color/colorthird"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textAndImage"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_toEndOf="@+id/ImageForText"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Create Custom Image"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_15sdp" />
+
+                    </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:id="@+id/textAndImage"
-                    android:layout_toEndOf="@+id/ImageForText"
-                    android:textColor="@color/colorthird"
-                    android:fontFamily="@font/inter_medium"
-                    android:text="@string/magazine"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:textSize="@dimen/_13sdp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_toEndOf="@+id/ImageForText"
-                    android:layout_below="@+id/textAndImage"
-                    android:textColor="@color/colorPrimary"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Create Custom Image"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:textSize="@dimen/_15sdp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                    android:id="@+id/swipeContainer"
+                <RelativeLayout
+                    android:id="@+id/recommendationRelativ"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/customImageRelative"
-                    android:scrollbars="none">
-                     <androidx.core.widget.NestedScrollView
-                         android:layout_width="match_parent"
-                         android:layout_height="match_parent"
-                         android:clipToPadding="false"
-                         android:scrollbars="none"
-                         app:behavior_overlapTop="50dp"
-                         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-                        <RelativeLayout
-                            android:visibility="visible"
-                            android:background="@android:color/transparent"
-                            android:layout_below="@+id/viewpagerRelativ"
-                            android:layout_marginTop="@dimen/_7sdp"
-                            android:id="@+id/alertForFrmae"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-                            <RelativeLayout
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:id="@+id/recommendationRelativ"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:layout_marginTop="@dimen/_2sdp"
-                                    android:id="@+id/frameRecycler"
-                                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/frameRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/_2sdp"
                                     android:layout_height="match_parent"
                                     android:layout_marginBottom="@dimen/_1sdp"
                                     android:paddingBottom="@dimen/_30sdp"
                                     android:clipToPadding="false" />
                                     <com.facebook.shimmer.ShimmerFrameLayout
-
+                                        android:visibility="gone"
                                         android:id="@+id/shimmerForPagination"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -190,13 +191,5 @@
                         </RelativeLayout>
                      </androidx.core.widget.NestedScrollView>
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </RelativeLayout>
-
-
-
-
-
-
-
 </RelativeLayout>
 </layout>

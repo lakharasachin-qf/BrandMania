@@ -2,6 +2,7 @@ package com.app.brandmania.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,8 +140,11 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     Glide.with(activity)
                             .load(model.getFrame())
                             .placeholder(R.drawable.placeholder)
+                            .centerCrop()
                             .into(((DailyRoundHolder) holder).binding.image);
+
                     ((DailyRoundHolder)holder).binding.title.setText(model.getName());
+
                     ((DailyRoundHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -157,6 +161,21 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             activity.startActivity(intent);
                         }
                     });
+                    Log.e(model.getName(), String.valueOf(model.isImageFree()));
+                    if (!model.isImageFree()){
+                        ((DailyRoundHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        ((DailyRoundHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+                    preafManager = new PreafManager(activity);
+                    if (preafManager.getActiveBrand()!=null &&  preafManager.getActiveBrand().getIs_payment_pending()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                        ((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((DailyRoundHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                        ((DailyRoundHolder) holder).binding.premioutag.setVisibility(View.INVISIBLE);
+
+                    }
                     break;
                 case LAYOUT_IMAGE_CATEGORY:
                     Glide.with(activity)
@@ -180,16 +199,17 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
                     if (!model.isImageFree()){
                         ((ImageCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
-                    }
-                    else
+                    } else
                     {
                         ((ImageCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+
                     preafManager = new PreafManager(activity);
-                     if (preafManager.getActiveBrand()!=null &&  preafManager.getActiveBrand().getIs_payment_pending()!=null &&preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                     if (preafManager.getActiveBrand()!=null &&  preafManager.getActiveBrand().getIs_payment_pending()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                             ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
                     }
+
                     break;
                 case LAYOUT_DAILY_IMAGES:
                     Glide.with(activity)
@@ -200,12 +220,11 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     ((DailyHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //ImageCategoryDetailActivity
+                            //Image Category Detail Activity
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
-                           // Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages","1");
-                           // intent.putExtra("viewAll","12");
+                           // intent  putExtra ( " viewAll " , " 12 " ) ;
 
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
                             intent.putExtra("selectedimage",gson.toJson(model));
@@ -213,6 +232,20 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             activity.startActivity(intent);
                         }
                     });
+
+                    if (!model.isImageFree()){
+                        ((DailyHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        ((DailyHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+                    if (preafManager.getActiveBrand() !=null) {
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                            ((DailyHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                            ((DailyHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                        }
+                    }
                     break;
                 case LAYOUT_IMAGE_CATEGORY_BY_ID:
 
@@ -294,11 +327,14 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
                     if (!model.isImageFree()){
                         ((FrameCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    }  else
+                    {
+                        ((FrameCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
                     if (preafManager.getActiveBrand() !=null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((FrameCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                            // ((FrameCategoryHolder)holder).binding.freePremium.setVisibility(View.GONE);
+                             ((FrameCategoryHolder)holder).binding.freePremium.setVisibility(View.GONE);
                         }
                     }
                     break;
@@ -310,7 +346,19 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .into(((FrameCategoryByIdHolder) holder).binding.image);
 
 
-
+                    if (!model.isImageFree()){
+                        ((FrameCategoryByIdHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        ((FrameCategoryByIdHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+                    if (preafManager.getActiveBrand() !=null) {
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                            ((FrameCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                            ((FrameCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                        }
+                    }
 
 
 
@@ -329,7 +377,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
 
                             if (layoutType==FROM_VIEWALLFRAME) {
-                             //   Toast.makeText(activity,"birthday",Toast.LENGTH_LONG).show();
                                 ((ImageCateItemeInterFace) activity).ImageCateonItemSelection(position, model);
                             }
                         }

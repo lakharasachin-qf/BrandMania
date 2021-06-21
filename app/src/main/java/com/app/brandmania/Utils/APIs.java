@@ -39,6 +39,5 @@ public class APIs {
     public static final String GET_CUSTOME_FRAME_CATEGORY = URL + "getCustomeImageCategory";
     public static final String GET_FRAMEBYID_CATEGORY = URL + "getCustomImageCategoryImage";
     public static final String FETCH_CUSTOME_FRAME_STATUS=URL+"fetchCustomFrameStatus";
-
     public static final String REQUEST_BUSINESS_CATEGORY=URL+"reqCategory";
 }

@@ -159,7 +159,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     PreafManager preafManager;
     Gson gson;
     String Website;
-    private DashBoardItem imageList;
+     private DashBoardItem imageList;
     private ImageList selectedObject;
     LinearLayout sliderDotspanel;
     private int dotscount;
@@ -208,9 +208,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         getBrandList();
 
             Website = preafManager.getActiveBrand().getWebsite();
-
-        imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
-        binding.titleName.setText(imageList.getName());
+        if (getIntent().hasExtra("notification")){
+            binding.titleName.setText(getIntent().getStringExtra("catName"));
+        }else {
+            imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
+            binding.titleName.setText(selectedObject.getName());
+        }
         // getAllImages();
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
         mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
@@ -720,7 +723,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                if (imageList != null) {
+                if (selectedObject != null) {
                     params.put("brand_id", preafManager.getActiveBrand().getId());
                     params.put("image_id", selectedObject.getImageid());
                 } else {

@@ -49,7 +49,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         binding= DataBindingUtil.setContentView(act,R.layout.activity_add_report_and_bug);
         preafManager=new PreafManager(act);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {

@@ -12,22 +12,41 @@
         android:id="@+id/colorRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <RelativeLayout
+        android:id="@+id/sectonBorder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_alignParentStart="true"
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorthird"
+            android:fontFamily="@font/inter_regular"
+            android:text="Border"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/_12sdp" />
+        <TextView
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_toEndOf="@id/checkbox"
+            android:textAlignment="textEnd"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorthird"
+            android:fontFamily="@font/inter_regular"
+            android:layout_alignParentEnd="true"
+            android:text="Check for Frame border"
+            android:textSize="@dimen/_12sdp" />
+    </RelativeLayout>
 
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="@color/colorthird"
-        android:fontFamily="@font/inter_regular"
-        android:text="Border"
-        android:textSize="@dimen/_12sdp" />
 
     <SeekBar
         android:background="@drawable/font_box_corner"
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkbox"
+        android:layout_below="@+id/sectonBorder"
         android:paddingTop="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"

@@ -7,7 +7,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -20,7 +20,7 @@
                     android:id="@+id/main_linearlayout_title"
                     android:elevation="0dp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_70sdp">
+                    android:layout_height="wrap_content">
                           <TextView
                             android:id="@+id/firsttitle"
                             android:text="@string/yourbusiness_text"
@@ -35,7 +35,7 @@
                             android:id="@+id/businessName"
                             android:text=""
                             android:textColor="@color/colorNavText"
-                            android:textSize="@dimen/_11sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:fontFamily="@font/montserrat_semibold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
@@ -91,14 +91,14 @@
                                             android:id="@+id/myBusinessImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_portfolio_outline"></ImageView>
+                                            android:src="@drawable/ic_business_svg" />
 
                                         <ImageView
                                             android:layout_width="@dimen/_15sdp"
                                             android:layout_height="@dimen/_15sdp"
                                             android:layout_alignParentEnd="true"
                                             android:padding="@dimen/_2sdp"
-                                            android:src="@drawable/ic_next"></ImageView>
+                                            android:src="@drawable/ic_next" />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -114,9 +114,10 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
                                 <RelativeLayout
                                     android:id="@+id/myFaqRelative"
@@ -132,7 +133,7 @@
                                             android:id="@+id/myFaqImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_about"></ImageView>
+                                            android:src="@drawable/ic_faq_svg_second" />
 
                                         <ImageView
                                             android:layout_width="@dimen/_15sdp"
@@ -140,7 +141,7 @@
                                             android:layout_alignParentEnd="true"
 
                                             android:padding="@dimen/_2sdp"
-                                            android:src="@drawable/ic_next"></ImageView>
+                                            android:src="@drawable/ic_next" />
 
                                         <TextView
                                             android:id="@+id/faqactivity"
@@ -157,11 +158,12 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:visibility="gone"
                                     android:id="@+id/videoLine"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
                                 <RelativeLayout
                                     android:visibility="gone"
@@ -185,7 +187,7 @@
                                             android:id="@+id/gdfgdfg"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_sdsd"
+                                            android:src="@drawable/ic_video_how_svg"
                                             android:contentDescription="TODO" />
 
                                         <TextView
@@ -202,9 +204,10 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
 
                                 <RelativeLayout
@@ -247,10 +250,12 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:visibility="gone"
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
-                                    android:background="@color/Graycolor"
-                                    android:visibility="gone" />
+                                    android:background="#C8C8C8" />
+
 
                                 <RelativeLayout
                                     android:id="@+id/helpandsupportLayout"
@@ -291,11 +296,11 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:visibility="gone"
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor"
-                                    android:visibility="gone" />
-
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
                                 <RelativeLayout
                                     android:id="@+id/shareText"
                                     android:layout_width="match_parent"
@@ -319,7 +324,7 @@
                                             android:id="@+id/shareImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_share"></ImageView>
+                                            android:src="@drawable/ic_share_svg"></ImageView>
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -335,9 +340,10 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
                                 <RelativeLayout
                                     android:id="@+id/rateUsLayout"
@@ -362,7 +368,7 @@
                                             android:id="@+id/rateusImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_report"></ImageView>
+                                            android:src="@drawable/ic_review_svg"></ImageView>
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -376,12 +382,11 @@
                                             android:textSize="@dimen/_12sdp"></TextView>
 
                                 </RelativeLayout>
-
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor"
-                                    android:visibility="visible" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
                                 <RelativeLayout
                                     android:id="@+id/aboutUsRelative"
@@ -405,7 +410,7 @@
                                             android:id="@+id/aboutUsImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_hand_shake"></ImageView>
+                                            android:src="@drawable/ic_about_us_svg"></ImageView>
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -421,9 +426,10 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
 
 
@@ -449,7 +455,7 @@
                                             android:id="@+id/fdg"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_contract"
+                                            android:src="@drawable/ic_tems_n_condition"
                                             android:contentDescription="TODO" />
 
                                         <TextView
@@ -466,9 +472,10 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
 
 
@@ -486,7 +493,7 @@
                                             android:id="@+id/subscriptionImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_bug" />
+                                            android:src="@drawable/ic_report_us_svg" />
 
                                         <ImageView
                                             android:layout_width="@dimen/_15sdp"
@@ -512,9 +519,10 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
                                 <RelativeLayout
                                     android:id="@+id/packageRelative"
@@ -538,7 +546,7 @@
                                             android:id="@+id/primeImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_premiumnew"></ImageView>
+                                            android:src="@drawable/ic_packages_svg"></ImageView>
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -554,9 +562,10 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
 
                                 <RelativeLayout
                                     android:id="@+id/logoutRelative"
@@ -580,7 +589,7 @@
                                             android:id="@+id/logoutImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_logout"></ImageView>
+                                            android:src="@drawable/ic_logout_svg"></ImageView>
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -596,52 +605,14 @@
                                 </RelativeLayout>
 
                                 <View
+                                    android:layout_marginStart="30pt"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/Graycolor" />
-
+                                    android:layout_height="0.5dp"
+                                    android:background="#C8C8C8" />
                         </LinearLayout>
 
-<!--                        <androidx.cardview.widget.CardView-->
-<!--                            app:cardUseCompatPadding="true"-->
-<!--                            app:cardCornerRadius="@dimen/_15sdp"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            app:cardPreventCornerOverlap="true"-->
-<!--                            android:layout_height="wrap_content">-->
-
-<!--                                <RelativeLayout-->
-<!--                                    android:padding="@dimen/_10sdp"-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content">-->
-<!--                                        <ImageView-->
-<!--                                            android:src="@drawable/ic_facebook"-->
-<!--                                            android:layout_width="@dimen/_24sdp"-->
-<!--                                            android:layout_height="@dimen/_24sdp"/>-->
-
-<!--                                </RelativeLayout>-->
-
-<!--                        </androidx.cardview.widget.CardView>-->
-<!--                        <androidx.cardview.widget.CardView-->
-<!--                            app:cardUseCompatPadding="true"-->
-<!--                            app:cardCornerRadius="@dimen/_15sdp"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            app:cardPreventCornerOverlap="true"-->
-<!--                            android:layout_height="wrap_content">-->
-
-<!--                                <RelativeLayout-->
-<!--                                    android:padding="@dimen/_10sdp"-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content">-->
-<!--                                        <ImageView-->
-<!--                                            android:src="@drawable/ic_whatsapp_new"-->
-<!--                                            android:layout_width="@dimen/_24sdp"-->
-<!--                                            android:layout_height="@dimen/_24sdp"/>-->
-
-<!--                                </RelativeLayout>-->
-
-<!--                        </androidx.cardview.widget.CardView>-->
                         <LinearLayout
-                            android:layout_marginTop="@dimen/_80sdp"
+                            android:layout_marginTop="@dimen/_60sdp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_above="@+id/appVersionTxt"

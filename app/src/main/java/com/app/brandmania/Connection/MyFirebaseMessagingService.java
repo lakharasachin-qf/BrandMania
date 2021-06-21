@@ -34,7 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
     String GROUP_KEY = "com.app.brandmania.FESTIVALS";
 
-
+    private String catName;
 
     @Override
     public void onNewToken(String s) {
@@ -45,7 +45,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived( RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.e("remoteMessage", remoteMessage.getData().toString());
-
+        if (remoteMessage.getData().containsKey("cat_name")){
+            catName = remoteMessage.getData().get("cat_name");
+        }
         shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"),remoteMessage.getData().get("image"),remoteMessage.getData().get("cat_id"));
     }
 
@@ -79,6 +81,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 intent = new Intent(this, ImageCategoryDetailActivity.class);
                 intent.putExtra("notification","1");
                 intent.putExtra("cat_id",cat_id);
+                intent.putExtra("catName",catName);
             }
 
         }

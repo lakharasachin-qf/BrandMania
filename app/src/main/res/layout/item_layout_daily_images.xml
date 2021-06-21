@@ -24,24 +24,31 @@
                     android:scaleType="fitXY"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/elementPremium"
-                    android:layout_alignParentEnd="true"
+                <RelativeLayout
                     android:layout_alignParentBottom="true"
-                    android:src="@drawable/ic_crown"
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_margin="@dimen/_7sdp"
-                    android:layout_height="@dimen/_12sdp"/>
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/freePremium"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:src="@drawable/ic_freee"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_margin="@dimen/_7sdp"
-                    android:layout_height="@dimen/_15sdp"/>
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/image_round"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/elementPremium"
+                        android:layout_margin="@dimen/_3sdp"
+
+                        android:src="@drawable/ic_crown"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"/>
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/freePremium"
+                        android:src="@drawable/ic_freee"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_height="@dimen/_10sdp"/>
+                </RelativeLayout>
+
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>

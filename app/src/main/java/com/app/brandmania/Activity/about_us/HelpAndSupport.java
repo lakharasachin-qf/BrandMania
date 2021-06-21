@@ -23,7 +23,6 @@ public class HelpAndSupport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         act=this;
         binding= DataBindingUtil.setContentView(act,R.layout.activity_help_and_support);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {

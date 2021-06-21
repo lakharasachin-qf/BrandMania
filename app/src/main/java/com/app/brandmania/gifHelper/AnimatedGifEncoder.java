@@ -239,15 +239,7 @@ public class AnimatedGifEncoder {
         sizeSet = true;
     }
 
-    /**
-     * Sets the GIF frame position. The position is 0,0 by default.
-     * Useful for only updating a section of the image
-     *
-     * @param w
-     *          int frame width.
-     * @param h
-     *          int frame width.
-     */
+
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;

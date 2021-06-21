@@ -12,7 +12,6 @@ import com.app.brandmania.databinding.ActivityAboutUsBinding;
 
 public class AboutUsActivity extends BaseActivity {
     Activity act;
-
     private ActivityAboutUsBinding binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -81,7 +81,6 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, AppIntroActivity.class);
-
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -194,7 +193,7 @@ public class ProfileFragment extends BaseFragment {
         binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HELPER.WHATSAPP_REDIRECTION(act,preafManager.getActiveBrand().getName(),preafManager.getMobileNumber());
+                HELPER.WHATSAPP_REDIRECTION_2(act,preafManager.getActiveBrand().getName(),preafManager.getMobileNumber());
             }
         });
         binding.visitFacebook.setOnClickListener(new View.OnClickListener() {

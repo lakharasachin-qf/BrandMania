@@ -431,8 +431,10 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         AnimatedGifEncoder encoder = new AnimatedGifEncoder();
         encoder.start(bos);
+
         for (Bitmap bitmap : bitmaps) {
-            encoder.addFrame(manipulateGIF(bitmap, false));
+          //  encoder.addFrame(manipulateGIF(bitmap, false));
+            encoder.addFrame(bitmap);
         }
         encoder.finish();
         return bos.toByteArray();
@@ -456,14 +458,11 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     public Bitmap manipulateGIF(Bitmap gifFrameBitmap, boolean isFavourite) {
 
-
                 if (isUsingCustomFrame) {
-
                     bitmapFrame = new BitmapDrawable(getResources(), getCustomFrameInBitmap(isFavourite));
                 } else {
                     bitmapFrame = (BitmapDrawable) binding.backendFrame.getDrawable();
                 }
-                //Drawable ImageDrawable = new BitmapDrawable(getResources(), gifFrameBitmap);
                 binding.recoImage.setImageBitmap(gifFrameBitmap);
                 Drawable ImageDrawable = (BitmapDrawable) binding.recoImage.getDrawable();
 

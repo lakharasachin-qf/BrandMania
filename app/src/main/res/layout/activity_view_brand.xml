@@ -80,15 +80,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/item_simmer_visitors_layout" />
+            <include layout="@layout/item_simmer_layout_list" />
 
-            <include layout="@layout/item_simmer_visitors_layout" />
+            <include layout="@layout/item_simmer_layout_list" />
 
-            <include layout="@layout/item_simmer_visitors_layout" />
+            <include layout="@layout/item_simmer_layout_list" />
 
-            <include layout="@layout/item_simmer_visitors_layout" />
+            <include layout="@layout/item_simmer_layout_list" />
 
-            <include layout="@layout/item_simmer_visitors_layout" />
+            <include layout="@layout/item_simmer_layout_list" />
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>

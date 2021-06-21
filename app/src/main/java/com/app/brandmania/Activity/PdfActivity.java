@@ -127,10 +127,10 @@ public class PdfActivity extends BaseActivity {
             if(!dir.exists())
                 dir.mkdirs();
 
-            File file = new File(dir, "brandmania.pdf");
+
 
             dirpath = android.os.Environment.getExternalStorageDirectory().toString();
-            PdfWriter.getInstance(document, new FileOutputStream(path + "/brandmania.pdf")); //  Change pdf's name.
+            PdfWriter.getInstance(document, new FileOutputStream(path + "/"+prefManager.getActiveBrand().getName()+".pdf")); //  Change pdf's name.
             document.open();
             Image img = Image.getInstance(Environment.getExternalStorageDirectory() + File.separator + "image.png");
             float scaler = ((document.getPageSize().getWidth() - 0) / img.getWidth()) * 100;
@@ -141,15 +141,15 @@ public class PdfActivity extends BaseActivity {
             document.add(img);
             document.close();
             Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
-            viewPdf(act);
+            viewPdf(prefManager.getActiveBrand().getName(),act);
         } catch (Exception e) {
 
         }
     }
 
     // Method for opening a pdf file
-    private static void viewPdf(Activity act) {
-        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + "BrandManiaPdf" + "/" + "brandmania.pdf");
+    private static void viewPdf(String name, Activity act) {
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + "BrandManiaPdf" + "/" + name +".pdf");
         Uri path = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", pdfFile);
         Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
         pdfIntent.setDataAndType(path, "application/pdf");

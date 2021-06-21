@@ -243,10 +243,11 @@ public class ResponseHandler {
                             if (key.equalsIgnoreCase("Daily Images")){
                                 imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_ROUND_IMAGES);
                             }else
-                            imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
+                                 imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
 
                             imageCategory.setId(getString(innerObject, "id"));
                             imageCategory.setName(getString(innerObject, "name"));
+                            imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
                             imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
                             innerImagesList.add(imageCategory);
                         }
@@ -771,6 +772,7 @@ public class ResponseHandler {
                         model.setLayoutType(ImageList.LAYOUT_FRAME_CATEGORY_BY_ID);
                         model.setName(getString(datajsonObject, "title"));
                         model.setId(getString(datajsonObject,"img_cat_map_id"));
+                        model.setImageid(getString(datajsonObject,"img_cat_map_id"));
                         model.setIndex(i);
                         model.setImagecatid(getString(datajsonObject, "img_cat_id"));
                         model.setImageid(getString(datajsonObject, "image_id"));

@@ -20,7 +20,6 @@ public class PartnerProgramActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         act=this;
         binding= DataBindingUtil.setContentView(act,R.layout.activity_partner_program);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {

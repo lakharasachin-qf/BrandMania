@@ -409,20 +409,45 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (manuallyEnablePermission(1)) {
 
+                    if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
 
-
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
+                        if (selectedObject.isImageFree()) {
+                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                askForUpgradeToEnterpisePackage();
+                                return;
+                            }
+                            requestAgain();
+                            saveImageToGallery(true, false);
+                            if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo!=null) {
+                                uploadLogoForBrand(selectedLogo);
+                            }
+                        } else {
+                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
-                      //  getImageDownloadRights("Share");
-
-                requestAgain();
-                saveImageToGallery(true, false);
-                if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo!=null) {
-                    uploadLogoForBrand(selectedLogo);
+                    } else {
+                        requestAgain();
+                        saveImageToGallery(true, false);
+                        if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo!=null) {
+                            uploadLogoForBrand(selectedLogo);
+                        }
+                    }
                 }
+
+
+//
+//                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                            askForUpgradeToEnterpisePackage();
+//                            return;
+//                        }
+//                      //  getImageDownloadRights("Share");
+//
+//                requestAgain();
+//                saveImageToGallery(true, false);
+//                if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo!=null) {
+//                    uploadLogoForBrand(selectedLogo);
+//                }
 
             }
         });
@@ -941,6 +966,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
         //   binding.simpleProgressBar.setVisibility(View.GONE);
+        Log.e("SelectedImage",gson.toJson(selectedObject));
         selectedObject = listModel;
         LoadDataToUI();
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200);

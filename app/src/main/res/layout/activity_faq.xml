@@ -12,7 +12,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -25,15 +25,17 @@
                 android:id="@+id/main_linearlayout_title"
                 android:elevation="0dp"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp">
+                android:layout_height="wrap_content">
+
                 <ImageView
                     android:layout_width="23dp"
                     android:layout_height="23dp"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/BackButtonIcon"
                     android:layout_marginLeft="6dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_left_arrow"></ImageView>
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_left_arrow" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,7 +44,7 @@
                     android:text="FAQ"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_13sdp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -81,23 +83,23 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                        <include layout="@layout/item_simmer_visitors_layout" />
+                        <include layout="@layout/item_simmer_layout_list" />
                     </LinearLayout>
 
                 </com.facebook.shimmer.ShimmerFrameLayout>

@@ -93,7 +93,6 @@ public class AppIntroActivity extends BaseActivity implements Player.EventListen
         binding = DataBindingUtil.setContentView(act, R.layout.activity_app_intro);
         audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         gestureDetector = new GestureDetector(act, (GestureDetector.OnGestureListener) act);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         //  if (getIntent().hasExtra(KEY_VIDEO_URI)) {
         videoUri = prefManager.getAppTutorial();
         // }
