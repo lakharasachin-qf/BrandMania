@@ -1643,7 +1643,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Utility.dismissLoadingTran();
         FooterHelper.refreshgallery(act, new_file);
 
 
@@ -1661,31 +1661,14 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     }
                 }
 
+
                 FooterHelper.triggerShareIntent(act,new_file,merged);
-            } else {
-                Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
-                if (isUsingCustomFrame)
-                {
-                    if (!isRemoveFrame)
-                        ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(),selectedFooterModel);
-                    // addDynamicFooter(selectedFooterModel.getLayoutType(), true);
-                    binding.FrameImageDuplicate.setVisibility(View.GONE);
-                    binding.FrameImageDuplicate.setImageBitmap(null);
-
-                } else {
-                    binding.FrameImageDuplicate.setImageBitmap(null);
-                    binding.FrameImageDuplicate.setVisibility(View.GONE);
-
-                    Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
-                }
 
             }
             dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
-
             InputStream inputStream = null;
             try {
 
-                //Log.e("IMMM",new Gson().toJson(imageFromGalaryModel));
                 if (imageFromGalaryModel != null) {
                     inputStream = getContentResolver().openInputStream(imageFromGalaryModel.getUri());
                     yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString());
@@ -1696,25 +1679,13 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 binding.editableImageview.setImageDrawable(yourDrawable);
                 BitmapDrawable drawable = (BitmapDrawable) binding.editableImageview.getDrawable();
                 selectedImageBitmap = drawable.getBitmap();
-
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
             downloadAndShareApi(DOWLOAD, merged);
-        }else {
-            if (isUsingCustomFrame) {
-                if (!isRemoveFrame)
-                    ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(),selectedFooterModel);
-                binding.FrameImageDuplicate.setVisibility(View.GONE);
-                binding.FrameImageDuplicate.setImageBitmap(null);
-            } else {
-                Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
-            }
-            dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_FAVORITE);
         }
-        Utility.dismissLoadingTran();
+
+
     }
 
     private void downloadAndShareApi(final int download,Bitmap customImage) {

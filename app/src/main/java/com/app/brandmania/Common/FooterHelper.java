@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.LayoutModelClass;
+import com.app.brandmania.R;
 import com.app.brandmania.Utils.Utility;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
@@ -847,7 +848,7 @@ public class FooterHelper {
     }
     //create custom image from relative layout and view
     public static Bitmap getCustomFrameInBitmap(RelativeLayout customeFrame, ImageView actualImage) {
-
+        customeFrame.setDrawingCacheEnabled(true);
         Bitmap newFinal;
         Bitmap returnedBitmap = Bitmap.createBitmap(customeFrame.getWidth(), customeFrame.getHeight(),Bitmap.Config.ARGB_8888);
 
@@ -872,6 +873,41 @@ public class FooterHelper {
 
 
         actualImage.setVisibility(View.VISIBLE);
+        //newFinal bitmap
+        customeFrame.setDrawingCacheEnabled(false);
+        return newFinal;
+
+    }
+
+    //create custom image from relative layout and view
+    public static Bitmap getCustomFrameInBitmap(Activity act,RelativeLayout customeFrame, ImageView actualImage) {
+
+        Bitmap newFinal;
+        Bitmap returnedBitmap = Bitmap.createBitmap(customeFrame.getWidth(), customeFrame.getHeight(),Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(returnedBitmap);
+        ImageView imageView =act.findViewById(R.id.FrameImageDuplicate);
+
+        Drawable bgDrawable =customeFrame.getBackground();
+        if (bgDrawable!=null) {
+            bgDrawable.draw(canvas);
+        }   else{
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        }
+        customeFrame.draw(canvas);
+
+        imageView.setVisibility(View.VISIBLE);
+
+        imageView.setImageBitmap(returnedBitmap);
+
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+
+        newFinal = drawable.getBitmap();
+
+
+        imageView.setVisibility(View.GONE);
+
         //newFinal bitmap
         return newFinal;
 

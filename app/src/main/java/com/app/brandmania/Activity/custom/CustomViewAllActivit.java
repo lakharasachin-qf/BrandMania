@@ -234,7 +234,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_custom_view_all);
         dbManager = new DBManager(act);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         gson = new Gson();
         preafManager = new PreafManager(act);
         binding.backImage.setOnTouchListener((View.OnTouchListener) act);
