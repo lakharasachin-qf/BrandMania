@@ -19,7 +19,6 @@ public class ViewAllTopCustomeFrameTabAdapter  extends FragmentPagerAdapter {
     Context context;
     int totalTabs;
     boolean isViewAll=false;
-
     public ViewAllTopCustomeFrameTabAdapter setViewAll(boolean viewAll) {
         isViewAll = viewAll;
         return this;
@@ -44,6 +43,7 @@ public class ViewAllTopCustomeFrameTabAdapter  extends FragmentPagerAdapter {
 
             case 2:
                 ImageTab imageTab = new ImageTab();
+
                 return imageTab;
 
             case 3:

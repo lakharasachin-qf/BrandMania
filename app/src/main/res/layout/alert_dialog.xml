@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:animateLayoutChanges="true"
+
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/titleTxt"
+             android:textColor="@color/black"
+            android:textSize="18dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Select Party"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <!--    android:src="@drawable/ic_close_black_24dp"-->
+        <ImageView
+            android:id="@+id/closeImage"
+            android:layout_alignParentEnd="true"
+            android:padding="2dp"
+
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+        <EditText
+            android:layout_marginTop="-10dp"
+            android:id="@+id/editText"
+            android:fontFamily="@font/inter_regular"
+            android:layout_below="@id/closeImage"
+            android:hint="Type here.."
+            android:textSize="14dp"
+            android:paddingBottom="15dp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <ListView
+            android:animateLayoutChanges="true"
+            android:dividerHeight="0dp"
+            android:divider="@null"
+            android:scrollbars="none"
+            android:id="@+id/listview"
+            android:layout_above="@+id/closeText"
+            android:layout_below="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginBottom="@dimen/_7sdp"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true"
+             android:layout_alignParentBottom="true"
+            android:id="@+id/closeText"
+            android:fontFamily="@font/inter_regular"
+            android:padding="@dimen/_5sdp"
+            android:textSize="16dp"
+             android:text="Close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</RelativeLayout>

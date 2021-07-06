@@ -90,7 +90,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         act = this;
         captureScreenShort();
         binding = DataBindingUtil.setContentView(act, R.layout.activity_update_band_list);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         prefManager = new PreafManager(this);
         gson = new Gson();
         CodeReUse.RemoveError(binding.categoryEdt, binding.categoryEdtLayout);
@@ -399,18 +399,18 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 
         }
 
-        if (binding.addressEdt.getText().toString().trim().length() == 0) {
-            isError = true;
-
-            binding.addressEdtLayout.setError(getString(R.string.enter_address));
-            binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            if (!isFocus) {
-                binding.addressEdt.requestFocus();
-                isFocus = true;
-                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
-            }
-
-        }
+//        if (binding.addressEdt.getText().toString().trim().length() == 0) {
+//            isError = true;
+//
+//            binding.addressEdtLayout.setError(getString(R.string.enter_address));
+//            binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+//            if (!isFocus) {
+//                binding.addressEdt.requestFocus();
+//                isFocus = true;
+//                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
+//            }
+//
+//        }
 
 
 

@@ -328,18 +328,18 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
 
 
-        if (binding.addressEdt.getText().toString().trim().length() == 0) {
-            isError = true;
-
-            binding.addressEdtLayout.setError(getString(R.string.enter_address));
-            binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-
-            if (!isFocus) {
-                binding.addressEdt.requestFocus();
-                isFocus = true;
-                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
-            }
-        }
+//        if (binding.addressEdt.getText().toString().trim().length() == 0) {
+//            isError = true;
+//
+//            binding.addressEdtLayout.setError(getString(R.string.enter_address));
+//            binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+//
+//            if (!isFocus) {
+//                binding.addressEdt.requestFocus();
+//                isFocus = true;
+//                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
+//            }
+//        }
 
 
         if (!binding.emailIdEdt.getText().toString().trim().equals("")) {
@@ -354,6 +354,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     isFocus = true;
                     binding.scrollView.scrollTo(0,binding.emailIdEdt.getBottom());
                 }
+
             }
             else
             {

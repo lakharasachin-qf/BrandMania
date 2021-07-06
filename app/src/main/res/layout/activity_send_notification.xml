@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme_material_theme"
+        android:layout_height="match_parent"
+        tools:context=".Activity.brand.AddBrandMultipleActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:visibility="visible"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:id="@+id/main_linearlayout_title"
+                android:elevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp">
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/BackButtonMember"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_left_arrow"></ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/BackButtonMember"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="Send Notification"
+                    android:textColor="@color/colorNavText"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"></TextView>
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:layout_marginStart="-100dp"
+            android:layout_alignParentBottom="true"
+
+            android:src="@drawable/bottom"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_300sdp">
+
+        </ImageView>
+
+        <ScrollView
+
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/my_toolbar"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:weightSum="2">
+
+
+
+                <CheckBox
+                    android:id="@+id/sendToAll"
+                    android:buttonTint="@color/colorthird"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Send to All User"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/categoryEdtLayout"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:hint="Category"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/categoryEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:fontFamily="@font/poppins_regular"
+                        android:drawableEnd="@drawable/ic_drop_arrow"
+                        android:focusable="false"
+                        android:singleLine="true"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/notificationEdtLayout"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:hint="Notification Flag"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/notificationEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:fontFamily="@font/poppins_regular"
+                        android:drawableEnd="@drawable/ic_drop_arrow"
+                        android:focusable="false"
+                        android:singleLine="true"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/messageLayout"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    app:errorEnabled="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Business facility"
+                    app:hintTextColor="@color/colorPrimary"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/messageTxt"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:maxEms="13"
+                        android:maxLines="10"
+                        android:imeOptions="actionDone"
+                        android:inputType="textMultiLine"
+                        android:lines="3"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+
+                <Button
+
+
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/buttoncornar"
+                    android:id="@+id/addExpenceBtn"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="Send"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_11sdp"
+                    />
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </RelativeLayout>
+</layout>

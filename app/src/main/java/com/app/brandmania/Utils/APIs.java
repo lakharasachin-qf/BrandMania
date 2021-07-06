@@ -40,4 +40,9 @@ public class APIs {
     public static final String GET_FRAMEBYID_CATEGORY = URL + "getCustomImageCategoryImage";
     public static final String FETCH_CUSTOME_FRAME_STATUS=URL+"fetchCustomFrameStatus";
     public static final String REQUEST_BUSINESS_CATEGORY=URL+"reqCategory";
+
+    public static final String GET_CATEGORY_ADMIN="http://queryfinders.com/brandmania/public/api/admin/getCategories";
+    public static final String GET_NOTIFICATION_FLAG="http://queryfinders.com/brandmania/public/api/admin/getNotificationFlag";
+    public static final String GET_USER_ADMIN="http://queryfinders.com/brandmania/public/api/admin/getUsers";
+    public static final String SEND_NOTIFIATION="http://queryfinders.com/brandmania/public/api/admin/sendNotification";
 }

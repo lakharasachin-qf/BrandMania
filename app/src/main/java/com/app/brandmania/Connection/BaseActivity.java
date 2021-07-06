@@ -28,12 +28,12 @@ import java.util.Observer;
 public class BaseActivity extends AppCompatActivity implements Observer {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
-    Activity act;
+    public Activity act;
     public PreafManager prefManager;
     MakeMyBrandApp myBrandApp;
     private BroadcastReceiver mNetworkReceiver;
     private boolean LIVE_MODE = false;
-    Gson gson;
+    public Gson gson;
 
     public BaseActivity() {
     }

@@ -83,7 +83,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         act = this;
 
         binding = DataBindingUtil.setContentView(act, R.layout.activity_otp_screen);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
         binding.verificationChildTitle.setText("We sent OTP to verify your number \n" + "+91" + NumberShow);
         String Verify = "OTP<br>Verification</font></br>";

@@ -57,6 +57,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.about_us.AppIntroActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.FooterModel;
@@ -666,7 +667,14 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                CodeReUse.activityBackPress(act);
+                if(!getIntent().hasExtra("notification")) {
+                    CodeReUse.activityBackPress(act);
+                }else{
+                    Intent i = new Intent(act, HomeActivity.class);
+                    startActivity(i);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    finish();
+                }
             }
         });
         alertDialog.setCancelable(true);

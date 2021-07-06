@@ -32,7 +32,6 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -51,6 +50,8 @@ import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.MultiListItem;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.FooterHelper;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.DataBase.DBManager;
@@ -110,6 +111,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
 
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
@@ -125,7 +127,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         ColorPickerView.OnColorChangedListener, ITextSizeEvent, onFooterSelectListener, View.OnTouchListener, FilterListener,
         IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect, IRemoveFrame, AddTextEvent {
     public static final int VIEW_RECOMDATION = 0;
-    Activity act;
+
     File new_file;
     TextView selectedForEdit;
     private int _xDelta;
@@ -231,7 +233,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act = this;
+
         binding = DataBindingUtil.setContentView(act, R.layout.activity_custom_view_all);
         dbManager = new DBManager(act);
         gson = new Gson();
@@ -372,6 +374,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         });
 
         binding.logoCustom.setTag("0");
+
+
     }
 
     abstract static class DoubleClickListener implements View.OnClickListener {
@@ -1551,7 +1555,13 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
 
 
-
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.GALLERY_CALLBACK) {
+            screenExistDialog();
+        }
+    }
 
     @Override public void onBackPressed() {
         if (binding.textEditorView.getVisibility() == View.VISIBLE) {
@@ -1562,15 +1572,22 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 1);
             return;
         }
-
-        screenExistDialog();
+        if (editorFragment == 0){
+            MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.GALLERY_ACTION);
+        }else {
+            screenExistDialog();
+        }
     }
+    androidx.appcompat.app.AlertDialog alertDialog;
     DialogDiscardImageBinding discardImageBinding;
     public void screenExistDialog() {
+        if (alertDialog!=null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
-        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+          alertDialog = builder.create();
         alertDialog.setContentView(discardImageBinding.getRoot());
 
         discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
@@ -1588,9 +1605,11 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 CodeReUse.activityBackPress(act);
             }
         });
-        alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
+        if (!isFinishing() || !isDestroyed()) {
+            alertDialog.setCancelable(true);
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            alertDialog.show();
+        }
     }
 
 

@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -45,7 +46,12 @@ public class MakeMyBrandApp extends MultiDexApplication {
         super.onCreate();
 
         sInstance = this;
-
+//        // Enable verbose OneSignal logging to debug issues if needed.
+//        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+//
+//        // OneSignal Initialization
+//        OneSignal.initWithContext(this);
+//        OneSignal.setAppId(Constant.ONE_SIGNAL_APP_ID);
         MultiDex.install(this);
 
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
