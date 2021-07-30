@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.app.brandmania">
+    package="com.app.brandadmin">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -21,7 +21,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".Activity.PdfActivity"
+        <activity android:name=".Activity.admin.ViewNewCategory"></activity>
+        <activity
+            android:name=".Activity.PdfActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.details.EditSelectedImages" />
         <activity
@@ -75,7 +77,6 @@
         <activity
             android:name=".Activity.about_us.FaqActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Activity.packages.SubscriptionActivity"
             android:screenOrientation="portrait" />
@@ -100,7 +101,6 @@
         <activity
             android:name=".Activity.basics.OtpScreenActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Activity.basics.LoginActivity"
             android:screenOrientation="portrait"
@@ -153,7 +153,7 @@
         </provider>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.app.brandmania.fileProvider"
+            android:authorities="com.app.brandadmin.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -170,11 +170,6 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
-        <!--<activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            tools:ignore="DuplicateActivity" />-->
     </application>
 
 </manifest>

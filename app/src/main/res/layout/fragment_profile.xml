@@ -21,6 +21,7 @@
                     android:elevation="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                           <TextView
                             android:id="@+id/firsttitle"
                             android:text="@string/yourbusiness_text"
@@ -29,7 +30,9 @@
                             android:fontFamily="@font/montserrat_regular"
                             android:layout_width="wrap_content"
                             android:textStyle="bold"
-                            android:layout_height="wrap_content"></TextView>
+                            android:layout_height="wrap_content">
+
+                          </TextView>
                         <TextView
                             android:layout_below="@+id/firsttitle"
                             android:id="@+id/businessName"
@@ -324,7 +327,9 @@
                                             android:id="@+id/shareImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_share_svg"></ImageView>
+                                            android:src="@drawable/ic_share_svg">
+
+                                        </ImageView>
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -502,7 +507,9 @@
                                             android:layout_marginLeft="@dimen/_10sdp"
 
                                             android:padding="@dimen/_2sdp"
-                                            android:src="@drawable/ic_next"></ImageView>
+                                            android:src="@drawable/ic_next">
+
+                                        </ImageView>
 
                                         <TextView
                                             android:id="@+id/reportAndBug"
@@ -546,7 +553,9 @@
                                             android:id="@+id/primeImage"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
-                                            android:src="@drawable/ic_packages_svg"></ImageView>
+                                            android:src="@drawable/ic_packages_svg">
+
+                                        </ImageView>
 
                                         <TextView
                                             android:layout_width="match_parent"

@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:theme="@style/AppTheme_material_theme"
     android:layout_height="wrap_content">
+
     <RelativeLayout
         android:id="@+id/contentSection"
         android:layout_width="match_parent"
@@ -28,8 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </androidx.cardview.widget.CardView>
-    <RelativeLayout
 
+        <RelativeLayout
         android:visibility="visible"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_10sdp"
@@ -60,7 +61,9 @@
             android:textSize="@dimen/_12sdp"
             android:fontFamily="@font/inter_medium"
             android:singleLine="true"
-            android:text="QueryFinderSodfgfdgfgdfgfggdflution"></TextView>
+            android:text="QueryFinderSodfgfdgfgdfgfggdflution">
+
+        </TextView>
 
         <LinearLayout
             android:id="@+id/actionLayout"

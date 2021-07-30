@@ -23,8 +23,9 @@
                 android:layout_marginRight="@dimen/_7sdp"
                 android:id="@+id/main_linearlayout_title"
                 android:elevation="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
                 <ImageView
                     android:layout_width="23dp"
                     android:layout_height="23dp"
@@ -32,7 +33,10 @@
                     android:id="@+id/BackButtonMember"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_left_arrow"></ImageView>
+                    android:background="@drawable/ic_left_arrow">
+
+                </ImageView>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -41,7 +45,9 @@
                     android:text="Send Notification"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_13sdp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold">
+
+                </TextView>
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -49,7 +55,6 @@
         <ImageView
             android:layout_marginStart="-100dp"
             android:layout_alignParentBottom="true"
-
             android:src="@drawable/bottom"
             android:layout_width="@dimen/_300sdp"
             android:layout_height="@dimen/_300sdp">
@@ -74,7 +79,6 @@
                 android:weightSum="2">
 
 
-
                 <CheckBox
                     android:id="@+id/sendToAll"
                     android:buttonTint="@color/colorthird"
@@ -94,6 +98,7 @@
                     app:hintTextColor="@color/colorPrimary"
                     app:errorEnabled="true"
                     android:layout_height="wrap_content">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/categoryEdt"
                         android:layout_width="match_parent"
@@ -119,6 +124,7 @@
                     app:hintTextColor="@color/colorPrimary"
                     app:errorEnabled="true"
                     android:layout_height="wrap_content">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/notificationEdt"
                         android:layout_width="match_parent"
@@ -161,16 +167,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-
-
-
-
-
                 <Button
-
-
                     android:layout_marginBottom="@dimen/_20sdp"
                     android:background="@drawable/buttoncornar"
                     android:id="@+id/addExpenceBtn"

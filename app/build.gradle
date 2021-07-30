@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.make.mybrand"
+        applicationId "com.app.brandadmin"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 7

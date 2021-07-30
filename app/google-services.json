@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:562383081173:android:eda39a723ed20bcbfe1c5c",
         "android_client_info": {
-          "package_name": "com.app.brandmania"
+          "package_name": "com.app.brandadmin"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "562383081173-vfhdv2h04f8gplldkvso7ui3akseftjr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.app.brandmania",
+            "package_name": "com.app.brandadmin",
             "certificate_hash": "76a8640e84f89c160683084958450a8d4ba6e346"
           }
         },
@@ -47,7 +47,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:562383081173:android:671c273d0c9b6366fe1c5c",
         "android_client_info": {
-          "package_name": "com.make.mybrand"
+          "package_name": "com.app.brandadmin"
         }
       },
       "oauth_client": [
@@ -55,7 +55,7 @@
           "client_id": "562383081173-3i02q9pijrec3eovh7t7ka2982ap6570.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.make.mybrand",
+            "package_name": "com.app.brandadmin",
             "certificate_hash": "76a8640e84f89c160683084958450a8d4ba6e346"
           }
         },

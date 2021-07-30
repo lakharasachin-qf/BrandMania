@@ -23,35 +23,36 @@
             android:layout_marginRight="@dimen/_7sdp"
             android:id="@+id/main_linearlayout_title"
             android:elevation="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp">
-
-            <ImageView
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:layout_alignParentLeft="true"
-                android:id="@+id/BackButton"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/ic_left_arrow" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/BackButton"
-
+                android:layout_toRightOf="@+id/BackButton"
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="Select User"
                 android:textColor="@color/colorNavText"
                 android:textSize="@dimen/_13sdp"
                 android:textStyle="bold" />
 
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:id="@+id/BackButton"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_left_arrow" />
+
         </RelativeLayout>
+
     </androidx.appcompat.widget.Toolbar>
+
     <ImageView
         android:layout_marginStart="-100dp"
         android:layout_alignParentBottom="true"
-          android:src="@drawable/bottom"
+        android:src="@drawable/bottom"
         android:layout_width="@dimen/_300sdp"
         android:layout_height="@dimen/_300sdp">
 
@@ -101,8 +102,9 @@
             android:hint="Search Here..."
             app:hintTextColor="@color/colorPrimary"
             android:layout_height="wrap_content">
+
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nameTxt"
+                android:id="@+id/searchHere"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:drawablePadding="@dimen/_10sdp"
@@ -112,8 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
-    <ListView
 
+    <androidx.recyclerview.widget.RecyclerView
         android:clipToPadding="false"
         android:paddingBottom="@dimen/_70sdp"
         android:id="@+id/getBrandList"
@@ -123,7 +125,8 @@
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
-    </ListView>
+    </androidx.recyclerview.widget.RecyclerView>
+
         <LinearLayout
             android:id="@+id/emptyStateLayout"
             android:layout_width="match_parent"
@@ -142,8 +145,39 @@
         </LinearLayout>
 
     </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
 
+        android:visibility="visible"
+        android:id="@+id/useradd"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
+        shimmer:borderWidth="0dp"
+        shimmer:elevation="@dimen/_2sdp"
+        shimmer:maxImageSize="@dimen/_15sdp"
+        shimmer:rippleColor="@color/colorNavText"
+        shimmer:srcCompat="@drawable/ic_right_arrow"
+        shimmer:tint="@color/colorNavText" />
 
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/useradd"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/ic_right_arrow"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:tint="@color/white"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_marginBottom="@dimen/_20sdp"-->
+<!--        app:backgroundTint="@color/colorPrimary"-->
+<!--        android:layout_marginRight="@dimen/_7sdp">-->
+
+<!--    </com.google.android.material.floatingactionbutton.FloatingActionButton>-->
 
 
 </RelativeLayout>

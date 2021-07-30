@@ -48,6 +48,7 @@
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <ImageView
         android:layout_marginStart="-100dp"
         android:layout_alignParentBottom="true"
@@ -95,6 +96,28 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtsearchlayout"
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            app:errorEnabled="true"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:hint="Search Here..."
+            app:hintTextColor="@color/colorPrimary"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchcategory"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:drawablePadding="@dimen/_10sdp"
+                android:inputType="textCapWords"
+                android:singleLine="true"
+                android:textSize="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/my_toolbar"
@@ -106,6 +129,7 @@
         tools:ignore="MissingConstraints">
 
     </androidx.recyclerview.widget.RecyclerView>
+
         <LinearLayout
             android:id="@+id/emptyStateLayout"
             android:layout_width="match_parent"
