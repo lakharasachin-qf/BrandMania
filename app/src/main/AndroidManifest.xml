@@ -24,9 +24,7 @@
         <activity android:name=".Activity.PdfActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.details.EditSelectedImages" />
-        <activity
-            android:name=".newModule.EditingActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activity.DailyImagesActivity"
             android:screenOrientation="portrait" />
@@ -69,12 +67,7 @@
         <activity
             android:name=".Activity.about_us.FaqActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".TextAndImageEditActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".TextandImageEdit"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activity.packages.SubscriptionActivity"
             android:screenOrientation="portrait" />
@@ -99,6 +92,7 @@
         <activity
             android:name=".Activity.basics.OtpScreenActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activity.basics.LoginActivity"
             android:screenOrientation="portrait"

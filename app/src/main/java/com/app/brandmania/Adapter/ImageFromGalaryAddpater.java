@@ -1,6 +1,7 @@
 package com.app.brandmania.Adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,24 @@ import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.R;
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ImageFromGalaryAddpater extends RecyclerView.Adapter<ImageFromGalaryAddpater.MyViewHolder> {
     Context c;
-    ArrayList<ImageFromGalaryModel> spacecrafts;
+    ArrayList<String> spacecrafts;
+    public interface onImageSelection{
+        void onImageSelection();
 
-    public ImageFromGalaryAddpater(Context c, ArrayList<ImageFromGalaryModel> spacecrafts) {
+    }
+    public onImageSelection imageSelection;
+
+    public ImageFromGalaryAddpater setImageSelection(onImageSelection imageSelection) {
+        this.imageSelection = imageSelection;
+        return this;
+    }
+
+    public ImageFromGalaryAddpater(Context c, ArrayList<String> spacecrafts) {
         this.c = c;
         this.spacecrafts = spacecrafts;
     }
@@ -34,13 +46,17 @@ public class ImageFromGalaryAddpater extends RecyclerView.Adapter<ImageFromGalar
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        ImageFromGalaryModel s=spacecrafts.get(position);
 
-        Glide.with(c).load(s.getUri()).placeholder(R.drawable.placeholder).into(holder.image);
+
+        Glide.with(c).load(spacecrafts.get(position)).placeholder(R.drawable.placeholder).into(holder.image);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((IImageFromGalary) c).onImageFromGalaryItemSelection( position, spacecrafts.get(position));
+                ImageFromGalaryModel galaryModel =new ImageFromGalaryModel();
+                galaryModel.setName(spacecrafts.get(position));
+                File file = new File(spacecrafts.get(position));
+                galaryModel.setUri(Uri.fromFile(file));
+                ((IImageFromGalary) c).onImageFromGalaryItemSelection( position, galaryModel);
             }
         });
 

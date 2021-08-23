@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -26,8 +25,8 @@ import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.CategoryFrameTabBinding;
 import com.google.gson.Gson;
 

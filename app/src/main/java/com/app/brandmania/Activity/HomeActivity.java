@@ -50,9 +50,10 @@ import com.app.brandmania.Fragment.bottom.HomeFragment;
 import com.app.brandmania.Fragment.bottom.ProfileFragment;
 import com.app.brandmania.Model.VersionListIItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.DialogPermissionsLayoutBinding;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -67,7 +68,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -122,9 +122,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.navigation_custom:
                 isHomeTab=false;
                 if (iscutomEnable) {
-                    fragment = new CustomFragment();
-                    //Intent intent=new Intent(getApplicationContext(),CustomViewAllActivit.class);
-                    //startActivity(intent);
+                  fragment = new CustomFragment();
+
                 } else {
                     Intent intent = new Intent(getApplicationContext(), CustomViewAllActivit.class);
                     startActivity(intent);

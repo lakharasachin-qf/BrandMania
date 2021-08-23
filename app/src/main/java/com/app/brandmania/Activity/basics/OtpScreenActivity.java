@@ -8,7 +8,6 @@ import android.os.CountDownTimer;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -35,10 +34,10 @@ import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Interface.iVerifyOTP;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.GenericTextWatcher;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.GenericTextWatcher;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityOtpScreenBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -83,7 +82,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         act = this;
 
         binding = DataBindingUtil.setContentView(act, R.layout.activity_otp_screen);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
         binding.verificationChildTitle.setText("We sent OTP to verify your number \n" + "+91" + NumberShow);
         String Verify = "OTP<br>Verification</font></br>";

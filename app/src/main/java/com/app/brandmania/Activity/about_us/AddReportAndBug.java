@@ -23,9 +23,9 @@ import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
 import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityAddReportAndBugBinding;
 
 import org.json.JSONObject;

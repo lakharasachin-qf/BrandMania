@@ -32,7 +32,6 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -51,6 +50,8 @@ import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.MultiListItem;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.FooterHelper;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.DataBase.DBManager;
@@ -77,9 +78,9 @@ import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.IFontChangeEvent;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.IFontChangeEvent;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityCustomViewAllBinding;
 import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
@@ -110,6 +111,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
 
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
@@ -125,7 +127,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         ColorPickerView.OnColorChangedListener, ITextSizeEvent, onFooterSelectListener, View.OnTouchListener, FilterListener,
         IImageBritnessEvent, IrotateEvent, ThumbnailCallback, IBackendFrameSelect, IRemoveFrame, AddTextEvent {
     public static final int VIEW_RECOMDATION = 0;
-    Activity act;
+
     File new_file;
     TextView selectedForEdit;
     private int _xDelta;
@@ -231,7 +233,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act = this;
+
         binding = DataBindingUtil.setContentView(act, R.layout.activity_custom_view_all);
         dbManager = new DBManager(act);
         gson = new Gson();
@@ -289,6 +291,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 binding.logoCustom.setVisibility(View.VISIBLE);
                 Glide.with(act)
                         .load(preafManager.getActiveBrand().getLogo())
+                        .override(1600, 1600)
                         .into(binding.logoCustom);
                 binding.logoCustom.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -372,6 +375,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         });
 
         binding.logoCustom.setTag("0");
+
+
     }
 
     abstract static class DoubleClickListener implements View.OnClickListener {
@@ -495,6 +500,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final EditPicAddapter adapter = new EditPicAddapter(act, getSupportFragmentManager(), binding.tabLayout.getTabCount());
+        adapter.setCropView(true);
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setOffscreenPageLimit(7);
         binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
@@ -582,26 +588,75 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         });
 
     }
-
-
-    @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
+    public void loadGalleryImage(){
+        isGalleryCropping=false;
+        InputStream inputStream = null;
         try {
-            imageFromGalaryModel=listModel;
-            InputStream inputStream = getContentResolver().openInputStream(listModel.getUri());
-            yourDrawable = Drawable.createFromStream(inputStream, listModel.getUri().toString() );
+            inputStream = getContentResolver().openInputStream(imageFromGalaryModel.getUri());
+            yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString() );
             binding.backImage.setImageDrawable(yourDrawable);
-           // LoadDataToUI();
+            // LoadDataToUI();
             BitmapDrawable drawable = (BitmapDrawable) binding.backImage.getDrawable();
-             selectedImageBitmap= drawable.getBitmap();
-             selectedImageBitmap=selectedImageBitmap.copy(Bitmap.Config.ARGB_8888 , true);
+            selectedImageBitmap= drawable.getBitmap();
+            selectedImageBitmap=selectedImageBitmap.copy(Bitmap.Config.ARGB_8888 , true);
             if (selectedFooterModel==null)
                 loadFirstImage();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 
+    @Override public void onCropImage() {
+        isGalleryCropping=true;
+        CropImage.activity(imageFromGalaryModel.getUri())
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .start(this);
+    }
+
+    boolean isGalleryCropping=false;
+    @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
+             imageFromGalaryModel=listModel;
+            loadGalleryImage();
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // handle result of pick image chooser
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri imageUri = CropImage.getPickImageResultUri(this, data);
+
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+                mCropImageUri = imageUri;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                }
+            } else {
+                startCropImageActivity(imageUri);
+            }
+        }
+
+        // handle result of CropImageActivity
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                if (!isGalleryCropping) {
+                    binding.logoCustom.setVisibility(View.VISIBLE);
+                    binding.logoEmptyState.setVisibility(View.GONE);
+                    ((ImageView) findViewById(R.id.logoCustom)).setImageURI(result.getUri());
+                    ImageView imageView = ((ImageView) findViewById(R.id.logoCustom));
+                    selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                }else{
+                    imageFromGalaryModel.setUri(result.getUri());
+                    loadGalleryImage();
+                }
+            }
+        }
+    }
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
@@ -1438,39 +1493,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         return (float) Math.toDegrees(radians);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
 
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // handle result of pick image chooser
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri imageUri = CropImage.getPickImageResultUri(this, data);
-
-            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
-                mCropImageUri = imageUri;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-                }
-            } else {
-                startCropImageActivity(imageUri);
-            }
-        }
-
-        // handle result of CropImageActivity
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                binding.logoCustom.setVisibility(View.VISIBLE);
-                binding.logoEmptyState.setVisibility(View.GONE);
-                ((ImageView) findViewById(R.id.logoCustom)).setImageURI(result.getUri());
-                ImageView imageView = ((ImageView) findViewById(R.id.logoCustom));
-                selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-
-            }
-        }
-    }
 
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
@@ -1551,7 +1574,13 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
 
 
-
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.GALLERY_CALLBACK) {
+            screenExistDialog();
+        }
+    }
 
     @Override public void onBackPressed() {
         if (binding.textEditorView.getVisibility() == View.VISIBLE) {
@@ -1562,15 +1591,22 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 1);
             return;
         }
-
-        screenExistDialog();
+        if (editorFragment == 0){
+            MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.GALLERY_ACTION);
+        }else {
+            screenExistDialog();
+        }
     }
+    androidx.appcompat.app.AlertDialog alertDialog;
     DialogDiscardImageBinding discardImageBinding;
     public void screenExistDialog() {
+        if (alertDialog!=null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
-        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+          alertDialog = builder.create();
         alertDialog.setContentView(discardImageBinding.getRoot());
 
         discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
@@ -1588,9 +1624,11 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 CodeReUse.activityBackPress(act);
             }
         });
-        alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
+        if (!isFinishing() || !isDestroyed()) {
+            alertDialog.setCancelable(true);
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            alertDialog.show();
+        }
     }
 
 

@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.CodeReUse;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.databinding.ActivityHelpAndSupportBinding;
 
 

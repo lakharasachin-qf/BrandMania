@@ -20,11 +20,10 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.app.brandmania.Utils.Utility.Log;
+import static com.app.brandmania.utils.Utility.Log;
 
 
-public
-class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordAddapter.DasboardViewHolder> {
+public class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordAddapter.DasboardViewHolder> {
 
     private ArrayList<DashBoardItem> dashBoardItemList;
 
@@ -58,7 +57,6 @@ class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordAddapter
             public void onClick(View v) {
                 Intent i =new Intent(activity, ViewAllFrameImageActivity.class);
                 i.putExtra("viewAll","12");
-              //  Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
                 i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
                 activity.startActivity(i);
                 i.addCategory(Intent.CATEGORY_HOME);

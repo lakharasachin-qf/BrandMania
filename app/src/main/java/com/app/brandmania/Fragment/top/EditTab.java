@@ -44,9 +44,15 @@ public class EditTab extends Fragment {
         System.loadLibrary("NativeImageProcessor");
     }
     private ConstraintSet mConstraintSet = new ConstraintSet();
+    public boolean isSetCropView=false;
+
+    public EditTab setCropView(boolean iSetCropView) {
+        this.isSetCropView = iSetCropView;
+        return this;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity  = getActivity();
 
         preafManager=new PreafManager(activity);
@@ -58,6 +64,18 @@ public class EditTab extends Fragment {
                 ((IrotateEvent) activity).onRotateImage(90);
             }
         });
+        binding.cropImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((IrotateEvent) activity).onCropImage();
+            }
+        });
+
+        if (isSetCropView){
+            binding.cropImage.setVisibility(View.VISIBLE);
+        }else{
+            binding.cropImage.setVisibility(View.GONE);
+        }
 
 
         binding.seekBar.setProgress(125);

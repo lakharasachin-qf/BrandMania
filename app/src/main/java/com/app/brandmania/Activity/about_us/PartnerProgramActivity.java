@@ -3,13 +3,12 @@ package com.app.brandmania.Activity.about_us;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.CodeReUse;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.databinding.ActivityPartnerProgramBinding;
 
 public class PartnerProgramActivity extends BaseActivity {

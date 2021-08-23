@@ -17,7 +17,7 @@ import com.app.brandmania.R;
 
 import java.util.ArrayList;
 
-import static com.app.brandmania.Utils.Utility.Log;
+import static com.app.brandmania.utils.Utility.Log;
 
 public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAdeptor.SelecBrandLIstHolder> {
 

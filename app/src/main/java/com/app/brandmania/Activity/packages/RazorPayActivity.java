@@ -32,9 +32,9 @@ import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityRazorPayBinding;
 import com.app.brandmania.databinding.ItemServiceLayoutBinding;
 import com.google.gson.Gson;
@@ -53,7 +53,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     Activity act;
     Button pay;
     private ActivityRazorPayBinding binding;
-    String sliderItem;
+    String calculateAmount;
     SliderItem sliderItemList;
     BrandListItem brandListItem;
     private String amountToPay;
@@ -87,7 +87,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             }
         });
 
-        sliderItem = sliderItemList.getPriceForPay();
+        calculateAmount = sliderItemList.getPriceForPay();
 
         binding.proceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +97,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         });
 
         if (sliderItemList != null) {
-            binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
+
             binding.packageNameTxt.setText(sliderItemList.getPackageTitle());
             binding.durationTxt.setText(sliderItemList.getDuration());
             Log.e("Services",new Gson().toJson(sliderItemList.getSlideSubItems()));
@@ -107,16 +107,18 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             addDynamicServices(sliderItemList.getImageTitle()+" Images Download / Year");
             addDynamicServices(act.getString(R.string.Rs)+sliderItemList.getPayTitle()+" / "+sliderItemList.getDuration());
 
+
+
+
             //show for one month count
-
-
+            binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
             if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate())<1){
 
                 int actualPrice=Integer.parseInt(sliderItemList.getPriceForPay());
                 int previousPackagePrice=Integer.parseInt(preafManager.getActiveBrand().getRate());
                 if (actualPrice>previousPackagePrice) {
                     int countedPrice = actualPrice - previousPackagePrice;
-                    sliderItem = String.valueOf(countedPrice);
+                    calculateAmount = String.valueOf(countedPrice);
                     Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
                     binding.discountedAmountLayout.setVisibility(View.GONE);
                     binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
@@ -127,7 +129,13 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                     binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount will be deducted. As It was purchased within one month");
                 }
             }
-            binding.finalAmountTxt.setText(act.getString(R.string.Rs) +sliderItem);
+
+
+
+            binding.finalAmountTxt.setText(act.getString(R.string.Rs) + calculateAmount);
+
+
+
 
         }
 
@@ -162,7 +170,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                     JSONObject jsonObject = ResponseHandler.getJSONObject(ResponseHandler.createJsonObject(response), "data");
                     generatedOrderId = ResponseHandler.getString(jsonObject, "orderId");
                     Log.e("RoserPay Order Id",generatedOrderId);
-                    sliderItem = ResponseHandler.getString(jsonObject, "orderAmount");
+                    calculateAmount = ResponseHandler.getString(jsonObject, "orderAmount");
                     currency = ResponseHandler.getString(jsonObject, "currency");
                     setUpPaymentMethod();
                 } else {
@@ -203,7 +211,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
                 //hashMap.put("amount", sliderItemList.getPriceForPay());
-                hashMap.put("amount",sliderItem);
+                hashMap.put("amount", calculateAmount);
                 //hashMap.put("amount", "1");
                 hashMap.put("currency", "INR");
 
@@ -234,7 +242,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             options.put("theme.color", "#ad2753");
             options.put("currency", "INR");
             //int amountInPaisa = Integer.parseInt(sliderItem) * 100;
-            options.put("amount", String.valueOf(sliderItem));
+            options.put("amount", String.valueOf(calculateAmount));
             options.put("prefill.email", preafManager.getActiveBrand().getEmail());
             options.put("prefill.contact","Enter Mobile Number");
             Log.e("Param : ", options.toString());
@@ -349,7 +357,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 hashMap.put("package",sliderItemList.getPackageid());
                 hashMap.put("amount",sliderItemList.getPriceForPay());
                 //hashMap.put("total_amount",sliderItemList.getPriceForPay());
-                hashMap.put("total_amount",sliderItem);
+                hashMap.put("total_amount", calculateAmount);
                 hashMap.put("img_counter",sliderItemList.getImageTitle());
                 hashMap.put("frame_counter",sliderItemList.getTemplateTitle());
                 hashMap.put("is_pending",subscription);

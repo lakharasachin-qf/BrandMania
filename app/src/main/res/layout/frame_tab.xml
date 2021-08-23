@@ -1,118 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
                 <androidx.recyclerview.widget.RecyclerView
-                    android:nestedScrollingEnabled="false"
                     android:id="@+id/frameRecycler"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:clipToPadding="false"
-                    android:paddingBottom="@dimen/_30sdp"
-                    android:layout_height="wrap_content">
+                    android:nestedScrollingEnabled="false"
+                    android:paddingBottom="@dimen/_30sdp">
 
                 </androidx.recyclerview.widget.RecyclerView>
-            <RelativeLayout
-                android:layout_gravity="center"
-                android:layout_below="@+id/frameRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:id="@+id/text1"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_28sdp"
-                    android:paddingStart="@dimen/_15sdp"
-                    android:paddingEnd="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="There is not frames provided\nto you for your brand."
-
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/_10sdp"
-                    />
-
-                <TextView
-
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="gone"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:backgroundTint="@color/colorthird"
-
-                    android:background="@drawable/buttoncornar"
-                    android:id="@+id/subscribePlaneBtn"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_28sdp"
-                    android:paddingStart="@dimen/_15sdp"
-                    android:paddingEnd="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="Reuqest For Frame"
-                    android:textColor="#FFF"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/_10sdp"
-                    />
-                <TextView
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="gone"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:backgroundTint="@color/colorthird"
-                    android:background="@drawable/buttoncornar"
-                    android:id="@+id/addbrandTag"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_28sdp"
-                    android:paddingStart="@dimen/_15sdp"
-                    android:paddingEnd="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="Add Brand"
-                    android:textColor="#FFF"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/_10sdp"
-                    />
-                <TextView
-                  android:layout_toEndOf="@+id/subscribePlaneBtn"
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="gone"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:backgroundTint="@color/colorthird"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:background="@drawable/buttoncornar"
-                    android:id="@+id/removeFrameBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_28sdp"
-                    android:paddingStart="@dimen/_15sdp"
-                    android:paddingEnd="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="   Remove Frame/Footer  "
-                    android:textColor="#FFF"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/_10sdp"
-                    />
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:fontFamily="@font/inter_regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:text="There is not frames provided\nto you for your brand."
+
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/subscribePlaneBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_below="@+id/text1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:background="@drawable/buttoncornar"
+                        android:backgroundTint="@color/colorthird"
+                        android:fontFamily="@font/inter_regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:text="Reuqest For Frame"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="#FFF"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/addbrandTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+
+                        android:background="@drawable/buttoncornar"
+                        android:backgroundTint="@color/colorthird"
+                        android:fontFamily="@font/inter_regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:text="Add Brand"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="#FFF"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/removeFrameBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:layout_toEndOf="@+id/subscribePlaneBtn"
+                        android:background="@drawable/buttoncornar"
+                        android:backgroundTint="@color/colorthird"
+                        android:fontFamily="@font/inter_regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:text="   Remove Frame/Footer  "
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="#FFF"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="gone" />
 
 
-            </RelativeLayout>
+                </RelativeLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

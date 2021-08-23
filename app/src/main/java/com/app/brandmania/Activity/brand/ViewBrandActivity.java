@@ -1,18 +1,14 @@
 package com.app.brandmania.Activity.brand;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,9 +31,9 @@ import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityViewBrandBinding;
 import com.google.gson.Gson;
 

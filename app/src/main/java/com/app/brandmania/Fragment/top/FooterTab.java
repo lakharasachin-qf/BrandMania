@@ -18,7 +18,7 @@ import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.FooterTabBinding;
 
 import java.util.ArrayList;

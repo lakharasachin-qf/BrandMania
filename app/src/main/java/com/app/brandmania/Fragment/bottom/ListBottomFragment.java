@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.app.brandmania.Adapter.DropDownAdpt;
 import com.app.brandmania.Common.PreafManager;
-import com.app.brandmania.Utils.CodeReUse;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.FragmentListBottomListBinding;

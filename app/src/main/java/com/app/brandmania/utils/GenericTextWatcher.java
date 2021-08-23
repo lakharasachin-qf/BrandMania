@@ -1,4 +1,4 @@
-package com.app.brandmania.Utils;
+package com.app.brandmania.utils;
 
 import android.app.Activity;
 import android.text.Editable;

@@ -6,35 +6,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
-import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.SpacesItemDecoration;
 import com.app.brandmania.databinding.DashboardItemLayoutBinding;
-import com.app.brandmania.databinding.ItemLayoutGetbrandlistBinding;
-import com.app.brandmania.databinding.ItemNotificationLayoutBinding;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLIST;
-import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLISTBYID;
-import static com.app.brandmania.Model.BrandListItem.LAYOUT_NOTIFICATIONlIST;
 import static com.app.brandmania.Model.DashBoardItem.DAILY_IMAGES;
 import static com.app.brandmania.Model.DashBoardItem.FESTIVAL_IMAGES;
-import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
-import static com.app.brandmania.Utils.Utility.Log;
+import static com.app.brandmania.utils.Utility.Log;
 
 
 public class DasboardAddaptor extends RecyclerView.Adapter {

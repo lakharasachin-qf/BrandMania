@@ -14,7 +14,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import androidx.core.content.ContextCompat;
@@ -22,7 +21,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.CodeReUse;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.databinding.ActivityAppIntroBinding;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;

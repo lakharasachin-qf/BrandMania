@@ -19,7 +19,6 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
         <item name="android:background">@color/colorPrimary</item>
     </style>
 

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,8 +23,8 @@ import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityNotificationBinding;
 
 import org.json.JSONException;
@@ -47,7 +46,7 @@ public class ViewNotificationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         act=this;
         binding= DataBindingUtil.setContentView(act,R.layout.activity_notification);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         preafManager=new PreafManager(act);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {

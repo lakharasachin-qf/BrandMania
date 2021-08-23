@@ -20,7 +20,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -55,9 +54,9 @@ import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityAddBranddBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -328,19 +327,6 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
 
 
-        if (binding.addressEdt.getText().toString().trim().length() == 0) {
-            isError = true;
-
-            binding.addressEdtLayout.setError(getString(R.string.enter_address));
-            binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-
-            if (!isFocus) {
-                binding.addressEdt.requestFocus();
-                isFocus = true;
-                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
-            }
-        }
-
 
         if (!binding.emailIdEdt.getText().toString().trim().equals("")) {
             if (!CodeReUse.isEmailValid(binding.emailIdEdt.getText().toString().trim())) {
@@ -354,6 +340,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     isFocus = true;
                     binding.scrollView.scrollTo(0,binding.emailIdEdt.getBottom());
                 }
+
             }
             else
             {

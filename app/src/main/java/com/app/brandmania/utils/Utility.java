@@ -1,4 +1,4 @@
-package com.app.brandmania.Utils;
+package com.app.brandmania.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,7 +39,6 @@ import com.app.brandmania.databinding.DialogImageViewLayoutBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;

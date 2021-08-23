@@ -1,25 +1,20 @@
 package com.app.brandmania.Fragment.bottom;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
@@ -34,7 +29,6 @@ import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
-import com.app.brandmania.Adapter.BannerAdapter;
 import com.app.brandmania.Adapter.DasboardAddaptor;
 import com.app.brandmania.Adapter.ViewPagerAdapter;
 import com.app.brandmania.Common.HELPER;
@@ -51,9 +45,8 @@ import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.Utility;
-import com.app.brandmania.databinding.DialogDigitalCardLayoutBinding;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.DialogRequestBusinessCategoryRemarksBinding;
 import com.app.brandmania.databinding.FragmentHomeBinding;
 import com.bumptech.glide.Glide;
@@ -61,19 +54,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
-import com.itextpdf.io.source.ByteArrayOutputStream;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,7 +70,6 @@ import angtrim.com.fivestarslibrary.FiveStarsDialog;
 import angtrim.com.fivestarslibrary.NegativeReviewListener;
 import angtrim.com.fivestarslibrary.ReviewListener;
 
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class HomeFragment extends BaseFragment implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
     public static int BUSINESS_TYPE = 1;
@@ -132,6 +115,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         super.onResume();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
@@ -182,6 +166,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 }
             }
         });
+
 
         binding.request.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,7 +235,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
-        binding.swipeContainer.setVisibility(View.GONE);
+            binding.swipeContainer.setVisibility(View.GONE);
     }
 
     //Show Fragment For BrandList
@@ -705,7 +690,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     @Override
     public void onNegativeReview(int stars) {
-        Log.d(TAG, "Negative review " + stars);
+        Log.d("TAG", "Negative review " + stars);
     }
 
     @Override
@@ -719,7 +704,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     @Override
     public void onReview(int stars) {
-        Log.d(TAG, "Review " + stars);
+        Log.d("TAG", "Review " + stars);
     }
 
     private void getFrame() {

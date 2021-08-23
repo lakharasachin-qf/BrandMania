@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -51,9 +50,9 @@ import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityAddBrandMultipleBinding;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -68,7 +67,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -288,19 +286,19 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         }
 
 
-        if (binding.addressEdt.getText().toString().trim().length() == 0) {
-            isError = true;
-
-            binding.addressEdtLayout.setError(getString(R.string.enter_address));
-            binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-
-            if (!isFocus) {
-                binding.addressEdt.requestFocus();
-                isFocus = true;
-                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
-            }
-
-        }
+//        if (binding.addressEdt.getText().toString().trim().length() == 0) {
+//            isError = true;
+//
+//            binding.addressEdtLayout.setError(getString(R.string.enter_address));
+//            binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+//
+//            if (!isFocus) {
+//                binding.addressEdt.requestFocus();
+//                isFocus = true;
+//                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
+//            }
+//
+//        }
         if (!binding.emailIdEdt.getText().toString().trim().equals("")) {
             if (!CodeReUse.isEmailValid(binding.emailIdEdt.getText().toString().trim())) {
                 isError = true;

@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.text.Html;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -20,8 +21,7 @@ import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.brand.ViewBrandActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.CodeReUse;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -44,10 +44,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived( RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.e("remoteMessage", remoteMessage.getData().toString());
+  //      Log.e("remoteMessage", "SAchin");
+    //    Log.e("remoteMessage", remoteMessage.getData().toString());
         if (remoteMessage.getData().containsKey("cat_name")){
             catName = remoteMessage.getData().get("cat_name");
         }
+
         shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"),remoteMessage.getData().get("image"),remoteMessage.getData().get("cat_id"));
     }
 
@@ -85,6 +87,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
 
         }
+
+
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -92,8 +97,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_launcher_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplication().getResources(), R.drawable.ic_launcher_icon))
                 .setContentTitle(title)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
-                .setContentText(msg)
                 .setGroupSummary(true)
                 .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
@@ -103,6 +106,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDeleteIntent(createOnDismissedIntent(this))
                 .setContentIntent(pendingIntent);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                  notificationBuilder.setContentText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT));
+                  notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT)));
+            } else {
+                notificationBuilder.setContentText(Html.fromHtml(msg));
+                notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg)));
+            }
         if (url!=null && !url.isEmpty()) {
             Bitmap bitmap = getBitmapfromUrl(url);
             notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)).setLargeIcon(bitmap);

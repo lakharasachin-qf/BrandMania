@@ -12,4 +12,6 @@ public class ObserverActionID {
     public static final int JUSTBRAND = 4;
 
     public static final int APP_INTRO_REFRESH = 5;
+    public static final int GALLERY_ACTION = 6;
+    public static final int GALLERY_CALLBACK = 7;
 }

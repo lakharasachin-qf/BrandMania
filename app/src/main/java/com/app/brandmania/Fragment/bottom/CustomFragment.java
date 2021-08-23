@@ -28,8 +28,8 @@ import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.FragmentCustomBinding;
 import com.google.gson.Gson;
 

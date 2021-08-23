@@ -17,13 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
-import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.app.brandmania.Adapter.SelecBrandLIstAdeptor;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.CodeReUse;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.databinding.FragmentListBottomListBinding;
 
 import java.util.ArrayList;

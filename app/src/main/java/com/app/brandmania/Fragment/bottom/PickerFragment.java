@@ -34,10 +34,9 @@ import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
 import com.app.brandmania.BuildConfig;
-import com.app.brandmania.Common.Constant;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.FragmentPickerBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.theartofdev.edmodo.cropper.CropImage;

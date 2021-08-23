@@ -1,4 +1,4 @@
-package com.app.brandmania.Utils;
+package com.app.brandmania.utils;
 
 public class APIs {
   //  public static final String URL = "http://192.168.0.5/brandmania_uat/public/api/";

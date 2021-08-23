@@ -39,9 +39,9 @@ import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityRegistrationBinding;
 
 import org.json.JSONArray;
@@ -70,7 +70,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
         act= this;
         binding= DataBindingUtil.setContentView(act, R.layout.activity_registration);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         alertDialogBuilder=new AlertDialog.Builder(act);
         preafManager=new PreafManager(this);
         binding.emailId.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);

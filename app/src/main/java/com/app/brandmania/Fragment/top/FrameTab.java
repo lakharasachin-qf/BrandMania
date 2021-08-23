@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,17 +25,15 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
-import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
-import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Interface.IRemoveFrame;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
 import com.app.brandmania.databinding.FrameTabBinding;
 
@@ -53,22 +50,23 @@ public class FrameTab extends Fragment {
 
     Activity act;
     private FrameTabBinding binding;
-    private String is_frame="";
+    private String is_frame = "";
     PreafManager preafManager;
     ArrayList<ImageList> menuModels = new ArrayList<>();
+
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater,R.layout.frame_tab,container,false);
-        preafManager=new PreafManager(Objects.requireNonNull(getActivity()));
+        binding = DataBindingUtil.inflate(inflater, R.layout.frame_tab, container, false);
+        preafManager = new PreafManager(Objects.requireNonNull(getActivity()));
 
-            getFrame();
+        getFrame();
 
         binding.subscribePlaneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") &&(preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")) || preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Standard")){
-                    HELPER.WHATSAPP_REDIRECTION(act,preafManager.getActiveBrand().getName(),preafManager.getMobileNumber());
-                }else {
+                if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") && (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")) || preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Standard")) {
+                    HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
+                } else {
                     triggerUpgradePackage();
                 }
             }
@@ -76,12 +74,12 @@ public class FrameTab extends Fragment {
         binding.addbrandTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(act, AddBranddActivity.class);
+                Intent i = new Intent(act, AddBranddActivity.class);
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
-        if (preafManager.getActiveBrand()!=null) {
+        if (preafManager.getActiveBrand() != null) {
             if (this.getActivity().getClass() == ViewAllFrameImageActivity.class) {
                 binding.removeFrameBtn.setVisibility(View.VISIBLE);
                 binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
@@ -92,8 +90,10 @@ public class FrameTab extends Fragment {
                     ((IRemoveFrame) act).onRemoveSelectEvent();
                 }
             });
-        }
-        else {
+            if (preafManager.getActiveBrand().getFrame() != null && preafManager.getActiveBrand().getFrame().size() != 0) {
+                binding.subscribePlaneBtn.setVisibility(View.GONE);
+            }
+        } else {
             binding.removeFrameBtn.setVisibility(View.GONE);
             binding.subscribePlaneBtn.setVisibility(View.GONE);
             binding.addbrandTag.setVisibility(View.VISIBLE);
@@ -104,14 +104,15 @@ public class FrameTab extends Fragment {
 
     //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeLayoutBinding upgradeLayoutBinding;
+
     private void triggerUpgradePackage() {
-        upgradeLayoutBinding=DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout, null, false);
+        upgradeLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(upgradeLayoutBinding.getRoot());
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(upgradeLayoutBinding.getRoot());
         if (!preafManager.getActiveBrand().getPackagename().isEmpty())
-            upgradeLayoutBinding.element4.setText("Currently you are subscribed with \""+preafManager.getActiveBrand().getPackagename()+"\" package");
+            upgradeLayoutBinding.element4.setText("Currently you are subscribed with \"" + preafManager.getActiveBrand().getPackagename() + "\" package");
         else
             upgradeLayoutBinding.element4.setText("Currently you are subscribed with \"Free\" package");
 
@@ -120,11 +121,11 @@ public class FrameTab extends Fragment {
             public void onClick(View v) {
                 alertDialog.dismiss();
 
-                    Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile","1");
+                Intent intent = new Intent(act, PackageActivity.class);
+                intent.putExtra("Profile", "1");
 
                 act.startActivity(intent);
-                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
             }
         });
@@ -149,9 +150,10 @@ public class FrameTab extends Fragment {
         binding.frameRecycler.setHasFixedSize(true);
         binding.frameRecycler.setAdapter(menuAddaptor);
     }
+
     private void getFrame() {
         Utility.Log("API : ", APIs.GET_FRAME);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME,new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -159,8 +161,8 @@ public class FrameTab extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     menuModels = ResponseHandler.HandleGetFrameList(jsonObject);
-                    if (preafManager.getActiveBrand()!=null) {
-                      //  Toast.makeText(act, "NotNull", Toast.LENGTH_SHORT).show();
+                    if (preafManager.getActiveBrand() != null) {
+                        //  Toast.makeText(act, "NotNull", Toast.LENGTH_SHORT).show();
                         if (menuModels != null && menuModels.size() != 0 && jsonObject.getJSONObject("data").getString("is_frame").equalsIgnoreCase("1")) {
                             ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
                             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
@@ -168,16 +170,19 @@ public class FrameTab extends Fragment {
                             binding.frameRecycler.setHasFixedSize(true);
                             binding.frameRecycler.setAdapter(menuAddaptor);
                             binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
-                        } else {
 
+                            if (preafManager.getActiveBrand().getIs_frame().equalsIgnoreCase("1")) {
+                                binding.subscribePlaneBtn.setVisibility(View.GONE);
+                            }
+
+                        } else {
                             binding.text1.setVisibility(View.VISIBLE);
                             binding.frameRecycler.setVisibility(View.GONE);
-                            binding.subscribePlaneBtn.setVisibility(View.GONE);
+                            binding.subscribePlaneBtn.setText("Request For Frame");
+                            binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
                         }
-                    }
-                    else
-                    {
-                      //  Toast.makeText(act, "Null", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //  Toast.makeText(act, "Null", Toast.LENGTH_SHORT).show();
                         binding.subscribePlaneBtn.setVisibility(View.GONE);
                         binding.removeFrameBtn.setVisibility(View.GONE);
                         binding.frameRecycler.setVisibility(View.GONE);
@@ -218,8 +223,7 @@ public class FrameTab extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-               if (preafManager.getActiveBrand()!=null)
-                {
+                if (preafManager.getActiveBrand() != null) {
                     params.put("brand_id", preafManager.getActiveBrand().getId());
                 }
                 Utility.Log("POSTED-PARAMS-", params.toString());
@@ -229,7 +233,7 @@ public class FrameTab extends Fragment {
         };
 
         RequestQueue queue = Volley.newRequestQueue(act);
-        if (preafManager.getActiveBrand()!=null) {
+        if (preafManager.getActiveBrand() != null) {
             queue.add(stringRequest);
         }
     }

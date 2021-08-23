@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Model.FontModel;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.IFontChangeEvent;
+import com.app.brandmania.utils.IFontChangeEvent;
 
 import java.util.ArrayList;
 
-import static com.app.brandmania.Utils.Utility.Log;
+import static com.app.brandmania.utils.Utility.Log;
 
 public class FontListAdeptor extends RecyclerView.Adapter<FontListAdeptor.FontListViewHolder> {
     private ArrayList<FontModel> fontModels;

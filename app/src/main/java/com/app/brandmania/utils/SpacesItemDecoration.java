@@ -1,4 +1,4 @@
-package com.app.brandmania.Utils;
+package com.app.brandmania.utils;
 
 import android.graphics.Rect;
 import android.view.View;

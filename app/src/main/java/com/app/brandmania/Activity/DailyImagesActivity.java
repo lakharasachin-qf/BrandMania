@@ -1,6 +1,5 @@
 package com.app.brandmania.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,11 +19,10 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
-import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityDailyImagesBinding;
 import com.google.gson.Gson;
 

@@ -16,7 +16,11 @@ import com.app.brandmania.Fragment.top.TextTab;
 public class EditPicAddapter extends FragmentPagerAdapter {
     Context context;
     int totalTabs;
+    public boolean isSetCropView=false;
 
+    public void setCropView(boolean iSetCropView) {
+        this.isSetCropView = iSetCropView;
+    }
     public EditPicAddapter(Context c, FragmentManager fm, int totalTabs) {
         super(fm);
         context = c;
@@ -43,6 +47,7 @@ public class EditPicAddapter extends FragmentPagerAdapter {
                 return textTab;
             case 5:
                 EditTab editTab = new EditTab();
+                editTab.setCropView(isSetCropView);
                 return editTab;
 
 

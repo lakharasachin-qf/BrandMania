@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -22,7 +20,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -57,6 +54,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.about_us.AppIntroActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.FooterModel;
@@ -84,10 +82,10 @@ import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.IFontChangeEvent;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.IFontChangeEvent;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
 import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
@@ -115,14 +113,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,9 +131,7 @@ import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
-public class ImageCategoryDetailActivity extends BaseActivity implements ImageCateItemeInterFace, alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent,
-        IItaliTextEvent, ColorPickerDialogListener, IColorChange, ColorPickerView.OnColorChangedListener,
-        ITextSizeEvent, onFooterSelectListener, IBackendFrameSelect {
+public class ImageCategoryDetailActivity extends BaseActivity implements ImageCateItemeInterFace, alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent, onFooterSelectListener, IBackendFrameSelect {
     Activity act;
     ViewPager viewPager;
     private boolean isLoading = false;
@@ -159,7 +153,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     PreafManager preafManager;
     Gson gson;
     String Website;
-     private DashBoardItem imageList;
+    private DashBoardItem imageList;
     private ImageList selectedObject;
     LinearLayout sliderDotspanel;
     private int dotscount;
@@ -178,7 +172,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     private boolean canDownload = true;
     private int FrameCountForDownload = 2;
     private boolean isUsingCustomFrame = true;
-    //Version 3
     private ImageList selectedBackendFrame = null;
     private FooterModel selectedFooterModel;
     private boolean updateLogo = false;
@@ -191,12 +184,14 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     private String loadDefaultFont="";
     private int previousFontSize=-1;
     int isDownloadOrSharingOrFavPending=-1;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        //triggerUpgradePackage(); taflon tape
+        //triggerUpgradePackage();
         //valve
         act.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
@@ -207,14 +202,15 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         getFrame();
         getBrandList();
 
-            Website = preafManager.getActiveBrand().getWebsite();
+        Website = preafManager.getActiveBrand().getWebsite();
+
         if (getIntent().hasExtra("notification")){
             binding.titleName.setText(getIntent().getStringExtra("catName"));
         }else {
             imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
             binding.titleName.setText(selectedObject.getName());
         }
-        // getAllImages();
+
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
         mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
@@ -350,6 +346,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             binding.logoCustom.setVisibility(View.VISIBLE);
             Glide.with(act)
                     .load(preafManager.getActiveBrand().getLogo())
+                    .override(1600, 1600)
+
                     .into(binding.logoCustom);
             binding.logoCustom.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -666,7 +664,14 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                CodeReUse.activityBackPress(act);
+                if(!getIntent().hasExtra("notification")) {
+                    CodeReUse.activityBackPress(act);
+                }else{
+                    Intent i = new Intent(act, HomeActivity.class);
+                    startActivity(i);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    finish();
+                }
             }
         });
         alertDialog.setCancelable(true);
