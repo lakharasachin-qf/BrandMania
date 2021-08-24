@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -35,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SpleshActivity extends BaseActivity implements alertListenerCallback {
@@ -51,7 +53,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        preafManager=new PreafManager(this);
+        preafManager = new PreafManager(this);
 
         binding.logo.setVisibility(View.VISIBLE);
         final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
@@ -63,10 +65,9 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
             @Override
             public void run() {
 
-                if (preafManager.getUserToken()!=null && !preafManager.getUserToken().isEmpty() ) {
+                if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
                     LoginFlow();
-                }
-                else {
+                } else {
                     Intent intent = new Intent(act, LoginActivity.class);
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -77,6 +78,9 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
             }
         }, 1000);
+
+
+
 
     }
     private void LoginFlow() {
