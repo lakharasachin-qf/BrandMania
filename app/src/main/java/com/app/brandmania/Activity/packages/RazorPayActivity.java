@@ -1,10 +1,13 @@
 package com.app.brandmania.Activity.packages;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,26 +61,38 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     BrandListItem brandListItem;
     private String amountToPay;
     Gson gson;
+    public String discount;
+    public String type;
+    public String code;
+    public String code_type;
+    public String discounted_amount;
+    public String total_amount;
+    public String brand_id;
+    public String package_id;
+    public String promocode;
+    public static String CouponCode = "#brandmania25";
+    public static String codetype = "per";
     private boolean isLoading = false;
     private String orderIdStr;
     private String paymentIdStr;
     private String signatureStr;
     private String generatedOrderId;
-    private String currency="INR";
+    private String currency = "INR";
     PreafManager preafManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act=this;
+        act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_razor_pay);
         Checkout.preload(getApplicationContext());
-        preafManager=new PreafManager(this);
-        gson=new Gson();
+        preafManager = new PreafManager(this);
+        gson = new Gson();
 
-        sliderItemList=gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
-        Gson gson =new Gson();
-        Log.e("EEEE",gson.toJson(sliderItemList));
+        sliderItemList = gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
+        Gson gson = new Gson();
+        Log.e("EEEE", gson.toJson(sliderItemList));
 
 
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
@@ -100,23 +115,20 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
             binding.packageNameTxt.setText(sliderItemList.getPackageTitle());
             binding.durationTxt.setText(sliderItemList.getDuration());
-            Log.e("Services",new Gson().toJson(sliderItemList.getSlideSubItems()));
-            for (int i=0;i<sliderItemList.getSlideSubItems().size();i++){
+            Log.e("Services", new Gson().toJson(sliderItemList.getSlideSubItems()));
+            for (int i = 0; i < sliderItemList.getSlideSubItems().size(); i++) {
                 addDynamicServices(sliderItemList.getSlideSubItems().get(i).getName());
             }
-            addDynamicServices(sliderItemList.getImageTitle()+" Images Download / Year");
-            addDynamicServices(act.getString(R.string.Rs)+sliderItemList.getPayTitle()+" / "+sliderItemList.getDuration());
-
-
-
+            addDynamicServices(sliderItemList.getImageTitle() + " Images Download / Year");
+            addDynamicServices(act.getString(R.string.Rs) + sliderItemList.getPayTitle() + " / " + sliderItemList.getDuration());
 
             //show for one month count
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
-            if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate())<1){
+            if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate()) < 1) {
 
-                int actualPrice=Integer.parseInt(sliderItemList.getPriceForPay());
-                int previousPackagePrice=Integer.parseInt(preafManager.getActiveBrand().getRate());
-                if (actualPrice>previousPackagePrice) {
+                int actualPrice = Integer.parseInt(sliderItemList.getPriceForPay());
+                int previousPackagePrice = Integer.parseInt(preafManager.getActiveBrand().getRate());
+                if (actualPrice > previousPackagePrice) {
                     int countedPrice = actualPrice - previousPackagePrice;
                     calculateAmount = String.valueOf(countedPrice);
                     Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
@@ -130,27 +142,172 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 }
             }
 
-
-
             binding.finalAmountTxt.setText(act.getString(R.string.Rs) + calculateAmount);
-
-
-
 
         }
 
+        binding.applyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verifyCode();
+            }
+        });
 
+        binding.cancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateAmount = sliderItemList.getPriceForPay();
+                if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate()) < 1) {
+
+                    int actualPrice = Integer.parseInt(sliderItemList.getPriceForPay());
+                    int previousPackagePrice = Integer.parseInt(preafManager.getActiveBrand().getRate());
+                    if (actualPrice > previousPackagePrice) {
+                        int countedPrice = actualPrice - previousPackagePrice;
+                        calculateAmount = String.valueOf(countedPrice);
+                        Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
+                        binding.discountedAmountLayout.setVisibility(View.GONE);
+                        binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
+                        binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
+                        binding.previousLayout.setVisibility(View.VISIBLE);
+                        binding.noticeTxt.setVisibility(View.VISIBLE);
+                        //- and rs icon with red colpr
+                        binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount will be deducted. As It was purchased within one month");
+                    }
+                }
+
+                binding.finalAmountTxt.setText(act.getString(R.string.Rs) + calculateAmount);
+                binding.applypromoEditTxt.setVisibility(View.GONE);
+                binding.dicountLayout.setVisibility(View.GONE);
+                binding.promoEditTxt.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void verifyCode() {
+        if (isLoading)
+            return;
+        isLoading = true;
+        Utility.showLoadingTran(act);
+        Utility.Log("APi", APIs.GET_PROMOCODE_DESCOUNT);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_PROMOCODE_DESCOUNT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                Utility.dismissLoadingTran();
+
+                Utility.Log("PromocodeID ; ", response);
+
+                if (ResponseHandler.isSuccess(response, null)) {
+                    JSONObject jsonObject = ResponseHandler.getJSONObject(ResponseHandler.createJsonObject(response), "data");
+                    discounted_amount = ResponseHandler.getString(jsonObject, "discounted_amount");
+                    discount = ResponseHandler.getString(jsonObject, "discount");
+                    type = ResponseHandler.getString(jsonObject, "type");
+                    code = ResponseHandler.getString(jsonObject, "code");
+                    code_type = ResponseHandler.getString(jsonObject, "code_type");
+                    total_amount = ResponseHandler.getString(jsonObject, "total_amount");
+                    brand_id = ResponseHandler.getString(jsonObject, "brand_id");
+                    package_id = ResponseHandler.getString(jsonObject, "package_id");
+
+                    applyCodeCalculation();
+
+                } else {
+                    Utility.showSnackBar(binding.rootBackground, act, ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"));
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                isLoading = false;
+                Utility.dismissLoadingTran();
+
+                Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
+
+                error.printStackTrace();
+                //       String body;
+                //get status code here
+//                body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                //   Log.e("Error ", body);
+            }
+        }) {
+            /** Passing some request headers* */
+            @Override
+            public Map<String, String> getHeaders() {
+                Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
+                HashMap<String, String> hashMap = new HashMap<>();
+
+                hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
+
+                return hashMap;
+
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("code", binding.promoCodeTxt.getText().toString());
+                hashMap.put("amount", calculateAmount);
+                hashMap.put("brand", sliderItemList.getBrandId());
+                hashMap.put("package", sliderItemList.getPackageid());
+                Utility.Log("Param", hashMap.toString());
+                return hashMap;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.getCache().clear();
+        queue.add(stringRequest);
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void applyCodeCalculation() {
+        binding.promoEditTxt.setVisibility(View.GONE);
+        binding.codeTxt.setText(discounted_amount);
+        binding.couponCodeTxt.setText("Coupon Code(" + discount + "%" + ")");
+        binding.dicountLayout.setVisibility(View.VISIBLE);
+        binding.applyPromoCodeTxt.setText("Congratsss! You saved(" + discounted_amount + act.getString(R.string.Rs) + ")");
+        binding.applysuccesfullyTxt.setText(code + " Applied Successfully");
+        binding.applypromoEditTxt.setVisibility(View.VISIBLE);
+        binding.finalAmountTxt.setText(act.getString(R.string.Rs) + total_amount);
+        calculateAmount = total_amount;
+        Utility.Log("calculateAmount", calculateAmount);
+        /*if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate()) < 1) {
+
+            int actualPrice = Integer.parseInt(total_amount);
+            int previousPackagePrice = Integer.parseInt(preafManager.getActiveBrand().getRate());
+            if (actualPrice > previousPackagePrice) {
+                int countedPrice = actualPrice - previousPackagePrice;
+                calculateAmount = String.valueOf(countedPrice);
+                Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + total_amount);
+                binding.discountedAmountLayout.setVisibility(View.GONE);
+                binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
+                binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
+                binding.previousLayout.setVisibility(View.VISIBLE);
+                binding.noticeTxt.setVisibility(View.VISIBLE);
+                //- and rs icon with red colpr
+                binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount will be deducted. As It was purchased within one month");
+            }
+        }*/
+    /*    String Message = "<b>" + code + "</b>" + " Applied Successfully";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            binding.applysuccesfullyTxt.setText(Html.fromHtml(Message + Html.FROM_HTML_MODE_COMPACT));
+
+        } else {
+            binding.applysuccesfullyTxt.setText(Html.fromHtml(Message));
+
+        }*/
 
     }
 
     private void addDynamicServices(String featuresTxt) {
         ItemServiceLayoutBinding serviceLayoutBinding;
         serviceLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.item_service_layout, null, false);
-        serviceLayoutBinding.servicesTxt.setText("- "+featuresTxt);
+        serviceLayoutBinding.servicesTxt.setText("- " + featuresTxt);
         binding.servicesContainer.addView(serviceLayoutBinding.getRoot());
 
     }
-
 
     public void generateOrderID() {
         if (isLoading)
@@ -169,12 +326,12 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 if (ResponseHandler.isSuccess(response, null)) {
                     JSONObject jsonObject = ResponseHandler.getJSONObject(ResponseHandler.createJsonObject(response), "data");
                     generatedOrderId = ResponseHandler.getString(jsonObject, "orderId");
-                    Log.e("RoserPay Order Id",generatedOrderId);
+                    Log.e("RoserPay Order Id", generatedOrderId);
                     calculateAmount = ResponseHandler.getString(jsonObject, "orderAmount");
                     currency = ResponseHandler.getString(jsonObject, "currency");
                     setUpPaymentMethod();
                 } else {
-                    Toast.makeText(act,""+ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"),Toast.LENGTH_LONG).show();
+                    Toast.makeText(act, "" + ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"), Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -186,11 +343,10 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
 
                 error.printStackTrace();
-         //       String body;
+                //       String body;
                 //get status code here
 //                body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 //   Log.e("Error ", body);
-
 
 
             }
@@ -201,7 +357,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
 
-                hashMap.put("Authorization","Bearer"+preafManager.getUserToken());
+                hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
 
                 return hashMap;
 
@@ -244,10 +400,10 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             //int amountInPaisa = Integer.parseInt(sliderItem) * 100;
             options.put("amount", String.valueOf(calculateAmount));
             options.put("prefill.email", preafManager.getActiveBrand().getEmail());
-            options.put("prefill.contact","Enter Mobile Number");
+            options.put("prefill.contact", "Enter Mobile Number");
             Log.e("Param : ", options.toString());
             checkout.open(activity, options);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Log.e("TAG", "Error in starting Razorpay Checkout", e);
         }
@@ -265,15 +421,14 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             signatureStr = paymentData.getSignature();
 
             makeSubscription("0");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void onPaymentError(int i, String s, PaymentData paymentData) {
-        Log.e("Payment Fail",s);
+        Log.e("Payment Fail", s);
         makeSubscription("1");
     }
 
@@ -283,9 +438,9 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
         builder.setView(dialogView);
         final AlertDialog alertDialog = builder.create();
-        TextView element3=dialogView.findViewById(R.id.element3);
-        TextView closeBtn=dialogView.findViewById(R.id.closeBtn);
-        element3.setText("Your current package is "+sliderItemList.getPackageTitle());
+        TextView element3 = dialogView.findViewById(R.id.element3);
+        TextView closeBtn = dialogView.findViewById(R.id.closeBtn);
+        element3.setText("Your current package is " + sliderItemList.getPackageTitle());
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,7 +474,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
                 getBrandList();
             } else {
-                JSONObject jsonObject=ResponseHandler.createJsonObject(response);
+                JSONObject jsonObject = ResponseHandler.createJsonObject(response);
                 Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Error");
 
             }
@@ -346,34 +501,35 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
 
-                hashMap.put("Authorization","Bearer"+preafManager.getUserToken());
+                hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
 
                 return hashMap;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("brand",sliderItemList.getBrandId());
-                hashMap.put("package",sliderItemList.getPackageid());
-                hashMap.put("amount",sliderItemList.getPriceForPay());
+                hashMap.put("brand", sliderItemList.getBrandId());
+                hashMap.put("package", sliderItemList.getPackageid());
+                hashMap.put("amount", sliderItemList.getPriceForPay());
                 //hashMap.put("total_amount",sliderItemList.getPriceForPay());
                 hashMap.put("total_amount", calculateAmount);
-                hashMap.put("img_counter",sliderItemList.getImageTitle());
-                hashMap.put("frame_counter",sliderItemList.getTemplateTitle());
-                hashMap.put("is_pending",subscription);
-                if (subscription.equals("0")){
-                    hashMap.put("razorpay_payment_id",paymentIdStr);
-                    Log.e("razorpay_payment_id",paymentIdStr);
+                hashMap.put("img_counter", sliderItemList.getImageTitle());
+                hashMap.put("frame_counter", sliderItemList.getTemplateTitle());
+                hashMap.put("is_pending", subscription);
+                if (subscription.equals("0")) {
+                    hashMap.put("razorpay_payment_id", paymentIdStr);
+                    Log.e("razorpay_payment_id", paymentIdStr);
 
 
-                    if (signatureStr!=null) {
+                    if (signatureStr != null) {
                         hashMap.put("razorpay_signature", signatureStr);
                     }
 
                 }
-                hashMap.put("razorpay_order_id",generatedOrderId);
+                hashMap.put("razorpay_order_id", generatedOrderId);
 //
-              //  razorpay_payment_id, razorpay_order_id, razorpay_signature
+                //  razorpay_payment_id, razorpay_order_id, razorpay_signature
                 Utility.Log("Param", hashMap.toString());
                 return hashMap;
             }
@@ -388,14 +544,16 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         queue.getCache().clear();
         queue.add(stringRequest);
     }
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
+
     private void getBrandList() {
         Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-            Utility.dismissLoadingTran();
+                Utility.dismissLoadingTran();
                 Utility.Log("GET_BRAND : ", response);
                 try {
                     paymentSuccessDiaog();
@@ -403,8 +561,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     preafManager.setAddBrandList(multiListItems);
-                    for (int i=0;i<multiListItems.size();i++){
-                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())){
+                    for (int i = 0; i < multiListItems.size(); i++) {
+                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
                             preafManager.setActiveBrand(multiListItems.get(i));
                             break;
                         }
@@ -423,7 +581,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                         error.printStackTrace();
 
 
-
                     }
                 }
         ) {
@@ -436,8 +593,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -469,6 +626,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     }
 
     @Override
-    public void onBackPressed() {CodeReUse.activityBackPress(act);
+    public void onBackPressed() {
+        CodeReUse.activityBackPress(act);
     }
 }

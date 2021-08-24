@@ -119,6 +119,22 @@
         <item name="helperTextTextColor">@color/colorRed</item>
         <item name="helperTextTextAppearance">@style/helperTextAppearance</item>
     </style>
+    <style name="razorPayTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="hintTextColor">@color/Graycolor</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_10sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_10sdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_10sdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_10sdp</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="boxStrokeWidthFocused">0.5dp</item>
+        <item name="boxStrokeWidth">0.4dp</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="helperTextTextColor">@color/colorRed</item>
+        <item name="helperTextTextAppearance">@style/helperTextAppearance</item>
+    </style>
     <style name="helperTextAppearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorRed</item>
         <item name="android:textSize">@dimen/_8sdp</item>

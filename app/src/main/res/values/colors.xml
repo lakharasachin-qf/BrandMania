@@ -27,7 +27,8 @@
     <color name="viewColor">#DFD8D7D7</color>
     <color name="trans">#00000000</color>
     <color name="linkColo">#0000EE</color>
-
+    <color name="colorPrimarySecondary">#f2c94c</color>
+    <color name="orangeColour">#F2B646</color>
 
 
     <color name="blue_color_picker">#0066FF</color>

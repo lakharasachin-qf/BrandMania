@@ -81,7 +81,7 @@
         </ImageView>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -375,10 +375,54 @@
                                         </RelativeLayout>
                                 </RelativeLayout>
                         </androidx.cardview.widget.CardView>
+
+                        <RelativeLayout
+                            android:id="@+id/referCodeLayout"
+                            android:layout_below="@+id/setcion2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/referrectangleshape"
+                            android:paddingTop="@dimen/_5sdp"
+                            android:paddingBottom="@dimen/_10sdp">
+
+                                <ImageView
+                                    android:id="@+id/voucher"
+                                    android:layout_width="@dimen/_30sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:padding="@dimen/_2sdp"
+                                    android:src="@drawable/ic_voucher" />
+
+                                        <TextView
+                                            android:id="@+id/inviteTxt"
+                                            android:layout_toEndOf="@+id/voucher"
+                                            android:layout_toStartOf="@+id/rightArrowImg"
+                                            android:layout_marginLeft="@dimen/_5sdp"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginTop="@dimen/_5sdp"
+                                            android:fontFamily="@font/montserrat_semibold"
+                                            android:text="Invite your friends to paylater and earn bonus amount in wallet"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/_12sdp" />
+
+                                <ImageView
+                                    android:id="@+id/rightArrowImg"
+                                    android:layout_width="@dimen/_15sdp"
+                                    android:layout_height="@dimen/_15sdp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:padding="@dimen/_1sdp"
+                                    android:src="@drawable/ic_next" />
+
+                        </RelativeLayout>
                         <RelativeLayout
 
-                           android:layout_marginTop="@dimen/_3sdp"
-                            android:layout_below="@+id/setcion2"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:layout_below="@+id/referCodeLayout"
                             android:id="@+id/recommendationRelativ"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -567,7 +611,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            shimmer:shimmer_duration="800">
+            shimmer:shimmer_duration="800"
+            android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"

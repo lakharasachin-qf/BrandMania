@@ -25,6 +25,7 @@ public class APIs {
     public static final String IS_COMPLETE = URL +"fetchFlowStatus";
     public static final String GET_FRAME = URL+"getFrames";
     public static final String GET_BRAND = URL+"getBrand";
+    public static final String GET_PROMOCODE_DESCOUNT = URL+"getPromocodeDiscount";
     public static final String GET_NOTIFICATION = URL+"getNotification";
     public static final String VERIFY_OTP = URL+"otpVerify";
     public static final String SEND_OTP =URL+"sendOtp" ;
