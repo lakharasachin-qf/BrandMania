@@ -76,6 +76,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     private String orderIdStr;
     private String paymentIdStr;
     private String signatureStr;
+    private String payment_id;
     private String generatedOrderId;
     private String currency = "INR";
     PreafManager preafManager;
@@ -89,11 +90,9 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         Checkout.preload(getApplicationContext());
         preafManager = new PreafManager(this);
         gson = new Gson();
-
         sliderItemList = gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
         Gson gson = new Gson();
         Log.e("EEEE", gson.toJson(sliderItemList));
-
 
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +102,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         });
 
         calculateAmount = sliderItemList.getPriceForPay();
-
+       // createPayment();
         binding.proceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +152,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             }
         });
 
+
         binding.cancleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,6 +181,73 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 binding.promoEditTxt.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private void createPayment() {
+        if (isLoading)
+            return;
+        isLoading = true;
+        Utility.showLoadingTran(act);
+        Utility.Log("APi", APIs.CREATE_PAYMENT);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.CREATE_PAYMENT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                Utility.dismissLoadingTran();
+
+                Utility.Log("Payment_ID ; ", response);
+
+                if (ResponseHandler.isSuccess(response, null)) {
+                    JSONObject jsonObject = ResponseHandler.getJSONObject(ResponseHandler.createJsonObject(response), "data");
+                    payment_id = (ResponseHandler.getString(jsonObject, "id"));
+
+                } else {
+                    Utility.showSnackBar(binding.rootBackground, act, ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"));
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                isLoading = false;
+                Utility.dismissLoadingTran();
+
+                Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
+
+                error.printStackTrace();
+                //       String body;
+                //get status code here
+//                body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                //   Log.e("Error ", body);
+            }
+        }) {
+            /** Passing some request headers* */
+            @Override
+            public Map<String, String> getHeaders() {
+                Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
+                HashMap<String, String> hashMap = new HashMap<>();
+
+                hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
+
+                return hashMap;
+
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("brand", sliderItemList.getBrandId());
+                hashMap.put("package", sliderItemList.getPackageid());
+                Utility.Log("Param", hashMap.toString());
+                return hashMap;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.getCache().clear();
+        queue.add(stringRequest);
+
     }
 
     private void verifyCode() {
@@ -224,10 +291,10 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
 
                 error.printStackTrace();
-                //       String body;
-                //get status code here
-//                body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                //   Log.e("Error ", body);
+                //    String body;
+                //    get status code here
+                //    body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                //    Log.e("Error ", body);
             }
         }) {
             /** Passing some request headers* */
@@ -267,7 +334,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         binding.codeTxt.setText(discounted_amount);
         binding.couponCodeTxt.setText("Coupon Code(" + discount + "%" + ")");
         binding.dicountLayout.setVisibility(View.VISIBLE);
-        binding.applyPromoCodeTxt.setText("Congratsss! You saved(" + discounted_amount + act.getString(R.string.Rs) + ")");
+        binding.applyPromoCodeTxt.setText("Congratsss! You saved(" + act.getString(R.string.Rs) +  discounted_amount + ")");
         binding.applysuccesfullyTxt.setText(code + " Applied Successfully");
         binding.applypromoEditTxt.setVisibility(View.VISIBLE);
         binding.finalAmountTxt.setText(act.getString(R.string.Rs) + total_amount);
@@ -339,16 +406,12 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             public void onErrorResponse(VolleyError error) {
                 isLoading = false;
                 Utility.dismissLoadingTran();
-
                 Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
-
                 error.printStackTrace();
-                //       String body;
-                //get status code here
-//                body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                //   String body;
+                //   get status code here
+                //   body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 //   Log.e("Error ", body);
-
-
             }
         }) {
             /** Passing some request headers* */
@@ -356,11 +419,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             public Map<String, String> getHeaders() {
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
-
                 hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
-
                 return hashMap;
-
             }
 
             @Override
@@ -370,7 +430,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 hashMap.put("amount", calculateAmount);
                 //hashMap.put("amount", "1");
                 hashMap.put("currency", "INR");
-
                 Utility.Log("Param", hashMap.toString());
                 return hashMap;
             }
@@ -517,6 +576,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 hashMap.put("img_counter", sliderItemList.getImageTitle());
                 hashMap.put("frame_counter", sliderItemList.getTemplateTitle());
                 hashMap.put("is_pending", subscription);
+                hashMap.put("create_payment_id", payment_id);
+
                 if (subscription.equals("0")) {
                     hashMap.put("razorpay_payment_id", paymentIdStr);
                     Log.e("razorpay_payment_id", paymentIdStr);

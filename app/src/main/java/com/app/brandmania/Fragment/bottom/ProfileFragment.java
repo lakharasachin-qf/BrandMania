@@ -62,9 +62,6 @@ public class ProfileFragment extends BaseFragment {
     @Override public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_profile,parent,false);
-
-
-
         preafManager=new PreafManager(act);
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {

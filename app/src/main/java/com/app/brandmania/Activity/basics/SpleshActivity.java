@@ -52,6 +52,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
     private ActivityMainBinding binding;
     PreafManager preafManager;
     AnimatorSet animatorSet1;
+    private String refferrerCode = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,16 +61,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        preafManager = new PreafManager(this);
-
-        binding.logo.setVisibility(View.VISIBLE);
-        final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
-        ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
-        animatorSet1 = new AnimatorSet();
-        animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
-        animatorSet1.setDuration(3000);
+        //getInvitation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -78,6 +70,8 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                     LoginFlow();
                 } else {
                     Intent intent = new Intent(act, LoginActivity.class);
+                    intent.putExtra(refferrerCode,"");
+                    // refferrerCode = intent.getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -87,16 +81,19 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
             }
         }, 1000);
-
-
-
-
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        preafManager = new PreafManager(this);
+        String refferrerCode = "referLink.substring(referLink.indexOf(\"-\") + 1)";
+        binding.logo.setVisibility(View.VISIBLE);
+        final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
+        ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
+        animatorSet1 = new AnimatorSet();
+        animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
+        animatorSet1.setDuration(3000);
 
     }
-
+/*
     public void shortenLongLink() {
-
 
         String shareLinkText = "https://brandmania.page.link/?" +
                 "link=http://www.queryfinders.com?custid=cust123-prod456" +
@@ -136,7 +133,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
         // [END ddl_share_link]
-    }
+    }*/
 
     public void getInvitation() {
         // [START ddl_get_invitation]
@@ -160,7 +157,25 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                                 e.printStackTrace();
                             }
                         }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
 
+                                if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
+                                    LoginFlow();
+                                } else {
+                                    Intent intent = new Intent(act, LoginActivity.class);
+                                    intent.putExtra(refferrerCode,"");
+                                    // refferrerCode = intent.getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
+                                    intent.addCategory(Intent.CATEGORY_HOME);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                                    finish();
+                                }
+
+                            }
+                        }, 1000);
 
                     }
                 })

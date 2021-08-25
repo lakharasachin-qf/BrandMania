@@ -134,7 +134,6 @@
                     android:paddingBottom="@dimen/_10sdp"
                     android:visibility="visible">
 
-
                     <ImageView
                         android:id="@+id/voucher"
                         android:layout_width="@dimen/_30sdp"
@@ -160,6 +159,7 @@
                         android:paddingTop="@dimen/_2sdp"
                         android:textColor="@color/black"
                         android:textColorHint="#AD000000"
+                        android:singleLine="true"
                         android:textSize="@dimen/_12sdp" />
 
                     <TextView
@@ -175,13 +175,6 @@
                         android:text="Apply"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp" />
-                    <!--
-                                        <View
-                                            android:layout_width="match_parent"
-                                            android:layout_height="0.7dp"
-                                            android:layout_below="@+id/promoCodeTxt"
-                                            android:layout_marginTop="@dimen/_5sdp"
-                                            android:background="#B1B1B1" />-->
 
                 </RelativeLayout>
 
@@ -194,7 +187,6 @@
                     android:background="@drawable/coupon_success"
                     android:visibility="gone">
 
-
                     <ImageView
                         android:id="@+id/couponImg"
                         android:layout_width="@dimen/_30sdp"
@@ -202,7 +194,6 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:padding="@dimen/_1sdp"
-
                         android:src="@drawable/ic_coupon" />
 
                     <LinearLayout
@@ -222,7 +213,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:fontFamily="@font/montserrat_semibold"
-                            android:text="Yupp.You save Rs"
+                            android:text="Yupp...You save Rs"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp" />
 
@@ -232,8 +223,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_semibold"
                             android:paddingBottom="@dimen/_3sdp"
-                            android:text="code applied"
-
+                            android:text="code applied successfully..!"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_9sdp" />
                     </LinearLayout>
@@ -250,42 +240,7 @@
                         android:hint="Apply"
                         android:src="@drawable/ic_editor_cancel"
                         app:tint="@color/white" />
-                    <!--<View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/_33sdp"
-                        android:background="#B1B1B1" />-->
 
-                    <!--   <LinearLayout
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:orientation="horizontal">
-
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/userNameTextLayout"
-                               style="@style/razorPayTextInputLayoutStyle"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:hint="Enter Promo Code"
-                               app:errorEnabled="true"
-                               app:hintTextColor="@color/colorPrimary">
-
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/mobileNumber"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:drawablePadding="@dimen/_10sdp"
-                                   android:inputType="number"
-                                   android:maxEms="13"
-                                   android:maxLength="10"
-                                   android:paddingStart="@dimen/_20sdp"
-                                   android:paddingTop="@dimen/_10sdp"
-                                   android:paddingBottom="@dimen/_10sdp"
-                                   android:textCursorDrawable="@drawable/cursordesign"
-                                   android:textSize="@dimen/_10sdp" />
-
-                           </com.google.android.material.textfield.TextInputLayout>
-                       </LinearLayout>-->
                 </RelativeLayout>
 
                 <RelativeLayout

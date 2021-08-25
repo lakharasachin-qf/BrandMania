@@ -15,7 +15,7 @@
         android:scaleType="fitEnd"
         android:layout_marginTop="-13dp"
         android:layout_marginEnd="-13dp"
-        android:layout_height="@dimen/_300sdp"></ImageView>
+        android:layout_height="@dimen/_300sdp"/>
 
     <ImageView
         android:src="@drawable/ic_splacebottom"
@@ -25,19 +25,14 @@
         android:scaleType="fitStart"
         android:layout_marginBottom="-20dp"
         android:layout_marginStart="-18dp"
-        android:layout_height="@dimen/_190sdp"></ImageView>
+        android:layout_height="@dimen/_190sdp"/>
     <ImageView
         android:id="@+id/logo"
          android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_width="@dimen/_130sdp"
         android:layout_height="@dimen/_130sdp"
-        android:src="@drawable/logoo"
-        >
-
-    </ImageView>
-
-
+        android:src="@drawable/logoo"/>
 
 </RelativeLayout>
 </layout>

@@ -28,6 +28,8 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
+import com.app.brandmania.Activity.basics.LoginActivity;
+import com.app.brandmania.Activity.basics.ReferNEarnActivity;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
 import com.app.brandmania.Adapter.DasboardAddaptor;
@@ -79,6 +81,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
     DashBoardItem apiResponse;
     BrandListItem brandListItem;
+    public String referralCode;
     private int[] layouts;
     AlertDialog.Builder alertDialogBuilder;
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
@@ -88,6 +91,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
     private RelativeLayout mTitleContainer;
     Activity act;
+    public String Wallet;
+    public String ReferalCode;
     PreafManager preafManager;
     private String deviceToken = "";
     private FragmentHomeBinding binding;
@@ -150,6 +155,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 HELPER.ROUTE(act, ViewNotificationActivity.class);
             }
         });
+        binding.referCodeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(act, ReferNEarnActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         binding.createDigitalCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +188,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 }
             }
         });
-
 
         binding.request.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -534,11 +546,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
                 try {
                     preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject, "data").getJSONObject(0), "video_url_path"));
+                    JSONObject jsonArray1 = jsonObject.getJSONObject("message");
+                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
+                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
+                    setupReferralCode();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -575,6 +590,18 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         queue.add(stringRequest);
     }
 
+    public  void setupReferralCode()
+    {
+        binding.referralcodeTxt.setText(preafManager.getReferCode());
+
+        if(preafManager.getReferCode().isEmpty())
+        {
+            binding.referralCardView.setVisibility(View.GONE);
+        }
+        else {
+            binding.referralCardView.setVisibility(View.VISIBLE);
+        }
+    }
     //Back Event.........................
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);

@@ -28,6 +28,7 @@ public class PreafManager {
     private static final String textTab="Tab3";
     private static final String appTutorial="appTutorial";
 
+
     public String getAppTutorial() {
         return pref.getString(appTutorial, "");
     }
@@ -35,8 +36,35 @@ public class PreafManager {
         pref.edit().putString(appTutorial, parameters).apply();
     }
 
+    public String getWallet()
+    {
+        return pref.getString("walletCoin","");
+    }
 
+    public String setWallet(String parameters) {
+        pref.edit().putString("walletCoin", parameters).apply();
+        return parameters;
+    }
 
+    public String getReferId()
+    {
+        return pref.getString("refer","");
+    }
+
+    public String setReferId(String parameters) {
+        pref.edit().putString("refer", parameters).apply();
+        return parameters;
+    }
+
+    public String getReferCode()
+    {
+        return pref.getString("referralCode","");
+    }
+
+    public String setReferCode(String parameters) {
+        pref.edit().putString("referralCode", parameters).apply();
+        return parameters;
+    }
 
 
     @SuppressLint("CommitPrefEdits")

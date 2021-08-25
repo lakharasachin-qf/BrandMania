@@ -43,6 +43,7 @@ public class LoginActivity extends BaseActivity {
     PreafManager preafManager;
     AlertDialog.Builder alertdialogbuilder;
     String ContactNO;
+    String referrerCode = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -55,7 +56,7 @@ public class LoginActivity extends BaseActivity {
         preafManager=new PreafManager(act);
         String WELCOME = "Welcome<br>Back!</font></br>";
         String Message = "Don't have account?<font color='#ad2753'><b><u>SignUp</u></b></font>";
-
+        referrerCode = getIntent().getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             binding.signupText.setText(Html.fromHtml(Message, Html.FROM_HTML_MODE_COMPACT));
             binding.welcome.setText(Html.fromHtml(WELCOME, Html.FROM_HTML_MODE_COMPACT));
@@ -81,6 +82,7 @@ public class LoginActivity extends BaseActivity {
                         return;
                     } else {
                         Intent intent = new Intent(act, OtpScreenActivity.class);
+                        intent.putExtra(referrerCode,"");
                         intent.putExtra(Constant.MOBILE_NUMBER, binding.mobileNumber.getText().toString());
                         intent.addCategory(Intent.CATEGORY_HOME);
                         preafManager.setMobileNumber(binding.mobileNumber.getText().toString());

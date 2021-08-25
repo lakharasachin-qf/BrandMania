@@ -67,6 +67,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
     private static final long START_TIME_IN_MILLIS = 30000;
     private boolean isLoading = false;
     String NumberShow;
+    String refferrerCode = "";
     public String getDeviceToken(Activity act) {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
@@ -95,7 +96,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         binding.verificationChildTitle.setText("We sent OTP to verify your number \n" + "+91" + NumberShow);
         String Verify = "OTP<br>Verification</font></br>";
         InsertRecord();
-
+        refferrerCode = getIntent().getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
         binding.ResendText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -339,6 +340,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("phone",NumberShow);
+                params.put("refferrercode",refferrerCode);
 
                 return params;
             }
