@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
@@ -39,9 +40,10 @@ import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.GenericTextWatcher;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityOtpScreenBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,14 +68,20 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
     private boolean isLoading = false;
     String NumberShow;
     public String getDeviceToken(Activity act) {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult instanceIdResult) {
-                        deviceToken = instanceIdResult.getToken();
-
-                    }
-                });
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                deviceToken = task.getResult();
+            }
+        });
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onSuccess(InstanceIdResult instanceIdResult) {
+//                        deviceToken = instanceIdResult.getToken();
+//
+//                    }
+//                });
         return deviceToken;
     }
     @Override

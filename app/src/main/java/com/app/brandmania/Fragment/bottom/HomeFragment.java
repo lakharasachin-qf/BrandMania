@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,9 +51,10 @@ import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.DialogRequestBusinessCategoryRemarksBinding;
 import com.app.brandmania.databinding.FragmentHomeBinding;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -99,14 +101,21 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     public void getDeviceToken(Activity act) {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult instanceIdResult) {
-                        deviceToken = instanceIdResult.getToken();
-                        UpdateToken();
-                    }
-                });
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                deviceToken = task.getResult();
+                UpdateToken();
+            }
+        });
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onSuccess(InstanceIdResult instanceIdResult) {
+//                        deviceToken = instanceIdResult.getToken();
+//                        UpdateToken();
+//                    }
+//                });
     }
 
     @Override

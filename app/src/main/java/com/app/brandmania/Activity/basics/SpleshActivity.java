@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
@@ -28,15 +29,22 @@ import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ActivityMainBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SpleshActivity extends BaseActivity implements alertListenerCallback {
@@ -44,6 +52,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
     private ActivityMainBinding binding;
     PreafManager preafManager;
     AnimatorSet animatorSet1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -82,7 +91,88 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
 
 
+
+
     }
+
+    public void shortenLongLink() {
+
+
+        String shareLinkText = "https://brandmania.page.link/?" +
+                "link=http://www.queryfinders.com?custid=cust123-prod456" +
+                "&apn=" + getPackageName() +
+                "&st=" + "Referral Code" +
+                "&sd=" + "Reward 20" +
+                "&si=" + "https://www.blueappsoftware.com/wp-content/uploads/2018/06/blueapp-software-144-350.png";
+
+
+        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLongLink(Uri.parse(shareLinkText))
+                .buildShortDynamicLink()
+
+                .addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if (task.isSuccessful()) {
+                            // Short link created
+                            Uri shortLink = task.getResult().getShortLink();
+                            Uri flowchartLink = task.getResult().getPreviewLink();
+                            Log.e("shortLink", String.valueOf(shortLink));
+                            Log.e("flowchartLink", String.valueOf(flowchartLink));
+                            shareLink(shortLink);
+                        } else {
+                            Log.e("error", gson.toJson(task));
+                        }
+                    }
+                });
+    }
+
+    public void shareLink(Uri myDynamicLink) {
+        // [START ddl_share_link]
+        Intent sendIntent = new Intent();
+        String msg = "Hey, check this out: " + myDynamicLink;
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, msg);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+        // [END ddl_share_link]
+    }
+
+    public void getInvitation() {
+        // [START ddl_get_invitation]
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                            Log.e("My Refer Link", deepLink.toString());
+                            String referLink = deepLink.toString();
+                            try {
+                                referLink = referLink.substring(referLink.lastIndexOf("=") + 1);
+                                Log.e("First", "subString = " + referLink);
+                                Log.e("PromoCode", referLink.substring(0, referLink.indexOf("-")));
+                                Log.e("UserId", referLink.substring(referLink.indexOf("-") + 1));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("TAG", "getDynamicLink:onFailure", e);
+                    }
+                });
+
+    }
+
     private void LoginFlow() {
         Utility.Log("API : ", APIs.IS_COMPLETE);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.IS_COMPLETE, new Response.Listener<String>() {
@@ -90,8 +180,8 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
             public void onResponse(String response) {
                 Utility.Log("IS_COMPLETE : ", response);
                 try {
-                    JSONObject jsonObject=new JSONObject(response);
-                    if (ResponseHandler.getBool(jsonObject,"status")) {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (ResponseHandler.getBool(jsonObject, "status")) {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         if (jsonObject1.getString("is_completed").equals("0")) {
                             preafManager.setIs_Registration(false);
@@ -110,8 +200,8 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                             overridePendingTransition(R.anim.right_enter, R.anim.left_out);
                             finish();
                         }
-                    }else {
-                        Utility.showAlert(act,ResponseHandler.getString(jsonObject,"message"));
+                    } else {
+                        Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"));
                     }
 
                 } catch (JSONException e) {
@@ -137,8 +227,8 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -159,22 +249,19 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
+
     private void sessionCreat() {
 
-        preafManager=new PreafManager(act);
-        if (preafManager.getIs_Registration())
-        {
-            if (preafManager.getIS_Brand())
-            {
+        preafManager = new PreafManager(act);
+        if (preafManager.getIs_Registration()) {
+            if (preafManager.getIS_Brand()) {
                 Intent i = new Intent(act, HomeActivity.class);
                 i.addCategory(Intent.CATEGORY_HOME);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 finish();
-            }
-            else
-            {
+            } else {
                 Intent i = new Intent(act, AddBranddActivity.class);
                 i.addCategory(Intent.CATEGORY_HOME);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -182,9 +269,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 finish();
             }
-        }
-        else
-        {
+        } else {
             Intent intent = new Intent(act, RegistrationActivity.class);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -195,7 +280,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
 
     }
-
 
 
     @Override
