@@ -61,7 +61,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        //getInvitation();
+        getInvitation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -83,7 +83,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         }, 1000);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(this);
-        String refferrerCode = "referLink.substring(referLink.indexOf(\"-\") + 1)";
+        refferrerCode  = "referLink.substring(referLink.indexOf(\"-\") + 1)";
         binding.logo.setVisibility(View.VISIBLE);
         final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
         ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
