@@ -301,7 +301,8 @@
                         android:background="@color/colorNavText"
                         app:tabIndicatorColor="@color/colorPrimary"
                         app:tabMode="scrollable"
-                        app:tabTextAppearance="@style/CustomViewAllTab" />
+                        app:tabTextAppearance="@style/CustomViewAllTab"
+                        tools:ignore="UnknownIdInLayout" />
                     <!--  <com.google.android.material.tabs.TabLayout
                           android:id="@+id/tabLayout"
                           style="@style/MyTabLayout"

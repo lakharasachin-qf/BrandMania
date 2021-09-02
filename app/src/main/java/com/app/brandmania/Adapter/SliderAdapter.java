@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.app.brandmania.Activity.packages.RazorPayActivity;
 import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
 import com.google.gson.Gson;
@@ -23,13 +24,13 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
    private List<SliderItem> sliderItems;
    private ViewPager2 viewPager2;
     Activity activity;
-    private String brandId;
+    private BrandListItem selectedBrand;
     PreafManager preafManager;
     Gson gson;
-    public SliderAdapter(List<SliderItem> sliderItems, Activity activity, String selectedBrand) {
+    public SliderAdapter(List<SliderItem> sliderItems, Activity activity, BrandListItem selectedBrand) {
         this.sliderItems = sliderItems;
         this.activity = activity;
-        brandId=selectedBrand;
+        this.selectedBrand =selectedBrand;
         gson=new Gson();
         preafManager=new PreafManager(activity);
     }
@@ -46,7 +47,8 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                 public void onClick(View view) {
                     Intent intent=new Intent(activity, RazorPayActivity.class);
                     intent.putExtra("AmountText", holder.priceForPay.getText().toString());
-                    sliderItems.get(position).setBrandId(brandId);
+                    intent.putExtra("BrandListItem",gson.toJson(selectedBrand));
+                    sliderItems.get(position).setBrandId(selectedBrand.getId());
                     intent.putExtra("detailsObj",gson.toJson(sliderItems.get(position)));
                     activity.startActivity(intent);
                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);

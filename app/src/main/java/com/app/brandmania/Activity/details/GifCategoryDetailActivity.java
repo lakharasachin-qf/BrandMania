@@ -223,9 +223,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
         getFrame();
         getBrandList();
-
         Website = preafManager.getActiveBrand().getWebsite();
-
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
         // getAllImages();
@@ -441,7 +439,9 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
     }
 
     public void saveGif() {
+
         try {
+            Toast.makeText(act,"Image Download Start",Toast.LENGTH_LONG).show();
             File pictureFile = getOutputMediaFile();
             FileOutputStream outStream = new FileOutputStream(pictureFile);
             outStream.write(generateGIF());
@@ -1234,123 +1234,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     }
 
-    public void abc() {
-        ArrayList bitmaps = new ArrayList<>();
-        Glide.with(act)
-                .asGif()
-                .load("https://media.giphy.com/media/KwJFyQZZbPHzy/giphy.gif")
-                .into(new SimpleTarget<GifDrawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull GifDrawable resource, @Nullable Transition<? super GifDrawable> transition) {
-                        try {
-                            Object GifState = resource.getConstantState();
-                            Field frameLoader = GifState.getClass().getDeclaredField("frameLoader");
-                            frameLoader.setAccessible(true);
-                            Object gifFrameLoader = frameLoader.get(GifState);
-
-                            Field gifDecoder = gifFrameLoader.getClass().getDeclaredField("gifDecoder");
-                            gifDecoder.setAccessible(true);
-                            StandardGifDecoder standardGifDecoder = (StandardGifDecoder) gifDecoder.get(gifFrameLoader);
-                            for (int i = 0; i < standardGifDecoder.getFrameCount(); i++) {
-                                standardGifDecoder.advance();
-                                bitmaps.add(standardGifDecoder.getNextFrame());
-                            }
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-
-                    }
-                });
-
-
-        Glide.with(act).asFile()
-                .load("https://media.giphy.com/media/KwJFyQZZbPHzy/giphy.gif")
-                .apply(new RequestOptions()
-                        .format(DecodeFormat.PREFER_ARGB_8888)
-                        .override(Target.SIZE_ORIGINAL))
-                .into(new Target<File>() {
-                    @Override
-                    public void onStart() {
-
-                    }
-
-                    @Override
-                    public void onStop() {
-
-                    }
-
-                    @Override
-                    public void onDestroy() {
-
-                    }
-
-                    @Override
-                    public void onLoadStarted(@Nullable Drawable placeholder) {
-
-                    }
-
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
-
-                        storeImage(resource);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-
-                    @Override
-                    public void getSize(@NonNull SizeReadyCallback cb) {
-
-                    }
-
-                    @Override
-                    public void removeCallback(@NonNull SizeReadyCallback cb) {
-
-                    }
-
-                    @Override
-                    public void setRequest(@Nullable com.bumptech.glide.request.Request request) {
-
-                    }
-
-
-                    @Nullable
-                    @Override
-                    public com.bumptech.glide.request.Request getRequest() {
-                        return null;
-                    }
-                });
-    }
-
-    private void storeImage(File image) {
-        File pictureFile = getOutputMediaFile();
-        if (pictureFile == null) {
-            return;
-        }
-        try {
-            FileOutputStream output = new FileOutputStream(pictureFile);
-            FileInputStream input = new FileInputStream(image);
-
-            FileChannel inputChannel = input.getChannel();
-            FileChannel outputChannel = output.getChannel();
-
-            inputChannel.transferTo(0, inputChannel.size(), outputChannel);
-            output.close();
-            input.close();
-            Toast.makeText(act, "Image Downloaded", Toast.LENGTH_SHORT).show();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Christmas");

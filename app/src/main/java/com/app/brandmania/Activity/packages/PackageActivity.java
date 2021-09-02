@@ -46,7 +46,7 @@ public class PackageActivity extends BaseActivity {
     PreafManager preafManager;
     private boolean isLoading = false;
     ArrayList<SliderItem>sliderItems=new ArrayList<>();
-    String selectedBrand;
+    BrandListItem selectedBrand;
     Gson gson;
     int layoutType=0;
     //0 = profile,viewall, 2= brand list
@@ -59,12 +59,12 @@ public class PackageActivity extends BaseActivity {
         preafManager=new PreafManager(act);
         if (getIntent().hasExtra("fromBrandList")){
             layoutType=2;
-            selectedBrand=gson.fromJson(getIntent().getStringExtra("detailsObj"),BrandListItem.class).getId();
+            selectedBrand=gson.fromJson(getIntent().getStringExtra("detailsObj"),BrandListItem.class);
         }
         else{
             //for profile
             layoutType=0;
-            selectedBrand=preafManager.getActiveBrand().getId();
+            selectedBrand=preafManager.getActiveBrand();
         }
 
       //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);

@@ -306,6 +306,11 @@ public class ResponseHandler {
                         model.setLogo(getString(datajsonObject, "img_thumb_path"));
                         model.setFrame(getString(datajsonObject, "img_path"));
                         model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
+                        if(i==0)
+                        {
+
+
+                        }
                         string.add(model);
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -83,7 +83,7 @@ public class CategoryTab extends FrameTab {
             ((ImageCateItemeInterFace) act).ImageCateonItemSelection(0, menuModels.get(0));
 
         menuAddaptor.setLayoutType(FROM_VIEWALL);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
         binding.viewRecoRecycler.setLayoutManager(mLayoutManager);
         binding.viewRecoRecycler.setHasFixedSize(true);
         binding.viewRecoRecycler.setAdapter(menuAddaptor);

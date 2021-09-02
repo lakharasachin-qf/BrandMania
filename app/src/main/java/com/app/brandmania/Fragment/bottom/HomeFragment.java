@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -75,7 +76,7 @@ import angtrim.com.fivestarslibrary.NegativeReviewListener;
 import angtrim.com.fivestarslibrary.ReviewListener;
 
 
-public class HomeFragment extends BaseFragment implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment implements ItemMultipleSelectionInterface, ImageCateItemeInterFace, NegativeReviewListener, ReviewListener, SwipeRefreshLayout.OnRefreshListener {
     public static int BUSINESS_TYPE = 1;
     private String BusinessTitle;
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
@@ -101,7 +102,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private SelectBrandListBottomFragment bottomSheetFragment;
 
 
-    public interface CUSTOM_TAB_CHANGE_INTERFACE{
+    public interface CUSTOM_TAB_CHANGE_INTERFACE {
         void makeTabChange(int i);
     }
 
@@ -158,11 +159,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.referCodeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(act, ReferNEarnActivity.class);
+                Intent intent = new Intent(act, ReferNEarnActivity.class);
                 startActivity(intent);
             }
         });
 
+        binding.referralcodeTxt.setText(preafManager.getReferCode());
 
         binding.createDigitalCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,7 +258,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
-            binding.swipeContainer.setVisibility(View.GONE);
+        binding.swipeContainer.setVisibility(View.GONE);
     }
 
     //Show Fragment For BrandList
@@ -271,6 +273,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
+
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -388,16 +391,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     if (apiResponse.getLinks() != null) {
 
                         if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
-                          //  binding.shimmerForPagination.startShimmer();
-                           // binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                            //  binding.shimmerForPagination.startShimmer();
+                            // binding.shimmerForPagination.setVisibility(View.VISIBLE);
                             getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
                         } else {
-                           // binding.shimmerForPagination.stopShimmer();
-                          //  binding.shimmerForPagination.setVisibility(View.GONE);
+                            // binding.shimmerForPagination.stopShimmer();
+                            //  binding.shimmerForPagination.setVisibility(View.GONE);
                         }
                     } else {
-                      //  binding.shimmerForPagination.stopShimmer();
-                     //   binding.shimmerForPagination.setVisibility(View.GONE);
+                        //  binding.shimmerForPagination.stopShimmer();
+                        //   binding.shimmerForPagination.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {
@@ -471,17 +474,17 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     if (apiResponse.getLinks() != null) {
                         Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
                         if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
-                           // binding.shimmerForPagination.startShimmer();
-                          //  binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                            // binding.shimmerForPagination.startShimmer();
+                            //  binding.shimmerForPagination.setVisibility(View.VISIBLE);
                             getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
                         } else {
-                           // binding.shimmerForPagination.stopShimmer();
-                           // binding.shimmerForPagination.setVisibility(View.GONE);
+                            // binding.shimmerForPagination.stopShimmer();
+                            // binding.shimmerForPagination.setVisibility(View.GONE);
                         }
                     }
                     if (apiResponse.getDashBoardItems() == null || apiResponse.getDashBoardItems().size() == 0) {
-                      //  binding.shimmerForPagination.stopShimmer();
-                       // binding.shimmerForPagination.setVisibility(View.GONE);
+                        //  binding.shimmerForPagination.stopShimmer();
+                        // binding.shimmerForPagination.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {
@@ -495,8 +498,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-                      //  binding.shimmerForPagination.stopShimmer();
-                       // binding.shimmerForPagination.setVisibility(View.GONE);
+                        //  binding.shimmerForPagination.stopShimmer();
+                        // binding.shimmerForPagination.setVisibility(View.GONE);
 
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
 //                        Log.e("Load-Get_Exam ", body);
@@ -547,10 +550,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 try {
                     preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject, "data").getJSONObject(0), "video_url_path"));
                     JSONObject jsonArray1 = jsonObject.getJSONObject("message");
-                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
-                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
+                    preafManager.setWallet(jsonArray1.getString("user_total_coin"));
+                    preafManager.setReferCode(jsonArray1.getString("referal_code"));
+                    preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
+                    //setupReferrerCode();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -585,28 +590,38 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         };
 
-
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
 
-    public  void setupReferralCode()
-    {
+/*
+    public void setupReferrerCode() {
+
+        if(preafManager.getReferrerCode()!= null && preafManager.getReferrerCode().isEmpty())
+        {
+
+            Toast.makeText(act, "You Have Own Referrer Code", Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+*/
+
+    public void setupReferralCode() {
         binding.referralcodeTxt.setText(preafManager.getReferCode());
 
-        if(preafManager.getReferCode().isEmpty())
-        {
+        if (preafManager.getReferCode() != null && preafManager.getReferCode().isEmpty()) {
             binding.referralCardView.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             binding.referralCardView.setVisibility(View.VISIBLE);
         }
     }
+
     //Back Event.........................
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);
         a.addCategory(Intent.CATEGORY_HOME);
-      //  a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //  a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(a);
     }
@@ -635,7 +650,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public void ImageCateonItemSelection(int position, ImageList listModel) {
 
     }
-
 
 
     private void RateUs() {
@@ -712,6 +726,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Log.e("Token", params.toString());
                 return params;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -809,7 +824,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     private androidx.appcompat.app.AlertDialog alertDialog;
     private DialogRequestBusinessCategoryRemarksBinding reqBinding;
-    public void showRequestForm(){
+
+    public void showRequestForm() {
 
         if (alertDialog != null && alertDialog.isShowing())
             alertDialog.dismiss();
@@ -830,7 +846,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         reqBinding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (reqBinding.nameTxt.getText().toString().trim().length() == 0){
+                if (reqBinding.nameTxt.getText().toString().trim().length() == 0) {
                     reqBinding.nameTxt.setError("Enter category");
                     reqBinding.nameTxt.requestFocus();
                     return;
@@ -845,7 +861,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
 
-    private void apiForCategoryRequest(String catString){
+    private void apiForCategoryRequest(String catString) {
         Utility.Log("BusinessCategory", APIs.REQUEST_BUSINESS_CATEGORY);
         Utility.showProgress(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REQUEST_BUSINESS_CATEGORY, new Response.Listener<String>() {

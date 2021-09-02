@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -78,6 +79,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
+
             case LAYOUT_IMAGE_CATEGORY:
                 ItemLayoutHomeBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_home, viewGroup, false);
                 return new ImageCategoryHolder(layoutBinding);
@@ -132,7 +134,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ImageList model = imageLists.get(position);
         if (model != null) {
             switch (model.getLayoutType()) {
@@ -196,7 +198,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     });
 
 
-
                     if (!model.isImageFree()){
                         ((ImageCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     } else
@@ -221,7 +222,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             //Image Category Detail Activity
-                            Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                            Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages","1");
                            // intent  putExtra ( " viewAll " , " 12 " ) ;
@@ -262,7 +263,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                                 intent.putExtra("selectedimage",gson.toJson(model));
                                 intent.putExtra("position",position);
                                 activity.startActivity(intent);
-
                             }
                             if (layoutType==FROM_VIEWALL) {
 
@@ -270,12 +270,15 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             }
                         }
                     });
+
                     if (!model.isImageFree()){
                         ((ImageCategoryByIdHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
                     }
                     else
                     {
                         ((ImageCategoryByIdHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder)holder).binding.gifLayout.setVisibility(View.VISIBLE);
                     }
                     if (preafManager.getActiveBrand() !=null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {

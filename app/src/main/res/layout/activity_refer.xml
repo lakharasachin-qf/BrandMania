@@ -110,6 +110,7 @@
                     android:textSize="@dimen/_15sdp" />
 
                 <TextView
+                    android:id="@+id/walletMoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -120,13 +121,14 @@
                     android:textSize="@dimen/_15sdp" />
 
                 <TextView
+                    android:id="@+id/msgTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_40sdp"
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="@dimen/_40sdp"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Refer a friend earn 2% of all your friends purchases for 1 year. your friends also earn 50rs on Sign-up."
+                    android:text="Refer a friend earn dis of all your friends purchases for 1 year. your friends also earn 50rs on Sign-up."
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp" />

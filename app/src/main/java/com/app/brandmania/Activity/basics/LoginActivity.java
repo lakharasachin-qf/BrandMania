@@ -44,19 +44,20 @@ public class LoginActivity extends BaseActivity {
     AlertDialog.Builder alertdialogbuilder;
     String ContactNO;
     String referrerCode = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-         //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_login);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        preafManager=new PreafManager(act);
+        preafManager = new PreafManager(act);
+        referrerCode = getIntent().getStringExtra("referrerCode");
         String WELCOME = "Welcome<br>Back!</font></br>";
         String Message = "Don't have account?<font color='#ad2753'><b><u>SignUp</u></b></font>";
-        referrerCode = getIntent().getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             binding.signupText.setText(Html.fromHtml(Message, Html.FROM_HTML_MODE_COMPACT));
             binding.welcome.setText(Html.fromHtml(WELCOME, Html.FROM_HTML_MODE_COMPACT));
@@ -82,8 +83,8 @@ public class LoginActivity extends BaseActivity {
                         return;
                     } else {
                         Intent intent = new Intent(act, OtpScreenActivity.class);
-                        intent.putExtra(referrerCode,"");
                         intent.putExtra(Constant.MOBILE_NUMBER, binding.mobileNumber.getText().toString());
+                        intent.putExtra("referrerCode", referrerCode);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         preafManager.setMobileNumber(binding.mobileNumber.getText().toString());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -106,7 +107,6 @@ public class LoginActivity extends BaseActivity {
             }
 
 
-
         });
 
     }
@@ -118,8 +118,7 @@ public class LoginActivity extends BaseActivity {
         Utility.showProgress(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.SEND_OTP, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response)
-            {
+            public void onResponse(String response) {
                 isLoading = false;
                 Utility.dismissProgress();
                 Utility.Log("Response: ", response);
@@ -127,12 +126,12 @@ public class LoginActivity extends BaseActivity {
                 preafManager.setMobileNumber(binding.mobileNumber.getText().toString());
                 preafManager.loginStep("2");
 
-                    JSONObject responseJson = ResponseHandler.createJsonObject(response);
-                    Toast.makeText(getApplicationContext(), ResponseHandler.getString(responseJson, "message"), Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(act, OtpScreenActivity.class);
-                    intent.putExtra(Constant.MOBILE_NUMBER, binding.mobileNumber.getText().toString());
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                JSONObject responseJson = ResponseHandler.createJsonObject(response);
+                Toast.makeText(getApplicationContext(), ResponseHandler.getString(responseJson, "message"), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(act, OtpScreenActivity.class);
+                intent.putExtra(Constant.MOBILE_NUMBER, binding.mobileNumber.getText().toString());
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 finish();
@@ -165,13 +164,11 @@ public class LoginActivity extends BaseActivity {
                 return params;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
 
-}
-
-
+    }
 
 
 }

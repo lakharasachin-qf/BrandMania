@@ -3,63 +3,63 @@
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/itemLayout"
-        android:layout_height="@dimen/_110sdp"
-        android:layout_marginTop="@dimen/_5sdp"
         android:layout_width="wrap_content"
+        android:layout_height="@dimen/_110sdp"
         android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_7sdp"
         android:orientation="vertical">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image"
-            android:layout_marginBottom="@dimen/_15sdp"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
             app:civ_border_width="0dp" />
+
         <RelativeLayout
+            android:id="@+id/premioutag"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_gravity="end"
             android:layout_marginTop="-40dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_gravity="end"
-            android:id="@+id/premioutag"
-            android:backgroundTint="@color/white"
             android:background="@drawable/image_round"
-            android:layout_width="@dimen/_17sdp"
-            android:layout_height="@dimen/_17sdp">
+            android:backgroundTint="@color/white">
+
             <ImageView
-                android:layout_margin="@dimen/_5sdp"
                 android:id="@+id/elementPremium"
                 android:layout_width="@dimen/_12sdp"
                 android:layout_height="@dimen/_12sdp"
+                android:layout_margin="@dimen/_5sdp"
                 android:src="@drawable/ic_crown"
                 android:visibility="gone" />
 
             <ImageView
-                android:layout_margin="@dimen/_5sdp"
                 android:id="@+id/freePremium"
                 android:layout_width="@dimen/_15sdp"
-                android:elevation="@dimen/_6sdp"
                 android:layout_height="@dimen/_15sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:elevation="@dimen/_6sdp"
                 android:src="@drawable/ic_freee"
                 android:visibility="gone" />
         </RelativeLayout>
 
 
-
-
         <TextView
-            android:textColor="@color/black"
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxWidth="@dimen/_60sdp"
-            android:fontFamily="@font/inter_medium"
-            android:textAlignment="center"
-            android:maxLines="2"
             android:layout_marginBottom="@dimen/_2sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_medium"
+            android:maxWidth="@dimen/_60sdp"
+            android:maxLines="2"
             android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="@dimen/_9sdp" />
 
     </LinearLayout>

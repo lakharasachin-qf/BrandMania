@@ -63,6 +63,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
     PreafManager preafManager;
     AlertDialog.Builder alertDialogBuilder;
     private ImageView menuOtpion;
+    String referrerCode = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -70,14 +71,17 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
         act= this;
         binding= DataBindingUtil.setContentView(act, R.layout.activity_registration);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         alertDialogBuilder=new AlertDialog.Builder(act);
         preafManager=new PreafManager(this);
         binding.emailId.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);
 
+        referrerCode = preafManager.getSpleshReferrer();
+        Log.e("refferrer","s"+referrerCode);
+
         binding.firstName.setNextFocusDownId(R.id.lastName);
         binding.lastName.setNextFocusDownId(R.id.emailId);
-        binding.emailId.setNextFocusDownId(R.id.submitBtn);
+        binding.emailId.setNextFocusDownId(R.id.referrer);
+        binding.referrer.setNextFocusDownId(R.id.submitBtn);
         binding.menuOtpion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +96,10 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
             }
         });
 
+        if(preafManager.getSpleshReferrer()!= null && !preafManager.getSpleshReferrer().isEmpty() )
+        {
+            binding.referrer.setText(preafManager.getSpleshReferrer());
+        }
 
         menuOtpion=findViewById(R.id.menuOtpion);
         menuOtpion.setOnClickListener(new View.OnClickListener() {
@@ -103,10 +111,8 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                 popup.show();
             }
         });
-
-
-
         preafManager.setEMAIL_Id(binding.emailId.getText().toString());
+
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -142,8 +148,6 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
             binding.firstName.requestFocus();
 
         }
-
-
 
         if (binding.lastName.getText().toString().trim().length() == 0) {
             isError = true;
@@ -200,12 +204,14 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
         }
         return false;
     }
+
     private void addUser() {
         if (isLoading)
             return;
         isLoading = true;
         Utility.showProgress(act);
         Log.e("API", APIs.USER_REGISTRATION);
+
         Log.w("Tokennn", preafManager.getUserToken());
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.USER_REGISTRATION)
                 .addHeaders("Accept", "application/json")
@@ -214,9 +220,13 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                 .addMultipartParameter("first_name", binding.firstName.getText().toString())
                 .addMultipartParameter("last_name", binding.lastName.getText().toString())
                 .addMultipartParameter("email", binding.emailId.getText().toString())
+                .addMultipartParameter("referral_code",binding.referrer.getText().toString())
+                /*hashMap.put("referrerCode", referrerCode);*/
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
+
         preafManager.setEMAIL_Id(binding.emailId.getText().toString());
+        Log.e("test",gson.toJson(request));
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
@@ -234,7 +244,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
 
                             if (response.getBoolean("status")) {
                                 preafManager.setIs_Registration(true);
-
+                                //preafManager.setSpleshReferrer(null);
                                 JSONObject jsonArray = response.getJSONObject("data");
                                 is_completed= jsonArray.getString("is_completed");
 
@@ -261,9 +271,6 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
 //                                    finish();
                                         }
 
-
-
-
                             }
                         }
                         catch (JSONException e) {
@@ -289,6 +296,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                 });
 
     }
+
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
@@ -352,8 +360,6 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                     if (brandListItems!=null && brandListItems.size()!=0){
                         preafManager.setActiveBrand(brandListItems.get(0));
                     }
-
-
                     Intent i = new Intent(act, HomeActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);

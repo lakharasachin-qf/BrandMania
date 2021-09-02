@@ -159,7 +159,7 @@ import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
 
 public class ViewAllFrameImageActivity extends BaseActivity implements FrameInterFace, alertListenerCallback, ItemeInterFace,
         ImageCateItemeInterFace, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener,
-        IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent,onFooterSelectListener, View.OnTouchListener,
+        IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent, onFooterSelectListener, View.OnTouchListener,
         FilterListener, IImageBritnessEvent, IImageFromGalary, IRemoveFrame, IrotateEvent, ThumbnailCallback, IBackendFrameSelect, AddTextEvent {
 
     private ActivityViewAllFrameImageBinding binding;
@@ -173,9 +173,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     ImageFromGalaryModel imageFromGalaryModel;
     Drawable yourDrawable;
     int startwidth;
-    private boolean isRemoveFrame=false;
+    private boolean isRemoveFrame = false;
     TextView selectedForEdit;
-    Bitmap selectedImageBitmap=null;
+    Bitmap selectedImageBitmap = null;
     int startheight;
     private float d = 0f;
     float dx = 0, dy = 0, x = 0, y = 0;
@@ -184,34 +184,34 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     static final int ZOOM = 2;
     private boolean canDownload = true;
     private int FrameCountForDownload = 2;
-    boolean isFirstTouchOnImage=false;
+    boolean isFirstTouchOnImage = false;
     float oldDist = 1f;
     private float newRot = 0f;
     RelativeLayout.LayoutParams parms;
     private float mScaleFactor = 1.0f;
-    ArrayList<ImageList> AddFavorite=new ArrayList<>();
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+    ArrayList<ImageList> AddFavorite = new ArrayList<>();
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     private Bitmap selectedLogo;
     private boolean updateLogo = false;
     private Uri mCropImageUri;
     AlertDialog.Builder alertDialogBuilder;
-    private String loadDefaultFont="";
+    private String loadDefaultFont = "";
     private FooterModel selectedFooterModel;
     float scalediff;
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     private DashBoardItem imageList;
-    int isDownloadOrSharingOrFavPending=-1;
+    int isDownloadOrSharingOrFavPending = -1;
 
     private ScaleGestureDetector scaleGestureDetector;
     private String packagee = "";
     private boolean isUsingCustomFrame = true;
     private ImageList selectedBackendFrame = null;
-    private int previousFontSize=-1;
+    private int previousFontSize = -1;
     int editorFragment;
-    private boolean isLoadItalic=false;
-    private boolean isLoadBold=false;
+    private boolean isLoadItalic = false;
+    private boolean isLoadBold = false;
     ArrayList<ImageList> menuModels = new ArrayList<>();
-    private int colorCodeForTextColor=0;
+    private int colorCodeForTextColor = 0;
     private ImageList selectedObject;
     private DashBoardItem selectedObjectViewAll;
     private String is_payment_pending = "";
@@ -221,43 +221,42 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     MotionEvent event;
     private ViewGroup mainLayout1;
     private ViewGroup mainLayout;
-    private int colorCodeForBackground=0;
+    private int colorCodeForBackground = 0;
     Gson gson;
     public DBManager dbManager;
     private int xDelta, yDelta;
-    boolean canLoadImage=false;
-    boolean fromViewAll=false;
+    boolean canLoadImage = false;
+    boolean fromViewAll = false;
     private float DefaultScaleX;
     private float DefaultScaleY;
 
 
-    int CurrentFlagAlign=1;
+    int CurrentFlagAlign = 1;
     private int selectedTextAlignment;
-    public void setIconForAlignment(){
+
+    public void setIconForAlignment() {
 
         binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_centered_align));
+        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_centered_align));
         binding.editingBox.setGravity(android.view.Gravity.CENTER);
         binding.textAlignment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (CurrentFlagAlign == 0){
-                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_centered_align));
+                if (CurrentFlagAlign == 0) {
+                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_centered_align));
                     CurrentFlagAlign = 1;
                     binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     selectedTextAlignment = View.TEXT_ALIGNMENT_CENTER;
                     binding.editingBox.setGravity(android.view.Gravity.CENTER);
-                }
-               else if (CurrentFlagAlign == 1){
-                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_right_align));
+                } else if (CurrentFlagAlign == 1) {
+                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_right_align));
                     CurrentFlagAlign = 2;
                     selectedTextAlignment = View.TEXT_ALIGNMENT_TEXT_END;
                     binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-                    binding.editingBox.setGravity(android.view.Gravity.RIGHT|android.view.Gravity.CENTER);
-                }
-                else if (CurrentFlagAlign == 2){
-                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_left_align));
+                    binding.editingBox.setGravity(android.view.Gravity.RIGHT | android.view.Gravity.CENTER);
+                } else if (CurrentFlagAlign == 2) {
+                    binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_left_align));
                     CurrentFlagAlign = 0;
                     selectedTextAlignment = View.TEXT_ALIGNMENT_TEXT_START;
                     binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
@@ -290,11 +289,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
 
 
-        DefaultScaleY=binding.editableImageview.getScaleY();
-        DefaultScaleX=binding.editableImageview.getScaleX();
+        DefaultScaleY = binding.editableImageview.getScaleY();
+        DefaultScaleX = binding.editableImageview.getScaleX();
 
-        binding.editableImageview.getLayoutParams().height=150;
-        binding.editableImageview.getLayoutParams().width=150;
+        binding.editableImageview.getLayoutParams().height = 150;
+        binding.editableImageview.getLayoutParams().width = 150;
         binding.editableImageview.requestLayout();
 
         imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
@@ -364,7 +363,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     } else {
                         requestAgain();
                         saveImageToGallery(true, false);
-                        if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo!=null) {
+                        if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
                             uploadLogoForBrand(selectedLogo);
                         }
                     }
@@ -425,23 +424,23 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         binding.done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isTextEditing){
+                if (isTextEditing) {
                     binding.textEditorView.setVisibility(View.GONE);
                     binding.contentView.setEnabled(true);
                     binding.contentView.setClickable(true);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
-                    if (binding.editingBox.getText().toString().trim().length()!=0) {
+                    if (binding.editingBox.getText().toString().trim().length() != 0) {
                         selectedTextView.setText(binding.editingBox.getText().toString());
                         selectedTextView.setTextAlignment(selectedTextAlignment);
-                    }else {
+                    } else {
                         binding.CustomImageMain.removeView(selectedTextView);
                     }
-                }else {
+                } else {
                     binding.textEditorView.setVisibility(View.GONE);
                     binding.contentView.setEnabled(true);
                     binding.contentView.setClickable(true);
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
                     addTextViewToLayout(binding.editingBox.getText().toString());
                 }
@@ -451,13 +450,13 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         binding.recommendation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 selectedTextView = null;
+                selectedTextView = null;
                 selectedForEdit = null;
-                for (int i=0;i<binding.CustomImageMain.getChildCount();i++){
-                    if (binding.CustomImageMain.getChildAt(i) instanceof  TextView){
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                for (int i = 0; i < binding.CustomImageMain.getChildCount(); i++) {
+                    if (binding.CustomImageMain.getChildAt(i) instanceof TextView) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
-                        TextView textView = (TextView)binding.CustomImageMain.getChildAt(i);
+                        TextView textView = (TextView) binding.CustomImageMain.getChildAt(i);
                         textView.setBackground(null);
                     }
                 }
@@ -469,16 +468,17 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
 
-    abstract class DoubleClickListener implements View.OnClickListener{
-        long lastClickTime=0;
-        long DOUBLE_CLICK_TIME_DELTA=500;
+    abstract class DoubleClickListener implements View.OnClickListener {
+        long lastClickTime = 0;
+        long DOUBLE_CLICK_TIME_DELTA = 500;
+
         @Override
         public void onClick(View v) {
             long clickTime = System.currentTimeMillis();
 
-            if(clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA){
+            if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
                 onDoubleClick(v);
-            }else {
+            } else {
                 onSingleClick(v);
             }
             lastClickTime = clickTime;
@@ -486,22 +486,24 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
 
         protected abstract void onDoubleClick(View v);
+
         protected abstract void onSingleClick(View v);
     }
 
-    private boolean isTextEditing=false;
+    private boolean isTextEditing = false;
     private TextView selectedTextView;
-    public void addTextViewToLayout(String string){
 
-        if (selectedForEdit!=null)
+    public void addTextViewToLayout(String string) {
+
+        if (selectedForEdit != null)
             selectedForEdit.setBackground(null);
 
-        TextView textView = new TextView(act,null);
+        TextView textView = new TextView(act, null);
         RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.CustomImageMain);
         RelativeLayout.LayoutParams mRparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mRparams.leftMargin = 200;
         mRparams.topMargin = 600;
-        textView.setPadding(20,20,20,20);
+        textView.setPadding(20, 20, 20, 20);
         textView.setLayoutParams(mRparams);
         textView.setText(string);
         textView.setTextColor(Color.parseColor("#0C0C0C"));
@@ -524,28 +526,30 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
             @Override
             protected void onSingleClick(View v) {
-                selectedTextView =textView;
-                textView.setBackground(ContextCompat.getDrawable(act,R.drawable.editing_text_border));
+                selectedTextView = textView;
+                textView.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             }
         });
 
 
     }
+
     @Override
     public void onAddTextTrigger() {
         CurrentFlagAlign = 1;
         binding.editingBox.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_centered_align));
+        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_centered_align));
         selectedTextAlignment = View.TEXT_ALIGNMENT_TEXT_START;
         binding.editingBox.setGravity(android.view.Gravity.CENTER);
 
 
-        isTextEditing=false;
+        isTextEditing = false;
         binding.textEditorView.setVisibility(View.VISIBLE);
         binding.contentView.setEnabled(false);
         binding.contentView.setClickable(false);
     }
-    public void askForDownloadImage(){
+
+    public void askForDownloadImage() {
         alertDialogBuilder = new AlertDialog.Builder(act);
         alertDialogBuilder.setTitle("Save image");
         alertDialogBuilder.setMessage("You sure to save your image?");
@@ -554,7 +558,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         requestAgain();
-                        saveImageToGallery(false,false);
+                        saveImageToGallery(false, false);
                     }
                 });
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -569,6 +573,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
     private int IntroCounter = 0;
+
     public void startIntro(View view, String title, String desc) {
 
         new GuideView.Builder(this)
@@ -589,8 +594,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 .build()
                 .show();
     }
-    int tabIndex=1;
-    boolean needToIntro=false;
+
+    int tabIndex = 1;
+    boolean needToIntro = false;
+
     public void showTabIntro(View view, String title, String desc) {
 
         new GuideView.Builder(this)
@@ -627,7 +634,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
     }
 
-    public void CreateTabs(){
+    public void CreateTabs() {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Category")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Image")));
@@ -649,9 +656,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.viewPager.setCurrentItem(tab.getPosition());
-                editorFragment=tab.getPosition();
-                if (editorFragment==2){
-                    canLoadImage=true;
+                editorFragment = tab.getPosition();
+                if (editorFragment == 2) {
+                    canLoadImage = true;
                 }
                 if (needToIntro) {
                     if (tabIndex == 1) {
@@ -674,13 +681,13 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     }
                     if (tabIndex == 6) {
                         showTabIntro(binding.viewPager, "Edit", "Change your image filter as u want");
-                        needToIntro=false;
+                        needToIntro = false;
                     }
 
 
                 }
 
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
             }
 
@@ -707,7 +714,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         } else {
             //showTabIntro(binding.viewPager.getChildAt(0), "Category", "Choose your image as you want");
         }
-
 
 
     }
@@ -761,58 +767,58 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public void LoadDataToUI(){
+    public void LoadDataToUI() {
 
         prefManager = new PreafManager(act);
         if (selectedObject != null) {
             selectedObject.setTextX_Cordinate("100");
             selectedObject.setTextY_Cordinate("100");
-            if (selectedObject.getX_conrdinate()==null || selectedObject.getX_conrdinate().equalsIgnoreCase("null") || selectedObject.getX_conrdinate().isEmpty()) {
+            if (selectedObject.getX_conrdinate() == null || selectedObject.getX_conrdinate().equalsIgnoreCase("null") || selectedObject.getX_conrdinate().isEmpty()) {
                 selectedObject.setX_conrdinate(String.valueOf("330"));
                 selectedObject.setY_cordinate(String.valueOf("380"));
 //                selectedObject.setTextX_Cordinate("100");
 //                selectedObject.setTextY_Cordinate("100");
             }
-            if (selectedObject.getIndex() == 15){
+            if (selectedObject.getIndex() == 15) {
                 selectedObject.setX_conrdinate(String.valueOf("520"));
                 selectedObject.setY_cordinate(String.valueOf("280"));
 //                selectedObject.setTextX_Cordinate("100");
 //                selectedObject.setTextY_Cordinate("260");
             }
-            if (selectedObject.getIndex() == 14){
+            if (selectedObject.getIndex() == 14) {
                 selectedObject.setX_conrdinate(String.valueOf("400"));
                 selectedObject.setY_cordinate(String.valueOf("330"));
 //                selectedObject.setTextX_Cordinate("220");
 //                selectedObject.setTextY_Cordinate("280");
             }
-            if (selectedObject.getIndex() == 13){
+            if (selectedObject.getIndex() == 13) {
                 selectedObject.setX_conrdinate(String.valueOf("350"));
                 selectedObject.setY_cordinate(String.valueOf("290"));
 //                selectedObject.setTextX_Cordinate("230");
 //                selectedObject.setTextY_Cordinate("280");
             }
-            if (selectedObject.getIndex() == 12){
+            if (selectedObject.getIndex() == 12) {
                 selectedObject.setX_conrdinate(String.valueOf("250"));
                 selectedObject.setY_cordinate(String.valueOf("270"));
 //                selectedObject.setTextX_Cordinate("50");
 //                selectedObject.setTextY_Cordinate("250");
             }
 
-            if (selectedObject.getIndex() == 11){
+            if (selectedObject.getIndex() == 11) {
                 selectedObject.setX_conrdinate(String.valueOf("250"));
                 selectedObject.setY_cordinate(String.valueOf("380"));
 //                selectedObject.setTextX_Cordinate("250");
 //                selectedObject.setTextY_Cordinate("250");
 
             }
-            if (selectedObject.getIndex() == 10){
+            if (selectedObject.getIndex() == 10) {
                 selectedObject.setX_conrdinate(String.valueOf("450"));
                 selectedObject.setY_cordinate(String.valueOf("200"));
 //                selectedObject.setTextX_Cordinate("50");
 //                selectedObject.setTextY_Cordinate("250");
             }
 
-            if (selectedObject.getIndex() == 9){
+            if (selectedObject.getIndex() == 9) {
 //                selectedObject.setTextX_Cordinate("50");
 //                selectedObject.setTextY_Cordinate("280");
             }
@@ -837,12 +843,14 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             int width = displayMetrics.widthPixels;
 
             binding.editableImageview.setOnTouchListener(null);
-            Resources r=getResources();
+            Resources r = getResources();
             Log.e("last", String.valueOf(d));
             int marginx = Math.round(TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, dpValuex,r.getDisplayMetrics()));  ;//(int)((dpValuex * width)/WeidthRefDevice);  // margin in pixels
+                    TypedValue.COMPLEX_UNIT_DIP, dpValuex, r.getDisplayMetrics()));
+            ;//(int)((dpValuex * width)/WeidthRefDevice);  // margin in pixels
             int marginy = Math.round(TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, dpValuey,r.getDisplayMetrics())); ;//(int)((dpValuey * height)/HeightRefDevice);  // margin in pixels
+                    TypedValue.COMPLEX_UNIT_DIP, dpValuey, r.getDisplayMetrics()));
+            ;//(int)((dpValuey * height)/HeightRefDevice);  // margin in pixels
 
             layoutParams.leftMargin = marginx;
             layoutParams.topMargin = marginy;
@@ -850,32 +858,32 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutParams.rightMargin = -250;
 
 
-           layoutParams = new RelativeLayout.LayoutParams(200, 200);
-            int WeidthRefDevice=1080;
-            int HeightRefDevice=2028;
-              dpValuex = Integer.parseInt(selectedObject.getX_conrdinate()); // margin in dips
-              dpValuey = Integer.parseInt(selectedObject.getY_cordinate()); // margin in dips
-              displayMetrics = new DisplayMetrics();
+            layoutParams = new RelativeLayout.LayoutParams(200, 200);
+            int WeidthRefDevice = 1080;
+            int HeightRefDevice = 2028;
+            dpValuex = Integer.parseInt(selectedObject.getX_conrdinate()); // margin in dips
+            dpValuey = Integer.parseInt(selectedObject.getY_cordinate()); // margin in dips
+            displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-              height = displayMetrics.heightPixels;
-              width = displayMetrics.widthPixels;
+            height = displayMetrics.heightPixels;
+            width = displayMetrics.widthPixels;
             Log.e("last3", String.valueOf(d));
-              marginx = (int)((dpValuex * width)/WeidthRefDevice); // margin in pixels
-              marginy = (int)((dpValuey * height)/HeightRefDevice); // margin in pixels
+            marginx = (int) ((dpValuex * width) / WeidthRefDevice); // margin in pixels
+            marginy = (int) ((dpValuey * height) / HeightRefDevice); // margin in pixels
             layoutParams.leftMargin = marginx;
             layoutParams.topMargin = marginy;
             layoutParams.bottomMargin = -250;
             layoutParams.rightMargin = -250;
             binding.editableImageview.setOnTouchListener(null);
-            layoutParams.height=200;
-            layoutParams.width=200;
+            layoutParams.height = 200;
+            layoutParams.width = 200;
             binding.editableImageview.setScaleX(DefaultScaleX);
             binding.editableImageview.setScaleY(DefaultScaleY);
             binding.editableImageview.setRotation(0);
             binding.editableImageview.setLayoutParams(layoutParams);
             binding.editableImageview.setVisibility(View.VISIBLE);
             binding.backImage.setVisibility(View.VISIBLE);
-            selectedImageBitmap=drawableToBitmap(ContextCompat.getDrawable(act,R.drawable.ic_gallry));
+            selectedImageBitmap = drawableToBitmap(ContextCompat.getDrawable(act, R.drawable.ic_gallry));
             binding.editableImageview.setImageBitmap(selectedImageBitmap);
 
 
@@ -912,16 +920,17 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
 
     }
+
     //For Image Select Interface
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
         //   binding.simpleProgressBar.setVisibility(View.GONE);
-        Log.e("SelectedImage",gson.toJson(selectedObject));
+        Log.e("SelectedImage", gson.toJson(selectedObject));
         selectedObject = listModel;
         LoadDataToUI();
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200);
-        int WeidthRefDevice=1080;
-        int HeightRefDevice=2028;
+        int WeidthRefDevice = 1080;
+        int HeightRefDevice = 2028;
         int dpValuex = Integer.parseInt(selectedObject.getX_conrdinate()); // margin in dips
         int dpValuey = Integer.parseInt(selectedObject.getY_cordinate()); // margin in dips
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -929,22 +938,22 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
         Log.e("last3", String.valueOf(d));
-        int marginx = (int)((dpValuex * width)/WeidthRefDevice); // margin in pixels
-        int marginy = (int)((dpValuey * height)/HeightRefDevice); // margin in pixels
+        int marginx = (int) ((dpValuex * width) / WeidthRefDevice); // margin in pixels
+        int marginy = (int) ((dpValuey * height) / HeightRefDevice); // margin in pixels
         layoutParams.leftMargin = marginx;
         layoutParams.topMargin = marginy;
         layoutParams.bottomMargin = -250;
         layoutParams.rightMargin = -250;
         binding.editableImageview.setOnTouchListener(null);
-        layoutParams.height=200;
-        layoutParams.width=200;
+        layoutParams.height = 200;
+        layoutParams.width = 200;
         binding.editableImageview.setScaleX(DefaultScaleX);
         binding.editableImageview.setScaleY(DefaultScaleY);
         binding.editableImageview.setRotation(0);
         binding.editableImageview.setLayoutParams(layoutParams);
         binding.editableImageview.setVisibility(View.VISIBLE);
         binding.backImage.setVisibility(View.VISIBLE);
-        selectedImageBitmap=drawableToBitmap(ContextCompat.getDrawable(act,R.drawable.ic_gallry));
+        selectedImageBitmap = drawableToBitmap(ContextCompat.getDrawable(act, R.drawable.ic_gallry));
         binding.editableImageview.setImageBitmap(selectedImageBitmap);
         binding.editableImageview.requestLayout();
         binding.editableImageview.setOnTouchListener(new View.OnTouchListener() {
@@ -969,31 +978,37 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
     //For GetFrame
-    @Override public void alertListenerClick() {
+    @Override
+    public void alertListenerClick() {
         requestAgain();
     }
+
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
-    @Override public void onBackPressed() {
-        if (binding.textEditorView.getVisibility() == View.VISIBLE){
+
+    @Override
+    public void onBackPressed() {
+        if (binding.textEditorView.getVisibility() == View.VISIBLE) {
             binding.textEditorView.setVisibility(View.GONE);
             binding.contentView.setEnabled(true);
             binding.contentView.setClickable(true);
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 1);
             return;
         }
-        if (editorFragment == 2){
+        if (editorFragment == 2) {
             MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.GALLERY_ACTION);
-        }else {
+        } else {
             screenExistDialog();
         }
     }
-    @Override public void onDialogDismissed(int dialogId) {
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -1027,18 +1042,20 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         }
     }
-    @Override public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // required permissions granted, start crop image activity
             startCropImageActivity(mCropImageUri);
         } else {
             //   Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
         }
-        if (requestCode==CodeReUse.ASK_PERMISSSION) {
+        if (requestCode == CodeReUse.ASK_PERMISSSION) {
             if (isDownloadOrSharingOrFavPending != -1) {
                 //for favourit
-                if (isDownloadOrSharingOrFavPending==0){
-                    isDownloadOrSharingOrFavPending=-1;
+                if (isDownloadOrSharingOrFavPending == 0) {
+                    isDownloadOrSharingOrFavPending = -1;
 //                    if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
 //                        binding.fabroutIcon.setVisibility(View.GONE);
 //                        binding.addfabroutIcon.setVisibility(View.VISIBLE);
@@ -1047,7 +1064,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     saveImageToGallery(false, true);
                 }
                 //for download
-                if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
                     if (isDownloadOrSharingOrFavPending == 1) {
                         //  Toast.makeText(act, "fdggdgd", Toast.LENGTH_SHORT).show();
@@ -1093,7 +1110,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         }
     }
+
     private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage";
+
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -1102,6 +1121,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 .start(this);
 
     }
+
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
@@ -1109,7 +1129,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             public void onResponse(String response) {
                 // binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_BRAND : ", response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
@@ -1125,7 +1145,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     public void onErrorResponse(VolleyError error) {
                         // binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-
 
 
                     }
@@ -1161,6 +1180,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
+
     public static String convertFirstUpper(String str) {
 
         if (str == null || str.isEmpty()) {
@@ -1169,9 +1189,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+
     //version 3 ======================================
     // ask for payment
     public DialogUpgradeLayoutSecondBinding secondBinding;
+
     public void askForPayTheirPayment(String msg) {
         secondBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_second, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1184,7 +1206,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile","1");
+                intent.putExtra("Profile", "1");
 
                 act.startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
@@ -1202,22 +1224,25 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
+
     //fire intent for share
-    public void triggerShareIntent(File new_file,Bitmap merged) {
+    public void triggerShareIntent(File new_file, Bitmap merged) {
         //  Uri uri = Uri.parse();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act,merged));
+        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act, merged));
         startActivity(Intent.createChooser(share, "Share Image"));
     }
+
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,"IMG_" + Calendar.getInstance().getTime(), null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "IMG_" + Calendar.getInstance().getTime(), null);
         return Uri.parse(path);
     }
 
-    @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
+    @Override
+    public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
         if (canLoadImage) {
             try {
                 imageFromGalaryModel = listModel;
@@ -1225,8 +1250,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 binding.editableImageview.setVisibility(View.VISIBLE);
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200);
                 if (fromViewAll) {
-                    int WeigthRefDevice=1080;
-                    int HeightRefDevice=2028;
+                    int WeigthRefDevice = 1080;
+                    int HeightRefDevice = 2028;
                     int dpValuex = Integer.parseInt(selectedObject.getX_conrdinate()); // margin in dips
                     int dpValuey = Integer.parseInt(selectedObject.getY_cordinate()); // margin in dips
                     DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -1234,13 +1259,13 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     int height = displayMetrics.heightPixels;
                     int width = displayMetrics.widthPixels;
                     Log.e("last2", String.valueOf(d));
-                    int marginx = (int)((dpValuex * width)/WeigthRefDevice); // margin in pixels
-                    int marginy = (int)((dpValuey * height)/HeightRefDevice); // margin in pixel
-                   layoutParams.leftMargin = marginx;
-                    layoutParams.topMargin =marginy;
+                    int marginx = (int) ((dpValuex * width) / WeigthRefDevice); // margin in pixels
+                    int marginy = (int) ((dpValuey * height) / HeightRefDevice); // margin in pixel
+                    layoutParams.leftMargin = marginx;
+                    layoutParams.topMargin = marginy;
 
-                }else{
-                    fromViewAll=true;
+                } else {
+                    fromViewAll = true;
                 }
                 layoutParams.bottomMargin = -250;
                 layoutParams.rightMargin = -250;
@@ -1255,12 +1280,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             } catch (FileNotFoundException e) {
 
             }
-        }else {
+        } else {
             binding.editableImageview.setVisibility(View.VISIBLE);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200);
             if (fromViewAll) {
-                int WeigthRefDevice=1080;
-                int HeightRefDevice=2028;
+                int WeigthRefDevice = 1080;
+                int HeightRefDevice = 2028;
                 int dpValuex = Integer.parseInt(selectedObject.getX_conrdinate()); // margin in dips
                 int dpValuey = Integer.parseInt(selectedObject.getY_cordinate()); // margin in dips
                 DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -1268,10 +1293,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 int height = displayMetrics.heightPixels;
                 int width = displayMetrics.widthPixels;
                 Log.e("last2", String.valueOf(d));
-                int marginx = (int)((dpValuex * width)/WeigthRefDevice); // margin in pixels
-                int marginy = (int)((dpValuey * height)/HeightRefDevice); // margin in pixels
+                int marginx = (int) ((dpValuex * width) / WeigthRefDevice); // margin in pixels
+                int marginy = (int) ((dpValuey * height) / HeightRefDevice); // margin in pixels
                 layoutParams.leftMargin = marginx;
-                layoutParams.topMargin =marginy;
+                layoutParams.topMargin = marginy;
                 binding.editableImageview.setLayoutParams(layoutParams);
                 binding.editableImageview.setVisibility(View.VISIBLE);
                 binding.backImage.setVisibility(View.VISIBLE);
@@ -1279,10 +1304,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 binding.editableImageview.setImageBitmap(selectedImageBitmap);
                 binding.editableImageview.requestFocus();
 
-            }else{
-                fromViewAll=true;
+            } else {
+                fromViewAll = true;
             }
-
 
 
             binding.editableImageview.setOnTouchListener(new View.OnTouchListener() {
@@ -1296,17 +1320,18 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         }
     }
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap = null;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
+            if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
         }
 
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
             bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         } else {
             bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -1323,6 +1348,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
     //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeDownloadLimitExpireBinding expireBinding;
+
     private void downloadLimitExpireDialog(String msg) {
         expireBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_download_limit_expire, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1335,7 +1361,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile","1");
+                intent.putExtra("Profile", "1");
 
                 act.startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
@@ -1353,13 +1379,15 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         alertDialog.show();
 
     }
+
     androidx.appcompat.app.AlertDialog alertDialog;
     DialogDiscardImageBinding discardImageBinding;
+
     public void screenExistDialog() {
-        if (alertDialog!=null && alertDialog.isShowing())
+        if (alertDialog != null && alertDialog.isShowing())
             alertDialog.dismiss();
 
-        if (act!=null) {
+        if (act != null) {
             discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
             builder.setView(discardImageBinding.getRoot());
@@ -1392,6 +1420,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutEnterpriseBinding enterpriseBinding;
+
     public void askForUpgradeToEnterpisePackage() {
         enterpriseBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_enterprise, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1404,7 +1433,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile","1");
+                intent.putExtra("Profile", "1");
 
                 act.startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
@@ -1424,10 +1453,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
 
     public boolean manuallyEnablePermission(int pendingActivity) {
-        isDownloadOrSharingOrFavPending=pendingActivity;
+        isDownloadOrSharingOrFavPending = pendingActivity;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(act)
                             .setMessage("Allow BrandMania to access photos, files to download and share images ")
                             .setCancelable(true)
@@ -1441,12 +1470,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             })
                             .show();
                     return false;
-                }else {
+                } else {
                     return true;
                 }
 
-            }else {
-                if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            } else {
+                if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(act)
                             .setMessage("Allow BrandMania to access photos, files to download and share images ")
                             .setCancelable(true)
@@ -1462,15 +1491,15 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             })
                             .show();
                     return false;
-                }else {
+                } else {
 
                     return true;
                 }
 
 
             }
-        }else {
-            if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+        } else {
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(act)
                         .setMessage("Allow BrandMania to access photos, files to download and share images ")
                         .setCancelable(true)
@@ -1547,10 +1576,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
         String date = simpleDateFormat.format(new Date());
-        String name = "image" +System.currentTimeMillis()+ ".jpg";
+        String name = "image" + System.currentTimeMillis() + ".jpg";
         String file_name = file.getAbsolutePath() + "/" + name;
         new_file = new File(file_name);
-        Log.e("new_file",new_file.getAbsolutePath()+"\n"+new_file.getPath());
+        Log.e("new_file", new_file.getAbsolutePath() + "\n" + new_file.getPath());
 
         try {
             fileOutputStream = new FileOutputStream(new_file);
@@ -1582,7 +1611,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 }
 
 
-                FooterHelper.triggerShareIntent(act,new_file,merged);
+                FooterHelper.triggerShareIntent(act, new_file, merged);
 
             }
             dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
@@ -1608,7 +1637,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         CodeReUse.activityBackPress(act);
     }
 
-    private void downloadAndShareApi(final int download,Bitmap customImage) {
+    private void downloadAndShareApi(final int download, Bitmap customImage) {
 
         Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.DOWNLOAD_SHARE);
@@ -1624,8 +1653,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 .setPriority(Priority.HIGH);
 
 
-
-        if (isUsingCustomFrame){
+        if (isUsingCustomFrame) {
             request.addMultipartParameter("brand_id", prefManager.getActiveBrand().getId());
             request.addMultipartParameter("image_id", selectedObject.getImageid());
             request.addMultipartParameter("is_custom", "1");
@@ -1641,7 +1669,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             request.addMultipartParameter("is_custom", "0");
         }
         request.addMultipartParameter("type", String.valueOf(download));
-        Log.e("Request",gson.toJson(request));
+        Log.e("Request", gson.toJson(request));
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
@@ -1686,17 +1714,21 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     }
                 });
     }
+
     //backend frame load
-    @Override public void onBackendFrameChoose(ImageList imageList, int position) {
+    @Override
+    public void onBackendFrameChoose(ImageList imageList, int position) {
         binding.backendFrame.setVisibility(View.VISIBLE);
         binding.elementCustomFrame.setVisibility(View.GONE);
-        selectedBackendFrame=imageList;
+        selectedBackendFrame = imageList;
         Glide.with(getApplicationContext()).load(imageList.getFrame1()).into(binding.backendFrame);
         isUsingCustomFrame = false;
         forCheckFavorite();
     }
+
     //fire on footer select listener
-    @Override public void onFooterSelectEvent(int footerLayout, FooterModel footerModel) {
+    @Override
+    public void onFooterSelectEvent(int footerLayout, FooterModel footerModel) {
 
         isUsingCustomFrame = true;
         binding.backendFrame.setVisibility(View.GONE);
@@ -1704,15 +1736,16 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
-        this.footerLayout=footerLayout;
+        this.footerLayout = footerLayout;
         selectedFooterModel = footerModel;
-        addDynamicFooter(footerLayout,false);
+        addDynamicFooter(footerLayout, false);
         forCheckFavorite();
 
         changeBorderColorAsFrame();
         loadSameColorToBackgroundAndTextAgain();
         ((ITextSizeEvent) act).onfontSize(previousFontSize);
     }
+
     //check for added to fav or not
     public void forCheckFavorite() {
         prefManager = new PreafManager(act);
@@ -1758,38 +1791,37 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         }
     }
+
     //for adding footer dynamically
     int footerLayout = 1;
     LayoutModelClass layoutModelClass;
-    private void addDynamicFooter(int layoutType,boolean isReload) {
+
+    private void addDynamicFooter(int layoutType, boolean isReload) {
         layoutModelClass = new LayoutModelClass();
         binding.elementFooter.removeAllViews();
-        footerLayout=layoutType;
-        if (layoutType== FooterModel.LAYOUT_FRAME_ONE) {
+        footerLayout = layoutType;
+        if (layoutType == FooterModel.LAYOUT_FRAME_ONE) {
             LayoutForLoadOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
             binding.elementFooter.addView(oneBinding.getRoot());
             FooterHelper.loadFrameFirstData(act, oneBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
             mainLayout1 = (RelativeLayout) findViewById(R.id.addressLayoutElement2);
             layoutModelClass.setOneBinding(oneBinding);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_TWO) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_TWO) {
             LayoutForLoadTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
             binding.elementFooter.addView(twoBinding.getRoot());
             layoutModelClass.setTwoBinding(twoBinding);
             FooterHelper.loadFrameTwoData(act, twoBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.firstView);
             mainLayout1 = (RelativeLayout) findViewById(R.id.secondView);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_THREE) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_THREE) {
             LayoutForLoadThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
             layoutModelClass.setThreeBinding(threeBinding);
             FooterHelper.loadFrameThreeData(act, threeBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
             mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_FOUR) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_FOUR) {
             LayoutForLoadFourBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
             layoutModelClass.setFourBinding(fourBinding);
@@ -1807,8 +1839,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setSixBinding(sixBinding);
             FooterHelper.loadFrameSixData(act, sixBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.containerElement);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_SEVEN) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVEN) {
             LayoutForLoadSevenBinding sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
             binding.elementFooter.addView(sevenBinding.getRoot());
             layoutModelClass.setSevenBinding(sevenBinding);
@@ -1816,23 +1847,20 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             mainLayout = (RelativeLayout) findViewById(R.id.element0);
             mainLayout1 = (RelativeLayout) findViewById(R.id.socialFollow);
 
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_EIGHT) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHT) {
             LayoutForLoadEightBinding eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
             binding.elementFooter.addView(eightBinding.getRoot());
             layoutModelClass.setEightBinding(eightBinding);
             FooterHelper.loadFrameEightData(act, eightBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element1);
             mainLayout1 = (RelativeLayout) findViewById(R.id.element2);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_NINE) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_NINE) {
             LayoutForLoadNineBinding nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
             binding.elementFooter.addView(nineBinding.getRoot());
             layoutModelClass.setNineBinding(nineBinding);
             FooterHelper.loadFrameNineData(act, nineBinding);
-        //    mainLayout = (RelativeLayout) findViewById(R.id.firstLayout);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_TEN) {
+            //    mainLayout = (RelativeLayout) findViewById(R.id.firstLayout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_TEN) {
             LayoutForLoadTenBinding tenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_ten, null, false);
             binding.elementFooter.addView(tenBinding.getRoot());
             layoutModelClass.setTenBinding(tenBinding);
@@ -1841,9 +1869,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
         }
     }
-    @Override public void onColorSelected(int dialogId, int colorCode) {
+
+    @Override
+    public void onColorSelected(int dialogId, int colorCode) {
 
     }
+
     public void loadSameColorToBackgroundAndTextAgain() {
 
         if (colorCodeForTextColor != 0) {
@@ -1861,8 +1892,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
 
     }
+
     //for Text Color change
-    @Override public void onColorChanged(int colorCode) {
+    @Override
+    public void onColorChanged(int colorCode) {
         if (prefManager.getActiveBrand() != null) {
 
             if (editorFragment == 5 && selectedForEdit != null) {
@@ -1872,41 +1905,50 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 colorCodeForTextColor = colorCode;
                 FooterHelper.baseForTextColor(act, footerLayout, layoutModelClass, colorCode);
             }
-        } else
-        {
-             if (editorFragment == 5 && selectedForEdit != null) {
+        } else {
+            if (editorFragment == 5 && selectedForEdit != null) {
                 selectedForEdit.setTextColor(colorCode);
 
             }
         }
 
     }
+
     //on border size change
     int borderSize;
-    @Override public void onBorderSizeChange(int size) {
-        borderSize=size;
+
+    @Override
+    public void onBorderSizeChange(int size) {
+        borderSize = size;
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(size), colorCodeForBackground);
     }
+
     //for background color change
-    @Override public void onChooseColor(int colorCode) {
+    @Override
+    public void onChooseColor(int colorCode) {
         colorCodeForBackground = colorCode;
         // Toast.makeText(act, editorFragment+"dfgdfgf", Toast.LENGTH_SHORT).show();
-        if (editorFragment==4){
+        if (editorFragment == 4) {
             FooterHelper.baseForBackground(act, footerLayout, layoutModelClass, colorCode);
             GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
             drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
         }
     }
+
     private int convertDpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-    public void changeBorderColorAsFrame(){
+
+    public void changeBorderColorAsFrame() {
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
     }
-    @Override public void onColorItemChange(int colorCode) {
+
+    @Override
+    public void onColorItemChange(int colorCode) {
     }
+
     //for font change
     @Override
     public void onFontChangeListenert(String Font) {
@@ -1927,9 +1969,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
 
     }
+
     //for underline
     //for font size
-    @Override public void onfontSize(int textsize) {
+    @Override
+    public void onfontSize(int textsize) {
 
         if (prefManager.getActiveBrand() != null) {
 
@@ -1946,8 +1990,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
 
     }
+
     //for bold text
-    @Override public void onBoldTextChange(boolean Bold) {
+    @Override
+    public void onBoldTextChange(boolean Bold) {
         if (Bold) {
 
 
@@ -1960,12 +2006,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     FooterHelper.baseForBold(Bold, footerLayout, layoutModelClass);
                 }
             } else {
-                 if (editorFragment == 5 && selectedForEdit != null) {
+                if (editorFragment == 5 && selectedForEdit != null) {
                     Utility.setBold(selectedForEdit, true);
 
                 }
             }
-        }else {
+        } else {
 
 
             if (prefManager.getActiveBrand() != null) {
@@ -1984,9 +2030,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
 
     }
+
     //for italic
-    @Override public void onItalicTextChange(boolean Italic) {
-        isLoadItalic=Italic;
+    @Override
+    public void onItalicTextChange(boolean Italic) {
+        isLoadItalic = Italic;
         if (Italic) {
 
 
@@ -2003,27 +2051,27 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     Utility.setItalicText(selectedForEdit, true);
                 }
             }
-        }
-            else
-            {
-                if (prefManager.getActiveBrand() != null) {
-                    if (editorFragment == 5 && selectedForEdit != null) {
+        } else {
+            if (prefManager.getActiveBrand() != null) {
+                if (editorFragment == 5 && selectedForEdit != null) {
 
-                        Utility.setItalicText(selectedForEdit, false);
-                    } else {
-                        FooterHelper.baseForItalic(Italic, footerLayout, layoutModelClass);
-                    }
+                    Utility.setItalicText(selectedForEdit, false);
                 } else {
-             if (editorFragment==5 && selectedForEdit!=null) {
+                    FooterHelper.baseForItalic(Italic, footerLayout, layoutModelClass);
+                }
+            } else {
+                if (editorFragment == 5 && selectedForEdit != null) {
 
-                Utility.setItalicText(selectedForEdit, false);
-              }
-             }
+                    Utility.setItalicText(selectedForEdit, false);
+                }
             }
+        }
     }
-    @Override public void onRemoveSelectEvent() {
-        isUsingCustomFrame=true;
-        isRemoveFrame=true;
+
+    @Override
+    public void onRemoveSelectEvent() {
+        isUsingCustomFrame = true;
+        isRemoveFrame = true;
         //Toast.makeText(act, "dsgfgds", Toast.LENGTH_SHORT).show();
         binding.elementCustomFrame.setVisibility(View.GONE);
         binding.backendFrame.setImageBitmap(null);
@@ -2031,19 +2079,29 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         //    binding.frameImage.setVisibility(View.GONE);
     }
-    @Override public boolean onTouch(View view, MotionEvent motionEvent) {
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
         return false;
     }
-    @Override public void onFilterSelected(PhotoFilter photoFilter) {
+
+    @Override
+    public void onFilterSelected(PhotoFilter photoFilter) {
         //mPhotoEditor.setFilterEffect(photoFilter);
     }
-    @Override public void onFrameItemSelection(int position, MultiListItem listModel) {
+
+    @Override
+    public void onFrameItemSelection(int position, MultiListItem listModel) {
 
     }
-    @Override public void onItemSelection(int position, MultiListItem listModel) {
+
+    @Override
+    public void onItemSelection(int position, MultiListItem listModel) {
         binding.backendFrame.setImageResource(listModel.getImage());
     }
-    @Override public void onThumbnailClick(Filter filter) {
+
+    @Override
+    public void onThumbnailClick(Filter filter) {
         int width = selectedImageBitmap.getWidth();
         int height = selectedImageBitmap.getHeight();
 
@@ -2053,12 +2111,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             // landscape
             float ratio = (float) width / binding.editableImageview.getWidth();
             width = binding.editableImageview.getWidth();
-            height = (int)(height / ratio);
+            height = (int) (height / ratio);
         } else if (height > width) {
             // portrait
             float ratio = (float) height / binding.editableImageview.getHeight();
             height = binding.editableImageview.getHeight();
-            width = (int)(width / ratio);
+            width = (int) (width / ratio);
         } else {
             // square
             height = binding.editableImageview.getHeight();
@@ -2068,13 +2126,19 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         binding.editableImageview.setImageBitmap(filter.processFilter(Bitmap.createScaledBitmap(selectedImageBitmap, width, height, false)));
     }
-    @Override public void onimageBritness(int britness) {
+
+    @Override
+    public void onimageBritness(int britness) {
         binding.editableImageview.setColorFilter(setBrightness(britness));
     }
-    @Override public void onRotateImage(int rotate) {
+
+    @Override
+    public void onRotateImage(int rotate) {
         binding.editableImageview.setRotation(binding.editableImageview.getRotation() + 90);
     }
-    @Override public void onCropImage() {
+
+    @Override
+    public void onCropImage() {
     }
 
     private class DoubleTapConfirm implements GestureDetector.OnDoubleTapListener {
@@ -2103,12 +2167,15 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             return true;
         }
     }
+
     //zoom Logo
-    @Override public boolean onTouchEvent(MotionEvent motionEvent) {
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
         scaleGestureDetector.onTouchEvent(motionEvent);
         binding.logoCustom.onTouchEvent(motionEvent);
         return true;
     }
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
@@ -2119,6 +2186,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             return true;
         }
     }
+
     //API CALLS---------------------
     //getFrames
     private void getFrame() {
@@ -2202,9 +2270,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     try {
                         String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
                         FrameCountForDownload = Integer.parseInt(frameCount);
-                        int imageCounter=Integer.parseInt( ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter").equalsIgnoreCase("Unlimited") ?"-1": ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter"));
+                        int imageCounter = Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter").equalsIgnoreCase("Unlimited") ? "-1" : ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter"));
 
-                        int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0  : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
+                        int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
 
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
@@ -2222,7 +2290,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                                     downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
                                 }
 
-                            }else {
+                            } else {
                                 if (flag.equalsIgnoreCase("Download"))
                                     askForDownloadImage();
                                 else {
@@ -2287,6 +2355,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             queue.add(stringRequest);
         }
     }
+
     //update logo to brand
     private void uploadLogoForBrand(Bitmap img) {
         Utility.showLoadingTran(act);
@@ -2337,12 +2406,13 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
     }
 
-    private  int imageTouchMode;
+    private int imageTouchMode;
     private RelativeLayout.LayoutParams imgParams;
-    private float imgDX,imgDY;
-    private float imgX,imgY;
+    private float imgDX, imgDY;
+    private float imgX, imgY;
     private int imgMode;
     private float imgNewRot = 0f;
+
     //for logo drag and click event handle
     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
@@ -2404,7 +2474,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                         }
                 }
                 if (gestureDetector.onTouchEvent(event)) {
-                }else {
+                } else {
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
                         case MotionEvent.ACTION_DOWN:
                             imgParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
@@ -2436,8 +2506,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                                 imgParams.rightMargin = imgParams.leftMargin + (5 * imgParams.width);
                                 imgParams.bottomMargin = imgParams.topMargin + (10 * imgParams.height);
                                 view.setLayoutParams(imgParams);
-                            }
-                            else if (imgMode == ZOOM) {
+                            } else if (imgMode == ZOOM) {
                                 if (event.getPointerCount() == 2) {
                                     imgNewRot = rotation(event);
                                     float r = imgNewRot - d;
@@ -2456,7 +2525,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                                     view.animate().rotationBy(angle).setDuration(0).setInterpolator(new LinearInterpolator()).start();
                                     imgX = event.getRawX();
                                     imgY = event.getRawY();
-                                    imgParams.leftMargin = (int) ((imgX- imgDX) + scalediff);
+                                    imgParams.leftMargin = (int) ((imgX - imgDX) + scalediff);
                                     imgParams.topMargin = (int) ((imgY - imgDY) + scalediff);
                                     imgParams.rightMargin = 0;
                                     imgParams.bottomMargin = 0;
@@ -2476,6 +2545,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
     int editMode;
+
     private View.OnTouchListener onTouchListeneForEditText() {
         return new View.OnTouchListener() {
             Handler handler = new Handler();
@@ -2485,17 +2555,17 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             long touchDownMs = 0;
 
             public boolean onTouch(View view, MotionEvent event) {
-                if (selectedForEdit!=null) {
+                if (selectedForEdit != null) {
                     selectedForEdit.setBackground(null);
                     selectedTextView = null;
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
                 }
 
-                TextView textView = (TextView)view;
+                TextView textView = (TextView) view;
 
-                textView.setBackground(ContextCompat.getDrawable(act,R.drawable.editing_text_border));
-                selectedForEdit=textView;
+                textView.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
+                selectedForEdit = textView;
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         touchDownMs = System.currentTimeMillis();
@@ -2519,26 +2589,26 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
                         lastTapTimeMs = System.currentTimeMillis();
 
-                       if (numberOfTaps == 2) {
+                        if (numberOfTaps == 2) {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     //handle double tap
                                     selectedTextAlignment = textView.getTextAlignment();
-                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_TEXT_START){
+                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_TEXT_START) {
                                         CurrentFlagAlign = 0;
-                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_left_align));
+                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_left_align));
                                     }
-                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_CENTER){
+                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_CENTER) {
                                         CurrentFlagAlign = 1;
-                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_centered_align));
+                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_centered_align));
                                     }
-                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_TEXT_END){
+                                    if (selectedTextAlignment == View.TEXT_ALIGNMENT_TEXT_END) {
                                         CurrentFlagAlign = 2;
-                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_right_align));
+                                        binding.textAlignment.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_right_align));
                                     }
 
-                                    isTextEditing=true;
+                                    isTextEditing = true;
                                     binding.textEditorView.setVisibility(View.VISIBLE);
                                     binding.contentView.setEnabled(false);
                                     binding.contentView.setClickable(false);
@@ -2552,7 +2622,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
 
                     return true;
-                }else {
+                } else {
                     final int X = (int) event.getRawX();
                     final int Y = (int) event.getRawY();
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -2583,8 +2653,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                                 mRparams.rightMargin = -250;
                                 mRparams.bottomMargin = -250;
                                 view.setLayoutParams(mRparams);
-                            }
-                            else if (editMode == ZOOM) {
+                            } else if (editMode == ZOOM) {
                                 RelativeLayout.LayoutParams mRparams = (RelativeLayout.LayoutParams) view.getLayoutParams();
 
                                 if (event.getPointerCount() == 2) {
@@ -2612,17 +2681,20 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         };
     }
+
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
         return (float) Math.sqrt(x * x + y * y);
     }
+
     private float rotation(MotionEvent event) {
         double delta_x = (event.getX(0) - event.getX(1));
         double delta_y = (event.getY(0) - event.getY(1));
         double radians = Math.atan2(delta_y, delta_x);
         return (float) Math.toDegrees(radians);
     }
+
     public void TouchImageMotion() {
         binding.editableImageview.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -2662,8 +2734,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             parms.rightMargin = parms.leftMargin + (5 * parms.width);
                             parms.bottomMargin = parms.topMargin + (10 * parms.height);
                             view.setLayoutParams(parms);
-                        }
-                        else if (mode == ZOOM) {
+                        } else if (mode == ZOOM) {
                             if (motionEvent.getPointerCount() == 2) {
                                 newRot = rotation(motionEvent);
                                 float r = newRot - d;
@@ -2697,11 +2768,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         });
     }
-
-
-
-
-
 
 
 }

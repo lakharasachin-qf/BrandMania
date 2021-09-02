@@ -157,9 +157,9 @@
                         android:hint="Enter Promo Code"
                         android:imeOptions="actionDone"
                         android:paddingTop="@dimen/_2sdp"
+                        android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="#AD000000"
-                        android:singleLine="true"
                         android:textSize="@dimen/_12sdp" />
 
                     <TextView
@@ -224,7 +224,6 @@
                             android:fontFamily="@font/montserrat_semibold"
                             android:paddingBottom="@dimen/_3sdp"
                             android:text="code applied successfully..!"
-                            android:textColor="@color/white"
                             android:textSize="@dimen/_9sdp" />
                     </LinearLayout>
 

@@ -36,7 +36,6 @@
                         android:visibility="gone"
                         android:id="@+id/elementPremium"
                         android:layout_margin="@dimen/_3sdp"
-
                         android:src="@drawable/ic_crown"
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"/>

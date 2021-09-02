@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -64,7 +65,7 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
     @Override public int getItemCount() {
         return dashBoardItemList.size();
     }
-    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final DashBoardItem model = dashBoardItemList.get(position);
         if (model != null) {
             switch (model.getLayout()) {

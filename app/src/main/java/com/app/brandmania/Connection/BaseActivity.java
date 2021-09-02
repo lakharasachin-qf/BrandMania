@@ -30,7 +30,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     private static Dialog noconnectionAlertDialog;
     public Activity act;
     public PreafManager prefManager;
-    MakeMyBrandApp myBrandApp;
+    public  MakeMyBrandApp myBrandApp;
     private BroadcastReceiver mNetworkReceiver;
     private boolean LIVE_MODE = false;
     public Gson gson;
@@ -102,7 +102,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         }
 
         if (prefManager.getUserToken() != null) {
-            headers.put("Authorization","Bearer"+prefManager.getUserToken());
+            headers.put("Authorization","Bearer "+prefManager.getUserToken());
         }
         return headers;
     }

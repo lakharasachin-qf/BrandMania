@@ -79,7 +79,6 @@
         <ImageView
             android:layout_width="@dimen/_300sdp"
             android:layout_height="@dimen/_300sdp"
-
             android:layout_alignParentBottom="true"
             android:layout_marginStart="-100dp"
             android:src="@drawable/bottom">
@@ -531,7 +530,6 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/requestBusLayout"
                         android:layout_width="match_parent"
-
                         android:layout_height="match_parent"
                         android:layout_below="@+id/recommendationRelativ"
                         android:focusable="true"

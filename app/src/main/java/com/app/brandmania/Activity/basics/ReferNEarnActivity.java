@@ -39,10 +39,14 @@ public class ReferNEarnActivity extends BaseActivity {
            /*getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);*/
         binding = DataBindingUtil.setContentView(act, R.layout.activity_refer);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(act);
         Log.w(preafManager.getReferCode(), "data");
         binding.referalCodeTxt.setText(preafManager.getReferCode());
+        binding.walletMoney.setText(preafManager.getWallet());
         binding.referalCodeTxt.setTextIsSelectable(true);
+        binding.msgTxt.setText("Refer a friend earn discount of all your friends purchases for 1 year. your friends also earn "+act.getString(R.string.Rs)+ preafManager.getWallet() + " on Sign-up.");
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +88,7 @@ public class ReferNEarnActivity extends BaseActivity {
     public void shortenLongLink() {
 
         String shareLinkText = "https://brandmania.page.link/?" +
-                "link=http://www.queryfinders.com?refer="+preafManager.getActiveBrand().getId() +preafManager.getReferCode()+
+                "link=http://www.queryfinders.com?refer=" + preafManager.getReferCode() +
                 "&apn=" + getPackageName() +
                 "&st=" + "Referral Code" +
                 "&sd=" + "Reward 20" +

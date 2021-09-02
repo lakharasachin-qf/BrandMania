@@ -38,6 +38,8 @@ android {
 
     allprojects {
         repositories {
+            mavenCentral()
+
             jcenter()
             maven { url "https://jitpack.io" }
         }
@@ -85,6 +87,7 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.2'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
     implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.2.1'
     //viewpager material dots
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     //noinspection GradleCompatible
@@ -121,7 +124,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.inkapplications.viewpageindicator:library:2.4.3'
     implementation 'me.relex:circleindicator:2.1.4'
-    implementation 'com.razorpay:checkout:1.6.6'
+    api  'com.razorpay:checkout:1.6.12'
     implementation 'com.github.mreram:showcaseview:1.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
 
@@ -138,7 +141,7 @@ dependencies {
     implementation 'com.jaredrummler:colorpicker:1.1.0'
 
     // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation platform('com.google.firebase:firebase-bom:26.4.0')
 
 
     implementation 'com.github.yalantis:ucrop:2.2.6'

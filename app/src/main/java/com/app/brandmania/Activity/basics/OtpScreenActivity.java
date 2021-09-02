@@ -67,7 +67,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
     private static final long START_TIME_IN_MILLIS = 30000;
     private boolean isLoading = false;
     String NumberShow;
-    String refferrerCode = "";
+    String referrerCode = "";
     public String getDeviceToken(Activity act) {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
@@ -89,14 +89,13 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = this;
-
         binding = DataBindingUtil.setContentView(act, R.layout.activity_otp_screen);
-
+        preafManager = new PreafManager(act);
         NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
         binding.verificationChildTitle.setText("We sent OTP to verify your number \n" + "+91" + NumberShow);
         String Verify = "OTP<br>Verification</font></br>";
+        referrerCode = getIntent().getStringExtra("referrerCode");
         InsertRecord();
-        refferrerCode = getIntent().getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
         binding.ResendText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,8 +121,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 onBackPressed();
             }
         });
-
-
         TextChanger();
         deviceToken = getDeviceToken(this);
         preafManager = new PreafManager(this);
@@ -169,8 +166,9 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                         if (is_completed.equals("0"))
                         {
                             Intent i = new Intent(act, RegistrationActivity.class);
+                            i.putExtra("referrerCode",referrerCode);
                             i.addCategory(Intent.CATEGORY_HOME);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             startActivity(i);
                             overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                             finish();
@@ -263,12 +261,14 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put("otp", otp);
                 hashMap.put("phone", mobileno);
+             /*   hashMap.put("referrerCode", referrerCode);*/
+                Log.e("",preafManager.getReferCode());
                 hashMap.put("firebase_token", deviceToken);
                 Utility.Log("Verify-Param", hashMap.toString());
+
                 return hashMap;
             }
         };
-
 
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
@@ -340,8 +340,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("phone",NumberShow);
-                params.put("refferrercode",refferrerCode);
-
                 return params;
             }
         };

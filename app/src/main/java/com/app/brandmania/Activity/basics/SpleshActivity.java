@@ -32,14 +32,11 @@ import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityMainBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.dynamiclinks.DynamicLink;
+
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
-import com.google.firebase.dynamiclinks.ShortDynamicLink;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +49,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
     private ActivityMainBinding binding;
     PreafManager preafManager;
     AnimatorSet animatorSet1;
-    private String refferrerCode = "";
+    private String referrerCode = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,17 +57,26 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         super.onCreate(savedInstanceState);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        preafManager = new PreafManager(act);
+
+        binding.logo.setVisibility(View.VISIBLE);
+        final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
+        ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
+        animatorSet1 = new AnimatorSet();
+        animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
+        animatorSet1.setDuration(3000);
         getInvitation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
+                Log.e("UserToken",gson.toJson(preafManager.getUserToken()));
                 if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
                     LoginFlow();
                 } else {
                     Intent intent = new Intent(act, LoginActivity.class);
-                    intent.putExtra(refferrerCode,"");
+                    intent.putExtra("referrerCode", referrerCode);
                     // refferrerCode = intent.getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -81,15 +87,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
             }
         }, 1000);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        preafManager = new PreafManager(this);
-        refferrerCode  = "referLink.substring(referLink.indexOf(\"-\") + 1)";
-        binding.logo.setVisibility(View.VISIBLE);
-        final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
-        ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
-        animatorSet1 = new AnimatorSet();
-        animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
-        animatorSet1.setDuration(3000);
 
     }
 /*
@@ -151,31 +148,14 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                             try {
                                 referLink = referLink.substring(referLink.lastIndexOf("=") + 1);
                                 Log.e("First", "subString = " + referLink);
-                                Log.e("PromoCode", referLink.substring(0, referLink.indexOf("-")));
-                                Log.e("UserId", referLink.substring(referLink.indexOf("-") + 1));
+                                referrerCode = referLink.substring(referLink.lastIndexOf("=") + 1);
+                                Log.e("referrerid",referrerCode);
+                                preafManager.setSpleshReferrer(referrerCode);
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
-                                    LoginFlow();
-                                } else {
-                                    Intent intent = new Intent(act, LoginActivity.class);
-                                    intent.putExtra(refferrerCode,"");
-                                    // refferrerCode = intent.getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
-                                    intent.addCategory(Intent.CATEGORY_HOME);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                                    finish();
-                                }
-
-                            }
-                        }, 1000);
 
                     }
                 })
@@ -284,15 +264,16 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 finish();
             }
+
         } else {
             Intent intent = new Intent(act, RegistrationActivity.class);
+            intent.putExtra("referrerCode",referrerCode);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             finish();
         }
-
 
     }
 

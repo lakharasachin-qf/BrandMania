@@ -2,12 +2,16 @@ package com.app.brandmania.Activity.packages;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
+import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -40,6 +46,7 @@ import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityRazorPayBinding;
 import com.app.brandmania.databinding.ItemServiceLayoutBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
@@ -51,10 +58,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 public class RazorPayActivity extends BaseActivity implements PaymentResultWithDataListener, alertListenerCallback {
     Activity act;
     Button pay;
+    public static int BUSINESS_TYPE = 1;
+    private String BusinessTitle;
     private ActivityRazorPayBinding binding;
     String calculateAmount;
     SliderItem sliderItemList;
@@ -80,6 +90,9 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     private String generatedOrderId;
     private String currency = "INR";
     PreafManager preafManager;
+    private RazorPayActivity razorPayActivity;
+    private BottomSheetDialog bottomSheetDialog;
+    private BrandListItem selectedBrand;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,9 +101,11 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_razor_pay);
         Checkout.preload(getApplicationContext());
+        razorPayActivity = this;
         preafManager = new PreafManager(this);
         gson = new Gson();
         sliderItemList = gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
+        selectedBrand = gson.fromJson(getIntent().getStringExtra("BrandListItem"), BrandListItem.class);
         Gson gson = new Gson();
         Log.e("EEEE", gson.toJson(sliderItemList));
 
@@ -102,13 +117,16 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         });
 
         calculateAmount = sliderItemList.getPriceForPay();
-       // createPayment();
+        // createPayment();
         binding.proceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 generateOrderID();
             }
         });
+
+        //showActivityList(BUSINESS_TYPE, BusinessTitle);
+        showReferrer();
 
         if (sliderItemList != null) {
 
@@ -123,32 +141,36 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
             //show for one month count
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
-            if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate()) < 1) {
+            calculateAmount = sliderItemList.getPriceForPay();
+
+            if (!selectedBrand.getIs_payment_pending().isEmpty()
+                    && selectedBrand.getIs_payment_pending().equalsIgnoreCase("0")
+                    && Utility.monthsBetweenDates(selectedBrand.getSubscriptionDate()) < 1) {
 
                 int actualPrice = Integer.parseInt(sliderItemList.getPriceForPay());
                 int previousPackagePrice = Integer.parseInt(preafManager.getActiveBrand().getRate());
                 if (actualPrice > previousPackagePrice) {
                     int countedPrice = actualPrice - previousPackagePrice;
                     calculateAmount = String.valueOf(countedPrice);
+                    Log.e("test", gson.toJson(preafManager.getActiveBrand()));
                     Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
                     binding.discountedAmountLayout.setVisibility(View.GONE);
                     binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
                     binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
                     binding.previousLayout.setVisibility(View.VISIBLE);
                     binding.noticeTxt.setVisibility(View.VISIBLE);
-                    //- and rs icon with red colpr
+                    //- and rs icon with red colour
                     binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount will be deducted. As It was purchased within one month");
                 }
             }
-
             binding.finalAmountTxt.setText(act.getString(R.string.Rs) + calculateAmount);
-
         }
 
         binding.applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verifyCode();
+
+                verifyCode(binding.promoCodeTxt.getText().toString());
             }
         });
 
@@ -157,7 +179,10 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             @Override
             public void onClick(View v) {
                 calculateAmount = sliderItemList.getPriceForPay();
-                if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate()) < 1) {
+                code = null;
+                if (selectedBrand.getSubscriptionDate() != null
+                        && !selectedBrand.getSubscriptionDate().isEmpty() &&
+                        Utility.monthsBetweenDates(selectedBrand.getSubscriptionDate()) < 1) {
 
                     int actualPrice = Integer.parseInt(sliderItemList.getPriceForPay());
                     int previousPackagePrice = Integer.parseInt(preafManager.getActiveBrand().getRate());
@@ -181,6 +206,61 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 binding.promoEditTxt.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    /*   @Override
+       public void update(Observable observable, Object data) {
+
+           if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
+               getBrandList();
+           }
+
+       }*/
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+
+        act.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (myBrandApp.getObserver().getValue() == Constant.SELECTEDREFFERCODE) {
+                    binding.promoCodeTxt.setText(preafManager.getReferrerCode());
+
+                }
+            }
+        });
+    }
+
+    public void showReferrer() {
+
+        if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty()) {
+            verifyCode(preafManager.getSpleshReferrer());
+        }
+
+        /*final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.fragment_refferrer_bottom);
+        Button referralBtn = bottomSheetDialog.findViewById(R.id.referralBtn);
+        ImageView cancelBtn = bottomSheetDialog.findViewById(R.id.cancelBtn);
+        TextView refferalCodeTxt = bottomSheetDialog.findViewById(R.id.refferalCodeTxt);
+        refferalCodeTxt.setText(preafManager.getReferrerCode());
+
+        referralBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MakeMyBrandApp.getInstance().getObserver().setValue(Constant.SELECTEDREFFERCODE);
+                binding.promoCodeTxt.setText(preafManager.getReferrerCode());
+                // Toast.makeText(act, "You Have Own Referrer Code", Toast.LENGTH_LONG).show();
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+*/
     }
 
     private void createPayment() {
@@ -227,7 +307,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
 
-                hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
+                hashMap.put("Authorization", "Bearer " + preafManager.getUserToken());
 
                 return hashMap;
 
@@ -250,7 +330,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
     }
 
-    private void verifyCode() {
+    private void verifyCode(String codedd) {
         if (isLoading)
             return;
         isLoading = true;
@@ -303,7 +383,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
 
-                hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
+                hashMap.put("Authorization", "Bearer " + preafManager.getUserToken());
 
                 return hashMap;
 
@@ -312,7 +392,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("code", binding.promoCodeTxt.getText().toString());
+                hashMap.put("code", codedd);
                 hashMap.put("amount", calculateAmount);
                 hashMap.put("brand", sliderItemList.getBrandId());
                 hashMap.put("package", sliderItemList.getPackageid());
@@ -332,39 +412,14 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     public void applyCodeCalculation() {
         binding.promoEditTxt.setVisibility(View.GONE);
         binding.codeTxt.setText(discounted_amount);
-        binding.couponCodeTxt.setText("Coupon Code(" + discount + "%" + ")");
+        binding.couponCodeTxt.setText("Discount(" + discount + "%" + ")");
         binding.dicountLayout.setVisibility(View.VISIBLE);
-        binding.applyPromoCodeTxt.setText("Congratsss! You saved(" + act.getString(R.string.Rs) +  discounted_amount + ")");
-        binding.applysuccesfullyTxt.setText(code + " Applied Successfully");
+        binding.applyPromoCodeTxt.setText("Congratesss! You saved(" + act.getString(R.string.Rs) + discounted_amount + ")");
+        binding.applysuccesfullyTxt.setText(Html.fromHtml( "<font color=\"red\">"+"<b>"+code+"</b>"+"</font>" + "<font color=\"#FFFFFF\"><b> Applied Successfully</b></font>"));
         binding.applypromoEditTxt.setVisibility(View.VISIBLE);
         binding.finalAmountTxt.setText(act.getString(R.string.Rs) + total_amount);
         calculateAmount = total_amount;
         Utility.Log("calculateAmount", calculateAmount);
-        /*if (Utility.monthsBetweenDates(preafManager.getActiveBrand().getSubscriptionDate()) < 1) {
-
-            int actualPrice = Integer.parseInt(total_amount);
-            int previousPackagePrice = Integer.parseInt(preafManager.getActiveBrand().getRate());
-            if (actualPrice > previousPackagePrice) {
-                int countedPrice = actualPrice - previousPackagePrice;
-                calculateAmount = String.valueOf(countedPrice);
-                Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + total_amount);
-                binding.discountedAmountLayout.setVisibility(View.GONE);
-                binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
-                binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
-                binding.previousLayout.setVisibility(View.VISIBLE);
-                binding.noticeTxt.setVisibility(View.VISIBLE);
-                //- and rs icon with red colpr
-                binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount will be deducted. As It was purchased within one month");
-            }
-        }*/
-    /*    String Message = "<b>" + code + "</b>" + " Applied Successfully";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            binding.applysuccesfullyTxt.setText(Html.fromHtml(Message + Html.FROM_HTML_MODE_COMPACT));
-
-        } else {
-            binding.applysuccesfullyTxt.setText(Html.fromHtml(Message));
-
-        }*/
 
     }
 
@@ -480,6 +535,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             signatureStr = paymentData.getSignature();
 
             makeSubscription("0");
+            preafManager.setReferrerCode(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -534,7 +590,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 getBrandList();
             } else {
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
-                Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Error");
+                showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Error");
+
 
             }
         }, new Response.ErrorListener() {
@@ -576,7 +633,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 hashMap.put("img_counter", sliderItemList.getImageTitle());
                 hashMap.put("frame_counter", sliderItemList.getTemplateTitle());
                 hashMap.put("is_pending", subscription);
-                hashMap.put("create_payment_id", payment_id);
+                if (payment_id != null)
+                    hashMap.put("create_payment_id", payment_id);
 
                 if (subscription.equals("0")) {
                     hashMap.put("razorpay_payment_id", paymentIdStr);
@@ -589,8 +647,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
                 }
                 hashMap.put("razorpay_order_id", generatedOrderId);
-//
-                //  razorpay_payment_id, razorpay_order_id, razorpay_signature
+
                 Utility.Log("Param", hashMap.toString());
                 return hashMap;
             }
@@ -604,6 +661,51 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.getCache().clear();
         queue.add(stringRequest);
+    }
+
+    public void showAlert(Activity act, String msg, String flag) {
+        new android.app.AlertDialog.Builder(act)
+                .setMessage(msg)
+                .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        if (code != null) {
+                            //means promocode is used
+
+                            applyCodeCalculation();
+                        } else {
+                            //not used
+                            //show for one month count
+                            binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
+                            calculateAmount = sliderItemList.getPriceForPay();
+                            if (selectedBrand.getSubscriptionDate() != null
+                                    && !selectedBrand.getSubscriptionDate().isEmpty() &&
+                                    Utility.monthsBetweenDates(selectedBrand.getSubscriptionDate()) < 1) {
+
+                                int actualPrice = Integer.parseInt(sliderItemList.getPriceForPay());
+                                int previousPackagePrice = Integer.parseInt(preafManager.getActiveBrand().getRate());
+                                if (actualPrice > previousPackagePrice) {
+                                    int countedPrice = actualPrice - previousPackagePrice;
+                                    calculateAmount = String.valueOf(countedPrice);
+                                    Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
+                                    binding.discountedAmountLayout.setVisibility(View.GONE);
+                                    binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
+                                    binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
+                                    binding.previousLayout.setVisibility(View.VISIBLE);
+                                    binding.noticeTxt.setVisibility(View.VISIBLE);
+                                    //- and rs icon with red colpr
+                                    binding.noticeTxt.setText("Your currently active package is \"" + preafManager.getActiveBrand().getPackagename() + "\". so your previous paid amount will be deducted. As It was purchased within one month");
+                                }
+                            }
+
+                            binding.finalAmountTxt.setText(act.getString(R.string.Rs) + calculateAmount);
+                        }
+                        // ((alertListenerCallback) act).alertListenerClick();
+                    }
+                })
+                .show();
     }
 
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();

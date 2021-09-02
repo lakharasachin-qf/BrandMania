@@ -46,13 +46,23 @@ public class PreafManager {
         return parameters;
     }
 
-    public String getReferId()
+    public String getSpleshReferrer()
     {
-        return pref.getString("refer","");
+        return pref.getString("SpleshReferrer","");
     }
 
-    public String setReferId(String parameters) {
-        pref.edit().putString("refer", parameters).apply();
+    public String setSpleshReferrer(String parameters) {
+        pref.edit().putString("SpleshReferrer", parameters).apply();
+        return parameters;
+    }
+
+    public String getReferrerCode()
+    {
+        return pref.getString("referrerCode","");
+    }
+
+    public String setReferrerCode(String parameters) {
+        pref.edit().putString("referrerCode", parameters).apply();
         return parameters;
     }
 
