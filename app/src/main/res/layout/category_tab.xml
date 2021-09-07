@@ -7,6 +7,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/viewRecoRecycler"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
             android:clipToPadding="false"
             android:visibility="gone"
             android:paddingBottom="@dimen/_40sdp"

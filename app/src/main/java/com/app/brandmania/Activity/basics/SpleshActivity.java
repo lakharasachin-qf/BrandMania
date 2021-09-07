@@ -2,6 +2,7 @@ package com.app.brandmania.Activity.basics;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -41,6 +42,9 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +64,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         preafManager = new PreafManager(act);
-
         binding.logo.setVisibility(View.VISIBLE);
         final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
         ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
@@ -71,7 +74,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.e("UserToken",gson.toJson(preafManager.getUserToken()));
+                Log.e("UserToken", gson.toJson(preafManager.getUserToken()));
                 if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
                     LoginFlow();
                 } else {
@@ -149,7 +152,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                                 referLink = referLink.substring(referLink.lastIndexOf("=") + 1);
                                 Log.e("First", "subString = " + referLink);
                                 referrerCode = referLink.substring(referLink.lastIndexOf("=") + 1);
-                                Log.e("referrerid",referrerCode);
+                                Log.e("referrerid", referrerCode);
                                 preafManager.setSpleshReferrer(referrerCode);
 
                             } catch (Exception e) {
@@ -267,7 +270,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
         } else {
             Intent intent = new Intent(act, RegistrationActivity.class);
-            intent.putExtra("referrerCode",referrerCode);
+            intent.putExtra("referrerCode", referrerCode);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

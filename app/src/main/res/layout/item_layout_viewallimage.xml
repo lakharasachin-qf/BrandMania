@@ -5,11 +5,11 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_70sdp"
+        android:layout_height="@dimen/_75sdp"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_7sdp"
-        android:elevation="@dimen/_30sdp"
+        android:elevation="@dimen/_40sdp"
         card_view:cardCornerRadius="@dimen/_10sdp">
 
         <RelativeLayout

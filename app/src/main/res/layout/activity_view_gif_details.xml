@@ -108,6 +108,7 @@
                     android:layout_toLeftOf="@+id/shareIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         android:id="@+id/fabroutIcon"
                         android:layout_width="wrap_content"
@@ -176,14 +177,21 @@
                         android:visibility="invisible" />
 
                     <ImageView
-                         android:id="@+id/recoImage"
+                        android:id="@+id/recoImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY" />
                     <com.app.brandmania.gifHelper.GifImageView
+                        android:visibility="visible"
                         android:id="@+id/gifImageView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
+                    <VideoView
+                        android:visibility="gone"
+                        android:id="@+id/videoImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
 
 
                     <ProgressBar
@@ -262,12 +270,9 @@
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/backendFrame"
-
                         android:scaleType="fitXY"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
-
-
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

@@ -100,6 +100,7 @@ import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.DialogUpgradeLayoutPackegeExpiredBindingImpl;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.IFontChangeEvent;
@@ -341,6 +342,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
 
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 if (manuallyEnablePermission(1)) {
@@ -361,10 +363,14 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
                     } else {
-                        requestAgain();
-                        saveImageToGallery(true, false);
-                        if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
-                            uploadLogoForBrand(selectedLogo);
+                        if (!Utility.isPackageExpired(act)) {
+                            requestAgain();
+                            saveImageToGallery(true, false);
+                            if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
+                                uploadLogoForBrand(selectedLogo);
+                            }
+                        } else {
+                            askForUpgradeToEnterpisePackaged();
                         }
                     }
                 }
@@ -467,6 +473,38 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
     }
 
+    DialogUpgradeLayoutPackegeExpiredBindingImpl expriredBinding;
+
+    public void askForUpgradeToEnterpisePackaged() {
+        expriredBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_packege_expired, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(expriredBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(expriredBinding.getRoot());
+
+        expriredBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(act, PackageActivity.class);
+                intent.putExtra("Profile", "1");
+
+                act.startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        expriredBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        expriredBinding.element3.setText("Please Upgrade your account for download more images");
+        //alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
 
     abstract class DoubleClickListener implements View.OnClickListener {
         long lastClickTime = 0;
@@ -489,6 +527,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         protected abstract void onSingleClick(View v);
     }
+
 
     private boolean isTextEditing = false;
     private TextView selectedTextView;

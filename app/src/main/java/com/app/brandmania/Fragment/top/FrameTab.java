@@ -165,7 +165,7 @@ public class FrameTab extends Fragment {
                         //  Toast.makeText(act, "NotNull", Toast.LENGTH_SHORT).show();
                         if (menuModels != null && menuModels.size() != 0 && jsonObject.getJSONObject("data").getString("is_frame").equalsIgnoreCase("1")) {
                             ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
-                            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
+                            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
                             binding.frameRecycler.setLayoutManager(mLayoutManager);
                             binding.frameRecycler.setHasFixedSize(true);
                             binding.frameRecycler.setAdapter(menuAddaptor);

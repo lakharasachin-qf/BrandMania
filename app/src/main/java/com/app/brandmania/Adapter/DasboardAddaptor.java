@@ -31,15 +31,16 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
     private ArrayList<DashBoardItem> dashBoardItemList;
     private final Gson gson;
     Activity activity;
+
     public DasboardAddaptor(ArrayList<DashBoardItem> dashBoardItemList, Activity activity) {
         this.dashBoardItemList = dashBoardItemList;
         this.activity = activity;
-        gson=new Gson();
+        gson = new Gson();
     }
 
-
     @NonNull
-    @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
             case DAILY_IMAGES:
                 DashboardItemLayoutBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dashboard_item_layout, viewGroup, false);
@@ -50,7 +51,9 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
         }
         return null;
     }
-    @Override public int getItemViewType(int position) {
+
+    @Override
+    public int getItemViewType(int position) {
 
         switch (dashBoardItemList.get(position).getLayout()) {
             case 0:
@@ -62,10 +65,14 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
         }
 
     }
-    @Override public int getItemCount() {
+
+    @Override
+    public int getItemCount() {
         return dashBoardItemList.size();
     }
-    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final DashBoardItem model = dashBoardItemList.get(position);
         if (model != null) {
             switch (model.getLayout()) {
@@ -83,14 +90,12 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(activity, ImageCategoryDetailActivity.class);
-                            i.putExtra("viewAll","12");
+                            i.putExtra("viewAll", "12");
                             i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
                             i.addCategory(Intent.CATEGORY_HOME);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             activity.startActivity(i);
-
                             activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
                         }
                     });
                     break;
@@ -98,11 +103,11 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
 
                     ((DasboardViewHolder) holder).binding.title.setText(convertFirstUpper(dashBoardItemList.get(position).getName()));
                     ((DasboardViewHolder) holder).binding.viewAll.setVisibility(View.GONE);
-                   // ((DasboardViewHolder) holder).binding.rootBackground.setVisibility(View.GONE);
+                    // ((DasboardViewHolder) holder).binding.rootBackground.setVisibility(View.GONE);
                     menuAddaptor = new ImageCategoryAddaptor(dashBoardItemList.get(position).getDailyImages(), activity);
                     menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_HOMEFRAGEMENT);
-                   // int spacingInPixels = activity.getResources().getDimensionPixelSize(R.dimen.space);
-                   // ((DasboardViewHolder) holder).binding.imageCategoryRecycler.addItemDecoration(new SpacesItemDecoration(3, spacingInPixels, true, 0));
+                    // int spacingInPixels = activity.getResources().getDimensionPixelSize(R.dimen.space);
+                    // ((DasboardViewHolder) holder).binding.imageCategoryRecycler.addItemDecoration(new SpacesItemDecoration(3, spacingInPixels, true, 0));
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setHasFixedSize(true);
                     menuAddaptor.setDashBoardItem(dashBoardItemList.get(position));
@@ -114,20 +119,23 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
     }
 
 
-     public void setfilter(List<DashBoardItem> listitem) {
+    public void setfilter(List<DashBoardItem> listitem) {
         dashBoardItemList = new ArrayList<>();
         dashBoardItemList.addAll(listitem);
         notifyDataSetChanged();
     }
+
     public class DasboardViewHolder extends RecyclerView.ViewHolder {
         DashboardItemLayoutBinding binding;
+
         public DasboardViewHolder(DashboardItemLayoutBinding itemView) {
             super(itemView.getRoot());
-            binding=itemView;
+            binding = itemView;
         }
 
 
     }
+
     public static String convertFirstUpper(String str) {
         if (str == null || str.isEmpty()) {
             return str;

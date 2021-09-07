@@ -147,7 +147,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
                     ((DailyRoundHolder)holder).binding.title.setText(model.getName());
 
-                    ((DailyRoundHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    ((DailyRoundHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener()
+                    {
                         @Override
                         public void onClick(View v) {
                             //ImageCategoryDetailActivity
@@ -222,7 +223,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             //Image Category Detail Activity
-                            Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
+                            Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                            // Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
+
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages","1");
                            // intent  putExtra ( " viewAll " , " 12 " ) ;
@@ -278,7 +281,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     else
                     {
                         ((ImageCategoryByIdHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
-                        ((ImageCategoryByIdHolder)holder).binding.gifLayout.setVisibility(View.VISIBLE);
+                        //((ImageCategoryByIdHolder)holder).binding.gifLayout.setVisibility(View.VISIBLE);
                     }
                     if (preafManager.getActiveBrand() !=null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {

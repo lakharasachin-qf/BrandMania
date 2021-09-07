@@ -16,7 +16,7 @@ public class GenericTextWatcher implements TextWatcher {
     private Activity act;
     public GenericTextWatcher(Activity act,View view, EditText editText[])
     {
-        this.act=act;
+        this.act=this.act;
         this.editText = editText;
         this.view = view;
     }

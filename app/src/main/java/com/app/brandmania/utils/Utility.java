@@ -28,9 +28,11 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.preference.Preference;
 
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.BuildConfig;
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
@@ -51,6 +53,7 @@ import java.util.GregorianCalendar;
 public class Utility {
     public static Dialog dialog;
     private static Dialog progressDialog;
+
     public static void Log(String act, Object msg) {
         Log.e(act, msg + "");
     }
@@ -80,6 +83,31 @@ public class Utility {
         });
     }
 
+    public static boolean isPackageExpired(Activity act)
+    {
+
+        try {
+
+            String expireDate = new PreafManager(act).getActiveBrand().getExpiery_date().replace('-', '/');
+            Date date = new Date();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDate = formatter.format(date);
+            Log.e("expireDate", expireDate);
+            Log.e("currentDate", currentDate);
+
+            Date convertedExpireDate = formatter.parse(expireDate);
+            Date convertedCurrentDate = formatter.parse(currentDate);
+
+
+            if(convertedExpireDate.compareTo(convertedCurrentDate) < 0)
+            {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public static int monthsBetweenDates(String subscriptionDateStr){
         Date c = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
@@ -110,8 +138,10 @@ public class Utility {
 
     //return true if user is paid
     public static boolean isUserPaid(BrandListItem activeBrand) {
-        if (!activeBrand.getPackagename().isEmpty() && activeBrand.getIs_payment_pending().equalsIgnoreCase("0"))
+        if (!activeBrand.getPackagename().isEmpty() && activeBrand.getIs_payment_pending().equalsIgnoreCase("0")) {
+
             return true;
+        }
         else
             return false;
     }

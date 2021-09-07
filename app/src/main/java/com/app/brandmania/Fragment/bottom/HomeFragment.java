@@ -114,14 +114,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 UpdateToken();
             }
         });
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onSuccess(InstanceIdResult instanceIdResult) {
-//                        deviceToken = instanceIdResult.getToken();
-//                        UpdateToken();
-//                    }
-//                });
     }
 
     @Override
@@ -284,7 +276,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.rocommRecycler.setHasFixedSize(true);
         binding.rocommRecycler.setLayoutManager(mLayoutManager);
         binding.rocommRecycler.setAdapter(dasboardAddaptor);
-
     }
 
     //GetBanner........................
@@ -438,8 +429,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-
                 Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
@@ -519,7 +508,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Log.e("Token", params.toString());
                 return params;
             }
-
 
             @Override
             protected Map<String, String> getParams() {

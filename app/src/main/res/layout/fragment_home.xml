@@ -91,7 +91,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/my_toolbar"
             android:scrollbars="none"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.core.widget.NestedScrollView
 
@@ -112,7 +112,6 @@
                         android:layout_height="@dimen/_150sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:visibility="visible" />
-
 
                     <RelativeLayout
                         android:id="@+id/alertForFrmae"
@@ -135,7 +134,6 @@
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/_5sdp"
                                 android:layout_marginRight="@dimen/_5sdp"
-
                                 android:background="@android:color/transparent"
                                 android:gravity="center">
 
@@ -399,7 +397,6 @@
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/referralCardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -408,7 +405,8 @@
                         android:layout_marginTop="@dimen/_7sdp"
                         android:layout_marginEnd="@dimen/_9sdp"
                         android:background="@color/white"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/voucher"
@@ -459,30 +457,32 @@
                                 android:textSize="@dimen/_8sdp" />
 
                             <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_10sdp"
                                 android:layout_marginEnd="@dimen/_7sdp"
-                                android:orientation="horizontal"
                                 android:gravity="center_vertical"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:orientation="horizontal">
+
                                 <TextView
-                                    android:layout_alignParentLeft="true"
-                                    android:layout_toStartOf="@id/codeLayout"
                                     android:id="@+id/codeLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
                                     android:layout_marginStart="@dimen/_10sdp"
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:layout_marginEnd="@dimen/_10sdp"
+                                    android:layout_toStartOf="@id/codeLayout"
                                     android:fontFamily="@font/montserrat_semibold"
                                     android:text="Referral Code : "
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_8sdp" />
+
                                 <RelativeLayout
                                     android:id="@+id/codeLayout"
-                                    android:layout_alignParentEnd="true"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
                                     android:background="@drawable/refer_rectangle_shape_home_fragment">
 
                                     <TextView
@@ -495,10 +495,10 @@
                                         android:layout_marginBottom="@dimen/_5sdp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:gravity="center"
-                                        android:textSize="@dimen/_7sdp"
                                         android:includeFontPadding="false"
                                         android:text="#BRAND@2345"
-                                        android:textColor="@color/black" />
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_7sdp" />
                                 </RelativeLayout>
 
                             </RelativeLayout>
@@ -705,7 +705,7 @@
             android:layout_below="@+id/my_toolbar"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             shimmer:shimmer_duration="800">
 
             <LinearLayout

@@ -214,7 +214,6 @@ public class ResponseHandler {
         ArrayList<DashBoardItem> dataList = null;
         dataList = new ArrayList<>();
         try {
-
             if (isSuccess(null, jsonObject)) {
                 JSONObject data = getJSONObject(jsonObject, "data");
                 Iterator<String> keys = data.keys();

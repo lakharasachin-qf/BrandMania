@@ -283,7 +283,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         binding.otpThree.addTextChangedListener(new GenericTextWatcher(act,binding.otpThree, edit));
         binding.otpFour.addTextChangedListener(new GenericTextWatcher(act,binding.otpFour, edit));
 
-
     }
     private void InsertRecord() {
         if (isLoading)

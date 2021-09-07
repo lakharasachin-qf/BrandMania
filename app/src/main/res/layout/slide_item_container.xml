@@ -1,63 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:orientation="vertical"
-    app:cardCornerRadius="@dimen/_15sdp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    app:cardCornerRadius="@dimen/_15sdp">
 
     <RelativeLayout
-         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_350sdp">
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_400sdp">
+
         <androidx.cardview.widget.CardView
-            android:layout_marginRight="@dimen/_5sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:background="@android:color/transparent"
-            android:layout_marginBottom="@dimen/_5sdp"
-            app:cardCornerRadius="@dimen/_15sdp"
-            android:elevation="@dimen/_200sdp"
-            android:layout_marginTop="@dimen/_20sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_marginStart="-90dp"
-                android:layout_gravity="bottom"
-                android:src="@drawable/bottom"
-                android:layout_width="@dimen/_250sdp"
-                android:layout_height="@dimen/_250sdp"/>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@android:color/transparent"
+            android:elevation="@dimen/_200sdp"
+            app:cardCornerRadius="@dimen/_15sdp">
+
             <RelativeLayout
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <RelativeLayout
-                    android:elevation="@dimen/_10sdp"
                     android:id="@+id/basicTitle"
-                    android:background="@drawable/titleshape"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_45sdp">
+                    android:layout_height="@dimen/_45sdp"
+                    android:background="@drawable/titleshape"
+                    android:elevation="@dimen/_10sdp">
 
                     <TextView
-                        android:layout_marginBottom="@dimen/_4sdp"
-                        android:layout_alignParentBottom="true"
                         android:id="@+id/packageTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/_15sdp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:fontFamily="@font/montserrat_bold"
                         android:text="299 Rs"
-                        android:layout_centerHorizontal="true"
                         android:textColor="@color/colorNavText"
-                        android:fontFamily="@font/montserrat_bold" />
+                        android:textSize="@dimen/_15sdp" />
 
-              <!--<TextView
-                        android:id="@+id/payPerYearTag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/_15sdp"
-                        android:text=""
-                        android:layout_centerHorizontal="true"
-                        android:textColor="@color/colorNavText"
-                        android:fontFamily="@font/inter_bold" />-->
+                    <!--<TextView
+                              android:id="@+id/payPerYearTag"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:textSize="@dimen/_15sdp"
+                              android:text=""
+                              android:layout_centerHorizontal="true"
+                              android:textColor="@color/colorNavText"
+                              android:fontFamily="@font/inter_bold" />-->
                 </RelativeLayout>
 
                 <TextView
@@ -76,12 +73,11 @@
                     android:id="@+id/templateLine"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_below="@+id/templateTiltle"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                     android:background="#B1B1B1"
-                    />
+                    android:background="#B1B1B1" />
 
                 <TextView
                     android:id="@+id/ImageTiltle"
@@ -102,8 +98,7 @@
                     android:layout_below="@+id/ImageTiltle"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                     android:background="#B1B1B1"
-                    />
+                    android:background="#B1B1B1" />
 
                 <TextView
                     android:id="@+id/payTiltle"
@@ -124,68 +119,93 @@
                     android:layout_below="@+id/payTiltle"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                     android:background="#B1B1B1"
-                    />
+                    android:background="#B1B1B1" />
 
                 <TextView
-
-                   android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:background="@drawable/buttoncornar"
                     android:id="@+id/selectPlaneBtn"
-                    android:gravity="center"
-                    android:layout_marginBottom="@dimen/_30sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_28sdp"
-                    android:paddingStart="@dimen/_15sdp"
-                    android:paddingEnd="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="Purchase"
-                    android:textColor="#FFF"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/_10sdp"
-                    />
-                <TextView
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_30sdp"
-                    android:backgroundTint="@color/colorthird"
-                    android:gravity="center"
                     android:background="@drawable/buttoncornar"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/inter_regular"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:text="Purchase"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="visible" />
+
+                <TextView
                     android:id="@+id/subscribePlaneBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_28sdp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:background="@drawable/buttoncornar"
+                    android:backgroundTint="@color/colorthird"
+                    android:fontFamily="@font/inter_regular"
+                    android:gravity="center"
                     android:paddingStart="@dimen/_15sdp"
                     android:paddingEnd="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_regular"
                     android:text="Purchased"
-                    android:textColor="#FFF"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="#FFF"
                     android:textSize="@dimen/_10sdp"
-                    />
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/expiredPlaneTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/inter_regular"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:text="Your package is expired"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="@dimen/_250sdp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="-90dp"
+                    android:src="@drawable/bottom" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
         <RelativeLayout
-            android:elevation="@dimen/_10sdp"
-            android:gravity="center"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/shapeee_round_cornar"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_35sdp">
+            android:elevation="@dimen/_10sdp"
+            android:gravity="center">
 
             <LinearLayout
                 android:id="@+id/priceContent"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/symbolPriceForPay"
@@ -207,17 +227,18 @@
                     //₹
                 </TextView>
             </LinearLayout>
+
             <TextView
-                android:layout_below="@+id/priceContent"
                 android:id="@+id/priceForPayTag"
-                android:textColor="@color/colorNavText"
-                android:text="Per Year"
-                android:fontFamily="@font/montserrat_bold"
-                android:layout_marginTop="-7dp"
-                android:textSize="@dimen/_8sdp"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/priceContent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-7dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Per Year"
+                android:textColor="@color/colorNavText"
+                android:textSize="@dimen/_8sdp">
 
             </TextView>
         </RelativeLayout>

@@ -59,7 +59,7 @@ public class AnimatedGifEncoder {
      * (applies to last frame added).
      *
      * @param ms
-     *          int delay time in milliseconds
+     *          int delay time in
      */
     public void setDelay(int ms) {
         delay = ms / 10;

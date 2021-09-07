@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
+import com.app.brandmania.utils.Utility;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -40,7 +42,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         return new SliderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.slide_item_container,parent,false));
     }
 
-    @Override public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
+    @Override public void onBindViewHolder(@NonNull SliderViewHolder holder, @SuppressLint("RecyclerView") int position) {
             holder.setLayout(sliderItems.get(position));
             holder.packageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -58,7 +60,15 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid()) && preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")){
                 holder.packageBtn.setVisibility(View.GONE);
                 holder.subcribedBtn.setVisibility(View.VISIBLE);
+                if(Utility.isPackageExpired(activity))
+                {
+                    holder.subcribedBtn.setVisibility(View.GONE);
+                    holder.packageBtn.setVisibility(View.VISIBLE);
+                    holder.expiredTxt.setVisibility(View.VISIBLE);
+
+                }
             }
+
     }
 
     @Override public int getItemCount() {
@@ -74,6 +84,8 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         private TextView payTitle;
         private TextView packageBtn;
         private TextView subcribedBtn;
+        private TextView expiredTxt;
+
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
             priceForPay=itemView.findViewById(R.id.priceForPay);
@@ -82,11 +94,11 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             imageTitle=itemView.findViewById(R.id.ImageTiltle);
             payTitle=itemView.findViewById(R.id.payTiltle);
             packageBtn=itemView.findViewById(R.id.selectPlaneBtn);
+            expiredTxt=itemView.findViewById(R.id.expiredPlaneTxt);
             subcribedBtn=itemView.findViewById(R.id.subscribePlaneBtn);
         }
         void setLayout(SliderItem sliderItem)
         {
-
             priceForPay.setText(sliderItem.getPriceForPay());
             packageTitle.setText(sliderItem.getPackageTitle());
             templateTitle.setText(sliderItem.getTemplateTitle()+" - Template / Brand");
