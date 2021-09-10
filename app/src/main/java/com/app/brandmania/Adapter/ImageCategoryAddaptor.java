@@ -54,6 +54,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     PreafManager preafManager;
     private boolean isLoadingAdded = false;
     private DashBoardItem dashBoardItem;
+
     public DashBoardItem getDashBoardItem() {
         return dashBoardItem;
     }

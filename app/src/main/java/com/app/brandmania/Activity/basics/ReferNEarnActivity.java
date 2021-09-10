@@ -16,28 +16,61 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityReferBinding;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReferNEarnActivity extends BaseActivity {
 
     Activity act;
+    private String deviceToken = "";
     private ActivityReferBinding binding;
     PreafManager preafManager;
 
+    public void getDeviceToken(Activity act) {
+        Utility.showProgress(act);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                deviceToken = task.getResult();
+                UpdateToken();
+            }
+        });
+    }
+
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
         Window w = getWindow();
-           /*getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);*/
+        getDeviceToken(act);
+//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_refer);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -46,7 +79,7 @@ public class ReferNEarnActivity extends BaseActivity {
         binding.referalCodeTxt.setText(preafManager.getReferCode());
         binding.walletMoney.setText(preafManager.getWallet());
         binding.referalCodeTxt.setTextIsSelectable(true);
-        binding.msgTxt.setText("Refer a friend earn discount of all your friends purchases for 1 year. your friends also earn "+act.getString(R.string.Rs)+ preafManager.getWallet() + " on Sign-up.");
+        binding.msgTxt.setText("Refer a friend earn discount of all your friends purchases for 1 year. your friends also earn " + act.getString(R.string.Rs) + preafManager.getWallet() + " on Sign-up.");
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,8 +124,8 @@ public class ReferNEarnActivity extends BaseActivity {
                 "link=http://www.queryfinders.com?refer=" + preafManager.getReferCode() +
                 "&apn=" + getPackageName() +
                 "&st=" + "Referral Code" +
-                "&sd=" + "Reward 20" +
-                "&si=" + "https://www.blueappsoftware.com/wp-content/uploads/2018/06/blueapp-software-144-350.png";
+                "&sd=" + "Earn Rewards" +
+                "&si=" + "http://queryfinders.com/brandmania/brandMania/website/images/brandmania-logo.png";
 
 
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
@@ -116,10 +149,74 @@ public class ReferNEarnActivity extends BaseActivity {
                 });
     }
 
+    private void UpdateToken() {
+        Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("UPDATE_TOKENnn", response);
+                Utility.dismissProgress();
+                // {"status":true,"data":[{"id":1,"video_url_path":"http:\/\/queryfinders.com\/brandmania_uat\/public\/storage\/uploads\/video\/Skype_Video.mp4"}],"message":"Device Token Updated."}
+                JSONObject jsonObject = ResponseHandler.createJsonObject(response);
+                try {
+                    JSONObject jsonArray1 = jsonObject.getJSONObject("message");
+                    preafManager.setWallet(jsonArray1.getString("user_total_coin"));
+                    preafManager.setReferCode(jsonArray1.getString("referal_code"));
+                    preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
+                    preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
+                    binding.referalCodeTxt.setText(jsonArray1.getString("referal_code"));
+                    binding.walletMoney.setText(jsonArray1.getString("user_total_coin"));
+                    //setupReferrerCode();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Utility.dismissProgress();
+                error.printStackTrace();
+            }
+        }) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                return params;
+
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("firebase_token", deviceToken);
+                Utility.Log("Verify-Param", hashMap.toString());
+                return hashMap;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
+
     public void shareLink(Uri myDynamicLink) {
         // [START ddl_share_link]
         Intent sendIntent = new Intent();
-        String msg = "Hey, check this out: " + myDynamicLink;
+        String msg = "Hello!!\n" +
+                "\n" +
+                "I invite you to use Brandmania app.\n" +"\n" +
+                "Use bellow link to download and get assured discount on your payment.\n" +
+                "\n" +
+                "Brand mania app is used to make social media marketing image for your business in 5 minutes. Here festival images,national and international days images will be provided.\n" +
+                "\n"+"Referral code: "+
+                preafManager.getReferCode() +"\n"+"Try it now:\n"+ myDynamicLink ;
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, msg);
         sendIntent.setType("text/plain");
@@ -127,3 +224,9 @@ public class ReferNEarnActivity extends BaseActivity {
         // [END ddl_share_link]
     }
 }
+ /* "\n" +
+          "Use bellow link to download and get assured discount on your payment \n" +
+          "\n" +
+          "Brand mania app is used to make social media marketing image for your business in 5 minutes. Here festival images,national and international days images will be provided.\n" +
+          "\n" +
+          "Try it now:\n"+"\nReferral code: \n"*/

@@ -5,11 +5,9 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_75sdp"
-        android:layout_marginLeft="@dimen/_7sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_7sdp"
-        android:elevation="@dimen/_40sdp"
+        android:layout_height="@dimen/_95sdp"
+        card_view:cardElevation="@dimen/_4sdp"
+        card_view:cardUseCompatPadding="true"
         card_view:cardCornerRadius="@dimen/_10sdp">
 
         <RelativeLayout
@@ -42,24 +40,24 @@
                 android:src="@drawable/ic_freee"
                 android:visibility="gone" />
 
-            <RelativeLayout
-                android:visibility="gone"
-                android:id="@+id/gifLayout"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_15sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/_7sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@drawable/giflayout_shape">
+<!--            <RelativeLayout-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/gifLayout"-->
+<!--                android:layout_width="@dimen/_35sdp"-->
+<!--                android:layout_height="@dimen/_15sdp"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:layout_marginLeft="@dimen/_7sdp"-->
+<!--                android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                android:background="@drawable/giflayout_shape">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="GIF"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_6sdp" />
-            </RelativeLayout>
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="GIF"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/_6sdp" />-->
+<!--            </RelativeLayout>-->
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

@@ -66,14 +66,11 @@ public class LoginActivity extends BaseActivity {
             binding.welcome.setText(Html.fromHtml(WELCOME));
         }
 
-
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
                 ContactNO = binding.mobileNumber.getText().toString();
-
 
                 if (!binding.mobileNumber.getText().toString().equals("")) {
 

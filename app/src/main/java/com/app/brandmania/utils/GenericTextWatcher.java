@@ -16,11 +16,10 @@ public class GenericTextWatcher implements TextWatcher {
     private Activity act;
     public GenericTextWatcher(Activity act,View view, EditText editText[])
     {
-        this.act=this.act;
+        this.act=act;
         this.editText = editText;
         this.view = view;
     }
-
     @Override
     public void afterTextChanged(Editable editable) {
         String text = editable.toString();

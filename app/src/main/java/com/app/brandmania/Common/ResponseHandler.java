@@ -259,8 +259,6 @@ public class ResponseHandler {
 
                 Collections.sort(dataList);
 
-
-
             }
             returnModel.setDashBoardItems(dataList);
             JSONObject linkObj = getJSONObject(jsonObject, "link");

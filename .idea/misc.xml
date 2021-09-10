@@ -10,9 +10,13 @@
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/card_bottom_button.xml" value="0.13783783783783785" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/colorboxtroundcorner.xml" value="0.13783783783783785" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/couponerectangleshape.xml" value="0.13243243243243244" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.13783783783783785" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/ic_editor_cancel.xml" value="0.13783783783783785" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/ic_editor_cancel_refer.xml" value="0.13783783783783785" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/ic_referrel_illustration.xml" value="0.159375" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/ic_undraw_request_bussiness_cat.xml" value="0.159375" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/imagecirclebackgroundshapwhite.xml" value="0.13783783783783785" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/refer_rectangle_shape.xml" value="0.159375" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/referral_background_home_fragment.xml" value="0.13243243243243244" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/reffer_bottom_button_shap.xml" value="0.13783783783783785" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/refferrer_indicatorshap.xml" value="0.13783783783783785" />
@@ -27,7 +31,7 @@
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_package.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_pdf.xml" value="0.12195945945945946" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_razor_pay.xml" value="0.18" />
-        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_refer.xml" value="0.18072916666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_refer.xml" value="0.18" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_registration.xml" value="0.18" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_subscription.xml" value="0.18" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_update_band_list.xml" value="0.22" />
@@ -41,6 +45,8 @@
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/custom_image_tab.xml" value="0.11182432432432432" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/dashboard_item_layout.xml" value="0.22" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/detail_imageview.xml" value="0.11182432432432432" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/dialog_discard_image.xml" value="0.147265625" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/dialog_facebook_likes.xml" value="0.25" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/dialog_image_view_layout.xml" value="0.11182432432432432" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/dialog_no_internet_connection.xml" value="0.11182432432432432" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/dialog_upgrade_download_limit_expire.xml" value="0.12195945945945946" />
@@ -60,7 +66,7 @@
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/item_layout_frame.xml" value="0.12195945945945946" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/item_layout_home.xml" value="0.11182432432432432" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/item_layout_viewallframe.xml" value="0.12195945945945946" />
-        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/item_layout_viewallimage.xml" value="0.33" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/item_layout_viewallimage.xml" value="0.147265625" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/item_list_layout.xml" value="0.11182432432432432" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/item_simmer_visitors_layout.xml" value="0.12195945945945946" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/layout_for_load_five.xml" value="0.22" />

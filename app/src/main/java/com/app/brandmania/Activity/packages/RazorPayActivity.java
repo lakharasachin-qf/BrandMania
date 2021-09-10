@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -34,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.MySingleton;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -108,7 +110,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         selectedBrand = gson.fromJson(getIntent().getStringExtra("BrandListItem"), BrandListItem.class);
         Gson gson = new Gson();
         Log.e("EEEE", gson.toJson(sliderItemList));
-
+        //binding.promoCodeTxt.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +119,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         });
 
         calculateAmount = sliderItemList.getPriceForPay();
-        // createPayment();
+        createPayment();
         binding.proceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,42 +227,17 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             public void run() {
                 if (myBrandApp.getObserver().getValue() == Constant.SELECTEDREFFERCODE) {
                     binding.promoCodeTxt.setText(preafManager.getReferrerCode());
-
                 }
             }
         });
     }
 
     public void showReferrer() {
-
+        Utility.Log("APi", preafManager.getSpleshReferrer() + "ss");
         if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty()) {
+
             verifyCode(preafManager.getSpleshReferrer());
         }
-
-        /*final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.fragment_refferrer_bottom);
-        Button referralBtn = bottomSheetDialog.findViewById(R.id.referralBtn);
-        ImageView cancelBtn = bottomSheetDialog.findViewById(R.id.cancelBtn);
-        TextView refferalCodeTxt = bottomSheetDialog.findViewById(R.id.refferalCodeTxt);
-        refferalCodeTxt.setText(preafManager.getReferrerCode());
-
-        referralBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MakeMyBrandApp.getInstance().getObserver().setValue(Constant.SELECTEDREFFERCODE);
-                binding.promoCodeTxt.setText(preafManager.getReferrerCode());
-                // Toast.makeText(act, "You Have Own Referrer Code", Toast.LENGTH_LONG).show();
-                bottomSheetDialog.dismiss();
-            }
-        });
-
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetDialog.dismiss();
-            }
-        });
-*/
     }
 
     private void createPayment() {
@@ -322,24 +299,22 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 return hashMap;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        stringRequest.setShouldCache(false);
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.getCache().clear();
-        queue.add(stringRequest);
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
 
     }
 
+    boolean isCodeApply = false;
+
     private void verifyCode(String codedd) {
-        if (isLoading)
+        if (isCodeApply)
             return;
-        isLoading = true;
+        isCodeApply = true;
         Utility.showLoadingTran(act);
         Utility.Log("APi", APIs.GET_PROMOCODE_DESCOUNT);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_PROMOCODE_DESCOUNT, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                isLoading = false;
+                isCodeApply = false;
                 Utility.dismissLoadingTran();
 
                 Utility.Log("PromocodeID ; ", response);
@@ -365,7 +340,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                isLoading = false;
+                isCodeApply = false;
                 Utility.dismissLoadingTran();
 
                 Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
@@ -400,11 +375,9 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 return hashMap;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        stringRequest.setShouldCache(false);
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.getCache().clear();
-        queue.add(stringRequest);
+
+
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
 
     }
 
@@ -415,7 +388,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         binding.couponCodeTxt.setText("Discount(" + discount + "%" + ")");
         binding.dicountLayout.setVisibility(View.VISIBLE);
         binding.applyPromoCodeTxt.setText("Congratesss! You saved(" + act.getString(R.string.Rs) + discounted_amount + ")");
-        binding.applysuccesfullyTxt.setText(Html.fromHtml( "<font color=\"red\">"+"<b>"+code+"</b>"+"</font>" + "<font color=\"#FFFFFF\"><b> Applied Successfully</b></font>"));
+        binding.applysuccesfullyTxt.setText(Html.fromHtml("<font color=\"red\">" + "<b>" + code + "</b>" + "</font>" + "<font color=\"#FFFFFF\"><b> Applied Successfully</b></font>"));
         binding.applypromoEditTxt.setVisibility(View.VISIBLE);
         binding.finalAmountTxt.setText(act.getString(R.string.Rs) + total_amount);
         calculateAmount = total_amount;
@@ -451,6 +424,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                     Log.e("RoserPay Order Id", generatedOrderId);
                     calculateAmount = ResponseHandler.getString(jsonObject, "orderAmount");
                     currency = ResponseHandler.getString(jsonObject, "currency");
+
                     setUpPaymentMethod();
                 } else {
                     Toast.makeText(act, "" + ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"), Toast.LENGTH_LONG).show();
@@ -489,11 +463,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 return hashMap;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        stringRequest.setShouldCache(false);
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.getCache().clear();
-        queue.add(stringRequest);
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 
     private void setUpPaymentMethod() {
@@ -625,6 +595,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("is_wallet", "0");
                 hashMap.put("brand", sliderItemList.getBrandId());
                 hashMap.put("package", sliderItemList.getPackageid());
                 hashMap.put("amount", sliderItemList.getPriceForPay());
@@ -640,27 +611,22 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                     hashMap.put("razorpay_payment_id", paymentIdStr);
                     Log.e("razorpay_payment_id", paymentIdStr);
 
-
                     if (signatureStr != null) {
                         hashMap.put("razorpay_signature", signatureStr);
                     }
 
                 }
                 hashMap.put("razorpay_order_id", generatedOrderId);
-
+                if (code != null && !code.isEmpty()) {
+                    hashMap.put("code", code);
+                    hashMap.put("code_type", code_type);
+                }
                 Utility.Log("Param", hashMap.toString());
                 return hashMap;
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        stringRequest.setShouldCache(false);
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.getCache().clear();
-        queue.add(stringRequest);
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 
     public void showAlert(Activity act, String msg, String flag) {
@@ -773,9 +739,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             }
 
         };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
     }
 
     @Override

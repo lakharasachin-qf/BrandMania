@@ -53,30 +53,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnMenuItemClickListener{
+public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
     Activity act;
     private ActivityRegistrationBinding binding;
-    private boolean isLoading=false;
-    private String is_completed="";
+    private boolean isLoading = false;
+    private String is_completed = "";
     int errorColor;
     final int version = Build.VERSION.SDK_INT;
     PreafManager preafManager;
     AlertDialog.Builder alertDialogBuilder;
     private ImageView menuOtpion;
     String referrerCode = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act= this;
-        binding= DataBindingUtil.setContentView(act, R.layout.activity_registration);
+        act = this;
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_registration);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        alertDialogBuilder=new AlertDialog.Builder(act);
-        preafManager=new PreafManager(this);
+        alertDialogBuilder = new AlertDialog.Builder(act);
+        preafManager = new PreafManager(this);
         binding.emailId.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);
 
         referrerCode = preafManager.getSpleshReferrer();
-        Log.e("refferrer","s"+referrerCode);
+        Log.e("refferrer", "s" + referrerCode);
 
         binding.firstName.setNextFocusDownId(R.id.lastName);
         binding.lastName.setNextFocusDownId(R.id.emailId);
@@ -96,12 +97,11 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
             }
         });
 
-        if(preafManager.getSpleshReferrer()!= null && !preafManager.getSpleshReferrer().isEmpty() )
-        {
+        if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty()) {
             binding.referrer.setText(preafManager.getSpleshReferrer());
         }
 
-        menuOtpion=findViewById(R.id.menuOtpion);
+        menuOtpion = findViewById(R.id.menuOtpion);
         menuOtpion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,13 +127,14 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
 
         String CreatAccount = "Create<br>Account</font></br>";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-           // binding.signupText.setText(Html.fromHtml(Message, Html.FROM_HTML_MODE_COMPACT));
+            // binding.signupText.setText(Html.fromHtml(Message, Html.FROM_HTML_MODE_COMPACT));
             binding.creatAccount.setText(Html.fromHtml(CreatAccount, Html.FROM_HTML_MODE_COMPACT));
         } else {
             //binding.signupText.setText(Html.fromHtml(Message));
             binding.creatAccount.setText(Html.fromHtml(CreatAccount));
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void Validation() {
 
@@ -165,29 +166,26 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                 binding.emailIdTextLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorNavText)));
                 binding.emailId.requestFocus();
 
-            }
-            else
-            {
+            } else {
 
             }
 
-        }
-        else {
+        } else {
             if (binding.emailId.getText().toString().trim().length() == 0) {
                 isError = true;
                 isFocus = true;
                 binding.emailIdTextLayout.setError(getString(R.string.enter_email_id));
                 binding.emailIdTextLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorNavText)));
-                          binding.emailId.requestFocus();
+                binding.emailId.requestFocus();
 
             }
         }
-        if (!isError)
-        {
+        if (!isError) {
             addUser();
         }
 
     }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
 
@@ -216,17 +214,17 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.USER_REGISTRATION)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer "+preafManager.getUserToken())
+                .addHeaders("Authorization", "Bearer " + preafManager.getUserToken())
                 .addMultipartParameter("first_name", binding.firstName.getText().toString())
                 .addMultipartParameter("last_name", binding.lastName.getText().toString())
                 .addMultipartParameter("email", binding.emailId.getText().toString())
-                .addMultipartParameter("referral_code",binding.referrer.getText().toString())
+                .addMultipartParameter("referral_code", binding.referrer.getText().toString())
                 /*hashMap.put("referrerCode", referrerCode);*/
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
 
         preafManager.setEMAIL_Id(binding.emailId.getText().toString());
-        Log.e("test",gson.toJson(request));
+        Log.e("test", gson.toJson(request));
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
@@ -239,44 +237,36 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                         isLoading = false;
                         Utility.dismissProgress();
                         Utility.Log("Verify-Response", response);
-
                         try {
-
                             if (response.getBoolean("status")) {
                                 preafManager.setIs_Registration(true);
                                 //preafManager.setSpleshReferrer(null);
                                 JSONObject jsonArray = response.getJSONObject("data");
-                                is_completed= jsonArray.getString("is_completed");
+                                is_completed = jsonArray.getString("is_completed");
 
-                                        preafManager.loginStep(is_completed);
-                                        if (is_completed.equals("1"))
-                                        {
-                                            Intent i = new Intent(act, AddBranddActivity.class);
-                                            i.addCategory(Intent.CATEGORY_HOME);
-                                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(i);
-                                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                                            finish();
-                                        }
-                                        if (is_completed.equals("2"))
-                                        {
-
-                                            getBrandList();
-
+                                preafManager.loginStep(is_completed);
+                                if (is_completed.equals("1")) {
+                                    Intent i = new Intent(act, AddBranddActivity.class);
+                                    i.addCategory(Intent.CATEGORY_HOME);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(i);
+                                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                                    finish();
+                                }
+                                if (is_completed.equals("2")) {
+                                    getBrandList();
 //                                    Intent i = new Intent(act, HomeActivity.class);
 //                                    i.addCategory(Intent.CATEGORY_HOME);
 //                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                                    startActivity(i);
 //                                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 //                                    finish();
-                                        }
+                                }
 
                             }
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
 
 
                     }
@@ -302,16 +292,15 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("addbrandresponce",response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                Log.e("addbrandresponce", response);
+                ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
-                    JSONObject res=new JSONObject(response);
+                    JSONObject res = new JSONObject(response);
 
                     JSONArray jsonArray1 = res.getJSONArray("data");
-                    for (int i=0;i<jsonArray1.length();i++)
-                    {
-                        JSONObject jsonObject=jsonArray1.getJSONObject(i);
-                        BrandListItem brandListItemm=new BrandListItem();
+                    for (int i = 0; i < jsonArray1.length(); i++) {
+                        JSONObject jsonObject = jsonArray1.getJSONObject(i);
+                        BrandListItem brandListItemm = new BrandListItem();
                         brandListItemm.setId(ResponseHandler.getString(jsonObject, "id"));
                         brandListItemm.setCategoryId(ResponseHandler.getString(jsonObject, "br_category_id"));
                         brandListItemm.setCategoryName(ResponseHandler.getString(jsonObject, "br_category_name"));
@@ -326,7 +315,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));
                         brandListItemm.setIs_payment_pending(ResponseHandler.getString(jsonObject, "is_payment_pending"));
-                        brandListItemm.setSubscriptionDate(ResponseHandler.getString(jsonObject,"subscription_date"));
+                        brandListItemm.setSubscriptionDate(ResponseHandler.getString(jsonObject, "subscription_date"));
                         brandListItemm.setPayment_message(ResponseHandler.getString(jsonObject, "payment_message"));
                         brandListItemm.setPackagename(ResponseHandler.getString(jsonObject, "package"));
                         brandListItemm.setPackagemessage(ResponseHandler.getString(jsonObject, "package_message"));
@@ -338,12 +327,12 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                         brandListItemm.setRate(ResponseHandler.getString(jsonObject, "rate"));
 
                         JSONArray jsonArray = jsonObject.getJSONArray("br_frame");
-                        ArrayList<FrameItem>frameItems=null;
+                        ArrayList<FrameItem> frameItems = null;
                         frameItems = new ArrayList<>();
                         for (int j = 0; j < jsonArray.length(); j++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(j);
                             FrameItem frameItem = new FrameItem();
-                            frameItem.setFrame1(ResponseHandler.getString(jsonObject,"fream_base_url")+"/"+ResponseHandler.getString(jsonObject1, "frame_path"));
+                            frameItem.setFrame1(ResponseHandler.getString(jsonObject, "fream_base_url") + "/" + ResponseHandler.getString(jsonObject1, "frame_path"));
                             frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
 
                             frameItems.add(frameItem);
@@ -357,7 +346,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                     preafManager.setAddBrandList(brandListItems);
                     preafManager.setIS_Brand(true);
 
-                    if (brandListItems!=null && brandListItems.size()!=0){
+                    if (brandListItems != null && brandListItems.size() != 0) {
                         preafManager.setActiveBrand(brandListItems.get(0));
                     }
                     Intent i = new Intent(act, HomeActivity.class);
@@ -365,8 +354,7 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);
                     finish();
 
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -394,8 +382,8 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -415,8 +403,8 @@ public class RegistrationActivity extends BaseActivity implements  PopupMenu.OnM
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-    public void captureScreenShort()
-    {
+
+    public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 }

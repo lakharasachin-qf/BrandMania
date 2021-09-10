@@ -656,7 +656,7 @@
             android:id="@+id/pdfImage"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
-            android:visibility="gone"></ImageView>
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/contactTxtLayout"

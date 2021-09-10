@@ -130,16 +130,21 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         homeFragment = this;
         fiveStarsDialog = new FiveStarsDialog(Objects.requireNonNull(getActivity()), "brandmania@gmail.com");
         preafManager = new PreafManager(act);
-        Glide.with(act).load(preafManager.getActiveBrand().getLogo()).into(binding.pdfLogo);
+
         if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
             if (preafManager.getActiveBrand() == null) {
                 preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
                 preafManager = new PreafManager(act);
             }
         }
-        //requestAgain();
+        if (preafManager.getActiveBrand() != null) {
+            Glide.with(act).load(preafManager.getActiveBrand().getLogo()).into(binding.pdfLogo);
+            //requestAgain();
+            Glide.with(act).load(preafManager.getActiveBrand().getLogo());
+        }
         RateUs();
-        Glide.with(act).load(preafManager.getActiveBrand().getLogo());
+
+
         mTitleContainer = act.findViewById(R.id.main_linearlayout_title);
         // binding.alertText.setSelected(true);
         binding.showNotification.setOnClickListener(new View.OnClickListener() {
@@ -365,7 +370,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_IMAGE_CATEGORY : ", response);
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     apiResponse = ResponseHandler.HandleGetImageCategory(jsonObject);
@@ -540,6 +544,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     JSONObject jsonArray1 = jsonObject.getJSONObject("message");
                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
+                    if (jsonArray1.getString("reference_code").equals("null"))
+                        jsonArray1.put("reference_code", "");
+                    preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
                     preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
@@ -568,7 +575,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
             }
 
-
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
@@ -581,19 +587,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
-/*
-    public void setupReferrerCode() {
-
-        if(preafManager.getReferrerCode()!= null && preafManager.getReferrerCode().isEmpty())
-        {
-
-            Toast.makeText(act, "You Have Own Referrer Code", Toast.LENGTH_LONG).show();
-
-        }
-
-    }
-*/
 
     public void setupReferralCode() {
         binding.referralcodeTxt.setText(preafManager.getReferCode());
@@ -664,11 +657,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     preafManager.setAddBrandList(multiListItems);
-
-                    for (int i = 0; i < multiListItems.size(); i++) {
-                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
-                            preafManager.setActiveBrand(multiListItems.get(i));
-                            break;
+                    if (preafManager.getActiveBrand() != null) {
+                        for (int i = 0; i < multiListItems.size(); i++) {
+                            if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
+                                preafManager.setActiveBrand(multiListItems.get(i));
+                                break;
+                            }
                         }
                     }
                     preafManager = new PreafManager(act);

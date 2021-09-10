@@ -213,21 +213,31 @@ public class ProfileFragment extends BaseFragment {
         return binding.getRoot();
     }
     public static String FACEBOOK_URL = "https://www.facebook.com/brandmania2020";
-    public static String FACEBOOK_PAGE_ID = "brandmania2020";
+    public static String FACEBOOK_PAGE_ID = "103655598316587";
 
     //method to get the right URL to use in the intent
-    public String getFacebookPageURL(Context context) {
+    public Uri getFacebookPageURL(Context context) {
         PackageManager packageManager = context.getPackageManager();
+//        try {
+//            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+//            if (versionCode >= 3002850) {
+//                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+//            } else { //older versions of fb app
+//                return "fb://page/" + FACEBOOK_PAGE_ID;
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            return FACEBOOK_URL; //normal web url
+//        }
+
+        Uri uri;
         try {
-            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            if (versionCode >= 3002850) {
-                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
-            } else { //older versions of fb app
-                return "fb://page/" + FACEBOOK_PAGE_ID;
-            }
+            packageManager.getPackageInfo("com.facebook.katana", 0);
+            // http://stackoverflow.com/a/24547437/1048340
+            uri = Uri.parse("fb://facewebmodal/f?href=" + FACEBOOK_URL);
         } catch (PackageManager.NameNotFoundException e) {
-            return FACEBOOK_URL; //normal web url
+            uri = Uri.parse(FACEBOOK_URL);
         }
+        return uri;
     }
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
     private void getBrandList() {
@@ -335,8 +345,9 @@ public class ProfileFragment extends BaseFragment {
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
-                String facebookUrl = getFacebookPageURL(act);
-                facebookIntent.setData(Uri.parse(facebookUrl));
+              //  String facebookUrl = getFacebookPageURL(act);
+              //  Log.e("facebook",facebookUrl);
+                facebookIntent.setData(Uri.parse(FACEBOOK_URL));
                 startActivity(facebookIntent);
             }
         });

@@ -1,168 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/AppTheme_material_theme"
-    android:background="@drawable/reg_screen"
-    android:layout_height="match_parent"
-    tools:context=".Activity.basics.RegistrationActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:visibility="visible"
-        android:id="@+id/my_toolbar"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_70sdp"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
+        android:layout_height="match_parent"
+        android:background="@drawable/reg_screen"
+        android:orientation="vertical"
+        android:theme="@style/AppTheme_material_theme"
+        tools:context=".Activity.basics.RegistrationActivity">
 
-        <RelativeLayout
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_7sdp"
-            android:id="@+id/main_linearlayout_title"
-            android:elevation="0dp"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp">
+            android:layout_height="@dimen/_70sdp"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:visibility="visible"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/menuOtpion"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:src="@drawable/ic_power_button"
-                android:padding="@dimen/_5sdp"
-                android:layout_width="@dimen/_27sdp"
-                android:layout_height="@dimen/_27sdp">
-            </ImageView>
-
-        </RelativeLayout>
-    </androidx.appcompat.widget.Toolbar>
-    <TextView
-        android:layout_alignParentStart="true"
-        android:id="@+id/creatAccount"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/_80sdp"
-        android:textColor="@color/colorNavText"
-        android:textSize="@dimen/_20sdp"
-        android:fontFamily="@font/inter_extrabold"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_height="wrap_content"></TextView>
-    <LinearLayout
-    android:layout_above="@+id/submitBtn"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/userNameTextLayout"
-        style="@style/RegistrationTextInputLayoutStyle"
-        android:layout_width="match_parent"
-        app:errorEnabled="true"
-        android:textColorHint="#fff"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:hint="First Name"
-        app:hintTextColor="@color/colorNavText"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/firstName"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_10sdp"
-            android:drawablePadding="@dimen/_10sdp"
-            android:singleLine="true"
-            android:textColor="@color/colorNavText"
-            android:inputType="textCapWords"
-            android:textSize="@dimen/_10sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/lastNameTextLayout"
-        style="@style/RegistrationTextInputLayoutStyle"
-        android:layout_width="match_parent"
-        app:errorEnabled="true"
-        android:textColorHint="#fff"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:hint="Last Name"
-        app:hintTextColor="@color/colorNavText"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/lastName"
-            android:textCursorDrawable="@drawable/cursordesign"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_10sdp"
-            android:drawablePadding="@dimen/_10sdp"
-            android:singleLine="true"
-            android:textColor="@color/colorNavText"
-            android:inputType="textCapWords"
-            android:textSize="@dimen/_10sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailIdTextLayout"
-        style="@style/RegistrationTextInputLayoutStyle"
-        android:layout_width="match_parent"
-        app:errorEnabled="true"
-        android:textColorHint="#fff"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:hint="Email Id"
-        app:hintTextColor="@color/colorNavText"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailId"
-            android:textColor="@color/colorNavText"
-            android:textColorHint="#fff"
-            android:textCursorDrawable="@drawable/cursordesign"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_10sdp"
-            android:drawablePadding="@dimen/_10sdp"
-            android:singleLine="true"
-            android:textSize="@dimen/_10sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/referrerTextLayout"
-            style="@style/RegistrationTextInputLayoutStyle"
-            android:layout_width="match_parent"
-            app:errorEnabled="true"
-            android:textColorHint="#fff"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginRight="@dimen/_20sdp"
-            android:hint="Enter referrer code"
-            app:hintTextColor="@color/colorNavText"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/referrer"
-                android:textColor="@color/colorNavText"
-                android:textColorHint="#fff"
-                android:textCursorDrawable="@drawable/cursordesign"
-                android:paddingTop="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_10sdp"
-                android:drawablePadding="@dimen/_10sdp"
-                android:singleLine="true"
-                android:textSize="@dimen/_10sdp"
+            <RelativeLayout
+                android:id="@+id/main_linearlayout_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="@dimen/_70sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:elevation="0dp">
 
-</LinearLayout>
+                <ImageView
+                    android:id="@+id/menuOtpion"
+                    android:layout_width="@dimen/_27sdp"
+                    android:layout_height="@dimen/_27sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_power_button"
+                    android:visibility="gone"></ImageView>
 
-    <ImageView
-        android:id="@+id/submitBtn"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_90sdp"
-        android:background="@drawable/regroundbackground"
-        android:padding="@dimen/_12sdp"
-        android:src="@drawable/ic_right_arrow"></ImageView>
-</RelativeLayout>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/creatAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:fontFamily="@font/inter_extrabold"
+            android:textColor="@color/colorNavText"
+            android:textSize="@dimen/_20sdp"></TextView>
+
+        <LinearLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/submitBtn"
+            android:layout_below="@+id/creatAccount"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/userNameTextLayout"
+                style="@style/RegistrationTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:hint="First Name"
+                android:textColorHint="#fff"
+                app:errorEnabled="true"
+                app:hintTextColor="@color/colorNavText">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/firstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:inputType="textCapWords"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorNavText"
+                    android:textSize="@dimen/_10sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lastNameTextLayout"
+                style="@style/RegistrationTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:hint="Last Name"
+                android:textColorHint="#fff"
+                app:errorEnabled="true"
+                app:hintTextColor="@color/colorNavText">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:inputType="textCapWords"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorNavText"
+                    android:textCursorDrawable="@drawable/cursordesign"
+                    android:textSize="@dimen/_10sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailIdTextLayout"
+                style="@style/RegistrationTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:hint="Email Id"
+                android:textColorHint="#fff"
+                app:errorEnabled="true"
+                app:hintTextColor="@color/colorNavText">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorNavText"
+                    android:textColorHint="#fff"
+                    android:textCursorDrawable="@drawable/cursordesign"
+                    android:textSize="@dimen/_10sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/referrerTextLayout"
+                style="@style/RegistrationTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:hint="Enter referrer code"
+                android:textColorHint="#fff"
+                app:errorEnabled="true"
+                app:hintTextColor="@color/colorNavText">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/referrer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorNavText"
+                    android:textColorHint="#fff"
+                    android:textCursorDrawable="@drawable/cursordesign"
+                    android:textSize="@dimen/_10sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/submitBtn"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_40sdp"
+            android:background="@drawable/regroundbackground"
+            android:padding="@dimen/_12sdp"
+            android:src="@drawable/ic_right_arrow"/>
+    </RelativeLayout>
 </layout>
