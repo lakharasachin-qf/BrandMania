@@ -90,7 +90,7 @@ import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
-import com.app.brandmania.utils.FileUtilsDemo;
+ 
 import com.app.brandmania.utils.IFontChangeEvent;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityViewGifDetailsBinding;

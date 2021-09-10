@@ -155,13 +155,13 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     }
 
-    // ask for payment
     public DialogPermissionsLayoutBinding permissionsLayoutBinding;
     private int REQUESTED_ALL=0001;
     private int REQUESTED_CAMERA=0002;
     private int REQUESTED_STORAGE=0003;
     private int REQUESTED_CONTACT=0004;
     private int REQUEST_SETTINGS=0005;
+
     androidx.appcompat.app.AlertDialog alertDialog;
     public void askPermissions() {
         permissionsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_permissions_layout, null, false);
@@ -169,11 +169,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         builder.setView(permissionsLayoutBinding.getRoot());
         alertDialog = builder.create();
         alertDialog.setContentView(permissionsLayoutBinding.getRoot());
-
         alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
-
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED) {
             permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
@@ -260,7 +258,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     else {
                         targetSetting=true;
                     }
-
                 }
             }else {
                 Toast.makeText(act, "You need to allow permission for better performance", Toast.LENGTH_SHORT).show();

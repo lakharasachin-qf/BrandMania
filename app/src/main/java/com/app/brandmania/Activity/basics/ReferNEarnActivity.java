@@ -125,7 +125,7 @@ public class ReferNEarnActivity extends BaseActivity {
                 "&apn=" + getPackageName() +
                 "&st=" + "Referral Code" +
                 "&sd=" + "Earn Rewards" +
-                "&si=" + "http://queryfinders.com/brandmania/brandMania/website/images/brandmania-logo.png";
+                "&si=" + "http://queryfinders.com/brandmania/brandMania/website/images/refer_and_earn_brandmania_mobile_app_play_store.png";
 
 
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
@@ -209,12 +209,10 @@ public class ReferNEarnActivity extends BaseActivity {
     public void shareLink(Uri myDynamicLink) {
         // [START ddl_share_link]
         Intent sendIntent = new Intent();
-        String msg = "Hello!!\n" +
-                "\n" +
-                "I invite you to use Brandmania app.\n" +"\n" +
+        String msg = "Hello!! I invite you to use Brandmania app.\n" +"\n" +
                 "Use bellow link to download and get assured discount on your payment.\n" +
                 "\n" +
-                "Brand mania app is used to make social media marketing image for your business in 5 minutes. Here festival images,national and international days images will be provided.\n" +
+                "Brand mania app is used to make social media marketing image for your business in 5 minutes. Here Festival images, National and International Days images will be provided.\n" +
                 "\n"+"Referral code: "+
                 preafManager.getReferCode() +"\n"+"Try it now:\n"+ myDynamicLink ;
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -224,9 +222,3 @@ public class ReferNEarnActivity extends BaseActivity {
         // [END ddl_share_link]
     }
 }
- /* "\n" +
-          "Use bellow link to download and get assured discount on your payment \n" +
-          "\n" +
-          "Brand mania app is used to make social media marketing image for your business in 5 minutes. Here festival images,national and international days images will be provided.\n" +
-          "\n" +
-          "Try it now:\n"+"\nReferral code: \n"*/

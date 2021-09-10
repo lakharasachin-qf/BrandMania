@@ -233,9 +233,9 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     }
 
     public void showReferrer() {
-        Utility.Log("APi", preafManager.getSpleshReferrer() + "ss");
-        if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty()) {
 
+        if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty()) {
+            Utility.Log("REFERRER", preafManager.getSpleshReferrer() + "ss");
             verifyCode(preafManager.getSpleshReferrer());
         }
     }
@@ -251,16 +251,13 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             public void onResponse(String response) {
                 isLoading = false;
                 Utility.dismissLoadingTran();
-
                 Utility.Log("Payment_ID ; ", response);
-
                 if (ResponseHandler.isSuccess(response, null)) {
                     JSONObject jsonObject = ResponseHandler.getJSONObject(ResponseHandler.createJsonObject(response), "data");
                     payment_id = (ResponseHandler.getString(jsonObject, "id"));
 
                 } else {
                     Utility.showSnackBar(binding.rootBackground, act, ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"));
-
                 }
             }
         }, new Response.ErrorListener() {

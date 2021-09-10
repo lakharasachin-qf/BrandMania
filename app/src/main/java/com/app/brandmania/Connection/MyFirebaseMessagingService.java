@@ -44,7 +44,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived( RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-  //      Log.e("remoteMessage", "SAchin");
     //    Log.e("remoteMessage", remoteMessage.getData().toString());
         if (remoteMessage.getData().containsKey("cat_name")){
             catName = remoteMessage.getData().get("cat_name");
@@ -71,9 +70,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         String copiedMessage = message;
         Intent intent = new Intent(this, HomeActivity.class);
-        if (copiedMessage.equalsIgnoreCase("addBrand")) {
+        if (copiedMessage!=null && copiedMessage.equalsIgnoreCase("addBrand")) {
             intent = new Intent(this, ViewBrandActivity.class);
-        } else if (copiedMessage.equalsIgnoreCase("addFrame")) {
+        } else if (copiedMessage !=null && copiedMessage.equalsIgnoreCase("addFrame")) {
             intent = new Intent(this, ViewBrandActivity.class);
         }
         else {
@@ -118,12 +117,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)).setLargeIcon(bitmap);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.drawable.ic_launcher_icon);
-            notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
-        } else {
-            notificationBuilder.setSmallIcon(R.drawable.ic_launcher_icon);
-        }
+        notificationBuilder.setSmallIcon(R.drawable.ic_launcher_icon);
+        notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify("Brand Mania",( int ) System. currentTimeMillis (), notificationBuilder.build());

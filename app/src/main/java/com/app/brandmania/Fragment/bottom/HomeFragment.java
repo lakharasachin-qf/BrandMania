@@ -546,8 +546,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
                     if (jsonArray1.getString("reference_code").equals("null"))
                         jsonArray1.put("reference_code", "");
+
                     preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
                     preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
+
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
                     //setupReferrerCode();

@@ -36,6 +36,7 @@ import com.app.brandmania.utils.Utility;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import com.google.firebase.crashlytics.internal.common.CrashlyticsCore;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
@@ -60,6 +61,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+
         binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -87,53 +89,13 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                     overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                     finish();
                 }
+                // throw new RuntimeException("Test Crash");
+
 
             }
         }, 1000);
 
     }
-/*
-    public void shortenLongLink() {
-
-        String shareLinkText = "https://brandmania.page.link/?" +
-                "link=http://www.queryfinders.com?custid=cust123-prod456" +
-                "&apn=" + getPackageName() +
-                "&st=" + "Referral Code" +
-                "&sd=" + "Reward 20" +
-                "&si=" + "https://www.blueappsoftware.com/wp-content/uploads/2018/06/blueapp-software-144-350.png";
-
-
-        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLongLink(Uri.parse(shareLinkText))
-                .buildShortDynamicLink()
-
-                .addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
-                    @Override
-                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
-                        if (task.isSuccessful()) {
-                            // Short link created
-                            Uri shortLink = task.getResult().getShortLink();
-                            Uri flowchartLink = task.getResult().getPreviewLink();
-                            Log.e("shortLink", String.valueOf(shortLink));
-                            Log.e("flowchartLink", String.valueOf(flowchartLink));
-                            shareLink(shortLink);
-                        } else {
-                            Log.e("error", gson.toJson(task));
-                        }
-                    }
-                });
-    }
-
-    public void shareLink(Uri myDynamicLink) {
-        // [START ddl_share_link]
-        Intent sendIntent = new Intent();
-        String msg = "Hey, check this out: " + myDynamicLink;
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, msg);
-        sendIntent.setType("text/plain");
-        startActivity(sendIntent);
-        // [END ddl_share_link]
-    }*/
 
     public void getInvitation() {
         // [START ddl_get_invitation]
