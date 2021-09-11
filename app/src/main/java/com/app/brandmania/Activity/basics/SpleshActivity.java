@@ -36,7 +36,6 @@ import com.app.brandmania.utils.Utility;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import com.google.firebase.crashlytics.internal.common.CrashlyticsCore;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
@@ -77,19 +76,18 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
             @Override
             public void run() {
                 Log.e("UserToken", gson.toJson(preafManager.getUserToken()));
-                if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
-                    LoginFlow();
-                } else {
-                    Intent intent = new Intent(act, LoginActivity.class);
-                    intent.putExtra("referrerCode", referrerCode);
-                    // refferrerCode = intent.getStringExtra("referLink.substring(referLink.indexOf(\"-\") + 1)");
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    finish();
-                }
-                // throw new RuntimeException("Test Crash");
+                    if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
+                        LoginFlow();
+                    } else {
+                        Intent intent = new Intent(act, LoginActivity.class);
+                        intent.putExtra("referrerCode", referrerCode);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        finish();
+                    }
+//                 throw new RuntimeException("Test Crash");
 
 
             }
@@ -246,11 +244,13 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
     @Override
     public void alertListenerClick() {
         preafManager.Logout();
+
         Intent intent = new Intent(act, LoginActivity.class);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         finish();
+
     }
 }

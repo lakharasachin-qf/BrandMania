@@ -121,6 +121,51 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="#B1B1B1" />
 
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/videoFeatureLayout"
+                    android:layout_below="@+id/payLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/videoLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="Video &amp; GIF Feature"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_13sdp" />
+                    <TextView
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:layout_toEndOf="@id/videoLabel"
+                        android:id="@+id/subLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="(Coming Soon)"
+                        android:textSize="@dimen/_10sdp" />
+
+
+                    <View
+                        android:layout_below="@id/videoLabel"
+                        android:id="@+id/videoUnderline"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/_18sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="#B1B1B1" />
+
+
+                </RelativeLayout>
+
+
                 <TextView
                     android:id="@+id/selectPlaneBtn"
                     android:layout_width="wrap_content"

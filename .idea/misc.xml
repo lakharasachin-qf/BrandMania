@@ -76,17 +76,20 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/couponerectangleshape.xml" value="0.24177631578947367" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/footer_background.xml" value="0.2305921052631579" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/ic_cash.xml" value="0.24177631578947367" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/ic_code_share.xml" value="0.24177631578947367" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/ic_referrel_illustration.xml" value="0.24177631578947367" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/refer_rectangle_shape.xml" value="0.24177631578947367" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/referral_background_home_fragment.xml" value="0.24177631578947367" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/roundbackground.xml" value="0.2305921052631579" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/shapeee_round_cornar.xml" value="0.24177631578947367" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/share_background.xml" value="0.24177631578947367" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/drawable/video_feaure_background.xml" value="0.24177631578947367" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/activity_package.xml" value="0.23157894736842105" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/activity_razor_pay.xml" value="0.23157894736842105" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/activity_refer.xml" value="0.23157894736842105" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/activity_subscription.xml" value="0.23157894736842105" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/activity_view_all_image.xml" value="0.22039473684210525" />
-        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/fragment_home.xml" value="0.23157894736842105" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/fragment_profile.xml" value="0.23157894736842105" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/frame_tab.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/layout_for_load_five.xml" value="0.22039473684210525" />
@@ -94,10 +97,11 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/layout_for_load_one.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/layout_for_load_three.xml" value="0.22039473684210525" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/layout_for_load_two.xml" value="0.22039473684210525" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandManiaVersion4/app/src/main/res/layout/slide_item_container.xml" value="0.23157894736842105" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -528,10 +528,46 @@
                     </RelativeLayout>
                     <!--android:layout_below="@+id/recommendationRelativ"-->
                     <androidx.cardview.widget.CardView
+
+                        android:id="@+id/videoFeatureLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_below="@+id/recommendationRelativ"
+                        android:focusable="true"
+                        card_view:cardCornerRadius="@dimen/_7sdp"
+                        card_view:cardElevation="@dimen/_7sdp"
+                        card_view:cardPreventCornerOverlap="true"
+                        card_view:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/video_feaure_background">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:focusable="true"
+                                card_view:cardCornerRadius="@dimen/_7sdp"
+                                android:layout_margin="1dp"
+                                >
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/video_feature" />
+                            </androidx.cardview.widget.CardView>
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/requestBusLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/recommendationRelativ"
+                        android:layout_below="@+id/videoFeatureLayout"
                         android:focusable="true"
                         card_view:cardCornerRadius="@dimen/_7sdp"
                         card_view:cardElevation="@dimen/_7sdp"

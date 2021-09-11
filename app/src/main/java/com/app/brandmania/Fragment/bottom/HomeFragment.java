@@ -33,6 +33,7 @@ import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Activity.basics.ReferNEarnActivity;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DasboardAddaptor;
 import com.app.brandmania.Adapter.ViewPagerAdapter;
 import com.app.brandmania.Common.HELPER;
@@ -160,6 +161,15 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 startActivity(intent);
             }
         });
+        binding.videoFeatureLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(act, PackageActivity.class);
+                //intent.putExtra("Profile","1");
+                startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
 
         binding.referralcodeTxt.setText(preafManager.getReferCode());
 
@@ -167,20 +177,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             @Override
             public void onClick(View view) {
                 if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
-                    //layoutToImage();
                     HELPER.ROUTE(act, PdfActivity.class);
-                    //HELPER.generatePDF(act, preafManager, ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
                 } else {
                     alertDialogBuilder = new AlertDialog.Builder(act);
                     alertDialogBuilder.setTitle("Save image");
                     alertDialogBuilder.setMessage("Your Logo is empty..!");
-                    alertDialogBuilder.setPositiveButton("Ok",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    HELPER.ROUTE(act, UpdateBandList.class);
-                                }
-                            });
+                    alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.setCancelable(false);
                     alertDialog.show();

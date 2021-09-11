@@ -26,8 +26,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     ndkVersion '23.0.7123448'
 
@@ -40,7 +40,7 @@ android {
         repositories {
             mavenCentral()
 
-            jcenter()
+            //jcenter()
             maven { url "https://jitpack.io" }
         }
     }
@@ -64,7 +64,6 @@ dependencies {
     // dependencies for multidex
     implementation 'androidx.multidex:multidex:2.0.1'
     // dependencies for android material
-    implementation 'com.google.android.material:material:1.3.0'
 
 
     // dependencies for facebook shimmer
@@ -76,18 +75,14 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     // dependency file for sdp
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    //firebaseInstaceId
-    implementation 'com.google.firebase:firebase-analytics:18.0.2'
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation 'com.google.firebase:firebase-core:18.0.2'
+
     // dependency file for gson
     implementation 'com.google.code.gson:gson:2.8.6'
     // dependency file for permission
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'com.karumi:dexter:6.2.2'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.material:material:1.4.0'
     //viewpager material dots
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     //noinspection GradleCompatible
@@ -114,7 +109,7 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-    implementation 'com.google.android.play:core:1.10.0'
+    implementation 'com.google.android.play:core:1.10.1'
     //dependency for image view
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
@@ -128,10 +123,7 @@ dependencies {
     implementation 'com.github.mreram:showcaseview:1.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
 
-    implementation ('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2')
-            {
-                exclude module:'support-v4'
-            }
+    implementation ('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') { exclude module:'support-v4' }
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'com.github.vihtarb:tooltip:0.1.9'
 
@@ -140,8 +132,6 @@ dependencies {
     //color picker
     implementation 'com.jaredrummler:colorpicker:1.1.0'
 
-    // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:26.4.0')
 
 
     implementation 'com.github.yalantis:ucrop:2.2.6'
@@ -180,13 +170,12 @@ dependencies {
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
-
-    // Declare the dependencies for the Dynamic Links and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-core:19.0.1'
     implementation 'com.google.firebase:firebase-dynamic-links'
     implementation 'com.google.firebase:firebase-crashlytics'
-
     implementation 'com.google.firebase:firebase-analytics'
+
 
 
 

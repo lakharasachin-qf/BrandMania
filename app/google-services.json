@@ -60,6 +60,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "562383081173-25t6itao9ut2e8lsdtps4aok25t1rok0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.make.mybrand",
+            "certificate_hash": "43d86ce65037d268407bbce8ef3b698240b4e257"
+          }
+        },
+        {
           "client_id": "562383081173-3i02q9pijrec3eovh7t7ka2982ap6570.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
