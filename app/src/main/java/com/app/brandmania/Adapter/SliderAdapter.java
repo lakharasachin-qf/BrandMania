@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -87,7 +87,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         private TextView packageBtn;
         private TextView subcribedBtn;
         private TextView expiredTxt;
-        private LinearLayout videoFeatureLayout;
+        private RelativeLayout videoFeatureLayout;
 
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,7 +110,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             payTitle.setText(sliderItem.getPayTitle() + " / Year");
             if (!sliderItem.getPackageTitle().equalsIgnoreCase("Basic")) {
                 videoFeatureLayout.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 videoFeatureLayout.setVisibility(View.GONE);
             }
 

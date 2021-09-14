@@ -75,14 +75,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 deviceToken = task.getResult();
             }
         });
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onSuccess(InstanceIdResult instanceIdResult) {
-//                        deviceToken = instanceIdResult.getToken();
-//
-//                    }
-//                });
+
         return deviceToken;
     }
     @Override

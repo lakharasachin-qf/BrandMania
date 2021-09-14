@@ -162,6 +162,9 @@ public class ReferNEarnActivity extends BaseActivity {
                 try {
                     JSONObject jsonArray1 = jsonObject.getJSONObject("message");
                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
+                    if (jsonArray1.getString("reference_code").equals("null"))
+                        jsonArray1.put("reference_code", "");
+
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
                     preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
                     preafManager.setReferrerCode(jsonArray1.getString("reference_code"));

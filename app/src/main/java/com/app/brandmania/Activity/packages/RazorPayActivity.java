@@ -128,6 +128,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         });
 
         //showActivityList(BUSINESS_TYPE, BusinessTitle);
+
         showReferrer();
 
         if (sliderItemList != null) {
@@ -233,9 +234,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     }
 
     public void showReferrer() {
-
-        if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty()) {
-            Utility.Log("REFERRER", preafManager.getSpleshReferrer() + "ss");
+         if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty() && preafManager.getSpleshReferrer().equalsIgnoreCase("null")) {
             verifyCode(preafManager.getSpleshReferrer());
         }
     }
