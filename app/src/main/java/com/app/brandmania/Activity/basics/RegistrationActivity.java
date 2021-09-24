@@ -2,6 +2,7 @@ package com.app.brandmania.Activity.basics;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -263,6 +264,15 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
 //                                    finish();
                                 }
 
+                            }else{
+
+                                alertDialogBuilder.setMessage(ResponseHandler.getString(response, "message"));
+                                alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> {
+                                    arg0.dismiss();
+                                });
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.setCancelable(false);
+                                alertDialog.show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -407,4 +417,6 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
+
+
 }

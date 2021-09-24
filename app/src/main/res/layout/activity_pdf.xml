@@ -324,6 +324,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_67sdp"/>
                     <LinearLayout
+                        android:id="@+id/waterMark"
                         android:layout_marginBottom="@dimen/_2sdp"
                         android:layout_alignParentBottom="true"
                          android:orientation="vertical"

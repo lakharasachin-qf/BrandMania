@@ -3,7 +3,6 @@ package com.app.brandmania.Fragment.bottom;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -29,7 +27,6 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
-import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Activity.basics.ReferNEarnActivity;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
@@ -50,13 +47,13 @@ import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.R;
-import com.app.brandmania.utils.APIs;
-import com.app.brandmania.utils.Utility;
+import com.app.brandmania.databinding.DialogOfferBinding;
 import com.app.brandmania.databinding.DialogRequestBusinessCategoryRemarksBinding;
 import com.app.brandmania.databinding.FragmentHomeBinding;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -164,7 +161,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.videoFeatureLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(act, PackageActivity.class);
+                Intent intent = new Intent(act, PackageActivity.class);
                 //intent.putExtra("Profile","1");
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
@@ -887,6 +884,33 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
+    }
+
+
+    private androidx.appcompat.app.AlertDialog offerAlert;
+    private DialogOfferBinding offerBinding;
+
+    public void offerDialog() {
+
+        if (offerAlert != null && offerAlert.isShowing())
+            offerAlert.dismiss();
+
+        offerBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend2);
+        builder.setView(offerBinding.getRoot());
+        offerAlert = builder.create();
+        offerAlert.setContentView(offerBinding.getRoot());
+
+
+        offerBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                offerAlert.dismiss();
+            }
+        });
+
+        offerAlert.show();
+
     }
 
 }

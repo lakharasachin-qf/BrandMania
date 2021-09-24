@@ -109,25 +109,13 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         sliderItemList = gson.fromJson(getIntent().getStringExtra("detailsObj"), SliderItem.class);
         selectedBrand = gson.fromJson(getIntent().getStringExtra("BrandListItem"), BrandListItem.class);
         Gson gson = new Gson();
-        Log.e("EEEE", gson.toJson(sliderItemList));
-        //binding.promoCodeTxt.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-        binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
+        binding.BackButtonMember.setOnClickListener(v -> onBackPressed());
         calculateAmount = sliderItemList.getPriceForPay();
         createPayment();
-        binding.proceedToPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateOrderID();
-            }
-        });
+        binding.proceedToPayment.setOnClickListener(v -> generateOrderID());
 
-        //showActivityList(BUSINESS_TYPE, BusinessTitle);
+
 
         showReferrer();
 
@@ -142,7 +130,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             addDynamicServices(sliderItemList.getImageTitle() + " Images Download / Year");
             addDynamicServices(act.getString(R.string.Rs) + sliderItemList.getPayTitle() + " / " + sliderItemList.getDuration());
 
-            //show for one month count
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
             calculateAmount = sliderItemList.getPriceForPay();
 
@@ -234,7 +221,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     }
 
     public void showReferrer() {
-         if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty() && preafManager.getSpleshReferrer().equalsIgnoreCase("null")) {
+
+         if (!preafManager.getSpleshReferrer().isEmpty()) {
             verifyCode(preafManager.getSpleshReferrer());
         }
     }
@@ -259,20 +247,17 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                     Utility.showSnackBar(binding.rootBackground, act, ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"));
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                isLoading = false;
-                Utility.dismissLoadingTran();
+        }, error -> {
+            isLoading = false;
+            Utility.dismissLoadingTran();
 
-                Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
+            Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
 
-                error.printStackTrace();
-                //       String body;
-                //get status code here
+            error.printStackTrace();
+            //       String body;
+            //get status code here
 //                body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                //   Log.e("Error ", body);
-            }
+            //   Log.e("Error ", body);
         }) {
             /** Passing some request headers* */
             @Override
@@ -307,45 +292,37 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         isCodeApply = true;
         Utility.showLoadingTran(act);
         Utility.Log("APi", APIs.GET_PROMOCODE_DESCOUNT);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_PROMOCODE_DESCOUNT, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                isCodeApply = false;
-                Utility.dismissLoadingTran();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_PROMOCODE_DESCOUNT, response -> {
+            isCodeApply = false;
+            Utility.dismissLoadingTran();
 
-                Utility.Log("PromocodeID ; ", response);
+            Utility.Log("PromocodeID ; ", response);
 
-                if (ResponseHandler.isSuccess(response, null)) {
-                    JSONObject jsonObject = ResponseHandler.getJSONObject(ResponseHandler.createJsonObject(response), "data");
-                    discounted_amount = ResponseHandler.getString(jsonObject, "discounted_amount");
-                    discount = ResponseHandler.getString(jsonObject, "discount");
-                    type = ResponseHandler.getString(jsonObject, "type");
-                    code = ResponseHandler.getString(jsonObject, "code");
-                    code_type = ResponseHandler.getString(jsonObject, "code_type");
-                    total_amount = ResponseHandler.getString(jsonObject, "total_amount");
-                    brand_id = ResponseHandler.getString(jsonObject, "brand_id");
-                    package_id = ResponseHandler.getString(jsonObject, "package_id");
+            if (ResponseHandler.isSuccess(response, null)) {
+                JSONObject jsonObject = ResponseHandler.getJSONObject(ResponseHandler.createJsonObject(response), "data");
+                discounted_amount = ResponseHandler.getString(jsonObject, "discounted_amount");
+                discount = ResponseHandler.getString(jsonObject, "discount");
+                type = ResponseHandler.getString(jsonObject, "type");
+                code = ResponseHandler.getString(jsonObject, "code");
+                code_type = ResponseHandler.getString(jsonObject, "code_type");
+                total_amount = ResponseHandler.getString(jsonObject, "total_amount");
+                brand_id = ResponseHandler.getString(jsonObject, "brand_id");
+                package_id = ResponseHandler.getString(jsonObject, "package_id");
 
-                    applyCodeCalculation();
+                applyCodeCalculation();
 
-                } else {
-                    Utility.showSnackBar(binding.rootBackground, act, ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"));
+            } else {
+                Utility.showSnackBar(binding.rootBackground, act, ResponseHandler.getString(ResponseHandler.createJsonObject(response), "message"));
 
-                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 isCodeApply = false;
                 Utility.dismissLoadingTran();
-
                 Utility.showSnackBar(binding.rootBackground, act, "There is something internal problem");
-
                 error.printStackTrace();
-                //    String body;
-                //    get status code here
-                //    body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                //    Log.e("Error ", body);
+
             }
         }) {
             /** Passing some request headers* */
@@ -353,9 +330,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             public Map<String, String> getHeaders() {
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
-
                 hashMap.put("Authorization", "Bearer " + preafManager.getUserToken());
-
                 return hashMap;
 
             }
@@ -380,7 +355,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     @SuppressLint("SetTextI18n")
     public void applyCodeCalculation() {
         binding.promoEditTxt.setVisibility(View.GONE);
-        binding.codeTxt.setText(discounted_amount);
+        binding.codeTxt.setText("-"+act.getString(R.string.Rs) +discounted_amount);
         binding.couponCodeTxt.setText("Discount(" + discount + "%" + ")");
         binding.dicountLayout.setVisibility(View.VISIBLE);
         binding.applyPromoCodeTxt.setText("Congratesss! You saved(" + act.getString(R.string.Rs) + discounted_amount + ")");

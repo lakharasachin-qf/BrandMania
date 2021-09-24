@@ -49,25 +49,24 @@ public class PackageActivity extends BaseActivity {
     BrandListItem selectedBrand;
     Gson gson;
     int layoutType=0;
-    //0 = profile,viewall, 2= brand list
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
         gson=new Gson();
+
         preafManager=new PreafManager(act);
+
         if (getIntent().hasExtra("fromBrandList")){
             layoutType=2;
             selectedBrand=gson.fromJson(getIntent().getStringExtra("detailsObj"),BrandListItem.class);
         }
         else{
-            //for profile
             layoutType=0;
             selectedBrand=preafManager.getActiveBrand();
         }
 
-      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override

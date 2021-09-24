@@ -68,25 +68,46 @@
                     android:layout_marginTop="30dp"
                     android:src="@drawable/ic_cash" />
 
-                <TextView
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="23dp"
+
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/montserrat_semibold"
                     android:gravity="center"
-                    android:text="Wallet"
-                    android:textSize="@dimen/_15sdp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:gravity="center"
+                        android:text="Wallet"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/coin" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/walletMoney"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/montserrat_semibold"
                     android:gravity="center"
-                    android:text=""
+                    android:text="20435"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_15sdp" />
+
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -116,7 +137,7 @@
                     android:layout_marginLeft="@dimen/_40sdp"
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="@dimen/_40sdp"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/montserrat_regular"
                     android:text="Refer a friend earn dis of all your friends purchases for 1 year. your friends also earn 50rs on Sign-up."
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -133,6 +154,7 @@
                     android:textSize="@dimen/_12sdp" />
 
                 <RelativeLayout
+                    android:id="@+id/layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -179,6 +201,7 @@
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
 
     </LinearLayout>
 </layout>

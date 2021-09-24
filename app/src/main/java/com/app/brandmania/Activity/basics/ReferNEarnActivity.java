@@ -1,16 +1,23 @@
 package com.app.brandmania.Activity.basics;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,8 +31,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
-import com.app.brandmania.Common.MakeMyBrandApp;
-import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -76,7 +81,9 @@ public class ReferNEarnActivity extends BaseActivity {
         binding.referalCodeTxt.setText(preafManager.getReferCode());
         binding.walletMoney.setText(preafManager.getWallet());
         binding.referalCodeTxt.setTextIsSelectable(true);
-        binding.msgTxt.setText("Refer a friend earn discount of all your friends purchases for 1 year. your friends also earn " + act.getString(R.string.Rs) + preafManager.getWallet() + " on Sign-up.");
+        //Invite your friends to BrandMania by sharing your referral code and Earn Discount on All your Friend's First Payment.Your friend also get assured discount on their first payment
+        //change msg, add (-) to discount ,sticky bar in refer
+        binding.msgTxt.setText("Invite your friends to BrandMania by sharing your referral code and Earn Discount on All your Friend's First Payment.Your friend also get assured discount on their first payment");
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +96,7 @@ public class ReferNEarnActivity extends BaseActivity {
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             /*   Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+             /* Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 String sharebody = preafManager.getReferCode();
                 String sharebody = preafManager.getReferCode();
@@ -102,15 +109,16 @@ public class ReferNEarnActivity extends BaseActivity {
             }
         });
 
-        binding.referalCodeTxt.setOnClickListener(new View.OnClickListener() {
+        binding.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("label", binding.referalCodeTxt.getText().toString());
-                if (clipboard == null || clip == null) return;
+                ClipData clip = ClipData.newPlainText("simple text", binding.referalCodeTxt.getText().toString());
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(act, "Copied", Toast.LENGTH_LONG).show();
+
+                showDialog(binding.referalCodeTxt.getText().toString());
             }
         });
     }
@@ -220,5 +228,33 @@ public class ReferNEarnActivity extends BaseActivity {
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
         // [END ddl_share_link]
+    }
+
+
+    private void showDialog(String code) {
+
+        final Dialog dialog = new Dialog(act);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet_layout);
+
+        TextView textCode = dialog.findViewById(R.id.text);
+        textCode.setText(code);
+        dialog.show();
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        Handler handler = null;
+        handler = new Handler();
+        handler.postDelayed(new Runnable(){
+            public void run(){
+                dialog.cancel();
+                dialog.dismiss();
+            }
+        }, 1000);
+
+
     }
 }

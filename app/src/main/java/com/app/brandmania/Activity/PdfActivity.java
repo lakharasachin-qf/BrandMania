@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.app.brandmania.Connection.BaseActivity;
@@ -76,6 +77,10 @@ public class PdfActivity extends BaseActivity {
             binding.addressEdtLayout.setVisibility(View.GONE);
         }else {
             binding.address.setText(prefManager.getActiveBrand().getAddress());
+        }
+
+        if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("")){
+            binding.waterMark.setVisibility(View.GONE);
         }
 
         if (prefManager.getActiveBrand().getBrandService().isEmpty()){
