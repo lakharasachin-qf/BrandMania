@@ -67,10 +67,7 @@ public class ReferNEarnActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        Window w = getWindow();
         getDeviceToken(act);
-//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_refer);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -212,12 +209,12 @@ public class ReferNEarnActivity extends BaseActivity {
     public void shareLink(Uri myDynamicLink) {
         // [START ddl_share_link]
         Intent sendIntent = new Intent();
-        String msg = "Hello!! I invite you to use Brandmania app.\n" +"\n" +
+        String msg = "Hello!! I invite you to use Brandmania app.\n" + "\n" +
                 "Use bellow link to download and get assured discount on your payment.\n" +
                 "\n" +
                 "Brand mania app is used to make social media marketing image for your business in 5 minutes. Here Festival images, National and International Days images will be provided.\n" +
-                "\n"+"Referral code: "+
-                preafManager.getReferCode() +"\n"+"Try it now:\n"+ myDynamicLink ;
+                "\n" + "Referral code: " +
+                preafManager.getReferCode() + "\n" + "Try it now:\n" + myDynamicLink;
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, msg);
         sendIntent.setType("text/plain");
