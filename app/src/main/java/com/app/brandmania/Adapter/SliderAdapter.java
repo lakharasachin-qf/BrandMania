@@ -16,17 +16,20 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.app.brandmania.Activity.packages.RazorPayActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.BrandListItem;
+import com.app.brandmania.Model.SlideSubItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.Utility;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {
     private List<SliderItem> sliderItems;
     private ViewPager2 viewPager2;
     Activity activity;
+    ArrayList<SlideSubItem> slideSubItems = new ArrayList<>();
     private BrandListItem selectedBrand;
     PreafManager preafManager;
     Gson gson;
@@ -60,6 +63,12 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             }
         });
         holder.payTitle.setText(activity.getString(R.string.Rs) + sliderItems.get(position).getPriceForPay() + " / " + sliderItems.get(position).getDuration());
+        holder.servicesLabel.setText(sliderItems.get(position).getSlideSubItems().get(0).getDescription());
+        if (!sliderItems.get(position).getSlideSubItems().get(0).getDescription().equalsIgnoreCase("description")) {
+            holder.servicesLayout.setVisibility(View.VISIBLE);
+        } else {
+            holder.servicesLayout.setVisibility(View.GONE);
+        }
         if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid()) && preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
             holder.packageBtn.setVisibility(View.GONE);
             holder.subcribedBtn.setVisibility(View.VISIBLE);
@@ -87,7 +96,9 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         private TextView packageBtn;
         private TextView subcribedBtn;
         private TextView expiredTxt;
+        private TextView servicesLabel;
         private RelativeLayout videoFeatureLayout;
+        private RelativeLayout servicesLayout;
 
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,6 +111,9 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             packageBtn = itemView.findViewById(R.id.selectPlaneBtn);
             expiredTxt = itemView.findViewById(R.id.expiredPlaneTxt);
             subcribedBtn = itemView.findViewById(R.id.subscribePlaneBtn);
+            servicesLayout = itemView.findViewById(R.id.servicesLayout);
+            servicesLabel = itemView.findViewById(R.id.servicesLabel);
+
         }
 
         void setLayout(SliderItem sliderItem) {
@@ -108,6 +122,11 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             templateTitle.setText(sliderItem.getTemplateTitle() + " - Template / Brand");
             imageTitle.setText(sliderItem.getImageTitle() + " Image Download / Year");
             payTitle.setText(sliderItem.getPayTitle() + " / Year");
+            /*if (sliderItem.getSlideSubItems().equals("description")) {
+                servicesLayout.setVisibility(View.VISIBLE);
+            } else {
+                servicesLayout.setVisibility(View.GONE);
+            }*/
             if (!sliderItem.getPackageTitle().equalsIgnoreCase("Basic")) {
                 videoFeatureLayout.setVisibility(View.VISIBLE);
             } else {
