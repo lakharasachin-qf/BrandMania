@@ -141,8 +141,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             Glide.with(act).load(preafManager.getActiveBrand().getLogo());
         }
         RateUs();
-
-
+        binding.businessName.setText(preafManager.getActiveBrand().getName());
         mTitleContainer = act.findViewById(R.id.main_linearlayout_title);
         // binding.alertText.setSelected(true);
         binding.showNotification.setOnClickListener(new View.OnClickListener() {

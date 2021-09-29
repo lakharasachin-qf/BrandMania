@@ -1,5 +1,7 @@
 package com.app.brandmania.Activity.basics;
 
+import android.animation.AnimatorInflater;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -11,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -78,12 +81,16 @@ public class ReferNEarnActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(act);
         Log.w(preafManager.getReferCode(), "data");
-        binding.referalCodeTxt.setText(preafManager.getReferCode());
+        binding.referralCodeTxt.setText(preafManager.getReferCode());
         binding.walletMoney.setText(preafManager.getWallet());
-        binding.referalCodeTxt.setTextIsSelectable(true);
+        binding.referralCodeTxt.setTextIsSelectable(true);
+        ObjectAnimator anim = (ObjectAnimator) AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.flipping);
+        anim.setTarget(binding.coinImg);
+        anim.setDuration(3000);
+        anim.start();
         //Invite your friends to BrandMania by sharing your referral code and Earn Discount on All your Friend's First Payment.Your friend also get assured discount on their first payment
         //change msg, add (-) to discount ,sticky bar in refer
-        binding.msgTxt.setText("Invite your friends to BrandMania by sharing your referral code and Earn Discount on All your Friend's First Payment.Your friend also get assured discount on their first payment");
+        binding.msgTxt.setText("Invite your friends to BrandMania by sharing your referral code and Earn Discount on All your Friend's First Payment.Your friend also get assured discount on their first payment.");
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,16 +116,14 @@ public class ReferNEarnActivity extends BaseActivity {
             }
         });
 
-        binding.layout.setOnClickListener(new View.OnClickListener() {
+        binding.referralCodeTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("simple text", binding.referalCodeTxt.getText().toString());
+                ClipData clip = ClipData.newPlainText("simple text", binding.referralCodeTxt.getText().toString());
                 clipboard.setPrimaryClip(clip);
-
-                showDialog(binding.referalCodeTxt.getText().toString());
+                showDialog(binding.referralCodeTxt.getText().toString());
             }
         });
     }
@@ -173,7 +178,7 @@ public class ReferNEarnActivity extends BaseActivity {
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
                     preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
                     preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
-                    binding.referalCodeTxt.setText(jsonArray1.getString("referal_code"));
+                    binding.referralCodeTxt.setText(jsonArray1.getString("referal_code"));
                     binding.walletMoney.setText(jsonArray1.getString("user_total_coin"));
                     //setupReferrerCode();
                 } catch (JSONException e) {
@@ -248,13 +253,12 @@ public class ReferNEarnActivity extends BaseActivity {
 
         Handler handler = null;
         handler = new Handler();
-        handler.postDelayed(new Runnable(){
-            public void run(){
+        handler.postDelayed(new Runnable() {
+            public void run() {
                 dialog.cancel();
                 dialog.dismiss();
             }
-        }, 1000);
-
+        }, 1500);
 
     }
 }

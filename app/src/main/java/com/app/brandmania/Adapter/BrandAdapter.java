@@ -68,20 +68,21 @@ public class BrandAdapter extends RecyclerView.Adapter {
         this.brandbyidif = brandbyidif;
     }
 
-    public interface BRANDBYIDIF{
-        void fireBrandList(int position,BrandListItem model);
+    public interface BRANDBYIDIF {
+        void fireBrandList(int position, BrandListItem model);
     }
 
     public BrandAdapter(ArrayList<BrandListItem> brandListItems, Activity activity) {
         this.brandListItems = brandListItems;
         this.activity = activity;
-        gson=new Gson();
-        preafManager=new PreafManager(activity);
+        gson = new Gson();
+        preafManager = new PreafManager(activity);
         this.isLoadingAdded = isLoadingAdded;
     }
 
     @NonNull
-    @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
 
             case LAYOUT_BRANDLIST:
@@ -98,7 +99,9 @@ public class BrandAdapter extends RecyclerView.Adapter {
         return null;
 
     }
-    @Override public int getItemViewType(int position) {
+
+    @Override
+    public int getItemViewType(int position) {
         if (position == brandListItems.size() - 1 && isLoadingAdded)
             return LAYOUT_LOADING;
         switch (brandListItems.get(position).getLayoutType()) {
@@ -113,32 +116,35 @@ public class BrandAdapter extends RecyclerView.Adapter {
         }
 
     }
-    @Override public int getItemCount() {
+
+    @Override
+    public int getItemCount() {
         return brandListItems.size();
     }
+
     @SuppressLint("ResourceAsColor")
-    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final BrandListItem model = brandListItems.get(position);
         if (model != null) {
-            switch (model.getLayoutType())
-            {
+            switch (model.getLayoutType()) {
                 case LAYOUT_BRANDLIST:
                     ((BrandHolder) holder).binding.businessName.setText(model.getName());
-                    Log.e("CurrentBrand",model.getId());
+                    Log.e("CurrentBrand", model.getId());
                     ((BrandHolder) holder).binding.firsttitle.setText(model.getWebsite());
                     ((BrandHolder) holder).binding.addressText.setText(model.getAddress());
-                    ((BrandHolder)holder).binding.brandService.setText(model.getBrandService());
-                   // getFrame();
+                    ((BrandHolder) holder).binding.brandService.setText(model.getBrandService());
+                    // getFrame();
                     Glide.with(activity)
                             .load(model.getLogo())
                             .placeholder(R.drawable.placeholder)
-                            .into(((BrandHolder)holder).binding.logo);
+                            .into(((BrandHolder) holder).binding.logo);
 
-                    Log.e("BrandBrandBrandId",preafManager.getActiveBrand().getId());
-                    ((BrandHolder)holder).binding.editImage.setOnClickListener(new View.OnClickListener() {
+                    Log.e("BrandBrandBrandId", preafManager.getActiveBrand().getId());
+                    ((BrandHolder) holder).binding.editImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i=new Intent(activity, UpdateBandList.class);
+                            Intent i = new Intent(activity, UpdateBandList.class);
                             i.putExtra("detailsObj", gson.toJson(model));
                             activity.startActivity(i);
                             i.addCategory(Intent.CATEGORY_HOME);
@@ -148,9 +154,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         }
                     });
 
-
-
-                    ((BrandHolder)holder).binding.deletImage.setOnClickListener(new View.OnClickListener() {
+                    ((BrandHolder) holder).binding.deletImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             DeletAssigement(model.getId());
@@ -163,33 +167,28 @@ public class BrandAdapter extends RecyclerView.Adapter {
                     });
 
 
-
-
-
-
-
                     if (brandListItems.get(position).getIs_frame().equalsIgnoreCase("0")) {
                         //payment done
                         //payment done  - isFrame=0, isPayment=0
                         if (brandListItems.get(position).getIs_payment_pending().equalsIgnoreCase("0")) {
                             //((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
-                            ((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
-                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder) holder).binding.warning.setText("Please create your frame!!");
+                            ((BrandHolder) holder).binding.warning.setTextColor(Color.RED);
                             ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.whatsappImage.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.showImage.setVisibility(View.VISIBLE);
-                            ((BrandHolder)holder).binding.selectPlane.setVisibility(View.GONE);
-                            ((BrandHolder)holder).binding.makePayment.setVisibility(View.GONE);
-                            ((BrandHolder)holder).binding.showImage.setOnClickListener(new View.OnClickListener() {
+                            ((BrandHolder) holder).binding.selectPlane.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.makePayment.setVisibility(View.GONE);
+                            ((BrandHolder) holder).binding.showImage.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     showDialog(position);
                                 }
                             });
-                            ((BrandHolder)holder).binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
+                            ((BrandHolder) holder).binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    HELPER.WHATSAPP_REDIRECTION(activity,((BrandHolder)holder).binding.businessName.getText().toString(),preafManager.getMobileNumber());
+                                    HELPER.WHATSAPP_REDIRECTION(activity, ((BrandHolder) holder).binding.businessName.getText().toString(), preafManager.getMobileNumber());
                                 }
                             });
                         }
@@ -205,13 +204,13 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             ((BrandHolder) holder).binding.makePaymentView.setVisibility(View.GONE);
                             ((BrandHolder) holder).binding.frameitemLayoutRelative.setVisibility(View.GONE);
                             ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.GONE);
-                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
-                            ((BrandHolder)holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
+                            ((BrandHolder) holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder) holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     Intent i = new Intent(activity, PackageActivity.class);
-                                    i.putExtra("fromBrandList","fromBrandList");
-                                    i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
+                                    i.putExtra("fromBrandList", "fromBrandList");
+                                    i.putExtra("detailsObj", gson.toJson(brandListItems.get(position)));
                                     i.addCategory(Intent.CATEGORY_HOME);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     activity.startActivity(i);
@@ -240,7 +239,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
                             if (model.getFrame() != null && model.getFrame().size() != 0) {
                                 FrameAddaptor frameAddaptor = new FrameAddaptor(brandListItems.get(position).getFrame(), activity);
-                                ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL,false));
+                                ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                                 ((BrandHolder) holder).binding.frameitemLayout.setHasFixedSize(true);
                                 frameAddaptor.setBrandListItem(brandListItems.get(position));
                                 ((BrandHolder) holder).binding.frameitemLayout.setAdapter(frameAddaptor);
@@ -261,13 +260,13 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             ((BrandHolder) holder).binding.makePaymentView.setVisibility(View.GONE);
                             ((BrandHolder) holder).binding.frameitemLayoutRelative.setVisibility(View.GONE);
                             ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.GONE);
-                            ((BrandHolder)holder).binding.warning.setTextColor(Color.RED);
-                            ((BrandHolder)holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
+                            ((BrandHolder) holder).binding.warning.setTextColor(Color.RED);
+                            ((BrandHolder) holder).binding.selectPlane.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     Intent i = new Intent(activity, PackageActivity.class);
-                                    i.putExtra("fromBrandList","1");
-                                    i.putExtra("detailsObj",gson.toJson(brandListItems.get(position)));
+                                    i.putExtra("fromBrandList", "1");
+                                    i.putExtra("detailsObj", gson.toJson(brandListItems.get(position)));
                                     i.addCategory(Intent.CATEGORY_HOME);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     activity.startActivity(i);
@@ -276,7 +275,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             });
                             if (model.getFrame() != null && model.getFrame().size() != 0) {
                                 FrameAddaptor frameAddaptor = new FrameAddaptor(brandListItems.get(position).getFrame(), activity);
-                                ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL,false));
+                                ((BrandHolder) holder).binding.frameitemLayout.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                                 ((BrandHolder) holder).binding.frameitemLayout.setHasFixedSize(true);
                                 frameAddaptor.setBrandListItem(brandListItems.get(position));
                                 ((BrandHolder) holder).binding.frameitemLayout.setAdapter(frameAddaptor);
@@ -287,19 +286,20 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         }
                     }
 
-                    if (!Utility.isUserPaid(brandListItems.get(position))){
-                        ((BrandHolder)holder).binding.msg.setVisibility(View.VISIBLE);
+                    if (!Utility.isUserPaid(brandListItems.get(position))) {
+                        ((BrandHolder) holder).binding.msg.setVisibility(View.VISIBLE);
                     }
                     break;
                 case LAYOUT_NOTIFICATIONlIST:
                     ((NotificationHolder) holder).binding.messgae.setText(model.getMessage());
-           //         Log.e("CurrentBrand",model.getId());
+                    //         Log.e("CurrentBrand",model.getId());
                     ((NotificationHolder) holder).binding.date.setText(model.getDate());
                     ((NotificationHolder) holder).binding.time.setText(model.getTime());
             }
 
         }
     }
+
     static class BrandHolder extends RecyclerView.ViewHolder {
         ItemLayoutGetbrandlistBinding binding;
 
@@ -309,6 +309,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
         }
     }
+
     static class NotificationHolder extends RecyclerView.ViewHolder {
         ItemNotificationLayoutBinding binding;
 
@@ -318,44 +319,38 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
         }
     }
-    public void showDialog(int position){
+
+    public void showDialog(int position) {
         // Create an alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         // set the custom layout
         final View customLayout = activity.getLayoutInflater().inflate(R.layout.package_detail_alert_dialog, null);
-        TextView packageName=customLayout.findViewById(R.id.packageName);
-        TextView totalImage=customLayout.findViewById(R.id.totalImage);
-        TextView usedImage=customLayout.findViewById(R.id.usedImage);
-        TextView remainingImage=customLayout.findViewById(R.id.remainingImage);
-        RelativeLayout remainingImageRelative=customLayout.findViewById(R.id.ramainingImageRelative);
-        TextView expirydate=customLayout.findViewById(R.id.expieryDateName);
-        TextView priceContent=customLayout.findViewById(R.id.priceContent);
-        TextView subscribeddate=customLayout.findViewById(R.id.SubscribedDateName);
+        TextView packageName = customLayout.findViewById(R.id.packageName);
+        TextView totalImage = customLayout.findViewById(R.id.totalImage);
+        TextView usedImage = customLayout.findViewById(R.id.usedImage);
+        TextView remainingImage = customLayout.findViewById(R.id.remainingImage);
+        RelativeLayout remainingImageRelative = customLayout.findViewById(R.id.ramainingImageRelative);
+        TextView expirydate = customLayout.findViewById(R.id.expieryDateName);
+        TextView priceContent = customLayout.findViewById(R.id.priceContent);
+        TextView subscribeddate = customLayout.findViewById(R.id.SubscribedDateName);
 
 
-
-        if (brandListItems.get(position).getPackagename().equalsIgnoreCase("Enterprise"))
-        {
+        if (brandListItems.get(position).getPackagename().equalsIgnoreCase("Enterprise")) {
             remainingImageRelative.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             remainingImageRelative.setVisibility(View.VISIBLE);
             remainingImage.setText(brandListItems.get(position).getNo_of_remaining());
 
         }
 
-        ImageView closed=customLayout.findViewById(R.id.CloseImg);
+        ImageView closed = customLayout.findViewById(R.id.CloseImg);
         packageName.setText(brandListItems.get(position).getPackagename());
         totalImage.setText(brandListItems.get(position).getNo_of_total_image());
         usedImage.setText(brandListItems.get(position).getNo_of_used_image());
         expirydate.setText(brandListItems.get(position).getExpiery_date());
         subscribeddate.setText(brandListItems.get(position).getSubscriptionDate());
-        priceContent.setText("("+activity.getString(R.string.Rs)+brandListItems.get(position).getRate()+")");
+        priceContent.setText("(" + activity.getString(R.string.Rs) + brandListItems.get(position).getRate() + ")");
         builder.setView(customLayout);
-
-
-
 
 
         AlertDialog dialog
@@ -378,10 +373,10 @@ public class BrandAdapter extends RecyclerView.Adapter {
             @Override
             public void onResponse(String response) {
                 Log.w("hello", response);
-                Log.e("BrandBrandBrandId",preafManager.getActiveBrand().getId());
+                Log.e("BrandBrandBrandId", preafManager.getActiveBrand().getId());
                 try {
                     JSONObject object = new JSONObject(response);
-                    Log.e("BrandBrandBrandId",preafManager.getActiveBrand().getId());
+                    Log.e("BrandBrandBrandId", preafManager.getActiveBrand().getId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -396,15 +391,16 @@ public class BrandAdapter extends RecyclerView.Adapter {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
-               // params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
+                // params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
                 return params;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("brand_id",BrandId);
+                params.put("brand_id", BrandId);
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }

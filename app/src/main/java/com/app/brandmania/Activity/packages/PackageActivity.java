@@ -41,30 +41,30 @@ import java.util.Map;
 
 public class PackageActivity extends BaseActivity {
     private Activity act;
-    private ActivityPackageBinding  binding;
+    private ActivityPackageBinding binding;
     private int[] layouts;
     PreafManager preafManager;
     private boolean isLoading = false;
-    ArrayList<SliderItem>sliderItems=new ArrayList<>();
+    ArrayList<SliderItem> sliderItems = new ArrayList<>();
     BrandListItem selectedBrand;
     Gson gson;
-    int layoutType=0;
+    int layoutType = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        gson=new Gson();
+        gson = new Gson();
 
-        preafManager=new PreafManager(act);
+        preafManager = new PreafManager(act);
 
-        if (getIntent().hasExtra("fromBrandList")){
-            layoutType=2;
-            selectedBrand=gson.fromJson(getIntent().getStringExtra("detailsObj"),BrandListItem.class);
-        }
-        else{
-            layoutType=0;
-            selectedBrand=preafManager.getActiveBrand();
+        if (getIntent().hasExtra("fromBrandList")) {
+            layoutType = 2;
+            selectedBrand = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
+        } else {
+            layoutType = 0;
+            selectedBrand = preafManager.getActiveBrand();
         }
 
         binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
@@ -77,20 +77,21 @@ public class PackageActivity extends BaseActivity {
         GetPackageList();
 
     }
+
     private void GetPackage() {
 
-        binding.viewPagerImageSlider.setAdapter(new SliderAdapter(sliderItems,act,selectedBrand));
+        binding.viewPagerImageSlider.setAdapter(new SliderAdapter(sliderItems, act, selectedBrand));
         binding.viewPagerImageSlider.setClipToPadding(false);
         binding.viewPagerImageSlider.setClipChildren(false);
         binding.viewPagerImageSlider.setOffscreenPageLimit(2);
         binding.viewPagerImageSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
-        CompositePageTransformer compositePageTransformer=new CompositePageTransformer();
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(40));
         compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
             @Override
             public void transformPage(@NonNull View page, float position) {
-                float r=1 - Math.abs(position);
+                float r = 1 - Math.abs(position);
                 page.setScaleY(0.85f + r * 0.15f);
             }
         });
@@ -142,8 +143,8 @@ public class PackageActivity extends BaseActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -161,7 +162,9 @@ public class PackageActivity extends BaseActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-    @Override public void onBackPressed() {
+
+    @Override
+    public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
 }

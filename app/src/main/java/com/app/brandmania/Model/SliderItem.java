@@ -12,6 +12,15 @@ public class SliderItem {
    private String packageid;
    private String brandId;
    private String subscriptionDate;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    private String description;
 
    private String duration;
 

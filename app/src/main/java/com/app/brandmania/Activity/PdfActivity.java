@@ -79,7 +79,7 @@ public class PdfActivity extends BaseActivity {
             binding.address.setText(prefManager.getActiveBrand().getAddress());
         }
 
-        if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("")){
+        if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")){
             binding.waterMark.setVisibility(View.GONE);
         }
 

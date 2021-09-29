@@ -121,14 +121,45 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="#B1B1B1" />
 
-
                 <RelativeLayout
-                    android:visibility="gone"
-                    android:id="@+id/videoFeatureLayout"
-                    android:layout_below="@+id/payLine"
+                    android:id="@+id/servicesLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_below="@+id/payLine"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/servicesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="description"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <View
+                        android:id="@+id/servicesUnderline"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/servicesLabel"
+                        android:layout_marginStart="@dimen/_18sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="#B1B1B1" />
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/videoFeatureLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/servicesLayout"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/videoLabel"
@@ -140,24 +171,25 @@
                         android:text="Video &amp; GIF Feature"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_13sdp" />
+
                     <TextView
-                        android:layout_marginStart="@dimen/_2sdp"
-                        android:paddingTop="@dimen/_3sdp"
-                        android:layout_toEndOf="@id/videoLabel"
                         android:id="@+id/subLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_toEndOf="@id/videoLabel"
                         android:fontFamily="@font/montserrat_semibold"
+                        android:paddingTop="@dimen/_3sdp"
                         android:text="(Coming Soon)"
                         android:textSize="@dimen/_10sdp" />
 
 
                     <View
-                        android:layout_below="@id/videoLabel"
                         android:id="@+id/videoUnderline"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_below="@id/videoLabel"
                         android:layout_marginStart="@dimen/_18sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:background="#B1B1B1" />

@@ -311,7 +311,6 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:id="@+id/discountedAmountLayout"
                     android:layout_width="match_parent"
@@ -340,7 +339,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/dicountLayout"
+                    android:id="@+id/discountLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/_5sdp"
@@ -355,15 +354,30 @@
                         android:text="Coupon Code"
                         android:textSize="@dimen/_11sdp" />
 
-                    <TextView
-                        android:id="@+id/codeTxt"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="end"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="19 "
-                        android:textSize="@dimen/_11sdp" />
+                        android:layout_alignParentEnd="true">
+
+                        <ImageView
+                            android:layout_width="@dimen/_6sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_2sdp"
+                            android:layout_toStartOf="@+id/codeTxt"
+                            android:src="@drawable/ic_sign"
+                            app:tint="@color/red" />
+
+                        <TextView
+                            android:id="@+id/codeTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="end"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="19 "
+                            android:textSize="@dimen/_11sdp" />
+                    </RelativeLayout>
                 </RelativeLayout>
 
                 <RelativeLayout

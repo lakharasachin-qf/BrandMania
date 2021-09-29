@@ -116,7 +116,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         binding.proceedToPayment.setOnClickListener(v -> generateOrderID());
 
 
-
         showReferrer();
 
         if (sliderItemList != null) {
@@ -192,7 +191,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
                 binding.finalAmountTxt.setText(act.getString(R.string.Rs) + calculateAmount);
                 binding.applypromoEditTxt.setVisibility(View.GONE);
-                binding.dicountLayout.setVisibility(View.GONE);
+                binding.discountLayout.setVisibility(View.GONE);
                 binding.promoEditTxt.setVisibility(View.VISIBLE);
             }
         });
@@ -222,7 +221,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
     public void showReferrer() {
 
-         if (!preafManager.getSpleshReferrer().isEmpty()) {
+        if (!preafManager.getSpleshReferrer().isEmpty()) {
             verifyCode(preafManager.getSpleshReferrer());
         }
     }
@@ -346,25 +345,21 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 return hashMap;
             }
         };
-
-
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
-
     }
 
     @SuppressLint("SetTextI18n")
     public void applyCodeCalculation() {
         binding.promoEditTxt.setVisibility(View.GONE);
-        binding.codeTxt.setText("-"+act.getString(R.string.Rs) +discounted_amount);
+        binding.codeTxt.setText(act.getString(R.string.Rs) + discounted_amount);
         binding.couponCodeTxt.setText("Discount(" + discount + "%" + ")");
-        binding.dicountLayout.setVisibility(View.VISIBLE);
+        binding.discountLayout.setVisibility(View.VISIBLE);
         binding.applyPromoCodeTxt.setText("Congratesss! You saved(" + act.getString(R.string.Rs) + discounted_amount + ")");
         binding.applysuccesfullyTxt.setText(Html.fromHtml("<font color=\"red\">" + "<b>" + code + "</b>" + "</font>" + "<font color=\"#FFFFFF\"><b> Applied Successfully</b></font>"));
         binding.applypromoEditTxt.setVisibility(View.VISIBLE);
         binding.finalAmountTxt.setText(act.getString(R.string.Rs) + total_amount);
         calculateAmount = total_amount;
         Utility.Log("calculateAmount", calculateAmount);
-
     }
 
     private void addDynamicServices(String featuresTxt) {

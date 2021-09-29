@@ -1,195 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout  xmlns:shimmer="http://schemas.android.com/apk/res-auto">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar"
+<layout xmlns:shimmer="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:card_view="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:visibility="visible"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:id="@+id/main_linearlayout_title"
-            android:elevation="0dp"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/businessName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:text="Custom"
-                android:textColor="@color/colorNavText"
-                android:textSize="@dimen/_13sdp" />
-
-        </RelativeLayout>
-    </androidx.appcompat.widget.Toolbar>
-        <ImageView
-            android:layout_marginStart="-100dp"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/bottom"
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_300sdp"/>
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeContainer"
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/my_toolbar"
-        android:scrollbars="none">
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:scrollbars="none"
-                         app:behavior_overlapTop="50dp"
-                         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:visibility="visible"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <RelativeLayout
-                android:id="@+id/alertForFrmae"
+                android:id="@+id/main_linearlayout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:elevation="0dp">
+
+                <TextView
+                    android:id="@+id/businessName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Custom"
+                    android:textColor="@color/colorNavText"
+                    android:textSize="@dimen/_13sdp" />
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="-100dp"
+            android:src="@drawable/bottom" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/my_toolbar"
+            android:scrollbars="none">
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/viewpagerRelativ"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:background="@android:color/transparent"
-                android:visibility="visible">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/customImageRelative"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_90sdp"
-                    android:layout_marginLeft="@dimen/_7sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_7sdp"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_10sdp"
-                    card_view:cardCornerRadius="@dimen/_10sdp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <androidx.cardview.widget.CardView
-
-                            android:id="@+id/ImageForText"
-                            android:layout_width="@dimen/_60sdp"
-                            android:layout_height="@dimen/_60sdp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_7sdp"
-                            android:layout_marginEnd="@dimen/_7sdp"
-                            android:layout_marginBottom="@dimen/_7sdp"
-                            android:padding="@dimen/_10sdp"
-                            app:cardCornerRadius="@dimen/_7sdp"
-
-                            card_view:cardCornerRadius="@dimen/_7sdp">
-
-                            <ImageView
-
-                                android:id="@+id/textandImage1"
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:layout_centerVertical="true"
-                                android:layout_gravity="center"
-                                android:background="@drawable/ic_setting_new" />
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:id="@+id/textAndImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:layout_toEndOf="@+id/ImageForText"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="@string/magazine"
-                            android:textColor="@color/colorthird"
-                            android:textSize="@dimen/_13sdp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/textAndImage"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_toEndOf="@+id/ImageForText"
-                            android:fontFamily="@font/inter_semibold"
-                            android:text="Create Custom Image"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_15sdp" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
+                android:clipToPadding="false"
+                android:scrollbars="none"
+                app:behavior_overlapTop="50dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <RelativeLayout
-                    android:id="@+id/recommendationRelativ"
+                    android:id="@+id/alertForFrmae"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/customImageRelative"
-                    android:layout_marginTop="@dimen/_5sdp">
+                    android:layout_below="@+id/viewpagerRelativ"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:background="@android:color/transparent"
+                    android:visibility="visible">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/frameRecycler"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/customImageRelative"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="@dimen/_2sdp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginBottom="@dimen/_1sdp"
-                                    android:paddingBottom="@dimen/_30sdp"
-                                    android:clipToPadding="false" />
-                                    <com.facebook.shimmer.ShimmerFrameLayout
-                                        android:visibility="gone"
-                                        android:id="@+id/shimmerForPagination"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:orientation="vertical"
-                                        shimmer:shimmer_duration="800">
-                                        <LinearLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:orientation="vertical">
-                                            <include layout="@layout/item_simmer_visitors_layout" />
-                                            <include layout="@layout/item_simmer_visitors_layout" />
-                                        </LinearLayout>
-                                    </com.facebook.shimmer.ShimmerFrameLayout>
-                                    <com.facebook.shimmer.ShimmerFrameLayout
-                                        android:id="@+id/shimmer_view_container"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:orientation="vertical"
-                                        shimmer:shimmer_duration="800">
+                        android:layout_height="@dimen/_90sdp"
+                        android:layout_marginLeft="@dimen/_7sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_7sdp"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="@dimen/_7sdp"
+                        app:cardElevation="@dimen/_10sdp"
+                        card_view:cardCornerRadius="@dimen/_10sdp">
 
-                                            <LinearLayout
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:orientation="vertical">
-                                                 <include layout="@layout/item_simmer_visitors_layout" />
-                                                 <include layout="@layout/item_simmer_visitors_layout" />
-                                                <include layout="@layout/item_simmer_visitors_layout" />
-                                                <include layout="@layout/item_simmer_visitors_layout" />
-                                                <include layout="@layout/item_simmer_visitors_layout" />
-                                                <include layout="@layout/item_simmer_visitors_layout" />
-                                                <include layout="@layout/item_simmer_visitors_layout" />
-                                                 <include layout="@layout/item_simmer_visitors_layout" />
-                                            </LinearLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                                </com.facebook.shimmer.ShimmerFrameLayout>
-                            </RelativeLayout>
+                            <androidx.cardview.widget.CardView
+
+                                android:id="@+id/ImageForText"
+                                android:layout_width="@dimen/_60sdp"
+                                android:layout_height="@dimen/_60sdp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_7sdp"
+                                android:layout_marginEnd="@dimen/_7sdp"
+                                android:layout_marginBottom="@dimen/_7sdp"
+                                android:padding="@dimen/_10sdp"
+                                app:cardCornerRadius="@dimen/_7sdp"
+                                card_view:cardCornerRadius="@dimen/_7sdp">
+
+                                <ImageView
+
+                                    android:id="@+id/textandImage1"
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/ic_setting_new" />
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:id="@+id/textAndImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_15sdp"
+                                android:layout_toEndOf="@+id/ImageForText"
+                                android:fontFamily="@font/inter_medium"
+                                android:text="@string/magazine"
+                                android:textColor="@color/colorthird"
+                                android:textSize="@dimen/_13sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/textAndImage"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_toEndOf="@+id/ImageForText"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Create Custom Image"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_15sdp" />
+
                         </RelativeLayout>
-                     </androidx.core.widget.NestedScrollView>
-                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <RelativeLayout
+                        android:id="@+id/recommendationRelativ"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/customImageRelative"
+                        android:layout_marginTop="@dimen/_5sdp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/frameRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_marginBottom="@dimen/_1sdp"
+                            android:clipToPadding="false"
+                            android:paddingBottom="@dimen/_30sdp" />
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmerForPagination"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            shimmer:shimmer_duration="800">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmer_view_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            shimmer:shimmer_duration="800">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+
+                                <include layout="@layout/item_simmer_visitors_layout" />
+                            </LinearLayout>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </RelativeLayout>
 </layout>

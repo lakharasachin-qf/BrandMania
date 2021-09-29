@@ -137,10 +137,10 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     private boolean isUserFree = true;
     private boolean canDownload = true;
     private int FrameCountForDownload = 2;
-    private boolean isLoadBold=false;
-    private boolean isLoadItalic=false;
+    private boolean isLoadBold = false;
+    private boolean isLoadItalic = false;
     private boolean isLoadUnderLine = false;
-    private String loadDefaultFont="";
+    private String loadDefaultFont = "";
     int editorFragment;
     private Bitmap selectedLogo;
     private ImageList selectedBackendFrame = null;
@@ -152,24 +152,24 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     private ActivityCustomViewAllBinding binding;
     Gson gson;
     PreafManager preafManager;
-    private int colorCodeForBackground=0;
+    private int colorCodeForBackground = 0;
     int windowwidth;
     int windowheight;
-    private int previousFontSize=-1;
+    private int previousFontSize = -1;
     private ViewGroup mainLayout;
     ArrayList<MultiListItem> menuModels = new ArrayList<>();
     private MultiListItem listModel;
     Drawable yourDrawable;
-    private int colorCodeForTextColor=0;
+    private int colorCodeForTextColor = 0;
     private ScaleGestureDetector scaleGestureDetector;
     private float mScaleFactor = 1.0f;
     MotionEvent onClickTimeHelper;
-    boolean isFirstTouchOnImage=false;
+    boolean isFirstTouchOnImage = false;
     private int showingView = -1;
     private int xDelta, yDelta;
     private ViewGroup mainLayout1;
     private boolean isUsingCustomFrame = true;
-    private boolean isRemoveFrame=false;
+    private boolean isRemoveFrame = false;
     private static final String TAG = "Touch";
     @SuppressWarnings("unused")
     private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
@@ -239,7 +239,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         gson = new Gson();
         preafManager = new PreafManager(act);
         binding.backImage.setOnTouchListener((View.OnTouchListener) act);
-        colorCodeForBackground= ContextCompat.getColor(act,R.color.colorPrimary);
+        colorCodeForBackground = ContextCompat.getColor(act, R.color.colorPrimary);
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
         setIconForAlignment();
         binding.logoCustom.setOnTouchListener(onTouchListener());
@@ -284,7 +284,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             }
         });
 
-        if (preafManager.getActiveBrand()!=null) {
+        if (preafManager.getActiveBrand() != null) {
             if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty()) {
                 binding.logoEmptyState.setVisibility(View.GONE);
                 binding.logoCustom.setVisibility(View.VISIBLE);
@@ -468,8 +468,10 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 .build()
                 .show();
     }
-    int tabIndex=1;
-    boolean needToIntro=false;
+
+    int tabIndex = 1;
+    boolean needToIntro = false;
+
     public void showTabIntro(View view, String title, String desc) {
 
         new GuideView.Builder(this)
@@ -490,6 +492,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 .build()
                 .show();
     }
+
     public void bottomFramgment() {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Image")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Footer")));
@@ -526,7 +529,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                     }
                     if (tabIndex == 5) {
                         showTabIntro(binding.viewPager, "Edit", "Change your image filter as u want");
-                        needToIntro=false;
+                        needToIntro = false;
                     }
 
                 }
@@ -534,16 +537,16 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             }
 
             @Override
-            public void onTabUnselected (TabLayout.Tab tab){
+            public void onTabUnselected(TabLayout.Tab tab) {
             }
 
             @Override
-            public void onTabReselected (TabLayout.Tab tab){
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
 
         if (preafManager.getViewAllCustomeImageActivityIntro()) {
-            needToIntro=true;
+            needToIntro = true;
 
             if (binding.logoEmptyState.getVisibility() == View.VISIBLE)
                 startIntro(binding.logoEmptyState, "Brand Logo", "Click on icon for choose your logo\n you can resize and move logo around anywhere in the image");
@@ -570,7 +573,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                     @SuppressLint("ClickableViewAccessibility") int color = bmp.getPixel((int) event.getX(), (int) event.getY());
                     if (color == Color.TRANSPARENT) {
                         binding.frameImage.setOnTouchListener(null);
-                        isFirstTouchOnImage=true;
+                        isFirstTouchOnImage = true;
                         return true;
                     } else {
                         return false;
@@ -588,18 +591,19 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         });
 
     }
-    public void loadGalleryImage(){
-        isGalleryCropping=false;
+
+    public void loadGalleryImage() {
+        isGalleryCropping = false;
         InputStream inputStream = null;
         try {
             inputStream = getContentResolver().openInputStream(imageFromGalaryModel.getUri());
-            yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString() );
+            yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString());
             binding.backImage.setImageDrawable(yourDrawable);
             // LoadDataToUI();
             BitmapDrawable drawable = (BitmapDrawable) binding.backImage.getDrawable();
-            selectedImageBitmap= drawable.getBitmap();
-            selectedImageBitmap=selectedImageBitmap.copy(Bitmap.Config.ARGB_8888 , true);
-            if (selectedFooterModel==null)
+            selectedImageBitmap = drawable.getBitmap();
+            selectedImageBitmap = selectedImageBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            if (selectedFooterModel == null)
                 loadFirstImage();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -607,8 +611,9 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
     }
 
-    @Override public void onCropImage() {
-        isGalleryCropping=true;
+    @Override
+    public void onCropImage() {
+        isGalleryCropping = true;
         CropImage.activity(imageFromGalaryModel.getUri())
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMultiTouchEnabled(true)
@@ -616,12 +621,15 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 .start(this);
     }
 
-    boolean isGalleryCropping=false;
-    @Override public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
-             imageFromGalaryModel=listModel;
-            loadGalleryImage();
+    boolean isGalleryCropping = false;
+
+    @Override
+    public void onImageFromGalaryItemSelection(int position, ImageFromGalaryModel listModel) {
+        imageFromGalaryModel = listModel;
+        loadGalleryImage();
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -650,34 +658,35 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                     ((ImageView) findViewById(R.id.logoCustom)).setImageURI(result.getUri());
                     ImageView imageView = ((ImageView) findViewById(R.id.logoCustom));
                     selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                }else{
+                } else {
                     imageFromGalaryModel.setUri(result.getUri());
                     loadGalleryImage();
                 }
             }
         }
     }
+
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
         return (float) Math.sqrt(x * x + y * y);
     }
+
     private void midPoint(PointF point, MotionEvent event) {
         float x = event.getX(0) + event.getX(1);
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
     }
 
-    @Override public void onItemSelection(int position, MultiListItem listModel) {
+    @Override
+    public void onItemSelection(int position, MultiListItem listModel) {
         binding.frameImage.setImageResource(listModel.getImage());
     }
 
 
-
-
     private void dumpEvent(MotionEvent event) {
-        String names[] = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE",
-                "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };
+        String names[] = {"DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE",
+                "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?"};
         StringBuilder sb = new StringBuilder();
         int action = event.getAction();
         int actionCode = action & MotionEvent.ACTION_MASK;
@@ -713,7 +722,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
         selectedFooterModel = footerModel;
-        addDynamicFooter(footerLayout,false);
+        addDynamicFooter(footerLayout, false);
         changeBorderColorAsFrame();
         loadSameColorToBackgroundAndTextAgain();
         ((ITextSizeEvent) act).onfontSize(previousFontSize);
@@ -722,35 +731,33 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     //for adding footer dynamically
     int footerLayout = 1;
     LayoutModelClass layoutModelClass;
-    private void addDynamicFooter(int layoutType,boolean isReload) {
+
+    private void addDynamicFooter(int layoutType, boolean isReload) {
         layoutModelClass = new LayoutModelClass();
         binding.elementFooter.removeAllViews();
-        footerLayout=layoutType;
-        if (layoutType== FooterModel.LAYOUT_FRAME_ONE) {
+        footerLayout = layoutType;
+        if (layoutType == FooterModel.LAYOUT_FRAME_ONE) {
             LayoutForLoadOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
             binding.elementFooter.addView(oneBinding.getRoot());
             FooterHelper.loadFrameFirstData(act, oneBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
             mainLayout1 = (RelativeLayout) findViewById(R.id.addressLayoutElement2);
             layoutModelClass.setOneBinding(oneBinding);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_TWO) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_TWO) {
             LayoutForLoadTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
             binding.elementFooter.addView(twoBinding.getRoot());
             layoutModelClass.setTwoBinding(twoBinding);
             FooterHelper.loadFrameTwoData(act, twoBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.firstView);
             mainLayout1 = (RelativeLayout) findViewById(R.id.secondView);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_THREE) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_THREE) {
             LayoutForLoadThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
             layoutModelClass.setThreeBinding(threeBinding);
             FooterHelper.loadFrameThreeData(act, threeBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
             mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_FOUR) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_FOUR) {
             LayoutForLoadFourBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
             layoutModelClass.setFourBinding(fourBinding);
@@ -768,8 +775,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             layoutModelClass.setSixBinding(sixBinding);
             FooterHelper.loadFrameSixData(act, sixBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.containerElement);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_SEVEN) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVEN) {
             LayoutForLoadSevenBinding sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
             binding.elementFooter.addView(sevenBinding.getRoot());
             layoutModelClass.setSevenBinding(sevenBinding);
@@ -777,23 +783,20 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             mainLayout = (RelativeLayout) findViewById(R.id.element0);
             mainLayout1 = (RelativeLayout) findViewById(R.id.socialFollow);
 
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_EIGHT) {
-           LayoutForLoadEightBinding eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHT) {
+            LayoutForLoadEightBinding eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
             binding.elementFooter.addView(eightBinding.getRoot());
             layoutModelClass.setEightBinding(eightBinding);
             FooterHelper.loadFrameEightData(act, eightBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element1);
             mainLayout1 = (RelativeLayout) findViewById(R.id.element2);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_NINE) {
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_NINE) {
             LayoutForLoadNineBinding nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
             binding.elementFooter.addView(nineBinding.getRoot());
             layoutModelClass.setNineBinding(nineBinding);
             FooterHelper.loadFrameNineData(act, nineBinding);
-           // mainLayout = (RelativeLayout) findViewById(R.id.firstLayout);
-        }
-        else if (layoutType== FooterModel.LAYOUT_FRAME_TEN) {
+            // mainLayout = (RelativeLayout) findViewById(R.id.firstLayout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_TEN) {
             LayoutForLoadTenBinding tenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_ten, null, false);
             binding.elementFooter.addView(tenBinding.getRoot());
             layoutModelClass.setTenBinding(tenBinding);
@@ -802,11 +805,16 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
         }
     }
-    @Override public void onColorSelected(int dialogId, int colorCode) {
+
+    @Override
+    public void onColorSelected(int dialogId, int colorCode) {
     }
-    @Override public void onDialogDismissed(int dialogId) {
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
 
     }
+
     public void loadSameColorToBackgroundAndTextAgain() {
 
         if (colorCodeForTextColor != 0) {
@@ -826,17 +834,16 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
 
     //for Text Color change
-    @Override public void onColorChanged(int colorCode) {
-        if (preafManager.getActiveBrand()!=null) {
+    @Override
+    public void onColorChanged(int colorCode) {
+        if (preafManager.getActiveBrand() != null) {
             if (editorFragment == 4 && selectedForEdit != null) {
                 selectedForEdit.setTextColor(colorCode);
             } else if (editorFragment == 4) {
                 colorCodeForTextColor = colorCode;
                 FooterHelper.baseForTextColor(act, footerLayout, layoutModelClass, colorCode);
             }
-        }
-        else
-        {
+        } else {
             if (editorFragment == 4 && selectedForEdit != null) {
                 selectedForEdit.setTextColor(colorCode);
 
@@ -844,32 +851,42 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
 
     }
+
     //on border size change
     int borderSize;
-    @Override public void onBorderSizeChange(int size) {
-        borderSize=size;
+
+    @Override
+    public void onBorderSizeChange(int size) {
+        borderSize = size;
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(size), colorCodeForBackground);
     }
+
     //for background color change
-    @Override public void onChooseColor(int colorCode) {
+    @Override
+    public void onChooseColor(int colorCode) {
         colorCodeForBackground = colorCode;
 
-        if (editorFragment==3){
+        if (editorFragment == 3) {
             FooterHelper.baseForBackground(act, footerLayout, layoutModelClass, colorCode);
             GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
             drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
         }
     }
+
     private int convertDpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-    public void changeBorderColorAsFrame(){
+
+    public void changeBorderColorAsFrame() {
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(borderSize), colorCodeForBackground);
     }
-    @Override public void onColorItemChange(int colorCode) {
+
+    @Override
+    public void onColorItemChange(int colorCode) {
     }
+
     //for font change
     public void onFontChangeListenert(String Font) {
         loadDefaultFont = Font;
@@ -880,8 +897,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             } else {
                 FooterHelper.baseForFontChange(act, footerLayout, Font, layoutModelClass);
             }
-        }
-        else {
+        } else {
             if (editorFragment == 4 && selectedForEdit != null) {
                 Typeface custom_font = Typeface.createFromAsset(act.getAssets(), Font);
                 selectedForEdit.setTypeface(custom_font);
@@ -889,8 +905,10 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
 
     }
+
     //for font size
-    @Override public void onfontSize(int textsize) {
+    @Override
+    public void onfontSize(int textsize) {
 
         if (preafManager.getActiveBrand() != null) {
 
@@ -899,9 +917,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             } else {
                 FooterHelper.baseForTextSize(textsize, footerLayout, layoutModelClass);
             }
-        }
-        else
-        {
+        } else {
             if (editorFragment == 4 && selectedForEdit != null) {
                 selectedForEdit.setTextSize(textsize);
             }
@@ -909,39 +925,37 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
 
     }
+
     //for bold text
-    @Override public void onBoldTextChange(boolean Bold) {
+    @Override
+    public void onBoldTextChange(boolean Bold) {
         if (Bold) {
 
 
-            if (preafManager.getActiveBrand()!=null) {
+            if (preafManager.getActiveBrand() != null) {
                 isLoadBold = Bold;
                 if (editorFragment == 4 && selectedForEdit != null) {
                     Utility.setBold(selectedForEdit, true);
                 } else {
                     FooterHelper.baseForBold(Bold, footerLayout, layoutModelClass);
                 }
-            }
-            else
-            {
+            } else {
                 if (editorFragment == 4 && selectedForEdit != null) {
                     Utility.setBold(selectedForEdit, true);
 
                 }
             }
-        }else {
+        } else {
 
 
-            if (preafManager.getActiveBrand()!=null) {
+            if (preafManager.getActiveBrand() != null) {
                 if (editorFragment == 4 && selectedForEdit != null) {
                     Utility.setBold(selectedForEdit, false);
 
                 } else {
                     FooterHelper.baseForBold(Bold, footerLayout, layoutModelClass);
                 }
-            }
-            else
-            {
+            } else {
                 if (editorFragment == 4 && selectedForEdit != null) {
                     Utility.setBold(selectedForEdit, false);
                 }
@@ -949,51 +963,47 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
 
     }
+
     //for italic
-    @Override public void onItalicTextChange(boolean Italic) {
-        isLoadItalic=Italic;
+    @Override
+    public void onItalicTextChange(boolean Italic) {
+        isLoadItalic = Italic;
         if (Italic) {
             if (preafManager.getActiveBrand() != null) {
                 if (editorFragment == 4 && selectedForEdit != null) {
 
                     Utility.setItalicText(selectedForEdit, true);
-                } else   {
-                    FooterHelper.baseForItalic(Italic,footerLayout,layoutModelClass);
+                } else {
+                    FooterHelper.baseForItalic(Italic, footerLayout, layoutModelClass);
                 }
-            }
-            else
-            {
+            } else {
                 if (editorFragment == 4 && selectedForEdit != null) {
 
                     Utility.setItalicText(selectedForEdit, true);
                 }
             }
-        }
-        else
-        {
-            if (preafManager.getActiveBrand()!=null)
-            {
+        } else {
+            if (preafManager.getActiveBrand() != null) {
                 if (editorFragment == 4 && selectedForEdit != null) {
 
                     Utility.setItalicText(selectedForEdit, false);
-                } else   {
-                    FooterHelper.baseForItalic(Italic,footerLayout,layoutModelClass);
+                } else {
+                    FooterHelper.baseForItalic(Italic, footerLayout, layoutModelClass);
                 }
-            }
-            else
-            {
-                if (editorFragment==4 && selectedForEdit!=null) {
+            } else {
+                if (editorFragment == 4 && selectedForEdit != null) {
 
                     Utility.setItalicText(selectedForEdit, false);
                 }
             }
         }
     }
-     public boolean manuallyEnablePermission(int pendingActivity) {
-        isDownloadOrSharingOrFavPending=pendingActivity;
+
+    public boolean manuallyEnablePermission(int pendingActivity) {
+        isDownloadOrSharingOrFavPending = pendingActivity;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(act)
                             .setMessage("Allow BrandMania to access photos, files to download and share images ")
                             .setCancelable(true)
@@ -1007,12 +1017,12 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                             })
                             .show();
                     return false;
-                }else {
+                } else {
                     return true;
                 }
 
-            }else {
-                if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            } else {
+                if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(act)
                             .setMessage("Allow BrandMania to access photos, files to download and share images ")
                             .setCancelable(true)
@@ -1028,15 +1038,15 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                             })
                             .show();
                     return false;
-                }else {
+                } else {
 
                     return true;
                 }
 
 
             }
-        }else {
-            if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+        } else {
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(act)
                         .setMessage("Allow BrandMania to access photos, files to download and share images ")
                         .setCancelable(true)
@@ -1052,15 +1062,17 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                         })
                         .show();
                 return false;
-            }else {
+            } else {
 
                 return true;
             }
         }
 
     }
+
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutEnterpriseBinding enterpriseBinding;
+
     public void askForUpgradeToEnterpisePackage() {
         enterpriseBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_enterprise, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -1073,7 +1085,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile","1");
+                intent.putExtra("Profile", "1");
 
                 act.startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
@@ -1090,11 +1102,14 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-    @Override public void alertListenerClick() {
+
+    @Override
+    public void alertListenerClick() {
         requestAgain();
     }
+
     //save image with frame either custome or from backend
-    public void saveImageToGallery(boolean wantToShare,boolean isFavourite) {
+    public void saveImageToGallery(boolean wantToShare, boolean isFavourite) {
         Log.e("TTTT", "sSSS");
         Utility.showLoadingTran(act);
         Drawable bitmapFrame;
@@ -1125,10 +1140,10 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
         String date = simpleDateFormat.format(new Date());
-        String name = "image" +System.currentTimeMillis()+ ".jpg";
+        String name = "image" + System.currentTimeMillis() + ".jpg";
         String file_name = file.getAbsolutePath() + "/" + name;
         new_file = new File(file_name);
-        Log.e("new_file",new_file.getAbsolutePath()+"\n"+new_file.getPath());
+        Log.e("new_file", new_file.getAbsolutePath() + "\n" + new_file.getPath());
 
         try {
             fileOutputStream = new FileOutputStream(new_file);
@@ -1153,14 +1168,13 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                     binding.FrameImageDuplicate.setImageBitmap(null);
                 } else {
                 }
-                FooterHelper.triggerShareIntent(act,new_file,merged);
+                FooterHelper.triggerShareIntent(act, new_file, merged);
                 dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
             } else {
                 Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
-                if (isUsingCustomFrame)
-                {
+                if (isUsingCustomFrame) {
                     if (!isRemoveFrame)
-                    ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(),selectedFooterModel);
+                        ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
                     // addDynamicFooter(selectedFooterModel.getLayoutType(), true);
                     binding.FrameImageDuplicate.setVisibility(View.GONE);
                     binding.FrameImageDuplicate.setImageBitmap(null);
@@ -1168,7 +1182,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                     binding.FrameImageDuplicate.setImageBitmap(null);
                     binding.FrameImageDuplicate.setVisibility(View.GONE);
 
-                   Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.frameImage);
+                    Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.frameImage);
                 }
 
                 dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
@@ -1178,19 +1192,19 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             try {
 
                 inputStream = getContentResolver().openInputStream(imageFromGalaryModel.getUri());
-                yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString() );
+                yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString());
                 binding.backImage.setImageDrawable(yourDrawable);
                 BitmapDrawable drawable = (BitmapDrawable) binding.backImage.getDrawable();
-                selectedImageBitmap=drawable.getBitmap();
+                selectedImageBitmap = drawable.getBitmap();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
 
 
-        }else {
+        } else {
             if (isUsingCustomFrame) {
                 if (!isRemoveFrame)
-                ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(),selectedFooterModel);
+                    ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
                 binding.FrameImageDuplicate.setVisibility(View.GONE);
                 binding.FrameImageDuplicate.setImageBitmap(null);
             } else {
@@ -1200,14 +1214,16 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
         Utility.dismissLoadingTran();
     }
+
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
-    public void loadFirstImage(){
-        if (preafManager.getActiveBrand()!=null) {
+
+    public void loadFirstImage() {
+        if (preafManager.getActiveBrand() != null) {
             FooterModel model = new FooterModel();
             model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
             model.setFree(true);
@@ -1221,34 +1237,29 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
 
 
-
-    @Override public void onFilterSelected(PhotoFilter photoFilter) {
+    @Override
+    public void onFilterSelected(PhotoFilter photoFilter) {
         mPhotoEditor.setFilterEffect(photoFilter);
 
     }
 
 
-
-
-    @Override public void onimageBritness(int britness) {
+    @Override
+    public void onimageBritness(int britness) {
 
         binding.backImage.setColorFilter(setBrightness(britness));
 
     }
 
 
-
-
-
-    @Override public void onRotateImage(int rotate) {
+    @Override
+    public void onRotateImage(int rotate) {
         binding.backImage.setRotation(binding.backImage.getRotation() + 90);
     }
 
 
-
-
-
-    @Override public void onThumbnailClick(Filter filter) {
+    @Override
+    public void onThumbnailClick(Filter filter) {
         int width = selectedImageBitmap.getWidth();
         int height = selectedImageBitmap.getHeight();
 
@@ -1258,7 +1269,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             // landscape
             float ratio = (float) width / binding.backImage.getWidth();
             width = binding.backImage.getWidth();
-            height = (int)(height / ratio);
+            height = (int) (height / ratio);
         } else if (height > width) {
             // portrait
             float ratio = (float) height / binding.backImage.getHeight();
@@ -1494,7 +1505,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
 
 
-
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -1552,26 +1562,24 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
 
 
-
-
     //to handle click and drag listener
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
-        @Override public boolean onSingleTapUp(MotionEvent event) {
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
             return true;
         }
     }
 
 
-
-    @Override public void onBackendFrameChoose(ImageList imageList, int position) {
+    @Override
+    public void onBackendFrameChoose(ImageList imageList, int position) {
         binding.frameImage.setVisibility(View.VISIBLE);
         binding.elementCustomFrame.setVisibility(View.GONE);
-        selectedBackendFrame=imageList;
+        selectedBackendFrame = imageList;
         Glide.with(getApplicationContext()).load(imageList.getFrame1()).into(binding.frameImage);
         isUsingCustomFrame = false;
-      //  forCheckFavorite();
+        //  forCheckFavorite();
     }
-
 
 
     @Override
@@ -1582,7 +1590,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         if (binding.textEditorView.getVisibility() == View.VISIBLE) {
             binding.textEditorView.setVisibility(View.GONE);
             binding.contentView.setEnabled(true);
@@ -1591,22 +1600,24 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 1);
             return;
         }
-        if (editorFragment == 0){
+        if (editorFragment == 0) {
             MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.GALLERY_ACTION);
-        }else {
+        } else {
             screenExistDialog();
         }
     }
+
     androidx.appcompat.app.AlertDialog alertDialog;
     DialogDiscardImageBinding discardImageBinding;
+
     public void screenExistDialog() {
-        if (alertDialog!=null && alertDialog.isShowing())
+        if (alertDialog != null && alertDialog.isShowing())
             alertDialog.dismiss();
 
         discardImageBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_discard_image, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(discardImageBinding.getRoot());
-          alertDialog = builder.create();
+        alertDialog = builder.create();
         alertDialog.setContentView(discardImageBinding.getRoot());
 
         discardImageBinding.noTxt.setOnClickListener(new View.OnClickListener() {
@@ -1633,6 +1644,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
 
     int editMode;
+
     //to handle click and drag listener EditBox
     private View.OnTouchListener onTouchListeneForEditText() {
         return new View.OnTouchListener() {

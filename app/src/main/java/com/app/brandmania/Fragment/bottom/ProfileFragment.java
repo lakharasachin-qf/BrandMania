@@ -29,6 +29,7 @@ import com.app.brandmania.Activity.about_us.FaqActivity;
 import com.app.brandmania.Activity.about_us.HelpAndSupport;
 import com.app.brandmania.Activity.about_us.PartnerProgramActivity;
 import com.app.brandmania.Activity.basics.LoginActivity;
+import com.app.brandmania.Activity.basics.ReferNEarnActivity;
 import com.app.brandmania.Activity.brand.ViewBrandActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Common.Constant;
@@ -59,10 +60,11 @@ public class ProfileFragment extends BaseFragment {
     PreafManager preafManager;
 
 
-    @Override public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    @Override
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_profile,parent,false);
-        preafManager=new PreafManager(act);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, parent, false);
+        preafManager = new PreafManager(act);
         binding.businessName.setText(preafManager.getActiveBrand().getName());
         binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +85,7 @@ public class ProfileFragment extends BaseFragment {
 
             }
         });
-        if (!preafManager.getAppTutorial().isEmpty()){
+        if (!preafManager.getAppTutorial().isEmpty()) {
             binding.introLayout.setVisibility(View.VISIBLE);
             binding.videoLine.setVisibility(View.VISIBLE);
         }
@@ -101,11 +103,18 @@ public class ProfileFragment extends BaseFragment {
                 act.finish();
             }
         });
+        binding.referNEarnLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(act, ReferNEarnActivity.class);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
         binding.helpandsupportLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, HelpAndSupport.class);
-
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -116,7 +125,6 @@ public class ProfileFragment extends BaseFragment {
             public void onClick(View v) {
 
                 Intent i = new Intent(act, PartnerProgramActivity.class);
-
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -126,7 +134,7 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, FaqActivity.class);
-                 startActivity(i);
+                startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
             }
@@ -135,7 +143,7 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, AboutUsActivity.class);
-                i.putExtra("aboutUs","aboutUs");
+                i.putExtra("aboutUs", "aboutUs");
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -144,19 +152,19 @@ public class ProfileFragment extends BaseFragment {
         binding.shareText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent shareIntent =   new Intent(android.content.Intent.ACTION_SEND);
+                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 // shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Insert Subject here");
                 String app_url = "https://play.google.com/store/apps/details?id=com.make.mybrand";
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,app_url);
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, app_url);
                 startActivity(Intent.createChooser(shareIntent, "Share via"));
             }
         });
         binding.packageRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile","1");
+                Intent intent = new Intent(act, PackageActivity.class);
+                intent.putExtra("Profile", "1");
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
@@ -164,14 +172,12 @@ public class ProfileFragment extends BaseFragment {
         binding.rateUsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri=Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
-                Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 try {
 
                     startActivity(intent);
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
 
                 }
 
@@ -180,17 +186,17 @@ public class ProfileFragment extends BaseFragment {
         binding.reportbugsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(act, AddReportAndBug.class);
+                Intent intent = new Intent(act, AddReportAndBug.class);
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
-        binding.appVersionTxt.setText("App Version "+Constant.F_VERSION);
+        binding.appVersionTxt.setText("App Version " + Constant.F_VERSION);
 
         binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HELPER.WHATSAPP_REDIRECTION_2(act,preafManager.getActiveBrand().getName(),preafManager.getMobileNumber());
+                HELPER.WHATSAPP_REDIRECTION_2(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
             }
         });
         binding.visitFacebook.setOnClickListener(new View.OnClickListener() {
@@ -212,6 +218,7 @@ public class ProfileFragment extends BaseFragment {
 
         return binding.getRoot();
     }
+
     public static String FACEBOOK_URL = "https://www.facebook.com/brandmania2020";
     public static String FACEBOOK_PAGE_ID = "103655598316587";
 
@@ -239,7 +246,9 @@ public class ProfileFragment extends BaseFragment {
         }
         return uri;
     }
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
+
     private void getBrandList() {
 
         Utility.Log("API : ", APIs.GET_BRAND);
@@ -251,15 +260,15 @@ public class ProfileFragment extends BaseFragment {
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     preafManager.setAddBrandList(multiListItems);
-                    for (int i=0;i<multiListItems.size();i++){
-                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())){
+                    for (int i = 0; i < multiListItems.size(); i++) {
+                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
                             preafManager.setActiveBrand(multiListItems.get(i));
                             break;
                         }
                     }
 
                     //FirstLogin
-                    if (act.getIntent().hasExtra("FirstLogin")){
+                    if (act.getIntent().hasExtra("FirstLogin")) {
                         preafManager.setIS_Brand(true);
 
                         if (multiListItems.size() != 0) {
@@ -267,7 +276,7 @@ public class ProfileFragment extends BaseFragment {
                         }
 
                     }
-                    preafManager=new PreafManager(act);
+                    preafManager = new PreafManager(act);
                     binding.businessName.setText(preafManager.getActiveBrand().getName());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -279,8 +288,7 @@ public class ProfileFragment extends BaseFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                         error.printStackTrace();
-
+                        error.printStackTrace();
 
 
                     }
@@ -295,8 +303,8 @@ public class ProfileFragment extends BaseFragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -316,7 +324,9 @@ public class ProfileFragment extends BaseFragment {
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    @Override public void update(Observable observable, Object data) {
+
+    @Override
+    public void update(Observable observable, Object data) {
 
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
 
@@ -324,8 +334,8 @@ public class ProfileFragment extends BaseFragment {
             getBrandList();
         }
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.APP_INTRO_REFRESH) {
-            preafManager=new PreafManager(act);
-            if (!preafManager.getAppTutorial().isEmpty()){
+            preafManager = new PreafManager(act);
+            if (!preafManager.getAppTutorial().isEmpty()) {
                 binding.introLayout.setVisibility(View.VISIBLE);
                 binding.videoLine.setVisibility(View.VISIBLE);
             }
@@ -333,6 +343,7 @@ public class ProfileFragment extends BaseFragment {
     }
 
     public DialogFacebookLikesBinding facebookLikesBinding;
+
     private void facebookPageDialog() {
         facebookLikesBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_facebook_likes, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -345,8 +356,8 @@ public class ProfileFragment extends BaseFragment {
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
-              //  String facebookUrl = getFacebookPageURL(act);
-              //  Log.e("facebook",facebookUrl);
+                //  String facebookUrl = getFacebookPageURL(act);
+                //  Log.e("facebook",facebookUrl);
                 facebookIntent.setData(Uri.parse(FACEBOOK_URL));
                 startActivity(facebookIntent);
             }
