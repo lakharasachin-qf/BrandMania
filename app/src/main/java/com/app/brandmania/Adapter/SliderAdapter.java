@@ -64,11 +64,16 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         });
         holder.payTitle.setText(activity.getString(R.string.Rs) + sliderItems.get(position).getPriceForPay() + " / " + sliderItems.get(position).getDuration());
         holder.servicesLabel.setText(sliderItems.get(position).getSlideSubItems().get(0).getDescription());
-        if (!sliderItems.get(position).getSlideSubItems().get(0).getDescription().equalsIgnoreCase("description")) {
-            holder.servicesLayout.setVisibility(View.VISIBLE);
-        } else {
-            holder.servicesLayout.setVisibility(View.GONE);
-        }
+
+        if (sliderItems.get(position).getPackageTitle().equalsIgnoreCase("Enterprise PRO"))
+            if ((!sliderItems.get(position).getSlideSubItems().get(0).getDescription().equalsIgnoreCase("description") && sliderItems.get(position).getSlideSubItems().get(0) != null)) {
+                holder.servicesLabel.setVisibility(View.VISIBLE);
+                holder.servicesUnderline.setVisibility(View.VISIBLE);
+
+            } else {
+                holder.servicesLayout.setVisibility(View.GONE);
+                holder.servicesUnderline.setVisibility(View.GONE);
+            }
         if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid()) && preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
             holder.packageBtn.setVisibility(View.GONE);
             holder.subcribedBtn.setVisibility(View.VISIBLE);
@@ -99,6 +104,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         private TextView servicesLabel;
         private RelativeLayout videoFeatureLayout;
         private RelativeLayout servicesLayout;
+        private View servicesUnderline;
 
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,8 +117,9 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             packageBtn = itemView.findViewById(R.id.selectPlaneBtn);
             expiredTxt = itemView.findViewById(R.id.expiredPlaneTxt);
             subcribedBtn = itemView.findViewById(R.id.subscribePlaneBtn);
-            servicesLayout = itemView.findViewById(R.id.servicesLayout);
+            /*servicesLayout = itemView.findViewById(R.id.servicesLabel);*/
             servicesLabel = itemView.findViewById(R.id.servicesLabel);
+            servicesUnderline = itemView.findViewById(R.id.servicesUnderline);
 
         }
 

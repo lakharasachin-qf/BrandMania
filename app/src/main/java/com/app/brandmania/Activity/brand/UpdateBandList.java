@@ -83,6 +83,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
     private AlertDialog.Builder alertDialogBuilder;
     private Uri mCropImageUri;
     private Bitmap selectedLogo;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -100,7 +101,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         CodeReUse.RemoveError(binding.websiteEdt, binding.websiteEdtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
         CodeReUse.RemoveError(binding.businessServiceEdt, binding.businessFacilityEdtLayout);
-        alertDialogBuilder=new AlertDialog.Builder(act);
+        alertDialogBuilder = new AlertDialog.Builder(act);
         binding.viewImgFirst.setTag("0");
 
         getBrandCategory(BRAND_CATEGORY);
@@ -119,8 +120,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         });
         listModel = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
         data = gson.fromJson(getIntent().getStringExtra("data"), BrandListItem.class);
-        Log.e("SSSS",gson.toJson(listModel));
-        Log.e("data",gson.toJson(data));
+        Log.e("SSSS", gson.toJson(listModel));
+        Log.e("data", gson.toJson(data));
 
         if (listModel != null) {
             binding.catIdEdt.setText(listModel.getId());
@@ -170,12 +171,10 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                     }
                 }
             });
-        }
-        else
-        {
+        } else {
             binding.catIdEdt.setText(prefManager.getActiveBrand().getCategoryName());
             binding.IdEdt.setText(prefManager.getActiveBrand().getId());
-             binding.categoryEdt.setText(prefManager.getActiveBrand().getCategoryName());
+            binding.categoryEdt.setText(prefManager.getActiveBrand().getCategoryName());
             binding.nameTxt.setText(prefManager.getActiveBrand().getName());
             binding.phoneTxt.setText(prefManager.getActiveBrand().getPhonenumber());
             binding.addressEdt.setText(prefManager.getActiveBrand().getAddress());
@@ -190,7 +189,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 //
 //            });
             Glide.with(act).load(prefManager.getActiveBrand().getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
-          //  Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
+            //  Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
 
 
             binding.viewImgFirst.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +223,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         }
 
 
-
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,10 +232,12 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         });
 
     }
+
     //For CustomFrame
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
     }
+
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -246,6 +246,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 .start(this);
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -278,6 +279,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             }
         }
     }
+
     private void getBrandCategory(int flag) {
         String apiUrl = "";
         int requestedMethod = 0;
@@ -325,7 +327,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer"+prefManager.getUserToken());
+                params.put("Authorization", "Bearer" + prefManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -344,6 +346,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         queue.add(request);
 
     }
+
     private void Validation() {
         boolean isError = false;
         boolean isFocus = false;
@@ -354,7 +357,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             binding.categoryEdtLayout.setError(getString(R.string.brandcategory_text));
             binding.categoryEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             binding.categoryEdt.requestFocus();
-            binding.scrollView.scrollTo(0,binding.categoryEdt.getBottom());
+            binding.scrollView.scrollTo(0, binding.categoryEdt.getBottom());
         }
         if (binding.nameTxt.getText().toString().trim().length() == 0) {
             isError = true;
@@ -365,7 +368,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             if (!isFocus) {
                 binding.nameTxt.requestFocus();
                 isFocus = true;
-                binding.scrollView.scrollTo(0,binding.nameTxt.getBottom());
+                binding.scrollView.scrollTo(0, binding.nameTxt.getBottom());
             }
         }
 
@@ -377,22 +380,20 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 if (!isFocus) {
                     binding.phoneTxt.requestFocus();
                     isFocus = true;
-                    binding.scrollView.scrollTo(0,binding.phoneTxt.getBottom());
+                    binding.scrollView.scrollTo(0, binding.phoneTxt.getBottom());
                 }
                 return;
             }
 
-        }
-        else
-        {
-            if (binding.phoneTxt.getText().toString().trim().equals(""))
-            {isError = true;
+        } else {
+            if (binding.phoneTxt.getText().toString().trim().equals("")) {
+                isError = true;
                 binding.phoneTxtLayout.setError(getString(R.string.entermobileno_text));
                 binding.phoneTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                 if (!isFocus) {
                     binding.emailIdEdt.requestFocus();
                     isFocus = true;
-                    binding.scrollView.scrollTo(0,binding.emailIdEdt.getBottom());
+                    binding.scrollView.scrollTo(0, binding.emailIdEdt.getBottom());
                 }
                 return;
             }
@@ -411,7 +412,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 //            }
 //
 //        }
-
 
 
         if (!isError) {
@@ -439,28 +439,25 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.EDIT_BRAND)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer"+prefManager.getUserToken())
+                .addHeaders("Authorization", "Bearer" + prefManager.getUserToken())
                 .addMultipartParameter("brand_id", binding.IdEdt.getText().toString())
-                .addMultipartParameter("br_category",  binding.categoryEdt.getText().toString())
+                .addMultipartParameter("br_category", binding.categoryEdt.getText().toString())
                 .addMultipartParameter("br_name", binding.nameTxt.getText().toString())
                 .addMultipartParameter("br_phone", binding.phoneTxt.getText().toString())
                 .addMultipartParameter("br_address", binding.addressEdt.getText().toString())
                 .addMultipartParameter("br_website", binding.websiteEdt.getText().toString())
                 .addMultipartParameter("br_email", binding.emailIdEdt.getText().toString())
-                .addMultipartParameter("br_service",binding.businessServiceEdt.getText().toString())
+                .addMultipartParameter("br_service", binding.businessServiceEdt.getText().toString())
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
 
-        if (commonListModel!=null)
-        {
-            request.addMultipartParameter("br_category",commonListModel.getId());
-        }
-        else
-        {
+        if (commonListModel != null) {
+            request.addMultipartParameter("br_category", commonListModel.getId());
+        } else {
             if (listModel != null)
-                request.addMultipartParameter("br_category",listModel.getCategoryId());
+                request.addMultipartParameter("br_category", listModel.getCategoryId());
             else
-                request.addMultipartParameter("br_category",prefManager.getActiveBrand().getCategoryId());
+                request.addMultipartParameter("br_category", prefManager.getActiveBrand().getCategoryId());
         }
 
         if (img1File != null) {
@@ -473,7 +470,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             Log.e("br_logo", String.valueOf(img1File));
         }
 
-        Log.e("PARAM",gson.toJson(request));
+        Log.e("PARAM", gson.toJson(request));
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
@@ -507,11 +504,9 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 
 
                             }
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
 
 
                     }
@@ -532,6 +527,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 });
 
     }
+
     public void showFragmentList(int callingFlag, String title, ArrayList<CommonListModel> datalist) {
         bottomSheetFragment = new ListBottomFragment();
         Log.e("Size---", String.valueOf(datalist.size()));
@@ -544,6 +540,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         }
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
+
     private void pickerView(int actionId, boolean viewMode, Bitmap selectedBitmap) {
         PickerFragment pickerFragment = new PickerFragment(act);
         pickerFragment.setEnableViewMode(viewMode);
@@ -570,46 +567,42 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 }
 
 
-
             }
         };
         pickerFragment.setImageLoad(imageLoad);
         pickerFragment.show(getSupportFragmentManager(), pickerFragment.getTag());
     }
-    @Override public void onBackPressed() {
+
+    @Override
+    public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
-    @Override public void onItemSelection(int calledFlag, int position, CommonListModel listModel) {
+
+    @Override
+    public void onItemSelection(int calledFlag, int position, CommonListModel listModel) {
         if (bottomSheetFragment != null && bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
         }
         if (calledFlag == BRAND_CATEGORY) {
             binding.categoryEdt.setText(listModel.getName());
-            commonListModel=listModel;
+            commonListModel = listModel;
         }
     }
+
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
-    @Override public void alertListenerClick() {
+
+    @Override
+    public void alertListenerClick() {
         requestAgain();
     }
-    public void captureScreenShort()
-    {
+
+    public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -824,9 +824,4 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         alertDialog.show();
     }
 
-
-
-
-
-
 }
