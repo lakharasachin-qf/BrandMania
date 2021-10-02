@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,7 +64,6 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -126,6 +124,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public void onResume() {
         preafManager = new PreafManager(act);
         super.onResume();
+        //isOfferPending = true means- show offer pop otherwise nothing
+
+
     }
 
     @SuppressLint("CheckResult")
@@ -264,7 +265,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.swipeContainer.setVisibility(View.GONE);
     }
 
-    //Show Fragment For BrandList
     public void showFragmentList(int callingFlag, String title) {
         bottomSheetFragment = new SelectBrandListBottomFragment();
         bottomSheetFragment.setHomeFragment(homeFragment);
@@ -280,7 +280,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
     }
 
-    //Set Adaptor
     public void setAdapter() {
         dasboardAddaptor = new DasboardAddaptor(menuModels, act);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
@@ -289,7 +288,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.rocommRecycler.setAdapter(dasboardAddaptor);
     }
 
-    //GetBanner........................
     private void getBanner() {
         binding.swipeContainer.setRefreshing(true);
         Utility.Log("API : ", APIs.GET_BANNER);
@@ -368,7 +366,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         queue.add(stringRequest);
     }
 
-    //GetImageCategory..................
     private void loadImagesCategory() {
         Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY + "?page=1");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", new Response.Listener<String>() {
@@ -535,7 +532,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         queue.add(stringRequest);
     }
 
-    //Update Token......................
+
     private void UpdateToken() {
         Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
 
@@ -562,8 +559,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
-                    setOfferCode();
-                    //setupReferrerCode();
+                    if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed)
+                        setOfferCode();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -614,7 +611,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public DialogOfferBinding dialogOfferBinding;
 
     public void setOfferCode() {
-
+        HomeActivity.isAlreadyDisplayed = true;
         dialogOfferBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle);
         builder.setView(dialogOfferBinding.getRoot());
@@ -622,25 +619,30 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         alertDialog.setContentView(dialogOfferBinding.getRoot());
         alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        Glide.with(this).load(popupImg).placeholder(R.drawable.place_holder_vertical).into(dialogOfferBinding.offerImage);
+        Glide.with(act).load(popupImg).placeholder(R.drawable.place_holder_vertical).into(dialogOfferBinding.offerImage);
         alertDialog.show();
-        dialogOfferBinding.offerImageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                if (!popupImg.equals("null") && !popupImg.isEmpty()) {
+        dialogOfferBinding.offerImageLayout.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            if (!popupImg.isEmpty() && popupImg.equals("null")) {
 
-                    if (isActivityStatus.equalsIgnoreCase("0")) {
-                        Uri webpage = Uri.parse(popupImg);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                        intent.setPackage("com.android.chrome");
-                        startActivity(intent);
-                    } else {
-                        Intent i = new Intent(act, HomeActivity.class);
-                        startActivity(i);
+                if (!isActivityStatus.equalsIgnoreCase("0")) {
+                    Uri webpage = Uri.parse(targetLink);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                    intent.setPackage("com.android.chrome");
+                    startActivity(intent);
+                } else {
+                  //  String nameOfActivity = targetLink;
+                    String nameOfActivity = "com.app.brandmania.Activity.packages.PackageActivity";
+                    try {
+                        Class<?> aClass = Class.forName(nameOfActivity);
+                        Intent i = new Intent(act, aClass);
+                        act.startActivity(i);
                         act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                        act.finish();
+                    } catch (ClassNotFoundException ignored) {
+
                     }
+
+
                 }
             }
         });

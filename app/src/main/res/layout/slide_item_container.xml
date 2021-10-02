@@ -57,6 +57,16 @@
                               android:fontFamily="@font/inter_bold" />-->
                 </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/dynamicLayout"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/basicTitle"
+                    android:layout_marginTop="@dimen/_25sdp">
+
+                </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/servicesLayout"
                     android:layout_width="match_parent"

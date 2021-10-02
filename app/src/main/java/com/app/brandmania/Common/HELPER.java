@@ -274,7 +274,7 @@ public class HELPER {
         try {
             String number = Constant.ADMIN_CONTACT_NUMBER;
             String BrandContact = "\nRegistered Number: ";
-            String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:" +businessName + BrandContact + mobileNumber;
+            String text = "Hello *BrandMania* ,  \n" + "This is request to add  *Frame* For BrandName:" +businessName + BrandContact + mobileNumber;
             String toNumber = "91" + number;
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
@@ -288,7 +288,7 @@ public class HELPER {
         try {
             String number = Constant.ADMIN_CONTACT_NUMBER;
             String BrandContact = "\nRegistered Number: ";
-            String text = "Hello *BrandMania* ,  \n" + "this is request From BrandName: " +businessName + BrandContact + mobileNumber+"\n Issue : ";
+            String text = "Hello *BrandMania* ,  \n" + "This is request From BrandName: " +businessName + BrandContact + mobileNumber+"\n Issue : ";
             String toNumber = "91" + number;
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));

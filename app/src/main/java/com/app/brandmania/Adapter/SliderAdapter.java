@@ -3,13 +3,16 @@ package com.app.brandmania.Adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -19,6 +22,7 @@ import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SlideSubItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.DynamicTextBinding;
 import com.app.brandmania.utils.Utility;
 import com.google.gson.Gson;
 
@@ -66,14 +70,14 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         holder.servicesLabel.setText(sliderItems.get(position).getSlideSubItems().get(0).getDescription());
 
         if (sliderItems.get(position).getPackageTitle().equalsIgnoreCase("Enterprise PRO"))
-            if ((!sliderItems.get(position).getSlideSubItems().get(0).getDescription().equalsIgnoreCase("description") && sliderItems.get(position).getSlideSubItems().get(0) != null)) {
+            if ((!sliderItems.get(position).getSlideSubItems().get(0).getDescription().equalsIgnoreCase("") && sliderItems.get(position).getSlideSubItems().get(0) != null)) {
                 holder.servicesLabel.setVisibility(View.VISIBLE);
                 holder.servicesUnderline.setVisibility(View.VISIBLE);
-
             } else {
                 holder.servicesLayout.setVisibility(View.GONE);
                 holder.servicesUnderline.setVisibility(View.GONE);
             }
+
         if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(sliderItems.get(position).getPackageid()) && preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
             holder.packageBtn.setVisibility(View.GONE);
             holder.subcribedBtn.setVisibility(View.VISIBLE);
@@ -85,7 +89,27 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             }
         }
 
+        if (sliderItems.get(position).getSlideSubItems() != null && sliderItems.get(position).getSlideSubItems().get(0) != null && !sliderItems.get(position).getSlideSubItems().get(0).getDescription().equalsIgnoreCase("")) {
+            String description = sliderItems.get(position).getSlideSubItems().get(0).getDescription();
+            String[] serviceArray = description.split(",");
+            Log.e("servuceArray", serviceArray.toString());
+            addDynamicServices(holder.serviceLayout,serviceArray);
+        }
+        holder.servicesLayout.setVisibility(View.GONE);
+
     }
+
+
+    private void addDynamicServices(LinearLayout serviceLayout, String[] serviceArray) {
+        for (String s : serviceArray) {
+            DynamicTextBinding dynamicTextBinding;
+            dynamicTextBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dynamic_text, null, false);
+            dynamicTextBinding.label.setText(s);
+            serviceLayout.addView(dynamicTextBinding.getRoot());
+        }
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -106,8 +130,12 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         private RelativeLayout servicesLayout;
         private View servicesUnderline;
 
+        private LinearLayout serviceLayout;
+
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
+            servicesLayout = itemView.findViewById(R.id.servicesLayout);
+            serviceLayout = itemView.findViewById(R.id.dynamicLayout);
             priceForPay = itemView.findViewById(R.id.priceForPay);
             videoFeatureLayout = itemView.findViewById(R.id.videoFeatureLayout);
             packageTitle = itemView.findViewById(R.id.packageTitle);

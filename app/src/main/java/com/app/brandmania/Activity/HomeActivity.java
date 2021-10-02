@@ -86,6 +86,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     BottomNavigationView navigation;
     private boolean isHomeTab = true;
+    public static boolean isAlreadyDisplayed=false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

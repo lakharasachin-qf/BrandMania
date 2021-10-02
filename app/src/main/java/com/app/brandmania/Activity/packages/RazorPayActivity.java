@@ -8,11 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.InputFilter;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,17 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.MySingleton;
@@ -43,11 +34,11 @@ import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ActivityRazorPayBinding;
+import com.app.brandmania.databinding.ItemServiceLayoutBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.ActivityRazorPayBinding;
-import com.app.brandmania.databinding.ItemServiceLayoutBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.razorpay.Checkout;
@@ -122,11 +113,16 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             binding.packageNameTxt.setText(sliderItemList.getPackageTitle());
             binding.durationTxt.setText(sliderItemList.getDuration());
             Log.e("Services", new Gson().toJson(sliderItemList.getSlideSubItems()));
-            for (int i = 0; i < sliderItemList.getSlideSubItems().size(); i++) {
-                addDynamicServices(sliderItemList.getSlideSubItems().get(i).getName());
+            if (sliderItemList.getSlideSubItems().size() != 0) {
+                String description = sliderItemList.getSlideSubItems().get(0).getDescription();
+                String[] serviveArray = description.split(",");
+                for (String s : serviveArray) {
+                    addDynamicServices(s);
+                }
             }
-            addDynamicServices(sliderItemList.getImageTitle() + " Images Download / Year");
-            addDynamicServices(act.getString(R.string.Rs) + sliderItemList.getPayTitle() + " / " + sliderItemList.getDuration());
+
+            // addDynamicServices(sliderItemList.getImageTitle() + " Images Download / Year");
+            // addDynamicServices(act.getString(R.string.Rs) + sliderItemList.getPayTitle() + " / " + sliderItemList.getDuration());
 
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
             calculateAmount = sliderItemList.getPriceForPay();

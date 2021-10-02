@@ -1,5 +1,7 @@
 package com.app.brandmania.Activity.custom;
 
+import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -78,9 +80,6 @@ import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
-import com.app.brandmania.utils.CodeReUse;
-import com.app.brandmania.utils.IFontChangeEvent;
-import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityCustomViewAllBinding;
 import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
@@ -94,6 +93,9 @@ import com.app.brandmania.databinding.LayoutForLoadSixBinding;
 import com.app.brandmania.databinding.LayoutForLoadTenBinding;
 import com.app.brandmania.databinding.LayoutForLoadThreeBinding;
 import com.app.brandmania.databinding.LayoutForLoadTwoBinding;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.IFontChangeEvent;
+import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -119,8 +121,6 @@ import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
-
-import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
 
 public class CustomViewAllActivit extends BaseActivity implements FrameInterFace, ItemeInterFace, alertListenerCallback,
         IImageFromGalary, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IColorChange,
@@ -494,7 +494,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     }
 
     public void bottomFramgment() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Image")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Gallery")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Footer")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Frame")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(Utility.convertFirstUpper("Background")));
@@ -1260,29 +1260,31 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
     @Override
     public void onThumbnailClick(Filter filter) {
-        int width = selectedImageBitmap.getWidth();
-        int height = selectedImageBitmap.getHeight();
+        if (selectedImageBitmap != null) {
+            selectedImageBitmap.getWidth();
+            int width = selectedImageBitmap.getWidth();
+            int height = selectedImageBitmap.getHeight();
 
-        Log.v("Pictures", "Width and height are " + width + "--" + height);
+            Log.v("Pictures", "Width and height are " + width + "--" + height);
 
-        if (width > height) {
-            // landscape
-            float ratio = (float) width / binding.backImage.getWidth();
-            width = binding.backImage.getWidth();
-            height = (int) (height / ratio);
-        } else if (height > width) {
-            // portrait
-            float ratio = (float) height / binding.backImage.getHeight();
-            height = binding.backImage.getHeight();
-            width = (int) (width / ratio);
-        } else {
-            // square
-            height = binding.backImage.getHeight();
-            width = binding.backImage.getWidth();
+            if (width > height) {
+                // landscape
+                float ratio = (float) width / binding.backImage.getWidth();
+                width = binding.backImage.getWidth();
+                height = (int) (height / ratio);
+            } else if (height > width) {
+                // portrait
+                float ratio = (float) height / binding.backImage.getHeight();
+                height = binding.backImage.getHeight();
+                width = (int) (width / ratio);
+            } else {
+                // square
+                height = binding.backImage.getHeight();
+                width = binding.backImage.getWidth();
+            }
+            binding.backImage.setImageBitmap(filter.processFilter(Bitmap.createScaledBitmap(selectedImageBitmap, width, height, false)));
+            Log.v("filter", "Width and height are " + width + "--" + height);
         }
-        binding.backImage.setImageBitmap(filter.processFilter(Bitmap.createScaledBitmap(selectedImageBitmap, width, height, false)));
-        Log.v("filter", "Width and height are " + width + "--" + height);
-
     }
 
     @Override
