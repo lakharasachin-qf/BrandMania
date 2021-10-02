@@ -86,12 +86,12 @@
                         android:visibility="gone" />
 
                     <TextView
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:id="@+id/templateTiltle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/servicesUnderline"
                         android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="1 - Templates / Brand"
                         android:textColor="@color/colorPrimary"
@@ -151,9 +151,9 @@
 
                     <RelativeLayout
                         android:id="@+id/videoFeatureLayout"
-                        android:layout_below="@+id/payLine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/payLine"
                         android:orientation="vertical"
                         android:visibility="gone">
 
@@ -298,9 +298,7 @@
                     android:fontFamily="@font/montserrat_bold"
                     android:text="233"
                     android:textColor="@color/colorNavText"
-                    android:textSize="@dimen/_14sdp">
-                    //₹
-                </TextView>
+                    android:textSize="@dimen/_14sdp" />
             </LinearLayout>
 
             <TextView

@@ -50,6 +50,7 @@ import com.app.brandmania.Fragment.bottom.HomeFragment;
 import com.app.brandmania.Fragment.bottom.ProfileFragment;
 import com.app.brandmania.Model.VersionListIItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.DialogOfferBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.DialogPermissionsLayoutBinding;
@@ -84,7 +85,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private boolean iscutomEnable = false;
 
     BottomNavigationView navigation;
-    private  boolean isHomeTab=true;
+    private boolean isHomeTab = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -92,15 +94,14 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         setContentView(R.layout.activity_home);
         FetchCustomFrameStatus();
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        preafManager=new PreafManager(this);
-        act=this;
+        preafManager = new PreafManager(this);
+        act = this;
         getUpdate();
         checkForUpdates();
         loadFragment(new HomeFragment());
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         if (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -108,21 +109,22 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         }
 
     }
+
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
-                isHomeTab=true;
+                isHomeTab = true;
                 fragment = new HomeFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
             case R.id.navigation_custom:
-                isHomeTab=false;
+                isHomeTab = false;
                 if (iscutomEnable) {
-                  fragment = new CustomFragment();
+                    fragment = new CustomFragment();
 
                 } else {
                     Intent intent = new Intent(getApplicationContext(), CustomViewAllActivit.class);
@@ -132,19 +134,20 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.navigation_download:
-                isHomeTab=false;
+                isHomeTab = false;
                 fragment = new DownloadsFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
             case R.id.navigation_profile:
-                isHomeTab=false;
+                isHomeTab = false;
                 fragment = new ProfileFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
         }
         return loadFragment(fragment);
     }
+
     private boolean loadFragment(Fragment fragment) {
 
         if (fragment != null) {
@@ -155,14 +158,16 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     }
 
+
     public DialogPermissionsLayoutBinding permissionsLayoutBinding;
-    private int REQUESTED_ALL=0001;
-    private int REQUESTED_CAMERA=0002;
-    private int REQUESTED_STORAGE=0003;
-    private int REQUESTED_CONTACT=0004;
-    private int REQUEST_SETTINGS=0005;
+    private int REQUESTED_ALL = 0001;
+    private int REQUESTED_CAMERA = 0002;
+    private int REQUESTED_STORAGE = 0003;
+    private int REQUESTED_CONTACT = 0004;
+    private int REQUEST_SETTINGS = 0005;
 
     androidx.appcompat.app.AlertDialog alertDialog;
+
     public void askPermissions() {
         permissionsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_permissions_layout, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle);
@@ -194,7 +199,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(act,
-                        new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                        new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                         REQUESTED_STORAGE);
             }
         });
@@ -215,7 +220,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                         ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
                         ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     alertDialog.dismiss();
-                }else {
+                } else {
                     ActivityCompat.requestPermissions(act,
                             new String[]{CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                             REQUESTED_ALL);
@@ -228,7 +233,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean targetSetting=false;
+        boolean targetSetting = false;
         if (requestCode == REQUESTED_ALL) {
             if (grantResults.length > 0) {
                 boolean cameraGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
@@ -237,10 +242,10 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 if (cameraGrant) {
                     permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
                 }
-                if (readStorageGrant && writeStorageGrant){
+                if (readStorageGrant && writeStorageGrant) {
                     permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
                 }
-                if (cameraGrant && readStorageGrant && writeStorageGrant){
+                if (cameraGrant && readStorageGrant && writeStorageGrant) {
                     return;
                 }
 
@@ -249,20 +254,19 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                         showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(new String[]{ CAMERA}, REQUESTED_CAMERA);
+                                requestPermissions(new String[]{CAMERA}, REQUESTED_CAMERA);
                             }
                         });
-                    }else if(shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
-                        requestPermissions(new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE}, REQUESTED_STORAGE);
-                    }
-                    else {
-                        targetSetting=true;
+                    } else if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
+                        requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, REQUESTED_STORAGE);
+                    } else {
+                        targetSetting = true;
                     }
                 }
-            }else {
+            } else {
                 Toast.makeText(act, "You need to allow permission for better performance", Toast.LENGTH_SHORT).show();
             }
-        }else if(requestCode == REQUESTED_CAMERA){
+        } else if (requestCode == REQUESTED_CAMERA) {
             boolean cameraGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             if (cameraGrant) {
                 permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
@@ -273,20 +277,19 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{ CAMERA}, REQUESTED_CAMERA);
+                            requestPermissions(new String[]{CAMERA}, REQUESTED_CAMERA);
                         }
                     });
-                }
-                else {
-                    targetSetting=true;
+                } else {
+                    targetSetting = true;
                 }
 
             }
-        }else if (requestCode == REQUESTED_STORAGE){
+        } else if (requestCode == REQUESTED_STORAGE) {
 
             boolean readStorageGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             boolean writeStorageGrant = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-            if (readStorageGrant && writeStorageGrant){
+            if (readStorageGrant && writeStorageGrant) {
                 permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
                 return;
             }
@@ -295,15 +298,15 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{ READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE}, REQUESTED_CAMERA);
+                            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, REQUESTED_CAMERA);
                         }
                     });
-                }else {
-                    targetSetting=true;
+                } else {
+                    targetSetting = true;
                 }
             }
         }
-        if (targetSetting){
+        if (targetSetting) {
             showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -315,6 +318,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             });
         }
     }
+
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setMessage(message)
@@ -388,7 +392,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                             });
         }
 
-        if (alertDialog!=null && alertDialog.isShowing()){
+        if (alertDialog != null && alertDialog.isShowing()) {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 permissionsLayoutBinding.checked1.setVisibility(View.VISIBLE);
             }
@@ -399,7 +403,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 permissionsLayoutBinding.allowPermission.setText("Close");
-                if (alertDialog!=null)
+                if (alertDialog != null)
                     alertDialog.dismiss();
             }
         }
@@ -412,22 +416,21 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             a.addCategory(Intent.CATEGORY_HOME);
             a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(a);
-        }
-        else {
+        } else {
             navigation.setSelectedItemId(R.id.navigation_home);
         }
     }
 
     private void getUpdate() {
         Utility.Log("API : ", APIs.GET_UPDATE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_UPDATE,new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_UPDATE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Utility.Log("GET_UPDATE : ", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject jsonArray1 = jsonObject.getJSONObject("data");
-                    versionListIItem=new VersionListIItem();
+                    versionListIItem = new VersionListIItem();
                     versionListIItem.setId(jsonArray1.getString("id"));
                     versionListIItem.setAppliactionVersion(jsonArray1.getString("application_version"));
                     versionListIItem.setMessage(jsonArray1.getString("message"));
@@ -472,26 +475,25 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 //                        pbutton.setBackgroundColor(Color.WHITE);
 //                    }
 
-                    int apiVERSION=Integer.parseInt(versionListIItem.getAppliactionVersion().replace(".",""));
-                    int currentVERSION=Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".",""));
+                    int apiVERSION = Integer.parseInt(versionListIItem.getAppliactionVersion().replace(".", ""));
+                    int currentVERSION = Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".", ""));
 
-                    if (apiVERSION>currentVERSION)
-                    {
+                    if (apiVERSION > currentVERSION) {
                         // Create an alert builder
                         AlertDialog.Builder builder = new AlertDialog.Builder(act);
                         // set the custom layout
                         final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
-                        ImageView cloasedBox=customLayout.findViewById(R.id.CloseImg);
-                        WebView webView=customLayout.findViewById(R.id.webView);
-                        TextView updateTitle=customLayout.findViewById(R.id.updateTitle);
-                        Button updateBtn=customLayout.findViewById(R.id.updateBtn);
+                        ImageView cloasedBox = customLayout.findViewById(R.id.CloseImg);
+                        WebView webView = customLayout.findViewById(R.id.webView);
+                        TextView updateTitle = customLayout.findViewById(R.id.updateTitle);
+                        Button updateBtn = customLayout.findViewById(R.id.updateBtn);
                         webView.loadData(jsonArray1.getString("message"), "text/html; charset=utf-8", "utf-8");
                         webView.setBackgroundColor(Color.TRANSPARENT);
-                        String htmlString="<u>App Update</u>";
+                        String htmlString = "<u>App Update</u>";
                         updateTitle.setText(Html.fromHtml(htmlString));
                         builder.setView(customLayout);
 
-                        if (versionListIItem.getForcefullyUpdate().equalsIgnoreCase("1")){
+                        if (versionListIItem.getForcefullyUpdate().equalsIgnoreCase("1")) {
                             cloasedBox.setVisibility(View.GONE);
                         }
 
@@ -512,14 +514,12 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                         updateBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Uri uri=Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
-                                Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                                Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                 try {
 
                                     startActivity(intent);
-                                }
-                                catch (Exception e)
-                                {
+                                } catch (Exception e) {
 
                                 }
                             }
@@ -527,8 +527,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
                         Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
                         pbutton.setBackgroundColor(Color.WHITE);
-                  }
-
+                    }
 
 
                 } catch (JSONException e) {
@@ -572,18 +571,19 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
+
     private void FetchCustomFrameStatus() {
 
         Utility.Log("API : ", APIs.FETCH_CUSTOME_FRAME_STATUS);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.FETCH_CUSTOME_FRAME_STATUS,new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.FETCH_CUSTOME_FRAME_STATUS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Utility.Log("FETCH_CUSTOME_FRAME_STATUS : ", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                  //  JSONObject jsonArray1 = jsonObject.getJSONObject("data");
-                    if (ResponseHandler.getBool(jsonObject,"status")){
-                        iscutomEnable=true;
+                    //  JSONObject jsonArray1 = jsonObject.getJSONObject("data");
+                    if (ResponseHandler.getBool(jsonObject, "status")) {
+                        iscutomEnable = true;
                     }
 
                 } catch (JSONException e) {
@@ -627,10 +627,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
+
     @Override
     public void makeTabChange(int i) {
         Fragment fragment = null;
-        if (i==1) {
+        if (i == 1) {
             navigation.setSelectedItemId(R.id.navigation_custom);
             fragment = new CustomFragment();
         }

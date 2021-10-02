@@ -586,7 +586,7 @@
                             android:layout_alignParentEnd="true"
 
                             android:padding="@dimen/_2sdp"
-                            android:src="@drawable/ic_next"/>
+                            android:src="@drawable/ic_next" />
 
                         <ImageView
                             android:id="@+id/referNEarnImg"

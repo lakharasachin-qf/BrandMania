@@ -4,6 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,6 +65,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,6 +99,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public String ReferalCode;
     PreafManager preafManager;
     private String deviceToken = "";
+    private String popupImg;
+    private String isActivityStatus;
+    private String targetLink;
     private FragmentHomeBinding binding;
     Timer timer;
     private HomeFragment homeFragment;
@@ -542,7 +550,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     JSONObject jsonArray1 = jsonObject.getJSONObject("message");
                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
+                    popupImg = jsonArray1.getString("popup_img");
+                    isActivityStatus = jsonArray1.getString("is_activity");
+                    targetLink = jsonArray1.getString("target_link");
                     if (jsonArray1.getString("reference_code").equals("null"))
+
                         jsonArray1.put("reference_code", "");
 
                     preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
@@ -550,6 +562,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
+                    setOfferCode();
                     //setupReferrerCode();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -596,6 +609,47 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         } else {
             binding.referralCardView.setVisibility(View.VISIBLE);
         }
+    }
+
+    public DialogOfferBinding dialogOfferBinding;
+
+    public void setOfferCode() {
+
+        dialogOfferBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle);
+        builder.setView(dialogOfferBinding.getRoot());
+        alertDialog = builder.create();
+        alertDialog.setContentView(dialogOfferBinding.getRoot());
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Glide.with(this).load(popupImg).placeholder(R.drawable.place_holder_vertical).into(dialogOfferBinding.offerImage);
+        alertDialog.show();
+        dialogOfferBinding.offerImageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                if (!popupImg.equals("null") && !popupImg.isEmpty()) {
+
+                    if (isActivityStatus.equalsIgnoreCase("0")) {
+                        Uri webpage = Uri.parse(popupImg);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                        intent.setPackage("com.android.chrome");
+                        startActivity(intent);
+                    } else {
+                        Intent i = new Intent(act, HomeActivity.class);
+                        startActivity(i);
+                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        act.finish();
+                    }
+                }
+            }
+        });
+        dialogOfferBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
     }
 
     //Back Event.........................

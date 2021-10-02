@@ -70,10 +70,8 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(act, ViewBrandActivity.class);
-
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
             }
         });
         binding.introLayout.setOnClickListener(new View.OnClickListener() {

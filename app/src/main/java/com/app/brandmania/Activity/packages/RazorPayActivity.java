@@ -115,7 +115,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         createPayment();
         binding.proceedToPayment.setOnClickListener(v -> generateOrderID());
 
-
         showReferrer();
 
         if (sliderItemList != null) {
