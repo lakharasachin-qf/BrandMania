@@ -92,7 +92,7 @@ public class PdfActivity extends BaseActivity {
             for (String s : list) {
                 sericesStr = sericesStr + "\n- " + s;
                 i++;
-                if (i == 3) {
+                if (i == 5) {
                     break;
                 }
             }

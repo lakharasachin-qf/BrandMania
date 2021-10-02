@@ -182,7 +182,7 @@ public class FrameTab extends Fragment {
                             binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
                         }
                     } else {
-                        //  Toast.makeText(act, "Null", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(act, "Null", Toast.LENGTH_SHORT).show();
                         binding.subscribePlaneBtn.setVisibility(View.GONE);
                         binding.removeFrameBtn.setVisibility(View.GONE);
                         binding.frameRecycler.setVisibility(View.GONE);

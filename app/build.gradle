@@ -11,7 +11,7 @@ android {
         applicationId "com.make.mybrand"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
+        versionCode 10
         versionName "1.0"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true

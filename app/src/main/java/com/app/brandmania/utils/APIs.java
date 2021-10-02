@@ -29,7 +29,7 @@ public class APIs {
     public static final String GET_NOTIFICATION = URL + "getNotification";
     public static final String VERIFY_OTP = URL + "otpVerify";
     public static final String SEND_OTP = URL + "sendOtp";
-    public static final String MAKE_PAYMENT = URL + "makePaymentTest";
+    public static final String MAKE_PAYMENT = URL + "makePaymentTest"; //current payment api
     public static final String CREATE_PAYMENT = URL + "createPayment";
     public static final String GENERATE_ORDER_ID = URL + "createOrder";
     public static final String GET_PACKAGE = URL + "getPackage";

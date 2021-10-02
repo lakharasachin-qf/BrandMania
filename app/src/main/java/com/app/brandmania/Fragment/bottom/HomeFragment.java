@@ -559,8 +559,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
-                    if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed)
-                        setOfferCode();
+                    if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed) {
+                        if (popupImg != null && !popupImg.isEmpty()) {
+                            setOfferCode();
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -617,23 +620,23 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         builder.setView(dialogOfferBinding.getRoot());
         alertDialog = builder.create();
         alertDialog.setContentView(dialogOfferBinding.getRoot());
-        alertDialog.setCancelable(false);
+        alertDialog.setCancelable(true);
+        alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Glide.with(act).load(popupImg).placeholder(R.drawable.place_holder_vertical).into(dialogOfferBinding.offerImage);
         alertDialog.show();
         dialogOfferBinding.offerImageLayout.setOnClickListener(v -> {
-
+            alertDialog.dismiss();
             if (!popupImg.isEmpty() && popupImg.equals("null")) {
-
                 if (isActivityStatus.equalsIgnoreCase("0")) {
                     Uri webpage = Uri.parse(targetLink);
                     Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                     intent.setPackage("com.android.chrome");
                     startActivity(intent);
-                    alertDialog.dismiss();
+
                 } else {
-                    //  String nameOfActivity = targetLink;
-                    String nameOfActivity = "com.app.brandmania.Activity.packages.PackageActivity";
+                    String nameOfActivity = targetLink;
+                    //String nameOfActivity = "com.app.brandmania.Activity.packages.PackageActivity";
                     try {
                         Class<?> aClass = Class.forName(nameOfActivity);
                         Intent i = new Intent(act, aClass);
