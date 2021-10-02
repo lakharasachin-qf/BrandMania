@@ -42,15 +42,19 @@ import java.io.IOException;
 
 public class HELPER {
 
-    /** INTENT-EVENT*/
-    public static void ROUTE(Activity act, Class routeName){
+    /**
+     * INTENT-EVENT
+     */
+    public static void ROUTE(Activity act, Class routeName) {
         Intent i = new Intent(act, routeName);
         act.startActivity(i);
         act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
 
 
-    /** HOME FRAGMENT * */
+    /**
+     * HOME FRAGMENT *
+     */
     @NonNull
     public static Bitmap getBitmapFromDrawable(@NonNull Drawable drawable) {
         final Bitmap bmp = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -60,13 +64,13 @@ public class HELPER {
         return bmp;
     }
 
-    public static void generatePDF(Activity act,PreafManager preafManager,Bitmap brandLogo){
+    public static void generatePDF(Activity act, PreafManager preafManager, Bitmap brandLogo) {
         Document document = new Document(PageSize.A4);
 
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/BrandManiaPdf";
 
         File dir = new File(path);
-        if(!dir.exists())
+        if (!dir.exists())
             dir.mkdirs();
 
         File file = new File(dir, "brandmania.pdf");
@@ -76,12 +80,12 @@ public class HELPER {
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             Bitmap bitmap = BitmapFactory.decodeResource(act.getResources(), R.drawable.pdfbackk);
-            bitmap.compress(Bitmap.CompressFormat.JPEG , 100, stream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             Image img;
 
             img = Image.getInstance(stream.toByteArray());
             img.setAbsolutePosition(0, 0);
-            img.scalePercent(60f,60f);
+            img.scalePercent(60f, 60f);
             FileOutputStream fOut = new FileOutputStream(file);
             PdfWriter writer = PdfWriter.getInstance(document, fOut);
             writer.setPageEvent(new MyPdfPageEventHelper(act));
@@ -89,7 +93,7 @@ public class HELPER {
 
             //Drawable d = act.getResources().getDrawable(R.drawable.pdf_banner);
             //BitmapDrawable bitDw = ((BitmapDrawable) d);
-            Bitmap bmp =brandLogo;// ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap();//bitDw.getBitmap();
+            Bitmap bmp = brandLogo;// ((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap();//bitDw.getBitmap();
             ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream1);
             Image image = Image.getInstance(stream1.toByteArray());
@@ -101,8 +105,6 @@ public class HELPER {
             document.add(image);
 
 
-
-
             Paragraph preface = new Paragraph();
 
             //For Brand Name..............
@@ -110,7 +112,6 @@ public class HELPER {
             brandName.setColor(WebColors.getRGBColor("#faa81e"));
             addEmptyLine(preface, 11);
             preface.add(new Paragraph(preafManager.getActiveBrand().getName(), brandName));
-
 
 
             //For Address
@@ -122,7 +123,7 @@ public class HELPER {
 
             //For First UnderLine
             PdfContentByte canvas = writer.getDirectContent();
-            BaseColor baseColorFirst=new BaseColor(173,39,83);
+            BaseColor baseColorFirst = new BaseColor(173, 39, 83);
             canvas.setColorStroke(baseColorFirst);
             canvas.moveTo(30, 500);
             canvas.lineTo(570, 500);
@@ -131,7 +132,7 @@ public class HELPER {
 
             //For Second UnderLine
             PdfContentByte canvasSecond = writer.getDirectContent();
-            BaseColor baseColorSecond=new BaseColor(173,39,83);
+            BaseColor baseColorSecond = new BaseColor(173, 39, 83);
             canvasSecond.setColorStroke(baseColorSecond);
             canvasSecond.moveTo(30, 492);
             canvasSecond.lineTo(570, 492);
@@ -140,7 +141,7 @@ public class HELPER {
 
             //For Third UnderLine
             PdfContentByte canvasThird = writer.getDirectContent();
-            BaseColor baseColorThird=new BaseColor(173,39,83);
+            BaseColor baseColorThird = new BaseColor(173, 39, 83);
             canvasThird.setColorStroke(baseColorThird);
             canvasThird.moveTo(30, 484);
             canvasThird.lineTo(570, 484);
@@ -148,11 +149,8 @@ public class HELPER {
             canvasThird.closePathStroke();
 
 
-
-
-
             //For Contact Number and Contact Logo..........
-            if (preafManager.getActiveBrand().getPhonenumber()!=null && !preafManager.getActiveBrand().getPhonenumber().isEmpty()) {
+            if (preafManager.getActiveBrand().getPhonenumber() != null && !preafManager.getActiveBrand().getPhonenumber().isEmpty()) {
                 //  Drawable contact = act.getResources().getDrawable(R.drawable.ic_call_for_pdf);
                 Paragraph prefaceClicableContact = new Paragraph();
                 //BitmapDrawable bitContact = ((BitmapDrawable) contact);
@@ -175,7 +173,7 @@ public class HELPER {
                 document.add(prefaceClicableContact);
             }
             //For Gmail Id and Gmail logo................
-            if (preafManager.getActiveBrand().getEmail()!=null &&  !preafManager.getActiveBrand().getEmail().isEmpty()) {
+            if (preafManager.getActiveBrand().getEmail() != null && !preafManager.getActiveBrand().getEmail().isEmpty()) {
                 Paragraph prefaceClicableEmail = new Paragraph();
                 //   Drawable email = act.getResources().getDrawable(R.drawable.ic_call_for_pdf);
                 //   BitmapDrawable bitEmail = ((BitmapDrawable) email);
@@ -198,7 +196,7 @@ public class HELPER {
                 document.add(prefaceClicableEmail);
             }
             //For Website and websiteLogo..................
-            if (preafManager.getActiveBrand().getWebsite()!=null && !preafManager.getActiveBrand().getWebsite().isEmpty()) {
+            if (preafManager.getActiveBrand().getWebsite() != null && !preafManager.getActiveBrand().getWebsite().isEmpty()) {
                 Paragraph prefaceClicableWebsite = new Paragraph();
                 //  Drawable website = act.getResources().getDrawable(R.drawable.ic_call_for_pdf);
                 //   BitmapDrawable bitWebsite = ((BitmapDrawable) website);
@@ -220,7 +218,7 @@ public class HELPER {
                 document.add(imageWebsite);
             }
 
-            if (preafManager.getActiveBrand().getBrandService()!=null && !preafManager.getActiveBrand().getBrandService().isEmpty()) {
+            if (preafManager.getActiveBrand().getBrandService() != null && !preafManager.getActiveBrand().getBrandService().isEmpty()) {
                 Paragraph prefaceClicableServicesTag = new Paragraph();
                 addEmptyLine(prefaceClicableServicesTag, 1);
                 Font brandServicetag = FontFactory.getFont("assets/font/robotobold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 30); //10 is the size
@@ -270,11 +268,11 @@ public class HELPER {
         }
     }
 
-    public static void WHATSAPP_REDIRECTION(Activity act, String businessName,String mobileNumber){
+    public static void WHATSAPP_REDIRECTION(Activity act, String businessName, String mobileNumber) {
         try {
             String number = Constant.ADMIN_CONTACT_NUMBER;
             String BrandContact = "\nRegistered Number: ";
-            String text = "Hello *BrandMania* ,  \n" + "This is request to add  *Frame* For BrandName:" +businessName + BrandContact + mobileNumber;
+            String text = "Hello *BrandMania* ,  \n" + "This is request to add  *Frame* For BrandName:" + businessName + BrandContact + mobileNumber;
             String toNumber = "91" + number;
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
@@ -284,11 +282,13 @@ public class HELPER {
         }
     }
 
-    public static void WHATSAPP_REDIRECTION_2(Activity act, String businessName,String mobileNumber){
+    public static void WHATSAPP_REDIRECTION_2(Activity act, String businessName, String mobileNumber) {
         try {
             String number = Constant.ADMIN_CONTACT_NUMBER;
-            String BrandContact = "\nRegistered Number: ";
-            String text = "Hello *BrandMania* ,  \n" + "This is request From BrandName: " +businessName + BrandContact + mobileNumber+"\n Issue : ";
+            String BrandContact = "\nRegistered Number Is: ";
+            String BusinessName = "\nBrand Name: " + businessName;
+            //String text = "Hello *BrandMania* ,  \n" + "This is request From BrandName: " +businessName + BrandContact + mobileNumber+"\n Issue : ";
+            String text = "Hello *BrandMania*,\n" + "I wish To Purchase a plan," + BrandContact + mobileNumber + BusinessName;
             String toNumber = "91" + number;
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));

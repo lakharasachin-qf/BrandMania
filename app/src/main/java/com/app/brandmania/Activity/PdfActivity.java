@@ -34,12 +34,13 @@ import java.io.IOException;
 public class PdfActivity extends BaseActivity {
     private ActivityPdfBinding binding;
     private Activity act;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_material_theme);
         act = this;
-        binding = DataBindingUtil.setContentView(act,R.layout.activity_pdf);
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
 
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,31 +60,30 @@ public class PdfActivity extends BaseActivity {
 
         binding.brandName.setText(prefManager.getActiveBrand().getName());
 
-        if (prefManager.getActiveBrand().getEmail().isEmpty()){
+        if (prefManager.getActiveBrand().getEmail().isEmpty()) {
             binding.emailTxtLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             binding.emailId.setText(prefManager.getActiveBrand().getEmail());
         }
 
 
-
-        if (prefManager.getActiveBrand().getPhonenumber().isEmpty()){
+        if (prefManager.getActiveBrand().getPhonenumber().isEmpty()) {
             binding.contactTxtLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             binding.contactText.setText(prefManager.getActiveBrand().getPhonenumber());
         }
 
-        if (prefManager.getActiveBrand().getAddress().isEmpty()){
+        if (prefManager.getActiveBrand().getAddress().isEmpty()) {
             binding.addressEdtLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             binding.address.setText(prefManager.getActiveBrand().getAddress());
         }
 
-        if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")){
+        if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
             binding.waterMark.setVisibility(View.GONE);
         }
 
-        if (prefManager.getActiveBrand().getBrandService().isEmpty()){
+        if (prefManager.getActiveBrand().getBrandService().isEmpty()) {
             binding.services.setVisibility(View.INVISIBLE);
         } else {
             String[] list = prefManager.getActiveBrand().getBrandService().split("[,\n]");
@@ -101,7 +101,9 @@ public class PdfActivity extends BaseActivity {
 
 
     }
+
     String dirpath;
+
     public void layoutToImage() {
 
         binding.pdfLayout.setDrawingCacheEnabled(true);
@@ -123,19 +125,19 @@ public class PdfActivity extends BaseActivity {
         }
 
     }
+
     public void imageToPDF() throws FileNotFoundException {
         try {
             String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/BrandManiaPdf";
 
-            Document document = new Document(new Rectangle(595 , 850), 0, 0, 0, 0);
+            Document document = new Document(new Rectangle(595, 850), 0, 0, 0, 0);
             File dir = new File(path);
-            if(!dir.exists())
+            if (!dir.exists())
                 dir.mkdirs();
 
 
-
             dirpath = android.os.Environment.getExternalStorageDirectory().toString();
-            PdfWriter.getInstance(document, new FileOutputStream(path + "/"+prefManager.getActiveBrand().getName()+".pdf")); //  Change pdf's name.
+            PdfWriter.getInstance(document, new FileOutputStream(path + "/" + prefManager.getActiveBrand().getName() + ".pdf")); //  Change pdf's name.
             document.open();
             Image img = Image.getInstance(Environment.getExternalStorageDirectory() + File.separator + "image.png");
             float scaler = ((document.getPageSize().getWidth() - 0) / img.getWidth()) * 100;
@@ -146,7 +148,7 @@ public class PdfActivity extends BaseActivity {
             document.add(img);
             document.close();
             Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
-            viewPdf(prefManager.getActiveBrand().getName(),act);
+            viewPdf(prefManager.getActiveBrand().getName(), act);
         } catch (Exception e) {
 
         }
@@ -154,7 +156,7 @@ public class PdfActivity extends BaseActivity {
 
     // Method for opening a pdf file
     private static void viewPdf(String name, Activity act) {
-        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + "BrandManiaPdf" + "/" + name +".pdf");
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + "BrandManiaPdf" + "/" + name + ".pdf");
         Uri path = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", pdfFile);
         Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
         pdfIntent.setDataAndType(path, "application/pdf");

@@ -19,8 +19,8 @@
                 android:id="@+id/offerImageLayout"
                 android:layout_width="@dimen/_280sdp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="40pt"
-                android:layout_marginBottom="40pt"
+                android:layout_marginTop="60pt"
+                android:layout_marginBottom="60pt"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="@dimen/_3sdp"
                 app:cardUseCompatPadding="true">
@@ -44,7 +44,7 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="40pt"
+                android:layout_marginTop="60pt"
                 android:background="@drawable/shape_offer_background"
                 android:backgroundTint="@color/colorPrimary"
                 android:elevation="@dimen/_5sdp">

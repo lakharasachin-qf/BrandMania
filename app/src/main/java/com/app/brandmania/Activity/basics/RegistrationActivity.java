@@ -264,7 +264,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
 //                                    finish();
                                 }
 
-                            }else{
+                            } else {
 
                                 alertDialogBuilder.setMessage(ResponseHandler.getString(response, "message"));
                                 alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> {

@@ -173,7 +173,6 @@ public class ProfileFragment extends BaseFragment {
                 Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 try {
-
                     startActivity(intent);
                 } catch (Exception e) {
 

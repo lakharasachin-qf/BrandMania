@@ -296,7 +296,7 @@
                             android:layout_marginEnd="@dimen/_3sdp"
                             android:layout_toStartOf="@+id/prevAmount"
                             android:src="@drawable/ic_sign"
-                            app:tint="@color/red" />
+                            app:tint="#F10707" />
 
                         <TextView
                             android:id="@+id/prevAmount"
@@ -366,7 +366,7 @@
                             android:layout_marginEnd="@dimen/_2sdp"
                             android:layout_toStartOf="@+id/codeTxt"
                             android:src="@drawable/ic_sign"
-                            app:tint="@color/red" />
+                            app:tint="#F10707" />
 
                         <TextView
                             android:id="@+id/codeTxt"

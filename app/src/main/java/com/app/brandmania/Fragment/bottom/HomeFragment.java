@@ -622,16 +622,17 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         Glide.with(act).load(popupImg).placeholder(R.drawable.place_holder_vertical).into(dialogOfferBinding.offerImage);
         alertDialog.show();
         dialogOfferBinding.offerImageLayout.setOnClickListener(v -> {
-            alertDialog.dismiss();
+
             if (!popupImg.isEmpty() && popupImg.equals("null")) {
 
-                if (!isActivityStatus.equalsIgnoreCase("0")) {
+                if (isActivityStatus.equalsIgnoreCase("0")) {
                     Uri webpage = Uri.parse(targetLink);
                     Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                     intent.setPackage("com.android.chrome");
                     startActivity(intent);
+                    alertDialog.dismiss();
                 } else {
-                  //  String nameOfActivity = targetLink;
+                    //  String nameOfActivity = targetLink;
                     String nameOfActivity = "com.app.brandmania.Activity.packages.PackageActivity";
                     try {
                         Class<?> aClass = Class.forName(nameOfActivity);
@@ -641,7 +642,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     } catch (ClassNotFoundException ignored) {
 
                     }
-
 
                 }
             }
