@@ -11,6 +11,9 @@ public class ImageList {
     public static final int LAYOUT_DAILY_IMAGES=6;
     public static final int LAYOUT_DAILY_ROUND_IMAGES=7;
     public static final int LAYOUT_LOADING = 30;
+    public static final int IMAGE = 0;
+    public static final int GIF = 1;
+
 
     private int layoutType;
     private String name;
@@ -21,6 +24,7 @@ public class ImageList {
     private String frameId;
     private String logo;
     private int index;
+    private int imageType;
 
     public int getIndex() {
         return index;
@@ -43,6 +47,14 @@ public class ImageList {
     private String y_cordinate;
     private String textX_Cordinate;
     private String textY_Cordinate;
+
+    public int getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(int imageType) {
+        this.imageType = imageType;
+    }
 
     public String getTextX_Cordinate() {
         return textX_Cordinate;

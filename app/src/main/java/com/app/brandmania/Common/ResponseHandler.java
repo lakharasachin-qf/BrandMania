@@ -30,6 +30,7 @@ public class ResponseHandler {
     public ResponseHandler(Context context) {
         this.context = context;
     }
+
     public static ArrayList<String> getListFromJSon(JSONArray food_types) {
         ArrayList<String> strings = new ArrayList<>();
 
@@ -49,6 +50,7 @@ public class ResponseHandler {
         }
 
     }
+
     public static boolean isSuccess(String strResponse, JSONObject jsonResponse) {
         if (strResponse != null) {
             JSONObject jsonObject = createJsonObject(strResponse);
@@ -60,6 +62,7 @@ public class ResponseHandler {
         }
         return false;
     }
+
     public static JSONObject createJsonObject(String response) {
         JSONObject jsonObject;
         try {
@@ -70,6 +73,7 @@ public class ResponseHandler {
         }
         return null;
     }
+
     public static String getString(JSONObject jObj, String strKey) {
         try {
             return (jObj.has(strKey) && !jObj.isNull(strKey)) ? jObj.getString(strKey) : "";
@@ -77,6 +81,7 @@ public class ResponseHandler {
             return "";
         }
     }
+
     public static int getInt(JSONObject jObj, String strKey) {
         try {
             return (jObj.has(strKey) && !jObj.isNull(strKey)) ? jObj.getInt(strKey) : 0;
@@ -84,6 +89,7 @@ public class ResponseHandler {
             return 0;
         }
     }
+
     public static float getFloat(JSONObject jObj, String strKey) {
         try {
             return (jObj.has(strKey) && !jObj.isNull(strKey)) ? (float) jObj.getDouble(strKey) : 0;
@@ -91,6 +97,7 @@ public class ResponseHandler {
             return 0;
         }
     }
+
     public static boolean getBool(JSONObject jObj, String strKey) {
         try {
             return (jObj.has(strKey) && !jObj.isNull(strKey)) && jObj.getBoolean(strKey);
@@ -98,6 +105,7 @@ public class ResponseHandler {
             return false;
         }
     }
+
     public static JSONObject getJSONObject(JSONObject jObj, String strKey) {
         try {
             return (jObj.has(strKey) && !jObj.isNull(strKey)) ? jObj.getJSONObject(strKey) : new JSONObject();
@@ -105,6 +113,7 @@ public class ResponseHandler {
             return new JSONObject();
         }
     }
+
     public static JSONArray getJSONArray(JSONObject jObj, String strKey) {
         try {
             return (jObj.has(strKey) && !jObj.isNull(strKey)) ? jObj.getJSONArray(strKey) : new JSONArray();
@@ -112,6 +121,7 @@ public class ResponseHandler {
             return new JSONArray();
         }
     }
+
     public static ArrayList<BrandListItem> HandleGetBrandList(JSONObject jsonObject) {
         ArrayList<BrandListItem> strings = new ArrayList<>();
         if (isSuccess(null, jsonObject)) {
@@ -125,7 +135,7 @@ public class ResponseHandler {
                         JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
                         BrandListItem examModel = new BrandListItem();
                         examModel.setLayoutType(BrandListItem.LAYOUT_BRANDLIST);
-                        examModel.setId(getString(dataJsonObject,"id"));
+                        examModel.setId(getString(dataJsonObject, "id"));
                         examModel.setCategoryId(getString(dataJsonObject, "br_category_id"));
                         examModel.setCategoryName(getString(dataJsonObject, "br_category_name"));
                         examModel.setName(getString(dataJsonObject, "br_name"));
@@ -133,8 +143,8 @@ public class ResponseHandler {
                         examModel.setWebsite(getString(dataJsonObject, "br_website"));
                         examModel.setEmail(getString(dataJsonObject, "br_email"));
                         examModel.setAddress(getString(dataJsonObject, "br_address"));
-                        examModel.setLogo(getString(dataJsonObject,"br_logo"));
-                        examModel.setBrandService(getString(dataJsonObject,"br_service"));
+                        examModel.setLogo(getString(dataJsonObject, "br_logo"));
+                        examModel.setBrandService(getString(dataJsonObject, "br_service"));
                         examModel.setIs_frame(getString(dataJsonObject, "is_frame"));
                         examModel.setFrame_message(getString(dataJsonObject, "frame_message"));
                         examModel.setFrambaseyrl(getString(dataJsonObject, "fream_base_url"));
@@ -147,14 +157,14 @@ public class ResponseHandler {
                         examModel.setNo_of_used_image(getString(dataJsonObject, "no_of_used_img"));
                         examModel.setNo_of_frame(getString(dataJsonObject, "no_of_frame"));
                         examModel.setNo_of_remaining(getString(dataJsonObject, "remaining_img"));
-                        examModel.setSubscriptionDate(getString(dataJsonObject,"subscription_date"));
+                        examModel.setSubscriptionDate(getString(dataJsonObject, "subscription_date"));
                         examModel.setRate(getString(dataJsonObject, "rate"));
 
 
                         examModel.setExpiery_date(getString(dataJsonObject, "expire_date"));
                         JSONArray jsonArray = dataJsonObject.getJSONArray("br_frame");
 
-                        ArrayList<FrameItem>frameItems=null;
+                        ArrayList<FrameItem> frameItems = null;
                         frameItems = new ArrayList<>();
                         for (int j = 0; j < jsonArray.length(); j++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(j);
@@ -165,8 +175,8 @@ public class ResponseHandler {
 
                             frameItems.add(frameItem);
                         }
-                        Gson gson=new Gson();
-                        Log.e("Viewww",gson.toJson(frameItems));
+                        Gson gson = new Gson();
+                        Log.e("Viewww", gson.toJson(frameItems));
                         examModel.setFrame(frameItems);
                         strings.add(examModel);
                     } catch (JSONException e) {
@@ -179,6 +189,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static ArrayList<ViewPagerItem> HandleGetBanneList(JSONObject jsonObject) {
         ArrayList<ViewPagerItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -217,20 +228,20 @@ public class ResponseHandler {
             if (isSuccess(null, jsonObject)) {
                 JSONObject data = getJSONObject(jsonObject, "data");
                 Iterator<String> keys = data.keys();
-                Log.e("From","version-5");
+                Log.e("From", "version-5");
 
                 while (keys.hasNext()) {
                     String key = keys.next();
                     if (!key.equalsIgnoreCase("custom Images") && !key.equalsIgnoreCase("custome Images")) {
                         JSONArray dataItemArray = data.getJSONArray(key);
                         DashBoardItem model = new DashBoardItem();
-                        if (key.equalsIgnoreCase("Business Images")){
+                        if (key.equalsIgnoreCase("Business Images")) {
                             model.setFilterIndex(1);
                         }
-                        if (key.equalsIgnoreCase("Daily Images")){
+                        if (key.equalsIgnoreCase("Daily Images")) {
                             model.setFilterIndex(2);
                         }
-                        if (key.equalsIgnoreCase("Festival Images")){
+                        if (key.equalsIgnoreCase("Festival Images")) {
                             model.setFilterIndex(0);
                         }
                         model.setName(key);
@@ -239,10 +250,10 @@ public class ResponseHandler {
                         for (int m = 0; m < dataItemArray.length(); m++) {
                             JSONObject innerObject = dataItemArray.getJSONObject(m);
                             ImageList imageCategory = new ImageList();
-                            if (key.equalsIgnoreCase("Daily Images")){
+                            if (key.equalsIgnoreCase("Daily Images")) {
                                 imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_ROUND_IMAGES);
-                            }else
-                                 imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
+                            } else
+                                imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
 
                             imageCategory.setId(getString(innerObject, "id"));
                             imageCategory.setName(getString(innerObject, "name"));
@@ -251,7 +262,7 @@ public class ResponseHandler {
                             innerImagesList.add(imageCategory);
                         }
                         model.setDailyImages(innerImagesList);
-                        if (innerImagesList.size()!=0 ){
+                        if (innerImagesList.size() != 0) {
                             dataList.add(model);
                         }
                     }
@@ -277,15 +288,14 @@ public class ResponseHandler {
     }
 
     // Comparison done using compareTo function
-    public static void sort(ArrayList<DashBoardItem> list)
-    {
+    public static void sort(ArrayList<DashBoardItem> list) {
 
-       // list.sort((o1, o2)-> o1.getFilterIndex().compareTo(o2.getFilterIndex()));
+        // list.sort((o1, o2)-> o1.getFilterIndex().compareTo(o2.getFilterIndex()));
     }
 
 
     public static ImageList HandleGetImageByIdCategory(JSONObject jsonObject) {
-        ImageList imageList=new ImageList();
+        ImageList imageList = new ImageList();
         ArrayList<ImageList> string = null;
         if (isSuccess(null, jsonObject)) {
             JSONArray datajsonArray = getJSONArray(jsonObject, "data");
@@ -297,16 +307,26 @@ public class ResponseHandler {
                         ImageList model = new ImageList();
                         model.setLayoutType(ImageList.LAYOUT_IMAGE_CATEGORY_BY_ID);
                         model.setName(getString(datajsonObject, "title"));
-                        model.setId(getString(datajsonObject,"img_cat_map_id"));
+                        model.setId(getString(datajsonObject, "img_cat_map_id"));
                         model.setImagecatid(getString(datajsonObject, "img_cat_id"));
                         model.setImageid(getString(datajsonObject, "image_id"));
                         model.setLogo(getString(datajsonObject, "img_thumb_path"));
                         model.setFrame(getString(datajsonObject, "img_path"));
+                        model.setImageType(ImageList.IMAGE);
                         model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
-                        if(i==0)
-                        {
+                        if (i == 1) {
+                            model.setImageType(ImageList.GIF);
+                            model.setFrame(getString(datajsonObject, "https://c.tenor.com/5VmvaWqS3sUAAAAC/happy-janmashtami.gif"));
+                            //model.setFrame(getString(datajsonObject, "https://media.giphy.com/media/BlVnrxJgTGsUw/giphy.gif"));
+                        }
 
-
+                        if (i == 3) {
+                            model.setImageType(ImageList.GIF);
+                            model.setFrame(getString(datajsonObject, "https://media.giphy.com/media/xSM46ernAUN3y/giphy.gif"));
+                        }
+                        if (i == 5) {
+                            model.setImageType(ImageList.GIF);
+                            model.setFrame(getString(datajsonObject, "https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif"));
                         }
                         string.add(model);
                     } catch (JSONException e) {
@@ -318,17 +338,18 @@ public class ResponseHandler {
 
             }
             imageList.setCatogaryImagesList(string);
-            JSONObject linkObj=getJSONObject(jsonObject,"link");
-            Links links=new Links();
-            links.setFirstPage(getString(linkObj,"first_page_url"));
-            links.setLastPageUrl(getString(linkObj,"last_page_url"));
-            links.setNextPageUrl(getString(linkObj,"next_page_url"));
-            links.setPrevPageUrl(getString(linkObj,"prev_page_url"));
-            links.setTotalStr(getString(linkObj,"total"));
+            JSONObject linkObj = getJSONObject(jsonObject, "link");
+            Links links = new Links();
+            links.setFirstPage(getString(linkObj, "first_page_url"));
+            links.setLastPageUrl(getString(linkObj, "last_page_url"));
+            links.setNextPageUrl(getString(linkObj, "next_page_url"));
+            links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
+            links.setTotalStr(getString(linkObj, "total"));
             imageList.setLinks(links);
         }
         return imageList;
     }
+
     public static ArrayList<MultiListItem> HandleFaqResponse(JSONObject jsonObject) {
         ArrayList<MultiListItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -355,6 +376,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static ArrayList<DownloadFavoriteItemList> HandleGetIDownloadFavoritList(JSONObject jsonObject) {
         ArrayList<DownloadFavoriteItemList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -389,6 +411,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     //    public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
 //        ArrayList<FrameItem> strings = null;
 //        if (isSuccess(null, jsonObject)) {
@@ -415,31 +438,32 @@ public class ResponseHandler {
 //        return strings;
 //    }
     public static ArrayList<FrameItem> HandleGetFrame(JSONObject jsonObject) {
-    ArrayList<FrameItem> strings = null;
-    if (isSuccess(null, jsonObject)) {
-        //list fetch
-        JSONObject datajsonobject = getJSONObject(jsonObject, "data");
-        JSONArray dataJsonArray = getJSONArray(datajsonobject, "frames");
-        if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
-            strings = new ArrayList<>();
-            for (int i = 0; i < dataJsonArray.length(); i++) {
-                try {
-                    JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
-                    FrameItem frameItem = new FrameItem();
-                    frameItem.setFrame1(ResponseHandler.getString(dataJsonObject, "frame_path"));
-                    frameItem.setFrameId(ResponseHandler.getString(dataJsonObject, "id"));
+        ArrayList<FrameItem> strings = null;
+        if (isSuccess(null, jsonObject)) {
+            //list fetch
+            JSONObject datajsonobject = getJSONObject(jsonObject, "data");
+            JSONArray dataJsonArray = getJSONArray(datajsonobject, "frames");
+            if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
+                strings = new ArrayList<>();
+                for (int i = 0; i < dataJsonArray.length(); i++) {
+                    try {
+                        JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
+                        FrameItem frameItem = new FrameItem();
+                        frameItem.setFrame1(ResponseHandler.getString(dataJsonObject, "frame_path"));
+                        frameItem.setFrameId(ResponseHandler.getString(dataJsonObject, "id"));
 
-                    strings.add(frameItem);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        strings.add(frameItem);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+
         }
 
+        return strings;
     }
 
-    return strings;
-}
     public static ArrayList<DownloadFavoriteItemList> HandleGetIDownloadFavoritGrid(JSONObject jsonObject) {
         ArrayList<DownloadFavoriteItemList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -466,6 +490,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static ArrayList<DownloadFavoriteItemList> HandleGetIFavoritList(JSONObject jsonObject) {
         ArrayList<DownloadFavoriteItemList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -498,6 +523,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static ArrayList<DownloadFavoriteItemList> HandleGetIFavoritListGrid(JSONObject jsonObject) {
         ArrayList<DownloadFavoriteItemList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -524,6 +550,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static ArrayList<BrandListItem> HandleGetNotificationList(JSONObject jsonObject) {
         ArrayList<BrandListItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -550,6 +577,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static ArrayList<SliderItem> HandleGetPackageList(JSONObject jsonObject) {
         ArrayList<SliderItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -561,11 +589,11 @@ public class ResponseHandler {
                     try {
                         JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
                         SliderItem sliderItem = new SliderItem();
-                        sliderItem.setPackageid(getString(dataJsonObject,"id"));
+                        sliderItem.setPackageid(getString(dataJsonObject, "id"));
                         sliderItem.setPriceForPay(getString(dataJsonObject, "rate"));
                         sliderItem.setPackageTitle(getString(dataJsonObject, "name"));
                         sliderItem.setTemplateTitle(getString(dataJsonObject, "frame_counter"));
-                        sliderItem.setDuration(getString(dataJsonObject,"duration_id"));
+                        sliderItem.setDuration(getString(dataJsonObject, "duration_id"));
                         sliderItem.setImageTitle(getString(dataJsonObject, "img_counter"));
                         sliderItem.setPayTitle(getString(dataJsonObject, "rate"));
                         JSONArray subPackagejsonArray = getJSONArray(dataJsonObject, "service");
@@ -589,8 +617,8 @@ public class ResponseHandler {
                         }
 
                         sliderItem.setSlideSubItems(stringg);
-                        if (stringg!=null &&  stringg.size()!=0)
-                        strings.add(sliderItem);
+                        if (stringg != null && stringg.size() != 0)
+                            strings.add(sliderItem);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -601,6 +629,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static ArrayList<BrandListItem> HandleGetBrandById(JSONObject jsonObject) {
         ArrayList<BrandListItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -614,7 +643,7 @@ public class ResponseHandler {
                         JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
                         BrandListItem examModel = new BrandListItem();
                         examModel.setLayoutType(BrandListItem.LAYOUT_BRANDLIST);
-                        examModel.setId(getString(dataJsonObject,"id"));
+                        examModel.setId(getString(dataJsonObject, "id"));
                         examModel.setCategoryId(getString(dataJsonObject, "br_category_id"));
                         examModel.setCategoryName(getString(dataJsonObject, "br_category_name"));
                         examModel.setName(getString(dataJsonObject, "br_name"));
@@ -622,7 +651,7 @@ public class ResponseHandler {
                         examModel.setWebsite(getString(dataJsonObject, "br_website"));
                         examModel.setEmail(getString(dataJsonObject, "br_email"));
                         examModel.setAddress(getString(dataJsonObject, "br_address"));
-                        examModel.setLogo(getString(dataJsonObject,"br_logo"));
+                        examModel.setLogo(getString(dataJsonObject, "br_logo"));
                         examModel.setIs_frame(getString(dataJsonObject, "is_frame"));
                         examModel.setFrame_message(getString(dataJsonObject, "frame_message"));
                         examModel.setFrambaseyrl(getString(dataJsonObject, "fream_base_url"));
@@ -639,7 +668,7 @@ public class ResponseHandler {
                         examModel.setRate(getString(dataJsonObject, "rate"));
                         examModel.setDuration(getString(dataJsonObject, "duration"));
                         JSONArray jsonArray = dataJsonObject.getJSONArray("br_frame");
-                        ArrayList<FrameItem>frameItems=null;
+                        ArrayList<FrameItem> frameItems = null;
                         frameItems = new ArrayList<>();
                         for (int j = 0; j < jsonArray.length(); j++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(j);
@@ -650,8 +679,8 @@ public class ResponseHandler {
 
                             frameItems.add(frameItem);
                         }
-                        Gson gson=new Gson();
-                        Log.e("Viewww",gson.toJson(frameItems));
+                        Gson gson = new Gson();
+                        Log.e("Viewww", gson.toJson(frameItems));
                         examModel.setFrame(frameItems);
                         strings.add(examModel);
                     } catch (JSONException e) {
@@ -664,6 +693,7 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static ArrayList<ImageList> HandleGetFrameList(JSONObject jsonObject) {
         ArrayList<ImageList> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -689,8 +719,9 @@ public class ResponseHandler {
 
         return strings;
     }
+
     public static DashBoardItem HandleGetFrameCategory(JSONObject jsonObject) throws JSONException {
-        DashBoardItem dashBoardItem=new DashBoardItem();
+        DashBoardItem dashBoardItem = new DashBoardItem();
         ArrayList<DashBoardItem> string = null;
         if (isSuccess(null, jsonObject)) {
             JSONArray datajsonArray = getJSONArray(jsonObject, "data");
@@ -735,7 +766,7 @@ public class ResponseHandler {
 
                         model.setImageLists(stringg);
 
-                        if (stringg!=null &&  stringg.size()!=0)
+                        if (stringg != null && stringg.size() != 0)
                             string.add(model);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -745,23 +776,23 @@ public class ResponseHandler {
             }
             dashBoardItem.setDashBoardItems(string);
 
-            JSONObject linkObj=getJSONObject(jsonObject,"link");
-            Links links=new Links();
-            links.setFirstPage(getString(linkObj,"first_page_url"));
-            links.setLastPageUrl(getString(linkObj,"last_page_url"));
-            links.setNextPageUrl(getString(linkObj,"next_page_url"));
-            links.setPrevPageUrl(getString(linkObj,"prev_page_url"));
-            links.setTotalStr(getString(linkObj,"total"));
+            JSONObject linkObj = getJSONObject(jsonObject, "link");
+            Links links = new Links();
+            links.setFirstPage(getString(linkObj, "first_page_url"));
+            links.setLastPageUrl(getString(linkObj, "last_page_url"));
+            links.setNextPageUrl(getString(linkObj, "next_page_url"));
+            links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
+            links.setTotalStr(getString(linkObj, "total"));
             dashBoardItem.setLinks(links);
-
 
 
         }
 
         return dashBoardItem;
     }
+
     public static ImageList HandleGetFrameByIdCategory(JSONObject jsonObject) {
-        ImageList imageList=new ImageList();
+        ImageList imageList = new ImageList();
         ArrayList<ImageList> string = null;
         if (isSuccess(null, jsonObject)) {
             JSONArray datajsonArray = getJSONArray(jsonObject, "data");
@@ -773,8 +804,8 @@ public class ResponseHandler {
                         ImageList model = new ImageList();
                         model.setLayoutType(ImageList.LAYOUT_FRAME_CATEGORY_BY_ID);
                         model.setName(getString(datajsonObject, "title"));
-                        model.setId(getString(datajsonObject,"img_cat_map_id"));
-                        model.setImageid(getString(datajsonObject,"img_cat_map_id"));
+                        model.setId(getString(datajsonObject, "img_cat_map_id"));
+                        model.setImageid(getString(datajsonObject, "img_cat_map_id"));
                         model.setIndex(i);
                         model.setImagecatid(getString(datajsonObject, "img_cat_id"));
                         model.setImageid(getString(datajsonObject, "image_id"));
@@ -794,13 +825,13 @@ public class ResponseHandler {
             }
             imageList.setCatogaryImagesList(string);
 
-            JSONObject linkObj=getJSONObject(jsonObject,"link");
-            Links links=new Links();
-            links.setFirstPage(getString(linkObj,"first_page_url"));
-            links.setLastPageUrl(getString(linkObj,"last_page_url"));
-            links.setNextPageUrl(getString(linkObj,"next_page_url"));
-            links.setPrevPageUrl(getString(linkObj,"prev_page_url"));
-            links.setTotalStr(getString(linkObj,"total"));
+            JSONObject linkObj = getJSONObject(jsonObject, "link");
+            Links links = new Links();
+            links.setFirstPage(getString(linkObj, "first_page_url"));
+            links.setLastPageUrl(getString(linkObj, "last_page_url"));
+            links.setNextPageUrl(getString(linkObj, "next_page_url"));
+            links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
+            links.setTotalStr(getString(linkObj, "total"));
             imageList.setLinks(links);
         }
         return imageList;

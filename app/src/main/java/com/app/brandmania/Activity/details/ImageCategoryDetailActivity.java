@@ -83,6 +83,9 @@ import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.DialogUpgradeLayoutPackegeExpiredBindingImpl;
+import com.app.brandmania.gifHelper.AnimatedGifEncoder;
+import com.app.brandmania.gifHelper.GifDataDownloader;
+import com.app.brandmania.gifHelper.GifImageView;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.IFontChangeEvent;
@@ -114,12 +117,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -185,6 +190,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     private String loadDefaultFont = "";
     private int previousFontSize = -1;
     int isDownloadOrSharingOrFavPending = -1;
+    ArrayList<Bitmap> bitmaps;
+    boolean canDownloadGIF = true;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -258,8 +265,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         binding.fabroutIcon.setVisibility(View.GONE);
                         binding.addfabroutIcon.setVisibility(View.VISIBLE);
                     }
-
                     saveImageToGallery(false, true);
+                  /*  if (selectedObject.getImageType() == ImageList.IMAGE) {
+                        saveImageToGallery(false, true);
+                    } else {
+                        saveGif();
+                    }*/
                 }
 
 
@@ -321,6 +332,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (manuallyEnablePermission(2)) {
 
                     if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
@@ -329,17 +341,27 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                 askForUpgradeToEnterpisePackage();
                                 return;
                             }
-                            getImageDownloadRights("Share");
+                            if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                getImageDownloadRights("Share");
+                            } else {
+                                saveGif();
+                            }
+                            //getImageDownloadRights("Share");
                         } else {
                             askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
                     } else {
                         if (!Utility.isPackageExpired(act)) {
-                            getImageDownloadRights("Share");
+                            if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                getImageDownloadRights("Share");
+                            } else {
+                                saveGif();
+                            }
+                            //getImageDownloadRights("Share");
                         } else {
                             askForUpgradeToEnterpisePackaged();
                         }
-                      //  getImageDownloadRights("Share");
+                        //  getImageDownloadRights("Share");
                     }
                 }
             }
@@ -370,12 +392,133 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 }
             });
 
-
         }
-//        if (!getIntent().hasExtra("viewAll"))
-//            LoadDataToUI();
+        if (!getIntent().hasExtra("viewAll"))
+            LoadDataToUI();
 
         binding.logoCustom.setTag("0");
+    }
+
+    public void LoadDataToUI() {
+        preafManager = new PreafManager(act);
+        if (selectedObject != null) {
+            binding.simpleProgressBar.setVisibility(View.GONE);
+            if (selectedObject.getImageType() == ImageList.IMAGE) {
+                binding.recoImage.setVisibility(View.VISIBLE);
+                binding.gifImageView.setVisibility(View.GONE);
+                Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
+            } else {
+                binding.recoImage.setVisibility(View.GONE);
+                binding.gifImageView.setVisibility(View.VISIBLE);
+                new GifDataDownloader() {
+                    @Override
+                    protected void onPostExecute(final byte[] bytes) {
+                        binding.gifImageView.setBytes(bytes);
+                        binding.gifImageView.startAnimation();
+                        //Log.e("TAG", "GIF width is " + binding.gifImageView.getGifWidth());
+                        //Log.e("TAG", "GIF height is " + binding.gifImageView.getGifHeight());
+                    }
+                }.execute("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");
+
+                bitmaps = new ArrayList<>();
+                binding.gifImageView.setOnFrameAvailable(new GifImageView.OnFrameAvailable() {
+                    @Override
+                    public Bitmap onFrameAvailable(Bitmap bitmap) {
+                        if (bitmaps.size() != binding.gifImageView.getFrameCount() && !bitmaps.contains(bitmap)) {
+                            bitmaps.add(bitmap);
+                        } else {
+
+                            if (canDownloadGIF) {
+                                Log.e("canDownload", "canDownload");
+
+                                canDownloadGIF = false;
+                                Log.e("SizeFrame", String.valueOf(bitmaps.size()));
+                            }
+
+                        }
+
+                        return bitmap;
+                    }
+                });
+                //Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.gifImageView);
+            }
+        } else {
+            // binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        if (selectedFooterModel == null)
+            loadFirstImage();
+    }
+
+    public void saveGif() {
+
+        try {
+            Toast.makeText(act, "Image Download Start", Toast.LENGTH_LONG).show();
+            File pictureFile = getOutputMediaFile();
+            FileOutputStream outStream = new FileOutputStream(pictureFile);
+            outStream.write(generateGIF());
+            outStream.close();
+            Toast.makeText(act, "GIF SAVED:" + pictureFile.getPath(), Toast.LENGTH_LONG).show();
+            Log.e("GIF", "Saved" + pictureFile.getPath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<Bitmap> resultedGIFArray = new ArrayList<>();
+
+    public byte[] generateGIF() {
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(bos);
+        encoder.setDelay(100);
+        encoder.setRepeat(0);
+        encoder.setQuality(100);
+        // encoder.setSize(480,480);
+        Log.e("size", "height" + binding.gifImageView.getFramesDisplayDuration());
+
+        for (Bitmap bitmap : bitmaps) {
+            encoder.addFrame(manipulateGIF(bitmap, false));
+            //  encoder.addFrame(bitmap);
+        }
+        encoder.finish();
+        return bos.toByteArray();
+    }
+
+    Drawable bitmapFrame;
+    Bitmap merged;
+
+    public Bitmap manipulateGIF(Bitmap gifFrameBitmap, boolean isFavourite) {
+        if (isUsingCustomFrame) {
+            bitmapFrame = new BitmapDrawable(getResources(), getCustomFrameInBitmap(isFavourite));
+        } else {
+            bitmapFrame = (BitmapDrawable) binding.backendFrame.getDrawable();
+        }
+        binding.gifImageView.setImageBitmap(gifFrameBitmap);
+        Drawable ImageDrawable = (BitmapDrawable) binding.gifImageView.getDrawable();
+
+        merged = Bitmap.createBitmap(450, 450, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(merged);
+        bitmapFrame.setBounds(0, 0, 450, 450);
+        ImageDrawable.setBounds(0, 0, 450, 450);
+        ImageDrawable.draw(canvas);
+        bitmapFrame.draw(canvas);
+        resultedGIFArray.add(merged);
+        return merged;
+    }
+
+    private File getOutputMediaFile() {
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/BrandMania");
+
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs())
+                return null;
+        }
+
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_BRANDMANIA_" + Calendar.getInstance().getTimeInMillis() + ".gif");
+        return mediaFile;
     }
 
     DialogUpgradeLayoutPackegeExpiredBindingImpl expriredBinding;
@@ -419,6 +562,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         requestAgain();
+
                         saveImageToGallery(false, false);
                     }
                 });
@@ -608,18 +752,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         pickerFragment.show(getSupportFragmentManager(), pickerFragment.getTag());
     }
 
-    public void LoadDataToUI() {
-        preafManager = new PreafManager(act);
-        if (selectedObject != null) {
-            binding.simpleProgressBar.setVisibility(View.GONE);
-            Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
-        } else {
-            // binding.simpleProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        if (selectedFooterModel == null)
-            loadFirstImage();
-    }
 
     //For
     public void refreshgallery(File file) {
@@ -644,7 +776,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.viewRecoRecycler.setHasFixedSize(true);
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
     }
-
 
     //For Image Select Interface
     @Override
@@ -831,8 +962,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         binding.fabroutIcon.setVisibility(View.GONE);
                         binding.addfabroutIcon.setVisibility(View.VISIBLE);
                     }
+                    if (selectedObject.getImageType() == ImageList.IMAGE) {
+                        saveImageToGallery(false, true);
+                    } else {
+                        saveGif();
+                    }
 
-                    saveImageToGallery(false, true);
+                    // saveImageToGallery(false, true);
                 }
                 //for download
                 if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -1751,6 +1887,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                         askForDownloadImage();
                                     else {
                                         requestAgain();
+                                       /* if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                            saveImageToGallery(false, true);
+                                        } else {
+                                            saveGif();
+                                        }*/
                                         saveImageToGallery(true, false);
                                     }
                                 } else {
@@ -1762,6 +1903,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                     askForDownloadImage();
                                 else {
                                     requestAgain();
+                                   /* if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                        saveImageToGallery(false, true);
+                                    } else {
+                                        saveGif();
+                                    }*/
                                     saveImageToGallery(true, false);
                                 }
                             }

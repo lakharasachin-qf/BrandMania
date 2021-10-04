@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:shimmer="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/viewRecoRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:paddingStart="@dimen/_5sdp"
             android:paddingEnd="@dimen/_5sdp"
-            android:clipToPadding="false"
-            android:visibility="gone"
             android:paddingBottom="@dimen/_40sdp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:visibility="gone" />
+
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:layout_below="@+id/viewRecoRecycler"
             android:id="@+id/shimmerForPagination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/viewRecoRecycler"
             android:layout_gravity="center"
             android:orientation="vertical"
             shimmer:shimmer_duration="800">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <include layout="@layout/item_simmer_visitors_layout" />
+
                 <include layout="@layout/item_simmer_visitors_layout" />
             </LinearLayout>
 

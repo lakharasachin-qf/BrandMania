@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import static com.app.brandmania.Model.ImageList.IMAGE;
 import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_IMAGES;
 import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_ROUND_IMAGES;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME;
@@ -44,11 +45,11 @@ import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY_BY_ID;
 
 
 public class ImageCategoryAddaptor extends RecyclerView.Adapter {
-    public static final int FROM_HOMEFRAGEMENT=1;
-    public static final int FROM_VIEWALL=2;
+    public static final int FROM_HOMEFRAGEMENT = 1;
+    public static final int FROM_VIEWALL = 2;
 
-    public static final int FROM_CATEGORYFRAGEMENT=1;
-    public static final int FROM_VIEWALLFRAME=2;
+    public static final int FROM_CATEGORYFRAGEMENT = 1;
+    public static final int FROM_VIEWALLFRAME = 2;
     private List<ImageList> imageLists;
     Activity activity;
     PreafManager preafManager;
@@ -58,20 +59,24 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     public DashBoardItem getDashBoardItem() {
         return dashBoardItem;
     }
+
     public void setDashBoardItem(DashBoardItem dashBoardItem) {
         this.dashBoardItem = dashBoardItem;
     }
+
     public ImageCategoryAddaptor(List<ImageList> imageLists, Activity activity) {
         this.imageLists = imageLists;
         this.activity = activity;
-        preafManager=new PreafManager(activity);
+        preafManager = new PreafManager(activity);
         // Log.e("menuModels",new Gson().toJson(imageLists));
     }
 
     int layoutType;
+
     public int getLayoutType() {
         return layoutType;
     }
+
     public void setLayoutType(int layoutType) {
         this.layoutType = layoutType;
     }
@@ -146,35 +151,32 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .centerCrop()
                             .into(((DailyRoundHolder) holder).binding.image);
 
-                    ((DailyRoundHolder)holder).binding.title.setText(model.getName());
+                    ((DailyRoundHolder) holder).binding.title.setText(model.getName());
 
-                    ((DailyRoundHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener()
-                    {
+                    ((DailyRoundHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             //ImageCategoryDetailActivity
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                             // Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
                             Gson gson = new Gson();
-                            intent.putExtra("dailyImages","1");
+                            intent.putExtra("dailyImages", "1");
                             // intent.putExtra("viewAll","12");
 
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
-                            intent.putExtra("selectedimage",gson.toJson(model));
-                            intent.putExtra("position",position);
+                            intent.putExtra("selectedimage", gson.toJson(model));
+                            intent.putExtra("position", position);
                             activity.startActivity(intent);
                         }
                     });
                     Log.e(model.getName(), String.valueOf(model.isImageFree()));
-                    if (!model.isImageFree()){
-                        ((DailyRoundHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
-                    }
-                    else
-                    {
-                        ((DailyRoundHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    if (!model.isImageFree()) {
+                        ((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    } else {
+                        ((DailyRoundHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
                     preafManager = new PreafManager(activity);
-                    if (preafManager.getActiveBrand()!=null &&  preafManager.getActiveBrand().getIs_payment_pending()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                    if (preafManager.getActiveBrand() != null && preafManager.getActiveBrand().getIs_payment_pending() != null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                         ((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                         ((DailyRoundHolder) holder).binding.freePremium.setVisibility(View.GONE);
                         ((DailyRoundHolder) holder).binding.premioutag.setVisibility(View.INVISIBLE);
@@ -186,31 +188,30 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .load(model.getLogo())
                             .placeholder(R.drawable.placeholder)
                             .into(((ImageCategoryHolder) holder).binding.image);
-                    ((ImageCategoryHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    ((ImageCategoryHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             // if (layoutType==FROM_HOMEFRAGEMENT) {
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                             Gson gson = new Gson();
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
-                            intent.putExtra("selectedimage",gson.toJson(model));
-                            intent.putExtra("position",position);
+                            intent.putExtra("selectedimage", gson.toJson(model));
+                            intent.putExtra("position", position);
                             activity.startActivity(intent);
                         }
                     });
 
 
-                    if (!model.isImageFree()){
-                        ((ImageCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
-                    } else
-                    {
-                        ((ImageCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    if (!model.isImageFree()) {
+                        ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    } else {
+                        ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
                     preafManager = new PreafManager(activity);
-                     if (preafManager.getActiveBrand()!=null &&  preafManager.getActiveBrand().getIs_payment_pending()!=null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
-                            ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                            ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                    if (preafManager.getActiveBrand() != null && preafManager.getActiveBrand().getIs_payment_pending() != null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                        ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
                     }
 
                     break;
@@ -219,8 +220,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .load(model.getFrame())
                             .placeholder(R.drawable.placeholder)
                             .into(((DailyHolder) holder).binding.image);
-                    ((DailyHolder)holder).binding.title.setText(model.getName());
-                    ((DailyHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    ((DailyHolder) holder).binding.title.setText(model.getName());
+                    ((DailyHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             //Image Category Detail Activity
@@ -228,24 +229,22 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             // Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
 
                             Gson gson = new Gson();
-                            intent.putExtra("dailyImages","1");
-                           // intent  putExtra ( " viewAll " , " 12 " ) ;
+                            intent.putExtra("dailyImages", "1");
+                            // intent  putExtra ( " viewAll " , " 12 " ) ;
 
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
-                            intent.putExtra("selectedimage",gson.toJson(model));
-                            intent.putExtra("position",position);
+                            intent.putExtra("selectedimage", gson.toJson(model));
+                            intent.putExtra("position", position);
                             activity.startActivity(intent);
                         }
                     });
 
-                    if (!model.isImageFree()){
-                        ((DailyHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    if (!model.isImageFree()) {
+                        ((DailyHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    } else {
+                        ((DailyHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
-                    else
-                    {
-                        ((DailyHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
-                    }
-                    if (preafManager.getActiveBrand() !=null) {
+                    if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((DailyHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                             ((DailyHolder) holder).binding.freePremium.setVisibility(View.GONE);
@@ -258,33 +257,37 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .load(model.getFrame())
                             .placeholder(R.drawable.placeholder)
                             .into(((ImageCategoryByIdHolder) holder).binding.image);
-                    ((ImageCategoryByIdHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    ((ImageCategoryByIdHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (layoutType==FROM_HOMEFRAGEMENT) {
+                            if (layoutType == FROM_HOMEFRAGEMENT) {
                                 Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                                 Gson gson = new Gson();
-                                intent.putExtra("selectedimage",gson.toJson(model));
-                                intent.putExtra("position",position);
+                                intent.putExtra("selectedimage", gson.toJson(model));
+                                intent.putExtra("position", position);
                                 activity.startActivity(intent);
                             }
-                            if (layoutType==FROM_VIEWALL) {
+                            if (layoutType == FROM_VIEWALL) {
 
                                 ((ImageCateItemeInterFace) activity).ImageCateonItemSelection(position, model);
                             }
                         }
                     });
 
-                    if (!model.isImageFree()){
-                        ((ImageCategoryByIdHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    if (model.getImageType() == ImageList.GIF) {
+                        Glide.with(activity)
+                                .load(model.getFrame())
+                                .placeholder(R.drawable.placeholder)
+                                .into(((ImageCategoryByIdHolder) holder).binding.image);
+                        ((ImageCategoryByIdHolder) holder).binding.gifLayout.setVisibility(View.VISIBLE);
+                    }
+                    if (!model.isImageFree()) {
+                        ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 
+                    } else {
+                        ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
-                    else
-                    {
-                        ((ImageCategoryByIdHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
-                        //((ImageCategoryByIdHolder)holder).binding.gifLayout.setVisibility(View.VISIBLE);
-                    }
-                    if (preafManager.getActiveBrand() !=null) {
+                    if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                             ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
@@ -319,29 +322,28 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .load(model.getLogo())
                             .placeholder(R.drawable.placeholder)
                             .into(((FrameCategoryHolder) holder).binding.image);
-                    ((FrameCategoryHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    ((FrameCategoryHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(activity, ViewAllFrameImageActivity.class);
-                            Gson  gson=new Gson();
+                            Intent intent = new Intent(activity, ViewAllFrameImageActivity.class);
+                            Gson gson = new Gson();
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
-                            intent.putExtra("selectedimage",gson.toJson(model));
-                            intent.putExtra("position",position);
+                            intent.putExtra("selectedimage", gson.toJson(model));
+                            intent.putExtra("position", position);
                             activity.startActivity(intent);
                         }
                     });
 
 
-                    if (!model.isImageFree()){
-                        ((FrameCategoryHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
-                    }  else
-                    {
-                        ((FrameCategoryHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    if (!model.isImageFree()) {
+                        ((FrameCategoryHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    } else {
+                        ((FrameCategoryHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
-                    if (preafManager.getActiveBrand() !=null) {
+                    if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((FrameCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                             ((FrameCategoryHolder)holder).binding.freePremium.setVisibility(View.GONE);
+                            ((FrameCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
                         }
                     }
                     break;
@@ -353,14 +355,12 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .into(((FrameCategoryByIdHolder) holder).binding.image);
 
 
-                    if (!model.isImageFree()){
-                        ((FrameCategoryByIdHolder)holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    if (!model.isImageFree()) {
+                        ((FrameCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                    } else {
+                        ((FrameCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
-                    else
-                    {
-                        ((FrameCategoryByIdHolder)holder).binding.freePremium.setVisibility(View.VISIBLE);
-                    }
-                    if (preafManager.getActiveBrand() !=null) {
+                    if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((FrameCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                             ((FrameCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
@@ -368,22 +368,21 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     }
 
 
-
-                    ((FrameCategoryByIdHolder)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    ((FrameCategoryByIdHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (layoutType==FROM_CATEGORYFRAGEMENT) {
-                              //  Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
-                                Intent intent=new Intent(activity,ViewAllFrameImageActivity.class);
-                                Gson  gson=new Gson();
-                                intent.putExtra("selectedimage",gson.toJson(model));
-                                intent.putExtra("position",position);
+                            if (layoutType == FROM_CATEGORYFRAGEMENT) {
+                                //  Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(activity, ViewAllFrameImageActivity.class);
+                                Gson gson = new Gson();
+                                intent.putExtra("selectedimage", gson.toJson(model));
+                                intent.putExtra("position", position);
                                 activity.startActivity(intent);
 
                             }
 
 
-                            if (layoutType==FROM_VIEWALLFRAME) {
+                            if (layoutType == FROM_VIEWALLFRAME) {
                                 ((ImageCateItemeInterFace) activity).ImageCateonItemSelection(position, model);
                             }
                         }
@@ -393,7 +392,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
             }
 
         } else {
-           // Toast.makeText(activity, "dfgdgdfgfdg", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(activity, "dfgdgdfgfdg", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -408,6 +407,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
+
     static class DailyRoundHolder extends RecyclerView.ViewHolder {
         ItemLayoutDailyRoundImagesBinding binding;
 
@@ -417,6 +417,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
+
     static class ImageCategoryHolder extends RecyclerView.ViewHolder {
         ItemLayoutHomeBinding binding;
 
@@ -426,6 +427,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
+
     static class ImageCategoryByIdHolder extends RecyclerView.ViewHolder {
         ItemLayoutViewallimageBinding binding;
 
@@ -435,6 +437,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
+
     static class FrameHolder extends RecyclerView.ViewHolder {
         ItemLayoutViewallimageBinding binding;
 
@@ -444,6 +447,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
+
     static class FrameCategoryHolder extends RecyclerView.ViewHolder {
         ItemLayoutFrameBinding binding;
 
@@ -453,6 +457,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
         }
     }
+
     static class FrameCategoryByIdHolder extends RecyclerView.ViewHolder {
         ItemLayoutViewallframeBinding binding;
 

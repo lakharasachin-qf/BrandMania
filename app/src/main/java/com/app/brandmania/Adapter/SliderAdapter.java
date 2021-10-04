@@ -93,7 +93,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             String description = sliderItems.get(position).getSlideSubItems().get(0).getDescription();
             String[] serviceArray = description.split(",");
             Log.e("servuceArray", serviceArray.toString());
-            addDynamicServices(holder.serviceLayout,serviceArray);
+            addDynamicServices(holder.serviceLayout, serviceArray);
         }
         holder.servicesLayout.setVisibility(View.GONE);
 
