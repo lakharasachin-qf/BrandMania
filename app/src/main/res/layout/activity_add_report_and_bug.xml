@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -13,13 +13,13 @@
         tools:context=".activity.AddReportAndBug">
 
         <androidx.appcompat.widget.Toolbar
-            android:visibility="visible"
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp"
-            android:background="@drawable/toolbar_background_second"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:visibility="visible"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <RelativeLayout
@@ -28,30 +28,41 @@
                 android:id="@+id/main_linearlayout_title"
                 android:elevation="0dp"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp">
+                android:layout_height="wrap_content">
+
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/BackButton"
                     android:layout_marginLeft="6dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/ic_left_arrow"></ImageView>
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_left_arrow" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/BackButtonMember"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:fontFamily="@font/inter_semibold"
+                    android:layout_toEndOf="@+id/BackButton"
+                    android:fontFamily="@font/montserrat_semibold"
                     android:text="@string/add_report_bugs"
                     android:textColor="@color/colorNavText"
-                    android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold"></TextView>
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
+        <ImageView
+            android:layout_marginStart="-100dp"
+            android:layout_alignParentBottom="true"
+
+            android:src="@drawable/bottom"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_300sdp">
+
+        </ImageView>
 
         <ScrollView
+            android:layout_below="@+id/my_toolbar"
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -71,23 +82,24 @@
                     android:id="@+id/contactTxtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/enter_contact_number"
+                    app:errorEnabled="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Phone Number"
                     app:hintTextColor="@color/colorPrimary"
-                    app:errorEnabled="true">
+                    android:layout_height="wrap_content">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/contactEdt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_regular"
-                        android:inputType="number"
-
-                        android:maxEms="13"
-                        android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
-                        android:textSize="@dimen/_10sdp" />
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:inputType="number"
+                        android:maxLength="10"
+
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -95,51 +107,45 @@
                     android:id="@+id/emailTxtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/enter_email_id"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Email Id"
+                    app:hintTextColor="@color/colorPrimary"
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailEdt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_regular"
-                        android:inputType="textEmailAddress"
-
-                        android:maxEms="13"
-                        android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
-                        android:textSize="@dimen/_10sdp" />
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/bugsLayout"
-                    style="@style/textLayoutForDescription"
+                    style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/report_problem"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Report Problem"
+                    app:hintTextColor="@color/colorPrimary"
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/bugsEdt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:fontFamily="@font/poppins_regular"
-                        android:gravity="start"
-                        android:inputType="textMultiLine|textCapSentences"
-
-                        android:lines="4"
-                        android:maxEms="13"
-                        android:maxLines="10"
-                        android:paddingStart="@dimen/_15sdp"
-                        android:paddingTop="@dimen/_15sdp"
-                        android:paddingEnd="@dimen/_15sdp"
-                        android:paddingBottom="@dimen/_15sdp"
-                        android:textSize="@dimen/_10sdp" />
+                        android:singleLine="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -234,5 +240,5 @@
 
 
         </ScrollView>
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

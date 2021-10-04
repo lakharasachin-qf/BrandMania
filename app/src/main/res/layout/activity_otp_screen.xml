@@ -1,154 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_screen"
-    tools:context=".Activity.OtpScreenActivity">
 
-
-    <TextView
-        android:layout_alignParentStart="true"
-        android:id="@+id/verifyOtp"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/_80sdp"
-        android:textColor="@color/colorNavText"
-        android:textSize="@dimen/_20sdp"
-        android:fontFamily="@font/inter_extrabold"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_height="wrap_content"></TextView>
-
-
-
-    <TextView
-        android:id="@+id/verificationChildTitle"
-        android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/inter_regular"
-        android:textSize="@dimen/_12sdp"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_300sdp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></TextView>
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/verificationNumber"
-        android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/inter_regular"
-        android:textSize="@dimen/_12sdp"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_300sdp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></TextView>
-
-    <RelativeLayout
-
-        android:id="@+id/otpRelative"
-      android:gravity="center"
-        android:layout_below="@+id/verificationChildTitle"
-        android:layout_marginTop="@dimen/_10sdp"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@drawable/login_screen"
+        tools:context=".Activity.basics.OtpScreenActivity">
 
-        <EditText
 
-            android:background="@drawable/rectangleshape"
-            android:id="@+id/otpOne"
+        <TextView
+            android:id="@+id/verifyOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:fontFamily="@font/inter_extrabold"
+            android:textColor="@color/colorNavText"
+            android:textSize="@dimen/_20sdp" />
+
+
+        <TextView
+            android:id="@+id/verificationChildTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_340sdp"
             android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/_15sdp"
+            android:gravity="center"
             android:textAlignment="center"
-            android:inputType="number"
-            android:maxLength="1"
             android:textColor="@color/colorPrimary"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp">
-        </EditText>
-        <EditText
-            android:background="@drawable/rectangleshape"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:id="@+id/otpTwo"
-            android:inputType="number"
-            android:maxLength="1"
+            android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            android:id="@+id/changeContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/verificationChildTitle"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:text="Change"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            android:id="@+id/verificationNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_300sdp"
             android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/_15sdp"
+            android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:layout_toEndOf="@+id/otpOne"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp">
-        </EditText>
-        <EditText
-            android:background="@drawable/rectangleshape"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:id="@+id/otpThree"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/_15sdp"
-            android:textAlignment="center"
-            android:inputType="number"
-            android:maxLength="1"
-            android:textColor="@color/colorPrimary"
-            android:layout_toEndOf="@+id/otpTwo"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp">
-        </EditText>
-        <EditText
-            android:background="@drawable/rectangleshape"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:id="@+id/otpFour"
-            android:fontFamily="@font/inter_regular"
-            android:textSize="@dimen/_15sdp"
-            android:textAlignment="center"
-            android:inputType="number"
-            android:maxLength="1"
-            android:textColor="@color/colorPrimary"
-            android:layout_toEndOf="@+id/otpThree"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp">
-        </EditText>
+            android:textSize="@dimen/_12sdp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+
+            android:id="@+id/otpRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/changeContact"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:gravity="center">
+
+            <EditText
+
+                android:id="@+id/otpOne"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@drawable/rectangleshape"
+                android:fontFamily="@font/inter_regular"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15sdp"></EditText>
+
+            <EditText
+                android:id="@+id/otpTwo"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_toEndOf="@+id/otpOne"
+                android:background="@drawable/rectangleshape"
+                android:fontFamily="@font/inter_regular"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15sdp"></EditText>
+
+            <EditText
+                android:id="@+id/otpThree"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_toEndOf="@+id/otpTwo"
+                android:background="@drawable/rectangleshape"
+                android:fontFamily="@font/inter_regular"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15sdp"></EditText>
+
+            <EditText
+                android:id="@+id/otpFour"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_toEndOf="@+id/otpThree"
+                android:background="@drawable/rectangleshape"
+                android:fontFamily="@font/inter_regular"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15sdp"></EditText>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/regBtn"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_below="@+id/otpRelative"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:background="@drawable/roundbackground"
+            android:padding="@dimen/_12sdp"
+            android:src="@drawable/ic_right_arrow" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/regBtn"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="@dimen/_20sdp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ResendText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/regBtn"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:id="@+id/CouterText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_14sdp"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
     </RelativeLayout>
-    <ImageView
-        android:id="@+id/regBtn"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_below="@+id/otpRelative"
-        android:padding="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_40sdp"
-        android:src="@drawable/ic_right_arrow"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/roundbackground"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"></ImageView>
-    <TextView
-       android:layout_below="@+id/regBtn"
-        android:id="@+id/ResendText"
-        android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/poppins_regular"
-        android:textSize="@dimen/_12sdp"
-        android:textAlignment="center"
-        android:gravity="center"
-
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></TextView>
-    <TextView
-        android:layout_below="@+id/regBtn"
-        android:id="@+id/CouterText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/poppins_bold"
-        android:textSize="@dimen/_14sdp"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:visibility="gone" />
-</RelativeLayout>
 </layout>

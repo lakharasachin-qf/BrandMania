@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_120sdp"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/itemLayout"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:elevation="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_3sdp"
+            card_view:cardElevation="@dimen/_5sdp"
+            card_view:cardCornerRadius="@dimen/_8sdp"
+            android:layout_height="@dimen/_80sdp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/image"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <RelativeLayout
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/image_round"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/elementPremium"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:src="@drawable/ic_crown"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"/>
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/freePremium"
+                        android:src="@drawable/ic_freee"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_height="@dimen/_10sdp"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_marginStart="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_medium"
+            android:maxWidth="@dimen/_85sdp"
+            android:maxLines="2"
+            android:layout_marginBottom="@dimen/_2sdp"
+
+            android:textSize="@dimen/_9sdp" />
+
+    </LinearLayout>
+</layout>

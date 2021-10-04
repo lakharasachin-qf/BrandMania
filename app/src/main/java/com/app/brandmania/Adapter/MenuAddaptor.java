@@ -10,19 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-import com.app.brandmania.Activity.EditPicActivity;
+import com.app.brandmania.Activity.custom.CustomViewAllActivit;
+import com.app.brandmania.Interface.FrameInterFace;
+import com.app.brandmania.Interface.ItemeInterFace;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ItemFaqLayoutBinding;
 import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import static com.app.brandmania.Adapter.MultiListItem.ACTIVITY_VIEWALLFRAME;
 import static com.app.brandmania.Adapter.MultiListItem.ACTIVITY_VIEWALLIMAGE;
 import static com.app.brandmania.Adapter.MultiListItem.LAYOUT_COLOR;
-
 import static com.app.brandmania.Adapter.MultiListItem.LAYOUT_FAQ;
 import static com.app.brandmania.Adapter.MultiListItem.LAYOUT_RECOMMANDATION;
 
@@ -82,17 +83,27 @@ public class MenuAddaptor extends RecyclerView.Adapter{
                 switch (model.getLayoutType()) {
                     case LAYOUT_RECOMMANDATION:
                         ((HomeHolder) holder).binding.image.setImageResource(model.getImage());
+                        ((HomeHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                ((ItemeInterFace) activity).onItemSelection( position, model);
 
 
-                        if (EditPicActivity.VIEW_RECOMDATION==0) {
+                            }
+
+
+                        });
+
+                        if (CustomViewAllActivit.VIEW_RECOMDATION==0) {
                             ((HomeHolder) holder).binding.image.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
 
 
-                                    Intent i = new Intent(activity, EditPicActivity.class);
+                                    Intent i = new Intent(activity, CustomViewAllActivit.class);
 
-                                    i.putExtra("flag", EditPicActivity.VIEW_RECOMDATION);
+                                    i.putExtra("flag", CustomViewAllActivit.VIEW_RECOMDATION);
                                     i.putExtra("detailsObj", gson.toJson(model));
                                     activity.startActivity(i);
                                     activity.overridePendingTransition(R.anim.right_enter, R.anim.left_out);

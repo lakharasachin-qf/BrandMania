@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionName="dashboardMenu"
+        android:theme="@style/AppTheme_material_theme"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+       >
+
+        <androidx.appcompat.widget.Toolbar
+            android:visibility="visible"
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp"
+            android:background="@drawable/toolbar_background_second"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:id="@+id/main_linearlayout_title"
+                android:elevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp">
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/BackButtonMember"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_left_arrow"></ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/BackButtonMember"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="Notification"
+                    android:textColor="@color/colorNavText"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"></TextView>
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:layout_marginStart="-100dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/logoBackImage"
+            android:src="@drawable/bottom"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_300sdp">
+
+        </ImageView>
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/my_toolbar"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    shimmer:shimmer_duration="800">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/item_simmer_visitors_layout" />
+
+                        <include layout="@layout/item_simmer_visitors_layout" />
+
+                        <include layout="@layout/item_simmer_visitors_layout" />
+
+                        <include layout="@layout/item_simmer_visitors_layout" />
+
+                        <include layout="@layout/item_simmer_visitors_layout" />
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_below="@+id/my_toolbar"
+                    android:id="@+id/noticeListRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="MissingConstraints">
+
+                </androidx.recyclerview.widget.RecyclerView>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/emptyStateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:layout_gravity="center"
+
+                        android:src="@drawable/notification"
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_150sdp">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/emptyStateMsg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="No Notification Found"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </RelativeLayout>
+</layout>

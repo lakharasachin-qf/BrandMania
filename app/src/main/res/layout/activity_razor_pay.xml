@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rootBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorNavText"
+        android:theme="@style/AppTheme_material_theme">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp"
+            android:background="@drawable/toolbar_background_second"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:visibility="visible"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
+                android:id="@+id/main_linearlayout_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:elevation="0dp">
+
+                <ImageView
+                    android:id="@+id/BackButtonMember"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_left_arrow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/BackButtonMember"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="Payment"
+                    android:textColor="@color/colorNavText"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="-100dp"
+            android:src="@drawable/bottom">
+
+        </ImageView>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/my_toolbar"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_30sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/packageNameTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Basic"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <TextView
+                        android:id="@+id/durationTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="end"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Per Year"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="#B1B1B1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Features:"
+                    android:textSize="@dimen/_11sdp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/servicesContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/promoEditTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/couponerectangleshape"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/voucher"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/ic_voucher" />
+
+                    <EditText
+                        android:id="@+id/promoCodeTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_12sdp"
+                        android:layout_toStartOf="@+id/applyBtn"
+                        android:layout_toEndOf="@+id/voucher"
+                        android:background="@null"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:hint="Enter Promo Code"
+                        android:imeOptions="actionDone"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="#AD000000"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/applyBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:layout_toLeftOf="@+id/voucher"
+                        android:background="@null"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Apply"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/applypromoEditTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/coupon_success"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/couponImg"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:padding="@dimen/_1sdp"
+                        android:src="@drawable/ic_coupon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:layout_toEndOf="@+id/couponImg"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/applyPromoCodeTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:text="Yupp...You save Rs"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            android:id="@+id/applysuccesfullyTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:paddingBottom="@dimen/_3sdp"
+                            android:text="code applied successfully..!"
+                            android:textSize="@dimen/_9sdp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/cancleBtn"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@null"
+                        android:hint="Apply"
+                        android:src="@drawable/ic_editor_cancel"
+                        app:tint="@color/white" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_5sdp">
+
+                    <TextView
+                        android:id="@+id/element1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Price"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/actualPriceTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text=""
+                        android:textSize="@dimen/_11sdp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/previousLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Previous Package Amount"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true">
+
+                        <ImageView
+                            android:layout_width="@dimen/_6sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_3sdp"
+                            android:layout_toStartOf="@+id/prevAmount"
+                            android:src="@drawable/ic_sign"
+                            app:tint="#F10707" />
+
+                        <TextView
+                            android:id="@+id/prevAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="end"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="299"
+                            android:textSize="@dimen/_11sdp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/discountedAmountLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Discount Amount"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/discountedAmountTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="299"
+                        android:textSize="@dimen/_11sdp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/discountLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/couponCodeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Coupon Code"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true">
+
+                        <ImageView
+                            android:layout_width="@dimen/_6sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_2sdp"
+                            android:layout_toStartOf="@+id/codeTxt"
+                            android:src="@drawable/ic_sign"
+                            app:tint="#F10707" />
+
+                        <TextView
+                            android:id="@+id/codeTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="end"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="19 "
+                            android:textSize="@dimen/_11sdp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Final Amount"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/finalAmountTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="299"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/noticeTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Your currently active package is"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp">
+
+                    <TextView
+                        android:id="@+id/proceedToPayment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:background="@drawable/buttoncornar"
+                        android:backgroundTint="@color/colorthird"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_25sdp"
+                        android:paddingEnd="@dimen/_25sdp"
+                        android:text="Proceed"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="#FFF"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/terms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="By clicking on proceed, your have accepted terms &amp; condition."
+                        android:textSize="@dimen/_9sdp" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+    </RelativeLayout>
+</layout>

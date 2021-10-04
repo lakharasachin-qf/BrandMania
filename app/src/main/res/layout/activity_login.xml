@@ -7,7 +7,7 @@
     android:background="@drawable/login_screen"
     android:theme="@style/AppTheme_material_theme"
     android:layout_height="match_parent"
-    tools:context=".Activity.LoginActivity">
+    tools:context=".Activity.basics.LoginActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userNameTextLayout"
@@ -27,6 +27,7 @@
             android:maxLength="10"
             android:textCursorDrawable="@drawable/cursordesign"
             android:paddingTop="@dimen/_10sdp"
+            android:paddingStart="@dimen/_20sdp"
             android:paddingBottom="@dimen/_10sdp"
             android:drawablePadding="@dimen/_10sdp"
             android:maxEms="13"
@@ -34,10 +35,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
 
 
     <TextView
@@ -52,7 +49,8 @@
         android:fontFamily="@font/inter_regular"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_height="wrap_content"></TextView>
+        android:layout_height="wrap_content" />
+
     <TextView
         android:layout_alignParentStart="true"
         android:id="@+id/welcome"
@@ -62,21 +60,20 @@
         android:textSize="@dimen/_20sdp"
         android:fontFamily="@font/inter_extrabold"
         android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_height="wrap_content"></TextView>
-
+        android:layout_height="wrap_content" />
 
 
     <ImageView
         android:layout_centerVertical="true"
         android:id="@+id/loginBtn"
         android:layout_below="@+id/userNameTextLayout"
-        android:padding="@dimen/_10sdp"
+        android:padding="@dimen/_12sdp"
         android:layout_marginRight="@dimen/_20sdp"
         android:src="@drawable/ic_right_arrow"
         android:layout_alignParentEnd="true"
         android:background="@drawable/roundbackground"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"></ImageView>
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp" />
 
 
 

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/brandNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:textAlignment="center"
+            android:singleLine="true"
+            android:text="Brand Mania"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_10sdp" />
+
+        <RelativeLayout
+
+            android:id="@+id/element0"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/brandNameText"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:visibility="visible"
+                android:layout_toEndOf="@+id/element"
+                android:id="@+id/gmailLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+
+                    app:tint="@color/colorPrimary"
+                    android:id="@+id/gmailImage"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:src="@drawable/ic_outline_mail_24" />
+
+                <TextView
+                    android:id="@+id/gmailText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/gmailImage"
+                    android:includeFontPadding="false"
+                    android:padding="0dp"
+                    android:singleLine="true"
+                    android:text="qfsolfddgdfgfdgdfgdgdfution@gmail.com"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_8sdp" />
+
+            </RelativeLayout>
+
+            <View
+                android:visibility="visible"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/element"
+                android:background="@color/colorPrimary"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="@dimen/_10sdp" />
+            <RelativeLayout
+                android:layout_toStartOf="@+id/element"
+                android:visibility="visible"
+                android:id="@+id/contactLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    app:tint="@color/colorPrimary"
+                    android:id="@+id/contactImage"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:src="@drawable/ic_outline_call_24" />
+
+                <TextView
+                    android:id="@+id/contactText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/contactImage"
+                    android:includeFontPadding="false"
+                    android:padding="0dp"
+                    android:singleLine="true"
+
+                    android:text="+91 8849896537"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_8sdp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:id="@+id/socialFollow"
+            android:layout_below="@+id/element0"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp">
+        <RelativeLayout
+            android:id="@+id/socialLayout"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_20sdp">
+
+
+            <ImageView
+                android:id="@+id/imgElement1"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_social_media_facebook"
+                app:tint="@color/colorPrimary" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/imgElement1"
+                android:id="@+id/imgElement2"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_social_media_instagram"
+                app:tint="@color/colorPrimary" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/imgElement2"
+                android:id="@+id/imgElement3"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_social_media_whatsapp"
+                app:tint="@color/colorPrimary" />
+        </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</layout>

@@ -12,6 +12,7 @@
     <string name="faq_text">Faq</string>
     <string name="no_brendlist_found">No Brands found</string>
     <string name="no_downloadlist_found">No Download Image found</string>
+    <string name="no_favouritelist_found">No Favourite Image found</string>
     <string name="no_frmaelist_found">No Frame found</string>
     <string name="subscription_text">Subscription</string>
     <string name="submit_text">Submit</string>
@@ -65,6 +66,18 @@
     <string name="rate_dialog_ok">Rate It Now</string>
     <string name="rate_dialog_cancle">Reminder Me Leter</string>
     <string name="rate_dialog_no">No, Thanks</string>
+    <string name="Rs">\u20B9</string>
     <string name="please_check_your_internet_connectivity_amp_get_online"><![CDATA[Please Check your internet connectivity & get online.]]></string>
+    <string name="chooese_custom_logo">Choose Your Logo</string>
+
+
+    <string name="lbl_brightness">BRIGHTNESS</string>
+    <string name="lbl_contrast">CONTRAST</string>
+    <string name="lbl_saturation">SATURATION</string>
+    <string name="tab_filters">FILTERS</string>
+    <string name="tab_edit">EDIT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

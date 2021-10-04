@@ -1,10 +1,11 @@
 package com.app.brandmania.Fragment.bottom;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -29,34 +27,39 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.brandmania.Activity.MainActivity;
-import com.app.brandmania.Adapter.BrandAdapter;
-import com.app.brandmania.Model.FrameItem;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.gson.Gson;
+import com.app.brandmania.Activity.HomeActivity;
+import com.app.brandmania.Activity.PdfActivity;
+import com.app.brandmania.Activity.ViewNotificationActivity;
+import com.app.brandmania.Activity.basics.ReferNEarnActivity;
+import com.app.brandmania.Activity.brand.UpdateBandList;
+import com.app.brandmania.Activity.custom.CustomViewAllActivit;
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DasboardAddaptor;
-import com.app.brandmania.Adapter.ImageCateItemeInterFace;
-import com.app.brandmania.Common.Constant;
-import com.app.brandmania.Connection.ItemMultipleSelectionInterface;
+import com.app.brandmania.Adapter.ViewPagerAdapter;
+import com.app.brandmania.Common.HELPER;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
+import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.BaseFragment;
+import com.app.brandmania.Interface.ImageCateItemeInterFace;
+import com.app.brandmania.Interface.ItemMultipleSelectionInterface;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.DashBoardItem;
+import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
-import com.app.brandmania.Utils.APIs;
-import com.app.brandmania.Common.PreafManager;
-import com.app.brandmania.R;
-import com.app.brandmania.Common.ResponseHandler;
-import com.app.brandmania.Utils.CodeReUse;
-import com.app.brandmania.Utils.Utility;
-import com.app.brandmania.Adapter.ViewPagerAdapter;
 import com.app.brandmania.Model.ViewPagerItem;
+import com.app.brandmania.R;
+import com.app.brandmania.databinding.DialogOfferBinding;
+import com.app.brandmania.databinding.DialogRequestBusinessCategoryRemarksBinding;
 import com.app.brandmania.databinding.FragmentHomeBinding;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,168 +67,208 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import angtrim.com.fivestarslibrary.FiveStarsDialog;
 import angtrim.com.fivestarslibrary.NegativeReviewListener;
 import angtrim.com.fivestarslibrary.ReviewListener;
-import hotchemi.android.rate.AppRate;
 
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
-import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
-public class HomeFragment extends Fragment  implements ItemMultipleSelectionInterface , ImageCateItemeInterFace, NegativeReviewListener, ReviewListener,SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment implements ItemMultipleSelectionInterface, ImageCateItemeInterFace, NegativeReviewListener, ReviewListener, SwipeRefreshLayout.OnRefreshListener {
     public static int BUSINESS_TYPE = 1;
     private String BusinessTitle;
-    ArrayList<BrandListItem> BusinessTypeList = new ArrayList<>();
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
+    DashBoardItem apiResponse;
     BrandListItem brandListItem;
-
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+    public String referralCode;
+    private int[] layouts;
+    AlertDialog.Builder alertDialogBuilder;
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     FiveStarsDialog fiveStarsDialog;
-    private static final int REQUEST_CALL = 1;
     private DasboardAddaptor dasboardAddaptor;
-    ArrayList<FrameItem> FramePagerItems = new ArrayList<>();
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
-    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.8f;
-    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.2f;
-    private static final int ALPHA_ANIMATIONS_DURATION = 100;
-    private boolean mIsTheTitleVisible = false;
-    private boolean mIsTheTitleContainerVisible = true;
     private RelativeLayout mTitleContainer;
     Activity act;
+    public String Wallet;
+    public String ReferalCode;
     PreafManager preafManager;
     private String deviceToken = "";
+    private String popupImg;
+    private String isActivityStatus;
+    private String targetLink;
     private FragmentHomeBinding binding;
     Timer timer;
     private HomeFragment homeFragment;
     private SelectBrandListBottomFragment bottomSheetFragment;
 
-    public String getDeviceToken(Activity act) {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnSuccessListener(act, new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult instanceIdResult) {
-                        deviceToken = instanceIdResult.getToken();
-                        UpdateToken();
-                    }
-                });
-        return deviceToken;
+
+    public interface CUSTOM_TAB_CHANGE_INTERFACE {
+        void makeTabChange(int i);
+    }
+
+    public void getDeviceToken(Activity act) {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                deviceToken = task.getResult();
+                UpdateToken();
+            }
+        });
     }
 
     @Override
     public void onResume() {
-        preafManager=new PreafManager(act);
+        preafManager = new PreafManager(act);
         super.onResume();
+        //isOfferPending = true means- show offer pop otherwise nothing
+
 
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @SuppressLint("CheckResult")
+    @Override
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
-        homeFragment=this;
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, parent, false);
+        homeFragment = this;
+        fiveStarsDialog = new FiveStarsDialog(Objects.requireNonNull(getActivity()), "brandmania@gmail.com");
+        preafManager = new PreafManager(act);
 
-
-
-
-        fiveStarsDialog = new FiveStarsDialog(getActivity(),"brandmania@gmail.com");
-          preafManager=new PreafManager(act);
-        if (preafManager.getAddBrandList()!=null && preafManager.getAddBrandList().size()!=0 &&preafManager.getActiveBrand()==null){
-            preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
-            preafManager=new PreafManager(act);
+        if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
+            if (preafManager.getActiveBrand() == null) {
+                preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
+                preafManager = new PreafManager(act);
+            }
         }
-        Gson gson=new Gson();
-        requestAgain();
-       RateUs();
-//        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
-//        Toast.makeText(act,preafManager.getActiveBrand().getId(),Toast.LENGTH_SHORT).show();
-        FramePagerItems =preafManager.getActiveBrand().getFrame();
-        Log.e("Frames",gson.toJson(preafManager.getActiveBrand().getFrame()));
-        if (FramePagerItems!=null && FramePagerItems.size()!=0) {
-            binding.alertForFrmae.setVisibility(View.GONE);
-
+        if (preafManager.getActiveBrand() != null) {
+            Glide.with(act).load(preafManager.getActiveBrand().getLogo()).into(binding.pdfLogo);
+            //requestAgain();
+            Glide.with(act).load(preafManager.getActiveBrand().getLogo());
         }
-        else
-        {
-            binding.alertForFrmae.setVisibility(View.VISIBLE);
-        }
-
+        RateUs();
         binding.businessName.setText(preafManager.getActiveBrand().getName());
-        mTitleContainer =act.findViewById(R.id.main_linearlayout_title);
+        mTitleContainer = act.findViewById(R.id.main_linearlayout_title);
+        // binding.alertText.setSelected(true);
+        binding.showNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HELPER.ROUTE(act, ViewNotificationActivity.class);
+            }
+        });
+        binding.referCodeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(act, ReferNEarnActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.videoFeatureLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(act, PackageActivity.class);
+                //intent.putExtra("Profile","1");
+                startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
 
+        binding.referralcodeTxt.setText(preafManager.getReferCode());
 
+        binding.createDigitalCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
+                    HELPER.ROUTE(act, PdfActivity.class);
+                } else {
+                    alertDialogBuilder = new AlertDialog.Builder(act);
+                    alertDialogBuilder.setTitle("Save image");
+                    alertDialogBuilder.setMessage("Your Logo is empty..!");
+                    alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.setCancelable(false);
+                    alertDialog.show();
+                }
+            }
+        });
+
+        binding.request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRequestForm();
+            }
+        });
+
+        binding.createCustomImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.ROUTE(act, CustomViewAllActivit.class);
+            }
+        });
+
+        binding.createGreetingImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CUSTOM_TAB_CHANGE_INTERFACE) Objects.requireNonNull(getActivity())).makeTabChange(1);
+            }
+        });
 
         getBrandList();
 
-        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
-               R.color.colorsecond,
-                R.color.colorthird);
+        getFrame();
+
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
+
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
                 startAnimation();
-
-                getImageCtegory();
-                // startAnimation();
-                //getNotice(startDate, endDate);
+                getFrame();
+                loadImagesCategory();
 
             }
         });
-
-
         getDeviceToken(act);
-        AddUserActivity();
+
         binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFragmentList(BUSINESS_TYPE,BusinessTitle);
+                showFragmentList(BUSINESS_TYPE, BusinessTitle);
             }
         });
 
-       binding.call.setOnClickListener(new View.OnClickListener() {
+        binding.whatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makePhoneCall();
+                HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
             }
         });
-      binding.whatsapp.setOnClickListener(new View.OnClickListener() {
+
+        binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    String number ="8460638464";
-                    String BrandContact="\nRegistered Number: ";
-                    String text = "Hello *BrandMania* ,  \n" + "this is request to add  *Frame* For BrandName:"+ binding.businessName.getText().toString() +BrandContact+preafManager.getMobileNumber();
-                    String toNumber ="91"+number;
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
             }
         });
-        startAnimation();
-        getImageCtegory();
-        getBanner();
 
         return binding.getRoot();
-
-
     }
+
+
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
-        binding.rocommRecycler.setVisibility(View.GONE);
-
+        binding.swipeContainer.setVisibility(View.GONE);
     }
-    //Show Fragment For BrandList...........
+
     public void showFragmentList(int callingFlag, String title) {
         bottomSheetFragment = new SelectBrandListBottomFragment();
         bottomSheetFragment.setHomeFragment(homeFragment);
-        bottomSheetFragment.setListData(callingFlag,title);
+        bottomSheetFragment.setListData(callingFlag, title);
         bottomSheetFragment.setLayoutType(1);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -233,51 +276,58 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
+
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
     }
-    //SetAddeptor.....................
+
     public void setAdapter() {
-        DasboardAddaptor dasboardAddaptor = new DasboardAddaptor(menuModels,act);
+        dasboardAddaptor = new DasboardAddaptor(menuModels, act);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
         binding.rocommRecycler.setHasFixedSize(true);
         binding.rocommRecycler.setLayoutManager(mLayoutManager);
         binding.rocommRecycler.setAdapter(dasboardAddaptor);
-
     }
-    //GetBanner........................
+
     private void getBanner() {
         binding.swipeContainer.setRefreshing(true);
         Utility.Log("API : ", APIs.GET_BANNER);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_BANNER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 Utility.Log("GET_BANNER : ", response);
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
                     binding.swipeContainer.setRefreshing(false);
                     viewPagerItems = ResponseHandler.HandleGetBanneList(jsonObject);
+
                     if (viewPagerItems != null && viewPagerItems.size() != 0) {
-                        final ViewPagerAdapter viewPagerAddeptor=new ViewPagerAdapter(viewPagerItems,act);
-                        binding.ViewPagerView.setAdapter(viewPagerAddeptor);
+//
+//                        BannerAdapter bannerAdapter = new BannerAdapter(act,viewPagerItems);
+//                        SnapHelper startSnapHelper = new PagerSnapHelper();
+//                        binding.sliderRecycler.setHasFixedSize(true);
+//                        binding.sliderRecycler.setOnFlingListener(null);
+//                        startSnapHelper.attachToRecyclerView(binding.sliderRecycler);
+//                        binding.sliderRecycler.setAdapter(bannerAdapter);
+
+                        ViewPagerAdapter sliderAdapter = new ViewPagerAdapter(viewPagerItems, act);
+                        binding.ViewPagerView.setAdapter(sliderAdapter);
                         TimerTask timerTask = new TimerTask() {
                             @Override
-                            public void run() { binding.ViewPagerView.post(new Runnable(){
-                                @Override
-                                public void run() {
-                                    binding.ViewPagerView.setCurrentItem((binding.ViewPagerView.getCurrentItem()+1)%viewPagerAddeptor.getCount());
-                                }
-                            }); }
+                            public void run() {
+                                binding.ViewPagerView.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        binding.ViewPagerView.setCurrentItem((binding.ViewPagerView.getCurrentItem() + 1) % sliderAdapter.getCount(), true);
+                                    }
+                                });
+                            }
                         };
-                        timer = new Timer();
-                        timer.schedule(timerTask, 3000, 3000);
 
-                    } else {
-                        Log.e("Condidtion", "Else");
+                        timer = new Timer();
+                        timer.schedule(timerTask, 10000, 10000);
 
                     }
-
 
 
                 } catch (JSONException e) {
@@ -291,8 +341,81 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
 
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
 
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
+
+    private void loadImagesCategory() {
+        Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY + "?page=1");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                binding.swipeContainer.setRefreshing(false);
+                Utility.Log("GET_IMAGE_CATEGORY : ", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    apiResponse = ResponseHandler.HandleGetImageCategory(jsonObject);
+                    if (apiResponse.getDashBoardItems() != null) {
+                        menuModels = apiResponse.getDashBoardItems();
+                        if (menuModels != null && menuModels.size() != 0) {
+                            setAdapter();
+                            binding.shimmerViewContainer.stopShimmer();
+                            binding.shimmerViewContainer.setVisibility(View.GONE);
+                            binding.swipeContainer.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    if (apiResponse.getLinks() != null) {
+
+                        if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
+                            //  binding.shimmerForPagination.startShimmer();
+                            // binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                            getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
+                        } else {
+                            // binding.shimmerForPagination.stopShimmer();
+                            //  binding.shimmerForPagination.setVisibility(View.GONE);
+                        }
+                    } else {
+                        //  binding.shimmerForPagination.stopShimmer();
+                        //   binding.shimmerForPagination.setVisibility(View.GONE);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        binding.swipeContainer.setRefreshing(false);
+                        error.printStackTrace();
+                        binding.swipeContainer.setRefreshing(false);
+                        binding.swipeContainer.setVisibility(View.GONE);
+                        binding.shimmerViewContainer.stopShimmer();
+                        binding.shimmerViewContainer.setVisibility(View.GONE);
                     }
                 }
         ) {
@@ -304,7 +427,7 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer"+preafManager.getUserToken());
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -313,8 +436,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-
                 Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
@@ -322,36 +443,45 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             }
 
         };
-
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    //GetImageCategory..................
-    private void getImageCtegory() {
-               Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY+"/1", new Response.Listener<String>() {
+
+    private void getImageCategoryNextPage(String nextPageUrl) {
+        Utility.Log("API-", nextPageUrl);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_IMAGE_CATEGORY : ", response);
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-
-                    menuModels = ResponseHandler.HandleGetImageCategory(jsonObject);
-                    if (menuModels != null && menuModels.size() != 0) {
-                        setAdapter();
-                        binding.shimmerViewContainer.stopShimmer();
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
-                        binding.rocommRecycler.setVisibility(View.VISIBLE);
+                    apiResponse = ResponseHandler.HandleGetImageCategory(jsonObject);
+                    if (apiResponse.getDashBoardItems() != null) {
+                        if (menuModels != null && menuModels.size() != 0) {
+                            int lastPos = menuModels.size();
+                            menuModels.addAll(menuModels.size(), apiResponse.getDashBoardItems());
+                            dasboardAddaptor.notifyItemRangeInserted(lastPos, apiResponse.getDashBoardItems().size());
+                        } else {
+                            menuModels = new ArrayList<>();
+                            menuModels.addAll(0, apiResponse.getDashBoardItems());
+                        }
                     }
-                    else {
-                        Log.e("Condidtion", "Else");
-
-
+                    if (apiResponse.getLinks() != null) {
+                        Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
+                        if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
+                            // binding.shimmerForPagination.startShimmer();
+                            //  binding.shimmerForPagination.setVisibility(View.VISIBLE);
+                            getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
+                        } else {
+                            // binding.shimmerForPagination.stopShimmer();
+                            // binding.shimmerForPagination.setVisibility(View.GONE);
+                        }
                     }
-
-
+                    if (apiResponse.getDashBoardItems() == null || apiResponse.getDashBoardItems().size() == 0) {
+                        //  binding.shimmerForPagination.stopShimmer();
+                        // binding.shimmerForPagination.setVisibility(View.GONE);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -364,10 +494,8 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-                        binding.swipeContainer.setRefreshing(false);
-                        binding.rocommRecycler.setVisibility(View.GONE);
-                        binding.shimmerViewContainer.stopShimmer();
-                        binding.shimmerViewContainer.setVisibility(View.GONE);
+                        //  binding.shimmerForPagination.stopShimmer();
+                        // binding.shimmerForPagination.setVisibility(View.GONE);
 
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
 //                        Log.e("Load-Get_Exam ", body);
@@ -383,11 +511,10 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer"+preafManager.getUserToken());
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
-
 
             @Override
             protected Map<String, String> getParams() {
@@ -404,15 +531,42 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    //Update Token......................
+
+
     private void UpdateToken() {
-        Utility.Log("Verify-Responce-Api", APIs.UPDATE_TOKEN);
+        Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Utility.Log("UPDATE_TOKENnn", response);
+                // {"status":true,"data":[{"id":1,"video_url_path":"http:\/\/queryfinders.com\/brandmania_uat\/public\/storage\/uploads\/video\/Skype_Video.mp4"}],"message":"Device Token Updated."}
+                JSONObject jsonObject = ResponseHandler.createJsonObject(response);
+                try {
+                    preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject, "data").getJSONObject(0), "video_url_path"));
+                    JSONObject jsonArray1 = jsonObject.getJSONObject("message");
+                    preafManager.setWallet(jsonArray1.getString("user_total_coin"));
+                    preafManager.setReferCode(jsonArray1.getString("referal_code"));
+                    popupImg = jsonArray1.getString("popup_img");
+                    isActivityStatus = jsonArray1.getString("is_activity");
+                    targetLink = jsonArray1.getString("target_link");
+                    if (jsonArray1.getString("reference_code").equals("null"))
 
+                        jsonArray1.put("reference_code", "");
+
+                    preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
+                    preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
+
+                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
+                    setupReferralCode();
+                    if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed) {
+                        if (popupImg != null && !popupImg.isEmpty()) {
+                            setOfferCode();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -429,11 +583,10 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Accept", "application/json");
-                params.put("Authorization","Bearer"+preafManager.getUserToken());
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
 
             }
-
 
             @Override
             protected Map<String, String> getParams() {
@@ -444,142 +597,147 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
             }
         };
 
-
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    private void AddUserActivity() {
-        Utility.Log("Verify-Responce-Api", APIs.ADD_BRAND);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ADD_BRAND, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("ADD_BRAND", response);
+    public void setupReferralCode() {
+        binding.referralcodeTxt.setText(preafManager.getReferCode());
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                error.printStackTrace();
-            }
-        }) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Accept", "application/json");
-                params.put("Authorization","Bearer"+preafManager.getUserToken());
-                return params;
-
-            }
-
-
-            @Override
-            protected Map<String, String> getParams() {
-                HashMap<String, String> hashMap = new HashMap<>();
-                Utility.Log("Verify-Param", hashMap.toString());
-                return hashMap;
-            }
-        };
-
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
+        if (preafManager.getReferCode() != null && preafManager.getReferCode().isEmpty()) {
+            binding.referralCardView.setVisibility(View.GONE);
+        } else {
+            binding.referralCardView.setVisibility(View.VISIBLE);
+        }
     }
+
+    public DialogOfferBinding dialogOfferBinding;
+
+    public void setOfferCode() {
+        HomeActivity.isAlreadyDisplayed = true;
+        dialogOfferBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle);
+        builder.setView(dialogOfferBinding.getRoot());
+        alertDialog = builder.create();
+        alertDialog.setContentView(dialogOfferBinding.getRoot());
+        alertDialog.setCancelable(true);
+        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Glide.with(act).load(popupImg).placeholder(R.drawable.place_holder_vertical).into(dialogOfferBinding.offerImage);
+        alertDialog.show();
+        dialogOfferBinding.offerImageLayout.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            if (!popupImg.isEmpty() && popupImg.equals("null")) {
+                if (isActivityStatus.equalsIgnoreCase("0")) {
+                    Uri webpage = Uri.parse(targetLink);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                    intent.setPackage("com.android.chrome");
+                    startActivity(intent);
+
+                } else {
+                    String nameOfActivity = targetLink;
+                    //String nameOfActivity = "com.app.brandmania.Activity.packages.PackageActivity";
+                    try {
+                        Class<?> aClass = Class.forName(nameOfActivity);
+                        Intent i = new Intent(act, aClass);
+                        act.startActivity(i);
+                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    } catch (ClassNotFoundException ignored) {
+
+                    }
+
+                }
+            }
+        });
+        dialogOfferBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+    }
+
     //Back Event.........................
     public void onBackPressed() {
-        CodeReUse.activityBackPress(act);
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        //  a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(a);
     }
-    @Override public void onItemSMultipleelection(int calledFlag, int position, BrandListItem listModel) {
+
+    @Override
+    public void onItemSMultipleelection(int calledFlag, int position, BrandListItem listModel) {
         if (bottomSheetFragment != null && bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
         }
+        preafManager.setActiveBrand(listModel);
+        Intent i = new Intent(act, HomeActivity.class);
+        i.addCategory(Intent.CATEGORY_HOME);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        act.finish();
+        binding.businessName.setText(listModel.getName());
+        brandListItem = listModel;
+        preafManager.setActiveBrand(listModel);
+        Gson gson = new Gson();
 
-            binding.businessName.setText(listModel.getName());
-            brandListItem=listModel;
-            preafManager.setActiveBrand(listModel);
-            Gson gson=new Gson();
-            Log.e("Second",gson.toJson(preafManager.getActiveBrand()));
 
     }
-    @Override public void ImageCateonItemSelection(int position, ImageList listModel) {
 
-    }
-
-
-    private void makePhoneCall() {
-        String number ="8460638464";
-        if (number.trim().length() > 0) {
-            if (ContextCompat.checkSelfPermission(act, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(act,
-                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
-            } else {
-                String dial = "tel:" + number;
-                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
-            }
-        }
-    }
     @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
-        if (requestCode == REQUEST_CALL) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                makePhoneCall();
-            } else {
-                Toast.makeText(getActivity(), "Permission DENIED", Toast.LENGTH_SHORT).show();
-            }
-        }
+    public void ImageCateonItemSelection(int position, ImageList listModel) {
+
     }
 
 
+    private void RateUs() {
 
-
-    private void RateUs()
-    {
-//        AppRate.with(act)
-//                .setInstallDays(1)
-//                .setLaunchTimes(3)
-//                .setRemindInterval(2)
-//                .monitor();
-//
-//        AppRate.showRateDialogIfMeetsConditions(act);
-
-        fiveStarsDialog.setRateText("Your custom text")
-
-                .setTitle("Your custom title")
-
+        fiveStarsDialog.setRateText("Rate Us")
+                .setTitle("How was your experience with us?")
                 .setForceMode(false)
-
                 .setUpperBound(2)
-
                 .setNegativeReviewListener(this)
-
                 .setReviewListener(this)
-
                 .showAfter(2);
 
     }
+
     private void getBrandList() {
         binding.swipeContainer.setRefreshing(true);
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 Utility.Log("GET_BRAND : ", response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
-
                     JSONObject jsonObject = new JSONObject(response);
                     binding.swipeContainer.setRefreshing(false);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                    preafManager.setAddBrandList(multiListItems);
+                    if (preafManager.getActiveBrand() != null) {
+                        for (int i = 0; i < multiListItems.size(); i++) {
+                            if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
+                                preafManager.setActiveBrand(multiListItems.get(i));
+                                break;
+                            }
+                        }
+                    }
+                    preafManager = new PreafManager(act);
+                    binding.businessName.setText(preafManager.getActiveBrand().getName());
 
+                    //FirstLogin
+                    if (act.getIntent().hasExtra("FirstLogin")) {
+                        preafManager.setIS_Brand(true);
+                        if (multiListItems.size() != 0) {
+                            preafManager.setActiveBrand(multiListItems.get(0));
+                        }
+                    }
 
-
-
+                    startAnimation();
+                    loadImagesCategory();
+                    getBanner();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -593,9 +751,6 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-
-
-
                     }
                 }
         ) {
@@ -608,18 +763,86 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
+                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                Log.e("Token", params.toString());
                 return params;
             }
-
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                return params;
+            }
 
-                Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+    }
+
+    @Override
+    public void onNegativeReview(int stars) {
+        Log.d("TAG", "Negative review " + stars);
+    }
+
+    @Override
+    public void onRefresh() {
+        startAnimation();
+        getFrame();
+        loadImagesCategory();
+        getBrandList();
+        getBanner();
+    }
+
+    @Override
+    public void onReview(int stars) {
+        Log.d("TAG", "Review " + stars);
+    }
+
+    private void getFrame() {
+        Utility.Log("API : ", APIs.GET_FRAME);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Utility.Log("GET_FRAME : ", response);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
+                    JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("brand_id", preafManager.getActiveBrand().getId());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
@@ -629,30 +852,123 @@ public class HomeFragment extends Fragment  implements ItemMultipleSelectionInte
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    private void requestAgain() {
-        ActivityCompat.requestPermissions(act,
-                new String[]{
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                },
-                CodeReUse.ASK_PERMISSSION);
-    }
+
     @Override
-    public void onNegativeReview(int stars) {
-        Log.d(TAG, "Negative review " + stars);
+    public void update(Observable observable, Object data) {
+
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
+            getBrandList();
+        }
+
     }
-    @Override
-    public void onRefresh() {
-        getBrandList();
-        getBanner();
+
+
+    private androidx.appcompat.app.AlertDialog alertDialog;
+    private DialogRequestBusinessCategoryRemarksBinding reqBinding;
+
+    public void showRequestForm() {
+
+        if (alertDialog != null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
+        reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_request_business_category_remarks, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend2);
+        builder.setView(reqBinding.getRoot());
+        alertDialog = builder.create();
+        alertDialog.setContentView(reqBinding.getRoot());
+
+        Utility.RemoveError(reqBinding.nameTxt);
+        reqBinding.close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        reqBinding.submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (reqBinding.nameTxt.getText().toString().trim().length() == 0) {
+                    reqBinding.nameTxt.setError("Enter category");
+                    reqBinding.nameTxt.requestFocus();
+                    return;
+                }
+                alertDialog.dismiss();
+                apiForCategoryRequest(reqBinding.nameTxt.getText().toString());
+
+            }
+        });
+        alertDialog.show();
+
     }
-    @Override
-    public void onReview(int stars) {
-        Log.d(TAG, "Review " + stars);
+
+
+    private void apiForCategoryRequest(String catString) {
+        Utility.Log("BusinessCategory", APIs.REQUEST_BUSINESS_CATEGORY);
+        Utility.showProgress(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REQUEST_BUSINESS_CATEGORY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("Request-Business-response", response);
+                Utility.dismissProgress();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Utility.dismissProgress();
+                error.printStackTrace();
+            }
+        }) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("cat_name", catString);
+                Utility.Log("param", hashMap.toString());
+                return hashMap;
+            }
+        };
+
+
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
     }
+
+
+    private androidx.appcompat.app.AlertDialog offerAlert;
+    private DialogOfferBinding offerBinding;
+
+    public void offerDialog() {
+
+        if (offerAlert != null && offerAlert.isShowing())
+            offerAlert.dismiss();
+
+        offerBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend2);
+        builder.setView(offerBinding.getRoot());
+        offerAlert = builder.create();
+        offerAlert.setContentView(offerBinding.getRoot());
+
+
+        offerBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                offerAlert.dismiss();
+            }
+        });
+
+        offerAlert.show();
+
+    }
+
 }

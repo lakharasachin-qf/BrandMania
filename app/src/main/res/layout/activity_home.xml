@@ -24,13 +24,14 @@
 <!--        android:background="@color/Graycolor"-->
 <!--        app:layout_constraintBottom_toBottomOf="@+id/fragment_container"-->
 <!--        tools:ignore="MissingConstraints" />-->
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"
         android:layout_height="@dimen/_40sdp"
         android:background="@color/colorPrimary"
-        app:itemIconTint="@color/colorNavText"
-        app:itemTextColor="@color/colorNavText"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         android:theme="@style/Widget.BottomNavigationView"
 
         android:elevation="@dimen/_200sdp"

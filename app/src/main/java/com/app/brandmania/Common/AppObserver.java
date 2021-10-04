@@ -8,13 +8,11 @@ import com.app.brandmania.Model.BrandListItem;
 import java.util.Observable;
 
 public class AppObserver extends Observable {
-
     private final Context context;
     public String emailId;
     private String userName;
     String DefaultName;
     private int nStatusType;
-    private BrandListItem model;
 
     public AppObserver(Context context) {
         this.context = context;
@@ -28,12 +26,6 @@ public class AppObserver extends Observable {
         this.nStatusType = nStatusTyp;
         setChanged();
         notifyObservers(userName);
-    }
-
-    public void setData(BrandListItem model) {
-        this.model = model;
-        setChanged();
-        notifyObservers(model);
     }
 
 

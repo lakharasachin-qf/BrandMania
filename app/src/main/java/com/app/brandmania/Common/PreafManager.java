@@ -3,29 +3,75 @@ package com.app.brandmania.Common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ImageList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
-public class PreafManager
-
-{
+public class PreafManager {
     private static final String PREF_NAME = "makemybrand";
     private static final String USER_TOKEN = "user_token";
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
-    private static final  String IS_Brand="is_brand";
-    private static final  String IS_Registration="is_registration";
-    private static final String ADD_BRAND_LIST="add_brand_list";
-    private static final String ADD_TO_FAVOURIT="add_to_favourit";
-    private static final String EMAIL_Id="email_id";
-    private static final String MOBILE_NUMBER="MOBILE_NUMBER";
 
+    private static final String ViewAllActivityIntro = "viewAllActivityIntro";
+    private static final String ViewAllFrameActivityIntro = "viewAllFrameActivityIntro";
+    private static final String ViewAllCustomeImageActivityIntro = "viewAllCustomeImageActivityIntro";
+    private static final String FORCUSTOMEFRAME = "FORCUSTOMEFRAME";
+    private static final String catogaryTab = "Tab1";
+    private static final String backgroundTab = "Tab2";
+    private static final String textTab = "Tab3";
+    private static final String appTutorial = "appTutorial";
+
+
+    public String getAppTutorial() {
+        return pref.getString(appTutorial, "");
+    }
+
+    public void setAppTutorial(String parameters) {
+        pref.edit().putString(appTutorial, parameters).apply();
+    }
+
+    public String getWallet() {
+        return pref.getString("walletCoin", "");
+    }
+
+    public String setWallet(String parameters) {
+        pref.edit().putString("walletCoin", parameters).apply();
+        return parameters;
+    }
+
+    public String getSpleshReferrer() {
+        return pref.getString("SplashReferrer", "");
+    }
+
+    public String setSpleshReferrer(String parameters) {
+        pref.edit().putString("SplashReferrer", parameters).apply();
+        return parameters;
+    }
+
+    public String getReferrerCode() {
+        return pref.getString("referrerCode", "");
+    }
+
+    public String setReferrerCode(String parameters) {
+        pref.edit().putString("referrerCode", parameters).apply();
+        return parameters;
+    }
+
+    public String getReferCode() {
+        return pref.getString("referralCode", "");
+    }
+
+    public String setReferCode(String parameters) {
+        pref.edit().putString("referralCode", parameters).apply();
+        return parameters;
+    }
 
 
     @SuppressLint("CommitPrefEdits")
@@ -45,16 +91,55 @@ public class PreafManager
         editor.commit();
         editor.apply();
     }
+
     public String getEMAIL_Id() {
         return pref.getString("email_id", null);
     }
+
     public void setEMAIL_Id(String parameters) {
         pref.edit().putString("email_id", parameters).apply();
     }
 
+    public Boolean getFrameIntro() {
+        return pref.getBoolean(FORCUSTOMEFRAME, true);
+    }
+
+    public void setFrameIntro(Boolean parameters) {
+        pref.edit().putBoolean(FORCUSTOMEFRAME, parameters).apply();
+    }
+
+
+    public Boolean getViewAllActivityIntro() {
+        return pref.getBoolean(ViewAllActivityIntro, true);
+    }
+
+    public void setViewAllActivityIntro(Boolean parameters) {
+        pref.edit().putBoolean(ViewAllActivityIntro, parameters).apply();
+    }
+
+
+    public Boolean getViewAllFrameActivityIntro() {
+        return pref.getBoolean(ViewAllFrameActivityIntro, true);
+    }
+
+    public void setViewAllFrameActivityIntro(Boolean parameters) {
+        pref.edit().putBoolean(ViewAllFrameActivityIntro, parameters).apply();
+    }
+
+
+    public Boolean getViewAllCustomeImageActivityIntro() {
+        return pref.getBoolean(ViewAllCustomeImageActivityIntro, true);
+    }
+
+    public void setViewAllCustomeImageActivityIntro(Boolean parameters) {
+        pref.edit().putBoolean(ViewAllCustomeImageActivityIntro, parameters).apply();
+    }
+
+
     public String getMobileNumber() {
         return pref.getString("MOBILE_NUMBER", null);
     }
+
     public void setMobileNumber(String parameters) {
         pref.edit().putString("MOBILE_NUMBER", parameters).apply();
     }
@@ -62,78 +147,95 @@ public class PreafManager
     public Boolean getIS_Brand() {
         return pref.getBoolean("is_brand", false);
     }
+
     public void setIS_Brand(boolean parameters) {
         pref.edit().putBoolean("is_brand", parameters).apply();
         editor.apply();
         editor.commit();
     }
+
     public boolean getIs_Registration() {
         return pref.getBoolean("is_registration", false);
     }
+
     public void setIs_Registration(boolean parameters) {
         editor.putBoolean("is_registration", parameters).apply();
         editor.apply();
         editor.commit();
     }
-    public void removeFromMyFavorites(ImageList imageList){
+
+    public void removeFromMyFavorites(ImageList imageList) {
         ArrayList<ImageList> FavouritImage;
-        FavouritImage=getSavedFavorites();
-        for (int i=0;i<FavouritImage.size();i++)
-        {
-           if (FavouritImage.get(i).getId().equals(imageList.getId()) && FavouritImage.get(i).getFrameId().equalsIgnoreCase(imageList.getFrameId())){
-               FavouritImage.remove(i);
-           }
+        FavouritImage = getSavedFavorites();
+        for (int i = 0; i < FavouritImage.size(); i++) {
+            if (imageList.isCustom()) {
+                if (FavouritImage.get(i).getId().equals(imageList.getId())) {
+                    FavouritImage.remove(i);
+                }
+            } else {
+                if (!FavouritImage.get(i).isCustom()) {
+                    if (FavouritImage.get(i).getId().equals(imageList.getId()) && FavouritImage.get(i).getFrame1Id().equalsIgnoreCase(imageList.getFrame1Id())) {
+                        FavouritImage.remove(i);
+                    }
+                }
+            }
         }
-        Gson gson=new Gson();
-        String jsonshare=gson.toJson(FavouritImage);
-        editor.putString("favouritImage",jsonshare);
+        Gson gson = new Gson();
+        String jsonshare = gson.toJson(FavouritImage);
+        editor.putString("favouritImage", jsonshare);
+        Log.e("Removed List", gson.toJson(FavouritImage));
         editor.apply();
         editor.commit();
 
     }
+
     public void AddToMyFavorites(ImageList imageList) {
         ArrayList<ImageList> FavouritImage;
-        FavouritImage=getSavedFavorites();
+        FavouritImage = getSavedFavorites();
         if (FavouritImage == null) {
-            FavouritImage=new ArrayList<>();
+            FavouritImage = new ArrayList<>();
 
         }
-        boolean isExits=false;
-        int existPos=0;
-        for (int i=0;i<FavouritImage.size();i++){
-            if (imageList.getId().equals(FavouritImage.get(i).getId()) && imageList.getFrameId().equalsIgnoreCase(FavouritImage.get(i).getFrameId())){
-                isExits=true;
-                existPos=i;
-                break;
+        boolean isExits = false;
+        int existPos = 0;
+        for (int i = 0; i < FavouritImage.size(); i++) {
+            if (imageList.isCustom()) {
+                if (imageList.getId().equals(FavouritImage.get(i).getId())) {
+                    isExits = true;
+                    existPos = i;
+                    break;
+                }
+            } else {
+                if (imageList.getId().equals(FavouritImage.get(i).getId()) && imageList.getFrame1Id().equalsIgnoreCase(FavouritImage.get(i).getFrame1Id())) {
+                    isExits = true;
+                    existPos = i;
+                    break;
+                }
             }
         }
         if (!isExits)
             FavouritImage.add(imageList);
-      /*  else {
-            FavouritImage.set(existPos,imageList);
-        }*/
 
-        Gson gson=new Gson();
-      String jsonshare=gson.toJson(FavouritImage);
-      editor.putString("favouritImage",jsonshare);
-      editor.apply();
-      editor.commit();
-    }
-    public void removeAllSavedFav(){
-        editor.putString("favouritImage","");
+        Gson gson = new Gson();
+        String jsonshare = gson.toJson(FavouritImage);
+        editor.putString("favouritImage", jsonshare);
         editor.apply();
         editor.commit();
+        Log.e("Your List", gson.toJson(FavouritImage));
     }
+
     public ArrayList<ImageList> getSavedFavorites() {
-        ArrayList<ImageList> favouritImageItem=new ArrayList<>();
+        ArrayList<ImageList> favouritImageItem = new ArrayList<>();
         String jsonFavorites = pref.getString("favouritImage", null);
-        TypeToken<ArrayList<ImageList>> typeToken = new TypeToken<ArrayList<ImageList>>() {};
+        TypeToken<ArrayList<ImageList>> typeToken = new TypeToken<ArrayList<ImageList>>() {
+        };
         Gson gson = new Gson();
         //setUserToken(favorites.getToken());
         favouritImageItem = gson.fromJson(jsonFavorites, typeToken.getType());
         return favouritImageItem;
     }
-    public void setAddBrandList(ArrayList<BrandListItem> list){
+
+    public void setAddBrandList(ArrayList<BrandListItem> list) {
         Gson gson = new Gson();
         String jsonUserProfile = gson.toJson(list);
 
@@ -141,36 +243,39 @@ public class PreafManager
         editor.apply();
         editor.commit();
     }
-    public void  setActiveBrand(BrandListItem activeBrand){
-        Gson gson=new Gson();
-        editor.putString("activeBrands",gson.toJson(activeBrand));
+
+    public void setActiveBrand(BrandListItem activeBrand) {
+        Gson gson = new Gson();
+        editor.putString("activeBrands", gson.toJson(activeBrand));
         editor.apply();
         editor.commit();
     }
-    public BrandListItem getActiveBrand(){
-        Gson gson= new Gson();
-        return  gson.fromJson(pref.getString("activeBrands",null),BrandListItem.class);
+
+    public BrandListItem getActiveBrand() {
+        Gson gson = new Gson();
+        return gson.fromJson(pref.getString("activeBrands", ""), BrandListItem.class);
     }
+
     public ArrayList<BrandListItem> getAddBrandList() {
-        ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+        ArrayList<BrandListItem> brandListItems = new ArrayList<>();
         String jsonFavorites = pref.getString("brands", null);
-        TypeToken<ArrayList<BrandListItem>> typeToken = new TypeToken<ArrayList<BrandListItem>>() {};
+        TypeToken<ArrayList<BrandListItem>> typeToken = new TypeToken<ArrayList<BrandListItem>>() {
+        };
 
         Gson gson = new Gson();
         //setUserToken(favorites.getToken());
         brandListItems = gson.fromJson(jsonFavorites, typeToken.getType());
         return brandListItems;
     }
+
     public String getUserToken() {
         return pref.getString(USER_TOKEN, null);
     }
-    public void loginStep(String is_completed){
-        editor.putString("is_completed",is_completed);
+
+    public void loginStep(String is_completed) {
+        editor.putString("is_completed", is_completed);
         editor.commit();
         editor.apply();
-    }
-    public String getLoginStep(){
-        return  pref.getString("is_completed","0");
     }
 
     public void setUserToken(String token) {

@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="@dimen/_80sdp"
+    android:background="@drawable/font_box_corner"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingStart="@dimen/_7sdp"
+    android:paddingTop="@dimen/_7sdp"
+    android:paddingBottom="@dimen/_7sdp"
+    android:paddingEnd="@dimen/_7sdp"
+     android:layout_marginTop="@dimen/_7sdp"
+     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/fonList"
-        android:textSize="@dimen/_15sdp"
-        android:text="jh"
+        android:textSize="@dimen/_10sdp"
         android:textColor="@color/colorPrimary"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:text="BrandMania"
         android:gravity="center"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:background="@drawable/regroundbackground"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp">
+        android:singleLine="true"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     </TextView>
 
 </RelativeLayout>

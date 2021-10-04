@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
         <item
+            app:itemTextAppearance="@style/Style_TextView"
             android:id="@+id/navigation_home"
             android:icon="@drawable/home_select"
             android:title="@string/title_home" />
 
         <item
-            android:visible="false"
+            app:itemTextAppearance="@style/Style_TextView"
             android:id="@+id/navigation_custom"
             android:icon="@drawable/custome_select"
             android:title="@string/title_custom" />
 
         <item
+            app:itemTextAppearance="@style/Style_TextView"
             android:id="@+id/navigation_download"
             android:icon="@drawable/download_select"
             android:title="@string/title_download" />
 
         <item
+            app:itemTextAppearance="@style/Style_TextView"
             android:id="@+id/navigation_profile"
             android:icon="@drawable/profile_select"
             android:title="@string/title_profile" />

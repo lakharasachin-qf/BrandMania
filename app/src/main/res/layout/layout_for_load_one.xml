@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                 android:id="@+id/topView"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/colorPrimary" />
+
+            <View
+                android:id="@+id/topView2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:background="@color/colorPrimary" />
+
+            <RelativeLayout
+                android:id="@+id/main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:id="@+id/gmailLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+
+                    android:layout_centerVertical="true"
+                    android:visibility="visible">
+
+                    <ImageView
+                        app:tint="@color/colorPrimary"
+                        android:id="@+id/gmailImage"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:src="@drawable/ic_outline_mail_24" />
+
+                    <TextView
+                        android:id="@+id/gmailText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_toEndOf="@+id/gmailImage"
+                        android:fontFamily="@font/inter_regular"
+                        android:singleLine="true"
+                        android:text="qfsolution@gmail.com"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_8sdp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:id="@+id/contactLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp">
+
+                    <ImageView
+                        android:layout_height="@dimen/_12sdp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:id="@+id/contactImage"
+                        app:tint="@color/colorPrimary"
+                        android:background="@drawable/ic_outline_call_24"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_centerVertical="true" />
+                    <TextView
+                        android:layout_toEndOf="@+id/contactImage"
+                        android:textSize="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:padding="0dp"
+                        android:maxWidth="@dimen/_100sdp"
+                        android:layout_centerVertical="true"
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
+
+                        android:id="@+id/contactText"
+                        android:textColor="@color/colorPrimary"
+                        android:text="+91 8849896537"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TextView>
+
+                </RelativeLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_below="@+id/main"
+                android:id="@+id/addressLayoutElement2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_7sdp"
+                android:paddingEnd="@dimen/_7sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:background="@color/colorPrimary">
+
+                <RelativeLayout
+                    android:layout_centerVertical="true"
+                    android:id="@+id/addressLayoutElement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/loacationImage"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:src="@drawable/ic_outline_location_on_24"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/locationText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="sdf dsjof dofsdklfj  lifjsd kfsd fjdsfkl sdflk sfksd fklsd fklsdjf sd djfklsdfjksdkdsjfksd kjdflsd fldsfk fkds"
+                        android:layout_centerVertical="true"
+                        android:includeFontPadding="false"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_toEndOf="@+id/loacationImage"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_8sdp" />
+                </RelativeLayout>
+
+                     </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

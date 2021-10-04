@@ -9,18 +9,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.R;
-import com.app.brandmania.Common.ResponseHandler;
-import com.app.brandmania.Utils.CodeReUse;
+import com.app.brandmania.utils.CodeReUse;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,14 +28,16 @@ import java.util.Observer;
 public class BaseActivity extends AppCompatActivity implements Observer {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
-    Activity act;
-    PreafManager prefManager;
-    MakeMyBrandApp studentApp;
+    public Activity act;
+    public PreafManager prefManager;
+    public  MakeMyBrandApp myBrandApp;
     private BroadcastReceiver mNetworkReceiver;
-    /*public FirebaseAuth mAuth;*/
-    private ResponseHandler responseHandler;
-    private boolean isLoading = false;
-    Gson gson;
+    private boolean LIVE_MODE = false;
+    public Gson gson;
+
+    public BaseActivity() {
+    }
+
     private static void showNoConnectionDialog() {
         if (!noconnectionAlertDialog.isShowing()) {
             noconnectionAlertDialog.setContentView(R.layout.dialog_no_internet_connection);
@@ -45,6 +45,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
             noconnectionAlertDialog.show();
         }
     }
+
     public static void InternetError(boolean value) {
         if (value) {
             if (noconnectionAlertDialog.isShowing()) {
@@ -58,23 +59,13 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     }
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         act = this;
-// In Activity's onCreate() for instance
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-
-     //   getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         prefManager = new PreafManager(this);
-        // responseHandler = new ResponseHandler();
-      //  profileModel = prefManager.getUsers();
         gson = new Gson();
-        /*profileObject = new StoreUserData().getUsers(this);
-        prefManager = new PrefManager(this);
-        responseHandler = new ResponseHandler(this);*/
-
+        myBrandApp = (MakeMyBrandApp) this.getApplication();
+        myBrandApp.getObserver().addObserver(this);
 
 
 
@@ -87,8 +78,9 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         mNetworkReceiver = new NetworkChangeReceiver();
         registerNetworkBroadcastForNougat();
 
-       /* if(prefManager.getUserToken() != null)
-            updateUser();*/
+        if (LIVE_MODE){
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        }
 
     }
     private void registerNetworkBroadcastForNougat() {
@@ -110,7 +102,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         }
 
         if (prefManager.getUserToken() != null) {
-            headers.put("Authorization","Bearer"+prefManager.getUserToken());
+            headers.put("Authorization","Bearer "+prefManager.getUserToken());
         }
         return headers;
     }
@@ -131,8 +123,4 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     @Override public void update(Observable observable, Object data) {
 
     }
-
-
-
-
 }

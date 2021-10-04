@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:app2="http://schemas.android.com/apk/res-auto"
+    app:ignore="NamespaceTypo">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                android:visibility="visible"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <RelativeLayout
+                    android:id="@+id/main_linearlayout_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/_7sdp"
+                    android:elevation="0dp">
+
+                    <ImageView
+                        android:id="@+id/BackButton"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/ic_left_arrow" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/BackButton"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Refer &amp; Earn"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:fitsSystemWindows="true"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/ic_cash" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:gravity="center"
+                            android:text="Wallet"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <ImageView
+                            android:id="@+id/coinImg"
+                            android:layout_width="@dimen/_22sdp"
+                            android:layout_height="@dimen/_22sdp"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/coin" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/walletMoney"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:gravity="center"
+                        android:text="20435"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp" />
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@drawable/refer_rectangle_shape">
+
+                        <TextView
+                            android:id="@+id/codeRedeemTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_25sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_25sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="Coin redeem will be update soon"
+                            android:textColor="@color/black" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/msgTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginRight="@dimen/_40sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Refer a friend earn dis of all your friends purchases for 1 year. your friends also earn 50rs on Sign-up."
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:gravity="center"
+                        android:text="Your Referral Code"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@drawable/refer_rectangle_shape">
+
+                        <TextView
+                            android:id="@+id/referralCodeTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_25sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_25sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text=""
+                            android:textColor="@color/black" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:gravity="center"
+                        android:text="Tap to copy referral code"
+                        android:textSize="@dimen/_8sdp" />
+
+                    <ImageView
+                        android:id="@+id/shareIcon"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:background="@drawable/share_background"
+                        android:elevation="@dimen/_7sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic_code_share"
+                        app2:tint="@color/white" />
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="-100dp"
+            android:src="@drawable/bottom" />
+    </RelativeLayout>
+
+</layout>

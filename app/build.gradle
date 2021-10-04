@@ -1,17 +1,20 @@
+//apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.make.mybrand"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 4
+        versionCode 10
         versionName "1.0"
-
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -23,9 +26,10 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+    ndkVersion '23.0.7123448'
 
     useLibrary 'org.apache.http.legacy'
     buildFeatures {
@@ -34,7 +38,9 @@ android {
 
     allprojects {
         repositories {
-            jcenter()
+            mavenCentral()
+
+            //jcenter()
             maven { url "https://jitpack.io" }
         }
     }
@@ -43,77 +49,134 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.android.gms:play-services-appinvite:18.0.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
     // dependencies for legacy-support
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // dependencies for multidex
     implementation 'androidx.multidex:multidex:2.0.1'
     // dependencies for android material
-    implementation 'com.google.android.material:material:1.2.1'
 
 
     // dependencies for facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
 
     // dependencies for volley
-    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.android.volley:volley:1.2.0'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
     // dependency file for sdp
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    //firebaseInstaceId
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
-    implementation 'com.google.firebase:firebase-messaging:20.2.4'
-    implementation 'com.google.firebase:firebase-core:17.5.0'
+
     // dependency file for gson
     implementation 'com.google.code.gson:gson:2.8.6'
     // dependency file for permission
-    implementation 'com.squareup.okhttp:okhttp:2.5.0'
-    implementation 'com.karumi:dexter:6.0.1'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.karumi:dexter:6.2.2'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.4.0'
     //viewpager material dots
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    implementation 'com.android.volley:volley:1.1.0'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.volley:volley:1.2.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'ja.burhanrashid52:photoeditor:1.0.0'
     //implementation project(':photoeditor')
     implementation 'androidx.cardview:cardview:1.0.0'
-    testImplementation 'junit:junit:4.12'
 
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.github.clans:fab:1.6.4'
-    implementation 'com.github.yalantis:ucrop:2.2.5-native'
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.0.3'
+    implementation 'com.github.yalantis:ucrop:2.2.6'
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     //dependency for image cropping
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-    implementation 'com.github.yalantis:ucrop:2.2.5'
     // dependencies for glide
 
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    implementation 'com.google.android.play:core:1.8.3'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.google.android.play:core:1.10.1'
     //dependency for image view
-    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     implementation 'com.github.hotchemi:android-rate:1.0.1'
     implementation 'com.github.Angtrim:Android-Five-Stars-Library:v3.1'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.inkapplications.viewpageindicator:library:2.4.3'
+    implementation 'me.relex:circleindicator:2.1.4'
+    api  'com.razorpay:checkout:1.6.12'
+    implementation 'com.github.mreram:showcaseview:1.1'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
+
+    implementation ('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') { exclude module:'support-v4' }
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'com.github.vihtarb:tooltip:0.1.9'
+
+    implementation "com.github.skydoves:balloon:1.2.7"
+
+    //color picker
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
+
+
+
+    implementation 'com.github.yalantis:ucrop:2.2.6'
+    implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.itextpdf:kernel:7.0.3'
+
+
+    implementation 'com.github.zomato:androidphotofilters:1.0.2'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    //    implementation project(':photofilterssdk')
+    //video player
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.7.3'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.3'
+    implementation 'com.github.HaarigerHarald:android-youtubeExtractor:v1.7.0'
+    implementation 'com.github.ksoichiro:android-observablescrollview:1.5.2'
+
+    //bottom navigation
+    implementation 'com.etebarian:meow-bottom-navigation:1.3.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
+
+    //for FFmpeg
+    implementation 'com.madhavanmalolan.android:ffmpegandroidlibrary:0.0.4'
+    //implementation 'com.arthenica:mobile-ffmpeg-full:3.2'
+
+    implementation 'com.github.virtualvivek:BlurShadowImageView:2.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //  implementation 'com.airbnb.android:lottie:3.5.0'
+    implementation 'commons-validator:commons-validator:1.6'
+
+    //For one signal integration
+    //implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'+
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-core:19.0.1'
+    implementation 'com.google.firebase:firebase-dynamic-links'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+
+
+
 
 }

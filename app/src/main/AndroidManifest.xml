@@ -2,25 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.app.brandmania">
+<!--    com.app.brandmania-->
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-         android:icon="@mipmap/ic_launcher"
+        android:name=".Common.MakeMyBrandApp"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
@@ -29,38 +22,120 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name="com.app.brandmania.Activity.ViewAllFavouritActivity" />
-        <activity android:name="com.app.brandmania.Activity.VIewAllDownloadImage" />
-        <activity android:name="com.app.brandmania.Activity.AddBrandMultipleActivity" />
-        <activity android:name="com.app.brandmania.Activity.AboutUsActivity" />
-        <activity android:name="com.app.brandmania.Activity.AddReportAndBug" />
-        <activity android:name="com.app.brandmania.Activity.FaqActivity" />
-        <activity android:name="com.app.brandmania.Activity.OnlyTextEditorActivity" />
+        <activity android:name=".Activity.basics.ReferNEarnActivity"></activity>
         <activity
-            android:name="com.app.brandmania.Activity.ColorAndTextEditActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".TextAndImageEditActivity" />
-        <activity android:name=".TextandImageEdit" />
-        <activity android:name="com.app.brandmania.Activity.EditPicActivity" />
-        <activity android:name="com.app.brandmania.Activity.SubscriptionActivity" />
-        <activity android:name="com.app.brandmania.Activity.HelpAndSupport" />
-        <activity android:name="com.app.brandmania.Activity.PartnerProgramActivity" />
-        <activity android:name="com.app.brandmania.Activity.ViewBrandActivity" />
-        <activity android:name="com.app.brandmania.Activity.AddBranddActivity" />
-        <activity android:name="com.app.brandmania.Activity.UpdateBandList" />
-        <activity android:name="com.app.brandmania.Activity.RegistrationActivity" />
-        <activity android:name="com.app.brandmania.Activity.OtpScreenActivity" />
+            android:name=".Activity.PdfActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activity.details.EditSelectedImages" />
         <activity
-            android:name="com.app.brandmania.Activity.LoginActivity"
+            android:name=".Activity.DailyImagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.details.GifCategoryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.custom.ViewAllFrameImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.about_us.AppIntroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.custom.CustomViewAllActivit"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.packages.RazorPayActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".Activity.ViewNotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.packages.PackageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.details.FavoriteDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.details.DownloadDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.brand.AddBrandMultipleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.about_us.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.about_us.AddReportAndBug"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.about_us.FaqActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.packages.SubscriptionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.about_us.HelpAndSupport"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.about_us.PartnerProgramActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.brand.ViewBrandActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.brand.AddBranddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.brand.UpdateBandList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.basics.RegistrationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.basics.OtpScreenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.basics.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme_material_theme" />
-        <activity android:name="com.app.brandmania.Activity.ViewAllImage" />
-        <activity android:name="com.app.brandmania.Activity.HomeActivity" />
-        <activity android:name="com.app.brandmania.Activity.SpleshActivity">
+        <activity
+            android:name=".Activity.details.ImageCategoryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.basics.SpleshActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="brandmania.page.link"
+                    android:scheme="https" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="brandmania.page.link"
+                    android:scheme="http" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+            </intent-filter>
+
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -68,13 +143,22 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <service
-            android:name="com.app.brandmania.Connection.MyFirebaseMessagingService"
+            android:name=".Connection.MyFirebaseMessagingService"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_path" />
+        </provider>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -93,6 +177,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_Sq3SAdZBt9Vec4" /> <!-- <meta-data -->
+        <!-- android:name="com.razorpay.ApiKey" -->
+        <!-- android:value="rzp_test_g34adOBwCItfce" /> -->
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
     </application>
 
 </manifest>

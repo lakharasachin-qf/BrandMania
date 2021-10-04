@@ -34,81 +34,81 @@ public class TextureTab extends Fragment {
         ArrayList<MultiListItem> menuModels = new ArrayList<>();
         MultiListItem model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.textureblack);
+        //model.setImage(R.drawable.textureblack);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.textureblackblue);
+       // model.setImage(R.drawable.textureblackblue);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturechocolate);
+        //model.setImage(R.drawable.texturechocolate);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturegray);
+      //  model.setImage(R.drawable.texturegray);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturered);
+        //model.setImage(R.drawable.texturered);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturesky);
+        //model.setImage(R.drawable.texturesky);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturewhite);
+        //model.setImage(R.drawable.texturewhite);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturewood);
+        //model.setImage(R.drawable.texturewood);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturewoodd);
+        //model.setImage(R.drawable.texturewoodd);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.textureyello);
+        //model.setImage(R.drawable.textureyello);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.bluevignet);
+        //model.setImage(R.drawable.bluevignet);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.textureyello);
+       // model.setImage(R.drawable.textureyello);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturewoodd);
+       // model.setImage(R.drawable.texturewoodd);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturesky);
+       // model.setImage(R.drawable.texturesky);
         menuModels.add(model);
 
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturegray);
+       // model.setImage(R.drawable.texturegray);
         menuModels.add(model);
         model = new MultiListItem();
         model.setLayoutType(MultiListItem.ACTIVITY_VIEWALLIMAGE);
-        model.setImage(R.drawable.texturered);
+       // model.setImage(R.drawable.texturered);
         menuModels.add(model);
         MenuAddaptor menuAddaptor = new MenuAddaptor(menuModels, act);
         binding.colorRecycler.setLayoutManager(new GridLayoutManager(getActivity(),5));

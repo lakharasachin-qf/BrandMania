@@ -9,13 +9,13 @@ import android.widget.RadioButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Connection.ItemSelectionInterface;
+import com.app.brandmania.Interface.ItemSelectionInterface;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.R;
 
 import java.util.ArrayList;
 
-import static com.app.brandmania.Utils.Utility.Log;
+import static com.app.brandmania.utils.Utility.Log;
 
 public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHolder> {
 

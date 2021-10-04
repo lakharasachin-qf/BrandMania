@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -24,15 +25,16 @@ import java.security.NoSuchAlgorithmException;
 
 public class MakeMyBrandApp extends MultiDexApplication {
     private static MakeMyBrandApp sInstance;
-    private static AppObserver observer;
-    private SharedPreferences sharedPreferences;
 
+    private SharedPreferences sharedPreferences;
+    private AppObserver observer;
     private RequestQueue mRequestQueue;
 
 
     public static MakeMyBrandApp getsInstance() {
         return sInstance;
     }
+
 
     public synchronized static MakeMyBrandApp getInstance() {
         return sInstance;
@@ -44,7 +46,12 @@ public class MakeMyBrandApp extends MultiDexApplication {
         super.onCreate();
 
         sInstance = this;
-
+//        // Enable verbose OneSignal logging to debug issues if needed.
+//        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+//
+//        // OneSignal Initialization
+//        OneSignal.initWithContext(this);
+//        OneSignal.setAppId(Constant.ONE_SIGNAL_APP_ID);
         MultiDex.install(this);
 
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
@@ -52,6 +59,7 @@ public class MakeMyBrandApp extends MultiDexApplication {
 
         observer = new AppObserver(getApplicationContext());
         mRequestQueue = Volley.newRequestQueue(sInstance);
+
 
 
 
@@ -73,7 +81,8 @@ public class MakeMyBrandApp extends MultiDexApplication {
         }
     }
 
-    public static AppObserver getObserver() {
+
+    public AppObserver getObserver() {
         return observer;
     }
 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/_10sdp"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/brandNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="@dimen/_20sdp"
+            android:singleLine="true"
+            android:text="Brand Mania"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_10sdp"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:layout_below="@+id/brandNameText"
+            android:gravity="bottom"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/soialLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgElement1"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/ic_social_media_facebook"
+                    app:tint="@color/colorPrimary" />
+
+                <ImageView
+                    android:id="@+id/imgElement2"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    android:layout_marginEnd="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/ic_social_media_instagram"
+                    app:tint="@color/colorPrimary" />
+
+                <ImageView
+                    android:id="@+id/imgElement3"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/ic_social_media_whatsapp"
+                    app:tint="@color/colorPrimary" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/footerLine2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/contactText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:text="+91 8849896537\nlakharasachin.Qf@gmail.com"
+                    android:layout_centerVertical="true"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_10sdp" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

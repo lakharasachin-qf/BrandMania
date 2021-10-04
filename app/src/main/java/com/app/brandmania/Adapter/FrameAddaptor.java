@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
-import com.app.brandmania.Utils.Utility;
+import com.app.brandmania.utils.Utility;
 
 import java.util.ArrayList;
 
