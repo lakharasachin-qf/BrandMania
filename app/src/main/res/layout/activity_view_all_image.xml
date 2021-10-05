@@ -216,7 +216,6 @@
                             android:layout_height="match_parent"
                             android:scaleType="fitXY" />
 
-
                         <LinearLayout
                             android:id="@+id/logoEmptyState"
                             android:layout_width="@dimen/_50sdp"

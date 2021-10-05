@@ -1,21 +1,27 @@
 package com.app.brandmania.Adapter;
 
+import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_IMAGES;
+import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_ROUND_IMAGES;
+import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME;
+import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY;
+import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY_BY_ID;
+import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY;
+import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY_BY_ID;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Activity.DailyImagesActivity;
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
-import com.app.brandmania.Activity.details.GifCategoryDetailActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.IBackendFrameSelect;
@@ -29,19 +35,13 @@ import com.app.brandmania.databinding.ItemLayoutFrameBinding;
 import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallframeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
+import com.app.brandmania.gifHelper.GifDataDownloader;
+import com.app.brandmania.gifHelper.GifImageView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import static com.app.brandmania.Model.ImageList.IMAGE;
-import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_IMAGES;
-import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_ROUND_IMAGES;
-import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME;
-import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY;
-import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY_BY_ID;
-import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY;
-import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY_BY_ID;
 
 
 public class ImageCategoryAddaptor extends RecyclerView.Adapter {
@@ -55,6 +55,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     PreafManager preafManager;
     private boolean isLoadingAdded = false;
     private DashBoardItem dashBoardItem;
+    ArrayList<Bitmap> bitmaps;
+    boolean canDownloadGIF = true;
 
     public DashBoardItem getDashBoardItem() {
         return dashBoardItem;
@@ -275,11 +277,38 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     });
 
                     if (model.getImageType() == ImageList.GIF) {
-                        Glide.with(activity)
-                                .load(model.getFrame())
-                                .placeholder(R.drawable.placeholder)
-                                .into(((ImageCategoryByIdHolder) holder).binding.image);
+                        ((ImageCategoryByIdHolder) holder).binding.image.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.gifImg.setVisibility(View.VISIBLE);
                         ((ImageCategoryByIdHolder) holder).binding.gifLayout.setVisibility(View.VISIBLE);
+                        new GifDataDownloader() {
+                            @Override
+                            protected void onPostExecute(final byte[] bytes) {
+                                ((ImageCategoryByIdHolder) holder).binding.gifImg.setBytes(bytes);
+                                ((ImageCategoryByIdHolder) holder).binding.gifImg.startAnimation();
+                                //Log.e("TAG", "GIF width is " + binding.gifImageView.getGifWidth());
+                                //Log.e("TAG", "GIF height is " + binding.gifImageView.getGifHeight());
+                            }
+                        }.execute("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");
+                        bitmaps = new ArrayList<>();
+                        ((ImageCategoryByIdHolder) holder).binding.gifImg.setOnFrameAvailable(new GifImageView.OnFrameAvailable() {
+                            @Override
+                            public Bitmap onFrameAvailable(Bitmap bitmap) {
+                                if (bitmaps.size() != ((ImageCategoryByIdHolder) holder).binding.gifImg.getFrameCount() && !bitmaps.contains(bitmap)) {
+                                    bitmaps.add(bitmap);
+                                } else {
+
+                                    if (canDownloadGIF) {
+                                        Log.e("canDownload", "canDownload");
+
+                                        canDownloadGIF = false;
+                                        Log.e("SizeFrame", String.valueOf(bitmaps.size()));
+                                    }
+
+                                }
+
+                                return bitmap;
+                            }
+                        });
                     }
                     if (!model.isImageFree()) {
                         ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);

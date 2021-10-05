@@ -1,5 +1,8 @@
 package com.app.brandmania.Activity.details;
 
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
+import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -82,18 +85,11 @@ import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
-import com.app.brandmania.databinding.DialogUpgradeLayoutPackegeExpiredBindingImpl;
-import com.app.brandmania.gifHelper.AnimatedGifEncoder;
-import com.app.brandmania.gifHelper.GifDataDownloader;
-import com.app.brandmania.gifHelper.GifImageView;
-import com.app.brandmania.utils.APIs;
-import com.app.brandmania.utils.CodeReUse;
-import com.app.brandmania.utils.IFontChangeEvent;
-import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
 import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
+import com.app.brandmania.databinding.DialogUpgradeLayoutPackegeExpiredBindingImpl;
 import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
@@ -105,6 +101,13 @@ import com.app.brandmania.databinding.LayoutForLoadSixBinding;
 import com.app.brandmania.databinding.LayoutForLoadTenBinding;
 import com.app.brandmania.databinding.LayoutForLoadThreeBinding;
 import com.app.brandmania.databinding.LayoutForLoadTwoBinding;
+import com.app.brandmania.gifHelper.AnimatedGifEncoder;
+import com.app.brandmania.gifHelper.GifDataDownloader;
+import com.app.brandmania.gifHelper.GifImageView;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.IFontChangeEvent;
+import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -133,9 +136,6 @@ import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
-
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
-import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 public class ImageCategoryDetailActivity extends BaseActivity implements ImageCateItemeInterFace, alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IColorChange, ColorPickerView.OnColorChangedListener, ITextSizeEvent, onFooterSelectListener, IBackendFrameSelect {
     Activity act;
@@ -259,6 +259,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
 
                 preafManager.AddToMyFavorites(selectedObject);
+                Toast.makeText(act, "added to favourite", Toast.LENGTH_SHORT).show();
 
                 if (manuallyEnablePermission(0)) {
                     if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
@@ -289,6 +290,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 selectedObject.setCustom(isUsingCustomFrame);
 
                 preafManager.removeFromMyFavorites(selectedObject);
+
                 // if (manuallyEnablePermission()) {
                 if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
                     binding.addfabroutIcon.setVisibility(View.GONE);
@@ -296,6 +298,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 }
 
                 removeFromFavourite(REMOVEFAV);
+                Toast.makeText(act, "Removed from favourite", Toast.LENGTH_SHORT).show();
                 // }
             }
 
@@ -436,7 +439,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             }
 
                         }
-
                         return bitmap;
                     }
                 });
@@ -453,13 +455,19 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void saveGif() {
 
         try {
-            Toast.makeText(act, "Image Download Start", Toast.LENGTH_LONG).show();
             File pictureFile = getOutputMediaFile();
+            //File sharingGifFile = new File(getOutputMediaFile());
             FileOutputStream outStream = new FileOutputStream(pictureFile);
             outStream.write(generateGIF());
             outStream.close();
-            Toast.makeText(act, "GIF SAVED:" + pictureFile.getPath(), Toast.LENGTH_LONG).show();
             Log.e("GIF", "Saved" + pictureFile.getPath());
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+            Uri uri = Uri.fromFile(pictureFile);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.setType("image/*");
+            startActivity(Intent.createChooser(shareIntent, "Share GIF to.."));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -480,6 +488,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         for (Bitmap bitmap : bitmaps) {
             encoder.addFrame(manipulateGIF(bitmap, false));
+
             //  encoder.addFrame(bitmap);
         }
         encoder.finish();
@@ -1194,7 +1203,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             view.setLayoutParams(layoutParams);
                             break;
                     }
-
                     binding.elementCustomFrame.invalidate();
                 }
                 return true;
@@ -1984,6 +1992,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             request.addMultipartFile("br_logo", img1File);
             Log.e("br_logo", String.valueOf(img1File));
         }
+
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override

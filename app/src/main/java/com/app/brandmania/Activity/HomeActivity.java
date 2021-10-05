@@ -1,5 +1,10 @@
 package com.app.brandmania.Activity;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -50,11 +55,9 @@ import com.app.brandmania.Fragment.bottom.HomeFragment;
 import com.app.brandmania.Fragment.bottom.ProfileFragment;
 import com.app.brandmania.Model.VersionListIItem;
 import com.app.brandmania.R;
-import com.app.brandmania.databinding.DialogOfferBinding;
+import com.app.brandmania.databinding.DialogPermissionsLayoutBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.DialogPermissionsLayoutBinding;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -70,11 +73,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
-
 public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HomeFragment.CUSTOM_TAB_CHANGE_INTERFACE {
     VersionListIItem versionListIItem;
     PreafManager preafManager;
@@ -86,7 +84,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     BottomNavigationView navigation;
     private boolean isHomeTab = true;
-    public static boolean isAlreadyDisplayed=false;
+    public static boolean isAlreadyDisplayed = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
