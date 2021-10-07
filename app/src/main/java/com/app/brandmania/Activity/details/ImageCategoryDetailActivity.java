@@ -227,7 +227,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         updateLogo = preafManager.getActiveBrand().getLogo().isEmpty();
 
         colorCodeForBackground = ContextCompat.getColor(act, R.color.colorPrimary);
-        // colorCodeForTextColor= ContextCompat.getColor(act,R.color.colorPrimary);
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
         binding.logoCustom.setOnTouchListener(onTouchListener());
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
@@ -259,7 +258,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
 
                 preafManager.AddToMyFavorites(selectedObject);
-                Toast.makeText(act, "added to favourite", Toast.LENGTH_SHORT).show();
+
 
                 if (manuallyEnablePermission(0)) {
                     if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
@@ -267,15 +266,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         binding.addfabroutIcon.setVisibility(View.VISIBLE);
                     }
                     saveImageToGallery(false, true);
-                  /*  if (selectedObject.getImageType() == ImageList.IMAGE) {
-                        saveImageToGallery(false, true);
-                    } else {
-                        saveGif();
-                    }*/
+                    Toast.makeText(act, "Added to Favourite", Toast.LENGTH_SHORT).show();
                 }
-
-
-                //downloadAndShareApi(ADDFAV,null);
             }
         });
         binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
@@ -296,75 +288,56 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     binding.addfabroutIcon.setVisibility(View.GONE);
                     binding.fabroutIcon.setVisibility(View.VISIBLE);
                 }
-
                 removeFromFavourite(REMOVEFAV);
-                Toast.makeText(act, "Removed from favourite", Toast.LENGTH_SHORT).show();
+                Toast.makeText(act, "Removed From Favourite", Toast.LENGTH_SHORT).show();
                 // }
             }
 
         });
-        binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (manuallyEnablePermission(1)) {
-
-                    if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
-                        //freee ------
-                        if (selectedObject.isImageFree()) {
-                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                askForUpgradeToEnterpisePackage();
-                                return;
-                            }
-                            getImageDownloadRights("Download");
-                        } else {
-                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
-                        }
-                    } else {
-                        //paid
-                     /*if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+        binding.downloadIcon.setOnClickListener(v -> {
+            if (manuallyEnablePermission(1)) {
+                if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
+                    if (selectedObject.isImageFree()) {
+                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                             askForUpgradeToEnterpisePackage();
                             return;
-                        }*/
+                        }
                         getImageDownloadRights("Download");
+                    } else {
+                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                     }
+                } else {
+                    getImageDownloadRights("Download");
                 }
             }
-
         });
-        binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.shareIcon.setOnClickListener(v -> {
 
-                if (manuallyEnablePermission(2)) {
+            if (manuallyEnablePermission(2)) {
 
-                    if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
-                        if (selectedObject.isImageFree()) {
-                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                askForUpgradeToEnterpisePackage();
-                                return;
-                            }
-                            if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                getImageDownloadRights("Share");
-                            } else {
-                                saveGif();
-                            }
-                            //getImageDownloadRights("Share");
+                if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
+                    if (selectedObject.isImageFree()) {
+                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                            askForUpgradeToEnterpisePackage();
+                            return;
+                        }
+                        if (selectedObject.getImageType() == ImageList.IMAGE) {
+                            getImageDownloadRights("Share");
                         } else {
-                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                            saveGif();
                         }
                     } else {
-                        if (!Utility.isPackageExpired(act)) {
-                            if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                getImageDownloadRights("Share");
-                            } else {
-                                saveGif();
-                            }
-                            //getImageDownloadRights("Share");
+                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                    }
+                } else {
+                    if (!Utility.isPackageExpired(act)) {
+                        if (selectedObject.getImageType() == ImageList.IMAGE) {
+                            getImageDownloadRights("Share");
                         } else {
-                            askForUpgradeToEnterpisePackaged();
+                            saveGif();
                         }
-                        //  getImageDownloadRights("Share");
+                    } else {
+                        askForUpgradeToEnterpisePackaged();
                     }
                 }
             }
@@ -421,31 +394,20 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         //Log.e("TAG", "GIF width is " + binding.gifImageView.getGifWidth());
                         //Log.e("TAG", "GIF height is " + binding.gifImageView.getGifHeight());
                     }
-                }.execute("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");
-
+                }.execute(selectedObject.getFrame());
                 bitmaps = new ArrayList<>();
-                binding.gifImageView.setOnFrameAvailable(new GifImageView.OnFrameAvailable() {
-                    @Override
-                    public Bitmap onFrameAvailable(Bitmap bitmap) {
-                        if (bitmaps.size() != binding.gifImageView.getFrameCount() && !bitmaps.contains(bitmap)) {
-                            bitmaps.add(bitmap);
-                        } else {
-
-                            if (canDownloadGIF) {
-                                Log.e("canDownload", "canDownload");
-
-                                canDownloadGIF = false;
-                                Log.e("SizeFrame", String.valueOf(bitmaps.size()));
-                            }
-
+                binding.gifImageView.setOnFrameAvailable(bitmap -> {
+                    if (bitmaps.size() != binding.gifImageView.getFrameCount() && !bitmaps.contains(bitmap)) {
+                        bitmaps.add(bitmap);
+                    } else {
+                        if (canDownloadGIF) {
+                            canDownloadGIF = false;
+                            Log.e("SizeFrame", String.valueOf(bitmaps.size()));
                         }
-                        return bitmap;
                     }
+                    return bitmap;
                 });
-                //Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.gifImageView);
             }
-        } else {
-            // binding.simpleProgressBar.setVisibility(View.VISIBLE);
         }
 
         if (selectedFooterModel == null)
@@ -456,24 +418,26 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         try {
             File pictureFile = getOutputMediaFile();
-            //File sharingGifFile = new File(getOutputMediaFile());
             FileOutputStream outStream = new FileOutputStream(pictureFile);
             outStream.write(generateGIF());
             outStream.close();
             Log.e("GIF", "Saved" + pictureFile.getPath());
-
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-            Uri uri = Uri.fromFile(pictureFile);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            shareIntent.setType("image/*");
-            startActivity(Intent.createChooser(shareIntent, "Share GIF to.."));
+            shareGif(pictureFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private ArrayList<Bitmap> resultedGIFArray = new ArrayList<>();
+    public void shareGif(File uris) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        Uri uri = Uri.fromFile(uris);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setType("image/*");
+        startActivity(Intent.createChooser(shareIntent, "Share GIF to.."));
+    }
+
+    private final ArrayList<Bitmap> resultedGIFArray = new ArrayList<>();
 
     public byte[] generateGIF() {
 
@@ -481,15 +445,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         AnimatedGifEncoder encoder = new AnimatedGifEncoder();
         encoder.start(bos);
         encoder.setDelay(100);
+        encoder.setQuality(1);
         encoder.setRepeat(0);
-        encoder.setQuality(100);
-        // encoder.setSize(480,480);
         Log.e("size", "height" + binding.gifImageView.getFramesDisplayDuration());
-
         for (Bitmap bitmap : bitmaps) {
             encoder.addFrame(manipulateGIF(bitmap, false));
-
-            //  encoder.addFrame(bitmap);
         }
         encoder.finish();
         return bos.toByteArray();
@@ -790,6 +750,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
         selectedObject = listModel;
+        Log.e("SELECTED",gson.toJson(selectedObject));
         LoadDataToUI();
         binding.simpleProgressBar.setVisibility(View.GONE);
         if (selectedFooterModel == null)
@@ -1618,38 +1579,25 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                // binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_BRAND : ", response);
-                ArrayList<BrandListItem> brandListItems = new ArrayList<>();
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                    JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, response -> {
+            Utility.Log("GET_BRAND : ", response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // binding.swipeContainer.setRefreshing(false);
-                        error.printStackTrace();
-
-
-                    }
-                }
+                error -> error.printStackTrace()
         ) {
             /**
              * Passing some request headers*
              */
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
@@ -1662,9 +1610,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
                 Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
@@ -1675,18 +1621,15 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         queue.add(stringRequest);
     }
 
-    //check for added to fav or not
     public void forCheckFavorite() {
         preafManager = new PreafManager(act);
         AddFavorite = preafManager.getSavedFavorites();
-        Log.e("ALLPREF", gson.toJson(AddFavorite));
         if (AddFavorite != null) {
             boolean isImageFound = false;
             for (int i = 0; i < AddFavorite.size(); i++) {
                 if (preafManager.getActiveBrand().getId().equalsIgnoreCase(AddFavorite.get(i).getBrandId())) {
                     if (isUsingCustomFrame) {
                         if (AddFavorite.get(i).isCustom()) {
-                            Log.e("FFF", AddFavorite.get(i).getId() + " " + selectedObject.getId());
                             if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
                                 binding.addfabroutIcon.setVisibility(View.VISIBLE);
                                 binding.fabroutIcon.setVisibility(View.GONE);

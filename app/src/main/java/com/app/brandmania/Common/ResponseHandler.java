@@ -316,17 +316,17 @@ public class ResponseHandler {
                         model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
                         if (i == 1) {
                             model.setImageType(ImageList.GIF);
-                            model.setFrame(getString(datajsonObject, "https://c.tenor.com/5VmvaWqS3sUAAAAC/happy-janmashtami.gif"));
+                            model.setFrame("https://c.tenor.com/5VmvaWqS3sUAAAAC/happy-janmashtami.gif");
                             //model.setFrame(getString(datajsonObject, "https://media.giphy.com/media/BlVnrxJgTGsUw/giphy.gif"));
                         }
 
                         if (i == 3) {
                             model.setImageType(ImageList.GIF);
-                            model.setFrame(getString(datajsonObject, "https://media.giphy.com/media/xSM46ernAUN3y/giphy.gif"));
+                            model.setFrame("https://media.giphy.com/media/xSM46ernAUN3y/giphy.gif");
                         }
                         if (i == 5) {
                             model.setImageType(ImageList.GIF);
-                            model.setFrame(getString(datajsonObject, "https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif"));
+                            model.setFrame("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");
                         }
                         string.add(model);
                     } catch (JSONException e) {

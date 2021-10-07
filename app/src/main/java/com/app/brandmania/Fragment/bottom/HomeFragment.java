@@ -896,7 +896,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 alertDialog.dismiss();
                 apiForCategoryRequest(reqBinding.nameTxt.getText().toString());
                 Toast.makeText(act, "Thanks for request we will contact you soon", Toast.LENGTH_SHORT).show();
-
             }
         });
         alertDialog.show();

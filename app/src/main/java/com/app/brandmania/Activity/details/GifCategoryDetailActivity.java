@@ -1,5 +1,8 @@
 package com.app.brandmania.Activity.details;
 
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
+import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,7 +28,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
@@ -37,12 +39,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -88,11 +87,6 @@ import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
-import com.app.brandmania.utils.APIs;
-import com.app.brandmania.utils.CodeReUse;
-
-import com.app.brandmania.utils.IFontChangeEvent;
-import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityViewGifDetailsBinding;
 import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
@@ -108,27 +102,19 @@ import com.app.brandmania.databinding.LayoutForLoadTenBinding;
 import com.app.brandmania.databinding.LayoutForLoadThreeBinding;
 import com.app.brandmania.databinding.LayoutForLoadTwoBinding;
 import com.app.brandmania.gifHelper.AnimatedGifEncoder;
-import com.app.brandmania.gifHelper.GifDataDownloader;
-import com.app.brandmania.gifHelper.GifImageView;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.FileUtilsDemo;
+import com.app.brandmania.utils.IFontChangeEvent;
+import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.gifdecoder.StandardGifDecoder;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.resource.gif.GifDrawable;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
-/*import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
+import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
-import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
-import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;*/
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorPickerView;
-import com.madhavanmalolan.ffmpegandroidlibrary.Controller;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -138,12 +124,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -155,9 +138,6 @@ import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
-
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
-import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 
 public class GifCategoryDetailActivity extends BaseActivity implements ImageCateItemeInterFace, alertListenerCallback, ITextColorChangeEvent, IFontChangeEvent, ITextBoldEvent,
@@ -216,6 +196,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
     private String loadDefaultFont = "";
     private int previousFontSize = -1;
     int isDownloadOrSharingOrFavPending = -1;
+    private FFmpeg fFmpeg;
 
 
     ArrayList<Bitmap> bitmaps;
@@ -413,7 +394,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         if (!getIntent().hasExtra("viewAll"))
             LoadDataToUI();
 
-        new GifDataDownloader() {
+ /*       new GifDataDownloader() {
             @Override
             protected void onPostExecute(final byte[] bytes) {
                 binding.gifImageView.setBytes(bytes);
@@ -442,7 +423,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
                 return bitmap;
             }
-        });
+        });*/
     }
 
 
@@ -681,7 +662,8 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         preafManager = new PreafManager(act);
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
-            Glide.with(getApplicationContext()).load("https://media.giphy.com/media/KwJFyQZZbPHzy/giphy.gif").into(binding.recoImage);
+            binding.videoImageView.setVisibility(View.VISIBLE);
+            //Glide.with(getApplicationContext()).load("https://media.giphy.com/media/KwJFyQZZbPHzy/giphy.gif").into(binding.recoImage);
         } else {
             // binding.simpleProgressBar.setVisibility(View.VISIBLE);
         }
@@ -871,22 +853,16 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
                     Log.e("selectedImagePath", selectedImagePath);
                 }
-// now set the video uri in the VideoView
                 binding.videoImageView.setVideoURI(selectedImageUri);
-
-                // after successful retrieval of the video and properly
-                // setting up the retried video uri in
-                // VideoView, Start the VideoView to play that video
                 binding.videoImageView.start();
-
                 binding.videoImageView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
                         // get the duration of the video
                         duration = mp.getDuration() / 1000;
-                        Log.e("Video is loaded", "yrdd");
+
                         Toast.makeText(act, "Now Start Converting", Toast.LENGTH_SHORT).show();
-                        // choding(selectedImageUri);
+                         coding(selectedImageUri);
                     }
                 });
 
@@ -895,90 +871,91 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         }
     }
 
-    /* public void choding(Uri selectedImageUri){
-         File video_file = null;
-         try {
-             video_file= FileUtilsDemo.getFileFromUri(this, selectedImageUri);
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
+    public void coding(Uri selectedImageUri) {
+        File video_file = null;
+        try {
+            video_file = FileUtilsDemo.getFileFromUri(this, selectedImageUri);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-         String video_url = video_file.getAbsolutePath();
-         // creating a new file in storage
-         final String filePath;
-         String filePrefix = "fastforward";
-         String fileExtn = ".mp4";
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-             // With introduction of scoped storage in Android Q the primitive method gives error
-             // So, it is recommended to use the below method to create a video file in storage.
-             ContentValues valuesvideos = new ContentValues();
-             valuesvideos.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "BRAND");
-             valuesvideos.put(MediaStore.Video.Media.TITLE, filePrefix + System.currentTimeMillis());
-             valuesvideos.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix + System.currentTimeMillis() + fileExtn);
-             valuesvideos.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-             valuesvideos.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
-             valuesvideos.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
-             Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, valuesvideos);
+        String video_url = video_file.getAbsolutePath();
+        // creating a new file in storage
+        final String filePath;
+        String filePrefix = "fastforward";
+        String fileExtn = ".mp4";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // With introduction of scoped storage in Android Q the primitive method gives error
+            // So, it is recommended to use the below method to create a video file in storage.
+            ContentValues valuesvideos = new ContentValues();
+            valuesvideos.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "BRAND");
+            valuesvideos.put(MediaStore.Video.Media.TITLE, filePrefix + System.currentTimeMillis());
+            valuesvideos.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix + System.currentTimeMillis() + fileExtn);
+            valuesvideos.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+            valuesvideos.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+            valuesvideos.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
+            Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, valuesvideos);
 
-             // get the path of the video file created in the storage.
-             File file = null;
-             try {
-                 file = FileUtilsDemo.getFileFromUri(this, uri);
-             } catch (Exception e) {
-                 e.printStackTrace();
-             }
-             filePath = file.getAbsolutePath();
+            // get the path of the video file created in the storage.
+            File file = null;
+            try {
+                file = FileUtilsDemo.getFileFromUri(this, uri);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            filePath = file.getAbsolutePath();
 
-         } else {
-             // This else statement will work for devices with Android version lower than 10
-             // Here, "app_folder" is the path to your app's root directory in device storage
-             File dest = new File(new File(app_folder), filePrefix + fileExtn);
-             int fileNo = 0;
-             // check if the file name previously exist. Since we don't want
-             // to overwrite the video files
-             while (dest.exists()) {
-                 fileNo++;
-                 dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
-             }
-             // Get the filePath once the file is successfully created.
-             filePath = dest.getAbsolutePath();
-         }
-         String[] exe = new String[]{"-y -i " + video_url + " -filter_complex [0:v]trim=0:" + 0 + ",setpts=PTS-STARTPTS[v1];[0:v]trim=" + duration + ":" + duration  + ",setpts=0.5*(PTS-STARTPTS)[v2];[0:v]trim=" + (duration) + ",setpts=PTS-STARTPTS[v3];[0:a]atrim=0:" + (0) + ",asetpts=PTS-STARTPTS[a1];[0:a]atrim=" + (0) + ":" + (duration) + ",asetpts=PTS-STARTPTS,atempo=2[a2];[0:a]atrim=" + (duration) + ",asetpts=PTS-STARTPTS[a3];[v1][a1][v2][a2][v3][a3]concat=n=3:v=1:a=1 " + "-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast " + filePath};
-         // the "exe" string contains the command to process video.The details of command are discussed later in this post.
-         // "video_url" is the url of video which you want to edit. You can get this url from intent by selecting any video from gallery.
-         execComd(exe);
-     }*/
-   /* private void execComd(String [] cmd){
+        } else {
+            // This else statement will work for devices with Android version lower than 10
+            // Here, "app_folder" is the path to your app's root directory in device storage
+            File dest = new File(new File(app_folder), filePrefix + fileExtn);
+            int fileNo = 0;
+            // check if the file name previously exist. Since we don't want
+            // to overwrite the video files
+            while (dest.exists()) {
+                fileNo++;
+                dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
+            }
+            // Get the filePath once the file is successfully created.
+            filePath = dest.getAbsolutePath();
+        }
+        String[] exe = new String[]{"-y -i " + video_url + " -filter_complex [0:v]trim=0:" + 0 + ",setpts=PTS-STARTPTS[v1];[0:v]trim=" + duration + ":" + duration + ",setpts=0.5*(PTS-STARTPTS)[v2];[0:v]trim=" + (duration) + ",setpts=PTS-STARTPTS[v3];[0:a]atrim=0:" + (0) + ",asetpts=PTS-STARTPTS[a1];[0:a]atrim=" + (0) + ":" + (duration) + ",asetpts=PTS-STARTPTS,atempo=2[a2];[0:a]atrim=" + (duration) + ",asetpts=PTS-STARTPTS[a3];[v1][a1][v2][a2][v3][a3]concat=n=3:v=1:a=1 " + "-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast " + filePath};
+        // the "exe" string contains the command to process video.The details of command are discussed later in this post.
+        // "video_url" is the url of video which you want to edit. You can get this url from intent by selecting any video from gallery.
+        execComd(exe);
+    }
+
+    private void execComd(String[] cmd) {
         try {
             //ffmpeg -y -i input_file.mp4 -vcodec copy -an output_file.mp4
             // to execute "ffmpeg -version" command you just need to pass "-version"
-            ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
+            fFmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
 
                 @Override
                 public void onStart() {
-                    Log.e("On start","ye");
+                    Log.e("On start", "ye");
                 }
 
                 @Override
                 public void onProgress(String message) {
-                    Log.e("On progress",message);
+                    Log.e("On progress", message);
 
                 }
 
                 @Override
                 public void onFailure(String message) {
-                    Log.e("On failur",message);
+                    Log.e("On failur", message);
 
                 }
 
                 @Override
                 public void onSuccess(String message) {
-                    Log.e("On success",message);
+                    Log.e("On success", message);
                 }
 
                 @Override
                 public void onFinish() {
-                    Log.e("On finish","yes");
+                    Log.e("On finish", "yes");
 
                 }
             });
@@ -986,7 +963,8 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
             // Handle if FFmpeg is already running
             e.printStackTrace();
         }
-    }*/
+    }
+
     // UPDATED!
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Video.Media.DATA};
@@ -1004,6 +982,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // required permissions granted, start crop image activity
             startCropImageActivity(mCropImageUri);

@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
+import com.app.brandmania.Activity.details.GifCategoryDetailActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.IBackendFrameSelect;
@@ -35,8 +36,6 @@ import com.app.brandmania.databinding.ItemLayoutFrameBinding;
 import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallframeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
-import com.app.brandmania.gifHelper.GifDataDownloader;
-import com.app.brandmania.gifHelper.GifImageView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
@@ -58,6 +57,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     ArrayList<Bitmap> bitmaps;
     boolean canDownloadGIF = true;
 
+
     public DashBoardItem getDashBoardItem() {
         return dashBoardItem;
     }
@@ -70,6 +70,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
         this.imageLists = imageLists;
         this.activity = activity;
         preafManager = new PreafManager(activity);
+        Gson gson = new Gson();
         // Log.e("menuModels",new Gson().toJson(imageLists));
     }
 
@@ -196,6 +197,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             // if (layoutType==FROM_HOMEFRAGEMENT) {
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                             Gson gson = new Gson();
+                            Log.e("Link",model.getFrame());
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
                             intent.putExtra("selectedimage", gson.toJson(model));
                             intent.putExtra("position", position);
@@ -227,8 +229,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             //Image Category Detail Activity
-                            Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
-                            // Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
+                            //Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
 
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages", "1");
@@ -265,6 +267,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             if (layoutType == FROM_HOMEFRAGEMENT) {
                                 Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                                 Gson gson = new Gson();
+                                Log.e("Link",model.getFrame());
                                 intent.putExtra("selectedimage", gson.toJson(model));
                                 intent.putExtra("position", position);
                                 activity.startActivity(intent);
@@ -275,12 +278,22 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             }
                         }
                     });
-
+                    if (model.getImageType() == ImageList.IMAGE) {
+                        ((ImageCategoryByIdHolder) holder).binding.image.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder) holder).binding.gifImg.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.gifLayout.setVisibility(View.GONE);
+                    }
                     if (model.getImageType() == ImageList.GIF) {
                         ((ImageCategoryByIdHolder) holder).binding.image.setVisibility(View.GONE);
                         ((ImageCategoryByIdHolder) holder).binding.gifImg.setVisibility(View.VISIBLE);
                         ((ImageCategoryByIdHolder) holder).binding.gifLayout.setVisibility(View.VISIBLE);
-                        new GifDataDownloader() {
+                        Log.e("gif", "data" + model.getFrame());
+                        Glide.with(activity)
+                                .asGif()
+                                .load(model.getFrame())
+                                .into(((ImageCategoryByIdHolder) holder).binding.gifImg);
+
+                    /*    new GifDataDownloader() {
                             @Override
                             protected void onPostExecute(final byte[] bytes) {
                                 ((ImageCategoryByIdHolder) holder).binding.gifImg.setBytes(bytes);
@@ -288,8 +301,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                                 //Log.e("TAG", "GIF width is " + binding.gifImageView.getGifWidth());
                                 //Log.e("TAG", "GIF height is " + binding.gifImageView.getGifHeight());
                             }
-                        }.execute("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");
-                        bitmaps = new ArrayList<>();
+                        }.execute("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");*/
+                    /*    bitmaps = new ArrayList<>();
                         ((ImageCategoryByIdHolder) holder).binding.gifImg.setOnFrameAvailable(new GifImageView.OnFrameAvailable() {
                             @Override
                             public Bitmap onFrameAvailable(Bitmap bitmap) {
@@ -308,7 +321,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
                                 return bitmap;
                             }
-                        });
+                        });*/
                     }
                     if (!model.isImageFree()) {
                         ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
