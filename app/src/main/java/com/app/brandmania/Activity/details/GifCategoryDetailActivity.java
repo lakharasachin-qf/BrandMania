@@ -70,6 +70,7 @@ import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.ViewAllTopTabAdapter;
 import com.app.brandmania.Common.FooterHelper;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -425,8 +426,8 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 return bitmap;
             }
         });*/
-        chooseImage();
-        //chooseVideo();
+        //chooseImage();
+        chooseVideo();
     }
 
 
@@ -847,17 +848,21 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
             if (requestCode == 1020) {
                 Uri selectedImageUri = data.getData();
                 // Get the path from the Uri
-                final String path = getPathFromURI(selectedImageUri);
+                final String path = HELPER.realPathForImage(act,selectedImageUri);
                 if (path != null) {
                     File f = new File(path);
                     selectedImageUri = Uri.fromFile(f);
                 }
                 String ImagePath = selectedImageUri.getPath();
                 Log.e("Profile Picture Path: ", ImagePath);
+                Log.e("path: ", path);
                 // Set the image in ImageView
+                this.selectedImageURI = selectedImageUri;
+
                 binding.recoImage.setVisibility(View.VISIBLE);
                 binding.videoImageView.setVisibility(View.GONE);
                 binding.recoImage.setImageURI(selectedImageUri);
+                coding();
             }
         }
         if (requestCode == 10000) {
@@ -889,29 +894,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
             }
         }
-        //for Image
-        /*if (requestCode == 1020) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(act, "ImageLoad", Toast.LENGTH_SHORT).show();
-                Uri selectedImageUri = data.getData();
-                String image = selectedImageUri.getPath();
-                Log.d("Picture Path", image);
-                String[] projection = {MediaStore.Images.Media.DATA};
 
-                try {
-                    Cursor cursor = getContentResolver().query(selectedImageUri, projection, null, null, null);
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(projection[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    cursor.close();
-                    Log.d("Picture Path", picturePath);
-                } catch (Exception e) {
-                    Log.e("Path Error", e.toString());
-                }
-            }
-        }*/
-        //for Video
         if (requestCode == 1010) {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(act, "video Run", Toast.LENGTH_SHORT).show();
@@ -935,25 +918,24 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 if (FFmpeg.getInstance(act).isSupported()) {
                     Log.e("FFmpeg", "support");
                     selectedVideoURI = selectedImageUri;
-                    coding();
+                    chooseImage();
                     //executeSlowMotionVideoCommand();
                 } else {
                     Log.e("FFmpeg", "not support");
                 }
-
-
             }
         }
         if (requestCode == 1011) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(act, "fdgdfgd", Toast.LENGTH_SHORT).show();
+
 
                 Uri selectedImageUri = data.getData();
 
                 Log.e("selectedImageUri", getRealPathFromURIFOrImage(act, selectedImageUri) + "-");
+                this.selectedImageURI = selectedImageUri;
+
                 if (FFmpeg.getInstance(act).isSupported()) {
                     Log.e("FFmpeg", "support");
-                    this.selectedImageURI = selectedImageUri;
                     coding();
                 } else {
                     Log.e("FFmpeg", "not support");
@@ -1104,7 +1086,14 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         filePath = dest.getAbsolutePath();
 
         // ffmpeg -i input.mp4 -i watermark.png -filter_complex "overlay=1500:1000" output.mp4
-        String[] exe = new String[]{"ffmpeg -i " + yourRealPath + " -i " + selectedObject.getLogo() + "-filter_complex" + "overlay=10:10", filePath};
+
+        Log.e("reeee",HELPER.realPathForImage(act,selectedImageURI) );
+        Log.e("reeee",filePath );
+        //ffmpeg -i input -i logo -filter_complex 'overlay=10:main_h-overlay_h-10' output
+        //-filter_complex overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable=’between(t,0,7)’ -c:a copy
+        String[] exe = new String[]{" -i " + yourRealPath + " -i " + HELPER.realPathForImage(act,selectedImageURI) +
+                " -filter_complex overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable=’between(t,0,7)’ " +" -c:a copy " ,filePath};
+         exe = new String[]{"-i" , yourRealPath , "-i" , HELPER.realPathForImage(act,selectedImageURI) , "-filter_complex" , "overlay=10:main_h-overlay_h-10", filePath};
         //String[] exe = new String[]{"ffmpeg -i " + yourRealPath + " -i " + "coin.png"+"-filter_complex ","overlay=10:10" , "-codec:a", "copy", filePath};
         //String[] exe = new String[]{"ffmpeg -i " + getRealPath(selectedImageUri) + "" + 0 + ",setpts=PTS-STARTPTS[v1];[0:v]trim=" + duration + ":" + duration + ",setpts=0.5*(PTS-STARTPTS)[v2];[0:v]trim=" + (duration) + ",setpts=PTS-STARTPTS[v3];[0:a]atrim=0:" + (0) + ",asetpts=PTS-STARTPTS[a1];[0:a]atrim=" + (0) + ":" + (duration) + ",asetpts=PTS-STARTPTS,atempo=2[a2];[0:a]atrim=" + (duration) + ",asetpts=PTS-STARTPTS[a3];[v1][a1][v2][a2][v3][a3]concat=n=3:v=1:a=1 " + "-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast " + filePath};
         execComd(exe);
@@ -1134,7 +1123,10 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         String filePath = dest.getAbsolutePath();
         // String[] complexCommand = new String[]{"ffmpeg -i " + getRealPath(selectedVideoURI) + " -i " + getRealPath(selectedImageURI) + " -filter_complex 'overlay=10:10' " + filePath};
 
-        String[] complexCommand = {"-y", "-i", getRealPath(selectedVideoURI), "-filter_complex", "[0:v]setpts=2.0*PTS[v];[0:a]atempo=0.5[a]", "-map", "[v]", "-map", "[a]", "-b:v", "2097k", "-r", "60", "-vcodec", "mpeg4", filePath};
+        String[] complexCommand = {"-y", "-i", getRealPath(selectedVideoURI),
+                "-filter_complex", "[0:v]setpts=2.0*PTS[v];[0:a]atempo=0.5[a]",
+                "-map", "[v]", "-map", "[a]", "-b:v", "2097k", "-r",
+                "60", "-vcodec", "mpeg4", filePath};
         execComd(complexCommand);
 
     }
@@ -1172,7 +1164,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     public void chooseVideo() {
         Intent intent = new Intent();
-        intent.setType("video/*");
+        intent.setType("video/mp4");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Video"), 1010);
 
