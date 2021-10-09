@@ -425,8 +425,8 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 return bitmap;
             }
         });*/
-
-        chooseVideo();
+        chooseImage();
+        //chooseVideo();
     }
 
 
@@ -814,6 +814,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
     private Runnable r;
     int duration;
 
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -829,7 +830,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 startCropImageActivity(imageUri);
             }
         }
-
         // handle result of CropImageActivity
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -840,6 +840,24 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 ImageView imageView = ((ImageView) findViewById(R.id.logoCustom));
                 selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
+            }
+        }
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1020) {
+                Uri selectedImageUri = data.getData();
+                // Get the path from the Uri
+                final String path = getPathFromURI(selectedImageUri);
+                if (path != null) {
+                    File f = new File(path);
+                    selectedImageUri = Uri.fromFile(f);
+                }
+                String ImagePath = selectedImageUri.getPath();
+                Log.e("Profile Picture Path: ", ImagePath);
+                // Set the image in ImageView
+                binding.recoImage.setVisibility(View.VISIBLE);
+                binding.videoImageView.setVisibility(View.GONE);
+                binding.recoImage.setImageURI(selectedImageUri);
             }
         }
         if (requestCode == 10000) {
@@ -863,7 +881,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                     public void onPrepared(MediaPlayer mp) {
                         // get the duration of the video
                         duration = mp.getDuration() / 1000;
-
                         //   Toast.makeText(act, "Now Start Converting", Toast.LENGTH_SHORT).show();
                         //   coding(selectedImageUri);
                     }
@@ -872,6 +889,29 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
             }
         }
+        //for Image
+        /*if (requestCode == 1020) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(act, "ImageLoad", Toast.LENGTH_SHORT).show();
+                Uri selectedImageUri = data.getData();
+                String image = selectedImageUri.getPath();
+                Log.d("Picture Path", image);
+                String[] projection = {MediaStore.Images.Media.DATA};
+
+                try {
+                    Cursor cursor = getContentResolver().query(selectedImageUri, projection, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(projection[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+                    Log.d("Picture Path", picturePath);
+                } catch (Exception e) {
+                    Log.e("Path Error", e.toString());
+                }
+            }
+        }*/
+        //for Video
         if (requestCode == 1010) {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(act, "video Run", Toast.LENGTH_SHORT).show();
@@ -891,10 +931,12 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 binding.videoImageView.setVisibility(View.VISIBLE);
                 binding.videoImageView.setVideoURI(selectedImageUri);
                 binding.videoImageView.start();
+                // binding.overlayImg.setImageResource();
                 if (FFmpeg.getInstance(act).isSupported()) {
                     Log.e("FFmpeg", "support");
                     selectedVideoURI = selectedImageUri;
-                    executeSlowMotionVideoCommand();
+                    coding();
+                    //executeSlowMotionVideoCommand();
                 } else {
                     Log.e("FFmpeg", "not support");
                 }
@@ -942,13 +984,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     Uri selectedVideoURI;
     Uri selectedImageURI;
-
-    public void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1011);
-    }
 
     public String getRealPath(Uri uri) {
         String docId = DocumentsContract.getDocumentId(uri);
@@ -1068,9 +1103,9 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         }
         filePath = dest.getAbsolutePath();
 
-
         // ffmpeg -i input.mp4 -i watermark.png -filter_complex "overlay=1500:1000" output.mp4
-        String[] exe = new String[]{"ffmpeg -i " + yourRealPath + " -i " + getRealPath(selectedImageURI) + " -filter_complex 'overlay=10:10' " + filePath};
+        String[] exe = new String[]{"ffmpeg -i " + yourRealPath + " -i " + selectedObject.getLogo() + "-filter_complex" + "overlay=10:10", filePath};
+        //String[] exe = new String[]{"ffmpeg -i " + yourRealPath + " -i " + "coin.png"+"-filter_complex ","overlay=10:10" , "-codec:a", "copy", filePath};
         //String[] exe = new String[]{"ffmpeg -i " + getRealPath(selectedImageUri) + "" + 0 + ",setpts=PTS-STARTPTS[v1];[0:v]trim=" + duration + ":" + duration + ",setpts=0.5*(PTS-STARTPTS)[v2];[0:v]trim=" + (duration) + ",setpts=PTS-STARTPTS[v3];[0:a]atrim=0:" + (0) + ",asetpts=PTS-STARTPTS[a1];[0:a]atrim=" + (0) + ":" + (duration) + ",asetpts=PTS-STARTPTS,atempo=2[a2];[0:a]atrim=" + (duration) + ",asetpts=PTS-STARTPTS[a3];[v1][a1][v2][a2][v3][a3]concat=n=3:v=1:a=1 " + "-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast " + filePath};
         execComd(exe);
     }
@@ -1097,9 +1132,9 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         Log.d("TAG", "startTrim: src: " + yourRealPath);
         Log.d("TAG", "startTrim: dest: " + dest.getAbsolutePath());
         String filePath = dest.getAbsolutePath();
-       // String[] complexCommand = new String[]{"ffmpeg -i " + getRealPath(selectedVideoURI) + " -i " + getRealPath(selectedImageURI) + " -filter_complex 'overlay=10:10' " + filePath};
+        // String[] complexCommand = new String[]{"ffmpeg -i " + getRealPath(selectedVideoURI) + " -i " + getRealPath(selectedImageURI) + " -filter_complex 'overlay=10:10' " + filePath};
 
-       String[] complexCommand = {"-y", "-i", getRealPath(selectedVideoURI), "-filter_complex", "[0:v]setpts=2.0*PTS[v];[0:a]atempo=0.5[a]", "-map", "[v]", "-map", "[a]", "-b:v", "2097k", "-r", "60", "-vcodec", "mpeg4", filePath};
+        String[] complexCommand = {"-y", "-i", getRealPath(selectedVideoURI), "-filter_complex", "[0:v]setpts=2.0*PTS[v];[0:a]atempo=0.5[a]", "-map", "[v]", "-map", "[a]", "-b:v", "2097k", "-r", "60", "-vcodec", "mpeg4", filePath};
         execComd(complexCommand);
 
     }
@@ -1143,6 +1178,27 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     }
 
+    public void chooseImage() {
+        Intent intent = new Intent();
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1020);
+    }
+
+    //Get the real path from the URI(Image)
+    public String getPathFromURI(Uri contentUri) {
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
+    }
+
     // UPDATED!
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Video.Media.DATA};
@@ -1157,6 +1213,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         } else
             return null;
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
