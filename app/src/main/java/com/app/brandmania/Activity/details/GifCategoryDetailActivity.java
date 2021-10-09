@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
@@ -108,9 +109,6 @@ import com.app.brandmania.utils.FileUtilsDemo;
 import com.app.brandmania.utils.IFontChangeEvent;
 import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
-import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
-import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
-import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -134,6 +132,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.bravobit.ffmpeg.ExecuteBinaryResponseHandler;
+import nl.bravobit.ffmpeg.FFmpeg;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
@@ -231,6 +231,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+        ffmpeg = FFmpeg.getInstance(act);
         //  test();
         //triggerUpgradePackage(); taflon tape
         //ffmpeg -i animated.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" video.mp4
@@ -424,6 +425,8 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 return bitmap;
             }
         });*/
+
+        chooseVideo();
     }
 
 
@@ -663,13 +666,16 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
             binding.videoImageView.setVisibility(View.VISIBLE);
-            //Glide.with(getApplicationContext()).load("https://media.giphy.com/media/KwJFyQZZbPHzy/giphy.gif").into(binding.recoImage);
+
+            //binding.videoImageView.setVideoURI(Uri.parse("https://samplelib.com/lib/preview/mp4/sample-5s.mp4"));
         } else {
             // binding.simpleProgressBar.setVisibility(View.VISIBLE);
         }
 
         if (selectedFooterModel == null)
             loadFirstImage();
+        binding.videoImageView.setVisibility(View.VISIBLE);
+        binding.recoImage.setVisibility(View.GONE);
     }
 
     //For RefresGalary
@@ -701,7 +707,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
     //For Image Select Interface
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
-
 
         //   binding.simpleProgressBar.setVisibility(View.GONE);
         selectedObject = listModel;
@@ -811,8 +816,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // handle result of pick image chooser
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri imageUri = CropImage.getPickImageResultUri(this, data);
@@ -861,108 +864,283 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                         // get the duration of the video
                         duration = mp.getDuration() / 1000;
 
-                        Toast.makeText(act, "Now Start Converting", Toast.LENGTH_SHORT).show();
-                         coding(selectedImageUri);
+                        //   Toast.makeText(act, "Now Start Converting", Toast.LENGTH_SHORT).show();
+                        //   coding(selectedImageUri);
                     }
                 });
 
 
             }
         }
+        if (requestCode == 1010) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(act, "video Run", Toast.LENGTH_SHORT).show();
+
+                Uri selectedImageUri = data.getData();
+
+                // OI FILE Manager
+                String filemanagerstring = selectedImageUri.getPath();
+                Log.e("selectedImageUri", selectedImageUri.toString());
+                Log.e("filemanagerstring", filemanagerstring);
+                Log.e("selectedImageUri", getRealPath(selectedImageUri) + "-");
+                // MEDIA GALLERY
+                String selectedImagePath = getPath(selectedImageUri);
+
+                //intent.putExtra("path", selectedImagePath);
+
+                binding.videoImageView.setVisibility(View.VISIBLE);
+                binding.videoImageView.setVideoURI(selectedImageUri);
+                binding.videoImageView.start();
+                if (FFmpeg.getInstance(act).isSupported()) {
+                    Log.e("FFmpeg", "support");
+                    selectedVideoURI = selectedImageUri;
+                    executeSlowMotionVideoCommand();
+                } else {
+                    Log.e("FFmpeg", "not support");
+                }
+
+
+            }
+        }
+        if (requestCode == 1011) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(act, "fdgdfgd", Toast.LENGTH_SHORT).show();
+
+                Uri selectedImageUri = data.getData();
+
+                Log.e("selectedImageUri", getRealPathFromURIFOrImage(act, selectedImageUri) + "-");
+                if (FFmpeg.getInstance(act).isSupported()) {
+                    Log.e("FFmpeg", "support");
+                    this.selectedImageURI = selectedImageUri;
+                    coding();
+                } else {
+                    Log.e("FFmpeg", "not support");
+                }
+
+
+            }
+        }
     }
 
-    public void coding(Uri selectedImageUri) {
-        File video_file = null;
+    private String getRealPathFromURIFOrImage(Context context, Uri contentUri) {
+        Cursor cursor = null;
         try {
-            video_file = FileUtilsDemo.getFileFromUri(this, selectedImageUri);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } catch (Exception e) {
+            Log.e("TAG", "getRealPathFromURI Exception : " + e.toString());
+            return "";
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    Uri selectedVideoURI;
+    Uri selectedImageURI;
+
+    public void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1011);
+    }
+
+    public String getRealPath(Uri uri) {
+        String docId = DocumentsContract.getDocumentId(uri);
+        String[] split = docId.split(":");
+        String type = split[0];
+        Uri contentUri;
+        switch (type) {
+            case "image":
+                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                break;
+            case "video":
+                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                break;
+            case "audio":
+                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                break;
+            default:
+                contentUri = MediaStore.Files.getContentUri("external");
+        }
+        String selection = "_id=?";
+        String[] selectionArgs = new String[]{
+                split[1]
+        };
+
+        return getDataColumn(act, contentUri, selection, selectionArgs);
+    }
+
+    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+        Cursor cursor = null;
+        String column = "_data";
+        String[] projection = {
+                column
+        };
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(column);
+                String value = cursor.getString(column_index);
+                if (value.startsWith("content://") || !value.startsWith("/") && !value.startsWith("file://")) {
+                    return null;
+                }
+                return value;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+
+    public void coding() {
+        File video_file = new File(getRealPath(selectedVideoURI));
+        try {
+            video_file = FileUtilsDemo.getFileFromUri(this, selectedVideoURI);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         String video_url = video_file.getAbsolutePath();
-        // creating a new file in storage
-        final String filePath;
+        String filePath = null;
         String filePrefix = "fastforward";
         String fileExtn = ".mp4";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            // With introduction of scoped storage in Android Q the primitive method gives error
-            // So, it is recommended to use the below method to create a video file in storage.
             ContentValues valuesvideos = new ContentValues();
-            valuesvideos.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "BRAND");
-            valuesvideos.put(MediaStore.Video.Media.TITLE, filePrefix + System.currentTimeMillis());
-            valuesvideos.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix + System.currentTimeMillis() + fileExtn);
-            valuesvideos.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-            valuesvideos.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
-            valuesvideos.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
-            Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, valuesvideos);
-
-            // get the path of the video file created in the storage.
             File file = null;
             try {
-                file = FileUtilsDemo.getFileFromUri(this, uri);
+                valuesvideos = new ContentValues();
+                //valuesvideos.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "BRAND");
+                valuesvideos.put(MediaStore.Video.Media.TITLE, filePrefix + System.currentTimeMillis());
+                valuesvideos.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix + System.currentTimeMillis() + fileExtn);
+                valuesvideos.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+                valuesvideos.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+                valuesvideos.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
+
+                String desDirectory = Environment.DIRECTORY_DOWNLOADS;
+                desDirectory = desDirectory + File.separator + "brandmnaia";
+                File desFile = new File(desDirectory);
+                if (!desFile.exists()) {
+                    desFile.mkdir();
+                }
+                String outputFile = desDirectory + File.separator + filePrefix + fileExtn;
+                valuesvideos.put(MediaStore.MediaColumns.RELATIVE_PATH, desDirectory);
+                Uri desUri = act.getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, valuesvideos);
+                file = new File(desUri.getPath());
+                filePath = outputFile;
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            filePath = file.getAbsolutePath();
+
 
         } else {
-            // This else statement will work for devices with Android version lower than 10
-            // Here, "app_folder" is the path to your app's root directory in device storage
-            File dest = new File(new File(app_folder), filePrefix + fileExtn);
-            int fileNo = 0;
-            // check if the file name previously exist. Since we don't want
-            // to overwrite the video files
-            while (dest.exists()) {
-                fileNo++;
-                dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
+            String destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "brandmania";
+            File desFile = new File(destURL);
+            if (!desFile.exists()) {
+                desFile.mkdir();
             }
-            // Get the filePath once the file is successfully created.
-            filePath = dest.getAbsolutePath();
+            destURL = destURL + File.separator + filePrefix + fileExtn;
+            File file = new File(destURL);
+            filePath = file.getAbsolutePath();
         }
-        String[] exe = new String[]{"-y -i " + video_url + " -filter_complex [0:v]trim=0:" + 0 + ",setpts=PTS-STARTPTS[v1];[0:v]trim=" + duration + ":" + duration + ",setpts=0.5*(PTS-STARTPTS)[v2];[0:v]trim=" + (duration) + ",setpts=PTS-STARTPTS[v3];[0:a]atrim=0:" + (0) + ",asetpts=PTS-STARTPTS[a1];[0:a]atrim=" + (0) + ":" + (duration) + ",asetpts=PTS-STARTPTS,atempo=2[a2];[0:a]atrim=" + (duration) + ",asetpts=PTS-STARTPTS[a3];[v1][a1][v2][a2][v3][a3]concat=n=3:v=1:a=1 " + "-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast " + filePath};
-        // the "exe" string contains the command to process video.The details of command are discussed later in this post.
-        // "video_url" is the url of video which you want to edit. You can get this url from intent by selecting any video from gallery.
+
+
+        File moviesDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+        );
+
+        String yourRealPath = getRealPath(selectedVideoURI);
+        File dest = new File(moviesDir, filePrefix + fileExtn);
+        int fileNo = 0;
+        while (dest.exists()) {
+            fileNo++;
+            dest = new File(moviesDir, filePrefix + fileNo + fileExtn);
+        }
+        filePath = dest.getAbsolutePath();
+
+
+        // ffmpeg -i input.mp4 -i watermark.png -filter_complex "overlay=1500:1000" output.mp4
+        String[] exe = new String[]{"ffmpeg -i " + yourRealPath + " -i " + getRealPath(selectedImageURI) + " -filter_complex 'overlay=10:10' " + filePath};
+        //String[] exe = new String[]{"ffmpeg -i " + getRealPath(selectedImageUri) + "" + 0 + ",setpts=PTS-STARTPTS[v1];[0:v]trim=" + duration + ":" + duration + ",setpts=0.5*(PTS-STARTPTS)[v2];[0:v]trim=" + (duration) + ",setpts=PTS-STARTPTS[v3];[0:a]atrim=0:" + (0) + ",asetpts=PTS-STARTPTS[a1];[0:a]atrim=" + (0) + ":" + (duration) + ",asetpts=PTS-STARTPTS,atempo=2[a2];[0:a]atrim=" + (duration) + ",asetpts=PTS-STARTPTS[a3];[v1][a1][v2][a2][v3][a3]concat=n=3:v=1:a=1 " + "-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast " + filePath};
         execComd(exe);
     }
 
-    private void execComd(String[] cmd) {
-        try {
-            //ffmpeg -y -i input_file.mp4 -vcodec copy -an output_file.mp4
-            // to execute "ffmpeg -version" command you just need to pass "-version"
-            fFmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
+    FFmpeg ffmpeg;
 
-                @Override
-                public void onStart() {
-                    Log.e("On start", "ye");
-                }
+    private void executeSlowMotionVideoCommand() {
+        File moviesDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_MOVIES
+        );
 
-                @Override
-                public void onProgress(String message) {
-                    Log.e("On progress", message);
+        String filePrefix = "slowmotion_video";
+        String fileExtn = ".mp4";
+        String yourRealPath = getPath(selectedVideoURI);
 
-                }
 
-                @Override
-                public void onFailure(String message) {
-                    Log.e("On failur", message);
-
-                }
-
-                @Override
-                public void onSuccess(String message) {
-                    Log.e("On success", message);
-                }
-
-                @Override
-                public void onFinish() {
-                    Log.e("On finish", "yes");
-
-                }
-            });
-        } catch (FFmpegCommandAlreadyRunningException e) {
-            // Handle if FFmpeg is already running
-            e.printStackTrace();
+        File dest = new File(moviesDir, filePrefix + fileExtn);
+        int fileNo = 0;
+        while (dest.exists()) {
+            fileNo++;
+            dest = new File(moviesDir, filePrefix + fileNo + fileExtn);
         }
+
+        Log.d("TAG", "startTrim: src: " + yourRealPath);
+        Log.d("TAG", "startTrim: dest: " + dest.getAbsolutePath());
+        String filePath = dest.getAbsolutePath();
+       // String[] complexCommand = new String[]{"ffmpeg -i " + getRealPath(selectedVideoURI) + " -i " + getRealPath(selectedImageURI) + " -filter_complex 'overlay=10:10' " + filePath};
+
+       String[] complexCommand = {"-y", "-i", getRealPath(selectedVideoURI), "-filter_complex", "[0:v]setpts=2.0*PTS[v];[0:a]atempo=0.5[a]", "-map", "[v]", "-map", "[a]", "-b:v", "2097k", "-r", "60", "-vcodec", "mpeg4", filePath};
+        execComd(complexCommand);
+
+    }
+
+    private void execComd(String[] cmd) {
+
+        ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
+
+            @Override
+            public void onStart() {
+                Log.e("Start", "logged");
+            }
+
+            @Override
+            public void onProgress(String message) {
+                Log.e("onProgress", message);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Log.e("onFailure", message);
+            }
+
+            @Override
+            public void onSuccess(String message) {
+                Log.e("onSuccess", message);
+            }
+
+            @Override
+            public void onFinish() {
+            }
+
+        });
+    }
+
+    public void chooseVideo() {
+        Intent intent = new Intent();
+        intent.setType("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Video"), 1010);
+
     }
 
     // UPDATED!
@@ -984,14 +1162,10 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // required permissions granted, start crop image activity
             startCropImageActivity(mCropImageUri);
-        } else {
-            //   Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
         }
         if (requestCode == CodeReUse.ASK_PERMISSSION) {
             if (isDownloadOrSharingOrFavPending != -1) {
-                //for favourit
                 if (isDownloadOrSharingOrFavPending == 0) {
                     isDownloadOrSharingOrFavPending = -1;
                     if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
@@ -1001,11 +1175,8 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
                     saveImageToGallery(false, true);
                 }
-                //for download
                 if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
                     if (isDownloadOrSharingOrFavPending == 1) {
-                        //   Toast.makeText(act, "fdggdgd", Toast.LENGTH_SHORT).show();
                         isDownloadOrSharingOrFavPending = -1;
                         if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
                             //freee ------
@@ -1019,11 +1190,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                                 askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                             }
                         } else {
-                            //paid
-                     /*if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
-                        }*/
                             getImageDownloadRights("Download");
                         }
                     }
@@ -1060,6 +1226,22 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     }
 
+
+    //fire intent for share
+    public void triggerShareIntent(File new_file, Bitmap merged) {
+        //  Uri uri = Uri.parse();
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/*");
+        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act, merged));
+        startActivity(Intent.createChooser(share, "Share Image"));
+    }
+
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "IMG_" + Calendar.getInstance().getTime(), null);
+        return Uri.parse(path);
+    }
 
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
@@ -1120,7 +1302,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         queue.add(stringRequest);
     }
 
-
     public static String convertFirstUpper(String str) {
 
         if (str == null || str.isEmpty()) {
@@ -1166,23 +1347,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-
-    //fire intent for share
-    public void triggerShareIntent(File new_file, Bitmap merged) {
-        //  Uri uri = Uri.parse();
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act, merged));
-        startActivity(Intent.createChooser(share, "Share Image"));
-    }
-
-    public static Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "IMG_" + Calendar.getInstance().getTime(), null);
-        return Uri.parse(path);
-    }
-
 
     //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeDownloadLimitExpireBinding expireBinding;

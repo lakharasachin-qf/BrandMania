@@ -153,12 +153,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
 
     //for FFmpeg
-    implementation 'com.madhavanmalolan.android:ffmpegandroidlibrary:0.0.4'
-    implementation 'com.writingminds:FFmpegAndroid:0.3.2'
 
 
     implementation 'nl.bravobit:android-ffmpeg:1.1.7'
-    //implementation 'com.arthenica:mobile-ffmpeg-full:3.2'
 
     implementation 'com.github.virtualvivek:BlurShadowImageView:2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -170,7 +167,6 @@ dependencies {
     implementation 'commons-validator:commons-validator:1.6'
 
     //For one signal integration
-    //implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'+
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.4.0')

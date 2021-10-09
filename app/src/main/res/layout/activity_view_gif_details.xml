@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/rootBackground"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:theme="@style/AppTheme_material_theme"
         tools:context=".Activity.details.ImageCategoryDetailActivity">
@@ -65,7 +65,6 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/videoTutorial"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -76,10 +75,10 @@
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:tint="@color/white" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/downloadIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,25 +88,27 @@
                     android:src="@drawable/ic_baseline_cloud_download_24"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/shareIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginLeft="@dimen/_10sdp"
-                   android:layout_alignParentEnd="true"
                     android:fontFamily="@font/inter_semibold"
                     android:src="@drawable/ic_baseline_share_24"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold" />
+
                 <RelativeLayout
                     android:id="@+id/favSection"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_toLeftOf="@+id/shareIcon"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toLeftOf="@+id/shareIcon">
 
                     <ImageView
                         android:id="@+id/fabroutIcon"
@@ -118,6 +119,7 @@
                         android:textColor="@color/colorNavText"
                         android:textSize="@dimen/_14sdp"
                         android:textStyle="bold" />
+
                     <ImageView
                         android:id="@+id/addfabroutIcon"
                         android:layout_width="wrap_content"
@@ -130,8 +132,6 @@
                         android:textStyle="bold"
                         android:visibility="gone" />
                 </RelativeLayout>
-
-
 
 
             </RelativeLayout>
@@ -168,7 +168,6 @@
                     android:layout_height="@dimen/_300sdp">
 
 
-
                     <ImageView
                         android:id="@+id/backgrounImageDuplicate"
                         android:layout_width="match_parent"
@@ -181,17 +180,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY" />
+
                     <com.app.brandmania.gifHelper.GifImageView
-                        android:visibility="visible"
                         android:id="@+id/gifImageView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        android:visibility="gone" />
+
                     <VideoView
-                        android:visibility="gone"
                         android:id="@+id/videoImageView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        />
+                        android:visibility="gone" />
 
 
                     <ProgressBar
@@ -202,6 +202,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:visibility="visible" />
+
                     <ImageView
                         android:id="@+id/FrameImageDuplicate"
                         android:layout_width="match_parent"
@@ -211,10 +212,10 @@
                         android:visibility="gone" />
 
                     <RelativeLayout
-                        android:background="@drawable/element_background"
                         android:id="@+id/elementCustomFrame"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@drawable/element_background">
 
                         <ImageView
                             android:id="@+id/borderLayoutElement"
@@ -224,10 +225,10 @@
 
 
                         <LinearLayout
-                            android:background="@android:color/transparent"
                             android:id="@+id/logoEmptyState"
                             android:layout_width="@dimen/_50sdp"
                             android:layout_height="@dimen/_50sdp"
+                            android:background="@android:color/transparent"
                             android:gravity="center_vertical"
                             android:orientation="vertical">
 
@@ -252,27 +253,27 @@
                             android:id="@+id/logoCustom"
                             android:layout_width="@dimen/_60sdp"
                             android:layout_height="@dimen/_60sdp"
-                            android:scaleType="centerInside"
                             android:background="@android:color/transparent"
+                            android:scaleType="centerInside"
                             android:visibility="gone" />
 
 
-                            <RelativeLayout
-                                android:id="@+id/elementFooter"
-                                android:layout_alignParentBottom="true"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:id="@+id/elementFooter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true">
 
-                            </RelativeLayout>
+                        </RelativeLayout>
 
                     </RelativeLayout>
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/backendFrame"
-                        android:scaleType="fitXY"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -290,131 +291,133 @@
 
 
             <LinearLayout
-                    android:id="@+id/clorframeLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/recoImgeRelative"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.tabs.TabLayout
-                            app:tabTextAppearance="@style/CustomViewAllTab"
-                            android:id="@+id/tabLayout"
-                            android:layout_width="match_parent"
-                            app:tabMode="scrollable"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/appbarLayout"
-                            android:layout_marginTop="-3dp"
-                            android:background="@color/colorNavText"
-                            app:tabIndicatorColor="@color/colorPrimary" />
-                      <!--  <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tabLayout"
-                            style="@style/MyTabLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/appbarLayout"
-                            android:layout_marginTop="-3dp"
-
-                            android:background="@android:color/transparent"
-                            app:tabGravity="fill"
-                            app:tabIndicatorColor="@color/colorPrimary"
-                            app:tabIndicatorHeight="0dp"
-                            app:tabMinWidth="@dimen/_60sdp"
-                            app:tabMode="scrollable" />-->
-
-
-                        <!--android:layout_marginRight="@dimen/_60sdp"-->
-                    </RelativeLayout>
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewPager"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout_editor_absoluteX="8dp" />
-                </LinearLayout>
+                android:id="@+id/clorframeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/recoImgeRelative"
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:paddingLeft="@dimen/_5sdp"
+                    android:layout_height="wrap_content">
 
-                    android:paddingRight="@dimen/_5sdp"
-                    android:visibility="gone">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/viewRecoRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="visible" />
-
-
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmer_view_container"
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        shimmer:shimmer_duration="800">
+                        android:layout_below="@+id/appbarLayout"
+                        android:layout_marginTop="-3dp"
+                        android:background="@color/colorNavText"
+                        app:tabIndicatorColor="@color/colorPrimary"
+                        app:tabMode="scrollable"
+                        app:tabTextAppearance="@style/CustomViewAllTab" />
+                    <!--  <com.google.android.material.tabs.TabLayout
+                          android:id="@+id/tabLayout"
+                          style="@style/MyTabLayout"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@+id/appbarLayout"
+                          android:layout_marginTop="-3dp"
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                          android:background="@android:color/transparent"
+                          app:tabGravity="fill"
+                          app:tabIndicatorColor="@color/colorPrimary"
+                          app:tabIndicatorHeight="0dp"
+                          app:tabMinWidth="@dimen/_60sdp"
+                          app:tabMode="scrollable" />-->
 
-                            <include layout="@layout/item_simmer_visitors_layout" />
 
-                            <include layout="@layout/item_simmer_visitors_layout" />
+                    <!--android:layout_marginRight="@dimen/_60sdp"-->
+                </RelativeLayout>
 
-                            <include layout="@layout/item_simmer_visitors_layout" />
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout_editor_absoluteX="8dp" />
+            </LinearLayout>
 
-                            <include layout="@layout/item_simmer_visitors_layout" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_5sdp"
 
-                            <include layout="@layout/item_simmer_visitors_layout" />
-                        </LinearLayout>
+                android:paddingRight="@dimen/_5sdp"
+                android:visibility="gone">
 
-                    </com.facebook.shimmer.ShimmerFrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/viewRecoRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible" />
+
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    shimmer:shimmer_duration="800">
 
                     <LinearLayout
-                        android:id="@+id/emptyStateLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:visibility="gone">
-                        <ImageView
-                            android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                            android:src="@drawable/notification"
-                            android:layout_width="@dimen/_200sdp"
-                            android:layout_height="@dimen/_200sdp">
+                        <include layout="@layout/item_simmer_visitors_layout" />
 
-                        </ImageView>
-                        <TextView
-                            android:id="@+id/emptyStateMsg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            android:fontFamily="@font/poppins_regular"
-                            android:text="No Image Found"
-                            android:textSize="@dimen/_12sdp" />
+                        <include layout="@layout/item_simmer_visitors_layout" />
+
+                        <include layout="@layout/item_simmer_visitors_layout" />
+
+                        <include layout="@layout/item_simmer_visitors_layout" />
+
+                        <include layout="@layout/item_simmer_visitors_layout" />
                     </LinearLayout>
 
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/emptyStateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
+
                     <ImageView
+                        android:layout_width="@dimen/_200sdp"
 
-                        android:id="@+id/allSetImage"
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="@dimen/_100sdp"
-                        android:layout_below="@+id/viewRecoRecycler"
-                        android:scaleType="fitXY"
-                        android:visibility="gone" />
+                        android:layout_height="@dimen/_200sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/notification">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/emptyStateMsg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="No Image Found"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <ImageView
+
+                    android:id="@+id/allSetImage"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_below="@+id/viewRecoRecycler"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
 
-                </RelativeLayout>
-           <!-- </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+            </RelativeLayout>
+            <!-- </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
         </RelativeLayout>
 
 

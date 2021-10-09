@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -202,6 +203,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             intent.putExtra("selectedimage", gson.toJson(model));
                             intent.putExtra("position", position);
                             activity.startActivity(intent);
+
                         }
                     });
 
@@ -230,7 +232,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         public void onClick(View v) {
                             //Image Category Detail Activity
                             //Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
-                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                             Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
 
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages", "1");
@@ -271,6 +273,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                                 intent.putExtra("selectedimage", gson.toJson(model));
                                 intent.putExtra("position", position);
                                 activity.startActivity(intent);
+
                             }
                             if (layoutType == FROM_VIEWALL) {
 
@@ -290,7 +293,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         Log.e("gif", "data" + model.getFrame());
                         Glide.with(activity)
                                 .asGif()
-                                .load(model.getFrame())
+                                .load(model)
                                 .into(((ImageCategoryByIdHolder) holder).binding.gifImg);
 
                     /*    new GifDataDownloader() {
@@ -414,7 +417,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             if (layoutType == FROM_CATEGORYFRAGEMENT) {
-                                //  Toast.makeText(activity,"bjhdshdj",Toast.LENGTH_LONG).show();
+
                                 Intent intent = new Intent(activity, ViewAllFrameImageActivity.class);
                                 Gson gson = new Gson();
                                 intent.putExtra("selectedimage", gson.toJson(model));
@@ -434,7 +437,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
             }
 
         } else {
-            // Toast.makeText(activity, "dfgdgdfgfdg", Toast.LENGTH_SHORT).show();
+
         }
 
 
