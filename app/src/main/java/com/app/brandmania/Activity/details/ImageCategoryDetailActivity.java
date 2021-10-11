@@ -750,7 +750,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
         selectedObject = listModel;
-        Log.e("SELECTED",gson.toJson(selectedObject));
+        Log.e("SELECTED", gson.toJson(selectedObject));
         LoadDataToUI();
         binding.simpleProgressBar.setVisibility(View.GONE);
         if (selectedFooterModel == null)
@@ -1211,11 +1211,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             .show();
                     return false;
                 } else {
-
                     return true;
                 }
-
-
             }
         } else {
             if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

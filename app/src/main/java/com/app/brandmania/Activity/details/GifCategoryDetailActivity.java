@@ -126,6 +126,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -640,8 +642,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         } else {
             //showTabIntro(binding.viewPager.getChildAt(0), "Category", "Choose your image as you want");
         }
-
-
     }
 
     //load firstImage
@@ -717,7 +717,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         binding.simpleProgressBar.setVisibility(View.GONE);
         if (selectedFooterModel == null)
             loadFirstImage();
-
         forCheckFavorite();
 
     }
@@ -848,7 +847,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
             if (requestCode == 1020) {
                 Uri selectedImageUri = data.getData();
                 // Get the path from the Uri
-                final String path = HELPER.realPathForImage(act,selectedImageUri);
+                final String path = HELPER.realPathForImage(act, selectedImageUri);
                 if (path != null) {
                     File f = new File(path);
                     selectedImageUri = Uri.fromFile(f);
@@ -858,7 +857,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 Log.e("path: ", path);
                 // Set the image in ImageView
                 this.selectedImageURI = selectedImageUri;
-
                 binding.recoImage.setVisibility(View.VISIBLE);
                 binding.videoImageView.setVisibility(View.GONE);
                 binding.recoImage.setImageURI(selectedImageUri);
@@ -890,8 +888,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                         //   coding(selectedImageUri);
                     }
                 });
-
-
             }
         }
 
@@ -928,7 +924,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         if (requestCode == 1011) {
             if (resultCode == RESULT_OK) {
 
-
                 Uri selectedImageUri = data.getData();
 
                 Log.e("selectedImageUri", getRealPathFromURIFOrImage(act, selectedImageUri) + "-");
@@ -940,7 +935,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 } else {
                     Log.e("FFmpeg", "not support");
                 }
-
 
             }
         }
@@ -1019,7 +1013,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         return null;
     }
 
-
     public void coding() {
         File video_file = new File(getRealPath(selectedVideoURI));
         try {
@@ -1059,7 +1052,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 e.printStackTrace();
             }
 
-
         } else {
             String destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "brandmania";
             File desFile = new File(destURL);
@@ -1071,6 +1063,25 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
             filePath = file.getAbsolutePath();
         }
 
+        //Creating Download Folder
+        File moviesDirs = new File(Environment.getExternalStorageDirectory(), "Download");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                Files.createDirectory(Paths.get(moviesDirs.getAbsolutePath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            moviesDirs.mkdir();
+            moviesDirs.mkdirs();
+            Toast.makeText(getApplicationContext(), moviesDirs.getPath(), Toast.LENGTH_LONG).show();
+        }
+//        //Creating folder for android 10
+//        File moviesDirs = new File(Environment.getExternalStorageDirectory(), "Download");
+//        if (!moviesDirs.exists()) {
+//            moviesDirs.mkdir();
+//        }
 
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS
@@ -1086,21 +1097,15 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         filePath = dest.getAbsolutePath();
 
         // ffmpeg -i input.mp4 -i watermark.png -filter_complex "overlay=1500:1000" output.mp4
-
-        Log.e("reeee",HELPER.realPathForImage(act,selectedImageURI) );
-        Log.e("reeee",filePath );
-        //ffmpeg -i input -i logo -filter_complex 'overlay=10:main_h-overlay_h-10' output
-        //-filter_complex overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable=’between(t,0,7)’ -c:a copy
-        String[] exe = new String[]{" -i " + yourRealPath + " -i " + HELPER.realPathForImage(act,selectedImageURI) +
-                " -filter_complex overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable=’between(t,0,7)’ " +" -c:a copy " ,filePath};
-         exe = new String[]{"-i" , yourRealPath , "-i" , HELPER.realPathForImage(act,selectedImageURI) , "-filter_complex" , "overlay=10:main_h-overlay_h-10", filePath};
-        //String[] exe = new String[]{"ffmpeg -i " + yourRealPath + " -i " + "coin.png"+"-filter_complex ","overlay=10:10" , "-codec:a", "copy", filePath};
-        //String[] exe = new String[]{"ffmpeg -i " + getRealPath(selectedImageUri) + "" + 0 + ",setpts=PTS-STARTPTS[v1];[0:v]trim=" + duration + ":" + duration + ",setpts=0.5*(PTS-STARTPTS)[v2];[0:v]trim=" + (duration) + ",setpts=PTS-STARTPTS[v3];[0:a]atrim=0:" + (0) + ",asetpts=PTS-STARTPTS[a1];[0:a]atrim=" + (0) + ":" + (duration) + ",asetpts=PTS-STARTPTS,atempo=2[a2];[0:a]atrim=" + (duration) + ",asetpts=PTS-STARTPTS[a3];[v1][a1][v2][a2][v3][a3]concat=n=3:v=1:a=1 " + "-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast " + filePath};
+        Log.e("RealPath", HELPER.realPathForImage(act, selectedImageURI));
+        Log.e("FilePath", filePath);
+        String[] exe = new String[]{"-i", yourRealPath, "-i", HELPER.realPathForImage(act, selectedImageURI), "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", filePath};
         execComd(exe);
     }
 
     FFmpeg ffmpeg;
 
+    //For SlowMotion Video
     private void executeSlowMotionVideoCommand() {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
@@ -1142,6 +1147,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
             @Override
             public void onProgress(String message) {
+                binding.simpleProgressBar.setVisibility(View.VISIBLE);
                 Log.e("onProgress", message);
             }
 
@@ -1152,6 +1158,8 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
             @Override
             public void onSuccess(String message) {
+                binding.simpleProgressBar.setVisibility(View.GONE);
+                Toast.makeText(act, "Video Created", Toast.LENGTH_LONG).show();
                 Log.e("onSuccess", message);
             }
 
@@ -1206,7 +1214,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
             return null;
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -1228,7 +1235,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                     if (isDownloadOrSharingOrFavPending == 1) {
                         isDownloadOrSharingOrFavPending = -1;
                         if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
-                            //freee ------
+                            //Free User
                             if (selectedObject.isImageFree()) {
                                 if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                     askForUpgradeToEnterpisePackage();
@@ -1242,7 +1249,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                             getImageDownloadRights("Download");
                         }
                     }
-                    //for share
+                    //For Share
                     if (isDownloadOrSharingOrFavPending == 2) {
                         isDownloadOrSharingOrFavPending = -1;
                         if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
@@ -1598,7 +1605,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
     }
 
-
     private File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Christmas");
 
@@ -1606,7 +1612,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
             if (!mediaStorageDir.mkdirs())
                 return null;
         }
-
         File mediaFile;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_MERRY_CHRISTMAS_" + Calendar.getInstance().getTimeInMillis() + ".gif");
         return mediaFile;
@@ -2740,6 +2745,5 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 });
 
     }
-
 
 }

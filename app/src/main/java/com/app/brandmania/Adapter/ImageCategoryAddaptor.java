@@ -198,7 +198,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             // if (layoutType==FROM_HOMEFRAGEMENT) {
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                             Gson gson = new Gson();
-                            Log.e("Link",model.getFrame());
+                            Log.e("Link", model.getFrame());
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
                             intent.putExtra("selectedimage", gson.toJson(model));
                             intent.putExtra("position", position);
@@ -232,7 +232,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         public void onClick(View v) {
                             //Image Category Detail Activity
                             //Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
-                             Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
+                            Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
 
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages", "1");
@@ -269,7 +269,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             if (layoutType == FROM_HOMEFRAGEMENT) {
                                 Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                                 Gson gson = new Gson();
-                                Log.e("Link",model.getFrame());
+                                Log.e("Link", model.getFrame());
                                 intent.putExtra("selectedimage", gson.toJson(model));
                                 intent.putExtra("position", position);
                                 activity.startActivity(intent);
