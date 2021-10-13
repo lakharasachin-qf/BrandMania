@@ -7,6 +7,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +29,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -69,6 +71,7 @@ import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.ViewAllTopTabAdapter;
+import com.app.brandmania.Common.Cache;
 import com.app.brandmania.Common.FooterHelper;
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
@@ -174,6 +177,9 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
     private ImageView[] dots;
     FrameItem selectedModelFromView;
     AlertDialog.Builder alertDialogBuilder;
+    ProgressDialog progressDialog;
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
     File new_file;
     private Uri mCropImageUri;
     private ScaleGestureDetector scaleGestureDetector;
@@ -235,6 +241,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         super.onCreate(savedInstanceState);
         act = this;
         ffmpeg = FFmpeg.getInstance(act);
+        progressDialog = new ProgressDialog(act);
         //  test();
         //triggerUpgradePackage(); taflon tape
         //ffmpeg -i animated.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" video.mp4
@@ -1023,8 +1030,9 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
         String video_url = video_file.getAbsolutePath();
         String filePath = null;
-        String filePrefix = "fastforward";
+        String filePrefix = "Imageoverlay";
         String fileExtn = ".mp4";
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ContentValues valuesvideos = new ContentValues();
             File file = null;
@@ -1053,15 +1061,28 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
             }
 
         } else {
-            String destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "brandmania";
-            File desFile = new File(destURL);
-            if (!desFile.exists()) {
-                desFile.mkdir();
-            }
-            destURL = destURL + File.separator + filePrefix + fileExtn;
-            File file = new File(destURL);
-            filePath = file.getAbsolutePath();
+//            String destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "brandmania";
+//            File desFile = new File(destURL);
+//            if (!desFile.exists()) {
+//                desFile.mkdir();
+//            }
+//            destURL = destURL + File.separator + filePrefix + fileExtn;
+//            File file = new File(destURL);
+//            filePath = file.getAbsolutePath();
         }
+
+        //Create catch file in Internal Storage
+        File outputDir = act.getCacheDir(); // context being the Activity pointer
+        try {
+            File outputFile = File.createTempFile("prefix", ".extension", outputDir);
+            outputFile.mkdir();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        //accessing or creating file/supported in Android 9, 10 and 11
+//        File fullfilepath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"MyAppFolder");
+//        fullfilepath.mkdirs();
 
         //Creating Download Folder
         File moviesDirs = new File(Environment.getExternalStorageDirectory(), "Download");
@@ -1083,6 +1104,9 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 //            moviesDirs.mkdir();
 //        }
 
+        saveImageInCache();
+
+        //download directory
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS
         );
@@ -1100,7 +1124,39 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
         Log.e("RealPath", HELPER.realPathForImage(act, selectedImageURI));
         Log.e("FilePath", filePath);
         String[] exe = new String[]{"-i", yourRealPath, "-i", HELPER.realPathForImage(act, selectedImageURI), "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", filePath};
-        execComd(exe);
+        execCommand(exe);
+    }
+
+    //saveImageInApp.....
+    public Uri saveImageInCache() {
+
+        Bitmap newFinal;
+        Bitmap returnedBitmap = Bitmap.createBitmap(binding.elementCustomFrame.getWidth(), binding.elementCustomFrame.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(returnedBitmap);
+
+        Drawable bgDrawable = binding.elementCustomFrame.getBackground();
+        if (bgDrawable != null) {
+            bgDrawable.draw(canvas);
+        } else {
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        }
+        binding.elementCustomFrame.draw(canvas);
+
+        binding.FrameImageDuplicate.setVisibility(View.VISIBLE);
+
+        binding.FrameImageDuplicate.setImageBitmap(returnedBitmap);
+
+        BitmapDrawable drawable = (BitmapDrawable) binding.FrameImageDuplicate.getDrawable();
+
+        newFinal = drawable.getBitmap();
+
+        binding.FrameImageDuplicate.setVisibility(View.VISIBLE);
+        Cache cache = new Cache();
+        Uri uri = cache.saveToCacheAndGetUri(act, newFinal);
+        Log.e("cacheURI", "data:- " + uri);
+        return uri;
     }
 
     FFmpeg ffmpeg;
@@ -1132,11 +1188,11 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
                 "-filter_complex", "[0:v]setpts=2.0*PTS[v];[0:a]atempo=0.5[a]",
                 "-map", "[v]", "-map", "[a]", "-b:v", "2097k", "-r",
                 "60", "-vcodec", "mpeg4", filePath};
-        execComd(complexCommand);
+        execCommand(complexCommand);
 
     }
 
-    private void execComd(String[] cmd) {
+    private void execCommand(String[] cmd) {
 
         ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
 
@@ -1147,8 +1203,11 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
             @Override
             public void onProgress(String message) {
-                binding.simpleProgressBar.setVisibility(View.VISIBLE);
+//                progressDialog = new ProgressDialog(act);
+//                progressDialog.setMessage("Downloading Video ...");
+//                progressDialog.show();
                 Log.e("onProgress", message);
+                binding.simpleProgressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -1158,6 +1217,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
             @Override
             public void onSuccess(String message) {
+                //progressDialog.dismiss();
                 binding.simpleProgressBar.setVisibility(View.GONE);
                 Toast.makeText(act, "Video Created", Toast.LENGTH_LONG).show();
                 Log.e("onSuccess", message);
@@ -1165,6 +1225,7 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
 
             @Override
             public void onFinish() {
+                //progressDialog.dismiss();
             }
 
         });
@@ -2419,7 +2480,6 @@ public class GifCategoryDetailActivity extends BaseActivity implements ImageCate
             } else if (footerLayout == 10) {
                 FooterHelper.makeItalicForTen(tenBinding, false);
             }
-
 
         }
     }
