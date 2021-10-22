@@ -259,7 +259,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         return binding.getRoot();
     }
 
-
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);

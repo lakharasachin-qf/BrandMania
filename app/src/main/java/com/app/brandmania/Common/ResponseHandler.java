@@ -1,6 +1,7 @@
 package com.app.brandmania.Common;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.app.brandmania.Adapter.MultiListItem;
@@ -319,7 +320,6 @@ public class ResponseHandler {
                             model.setFrame("https://c.tenor.com/5VmvaWqS3sUAAAAC/happy-janmashtami.gif");
                             //model.setFrame(getString(datajsonObject, "https://media.giphy.com/media/BlVnrxJgTGsUw/giphy.gif"));
                         }
-
                         if (i == 3) {
                             model.setImageType(ImageList.GIF);
                             model.setFrame("https://media.giphy.com/media/xSM46ernAUN3y/giphy.gif");
@@ -327,6 +327,10 @@ public class ResponseHandler {
                         if (i == 5) {
                             model.setImageType(ImageList.GIF);
                             model.setFrame("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");
+                        }
+                        if (i == 2) {
+                            model.setImageType(ImageList.VIDEO);
+                            model.setVideoSet(Uri.parse("https://assets.mixkit.co/videos/preview/mixkit-meadow-surrounded-by-trees-on-a-sunny-afternoon-40647-large.mp4"));
                         }
                         string.add(model);
                     } catch (JSONException e) {

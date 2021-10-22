@@ -153,8 +153,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
 
     //for FFmpeg
-
-
     implementation 'nl.bravobit:android-ffmpeg:1.1.7'
 
     implementation 'com.github.virtualvivek:BlurShadowImageView:2.1'

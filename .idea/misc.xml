@@ -4,7 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/drawable/element_background.xml" value="0.2125" />
-        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_view_gif_details.xml" value="0.33" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_refer.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_view_all_image.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/activity_view_gif_details.xml" value="0.22" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/dialog_permissions_layout.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/fragment_home.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/frame_alert_box.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaVersion5/app/src/main/res/layout/item_layout_viewallimage.xml" value="0.44862518089725034" />
         <entry key="..\:/_ANDROID_PROJECTS/MakeMyBrandV5/app/src/main/res/drawable/coupon_success.xml" value="0.2125" />
         <entry key="..\:/_ANDROID_PROJECTS/MakeMyBrandV5/app/src/main/res/drawable/couponerectangleshape.xml" value="0.2125" />
         <entry key="..\:/_ANDROID_PROJECTS/MakeMyBrandV5/app/src/main/res/drawable/dailog_bg.xml" value="0.2125" />

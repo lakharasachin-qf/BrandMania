@@ -12,6 +12,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -231,8 +233,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             //Image Category Detail Activity
-                            //Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
-                            Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
+                            Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                            //Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
 
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages", "1");
@@ -293,39 +295,26 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         Log.e("gif", "data" + model.getFrame());
                         Glide.with(activity)
                                 .asGif()
-                                .load(model)
+                                .load(model.getFrame())
                                 .into(((ImageCategoryByIdHolder) holder).binding.gifImg);
-
-                    /*    new GifDataDownloader() {
-                            @Override
-                            protected void onPostExecute(final byte[] bytes) {
-                                ((ImageCategoryByIdHolder) holder).binding.gifImg.setBytes(bytes);
-                                ((ImageCategoryByIdHolder) holder).binding.gifImg.startAnimation();
-                                //Log.e("TAG", "GIF width is " + binding.gifImageView.getGifWidth());
-                                //Log.e("TAG", "GIF height is " + binding.gifImageView.getGifHeight());
-                            }
-                        }.execute("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");*/
-                    /*    bitmaps = new ArrayList<>();
-                        ((ImageCategoryByIdHolder) holder).binding.gifImg.setOnFrameAvailable(new GifImageView.OnFrameAvailable() {
-                            @Override
-                            public Bitmap onFrameAvailable(Bitmap bitmap) {
-                                if (bitmaps.size() != ((ImageCategoryByIdHolder) holder).binding.gifImg.getFrameCount() && !bitmaps.contains(bitmap)) {
-                                    bitmaps.add(bitmap);
-                                } else {
-
-                                    if (canDownloadGIF) {
-                                        Log.e("canDownload", "canDownload");
-
-                                        canDownloadGIF = false;
-                                        Log.e("SizeFrame", String.valueOf(bitmaps.size()));
-                                    }
-
-                                }
-
-                                return bitmap;
-                            }
-                        });*/
                     }
+                    if (model.getImageType() == ImageList.VIDEO) {
+                        ((ImageCategoryByIdHolder) holder).binding.videoView.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder) holder).binding.videoLayout.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder) holder).binding.image.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.gifImg.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.gifLayout.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.videoView.setVideoURI(model.getVideoSet());
+                        ((ImageCategoryByIdHolder) holder).binding.videoView.start();
+                        ((ImageCategoryByIdHolder) holder).binding.videoView.requestFocus();
+                        ((ImageCategoryByIdHolder) holder).binding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                mp.setLooping(true);
+                            }
+                        });
+                    }
+
                     if (!model.isImageFree()) {
                         ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 

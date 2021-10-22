@@ -80,7 +80,6 @@ public class ReferNEarnActivity extends BaseActivity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(act);
-        Log.w(preafManager.getReferCode(), "data");
         binding.referralCodeTxt.setText(preafManager.getReferCode());
         binding.walletMoney.setText(preafManager.getWallet());
         binding.referralCodeTxt.setTextIsSelectable(true);
@@ -103,15 +102,6 @@ public class ReferNEarnActivity extends BaseActivity {
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             /* Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                String sharebody = preafManager.getReferCode();
-                String sharebody = preafManager.getReferCode();
-                // shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Insert Subject here");
-                String app_url = "https://play.google.com/store/apps/details?id=com.make.mybrand";
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, app_url);
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, sharebody);
-                startActivity(Intent.createChooser(shareIntent, "Share via"));  */
                 shortenLongLink();
             }
         });
@@ -180,7 +170,6 @@ public class ReferNEarnActivity extends BaseActivity {
                     preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
                     binding.referralCodeTxt.setText(jsonArray1.getString("referal_code"));
                     binding.walletMoney.setText(jsonArray1.getString("user_total_coin"));
-                    //setupReferrerCode();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

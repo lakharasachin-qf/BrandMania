@@ -1,5 +1,7 @@
 package com.app.brandmania.Model;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 public class ImageList {
@@ -13,6 +15,8 @@ public class ImageList {
     public static final int LAYOUT_LOADING = 30;
     public static final int IMAGE = 0;
     public static final int GIF = 1;
+    public static final int VIDEO = 2;
+
 
 
     private int layoutType;
@@ -47,6 +51,17 @@ public class ImageList {
     private String y_cordinate;
     private String textX_Cordinate;
     private String textY_Cordinate;
+
+    public Uri getVideoSet() {
+        return videoSet;
+    }
+
+    public void setVideoSet(Uri videoSet) {
+        this.videoSet = videoSet;
+    }
+
+    private Uri videoSet;
+
 
     public int getImageType() {
         return imageType;
