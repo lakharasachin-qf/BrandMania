@@ -2,6 +2,7 @@ package com.app.brandmania.Common;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
 import com.app.brandmania.Adapter.MultiListItem;
@@ -315,22 +316,21 @@ public class ResponseHandler {
                         model.setFrame(getString(datajsonObject, "img_path"));
                         model.setImageType(ImageList.IMAGE);
                         model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
-                        if (i == 1) {
-                            model.setImageType(ImageList.GIF);
-                            model.setFrame("https://c.tenor.com/5VmvaWqS3sUAAAAC/happy-janmashtami.gif");
-                            //model.setFrame(getString(datajsonObject, "https://media.giphy.com/media/BlVnrxJgTGsUw/giphy.gif"));
-                        }
-                        if (i == 3) {
-                            model.setImageType(ImageList.GIF);
-                            model.setFrame("https://media.giphy.com/media/xSM46ernAUN3y/giphy.gif");
-                        }
-                        if (i == 5) {
-                            model.setImageType(ImageList.GIF);
-                            model.setFrame("https://media.giphy.com/media/MeIucAjPKoA120R7sN/giphy.gif");
-                        }
-                        if (i == 2) {
-                            model.setImageType(ImageList.VIDEO);
-                            model.setVideoSet(Uri.parse("https://assets.mixkit.co/videos/preview/mixkit-meadow-surrounded-by-trees-on-a-sunny-afternoon-40647-large.mp4"));
+
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                            if (i == 1) {
+                                model.setImageType(ImageList.GIF);
+                                model.setFrame("https://c.tenor.com/5VmvaWqS3sUAAAAC/happy-janmashtami.gif");
+                            }
+                            if (i == 3) {
+                                model.setImageType(ImageList.GIF);
+                                // model.setFrame("https://media.giphy.com/media/xSM46ernAUN3y/giphy.gif");
+                                model.setFrame("https://media.giphy.com/media/xlcR4sYSBT34fQqApS/giphy.gif");
+                            }
+                            if (i == 2) {
+                                model.setImageType(ImageList.VIDEO);
+                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/TestingBM.mp4"));
+                            }
                         }
                         string.add(model);
                     } catch (JSONException e) {
@@ -679,8 +679,6 @@ public class ResponseHandler {
                             FrameItem frameItem = new FrameItem();
                             frameItem.setFrame1(ResponseHandler.getString(jsonObject1, "frame_path"));
                             frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
-
-
                             frameItems.add(frameItem);
                         }
                         Gson gson = new Gson();

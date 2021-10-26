@@ -57,7 +57,7 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:text="My Busineshfghfghfghfgfhghfhfs"
+                        android:text="My Business"
                         android:textColor="@color/colorNavText"
                         android:textSize="@dimen/_13sdp"
                         android:textStyle="bold" />
@@ -165,7 +165,6 @@
                     android:id="@+id/relative"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_300sdp">
-
 
                     <ImageView
                         android:id="@+id/backgrounImageDuplicate"
