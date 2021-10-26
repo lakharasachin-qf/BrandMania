@@ -658,7 +658,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         Log.e("FinalStoragePath", filePath);
 
         //String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", filePath};
-        String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", filePath};
+        String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay", filePath};
         execCommand(exe);
     }
 
