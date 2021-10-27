@@ -299,6 +299,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                                 .into(((ImageCategoryByIdHolder) holder).binding.gifImg);
                     }
                     if (model.getImageType() == ImageList.VIDEO) {
+
                         ((ImageCategoryByIdHolder) holder).binding.videoView.setVisibility(View.VISIBLE);
                         ((ImageCategoryByIdHolder) holder).binding.videoLayout.setVisibility(View.VISIBLE);
                         ((ImageCategoryByIdHolder) holder).binding.image.setVisibility(View.GONE);

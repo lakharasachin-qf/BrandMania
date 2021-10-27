@@ -123,6 +123,7 @@ import com.app.brandmania.utils.IFontChangeEvent;
 import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
@@ -465,53 +466,31 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 //binding.videoView.setOnPreparedListener(mp -> mp.setLooping(true));
                 try {
 
-                    // bandwisthmeter is used for
-                    // getting default bandwidth
                     BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
 
-                    // track selector is used to navigate between
-                    // video using a default seekbar.
                     TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
                     SimpleExoPlayer exoPlayer;
 
-                    // we are adding our track selector to exoplayer.
                     exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
 
-                    // we are creating a variable for datasource factory
-                    // and setting its user agent as 'exoplayer_view'
                     DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer_video");
 
-                    // we are creating a variable for extractor factory
-                    // and setting it to default extractor factory.
                     ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
 
-                    // we are creating a media source with above variables
-                    // and passing our event handler as null,
                     MediaSource mediaSource = new ExtractorMediaSource(selectedObject.getVideoSet(), dataSourceFactory, extractorsFactory, null, null);
 
-                    // inside our exoplayer view
-                    // we are setting our player
                     binding.videoView.setPlayer(exoPlayer);
 
-                    // we are preparing our exoplayer
-                    // with media source.
                     exoPlayer.prepare(mediaSource);
 
-                    // we are setting our exoplayer
-                    // when it is ready.
                     exoPlayer.setPlayWhenReady(true);
+                    exoPlayer.setRepeatMode(Player.REPEAT_MODE_ALL);
 
                 } catch (Exception e) {
-                    // below line is used for
-                    // handling our errors.
                     Log.e("TAG", "Error : " + e.toString());
                 }
                 if (FFmpeg.getInstance(act).isSupported()) {
                     Log.e("FFmpeg", "supported");
-                    //videoCoding();
-                    //coding();
-                    //chooseVideo();
-                    //executeSlowMotionVideoCommand();
                 } else {
                     Log.e("FFmpeg", "not support");
                 }

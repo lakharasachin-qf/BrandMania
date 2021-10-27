@@ -24,7 +24,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:focusableInTouchMode="true"
                 android:visibility="gone" />
 
             <com.app.brandmania.gifHelper.GifImageView
