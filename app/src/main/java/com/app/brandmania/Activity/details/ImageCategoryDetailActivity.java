@@ -28,9 +28,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -120,6 +122,18 @@ import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.IFontChangeEvent;
 import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -151,6 +165,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import nl.bravobit.ffmpeg.ExecuteBinaryResponseHandler;
 import nl.bravobit.ffmpeg.FFmpeg;
@@ -232,6 +248,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
         getFrame();
         getBrandList();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         Website = preafManager.getActiveBrand().getWebsite();
 
@@ -440,10 +458,54 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 binding.recoImage.setVisibility(View.GONE);
                 binding.gifImageView.setVisibility(View.GONE);
                 binding.videoView.setVisibility(View.VISIBLE);
-                binding.videoView.setVideoURI(selectedObject.getVideoSet());
+                Log.e("URLL", String.valueOf(selectedObject.getVideoSet()));
+                //  binding.videoView.setVideoURI(selectedObject.getVideoSet());
                 binding.videoView.requestFocus();
-                binding.videoView.start();
-                binding.videoView.setOnPreparedListener(mp -> mp.setLooping(true));
+                // binding.videoView.start();
+                //binding.videoView.setOnPreparedListener(mp -> mp.setLooping(true));
+                try {
+
+                    // bandwisthmeter is used for
+                    // getting default bandwidth
+                    BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+
+                    // track selector is used to navigate between
+                    // video using a default seekbar.
+                    TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+                    SimpleExoPlayer exoPlayer;
+
+                    // we are adding our track selector to exoplayer.
+                    exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+
+                    // we are creating a variable for datasource factory
+                    // and setting its user agent as 'exoplayer_view'
+                    DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer_video");
+
+                    // we are creating a variable for extractor factory
+                    // and setting it to default extractor factory.
+                    ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+                    // we are creating a media source with above variables
+                    // and passing our event handler as null,
+                    MediaSource mediaSource = new ExtractorMediaSource(selectedObject.getVideoSet(), dataSourceFactory, extractorsFactory, null, null);
+
+                    // inside our exoplayer view
+                    // we are setting our player
+                    binding.videoView.setPlayer(exoPlayer);
+
+                    // we are preparing our exoplayer
+                    // with media source.
+                    exoPlayer.prepare(mediaSource);
+
+                    // we are setting our exoplayer
+                    // when it is ready.
+                    exoPlayer.setPlayWhenReady(true);
+
+                } catch (Exception e) {
+                    // below line is used for
+                    // handling our errors.
+                    Log.e("TAG", "Error : " + e.toString());
+                }
                 if (FFmpeg.getInstance(act).isSupported()) {
                     Log.e("FFmpeg", "supported");
                     //videoCoding();
@@ -469,7 +531,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
     public void saveVideo() {
-        coding();
+        //coding();
+        new AsyncTaskRunner().execute();
     }
 
 
@@ -580,13 +643,73 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             fos.flush();
             fos.close();
         } catch (IOException e) {
-            return; // swallow a 404
+            // swallow a 404
         }
     }
 
+    ProgressDialog progressDialog;
+
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+        private String resp;
+
+        @Override
+        protected String doInBackground(String... params) {
+            publishProgress("Sleeping...");
+//            try {
+//                int time = Integer.parseInt(params[0])*1000;
+//                Thread.sleep(time);
+//                resp = "Slept for " + params[0] + " seconds";
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                resp = e.getMessage();
+//            }
+            saveVideoInCatch();
+            return resp;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //shareVideo(new File(finalVideoPath));
+            //progressDialog.dismiss();
+            //result;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(act);
+            progressDialog.setMessage("Waiting...");
+            progressDialog.setCancelable(true);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+            //progressDialog = ProgressDialog.show(act,"ProgressDialog", "Wait for "+time.getText().toString()+ " seconds");
+            saveImageInCache();
+        }
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+            //  finalResult.setText(text[0]);
+        }
+    }
+
+    public void shareVideo(File uris) {
+        progressDialog.dismiss();
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        File imageFileToShare = new File(String.valueOf(uris));
+        Uri uri = Uri.fromFile(imageFileToShare);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setDataAndType(uri, "video/*");
+        shareIntent.setType("video/*");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        act.startActivity(Intent.createChooser(shareIntent, "Share Video to.."));
+    }
+
+    private String FinalVideoPath = "";
+
     public void coding() {
-        saveImageInCache();
-        saveVideoInCatch();
+
 
         File file;
         String filePath = null;
@@ -657,9 +780,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         filePath = dest.getAbsolutePath();
         Log.e("FinalStoragePath", filePath);
 
-        //String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", filePath};
-        String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay", filePath};
+        String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", filePath};
+        //String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "[0]overlay=x=0:y=0[out]", filePath};
         execCommand(exe);
+        videodata = new File(filePath);
     }
 
     String framePath = "";
@@ -726,11 +850,14 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     String finalVideoPath = "";
     long downloadID;
     String videoUrl;
+    DownloadManager manager;
+
 
     public void saveVideoInCatch() {
 
         String url = String.valueOf(selectedObject.getVideoSet());
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        DownloadManager.Request request;
+        request = new DownloadManager.Request(Uri.parse(url));
         videoUrl = URLUtil.guessFileName(url, null, null);
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
         request.setDescription("Downloading Please wait...");
@@ -742,10 +869,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS + File.separator, videoUrl);
         //request.setDestinationInExternalPublicDir(String.valueOf(act.getCacheDir()), videoUrl);
         request.allowScanningByMediaScanner();
-        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         downloadID = manager.enqueue(request);
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        Toast.makeText(act, "Downloading Started", Toast.LENGTH_SHORT).show();
         Log.e("url", videoUrl);
     }
 
@@ -756,8 +882,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             //Checking if the received broadcast is for our enqueued download by matching download id
             if (downloadID == id) {
-
-                Toast.makeText(act, "Download Completed", Toast.LENGTH_SHORT).show();
                 //File outputFrameFile = new File(act.getCacheDir(), videoUrl);
                 File outputFrameFile = new File(act.getCacheDir() + File.separator);
                 String vdPaths = outputFrameFile.getAbsolutePath();
@@ -770,42 +894,64 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 }
                 String path = file.getAbsolutePath();
                 file = new File(path + "/" + videoUrl);
-                String vdPathss = file.getAbsolutePath();
-
-                //for cache direcotry
-                file = new File(vdPaths + "/" + videoUrl);
                 String vdPath = file.getAbsolutePath();
-                if (vdPathss != null && !vdPathss.isEmpty()) {
-                    finalVideoPath = vdPathss;
+                file = new File(vdPaths + "/" + videoUrl);
+                if (!vdPath.isEmpty()) {
+                    finalVideoPath = vdPath;
                 }
                 Log.e("newVideoPath", finalVideoPath);
+                coding();
             }
         }
     };
     FFmpeg ffmpeg;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
+    File videodata = null;
+
+    Process finalP = null;
 
     public void execCommand(String[] cmd) {
-
-
+        ProcessBuilder pb = new ProcessBuilder(cmd);
+        Process p = null;
+        Scanner sc = null;
+        try {
+            p = pb.start();
+            sc = new Scanner(p.getErrorStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scanner finalSc = sc;
         ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
 
             @Override
             public void onStart() {
                 Log.e("Start", "logged");
-                progressDialog = new ProgressDialog(act);
-                progressDialog.setMessage("Processing...");
-                progressDialog.setCancelable(true);
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.show();
             }
 
             @Override
             public void onProgress(String message) {
-                Log.d("TAG", "Started command : ffmpeg " + cmd);
                 Log.e("onProgress", message);
                 progressDialog.setMessage("Processing\n" + message);
-                binding.simpleProgressBar.setVisibility(View.VISIBLE);
+
+                // Find duration
+                Pattern durPattern = Pattern.compile("(?<=Duration: )[^,]*");
+                String dur = finalSc.findWithinHorizon(durPattern, 0);
+                if (dur == null)
+                    throw new RuntimeException("Could not parse duration.");
+                String[] hms = dur.split(":");
+                double totalSecs = Integer.parseInt(hms[0]) * 3600
+                        + Integer.parseInt(hms[1]) * 60
+                        + Double.parseDouble(hms[2]);
+                System.out.println("Total duration: " + totalSecs + " seconds.");
+
+                // Find time as long as possible.
+                Pattern timePattern = Pattern.compile("(?<=time=)[\\d.]*");
+                String match;
+                while (null != (match = finalSc.findWithinHorizon(timePattern, 0))) {
+                    double progress = Double.parseDouble(match) / totalSecs;
+                    progressDialog.setProgress((int) (progress * 100));
+                    System.out.printf("Progress: %.2f%%%n", progress * 100);
+                }
             }
 
             @Override
@@ -815,8 +961,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
             @Override
             public void onSuccess(String message) {
-                binding.simpleProgressBar.setVisibility(View.GONE);
-                Toast.makeText(act, "Video Created", Toast.LENGTH_LONG).show();
+                manager.remove(downloadID);
+                shareVideo(videodata);
                 Log.e("onSuccess", message);
             }
 
@@ -824,12 +970,77 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             public void onFinish() {
                 progressDialog.dismiss();
             }
-
         });
     }
 
+    //    Pattern timePattern = Pattern.compile("(?<=time=)[\\d:.]*");
+//    Scanner sc = new Scanner(message);
+//
+//    String match = sc.findWithinHorizon(timePattern, 0);
+//                if (match != null) {
+//        String[] matchSplit = match.split(":");
+//        if (Integer.parseInt(message) != 0) {
+//            float progress = (Integer.parseInt(matchSplit[0]) * 3600 +
+//                    Integer.parseInt(matchSplit[1]) * 60 +
+//                    Float.parseFloat(matchSplit[2])) / Integer.parseInt(message);
+//            int showProgress = (int) (progress * 100000);
+//            progressDialog.setProgress(showProgress);
+//        }
+//    }
     public void saveGif() {
+        //  setGif();
+        new AsyncForGif().execute();
+    }
 
+    @SuppressLint("StaticFieldLeak")
+    private class AsyncForGif extends com.app.brandmania.Activity.details.AsyncForGif {
+        File pictureFile;
+        byte[] generatedGIFByte;
+
+        @Override
+        protected String doInBackground(String... params) {
+            FileOutputStream outStream = null;
+            try {
+                outStream = new FileOutputStream(pictureFile);
+                outStream.write(generatedGIFByte);
+                outStream.close();
+                Log.e("GIF", "Saved" + pictureFile.getPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            if (pictureFile != null)
+                shareGif(pictureFile);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(act);
+            progressDialog.setMessage("Processing...");
+            progressDialog.setCancelable(true);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+            Toast.makeText(act, "Gif Load", Toast.LENGTH_SHORT).show();
+            pictureFile = getOutputMediaFile();
+            generatedGIFByte = generateGIF();
+            //progressDialog = ProgressDialog.show(act,"ProgressDialog", "Wait for "+time.getText().toString()+ " seconds");
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+
+            //  finalResult.setText(text[0]);
+        }
+    }
+
+    public void setGif() {
         try {
             File pictureFile = getOutputMediaFile();
             FileOutputStream outStream = new FileOutputStream(pictureFile);
@@ -841,6 +1052,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             e.printStackTrace();
         }
     }
+
 
     public void shareGif(File uris) {
         progressDialog.dismiss();
@@ -864,11 +1076,15 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         encoder.setDelay(100);
         encoder.setQuality(1);
         encoder.setRepeat(0);
-        Log.e("Size", "height " + binding.gifImageView.getFramesDisplayDuration());
+
+        progressDialog.setTitle("progressing...");
+        progressDialog.show();
         for (Bitmap bitmap : bitmaps) {
             encoder.addFrame(manipulateGIF(bitmap, false));
+            //progressDialog.setProgress(0);
         }
         encoder.finish();
+        progressDialog.dismiss();
 
         return bos.toByteArray();
     }
@@ -1303,26 +1519,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 ImageView imageView = ((ImageView) findViewById(R.id.logoCustom));
                 selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
-            }
-        }
-        if (requestCode == 1010) {
-            if (resultCode == RESULT_OK && data.getData() != null) {
-                Toast.makeText(act, "video Run", Toast.LENGTH_SHORT).show();
-
-                Uri selectedImageUri = data.getData();
-                Log.e("selectedVideoPath", selectedImageUri.toString());
-                //Log.e("selectedImagePath", getRealPath(selectedImageUri));
-                binding.videoView.setVisibility(View.VISIBLE);
-                binding.videoView.setVideoURI(selectedImageUri);
-                binding.videoView.start();
-                binding.recoImage.setVisibility(View.GONE);
-                binding.gifImageView.setVisibility(View.GONE);
-                if (FFmpeg.getInstance(act).isSupported()) {
-                    Log.e("FFmpeg", "support");
-                    selectedVideoURI = selectedImageUri;
-                } else {
-                    Log.e("FFmpeg", "not support");
-                }
             }
         }
     }
