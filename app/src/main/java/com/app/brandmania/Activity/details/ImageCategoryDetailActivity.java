@@ -142,23 +142,16 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -166,8 +159,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import nl.bravobit.ffmpeg.ExecuteBinaryResponseHandler;
 import nl.bravobit.ffmpeg.FFmpeg;
@@ -510,7 +501,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
     public void saveVideo() {
-        //coding();
         new AsyncTaskRunner().execute();
     }
 
@@ -556,7 +546,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         String finalVideo = videoUri.getPath();
         Log.e("testing", finalVideo);
 
-        downloadFile(finalVideo, new File(videoPath));
         Uri uris = Uri.parse(Environment.getExternalStorageDirectory() + String.valueOf(selectedObject.getVideoSet()));
         String myVideo = uris.getPath();
         Log.e("testing2", myVideo);
@@ -576,55 +565,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     }
 
-    public String DownloadFile() {
-        File file = null;
-        try {
-            File dir = new File(Environment.getExternalStorageDirectory() + "/"
-                    + "folderName");
-            if (dir.exists() == false) {
-                dir.mkdirs();
-            }
-
-            URL url = new URL(String.valueOf(selectedObject.getVideoSet()));
-            file = new File(dir, "fileName");
-            URLConnection ucon = url.openConnection();
-            InputStream is = ucon.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-            ByteArrayBuffer baf = new ByteArrayBuffer(20000);
-            int current = 0;
-            while ((current = bis.read()) != -1) {
-                baf.append((byte) current);
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(baf.toByteArray());
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file.getAbsolutePath();
-    }
-
-    public void downloadFile(String url, File outputFile) {
-        try {
-            URL u = new URL(url);
-            URLConnection conn = u.openConnection();
-            int contentLength = conn.getContentLength();
-
-            DataInputStream stream = new DataInputStream(u.openStream());
-
-            byte[] buffer = new byte[contentLength];
-            stream.readFully(buffer);
-            stream.close();
-
-            DataOutputStream fos = new DataOutputStream(new FileOutputStream(outputFile));
-            fos.write(buffer);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            // swallow a 404
-        }
-    }
 
     ProgressDialog progressDialog;
 
@@ -634,24 +574,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         @Override
         protected String doInBackground(String... params) {
             publishProgress("Sleeping...");
-//            try {
-//                int time = Integer.parseInt(params[0])*1000;
-//                Thread.sleep(time);
-//                resp = "Slept for " + params[0] + " seconds";
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                resp = e.getMessage();
-//            }
             saveVideoInCatch();
             return resp;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            //shareVideo(new File(finalVideoPath));
-            //progressDialog.dismiss();
-            //result;
-
+            return;
         }
 
         @Override
@@ -688,8 +617,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     private String FinalVideoPath = "";
 
     public void coding() {
-
-
         File file;
         String filePath = null;
         String filePrefix = "Imageoverlay";
@@ -831,7 +758,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     String videoUrl;
     DownloadManager manager;
 
-
     public void saveVideoInCatch() {
 
         String url = String.valueOf(selectedObject.getVideoSet());
@@ -887,19 +813,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     //ProgressDialog progressDialog;
     File videodata = null;
 
-    Process finalP = null;
-
     public void execCommand(String[] cmd) {
-        ProcessBuilder pb = new ProcessBuilder(cmd);
-        Process p = null;
-        Scanner sc = null;
-        try {
-            p = pb.start();
-            sc = new Scanner(p.getErrorStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Scanner finalSc = sc;
+
         ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
 
             @Override
@@ -911,26 +826,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             public void onProgress(String message) {
                 Log.e("onProgress", message);
                 progressDialog.setMessage("Processing\n" + message);
-
-                // Find duration
-                Pattern durPattern = Pattern.compile("(?<=Duration: )[^,]*");
-                String dur = finalSc.findWithinHorizon(durPattern, 0);
-                if (dur == null)
-                    throw new RuntimeException("Could not parse duration.");
-                String[] hms = dur.split(":");
-                double totalSecs = Integer.parseInt(hms[0]) * 3600
-                        + Integer.parseInt(hms[1]) * 60
-                        + Double.parseDouble(hms[2]);
-                System.out.println("Total duration: " + totalSecs + " seconds.");
-
-                // Find time as long as possible.
-                Pattern timePattern = Pattern.compile("(?<=time=)[\\d.]*");
-                String match;
-                while (null != (match = finalSc.findWithinHorizon(timePattern, 0))) {
-                    double progress = Double.parseDouble(match) / totalSecs;
-                    progressDialog.setProgress((int) (progress * 100));
-                    System.out.printf("Progress: %.2f%%%n", progress * 100);
-                }
             }
 
             @Override
@@ -952,22 +847,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         });
     }
 
-    //    Pattern timePattern = Pattern.compile("(?<=time=)[\\d:.]*");
-//    Scanner sc = new Scanner(message);
-//
-//    String match = sc.findWithinHorizon(timePattern, 0);
-//                if (match != null) {
-//        String[] matchSplit = match.split(":");
-//        if (Integer.parseInt(message) != 0) {
-//            float progress = (Integer.parseInt(matchSplit[0]) * 3600 +
-//                    Integer.parseInt(matchSplit[1]) * 60 +
-//                    Float.parseFloat(matchSplit[2])) / Integer.parseInt(message);
-//            int showProgress = (int) (progress * 100000);
-//            progressDialog.setProgress(showProgress);
-//        }
-//    }
     public void saveGif() {
-        //  setGif();
         new AsyncForGif().execute();
     }
 
@@ -1031,7 +911,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             e.printStackTrace();
         }
     }
-
 
     public void shareGif(File uris) {
         progressDialog.dismiss();

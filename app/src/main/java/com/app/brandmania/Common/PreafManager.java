@@ -73,7 +73,6 @@ public class PreafManager {
         return parameters;
     }
 
-
     @SuppressLint("CommitPrefEdits")
     public PreafManager(Context context) {
         // shared pref mode
