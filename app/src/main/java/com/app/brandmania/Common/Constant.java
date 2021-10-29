@@ -13,7 +13,8 @@ public class Constant {
 
     //public static final String F_VERSION = "1.0.2";
     //public static final String F_VERSION = "1.1.0";
-    public static final String F_VERSION = "1.2.0";
+    //public static final String F_VERSION = "1.2.0";
+    public static final String F_VERSION = "1.3.0";
 
     public static final String ADMIN_CONTACT_NUMBER="9106709113";
 
