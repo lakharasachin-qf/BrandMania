@@ -263,6 +263,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         });
 
 
+
         if (!HomeActivity.isAlreadyDisplayedOffer) {
             try {
                 String offerValidDate = "05/11/2021";  //new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
@@ -990,6 +991,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         offerBinding.closeLayout.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(act,R.color.colorthird)));
         offerBinding.closeView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(act,R.color.white)));
         offerBinding.offerImage.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.diwali_offer));
+        offerBinding.offerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(act, PackageActivity.class);
+                startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
         offerBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -32,7 +32,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     public PreafManager prefManager;
     public  MakeMyBrandApp myBrandApp;
     private BroadcastReceiver mNetworkReceiver;
-    private boolean LIVE_MODE = false;
+    private boolean LIVE_MODE = true;
     public Gson gson;
 
     public BaseActivity() {

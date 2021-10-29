@@ -2346,12 +2346,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             Log.e("UUUU", preafManager.getActiveBrand().getNo_of_used_image() + "s");
 
                             if (selectedObject.getImageType() != ImageList.IMAGE){
-                                if (isItGIF)
-                                    shareGIF(videodata);
-                                else
-                                    shareVideo(videodata);
-
-                                isItGIF = false;
+                                shareVideoOrGIF();
                             }
                         }
 
@@ -2369,17 +2364,56 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
                         if (selectedObject.getImageType() != ImageList.IMAGE){
-                            if (isItGIF)
-                                shareGIF(videodata);
-                            else
-                                shareVideo(videodata);
-
-                            isItGIF = false;
+                            shareVideoOrGIF();
                         }
                     }
                 });
     }
 
+
+    public void shareVideoOrGIF(){
+        if (isUsingCustomFrame) {
+            Log.e("Foooter","Is CAALEd");
+            ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
+            binding.FrameImageDuplicate.setVisibility(View.GONE);
+            binding.FrameImageDuplicate.setImageBitmap(null);
+        } else {
+            Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
+        }
+        binding.recoImage.setVisibility(View.GONE);
+        binding.videoView.setVisibility(View.VISIBLE);
+
+        binding.videoView.requestFocus();
+        binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        try {
+            if (exoPlayer != null) {
+                exoPlayer.stop();
+                exoPlayer.release();
+            }
+            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+            TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+            exoPlayer = ExoPlayerFactory.newSimpleInstance(act, trackSelector);
+            dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer_video");
+            extractorsFactory = new DefaultExtractorsFactory();
+            MediaSource mediaSource = new ExtractorMediaSource(selectedObject.getVideoSet(), dataSourceFactory, extractorsFactory, null, null);
+            binding.videoView.setPlayer(exoPlayer);
+            exoPlayer.prepare(mediaSource);
+            exoPlayer.setPlayWhenReady(true);
+            exoPlayer.setRepeatMode(Player.REPEAT_MODE_ALL);
+            exoPlayer.addListener((Player.EventListener) act);
+            binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        } catch (Exception ignored) {
+        }
+
+
+
+        if (isItGIF)
+            shareGIF(videodata);
+        else
+            shareVideo(videodata);
+
+        isItGIF = false;
+    }
     //api for access rights
     private void getImageDownloadRights(String flag) {
         Utility.showLoadingTran(act);

@@ -50,6 +50,7 @@ public class PdfActivity extends BaseActivity {
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
                     //freee user
                     askForUpgradeToEnterpisePackage();

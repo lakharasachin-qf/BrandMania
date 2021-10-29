@@ -52,7 +52,9 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/drawable/ic_baseline_gif_24.xml" value="0.35625" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/drawable/ic_round_play_arrow_24.xml" value="0.35625" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/drawable/main_containers_backgrounds.xml" value="0.35625" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/drawable/new_label.xml" value="0.35625" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/drawable/play_icon_background.xml" value="0.35625" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/drawable/share_round_shape.xml" value="0.35625" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/activity_app_intro.xml" value="0.3359375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/activity_package.xml" value="0.3359375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/activity_view_all_image.xml" value="0.36666666666666664" />
@@ -65,8 +67,13 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/dialog_upgrade_layout_enterprise.xml" value="0.3359375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/dialog_upgrade_layout_packege_expired.xml" value="0.3359375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/dialog_upgrade_layout_second.xml" value="0.3359375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/dynamic_text.xml" value="0.3359375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/item_layout_viewallimage.xml" value="0.3359375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/item_package_layout.xml" value="0.3359375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/package_detail_alert_dialog.xml" value="0.3359375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/slide_item_container.xml" value="0.3359375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania5/app/src/main/res/layout/viewpager.xml" value="0.3359375" />
       </map>
     </option>
   </component>

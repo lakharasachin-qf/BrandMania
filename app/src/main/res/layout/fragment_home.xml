@@ -527,6 +527,7 @@
 
                     </RelativeLayout>
                     <!--android:layout_below="@+id/recommendationRelativ"-->
+<!--                    <include layout="@layout/item_package_layout"/>-->
                     <androidx.cardview.widget.CardView android:visibility="gone"
                         android:id="@+id/videoFeatureLayout"
                         android:layout_width="match_parent"

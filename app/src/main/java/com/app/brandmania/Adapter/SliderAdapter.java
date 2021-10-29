@@ -104,6 +104,9 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         for (String s : serviceArray) {
             DynamicTextBinding dynamicTextBinding;
             dynamicTextBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dynamic_text, null, false);
+            if (s.contains("Video")){
+                dynamicTextBinding.newLabels.setVisibility(View.VISIBLE);
+            }
             dynamicTextBinding.label.setText(s);
             serviceLayout.addView(dynamicTextBinding.getRoot());
         }
