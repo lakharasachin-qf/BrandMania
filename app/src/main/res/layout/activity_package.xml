@@ -31,8 +31,8 @@
                     android:layout_height="23dp"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="6dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_left_arrow"></ImageView>
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_left_arrow" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,6 +96,12 @@
                 android:background="@color/colorthird" />
         </RelativeLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/_7sdp"
+            android:id="@+id/recyclerList"
+            android:layout_below="@id/titleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPagerImageSlider"
             android:layout_width="match_parent"

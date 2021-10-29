@@ -674,7 +674,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
     public void CreateTabs() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Category")));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Post")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Footer")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Gallery")));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(convertFirstUpper("Frames")));

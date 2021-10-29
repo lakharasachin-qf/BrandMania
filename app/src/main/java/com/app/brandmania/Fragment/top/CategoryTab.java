@@ -1,5 +1,7 @@
 package com.app.brandmania.Fragment.top;
 
+import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,9 +27,9 @@ import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.CategoryTabBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.CategoryTabBinding;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -36,8 +38,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 public class CategoryTab extends FrameTab {
     Activity act;
@@ -50,7 +50,7 @@ public class CategoryTab extends FrameTab {
     ImageList apiObject;
     ArrayList<ImageList> menuModels = new ArrayList<>();
     Gson gson;
-    boolean isViewAll=false;
+    boolean isViewAll = false;
 
     public CategoryTab setViewAll(boolean viewAll) {
         isViewAll = viewAll;
@@ -62,25 +62,27 @@ public class CategoryTab extends FrameTab {
                              Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.category_tab, container, false);
-        gson=new Gson();
+        gson = new Gson();
 
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
-        Log.e("IMAGELIST--",new Gson().toJson(imageList));
-        Log.e("selectedObject--",new Gson().toJson(selectedObject));
-
-       // Toast.makeText(getActivity(),imageList.getId(),Toast.LENGTH_LONG).show();
+        Log.e("IMAGELIST--", new Gson().toJson(imageList));
+        Log.e("selectedObject--", new Gson().toJson(selectedObject));
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory();
-        preafManager=new PreafManager(getActivity());
+        preafManager = new PreafManager(getActivity());
         return binding.getRoot();
     }
+
     ImageCategoryAddaptor menuAddaptor;
+
+
+
     public void setAdapter() {
         menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
-      //  if (isViewAll)
-            ((ImageCateItemeInterFace) act).ImageCateonItemSelection(0, menuModels.get(0));
+        //  if (isViewAll)
+        ((ImageCateItemeInterFace) act).ImageCateonItemSelection(0, menuModels.get(0));
 
         menuAddaptor.setLayoutType(FROM_VIEWALL);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
@@ -88,7 +90,9 @@ public class CategoryTab extends FrameTab {
         binding.viewRecoRecycler.setHasFixedSize(true);
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
         binding.viewRecoRecycler.setVisibility(View.VISIBLE);
+
     }
+
     private void getImageCtegory() {
 
         Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
@@ -101,11 +105,11 @@ public class CategoryTab extends FrameTab {
                     JSONObject jsonObject = new JSONObject(response);
 
                     apiObject = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
-                    if (apiObject.getCatogaryImagesList() != null){
-                        menuModels=apiObject.getCatogaryImagesList();
+                    if (apiObject.getCatogaryImagesList() != null) {
+                        menuModels = apiObject.getCatogaryImagesList();
                         if (menuModels != null && menuModels.size() != 0) {
                             setAdapter();
-                        }else {
+                        } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
@@ -116,19 +120,18 @@ public class CategoryTab extends FrameTab {
                                 binding.shimmerForPagination.startShimmer();
                                 binding.shimmerForPagination.setVisibility(View.VISIBLE);
                                 getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
-                            }else {
+                            } else {
                                 binding.shimmerForPagination.stopShimmer();
                                 binding.shimmerForPagination.setVisibility(View.GONE);
                             }
-                        }else {
+                        } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
-                    }else {
+                    } else {
                         binding.shimmerForPagination.stopShimmer();
                         binding.shimmerForPagination.setVisibility(View.GONE);
                     }
-
 
 
                 } catch (JSONException e) {
@@ -140,12 +143,7 @@ public class CategoryTab extends FrameTab {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
-
                     }
                 }
         ) {
@@ -175,7 +173,7 @@ public class CategoryTab extends FrameTab {
                     if (act.getIntent().hasExtra("dailyImages")) {
                         params.put("image_category_id", selectedObject.getId());
                     }
-                }else{
+                } else {
                     params.put("image_category_id", act.getIntent().getStringExtra("cat_id"));
                 }
 
@@ -190,9 +188,8 @@ public class CategoryTab extends FrameTab {
     }
 
 
-
     private void getImageCtegoryNextPage(String nextPageUrl) {
-        Utility.Log("API : ",nextPageUrl);
+        Utility.Log("API : ", nextPageUrl);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -204,7 +201,7 @@ public class CategoryTab extends FrameTab {
                             int lastPos = menuModels.size();
                             menuModels.addAll(menuModels.size(), apiObject.getCatogaryImagesList());
                             menuAddaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
-                            Log.e("GGG",new Gson().toJson(menuModels));
+                            Log.e("GGG", new Gson().toJson(menuModels));
                         } else {
                             menuModels = new ArrayList<>();
                             menuModels.addAll(0, apiObject.getCatogaryImagesList());
@@ -216,13 +213,13 @@ public class CategoryTab extends FrameTab {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
                             getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
-                        }else {
+                        } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
                     }
 
-                    if (apiObject.getCatogaryImagesList()==null ||apiObject.getCatogaryImagesList().size()==0) {
+                    if (apiObject.getCatogaryImagesList() == null || apiObject.getCatogaryImagesList().size() == 0) {
                         binding.shimmerForPagination.stopShimmer();
                         binding.shimmerForPagination.setVisibility(View.GONE);
                     }
@@ -269,7 +266,7 @@ public class CategoryTab extends FrameTab {
                     if (act.getIntent().hasExtra("dailyImages")) {
                         params.put("image_category_id", selectedObject.getId());
                     }
-                }else{
+                } else {
                     params.put("image_category_id", act.getIntent().getStringExtra("cat_id"));
                 }
                 Utility.Log("POSTED-PARAMS-", params.toString());

@@ -1,6 +1,5 @@
 package com.app.brandmania.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
@@ -8,16 +7,22 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityPdfBinding;
+import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
+import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.text.Document;
@@ -45,7 +50,14 @@ public class PdfActivity extends BaseActivity {
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layoutToImage();
+                if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                    //freee user
+                    askForUpgradeToEnterpisePackage();
+                }else{
+                    Log.e("User","ELSE");
+                    layoutToImage();
+                }
+
             }
         });
 
@@ -167,5 +179,38 @@ public class PdfActivity extends BaseActivity {
         } catch (ActivityNotFoundException e) {
             Toast.makeText(act, "Can't read pdf file", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    // ask to upgrade package to 999 for use all frames
+    DialogUpgradeLayoutSecondBinding layoutSecondBinding;
+
+    public void askForUpgradeToEnterpisePackage() {
+        layoutSecondBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_second, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(layoutSecondBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(layoutSecondBinding.getRoot());
+
+        layoutSecondBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(act, PackageActivity.class);
+                intent.putExtra("Profile", "1");
+                act.startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+        layoutSecondBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        layoutSecondBinding.element3.setText("To download business card, please upgrade your package");
+        //alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 }

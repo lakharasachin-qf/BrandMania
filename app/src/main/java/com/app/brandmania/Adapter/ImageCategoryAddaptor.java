@@ -12,20 +12,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
-import com.app.brandmania.Activity.details.GifCategoryDetailActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.IBackendFrameSelect;
@@ -262,9 +259,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                 case LAYOUT_IMAGE_CATEGORY_BY_ID:
 
                     Glide.with(activity)
-                            .load(model.getFrame())
+                            .load(model.getLogo())
                             .placeholder(R.drawable.placeholder)
                             .into(((ImageCategoryByIdHolder) holder).binding.image);
+
                     ((ImageCategoryByIdHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -284,44 +282,31 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     });
                     if (model.getImageType() == ImageList.IMAGE) {
-                        ((ImageCategoryByIdHolder) holder).binding.image.setVisibility(View.VISIBLE);
-                        ((ImageCategoryByIdHolder) holder).binding.gifImg.setVisibility(View.GONE);
-                        ((ImageCategoryByIdHolder) holder).binding.gifLayout.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.gifVideoLayout.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.playerLayout.setVisibility(View.GONE);
                     }
                     if (model.getImageType() == ImageList.GIF) {
-                        ((ImageCategoryByIdHolder) holder).binding.image.setVisibility(View.GONE);
-                        ((ImageCategoryByIdHolder) holder).binding.gifImg.setVisibility(View.VISIBLE);
-                        ((ImageCategoryByIdHolder) holder).binding.gifLayout.setVisibility(View.VISIBLE);
-                        Log.e("gif", "data" + model.getFrame());
-                        Glide.with(activity)
-                                .asGif()
-                                .load(model.getFrame())
-                                .into(((ImageCategoryByIdHolder) holder).binding.gifImg);
+                        ((ImageCategoryByIdHolder) holder).binding.labeledForGV.setText("GIF");
+                        ((ImageCategoryByIdHolder) holder).binding.gifVideoLayout.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder) holder).binding.playerLayout.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder) holder).binding.placeHolderImage.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_baseline_gif_24));
+                        //ic_baseline_gif_24
                     }
                     if (model.getImageType() == ImageList.VIDEO) {
-
-                        ((ImageCategoryByIdHolder) holder).binding.videoView.setVisibility(View.VISIBLE);
-                        ((ImageCategoryByIdHolder) holder).binding.videoLayout.setVisibility(View.VISIBLE);
-                        ((ImageCategoryByIdHolder) holder).binding.image.setVisibility(View.GONE);
-                        ((ImageCategoryByIdHolder) holder).binding.gifImg.setVisibility(View.GONE);
-                        ((ImageCategoryByIdHolder) holder).binding.gifLayout.setVisibility(View.GONE);
-                        ((ImageCategoryByIdHolder) holder).binding.videoView.setVideoURI(model.getVideoSet());
-                        ((ImageCategoryByIdHolder) holder).binding.videoView.start();
-                        ((ImageCategoryByIdHolder) holder).binding.videoView.requestFocus();
-                        ((ImageCategoryByIdHolder) holder).binding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                mp.setLooping(true);
-                            }
-                        });
+                        ((ImageCategoryByIdHolder) holder).binding.labeledForGV.setText("Video");
+                        ((ImageCategoryByIdHolder) holder).binding.gifVideoLayout.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder) holder).binding.playerLayout.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder) holder).binding.placeHolderImage.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_round_play_arrow_24));
                     }
 
                     if (!model.isImageFree()) {
                         ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
-
+                        ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
                     } else {
                         ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                        ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                     }
+
                     if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);

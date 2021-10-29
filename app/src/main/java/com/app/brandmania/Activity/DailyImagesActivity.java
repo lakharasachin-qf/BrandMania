@@ -75,7 +75,7 @@ public class DailyImagesActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    apiObject = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
+                   // apiObject = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
                     if (apiObject.getCatogaryImagesList() != null){
                         list =apiObject.getCatogaryImagesList();
                         if (list != null && list.size() != 0) {

@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import java.util.ArrayList;
 
-public class ImageList {
+public class ImageList   implements Comparable<ImageList> {
     public static final int LAYOUT_IMAGE_CATEGORY = 1;
     public static final int LAYOUT_IMAGE_CATEGORY_BY_ID = 2;
     public static final int LAYOUT_FRAME = 3;
@@ -51,6 +51,7 @@ public class ImageList {
     private String y_cordinate;
     private String textX_Cordinate;
     private String textY_Cordinate;
+
 
     public Uri getVideoSet() {
         return videoSet;
@@ -263,5 +264,12 @@ public class ImageList {
 
     public void setY_cordinate(String y_cordinate) {
         this.y_cordinate = y_cordinate;
+    }
+
+    @Override
+    public int compareTo(ImageList o) {
+        int compareage= ((ImageList)o).getImageType();
+        //  For Ascending order
+        return compareage - this.getImageType() ;
     }
 }

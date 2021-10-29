@@ -26,12 +26,7 @@
                 android:layout_centerHorizontal="true"
                 android:visibility="gone" />
 
-            <com.app.brandmania.gifHelper.GifImageView
-                android:id="@+id/gifImg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
+
 
             <ImageView
                 android:id="@+id/image"
@@ -60,7 +55,24 @@
                 android:visibility="gone" />
 
             <RelativeLayout
-                android:id="@+id/gifLayout"
+                android:id="@+id/playerLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/play_icon_background"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/placeHolderImage"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:gravity="center"
+                    android:src="@drawable/ic_round_play_arrow_24" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gifVideoLayout"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_12sdp"
                 android:layout_alignParentBottom="true"
@@ -70,6 +82,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/labeledForGV"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -79,25 +92,6 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/videoLayout"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_12sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/_7sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@drawable/giflayout_shape"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="VIDEO"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_6sdp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

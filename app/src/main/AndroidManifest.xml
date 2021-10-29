@@ -2,14 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.app.brandmania">
-    <!--    com.app.brandmania-->
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
 
     <application
@@ -23,16 +23,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".Activity.basics.ReferNEarnActivity"></activity>
+        <activity android:name=".Activity.basics.ReferNEarnActivity" />
         <activity
             android:name=".Activity.PdfActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.details.EditSelectedImages" />
         <activity
             android:name=".Activity.DailyImagesActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.details.GifCategoryDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.custom.ViewAllFrameImageActivity"

@@ -238,14 +238,18 @@ public class ResponseHandler {
                         JSONArray dataItemArray = data.getJSONArray(key);
                         DashBoardItem model = new DashBoardItem();
                         if (key.equalsIgnoreCase("Business Images")) {
-                            model.setFilterIndex(1);
-                        }
-                        if (key.equalsIgnoreCase("Daily Images")) {
                             model.setFilterIndex(2);
                         }
+                        if (key.equalsIgnoreCase("Daily Images")) {
+                            model.setFilterIndex(3);
+                        }
                         if (key.equalsIgnoreCase("Festival Images")) {
+                            model.setFilterIndex(1);
+                        }
+                        if (key.contains("Today")) {
                             model.setFilterIndex(0);
                         }
+
                         model.setName(key);
                         model.setLayout(DashBoardItem.DAILY_IMAGES);
                         ArrayList<ImageList> innerImagesList = new ArrayList<>();
@@ -269,9 +273,7 @@ public class ResponseHandler {
                         }
                     }
                 }
-
                 Collections.sort(dataList);
-
             }
             returnModel.setDashBoardItems(dataList);
             JSONObject linkObj = getJSONObject(jsonObject, "link");
@@ -282,17 +284,10 @@ public class ResponseHandler {
             links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
             links.setTotalStr(getString(linkObj, "total"));
             returnModel.setLinks(links);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return returnModel;
-    }
-
-    // Comparison done using compareTo function
-    public static void sort(ArrayList<DashBoardItem> list) {
-
-        // list.sort((o1, o2)-> o1.getFilterIndex().compareTo(o2.getFilterIndex()));
     }
 
 
@@ -318,29 +313,45 @@ public class ResponseHandler {
                         model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
 
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                            if (i == 1) {
+                            //                            if (i == 1) {
+//                                model.setImageType(ImageList.GIF);
+//                                //model.setFrame("http://brandmaniaapp.in/images/mahadev.mp4");
+//                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
+//                            }
+//                            if (i == 3) {
+//                                model.setImageType(ImageList.GIF);
+//                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
+//                            }
+//                            if (i == 2) {
+//                                model.setImageType(ImageList.VIDEO);
+//                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/TestingBMv2.mp4"));
+//                            }
+//                           if (i == 5) {
+//                                model.setImageType(ImageList.VIDEO);
+//                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/TestingBMv2.mp4"));
+//                            }
+                            if (getString(datajsonObject, "type").equalsIgnoreCase("gif")) {
                                 model.setImageType(ImageList.GIF);
-                                model.setFrame("https://c.tenor.com/5VmvaWqS3sUAAAAC/happy-janmashtami.gif");
+                                //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/mahadev.mp4"));
+                                model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
                             }
-                            if (i == 3) {
-                                model.setImageType(ImageList.GIF);
-                                // model.setFrame("https://media.giphy.com/media/xSM46ernAUN3y/giphy.gif");
-                                model.setFrame("https://media.giphy.com/media/xlcR4sYSBT34fQqApS/giphy.gif");
-                            }
-                            if (i == 2) {
+                            if (getString(datajsonObject, "type").equalsIgnoreCase("video")) {
                                 model.setImageType(ImageList.VIDEO);
-                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/TestingBM.mp4"));
+                                //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
+                                model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
                             }
                         }
                         string.add(model);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
 
-
+                Collections.sort(string);
             }
+
+
             imageList.setCatogaryImagesList(string);
             JSONObject linkObj = getJSONObject(jsonObject, "link");
             Links links = new Links();

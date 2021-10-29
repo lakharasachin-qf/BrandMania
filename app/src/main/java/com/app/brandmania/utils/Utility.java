@@ -108,6 +108,31 @@ public class Utility {
         }
         return false;
     }
+
+    public static boolean isNewUser(Activity act) {
+        try {
+            String expireDate = new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
+            Date date = new Date();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDate = formatter.format(date);
+            Log.e("expireDate", expireDate);
+            Log.e("currentDate", currentDate);
+
+            Date convertedExpireDate = formatter.parse(expireDate);
+            Date convertedCurrentDate = formatter.parse(currentDate);
+
+
+            if(convertedExpireDate.compareTo(convertedCurrentDate) < 0)
+            {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     public static int monthsBetweenDates(String subscriptionDateStr){
         Date c = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");

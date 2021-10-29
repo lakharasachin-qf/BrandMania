@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,7 +67,10 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -167,6 +172,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 startActivity(intent);
             }
         });
+
         binding.videoFeatureLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,6 +261,30 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
             }
         });
+
+
+        if (!HomeActivity.isAlreadyDisplayedOffer) {
+            try {
+                String offerValidDate = "05/11/2021";  //new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
+                Date calDate = new Date();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String calDateStr = formatter.format(calDate);
+
+                Date calDateFF = null;  //calDateStr
+                calDateFF = formatter.parse(calDateStr);
+                Date offerValidDateFF = formatter.parse(offerValidDate);
+                if (calDateFF.compareTo(offerValidDateFF) < 0) {
+                    //allow download
+                    diwaliOffer();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
 
         return binding.getRoot();
     }
@@ -612,7 +642,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     public DialogOfferBinding dialogOfferBinding;
-
     public void setOfferCode() {
         HomeActivity.isAlreadyDisplayed = true;
         dialogOfferBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
@@ -656,6 +685,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         });
     }
+
 
     //Back Event.........................
     public void onBackPressed() {
@@ -948,27 +978,25 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private androidx.appcompat.app.AlertDialog offerAlert;
     private DialogOfferBinding offerBinding;
 
-    public void offerDialog() {
-
+    public void diwaliOffer() {
         if (offerAlert != null && offerAlert.isShowing())
             offerAlert.dismiss();
-
+        HomeActivity.isAlreadyDisplayedOffer = true;
         offerBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend2);
         builder.setView(offerBinding.getRoot());
         offerAlert = builder.create();
         offerAlert.setContentView(offerBinding.getRoot());
-
-
+        offerBinding.closeLayout.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(act,R.color.colorthird)));
+        offerBinding.closeView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(act,R.color.white)));
+        offerBinding.offerImage.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.diwali_offer));
         offerBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 offerAlert.dismiss();
             }
         });
-
         offerAlert.show();
-
     }
 
 }

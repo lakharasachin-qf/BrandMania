@@ -180,11 +180,7 @@
                         android:layout_height="match_parent"
                         android:scaleType="fitXY" />
 
-                    <com.app.brandmania.gifHelper.GifImageView
-                        android:id="@+id/gifImageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone" />
+
 
                     <VideoView
                         android:id="@+id/videoImageView"

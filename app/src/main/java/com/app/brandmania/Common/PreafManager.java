@@ -237,7 +237,6 @@ public class PreafManager {
     public void setAddBrandList(ArrayList<BrandListItem> list) {
         Gson gson = new Gson();
         String jsonUserProfile = gson.toJson(list);
-
         editor.putString("brands", jsonUserProfile);
         editor.apply();
         editor.commit();

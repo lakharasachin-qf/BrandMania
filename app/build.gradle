@@ -156,15 +156,13 @@ dependencies {
     implementation 'nl.bravobit:android-ffmpeg:1.1.7'
 
     implementation 'com.github.virtualvivek:BlurShadowImageView:2.1'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+
     implementation 'com.github.mmin18:realtimeblurview:1.2.1'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     //  implementation 'com.airbnb.android:lottie:3.5.0'
     implementation 'commons-validator:commons-validator:1.6'
-
-    //For one signal integration
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
