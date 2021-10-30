@@ -99,8 +99,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/_7sdp"
             android:id="@+id/recyclerList"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
             android:layout_below="@id/titleLayout"
             android:layout_width="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_30sdp"
             android:layout_height="match_parent"/>
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPagerImageSlider"

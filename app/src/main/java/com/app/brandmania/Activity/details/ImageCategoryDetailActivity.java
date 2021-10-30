@@ -811,9 +811,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             frontFrameBitmap = ((BitmapDrawable) binding.backendFrame.getDrawable()).getBitmap();
         }
 
-        //Log.e("CacheImagePath: ", outputFrameFile.getPath());
-        //Log.e("CacheImageName: ", outputFrameFile.getName());
-
         OutputStream fos;
         ContentValues contentValues;
         ContentResolver resolver;
@@ -1430,6 +1427,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[],
                                            int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // required permissions granted, start crop image activity
             startCropImageActivity(mCropImageUri);

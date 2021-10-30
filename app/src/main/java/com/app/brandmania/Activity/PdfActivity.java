@@ -5,19 +5,24 @@ import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.app.brandmania.Activity.packages.PackageActivity;
+import com.app.brandmania.BuildConfig;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityPdfBinding;
@@ -31,10 +36,18 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PdfActivity extends BaseActivity {
     private ActivityPdfBinding binding;
@@ -55,7 +68,6 @@ public class PdfActivity extends BaseActivity {
                     //freee user
                     askForUpgradeToEnterpisePackage();
                 }else{
-                    Log.e("User","ELSE");
                     layoutToImage();
                 }
 
@@ -116,22 +128,23 @@ public class PdfActivity extends BaseActivity {
     }
 
     String dirpath;
-
+    File layoutImageFilePng;
     public void layoutToImage() {
 
         binding.pdfLayout.setDrawingCacheEnabled(true);
         binding.pdfLayout.buildDrawingCache();
-        Bitmap bm = binding.pdfLayout.getDrawingCache();
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/png");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, bytes);
 
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "image.png");
+
+        FileOutputStream fileOutputStream = null;
+        String name = "image" + System.currentTimeMillis() + ".jpg";
+        layoutImageFilePng = new File(act.getCacheDir(),name);
+
         try {
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
+            fileOutputStream = new FileOutputStream(layoutImageFilePng);
+            Bitmap bitmap = binding.pdfLayout.getDrawingCache();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
             imageToPDF();
         } catch (IOException e) {
             e.printStackTrace();
@@ -139,9 +152,11 @@ public class PdfActivity extends BaseActivity {
 
     }
 
+    String  outputFile="";
+
     public void imageToPDF() throws FileNotFoundException {
         try {
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/BrandManiaPdf";
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/BrandManiaPdf";
 
             Document document = new Document(new Rectangle(595, 850), 0, 0, 0, 0);
             File dir = new File(path);
@@ -149,38 +164,82 @@ public class PdfActivity extends BaseActivity {
                 dir.mkdirs();
 
 
-            dirpath = android.os.Environment.getExternalStorageDirectory().toString();
-            PdfWriter.getInstance(document, new FileOutputStream(path + "/" + prefManager.getActiveBrand().getName() + ".pdf")); //  Change pdf's name.
-            document.open();
-            Image img = Image.getInstance(Environment.getExternalStorageDirectory() + File.separator + "image.png");
-            float scaler = ((document.getPageSize().getWidth() - 0) / img.getWidth()) * 100;
-            img.scalePercent(scaler);
-            img.setPaddingTop(0f);
-            img.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
+            dirpath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
 
-            document.add(img);
-            document.close();
-            Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
-            viewPdf(prefManager.getActiveBrand().getName(), act);
+                PdfWriter.getInstance(document, new FileOutputStream(path + "/" + prefManager.getActiveBrand().getName() + ".pdf")); //  Change pdf's name.
+                document.open();
+                Image img = Image.getInstance(Environment.getExternalStorageDirectory() + File.separator + "image.png");
+                float scaler = ((document.getPageSize().getWidth() - 0) / img.getWidth()) * 100;
+                img.scalePercent(scaler);
+                img.setPaddingTop(0f);
+                img.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
+
+                document.add(img);
+                document.close();
+                Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
+                viewPdf(prefManager.getActiveBrand().getName(), act);
+            }else{
+
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.MediaColumns.DISPLAY_NAME, prefManager.getActiveBrand().getName()+".pdf");
+                String desDirectory = Environment.DIRECTORY_DOWNLOADS;
+                desDirectory = desDirectory + File.separator + "BrandManiaPdf";
+                File desFile = new File(desDirectory);
+                if (!desFile.exists()) {
+                    desFile.mkdir();
+                }
+
+                   outputFile = desDirectory + File.separator + prefManager.getActiveBrand().getName()+".pdf";
+                values.put(MediaStore.MediaColumns.RELATIVE_PATH, desDirectory);
+
+                Uri uri = act.getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+
+                PdfWriter.getInstance(document, act.getContentResolver().openOutputStream(uri));  //new FileOutputStream(path + "/" + prefManager.getActiveBrand().getName() + ".pdf")); //  Change pdf's name.
+                document.open();
+                Image img = Image.getInstance(layoutImageFilePng.getAbsolutePath());
+                float scaler = ((document.getPageSize().getWidth() - 0) / img.getWidth()) * 100;
+                img.scalePercent(scaler);
+                img.setPaddingTop(0f);
+                img.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
+
+                document.add(img);
+                document.close();
+                Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
+                viewPdf(prefManager.getActiveBrand().getName(), act);
+            }
+
+
+
+
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
     // Method for opening a pdf file
-    private static void viewPdf(String name, Activity act) {
-        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + "BrandManiaPdf" + "/" + name + ".pdf");
-        Uri path = FileProvider.getUriForFile(act, act.getApplicationContext().getPackageName() + ".provider", pdfFile);
-        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-        pdfIntent.setDataAndType(path, "application/pdf");
-        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        pdfIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        try {
-            act.startActivity(pdfIntent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(act, "Can't read pdf file", Toast.LENGTH_SHORT).show();
+    private  void viewPdf(String name, Activity act) {
+
+
+        String FilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + "BrandManiaPdf" + "/" + name + ".pdf";
+        File file;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+
+            file = new File(FilePath);
+            Uri apkURI = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", file);
+            intent.setDataAndType(apkURI, "application/pdf");
+        } else {
+
+            file = new File(Environment.getExternalStorageDirectory() + "/" + outputFile);
+            Uri apkURI = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", file);
+            intent.setDataAndType(apkURI, "application/pdf");
         }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        act.startActivity(intent);
+
     }
+
 
 
     // ask to upgrade package to 999 for use all frames

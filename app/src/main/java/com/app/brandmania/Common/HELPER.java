@@ -427,5 +427,10 @@ public class HELPER {
         return null;
     }
 
-    
+
+    //For CreatFileeDisc For Download Image.........................
+    public static File getDisc() {
+        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        return new File(file, "BrandMania");
+    }
 }
