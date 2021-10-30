@@ -994,6 +994,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         offerBinding.offerImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                offerAlert.dismiss();
                 Intent intent = new Intent(act, PackageActivity.class);
                 startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
