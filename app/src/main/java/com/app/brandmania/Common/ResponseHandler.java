@@ -315,7 +315,7 @@ public class ResponseHandler {
                         if (getString(datajsonObject, "type").contains("image")) {
                             string.add(model);
                         } else {
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                            //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                                 if (getString(datajsonObject, "type").equalsIgnoreCase("gif")) {
                                     model.setImageType(ImageList.GIF);
                                     //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/mahadev.mp4"));
@@ -327,8 +327,7 @@ public class ResponseHandler {
                                     model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
                                 }
                                 string.add(model);
-
-                            }
+                            //}
                         }
 
 

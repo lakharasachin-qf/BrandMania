@@ -51,7 +51,6 @@ class Util {
             return true;
         } catch (IllegalThreadStateException e) {
             // do nothing
-            e.printStackTrace();
         }
         return false;
     }

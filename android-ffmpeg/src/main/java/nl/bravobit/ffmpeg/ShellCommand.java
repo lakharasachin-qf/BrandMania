@@ -13,7 +13,6 @@ class ShellCommand {
                 processBuilder.environment().putAll(environment);
             }
             process = processBuilder.start();
-
         } catch (Throwable t) {
             Log.e("Exception while trying to run: " + Arrays.toString(commandString), t);
         }

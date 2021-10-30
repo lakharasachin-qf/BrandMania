@@ -40,7 +40,6 @@ class FFcommandExecuteAsyncTask extends AsyncTask<Void, String, CommandResult> i
     @Override
     protected CommandResult doInBackground(Void... params) {
         try {
-
             process = shellCommand.run(cmd, environment);
             if (process == null) {
                 return CommandResult.getDummyFailureResponse();
@@ -48,6 +47,9 @@ class FFcommandExecuteAsyncTask extends AsyncTask<Void, String, CommandResult> i
             Log.d("Running publishing updates method");
             checkAndUpdateProcess();
             return CommandResult.getOutputFromProcess(process);
+        } catch (TimeoutException e) {
+            Log.e("FFmpeg binary timed out", e);
+            return new CommandResult(false, e.getMessage());
         } catch (Exception e) {
             Log.e("Error running FFmpeg binary", e);
         } finally {
@@ -106,7 +108,6 @@ class FFcommandExecuteAsyncTask extends AsyncTask<Void, String, CommandResult> i
                     }
 
                     output += line + "\n";
-                    System.out.println("OUTT - "+output.toString());
                     publishProgress(line);
                 }
             } catch (IOException e) {

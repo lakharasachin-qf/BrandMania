@@ -23,5 +23,11 @@ public class Constant {
     public  static final int SELECTEDREFFERCODE = 11;
 
 
+   public static String ROOT="BrandMania";
+    public static String DATA="data";
+    public static String DOCUMENT="documents";
+    public static String IMAGES="images";
+    public static String VIDEOS="videos";
+    public static String GIF="gifs";
 
 }

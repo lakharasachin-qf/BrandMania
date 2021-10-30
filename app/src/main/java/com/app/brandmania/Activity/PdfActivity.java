@@ -166,7 +166,6 @@ public class PdfActivity extends BaseActivity {
 
             dirpath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-
                 PdfWriter.getInstance(document, new FileOutputStream(path + "/" + prefManager.getActiveBrand().getName() + ".pdf")); //  Change pdf's name.
                 document.open();
                 Image img = Image.getInstance(Environment.getExternalStorageDirectory() + File.separator + "image.png");
