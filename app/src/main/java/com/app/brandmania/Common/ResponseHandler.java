@@ -312,36 +312,25 @@ public class ResponseHandler {
                         model.setImageType(ImageList.IMAGE);
                         model.setImageFree(getString(datajsonObject, "is_img_free").equalsIgnoreCase("1"));
 
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                            //                            if (i == 1) {
-//                                model.setImageType(ImageList.GIF);
-//                                //model.setFrame("http://brandmaniaapp.in/images/mahadev.mp4");
-//                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
-//                            }
-//                            if (i == 3) {
-//                                model.setImageType(ImageList.GIF);
-//                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
-//                            }
-//                            if (i == 2) {
-//                                model.setImageType(ImageList.VIDEO);
-//                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/TestingBMv2.mp4"));
-//                            }
-//                           if (i == 5) {
-//                                model.setImageType(ImageList.VIDEO);
-//                                model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/TestingBMv2.mp4"));
-//                            }
-                            if (getString(datajsonObject, "type").equalsIgnoreCase("gif")) {
-                                model.setImageType(ImageList.GIF);
-                                //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/mahadev.mp4"));
-                                model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
-                            }
-                            if (getString(datajsonObject, "type").equalsIgnoreCase("video")) {
-                                model.setImageType(ImageList.VIDEO);
-                                //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
-                                model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
+                        if (getString(datajsonObject, "type").contains("image")) {
+                            string.add(model);
+                        } else {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                                if (getString(datajsonObject, "type").equalsIgnoreCase("gif")) {
+                                    model.setImageType(ImageList.GIF);
+                                    //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/mahadev.mp4"));
+                                    model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
+                                }
+                                if (getString(datajsonObject, "type").equalsIgnoreCase("video")) {
+                                    model.setImageType(ImageList.VIDEO);
+                                    //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
+                                    model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
+                                }
+                                string.add(model);
+
                             }
                         }
-                        string.add(model);
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
