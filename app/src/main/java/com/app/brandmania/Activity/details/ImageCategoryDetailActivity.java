@@ -432,6 +432,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
+            exoPlayer= null;
         }
     }
 
@@ -519,6 +520,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
             if (selectedObject.getImageType() == ImageList.IMAGE) {
+
                 if (exoPlayer != null) {
                     exoPlayer.stop();
                     exoPlayer.release();
@@ -1263,6 +1265,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+
+                if (exoPlayer != null) {
+                    exoPlayer.stop();
+                    exoPlayer.release();
+                }
+
                 if (!getIntent().hasExtra("notification")) {
                     CodeReUse.activityBackPress(act);
                 } else {
@@ -2393,10 +2401,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.videoView.requestFocus();
         binding.simpleProgressBar.setVisibility(View.VISIBLE);
         try {
-//            if (exoPlayer != null) {
-//                exoPlayer.stop();
-//                exoPlayer.release();
-//            }
+            if (exoPlayer != null) {
+                exoPlayer.stop();
+                exoPlayer.release();
+            }
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
             exoPlayer = ExoPlayerFactory.newSimpleInstance(act, trackSelector);
