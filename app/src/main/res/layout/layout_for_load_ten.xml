@@ -2,50 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-   <!-- <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_centerInParent="true"
-                android:layout_width="@dimen/_150sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:scaleType="fitXY"
-                android:tint="@color/colorPrimary"
-                android:src="@drawable/ic_footer_material_one" />
-
-            <TextView
-                android:layout_marginTop="@dimen/_2sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+91 8200002604"
-                android:textSize="@dimen/_14sdp" />
-        </RelativeLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/ic_phone"
-                android:layout_width="@dimen/_18sdp"
-                android:layout_height="@dimen/_18sdp"/>
-            <TextView
-                android:layout_marginStart="@dimen/_5sdp"
-                android:textSize="@dimen/_12sdp"
-                android:textColor="@color/black"
-                android:text="Vastral road, Vastral Ahmedabaad, Gujarat, India - 2393949"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </LinearLayout>-->
         <RelativeLayout
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"

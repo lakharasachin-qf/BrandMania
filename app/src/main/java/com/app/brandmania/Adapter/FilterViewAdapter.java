@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         }
 
 @Override
-public void onBindViewHolder(RecyclerView.ViewHolder holder, final int i) {
+public void onBindViewHolder(RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
 final ThumbnailItem thumbnailItem = dataSet.get(i);
         Log.v(TAG, "On Bind View Called");
         ThumbnailsViewHolder thumbnailsViewHolder = (ThumbnailsViewHolder) holder;

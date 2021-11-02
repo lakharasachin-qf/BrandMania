@@ -95,7 +95,6 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/my_toolbar"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/_70sdp"
         android:id="@+id/getBrandList"

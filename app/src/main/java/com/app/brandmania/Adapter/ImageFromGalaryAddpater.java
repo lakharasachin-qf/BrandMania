@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -44,7 +45,7 @@ public class ImageFromGalaryAddpater extends RecyclerView.Adapter<ImageFromGalar
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
 
 

@@ -210,7 +210,6 @@
                             android:id="@+id/applyPromoCodeTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:fontFamily="@font/montserrat_semibold"
                             android:text="Yupp...You save Rs"

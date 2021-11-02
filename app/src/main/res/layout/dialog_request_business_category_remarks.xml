@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:card_view="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
@@ -47,8 +47,8 @@
                                 android:layout_alignParentTop="true"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/background_blue"
-                                android:tint="@color/colorthird"
-                                card_view:tint="@color/colorthird" />
+                                card_view:tint="@color/colorthird"
+                                app:tint="@color/colorthird" />
 
                             <ImageView
                                 android:layout_width="@dimen/_70sdp"
@@ -67,8 +67,8 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:padding="@dimen/_3sdp"
                                 android:layout_alignParentEnd="true"
-                                android:tint="@color/colorPrimary"
-                                android:src="@drawable/ic_outline_close_24"  />
+                                android:src="@drawable/ic_outline_close_24"
+                                app:tint="@color/colorPrimary" />
                         </RelativeLayout>
 
                         <LinearLayout
@@ -164,7 +164,6 @@
                         android:id="@+id/content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/line"
                         android:orientation="vertical"
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingTop="@dimen/_10sdp"

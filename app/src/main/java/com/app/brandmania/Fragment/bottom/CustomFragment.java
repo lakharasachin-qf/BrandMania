@@ -68,11 +68,9 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 startAnimation();
                 getFrame();
                 getImageCtegory();
-
             }
         });
 

@@ -94,8 +94,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         FetchCustomFrameStatus();
-        preafManager = new PreafManager(this);
         act = this;
+
+        preafManager = new PreafManager(act);
         getUpdate();
         checkForUpdates();
         loadFragment(new HomeFragment());
@@ -106,11 +107,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             askPermissions();
-        }else{
-            HELPER._INIT_FOLDER(Constant.ROOT);
-            HELPER._INIT_FOLDER(Constant.DATA);
         }
-
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -331,7 +328,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
         appUpdateManager = AppUpdateManagerFactory.create(act);
         appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-        Log.e("dateee", new Gson().toJson(appUpdateManager.getAppUpdateInfo()));
+
         //Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
@@ -438,40 +435,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     versionListIItem.setUpdatedAt(jsonArray1.getString("updated_at"));
                     versionListIItem.setDeletedAt(jsonArray1.getString("deleted_at"));
 
-
-//                    int apiVERSION=Integer.parseInt(versionListIItem.getAppliactionVersion().replace(".",""));
-//                    int currentVERSION=Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".",""));
-//
-//                    if (apiVERSION>currentVERSION)
-//                    {
-//                        // Create an alert builder
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-//                        // set the custom layout
-//                        final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
-//                        TextView Message=customLayout.findViewById(R.id.messageMaessage);
-//                        ImageView CloseImg=customLayout.findViewById(R.id.CloseImg);
-//                        Message.setText(jsonArray1.getString("message"));
-//
-//                        builder.setView(customLayout);
-//
-//
-//                        // create and show
-//                        // the alert dialog
-//                        AlertDialog dialog
-//                                = builder.create();
-//                        dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
-//                        dialog.setCancelable(false);
-//                        dialog.show();
-//                        CloseImg.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                dialog.dismiss();
-//                            }
-//                        });
-//
-//                        Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-//                        pbutton.setBackgroundColor(Color.WHITE);
-//                    }
 
                     int apiVERSION = Integer.parseInt(versionListIItem.getAppliactionVersion().replace(".", ""));
                     int currentVERSION = Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".", ""));

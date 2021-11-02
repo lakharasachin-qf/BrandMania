@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -35,7 +36,7 @@ public class FontListAdeptor extends RecyclerView.Adapter<FontListAdeptor.FontLi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FontListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FontListViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Typeface typeface = Typeface.createFromAsset(activity.getAssets(), fontModels.get(position).getFontFaimly());  //get font style from list and store into typeface
         holder.fontList.setTypeface(typeface);  //set typeface to textView
         holder.fontList.setText(convertFirstUpper(fontModels.get(position).getFontId()));//set text

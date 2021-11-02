@@ -89,7 +89,6 @@
                              android:layout_marginTop="@dimen/_10sdp"
                              android:layout_marginEnd="@dimen/_10sdp"
                              android:layout_marginBottom="@dimen/_30sdp"
-                             android:layout_weight="1"
                              android:background="@drawable/buttoncornar"
                              android:backgroundTint="@color/colorthird"
                              android:fontFamily="@font/inter_regular"
@@ -104,7 +103,6 @@
                              android:visibility="gone" />
                          <TextView
                              android:layout_toEndOf="@+id/subscribePlaneBtn"
-                             android:layout_weight="1"
                              android:id="@+id/removeFrameBtn"
                              android:layout_width="wrap_content"
                              android:layout_height="@dimen/_28sdp"

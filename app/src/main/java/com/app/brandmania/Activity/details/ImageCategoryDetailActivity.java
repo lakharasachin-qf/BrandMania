@@ -2,6 +2,8 @@ package com.app.brandmania.Activity.details;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
+import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_CANCEL;
+import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -120,8 +122,8 @@ import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.IFontChangeEvent;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.videoHelper.ExecuteBinaryResponseHandler;
-import com.app.brandmania.videoHelper.FFmpeg;
+import com.arthenica.mobileffmpeg.ExecuteCallback;
+import com.arthenica.mobileffmpeg.FFmpeg;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -239,7 +241,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         act = this;
         //triggerUpgradePackage();
         //valve
-        ffmpeg = FFmpeg.getInstance(act);
+        //ffmpeg = FFmpeg.getInstance(act);
         act.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
         preafManager = new PreafManager(this);
@@ -307,6 +309,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         binding.fabroutIcon.setVisibility(View.GONE);
                         binding.addfabroutIcon.setVisibility(View.VISIBLE);
                     }
+
                     saveImageToGallery(false, true);
                     Toast.makeText(act, "Added to Favourite", Toast.LENGTH_SHORT).show();
                 }
@@ -418,14 +421,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
         if (exoPlayer != null) {
-            exoPlayer.stop();
-            exoPlayer.release();
+            startPlayer();
         }
     }
 
@@ -501,11 +498,31 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     DefaultHttpDataSourceFactory dataSourceFactory;
     SimpleExoPlayer exoPlayer;
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pausePlayer();
+    }
+
+    private void startPlayer(){
+        Log.e("Start","Player");
+        exoPlayer.setPlayWhenReady(true);
+
+    }
+    private void pausePlayer(){
+        exoPlayer.setPlayWhenReady(false);
+        exoPlayer.seekTo(0);
+        Log.e("Start","pausePlayer");
+    }
     public void LoadDataToUI() {
         preafManager = new PreafManager(act);
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
             if (selectedObject.getImageType() == ImageList.IMAGE) {
+                if (exoPlayer != null) {
+                    exoPlayer.stop();
+                    exoPlayer.release();
+                }
 
                 binding.videoView.setVisibility(View.GONE);
                 binding.recoImage.setVisibility(View.VISIBLE);
@@ -562,8 +579,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                 } catch (Exception ignored) {
                 }
-                if (FFmpeg.getInstance(act).isSupported()) {
-                }
+//                if (FFmpeg.getInstance(act).isSupported()) {
+//                }
                 binding.fabroutIcon.setVisibility(View.GONE);
             }
         }
@@ -684,7 +701,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
     public void shareVideo(File uris) {
-        progressDialog.dismiss();
+
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -698,7 +715,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
     public void shareGIF(File uris) {
-        progressDialog.dismiss();
+
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -778,7 +795,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     public void coding() {
         String loadedFile = String.valueOf(selectedObject.getVideoSet()).substring(String.valueOf(selectedObject.getVideoSet()).lastIndexOf('/') + 1).split("\\.")[0] + System.currentTimeMillis();
-        loadedFile = selectedObject.getName()+new Random().nextInt(1000);
+        loadedFile = selectedObject.getName().replaceAll("\\s", "")+new Random().nextInt(1000);
         Log.e("LoadedFile",loadedFile);
         String outputFilePath;
         String filePrefix = loadedFile;
@@ -805,7 +822,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         }
         Log.e("EEEE", gson.toJson(exe));
 
-        execCommand(exe);
+        String command = "-i " + finalVideoPath+ " -i "+ framePath+ " -filter_complex "+ " overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2 "+ outputFilePath;
+        //execCommand(exe);
+        execCommand(command);
         finalOutputFile = new File(outputFilePath);
     }
 
@@ -869,50 +888,91 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     FFmpeg ffmpeg;
     File finalOutputFile = null;
 
-    public void execCommand(String[] cmd) {
+    public void execCommand(String cmd) {
+        progressDialog.setMessage("Processing......");
 
-        ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
-
-            @Override
-            public void onStart() {
-                Log.e("Start", "logged");
-            }
+        long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
 
             @Override
-            public void onProgress(String message) {
-                progressDialog.setMessage("Processing......");
-            }
+            public void apply(final long executionId, final int returnCode) {
+                Log.e("APPLY","1");
+                progressDialog.dismiss();
 
-            @Override
-            public void onFailure(String message) {
-                Log.e("onFailure", message);
-            }
-
-            @Override
-            public void onSuccess(String message) {
-
-                manager.remove(downloadID);
+             //   manager.remove(downloadID);
+                Log.e("APPLY","2");
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + videoUrl);
                 if (file.exists())
                     file.delete();
+                Log.e("APPLY","3");
 
                 file = new File(framePath);
                 if (file.exists())
                     file.delete();
+                Log.e("APPLY","4");
+
+//                if (selectedObject.getImageType() != ImageList.IMAGE) {
+//                    Log.e("SHARED","Trigger");
+//                    shareVideoOrGIF();
+//                }
 
                 downloadAndShareApi(DOWLOAD, null);
-            }
 
-            @Override
-            public void onFinish() {
-                progressDialog.dismiss();
+                Log.e("APPLY","5");
+                if (returnCode == RETURN_CODE_SUCCESS) {
+                    Log.e("APPLY","Success");
+                    System.out.println("Success-FFM Async command execution completed successfully.");
+                } else if (returnCode == RETURN_CODE_CANCEL) {
+                    System.out.println("Cancel-FFM Async command execution cancelled by user.");
+                } else {
+                    System.out.println("Faild-FFM"+ String.format("Async command execution failed with returnCode=%d."+returnCode));
+                }
             }
         });
+
+//        ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
+//
+//            @Override
+//            public void onStart() {
+//                Log.e("Start", "logged");
+//            }
+//
+//            @Override
+//            public void onProgress(String message) {
+//                progressDialog.setMessage("Processing......");
+//            }
+//
+//            @Override
+//            public void onFailure(String message) {
+//                Log.e("onFailure", message);
+//            }
+//
+//            @Override
+//            public void onSuccess(String message) {
+//
+//                manager.remove(downloadID);
+//                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + videoUrl);
+//                if (file.exists())
+//                    file.delete();
+//
+//                file = new File(framePath);
+//                if (file.exists())
+//                    file.delete();
+//
+//                downloadAndShareApi(DOWLOAD, null);
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                progressDialog.dismiss();
+//            }
+//        });
     }
 
 
     public void saveGif() {
         isItGIF = true;
+        HELPER._INIT_FOLDER(Constant.ROOT);
+        HELPER._INIT_FOLDER(Constant.DATA);
         saveVideo();
     }
 
@@ -1738,7 +1798,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     //save image with frame either custom or from backend
     public void saveImageToGallery(boolean wantToShare, boolean isFavourite) {
         HELPER._INIT_FOLDER(Constant.ROOT);
+        HELPER._INIT_FOLDER(Constant.DATA);
         HELPER._INIT_FOLDER(Constant.IMAGES);
+
         Drawable bitmapFrame;
         if (isUsingCustomFrame) {
             bitmapFrame = new BitmapDrawable(getResources(), getCustomFrameInBitmap(isFavourite));
@@ -2228,7 +2290,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     //For Download,Share and Fav
     private void downloadAndShareApi(final int download, Bitmap customImage) {
 
-        Utility.showLoadingTran(act);
+    //    Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.DOWNLOAD_SHARE);
         File img1File = null;
         if (customImage != null) {
@@ -2257,7 +2319,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             request.addMultipartParameter("is_custom", "0");
         }
         request.addMultipartParameter("type", String.valueOf(download));
-        Log.e("Request", gson.toJson(request));
+        //Log.e("Request", gson.toJson(request));
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
@@ -2267,7 +2329,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Utility.dismissLoadingTran();
+                        //Utility.dismissLoadingTran();
+                        System.out.println("APIRESPONSE");
                         Utility.Log("DOWNLOAD_SHARE : ", response);
                         if (updateLogo && selectedLogo != null)
                             uploadLogoForBrand(selectedLogo);
@@ -2295,7 +2358,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     @Override
                     public void onError(ANError error) {
                         isLoading = false;
-                        Utility.dismissLoadingTran();
+                        //Utility.dismissLoadingTran();
                         if (error.getErrorCode() != 0) {
                             Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
                             Log.e("onError errorBody : ", error.getErrorBody());
@@ -2303,12 +2366,16 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         } else {
                             Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
+
                         if (selectedObject.getImageType() != ImageList.IMAGE) {
+
                             shareVideoOrGIF();
                         }
+
                     }
                 });
     }
+
 
 
     public void shareVideoOrGIF() {
@@ -2326,10 +2393,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.videoView.requestFocus();
         binding.simpleProgressBar.setVisibility(View.VISIBLE);
         try {
-            if (exoPlayer != null) {
-                exoPlayer.stop();
-                exoPlayer.release();
-            }
+//            if (exoPlayer != null) {
+//                exoPlayer.stop();
+//                exoPlayer.release();
+//            }
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
             exoPlayer = ExoPlayerFactory.newSimpleInstance(act, trackSelector);
@@ -2345,7 +2412,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         } catch (Exception ignored) {
         }
 
-
+        System.out.println("SHARED");
         if (isItGIF)
             shareGIF(finalOutputFile);
         else

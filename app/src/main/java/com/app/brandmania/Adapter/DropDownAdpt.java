@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,7 @@ public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHold
 
 
     @Override
-    public void onBindViewHolder(final TenamentHolder holder, int position) {
+    public void onBindViewHolder(final TenamentHolder holder, @SuppressLint("RecyclerView") int position) {
         CommonListModel listModel = arrayList.get(position);
 
         holder.radioButton.setText(convertFirstUpper(listModel.getName()));

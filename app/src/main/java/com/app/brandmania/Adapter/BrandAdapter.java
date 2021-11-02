@@ -124,7 +124,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
 
     @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final BrandListItem model = brandListItems.get(position);
         if (model != null) {
             switch (model.getLayoutType()) {

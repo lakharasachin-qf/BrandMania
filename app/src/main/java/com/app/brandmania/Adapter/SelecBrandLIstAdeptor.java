@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,7 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
 
 
     @Override
-    public void onBindViewHolder(final SelecBrandLIstAdeptor.SelecBrandLIstHolder holder, int position) {
+    public void onBindViewHolder(final SelecBrandLIstAdeptor.SelecBrandLIstHolder holder, @SuppressLint("RecyclerView") int position) {
         BrandListItem listModel = arrayList.get(position);
         if(preafManager.getActiveBrand().getId().equals(listModel.getId()))
         {

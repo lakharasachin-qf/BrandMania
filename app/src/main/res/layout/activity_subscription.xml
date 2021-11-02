@@ -95,7 +95,6 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_below="@+id/my_toolbar"
                     android:id="@+id/getBrandList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -1,6 +1,5 @@
-//apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'  // Google Services plugin
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
@@ -11,8 +10,8 @@ android {
         applicationId "com.make.mybrand"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 15
-        versionName "1.0"
+        versionCode 16
+        versionName "1.5.0"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -20,7 +19,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,11 +36,13 @@ android {
     buildFeatures {
         dataBinding true
     }
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
+    configurations {
+        all {
+            //exclude module: 'httpclient'
+            exclude module: 'commons-logging'
+        }
     }
+
     allprojects {
         repositories {
             mavenCentral()
@@ -85,7 +87,6 @@ dependencies {
     // dependency file for gson
     implementation 'com.google.code.gson:gson:2.8.6'
     // dependency file for permission
-    implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'com.karumi:dexter:6.2.2'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
     implementation 'com.google.android.material:material:1.4.0'
@@ -93,10 +94,8 @@ dependencies {
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'ja.burhanrashid52:photoeditor:1.0.0'
-    //implementation project(':photoeditor')
     implementation 'androidx.cardview:cardview:1.0.0'
 
     androidTestImplementation 'androidx.test:runner:1.4.0'
@@ -106,7 +105,6 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.github.clans:fab:1.6.4'
-    implementation 'com.github.yalantis:ucrop:2.2.6'
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     //dependency for image cropping
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
@@ -152,9 +150,6 @@ dependencies {
     implementation 'com.github.HaarigerHarald:android-youtubeExtractor:v1.7.0'
     implementation 'com.github.ksoichiro:android-observablescrollview:1.5.2'
 
-    //bottom navigation
-    implementation 'com.etebarian:meow-bottom-navigation:1.3.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.30"
 
     //for FFmpeg
 //    implementation 'nl.bravobit:android-ffmpeg:1.1.7'
@@ -177,5 +172,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
 
+    implementation 'com.arthenica:mobile-ffmpeg-full:4.4.LTS'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.30"
 
 }

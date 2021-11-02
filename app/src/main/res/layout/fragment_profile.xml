@@ -77,7 +77,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/my_toolbar"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -660,7 +659,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/appVersionTxt"
                     android:layout_marginTop="@dimen/_60sdp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"

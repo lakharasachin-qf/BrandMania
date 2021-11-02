@@ -73,7 +73,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -116,32 +115,29 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         void makeTabChange(int i);
     }
 
-    public void getDeviceToken(Activity act) {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                deviceToken = task.getResult();
-                UpdateToken();
-            }
+    public void getDeviceToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            deviceToken = task.getResult();
+            UpdateToken();
         });
     }
 
     @Override
     public void onResume() {
+        act=getActivity();
         preafManager = new PreafManager(act);
         super.onResume();
-        //isOfferPending = true means- show offer pop otherwise nothing
-
 
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult", "SimpleDateFormat"})
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, parent, false);
         homeFragment = this;
-        fiveStarsDialog = new FiveStarsDialog(Objects.requireNonNull(getActivity()), "brandmania@gmail.com");
+
+        fiveStarsDialog = new FiveStarsDialog(act, "brandmania@gmail.com");
         preafManager = new PreafManager(act);
 
         if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
@@ -219,7 +215,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.createGreetingImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((CUSTOM_TAB_CHANGE_INTERFACE) Objects.requireNonNull(getActivity())).makeTabChange(1);
+                ((CUSTOM_TAB_CHANGE_INTERFACE) getActivity()).makeTabChange(1);
             }
         });
 
@@ -239,7 +235,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
             }
         });
-        getDeviceToken(act);
+        getDeviceToken();
 
         binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
             @Override

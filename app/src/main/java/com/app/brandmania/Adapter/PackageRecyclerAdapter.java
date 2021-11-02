@@ -51,7 +51,7 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull PackageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PackageViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         SliderItem model = packageList.get(position);
 

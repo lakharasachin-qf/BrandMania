@@ -33,6 +33,7 @@ import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityMainBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -47,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class SpleshActivity extends BaseActivity implements alertListenerCallback {
     Activity act;
@@ -72,6 +74,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
         animatorSet1.setDuration(3000);
         getInvitation();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

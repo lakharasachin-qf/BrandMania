@@ -39,7 +39,6 @@
                 android:textSize="@dimen/_8sdp"
                 android:fontFamily="@font/inter_semibold"
                 android:padding="@dimen/_5sdp"
-                android:layout_alignParentBottom="true"
                 android:id="@+id/folderNameTxt"
                 android:text=""
                 android:layout_gravity="bottom"

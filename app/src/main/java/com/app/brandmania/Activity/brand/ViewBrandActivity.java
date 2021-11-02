@@ -196,9 +196,10 @@ public class ViewBrandActivity extends BaseActivity {
         queue.add(stringRequest);
     }
     @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CALL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-              //  makePhoneCall();
+                //  makePhoneCall();
             } else {
                 Toast.makeText(act, "Permission Denied", Toast.LENGTH_SHORT).show();
             }

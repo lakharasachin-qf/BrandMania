@@ -57,7 +57,7 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
         colorPickerAdapter.setOnColorPickerClickListener(colorCode -> mColorCode = colorCode);
         binding.colorRecycler.setAdapter(colorPickerAdapter);
 
-        binding.chooseColorTxt.setOnClickListener(v -> ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(Objects.requireNonNull(getActivity())));
+        binding.chooseColorTxt.setOnClickListener(v -> ColorPickerDialog.newBuilder().setColor(ContextCompat.getColor(act,R.color.black)).show(getActivity()));
 
         binding.colorPickerView.setOnColorChangedListener(this);
         binding.colorPickerView.setOnColorChangedListener(this);

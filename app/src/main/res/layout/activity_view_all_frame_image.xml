@@ -310,7 +310,6 @@
                             android:layout_width="match_parent"
                             app:tabMode="scrollable"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/appbarLayout"
                             android:layout_marginTop="-3dp"
                             android:background="@color/colorNavText"
                             app:tabIndicatorColor="@color/colorPrimary" />
@@ -445,12 +444,11 @@
                     android:layout_margin="@dimen/_2sdp"
                     android:id="@+id/textAlignment"
                      android:padding="@dimen/_10sdp"
-                    android:tint="@color/white"
                     android:src="@drawable/ic_centered_align"
                     android:background="@android:color/transparent"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                      />
+                    app:tint="@color/white" />
                  <Button
                     android:id="@+id/done"
                     android:layout_width="wrap_content"

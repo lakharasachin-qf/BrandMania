@@ -70,7 +70,6 @@
                     android:layout_alignParentStart="true"
                    android:layout_marginLeft="@dimen/_10sdp"
                     android:id="@+id/contactLayout"
-                    android:layout_below="@+id/topView2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_20sdp">
 
@@ -149,8 +148,6 @@
                     android:id="@+id/websiteLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
-                    android:layout_below="@+id/topView2"
-
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_5sdp"

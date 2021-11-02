@@ -140,7 +140,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
         return footerModels.size();
     }
     @SuppressLint("ResourceAsColor")
-    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final FooterModel model = footerModels.get(position);
         BrandListItem activeBrand=preafManager.getActiveBrand();
         Log.e("NOTIFY", String.valueOf(checkedPosition));
@@ -696,7 +696,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderNine) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                    
+
 
                     if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderNine) holder).binding.contactText.setText(activeBrand.getPhonenumber());

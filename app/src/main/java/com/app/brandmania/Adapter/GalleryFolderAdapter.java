@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class GalleryFolderAdapter extends RecyclerView.Adapter<GalleryFolderAdap
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         ImagesFolder s = spacecrafts.get(position);
         holder.folderNameTxt.setText(s.getAllFolderName());

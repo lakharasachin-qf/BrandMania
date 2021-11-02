@@ -65,7 +65,6 @@
 
 
             <ImageView
-                android:layout_toEndOf="@+id/boldText"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:visibility="gone"
                 android:layout_centerVertical="true"

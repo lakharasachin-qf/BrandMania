@@ -57,7 +57,7 @@ public class FrameTab extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.frame_tab, container, false);
-        preafManager = new PreafManager(Objects.requireNonNull(getActivity()));
+        preafManager = new PreafManager(getActivity());
 
         getFrame();
 

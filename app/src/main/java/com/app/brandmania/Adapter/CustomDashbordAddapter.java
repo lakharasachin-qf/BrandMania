@@ -54,7 +54,7 @@ public class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordA
         ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(dashBoardItemList.get(position).getImageLists(), activity);
         menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_CATEGORYFRAGEMENT);
         dasboardViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-        dasboardViewHolder.recyclerView.setHasFixedSize(true);
+//        dasboardViewHolder.recyclerView.setHasFixedSize(true);
         menuAddaptor.setDashBoardItem(dashBoardItemList.get(position));
         dasboardViewHolder.recyclerView.setAdapter(menuAddaptor);
         dasboardViewHolder.viewAll.setOnClickListener(new View.OnClickListener() {

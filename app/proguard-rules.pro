@@ -31,3 +31,4 @@
 -keep class com.razorpay.** {*;}
 
 -optimizations !method/inlining
+

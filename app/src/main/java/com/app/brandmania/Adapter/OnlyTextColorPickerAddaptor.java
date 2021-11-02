@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -63,7 +64,7 @@ public class OnlyTextColorPickerAddaptor extends RecyclerView.Adapter<OnlyTextCo
     }
 
     @Override
-    public void onBindViewHolder(OnlyTextColorPickerAddaptor.ViewHolder holder, int position) {
+    public void onBindViewHolder(OnlyTextColorPickerAddaptor.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.colorPickerView.setBackgroundColor(colorPickerColors.get(position));
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

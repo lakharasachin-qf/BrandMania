@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -77,7 +78,7 @@ public class MenuAddaptor extends RecyclerView.Adapter{
             }
 
         }
-        @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
             final MultiListItem model = menuModels.get(position);
             if (model != null) {
                 switch (model.getLayoutType()) {
