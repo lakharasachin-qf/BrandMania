@@ -237,16 +237,16 @@ public class ResponseHandler {
                     if (!key.equalsIgnoreCase("custom Images") && !key.equalsIgnoreCase("custome Images")) {
                         JSONArray dataItemArray = data.getJSONArray(key);
                         DashBoardItem model = new DashBoardItem();
-                        if (key.equalsIgnoreCase("Business Images")) {
+                        if (key.contains("Business")) {
                             model.setFilterIndex(2);
                         }
-                        if (key.equalsIgnoreCase("Daily Images")) {
+                        if (key.contains("Daily")) {
                             model.setFilterIndex(3);
                         }
-                        if (key.equalsIgnoreCase("Festival Images")) {
+                        if (key.contains("Upcoming")) {
                             model.setFilterIndex(1);
                         }
-                        if (key.contains("Today")) {
+                        if (key.contains("Today's")) {
                             model.setFilterIndex(0);
                         }
 
@@ -320,11 +320,13 @@ public class ResponseHandler {
                                     model.setImageType(ImageList.GIF);
                                     //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/mahadev.mp4"));
                                     model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
+                                    model.setFrame(getString(datajsonObject, "img_thumb_path"));
                                 }
                                 if (getString(datajsonObject, "type").equalsIgnoreCase("video")) {
                                     model.setImageType(ImageList.VIDEO);
                                     //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
                                     model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
+                                    model.setFrame(getString(datajsonObject, "img_thumb_path"));
                                 }
                                 string.add(model);
                             //}

@@ -46,6 +46,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -93,7 +94,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         FetchCustomFrameStatus();
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         preafManager = new PreafManager(this);
         act = this;
         getUpdate();
@@ -106,6 +106,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             askPermissions();
+        }else{
+            HELPER._INIT_FOLDER(Constant.ROOT);
+            HELPER._INIT_FOLDER(Constant.DATA);
         }
 
     }
@@ -195,14 +198,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                         new String[]{CAMERA}, REQUESTED_CAMERA);
             }
         });
-        permissionsLayoutBinding.permissionLayout2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.requestPermissions(act,
-                        new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
-                        REQUESTED_STORAGE);
-            }
-        });
+        permissionsLayoutBinding.permissionLayout2.setOnClickListener(v -> ActivityCompat.requestPermissions(act,
+                new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
+                REQUESTED_STORAGE));
 
 //        permissionsLayoutBinding.permissionLayout3.setOnClickListener(new View.OnClickListener() {
 //            @Override

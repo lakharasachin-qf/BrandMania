@@ -99,7 +99,7 @@ public class CategoryTab extends FrameTab {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Utility.Log("GET_IMAGE_CATEGORYyyyyyyyyyyyy : ", response);
+               // Utility.Log("GET_IMAGE_CATEGORYyyyyyyyyyyyy : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -201,14 +201,14 @@ public class CategoryTab extends FrameTab {
                             int lastPos = menuModels.size();
                             menuModels.addAll(menuModels.size(), apiObject.getCatogaryImagesList());
                             menuAddaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
-                            Log.e("GGG", new Gson().toJson(menuModels));
+                     //       Log.e("GGG", new Gson().toJson(menuModels));
                         } else {
                             menuModels = new ArrayList<>();
                             menuModels.addAll(0, apiObject.getCatogaryImagesList());
                         }
                     }
                     if (apiObject.getLinks() != null) {
-                        Log.e("APIIII", new Gson().toJson(apiObject.getLinks()));
+                     //   Log.e("APIIII", new Gson().toJson(apiObject.getLinks()));
                         if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);

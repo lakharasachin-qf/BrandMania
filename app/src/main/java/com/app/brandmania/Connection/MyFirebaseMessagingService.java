@@ -76,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent = new Intent(this, ViewBrandActivity.class);
         }
         else {
-            if (cat_id.equals("0"))
+            if (cat_id== null || cat_id.equals("0"))
                 intent = new Intent(this, HomeActivity.class);
             else{
                 intent = new Intent(this, ImageCategoryDetailActivity.class);

@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
-import com.app.brandmania.Activity.custom.CustomViewAllActivit;
 import com.app.brandmania.Connection.MyPdfPageEventHelper;
 import com.app.brandmania.R;
 import com.itextpdf.text.Anchor;
@@ -305,7 +303,6 @@ public class HELPER {
     }
 
 
-
     public static String realPathForImage(final Context context, final Uri uri) {
 
         final boolean isKitKat = true;
@@ -396,6 +393,7 @@ public class HELPER {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is Google Photos.
@@ -432,5 +430,67 @@ public class HELPER {
     public static File getDisc() {
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         return new File(file, "BrandMania");
+    }
+
+
+    public static void _INIT_FOLDER(String folderName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            String destURL = null;
+            File baseFolder;
+            if (folderName.equalsIgnoreCase(Constant.ROOT)) {
+                destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT;
+            }
+
+            if (folderName.equalsIgnoreCase(Constant.DATA)) {
+                destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" + Constant.DATA;
+            }
+            if (folderName.equalsIgnoreCase(Constant.VIDEOS)) {
+                destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" + Constant.VIDEOS;
+
+            }
+            if (folderName.equalsIgnoreCase(Constant.GIF)) {
+                destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" + Constant.GIF;
+            }
+            if (folderName.equalsIgnoreCase(Constant.IMAGES)) {
+                destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" + Constant.IMAGES;
+            }
+
+            if (folderName.equalsIgnoreCase(Constant.DOCUMENT)) {
+                destURL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" + Constant.DOCUMENT;
+            }
+
+            if (destURL != null) {
+                baseFolder = new File(destURL);
+                if (!baseFolder.exists()) {
+                    baseFolder.mkdir();
+                }
+            }
+        } else {
+            File baseFolder = null;
+
+            if (folderName.equalsIgnoreCase(Constant.ROOT)) {
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), Constant.ROOT);
+            }
+            if (folderName.equalsIgnoreCase(Constant.DATA)) {
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.DATA);
+            }
+            if (folderName.equalsIgnoreCase(Constant.VIDEOS)) {
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.VIDEOS);
+            }
+            if (folderName.equalsIgnoreCase(Constant.IMAGES)) {
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.IMAGES);
+            }
+            if (folderName.equalsIgnoreCase(Constant.DOCUMENT)) {
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.DOCUMENT);
+            }
+            if (folderName.equalsIgnoreCase(Constant.GIF)) {
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.GIF);
+            }
+
+            if (!baseFolder.exists()) {
+                baseFolder.mkdirs();
+            }
+
+        }
     }
 }

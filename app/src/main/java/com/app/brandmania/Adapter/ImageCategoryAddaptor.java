@@ -37,6 +37,7 @@ import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallframeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -259,7 +260,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                 case LAYOUT_IMAGE_CATEGORY_BY_ID:
 
                     Glide.with(activity)
-                            .load(model.getLogo())
+                            .load(model.getFrame())
                             .placeholder(R.drawable.placeholder)
                             .into(((ImageCategoryByIdHolder) holder).binding.image);
 

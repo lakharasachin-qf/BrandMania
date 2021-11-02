@@ -59,8 +59,7 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
         holder.binding.packageName.setText(model.getPackageTitle());
         holder.binding.planLabel.setText("Plan " + String.valueOf(position + 1));
 
-
-        holder.binding.secondaryTitle.setOnClickListener(new View.OnClickListener() {
+        holder.binding.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, RazorPayActivity.class);

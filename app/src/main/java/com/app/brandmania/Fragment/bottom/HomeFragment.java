@@ -499,7 +499,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         }
                     }
                     if (apiResponse.getLinks() != null) {
-                        Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
+                       // Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
                         if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
                             // binding.shimmerForPagination.startShimmer();
                             //  binding.shimmerForPagination.setVisibility(View.VISIBLE);
