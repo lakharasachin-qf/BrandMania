@@ -421,7 +421,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     public void onResume() {
         super.onResume();
-        if (exoPlayer != null) {
+        if (exoPlayer != null && selectedObject.getImageType() != ImageList.IMAGE) {
             startPlayer();
         }
     }
@@ -502,18 +502,20 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     protected void onPause() {
         super.onPause();
-        pausePlayer();
+        if (exoPlayer != null && selectedObject.getImageType() != ImageList.IMAGE) {
+            pausePlayer();
+        }
     }
 
     private void startPlayer(){
-        Log.e("Start","Player");
+        //Log.e("Start","Player");
         exoPlayer.setPlayWhenReady(true);
 
     }
     private void pausePlayer(){
         exoPlayer.setPlayWhenReady(false);
         exoPlayer.seekTo(0);
-        Log.e("Start","pausePlayer");
+        //Log.e("Start","pausePlayer");
     }
     public void LoadDataToUI() {
         preafManager = new PreafManager(act);
@@ -521,7 +523,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             binding.simpleProgressBar.setVisibility(View.GONE);
             if (selectedObject.getImageType() == ImageList.IMAGE) {
 
-                if (exoPlayer != null) {
+                if (exoPlayer != null && binding.videoView.getVisibility() == View.VISIBLE) {
                     exoPlayer.stop();
                     exoPlayer.release();
                 }
@@ -544,7 +546,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                 binding.imageKoadingView.setVisibility(View.GONE);
                                 binding.recoImage.setVisibility(View.VISIBLE);
-                                Log.e("Resurece", "ready");
+                                //Log.e("Resurece", "ready");
                                 return false;
                             }
                         })
@@ -553,13 +555,14 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             }
 
             if (selectedObject.getImageType() == ImageList.VIDEO || selectedObject.getImageType() == ImageList.GIF) {
-                Log.e("DATAAA", String.valueOf(selectedObject.getVideoSet()));
+                //Log.e("DATAAA", String.valueOf(selectedObject.getVideoSet()));
                 binding.recoImage.setVisibility(View.GONE);
 
                 binding.videoView.setVisibility(View.VISIBLE);
                 binding.videoView.requestFocus();
                 binding.simpleProgressBar.setVisibility(View.VISIBLE);
                 try {
+
                     if (exoPlayer != null) {
                         exoPlayer.stop();
                         exoPlayer.release();
@@ -625,11 +628,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         switch (playbackState) {
             case Player.STATE_BUFFERING:
-                Log.e("Buffer", "yes");
                 binding.simpleProgressBar.setVisibility(View.VISIBLE);
                 break;
             case Player.STATE_ENDED:
-                // Activate the force enable
                 break;
             case Player.STATE_READY:
                 binding.simpleProgressBar.setVisibility(View.GONE);
@@ -651,7 +652,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     public void onPlayerError(ExoPlaybackException error) {
         binding.simpleProgressBar.setVisibility(View.GONE);
-
     }
 
     @Override
@@ -790,7 +790,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         }
 
-        Log.e("FramePath", framePath);
+        //Log.e("FramePath", framePath);
         new AsyncTaskRunner().execute();
 
     }
@@ -798,7 +798,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void coding() {
         String loadedFile = String.valueOf(selectedObject.getVideoSet()).substring(String.valueOf(selectedObject.getVideoSet()).lastIndexOf('/') + 1).split("\\.")[0] + System.currentTimeMillis();
         loadedFile = selectedObject.getName().replaceAll("\\s", "")+new Random().nextInt(1000);
-        Log.e("LoadedFile",loadedFile);
+        //Log.e("LoadedFile",loadedFile);
         String outputFilePath;
         String filePrefix = loadedFile;
         String fileExtn = ".mp4";
@@ -816,13 +816,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         }
 
         outputFilePath = outputFile.getAbsolutePath();
-        Log.e("FinalStoragePath", outputFilePath);
+        //Log.e("FinalStoragePath", outputFilePath);
 
         String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", outputFilePath};
         if (isItGIF) {
             exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", outputFilePath};
         }
-        Log.e("EEEE", gson.toJson(exe));
+        //Log.e("EEEE", gson.toJson(exe));
 
         String command = "-i " + finalVideoPath+ " -i "+ framePath+ " -filter_complex "+ " overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2 "+ outputFilePath;
         //execCommand(exe);
@@ -878,7 +878,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 if (!vdPath.isEmpty()) {
                     finalVideoPath = vdPath;
                 }
-                Log.e("path", path);
+                //Log.e("path", path);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     framePath = path.replace("Download", "") + framePath;
                 }
@@ -897,15 +897,15 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
             @Override
             public void apply(final long executionId, final int returnCode) {
-                Log.e("APPLY","1");
+                //Log.e("APPLY","1");
                 progressDialog.dismiss();
 
              //   manager.remove(downloadID);
-                Log.e("APPLY","2");
+                //Log.e("APPLY","2");
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + videoUrl);
                 if (file.exists())
                     file.delete();
-                Log.e("APPLY","3");
+                //Log.e("APPLY","3");
 
                 file = new File(framePath);
                 if (file.exists())
@@ -1927,8 +1927,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         selectedFooterModel = footerModel;
         addDynamicFooter(footerLayout, false);
-
-        if (selectedObject.getImageType() == ImageList.IMAGE)
+        Log.e("selectedObject",gson.toJson(selectedObject));
+        if (selectedObject!=null && selectedObject.getImageType() == ImageList.IMAGE)
             forCheckFavorite();
 
 
@@ -2368,11 +2368,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         isLoading = false;
                         //Utility.dismissLoadingTran();
                         if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            //Log.e("onError errorBody : ", error.getErrorBody());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
 
                         if (selectedObject.getImageType() != ImageList.IMAGE) {
@@ -2388,7 +2388,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     public void shareVideoOrGIF() {
         if (isUsingCustomFrame) {
-            Log.e("Foooter", "Is CAALEd");
+            //Log.e("Foooter", "Is CAALEd");
             ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
             binding.FrameImageDuplicate.setVisibility(View.GONE);
             binding.FrameImageDuplicate.setImageBitmap(null);
@@ -2505,7 +2505,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         error.printStackTrace();
 //                        String body;
 //                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
+//                        //Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -2553,7 +2553,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
-            Log.e("br_logo", String.valueOf(img1File));
+            //Log.e("br_logo", String.valueOf(img1File));
         }
 
 
@@ -2576,11 +2576,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         isLoading = false;
                         Utility.dismissLoadingTran();
                         if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            //Log.e("onError errorBody : ", error.getErrorBody());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
                     }
                 });

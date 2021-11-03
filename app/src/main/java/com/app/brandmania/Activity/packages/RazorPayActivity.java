@@ -112,7 +112,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
             binding.packageNameTxt.setText(sliderItemList.getPackageTitle());
             binding.durationTxt.setText(sliderItemList.getDuration());
-            Log.e("Services", new Gson().toJson(sliderItemList.getSlideSubItems()));
+            //Log.e("Services", new Gson().toJson(sliderItemList.getSlideSubItems()));
             if (sliderItemList.getSlideSubItems().size() != 0) {
                 String description = sliderItemList.getSlideSubItems().get(0).getDescription();
                 String[] serviveArray = description.split(",");
@@ -127,7 +127,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
             calculateAmount = sliderItemList.getPriceForPay();
 
-            if (!selectedBrand.getIs_payment_pending().isEmpty()
+            if (selectedBrand!=null && !selectedBrand.getIs_payment_pending().isEmpty()
                     && selectedBrand.getIs_payment_pending().equalsIgnoreCase("0")
                     && Utility.monthsBetweenDates(selectedBrand.getSubscriptionDate()) < 1) {
 
@@ -136,8 +136,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 if (actualPrice > previousPackagePrice) {
                     int countedPrice = actualPrice - previousPackagePrice;
                     calculateAmount = String.valueOf(countedPrice);
-                    Log.e("test", gson.toJson(preafManager.getActiveBrand()));
-                    Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
+                    //Log.e("test", gson.toJson(preafManager.getActiveBrand()));
+                    //Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
                     binding.discountedAmountLayout.setVisibility(View.GONE);
                     binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
                     binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
@@ -173,7 +173,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                     if (actualPrice > previousPackagePrice) {
                         int countedPrice = actualPrice - previousPackagePrice;
                         calculateAmount = String.valueOf(countedPrice);
-                        Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
+                        //Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
                         binding.discountedAmountLayout.setVisibility(View.GONE);
                         binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
                         binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
@@ -216,7 +216,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
     public void showReferrer() {
 
-        if (!preafManager.getSpleshReferrer().isEmpty()) {
+        if (preafManager.getSpleshReferrer()!=null && !preafManager.getSpleshReferrer().isEmpty()) {
             verifyCode(preafManager.getSpleshReferrer());
         }
     }
@@ -251,7 +251,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             //       String body;
             //get status code here
 //                body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-            //   Log.e("Error ", body);
+            //   //Log.e("Error ", body);
         }) {
             /** Passing some request headers* */
             @Override
@@ -382,7 +382,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 if (ResponseHandler.isSuccess(response, null)) {
                     JSONObject jsonObject = ResponseHandler.getJSONObject(ResponseHandler.createJsonObject(response), "data");
                     generatedOrderId = ResponseHandler.getString(jsonObject, "orderId");
-                    Log.e("RoserPay Order Id", generatedOrderId);
+                    //Log.e("RoserPay Order Id", generatedOrderId);
                     calculateAmount = ResponseHandler.getString(jsonObject, "orderAmount");
                     currency = ResponseHandler.getString(jsonObject, "currency");
 
@@ -401,7 +401,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 //   String body;
                 //   get status code here
                 //   body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                //   Log.e("Error ", body);
+                //   //Log.e("Error ", body);
             }
         }) {
             /** Passing some request headers* */
@@ -446,11 +446,11 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             options.put("amount", String.valueOf(calculateAmount));
             options.put("prefill.email", preafManager.getActiveBrand().getEmail());
             options.put("prefill.contact", "Enter Mobile Number");
-            Log.e("Param : ", options.toString());
+            //Log.e("Param : ", options.toString());
             checkout.open(activity, options);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("TAG", "Error in starting Razorpay Checkout", e);
+            //Log.e("TAG", "Error in starting Razorpay Checkout", e);
         }
 
     }
@@ -458,7 +458,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     @Override
     public void onPaymentSuccess(String s, PaymentData paymentData) {
         try {
-            Log.e("Payment Succcessful", gson.toJson(paymentData));
+            //Log.e("Payment Succcessful", gson.toJson(paymentData));
             orderIdStr = paymentData.getOrderId();
 
             paymentIdStr = paymentData.getPaymentId();
@@ -474,7 +474,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
     @Override
     public void onPaymentError(int i, String s, PaymentData paymentData) {
-        Log.e("Payment Fail", s);
+        //Log.e("Payment Fail", s);
         makeSubscription("1");
     }
 
@@ -537,7 +537,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
              /*   String body;
                 //get status code here
                 body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                Log.e("Error ", body);*/
+                //Log.e("Error ", body);*/
 
 
             }
@@ -570,7 +570,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
                 if (subscription.equals("0")) {
                     hashMap.put("razorpay_payment_id", paymentIdStr);
-                    Log.e("razorpay_payment_id", paymentIdStr);
+                    //Log.e("razorpay_payment_id", paymentIdStr);
 
                     if (signatureStr != null) {
                         hashMap.put("razorpay_signature", signatureStr);
@@ -616,7 +616,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                                 if (actualPrice > previousPackagePrice) {
                                     int countedPrice = actualPrice - previousPackagePrice;
                                     calculateAmount = String.valueOf(countedPrice);
-                                    Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
+                                    ////Log.e("Price", preafManager.getActiveBrand().getRate() + " - " + sliderItemList.getPriceForPay());
                                     binding.discountedAmountLayout.setVisibility(View.GONE);
                                     binding.prevAmount.setText(preafManager.getActiveBrand().getPackagename());
                                     binding.prevAmount.setText(act.getString(R.string.Rs) + preafManager.getActiveBrand().getRate());
@@ -684,7 +684,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                ////Log.e("Token", params.toString());
                 return params;
             }
 
@@ -693,7 +693,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
+                //Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;

@@ -18,8 +18,10 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import com.app.brandmania.Activity.HomeActivity;
+import com.app.brandmania.Activity.basics.SpleshActivity;
 import com.app.brandmania.Activity.brand.ViewBrandActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.CodeReUse;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -42,14 +44,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     @Override
-    public void onMessageReceived( RemoteMessage remoteMessage) {
+    public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-    //    Log.e("remoteMessage", remoteMessage.getData().toString());
-        if (remoteMessage.getData().containsKey("cat_name")){
+        //    Log.e("remoteMessage", remoteMessage.getData().toString());
+        if (remoteMessage.getData().containsKey("cat_name")) {
             catName = remoteMessage.getData().get("cat_name");
         }
 
-        shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"),remoteMessage.getData().get("image"),remoteMessage.getData().get("cat_id"));
+        shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"), remoteMessage.getData().get("image"), remoteMessage.getData().get("cat_id"));
     }
 
 
@@ -70,23 +72,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         String copiedMessage = message;
         Intent intent = new Intent(this, HomeActivity.class);
-        if (copiedMessage!=null && copiedMessage.equalsIgnoreCase("addBrand")) {
-            intent = new Intent(this, ViewBrandActivity.class);
-        } else if (copiedMessage !=null && copiedMessage.equalsIgnoreCase("addFrame")) {
-            intent = new Intent(this, ViewBrandActivity.class);
-        }
-        else {
-            if (cat_id== null || cat_id.equals("0"))
-                intent = new Intent(this, HomeActivity.class);
-            else{
-                intent = new Intent(this, ImageCategoryDetailActivity.class);
-                intent.putExtra("notification","1");
-                intent.putExtra("cat_id",cat_id);
-                intent.putExtra("catName",catName);
+        PreafManager preafManager = new PreafManager(this);
+        if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
+            if (copiedMessage != null && copiedMessage.equalsIgnoreCase("addBrand")) {
+                intent = new Intent(this, ViewBrandActivity.class);
+            } else if (copiedMessage != null && copiedMessage.equalsIgnoreCase("addFrame")) {
+                intent = new Intent(this, ViewBrandActivity.class);
+            } else {
+                if (cat_id == null || cat_id.equals("0"))
+                    intent = new Intent(this, HomeActivity.class);
+                else {
+                    intent = new Intent(this, ImageCategoryDetailActivity.class);
+                    intent.putExtra("notification", "1");
+                    intent.putExtra("cat_id", cat_id);
+                    intent.putExtra("catName", catName);
+                }
             }
-
+        } else {
+            intent = new Intent(this, SpleshActivity.class);
         }
-
 
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -105,14 +109,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDeleteIntent(createOnDismissedIntent(this))
                 .setContentIntent(pendingIntent);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                  notificationBuilder.setContentText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT));
-                  notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT)));
-            } else {
-                notificationBuilder.setContentText(Html.fromHtml(msg));
-                notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg)));
-            }
-        if (url!=null && !url.isEmpty()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            notificationBuilder.setContentText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT));
+            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT)));
+        } else {
+            notificationBuilder.setContentText(Html.fromHtml(msg));
+            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg)));
+        }
+        if (url != null && !url.isEmpty()) {
             Bitmap bitmap = getBitmapfromUrl(url);
             notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)).setLargeIcon(bitmap);
         }
@@ -121,15 +125,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify("Brand Mania",( int ) System. currentTimeMillis (), notificationBuilder.build());
+        notificationManager.notify("Brand Mania", (int) System.currentTimeMillis(), notificationBuilder.build());
     }
 
     private PendingIntent createOnDismissedIntent(Context context) {
         Intent intent = new Intent(context, NotificationDismissedReceiver.class);
         intent.putExtra("notificationId", 0);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,108, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 108, intent, 0);
         return pendingIntent;
     }
+
     public Bitmap getBitmapfromUrl(String imageUrl) {
         try {
             URL url = new URL(imageUrl);
