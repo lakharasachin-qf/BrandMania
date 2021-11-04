@@ -120,8 +120,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         });
         listModel = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
         data = gson.fromJson(getIntent().getStringExtra("data"), BrandListItem.class);
-        Log.e("SSSS", gson.toJson(listModel));
-        Log.e("data", gson.toJson(data));
+       // Log.e("SSSS", gson.toJson(listModel));
+       // Log.e("data", gson.toJson(data));
 
         if (listModel != null) {
             binding.catIdEdt.setText(listModel.getId());
@@ -470,7 +470,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             Log.e("br_logo", String.valueOf(img1File));
         }
 
-        Log.e("PARAM", gson.toJson(request));
+   //     Log.e("PARAM", gson.toJson(request));
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override

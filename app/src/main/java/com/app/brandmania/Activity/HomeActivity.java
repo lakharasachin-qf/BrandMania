@@ -333,8 +333,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                Log.e("appUpdateInfo", new Gson().toJson(appUpdateInfo));
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
+                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
                     startAppUpdates(appUpdateInfo);
                 }
             }
@@ -417,11 +416,10 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void getUpdate() {
-        Utility.Log("API : ", APIs.GET_UPDATE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_UPDATE, new Response.Listener<String>() {
+         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_UPDATE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Utility.Log("GET_UPDATE : ", response);
+
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject jsonArray1 = jsonObject.getJSONObject("data");
@@ -523,7 +521,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                Utility.Log("PARS", params.toString());
+
                 return params;
             }
 
@@ -535,11 +533,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     private void FetchCustomFrameStatus() {
 
-        Utility.Log("API : ", APIs.FETCH_CUSTOME_FRAME_STATUS);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.FETCH_CUSTOME_FRAME_STATUS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Utility.Log("FETCH_CUSTOME_FRAME_STATUS : ", response);
+
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     //  JSONObject jsonArray1 = jsonObject.getJSONObject("data");
@@ -579,8 +577,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
+                 return params;
             }
 
         };

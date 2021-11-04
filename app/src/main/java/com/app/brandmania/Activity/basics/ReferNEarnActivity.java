@@ -143,7 +143,7 @@ public class ReferNEarnActivity extends BaseActivity {
                             Log.e("flowchartLink", String.valueOf(flowchartLink));
                             shareLink(shortLink);
                         } else {
-                            Log.e("error", gson.toJson(task));
+                         //   Log.e("error", gson.toJson(task));
                         }
                     }
                 });

@@ -964,7 +964,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
         //   binding.simpleProgressBar.setVisibility(View.GONE);
-        Log.e("SelectedImage", gson.toJson(selectedObject));
+        //Log.e("SelectedImage", gson.toJson(selectedObject));
         selectedObject = listModel;
         LoadDataToUI();
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200);
@@ -1709,7 +1709,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             request.addMultipartParameter("is_custom", "0");
         }
         request.addMultipartParameter("type", String.valueOf(download));
-        Log.e("Request", gson.toJson(request));
+   //     Log.e("Request", gson.toJson(request));
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
@@ -1790,7 +1790,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     public void forCheckFavorite() {
         prefManager = new PreafManager(act);
         AddFavorite = prefManager.getSavedFavorites();
-        Log.e("ALLPREF", gson.toJson(AddFavorite));
+      //  Log.e("ALLPREF", gson.toJson(AddFavorite));
         if (AddFavorite != null) {
             boolean isImageFound = false;
             for (int i = 0; i < AddFavorite.size(); i++) {

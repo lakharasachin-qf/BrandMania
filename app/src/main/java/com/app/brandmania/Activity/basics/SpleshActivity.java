@@ -78,7 +78,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.e("UserToken", gson.toJson(preafManager.getUserToken()));
+              //  Log.e("UserToken", gson.toJson(preafManager.getUserToken()));
                     if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
                         LoginFlow();
                     } else {
