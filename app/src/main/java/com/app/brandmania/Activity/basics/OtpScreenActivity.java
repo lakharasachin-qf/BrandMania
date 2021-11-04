@@ -288,7 +288,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             {
                 isLoading = false;
                 Utility.dismissProgress();
-                Utility.Log("Response: ", response);
+                Utility.Log("Response-OTP: ", response);
 
                 preafManager.loginStep("2");
                 if (ResponseHandler.isSuccess(response, null)) {

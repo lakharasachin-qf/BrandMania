@@ -429,6 +429,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("On"," onDestroy");
         if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
@@ -502,6 +503,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     protected void onPause() {
         super.onPause();
+        Log.e("On"," Pause");
         if (exoPlayer != null && selectedObject.getImageType() != ImageList.IMAGE) {
             pausePlayer();
         }
@@ -1283,6 +1285,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         });
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        if(!act.isDestroyed() && !act.isFinishing())
         alertDialog.show();
     }
 

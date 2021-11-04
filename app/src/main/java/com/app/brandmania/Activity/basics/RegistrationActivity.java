@@ -225,7 +225,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                 .setPriority(Priority.HIGH);
 
         preafManager.setEMAIL_Id(binding.emailId.getText().toString());
-        Log.e("test", gson.toJson(request));
+
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {

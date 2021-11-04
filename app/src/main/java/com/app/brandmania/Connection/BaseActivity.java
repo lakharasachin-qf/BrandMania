@@ -29,8 +29,9 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private static Dialog noconnectionAlertDialog;
     public Activity act;
+    public static Activity staticAct;
     public PreafManager prefManager;
-    public  MakeMyBrandApp myBrandApp;
+    public MakeMyBrandApp myBrandApp;
     private BroadcastReceiver mNetworkReceiver;
     private boolean LIVE_MODE = true;
     public Gson gson;
@@ -47,18 +48,23 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     }
 
     public static void InternetError(boolean value) {
-        if (value) {
-            if (noconnectionAlertDialog.isShowing()) {
-                noconnectionAlertDialog.dismiss();
+        if (!staticAct.isDestroyed() && !staticAct.isFinishing()) {
+
+            if (value) {
+                if (noconnectionAlertDialog.isShowing()) {
+                    noconnectionAlertDialog.dismiss();
+
+                }
+            } else {
+                showNoConnectionDialog();
 
             }
-        } else {
-            showNoConnectionDialog();
-
         }
     }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        staticAct = this;
         act = this;
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
@@ -66,8 +72,6 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         gson = new Gson();
         myBrandApp = (MakeMyBrandApp) this.getApplication();
         myBrandApp.getObserver().addObserver(this);
-
-
 
 
         noconnectionAlertDialog = new Dialog(this);
@@ -78,11 +82,12 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         mNetworkReceiver = new NetworkChangeReceiver();
         registerNetworkBroadcastForNougat();
 
-        if (LIVE_MODE){
+        if (LIVE_MODE) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         }
 
     }
+
     private void registerNetworkBroadcastForNougat() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
@@ -91,6 +96,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
             registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         }
     }
+
     protected Map<String, String> getHeader(int flag) {
         Map<String, String> headers = new HashMap<>();
         if (flag == CodeReUse.GET_JSON_HEADER) {
@@ -102,10 +108,11 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         }
 
         if (prefManager.getUserToken() != null) {
-            headers.put("Authorization","Bearer "+prefManager.getUserToken());
+            headers.put("Authorization", "Bearer " + prefManager.getUserToken());
         }
         return headers;
     }
+
     private void unregisterNetworkChanges() {
         try {
             unregisterReceiver(mNetworkReceiver);
@@ -113,14 +120,20 @@ public class BaseActivity extends AppCompatActivity implements Observer {
             e.printStackTrace();
         }
     }
-    @Override protected void onDestroy() {
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
         unregisterNetworkChanges();
     }
-    @Override public void onResume() {
+
+    @Override
+    public void onResume() {
         super.onResume();
     }
-    @Override public void update(Observable observable, Object data) {
+
+    @Override
+    public void update(Observable observable, Object data) {
 
     }
 }
