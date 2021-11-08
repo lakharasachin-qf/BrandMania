@@ -118,7 +118,7 @@ public class DownloadDetailActivity extends BaseActivity implements FrameCateIte
             @Override
             public void onClick(View v) {
                 requestAgain();
-                Log.e("CSelectedImg", gson.toJson(selectedModelFromView.getFrame()));
+           //     Log.e("CSelectedImg", gson.toJson(selectedModelFromView.getFrame()));
                 new DownloadDetailActivity.DownloadImageTaskFrame(selectedModelFromView.getFrame()).execute(selectedModelFromView.getFrame());
 
             }

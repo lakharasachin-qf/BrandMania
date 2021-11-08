@@ -182,7 +182,7 @@ public class PreafManager {
         Gson gson = new Gson();
         String jsonshare = gson.toJson(FavouritImage);
         editor.putString("favouritImage", jsonshare);
-        Log.e("Removed List", gson.toJson(FavouritImage));
+      //  Log.e("Removed List", gson.toJson(FavouritImage));
         editor.apply();
         editor.commit();
 
@@ -220,7 +220,7 @@ public class PreafManager {
         editor.putString("favouritImage", jsonshare);
         editor.apply();
         editor.commit();
-        Log.e("Your List", gson.toJson(FavouritImage));
+    //    Log.e("Your List", gson.toJson(FavouritImage));
     }
 
     public ArrayList<ImageList> getSavedFavorites() {

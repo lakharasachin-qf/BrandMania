@@ -1217,7 +1217,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
         selectedObject = listModel;
-        Log.e("SELECTED", gson.toJson(selectedObject));
+       // Log.e("SELECTED", gson.toJson(selectedObject));
         LoadDataToUI();
         binding.simpleProgressBar.setVisibility(View.GONE);
         if (selectedFooterModel == null)
@@ -1931,7 +1931,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         selectedFooterModel = footerModel;
         addDynamicFooter(footerLayout, false);
-        Log.e("selectedObject",gson.toJson(selectedObject));
+       // Log.e("selectedObject",gson.toJson(selectedObject));
         if (selectedObject!=null && selectedObject.getImageType() == ImageList.IMAGE)
             forCheckFavorite();
 
