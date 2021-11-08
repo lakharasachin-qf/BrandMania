@@ -175,7 +175,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
     private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
     Matrix matrix = new Matrix();
 
-    // The 3 states (events) which the user is trying to perform
     static final int NONE = 0;
     static final int DRAG = 1;
     static final int ZOOM = 2;

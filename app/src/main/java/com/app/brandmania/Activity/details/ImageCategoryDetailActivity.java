@@ -484,13 +484,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
             }
 
-            if (canDownloads) {
+            //if (canDownloads) {
                 if (selectedObject.getImageType() == ImageList.GIF) {
                     saveGif();
                 } else if (selectedObject.getImageType() == ImageList.VIDEO) {
                     saveVideo();
                 }
-            }
+            //}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -754,9 +754,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         String overlayImage = "overlay_" + System.currentTimeMillis() + ".png";
         Bitmap frontFrameBitmap;
         if (isUsingCustomFrame) {
-            frontFrameBitmap = getResizedBitmap(getCustomFrameInBitmap(true), 720, 720);
+            frontFrameBitmap = getResizedBitmap(getCustomFrameInBitmap(true), 1080, 1080);
         } else {
-            frontFrameBitmap = getResizedBitmap(((BitmapDrawable) binding.backendFrame.getDrawable()).getBitmap(), 720, 720);
+            frontFrameBitmap = getResizedBitmap(((BitmapDrawable) binding.backendFrame.getDrawable()).getBitmap(), 1080, 1080);
         }
 
 
@@ -818,16 +818,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         }
 
         outputFilePath = outputFile.getAbsolutePath();
-        //Log.e("FinalStoragePath", outputFilePath);
-
-        String[] exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", outputFilePath};
-        if (isItGIF) {
-            exe = new String[]{"-i", finalVideoPath, "-i", framePath, "-filter_complex", "overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2", outputFilePath};
-        }
-        //Log.e("EEEE", gson.toJson(exe));
 
         String command = "-i " + finalVideoPath+ " -i "+ framePath+ " -filter_complex "+ " overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2 "+ outputFilePath;
-        //execCommand(exe);
+          command = "-i " + finalVideoPath+ " -i "+ framePath+ " -filter_complex "+ "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h  "+ outputFilePath;
+
+
+
         execCommand(command);
         finalOutputFile = new File(outputFilePath);
     }
@@ -902,74 +898,17 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 //Log.e("APPLY","1");
                 progressDialog.dismiss();
 
-             //   manager.remove(downloadID);
-                //Log.e("APPLY","2");
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + videoUrl);
                 if (file.exists())
                     file.delete();
-                //Log.e("APPLY","3");
 
                 file = new File(framePath);
                 if (file.exists())
                     file.delete();
-                Log.e("APPLY","4");
-
-//                if (selectedObject.getImageType() != ImageList.IMAGE) {
-//                    Log.e("SHARED","Trigger");
-//                    shareVideoOrGIF();
-//                }
 
                 downloadAndShareApi(DOWLOAD, null);
-
-                Log.e("APPLY","5");
-                if (returnCode == RETURN_CODE_SUCCESS) {
-                    Log.e("APPLY","Success");
-                    System.out.println("Success-FFM Async command execution completed successfully.");
-                } else if (returnCode == RETURN_CODE_CANCEL) {
-                    System.out.println("Cancel-FFM Async command execution cancelled by user.");
-                } else {
-                    System.out.println("Faild-FFM"+ String.format("Async command execution failed with returnCode=%d."+returnCode));
-                }
             }
         });
-
-//        ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
-//
-//            @Override
-//            public void onStart() {
-//                Log.e("Start", "logged");
-//            }
-//
-//            @Override
-//            public void onProgress(String message) {
-//                progressDialog.setMessage("Processing......");
-//            }
-//
-//            @Override
-//            public void onFailure(String message) {
-//                Log.e("onFailure", message);
-//            }
-//
-//            @Override
-//            public void onSuccess(String message) {
-//
-//                manager.remove(downloadID);
-//                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + videoUrl);
-//                if (file.exists())
-//                    file.delete();
-//
-//                file = new File(framePath);
-//                if (file.exists())
-//                    file.delete();
-//
-//                downloadAndShareApi(DOWLOAD, null);
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                progressDialog.dismiss();
-//            }
-//        });
     }
 
 
@@ -1008,7 +947,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             }
         });
         expriredBinding.element3.setText("Please Upgrade your account for download more images");
-        //alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }

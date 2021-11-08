@@ -80,7 +80,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private AppUpdateManager appUpdateManager;
     private Task<AppUpdateInfo> appUpdateInfoTask;
     private Activity act;
-    AlertDialog.Builder alertDialogBuilder;
     private boolean iscutomEnable = false;
 
     BottomNavigationView navigation;

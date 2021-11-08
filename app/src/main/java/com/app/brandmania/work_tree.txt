@@ -1,0 +1,4 @@
+
+Changes :
+ 1. Hide referral input from registration activity.
+ 2.

@@ -163,9 +163,6 @@ public class DashBoardItem   implements Comparable<DashBoardItem> {
     @Override
     public int compareTo(DashBoardItem dashBoardItem) {
         int compareage= ((DashBoardItem)dashBoardItem).getFilterIndex();
-        //  For Ascending order
         return this.getFilterIndex() - compareage;
-        // For Descending order do like this
-        // return compareage-this.studentage;
     }
 }

@@ -126,6 +126,8 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         CodeReUse.RemoveError(binding.lastName, binding.lastNameTextLayout);
         CodeReUse.RemoveError(binding.emailId, binding.emailIdTextLayout);
 
+
+
         String CreatAccount = "Create<br>Account</font></br>";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // binding.signupText.setText(Html.fromHtml(Message, Html.FROM_HTML_MODE_COMPACT));
@@ -134,6 +136,8 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
             //binding.signupText.setText(Html.fromHtml(Message));
             binding.creatAccount.setText(Html.fromHtml(CreatAccount));
         }
+
+        binding.referrerTextLayout.setVisibility(View.GONE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
