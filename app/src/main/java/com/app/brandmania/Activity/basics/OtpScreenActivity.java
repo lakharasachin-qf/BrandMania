@@ -72,6 +72,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
+
                 deviceToken = task.getResult();
             }
         });
@@ -96,6 +97,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 binding.CouterText.setVisibility(View.VISIBLE);
                 InsertRecord();
                 updateCountDownText();
+                if (countDownTimer!=null)
                 countDownTimer.start();
             }
         });

@@ -46,11 +46,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        //    Log.e("remoteMessage", remoteMessage.getData().toString());
+
         if (remoteMessage.getData().containsKey("cat_name")) {
             catName = remoteMessage.getData().get("cat_name");
         }
-
+        Log.e("onMessageReceived", "Yes");
+        Log.e("title", remoteMessage.getData().get("title"));
+        Log.e("flag", remoteMessage.getData().get("flag"));
+        Log.e("image", remoteMessage.getData().get("image"));
+        Log.e("cat_id", remoteMessage.getData().get("cat_id"));
+        Log.e("msg", remoteMessage.getData().get("msg"));
         shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"), remoteMessage.getData().get("image"), remoteMessage.getData().get("cat_id"));
     }
 
@@ -109,13 +114,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDeleteIntent(createOnDismissedIntent(this))
                 .setContentIntent(pendingIntent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            notificationBuilder.setContentText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT));
-            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT)));
-        } else {
-            notificationBuilder.setContentText(Html.fromHtml(msg));
-            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg)));
-        }
+        notificationBuilder.setContentText(msg);
+        notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(msg));
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            notificationBuilder.setContentText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT));
+//            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT)));
+//        } else {
+//            notificationBuilder.setContentText(Html.fromHtml(msg));
+//            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg)));
+//        }
+
         if (url != null && !url.isEmpty()) {
             Bitmap bitmap = getBitmapfromUrl(url);
             notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)).setLargeIcon(bitmap);

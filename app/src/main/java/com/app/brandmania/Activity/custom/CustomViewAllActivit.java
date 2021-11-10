@@ -236,7 +236,13 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         binding = DataBindingUtil.setContentView(act, R.layout.activity_custom_view_all);
         dbManager = new DBManager(act);
         gson = new Gson();
-        preafManager = new PreafManager(act);
+        preafManager = new PreafManager(this);
+
+        if (preafManager.getActiveBrand()==null)
+            preafManager.setActiveBrand( preafManager.getAddBrandList().get(0));
+
+        preafManager = new PreafManager(this);
+
         binding.backImage.setOnTouchListener((View.OnTouchListener) act);
         colorCodeForBackground = ContextCompat.getColor(act, R.color.colorPrimary);
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
@@ -612,12 +618,14 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
     @Override
     public void onCropImage() {
-        isGalleryCropping = true;
-        CropImage.activity(imageFromGalaryModel.getUri())
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setMultiTouchEnabled(true)
-                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-                .start(this);
+        if (imageFromGalaryModel!=null) {
+            isGalleryCropping = true;
+            CropImage.activity(imageFromGalaryModel.getUri())
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setMultiTouchEnabled(true)
+                    .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                    .start(this);
+        }
     }
 
     boolean isGalleryCropping = false;

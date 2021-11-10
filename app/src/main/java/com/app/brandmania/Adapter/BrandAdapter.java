@@ -130,7 +130,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
             switch (model.getLayoutType()) {
                 case LAYOUT_BRANDLIST:
                     ((BrandHolder) holder).binding.businessName.setText(model.getName());
-                    Log.e("CurrentBrand", model.getId());
+
                     ((BrandHolder) holder).binding.firsttitle.setText(model.getWebsite());
                     ((BrandHolder) holder).binding.addressText.setText(model.getAddress());
                     ((BrandHolder) holder).binding.brandService.setText(model.getBrandService());
@@ -140,7 +140,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             .placeholder(R.drawable.placeholder)
                             .into(((BrandHolder) holder).binding.logo);
 
-                    Log.e("BrandBrandBrandId", preafManager.getActiveBrand().getId());
+
                     ((BrandHolder) holder).binding.editImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

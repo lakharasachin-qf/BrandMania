@@ -33,7 +33,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     public PreafManager prefManager;
     public MakeMyBrandApp myBrandApp;
     private BroadcastReceiver mNetworkReceiver;
-    private boolean LIVE_MODE = true;
+    private boolean LIVE_MODE = false;
     public Gson gson;
 
     public BaseActivity() {
@@ -49,15 +49,12 @@ public class BaseActivity extends AppCompatActivity implements Observer {
 
     public static void InternetError(boolean value) {
         if (!staticAct.isDestroyed() && !staticAct.isFinishing()) {
-
             if (value) {
                 if (noconnectionAlertDialog.isShowing()) {
                     noconnectionAlertDialog.dismiss();
-
                 }
             } else {
                 showNoConnectionDialog();
-
             }
         }
     }
