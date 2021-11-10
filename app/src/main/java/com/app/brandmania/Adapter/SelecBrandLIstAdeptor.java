@@ -1,5 +1,7 @@
 package com.app.brandmania.Adapter;
 
+import static com.app.brandmania.utils.Utility.Log;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -17,8 +19,6 @@ import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 
 import java.util.ArrayList;
-
-import static com.app.brandmania.utils.Utility.Log;
 
 public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAdeptor.SelecBrandLIstHolder> {
 
@@ -38,7 +38,7 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
         this.arrayList = arrayList;
         this.act = act;
         this.calledFlag = calledFlag;
-        preafManager=new PreafManager(act);
+        preafManager = new PreafManager(act);
     }
 
     public void setFragmentSelection(HandlerFragmentSelection fragmentSSelection) {
@@ -56,8 +56,11 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
     @Override
     public void onBindViewHolder(final SelecBrandLIstAdeptor.SelecBrandLIstHolder holder, @SuppressLint("RecyclerView") int position) {
         BrandListItem listModel = arrayList.get(position);
-        if(preafManager.getActiveBrand().getId().equals(listModel.getId()))
-        {
+        if (preafManager.getActiveBrand() == null) {
+            preafManager.setActiveBrand(arrayList.get(0));
+        }
+
+        if (preafManager.getActiveBrand().getId().equals(listModel.getId())) {
             holder.radioButton.setChecked(true);
             checkedPosition = position;
 
@@ -70,9 +73,6 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
         } else {
             holder.radioButton.setChecked(false);
         }
-
-
-
 
 
         holder.radioButton.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +94,7 @@ public class SelecBrandLIstAdeptor extends RecyclerView.Adapter<SelecBrandLIstAd
 
 
                 } else {
-                     ((ItemMultipleSelectionInterface) selectBrandListBottomFragment).onItemSMultipleelection(calledFlag, position, listModel);
+                    ((ItemMultipleSelectionInterface) selectBrandListBottomFragment).onItemSMultipleelection(calledFlag, position, listModel);
                 }
             }
         });

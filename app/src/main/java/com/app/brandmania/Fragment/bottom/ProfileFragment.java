@@ -267,11 +267,15 @@ public class ProfileFragment extends BaseFragment {
                     //FirstLogin
                     if (act.getIntent().hasExtra("FirstLogin")) {
                         preafManager.setIS_Brand(true);
-
                         if (multiListItems.size() != 0) {
                             preafManager.setActiveBrand(multiListItems.get(0));
                         }
+                    }
 
+                    if (preafManager.getActiveBrand()==null){
+                        if (multiListItems.size() != 0) {
+                            preafManager.setActiveBrand(multiListItems.get(0));
+                        }
                     }
                     preafManager = new PreafManager(act);
                     binding.businessName.setText(preafManager.getActiveBrand().getName());

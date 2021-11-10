@@ -651,12 +651,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     preafManager.setAddBrandList(multiListItems);
-                    for (int i = 0; i < multiListItems.size(); i++) {
-                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
-                            preafManager.setActiveBrand(multiListItems.get(i));
-                            break;
-                        }
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

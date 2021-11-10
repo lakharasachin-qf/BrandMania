@@ -3,7 +3,6 @@ package com.app.brandmania.Fragment.bottom;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.FragmentDownloadsBinding;
 import com.google.android.material.tabs.TabLayout;
@@ -48,8 +46,6 @@ public class DownloadsFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        PreafManager preafManager=new PreafManager(act);
-        Log.e("pref",preafManager.getActiveBrand().getId());
         return binding.getRoot();
     }
 }

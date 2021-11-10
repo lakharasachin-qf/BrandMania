@@ -156,9 +156,6 @@ public class ImageTab extends BaseFragment {
         column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
         while (cursor.moveToNext()) {
             absolutePathOfImage = cursor.getString(column_index_data);
-            Log.e("Column", absolutePathOfImage);
-//            Log.e("Folder", cursor.getString(column_index_folder_name));
-
             for (int i = 0; i < folders.size(); i++) {
                 if (folders.get(i).getAllFolderName()!=null && cursor.getString(column_index_folder_name) !=null) {
                     if (folders.get(i).getAllFolderName().equals(cursor.getString(column_index_folder_name))) {
@@ -171,16 +168,12 @@ public class ImageTab extends BaseFragment {
                 }
             }
 
-
+            ArrayList<String> al_path = new ArrayList<>();
             if (boolean_folder) {
-
-                ArrayList<String> al_path = new ArrayList<>();
                 al_path.addAll(folders.get(position).getAllImagePaths());
                 al_path.add(absolutePathOfImage);
                 folders.get(position).setAllImagePaths(al_path);
-
             } else {
-                ArrayList<String> al_path = new ArrayList<>();
                 al_path.add(absolutePathOfImage);
                 ImagesFolder obj_model = new ImagesFolder();
                 obj_model.setAllFolderName(cursor.getString(column_index_folder_name));
@@ -193,17 +186,6 @@ public class ImageTab extends BaseFragment {
 
 
         }
-
-
-        for (int i = 0; i < folders.size(); i++) {
-            Log.d("FOLDER", folders.get(i).getAllFolderName());
-            Log.d("FOLDER SIZE",String.valueOf(folders.get(i).getAllImagePaths().size()));
-            for (int j = 0; j < folders.get(i).getAllImagePaths().size(); j++) {
-                Log.d("FOLDER THUMBNAIL", folders.get(i).getAllImagePaths().get(j));
-            }
-        }
-        //obj_adapter = new Adapter_PhotosFolder(getApplicationContext(),al_images);
-        //gv_folder.setAdapter(obj_adapter);
         return folders;
     }
 }

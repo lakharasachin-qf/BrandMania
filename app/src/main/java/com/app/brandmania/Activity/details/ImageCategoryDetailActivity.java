@@ -245,6 +245,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         act.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
         preafManager = new PreafManager(this);
+
+        if (preafManager.getActiveBrand()==null)
+            preafManager.setActiveBrand( preafManager.getAddBrandList().get(0));
+
+        preafManager = new PreafManager(this);
+
         binding.titleName.setSelected(true);
         gson = new Gson();
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
@@ -1215,8 +1221,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     CodeReUse.activityBackPress(act);
                 } else {
                     Intent i = new Intent(act, HomeActivity.class);
+                    i.addCategory(Intent.CATEGORY_HOME);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
-                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                     finish();
                 }
             }

@@ -761,6 +761,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                             preafManager.setActiveBrand(multiListItems.get(0));
                         }
                     }
+                    if (preafManager.getActiveBrand()==null){
+                        if (multiListItems.size() != 0) {
+                            preafManager.setActiveBrand(multiListItems.get(0));
+                        }
+                    }
 
                     startAnimation();
                     loadImagesCategory();

@@ -342,10 +342,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 }
 
             }
-            else
-            {
 
-            }
 
         }
 
