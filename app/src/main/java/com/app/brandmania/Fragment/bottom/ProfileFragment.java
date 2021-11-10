@@ -202,6 +202,16 @@ public class ProfileFragment extends BaseFragment {
                 facebookPageDialog();
             }
         });
+        binding.websiteLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Uri webpage = Uri.parse("http://site.queryfinders.com/");
+                Uri webpage = Uri.parse("http://queryfinders.com/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                //intent.setPackage("com.android.chrome");
+                startActivity(intent);
+            }
+        });
 
         binding.privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,7 +282,7 @@ public class ProfileFragment extends BaseFragment {
                         }
                     }
 
-                    if (preafManager.getActiveBrand()==null){
+                    if (preafManager.getActiveBrand() == null) {
                         if (multiListItems.size() != 0) {
                             preafManager.setActiveBrand(multiListItems.get(0));
                         }

@@ -246,8 +246,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
         preafManager = new PreafManager(this);
 
-        if (preafManager.getActiveBrand()==null)
-            preafManager.setActiveBrand( preafManager.getAddBrandList().get(0));
+        if (preafManager.getActiveBrand() == null)
+            preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
 
         preafManager = new PreafManager(this);
 
@@ -435,11 +435,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("On"," onDestroy");
+        Log.e("On", " onDestroy");
         if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
-            exoPlayer= null;
+            exoPlayer = null;
         }
     }
 
@@ -491,11 +491,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             }
 
             //if (canDownloads) {
-                if (selectedObject.getImageType() == ImageList.GIF) {
-                    saveGif();
-                } else if (selectedObject.getImageType() == ImageList.VIDEO) {
-                    saveVideo();
-                }
+            if (selectedObject.getImageType() == ImageList.GIF) {
+                saveGif();
+            } else if (selectedObject.getImageType() == ImageList.VIDEO) {
+                saveVideo();
+            }
             //}
         } catch (Exception e) {
             e.printStackTrace();
@@ -509,22 +509,24 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("On"," Pause");
+        Log.e("On", " Pause");
         if (exoPlayer != null && selectedObject.getImageType() != ImageList.IMAGE) {
             pausePlayer();
         }
     }
 
-    private void startPlayer(){
+    private void startPlayer() {
         //Log.e("Start","Player");
         exoPlayer.setPlayWhenReady(true);
 
     }
-    private void pausePlayer(){
+
+    private void pausePlayer() {
         exoPlayer.setPlayWhenReady(false);
         exoPlayer.seekTo(0);
         //Log.e("Start","pausePlayer");
     }
+
     public void LoadDataToUI() {
         preafManager = new PreafManager(act);
         if (selectedObject != null) {
@@ -600,8 +602,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         if (selectedFooterModel == null)
             loadFirstImage();
-
-
     }
 
 
@@ -805,7 +805,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     public void coding() {
         String loadedFile = String.valueOf(selectedObject.getVideoSet()).substring(String.valueOf(selectedObject.getVideoSet()).lastIndexOf('/') + 1).split("\\.")[0] + System.currentTimeMillis();
-        loadedFile = selectedObject.getName().replaceAll("\\s", "")+new Random().nextInt(1000);
+        loadedFile = selectedObject.getName().replaceAll("\\s", "") + new Random().nextInt(1000);
         //Log.e("LoadedFile",loadedFile);
         String outputFilePath;
         String filePrefix = loadedFile;
@@ -825,10 +825,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         outputFilePath = outputFile.getAbsolutePath();
 
-        String command = "-i " + finalVideoPath+ " -i "+ framePath+ " -filter_complex "+ " overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2 "+ outputFilePath;
-          command = "-i " + finalVideoPath+ " -i "+ framePath+ " -filter_complex "+ "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h  "+ outputFilePath;
-
-
+        String command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + " overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2 " + outputFilePath;
+        command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h  " + outputFilePath;
 
         execCommand(command);
         finalOutputFile = new File(outputFilePath);
@@ -1161,7 +1159,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
         selectedObject = listModel;
-       // Log.e("SELECTED", gson.toJson(selectedObject));
+        // Log.e("SELECTED", gson.toJson(selectedObject));
         LoadDataToUI();
         binding.simpleProgressBar.setVisibility(View.GONE);
         if (selectedFooterModel == null)
@@ -1232,8 +1230,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        if(!act.isDestroyed() && !act.isFinishing())
-        alertDialog.show();
+        if (!act.isDestroyed() && !act.isFinishing())
+            alertDialog.show();
     }
 
     @Override
@@ -1877,8 +1875,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         selectedFooterModel = footerModel;
         addDynamicFooter(footerLayout, false);
-       // Log.e("selectedObject",gson.toJson(selectedObject));
-        if (selectedObject!=null && selectedObject.getImageType() == ImageList.IMAGE)
+        // Log.e("selectedObject",gson.toJson(selectedObject));
+        if (selectedObject != null && selectedObject.getImageType() == ImageList.IMAGE)
             forCheckFavorite();
 
 
@@ -2248,7 +2246,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     //For Download,Share and Fav
     private void downloadAndShareApi(final int download, Bitmap customImage) {
 
-    //    Utility.showLoadingTran(act);
+        //    Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.DOWNLOAD_SHARE);
         File img1File = null;
         if (customImage != null) {
@@ -2333,7 +2331,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     }
                 });
     }
-
 
 
     public void shareVideoOrGIF() {
