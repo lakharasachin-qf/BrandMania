@@ -1,5 +1,8 @@
 package com.app.brandmania.Activity.brand;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,12 +42,13 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
-import com.app.brandmania.Activity.HomeActivity;
+import com.app.brandmania.Activity.basics.LoadingHomeActivity;
 import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Fragment.bottom.CountrySelectionFragment;
 import com.app.brandmania.Fragment.bottom.CustomFragment;
 import com.app.brandmania.Fragment.bottom.ListBottomFragment;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
@@ -54,10 +58,10 @@ import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ActivityAddBranddBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.ActivityAddBranddBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -72,14 +76,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
 public class AddBranddActivity extends BaseActivity implements ItemSelectionInterface, alertListenerCallback, PopupMenu.OnMenuItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     Activity act;
     private ActivityAddBranddBinding binding;
     public static int BRAND_CATEGORY = 0;
+    public static int COUNTRY = 1;
+    public static int STATE = 2;
+    public static int CITY = 3;
     private String BrandTitle;
+    private String cityTitle = "Choose City";
+    private String countryTitle = "Choose Country";
+    private String stateTtitle = "Choose State";
+
     CommonListModel commonListModel;
     private boolean iscutomEnable = false;
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
@@ -94,6 +102,12 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
     AlertDialog.Builder alertDialogBuilder;
     private ImageView menuOtpion;
     private Uri mCropImageUri;
+
+
+    private ArrayList<CommonListModel> countryList = new ArrayList<>();
+    private ArrayList<CommonListModel> stateList = new ArrayList<>();
+    private ArrayList<CommonListModel> cityList = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -121,15 +135,13 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 
-
-
         binding.websiteEdt.setText("https://");
         alertDialogBuilder = new AlertDialog.Builder(act);
         String NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
         String EmailIdShow = getIntent().getStringExtra(Constant.EMAIL_ID);
         binding.phoneTxt.setText(preafManager.getMobileNumber());
         binding.emailIdEdt.setText(preafManager.getEMAIL_Id());
-        menuOtpion=findViewById(R.id.menuOtpion);
+        menuOtpion = findViewById(R.id.menuOtpion);
         menuOtpion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +151,6 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 popup.show();
             }
         });
-        //LoginFlow();
         binding.addExpenceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +164,13 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         CodeReUse.RemoveError(binding.addressEdt, binding.addressEdtLayout);
         CodeReUse.RemoveError(binding.websiteEdt, binding.websiteEdtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
-        CodeReUse.RemoveError(binding.businessServiceEdt,binding.businessFacilityEdtLayout);
+        CodeReUse.RemoveError(binding.businessServiceEdt, binding.businessFacilityEdtLayout);
+
+
+        CodeReUse.RemoveError(binding.countryEdt, binding.countryLayout);
+        CodeReUse.RemoveError(binding.stateEdt, binding.stateLayout);
+        CodeReUse.RemoveError(binding.cityEdt, binding.cityLayout);
+
         binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +178,39 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList);
             }
         });
+
+
+        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (countryList != null)
+                    chooseFragment(COUNTRY, countryTitle, countryList, binding.countryEdt.getText().toString());
+            }
+        });
+        binding.stateEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.countryEdt.getText().length() != 0) {
+                    if (stateList != null)
+                        chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
+                } else {
+
+                }
+            }
+        });
+        binding.cityEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.stateEdt.getText().length() != 0) {
+                    if (cityList != null)
+                        chooseFragment(CITY, cityTitle, cityList, binding.cityEdt.getText().toString());
+                } else {
+
+                }
+            }
+        });
+
+
         binding.viewImgFirst.setTag("0");
 
 
@@ -185,16 +235,18 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
 
     }
-    public void askPermissions(){
+
+    public void askPermissions() {
         ActivityCompat.requestPermissions(act,
-                new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                 1110);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean targetSetting=false;
-        if (requestCode == 1110){
+        boolean targetSetting = false;
+        if (requestCode == 1110) {
 
             boolean readStorageGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             boolean writeStorageGrant = grantResults[1] == PackageManager.PERMISSION_GRANTED;
@@ -204,15 +256,15 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{ READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE}, requestCode);
+                            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, requestCode);
                         }
                     });
-                }else {
-                    targetSetting=true;
+                } else {
+                    targetSetting = true;
                 }
             }
         }
-        if (targetSetting){
+        if (targetSetting) {
             showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -224,6 +276,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             });
         }
     }
+
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setMessage(message)
@@ -232,12 +285,15 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 .create()
                 .show();
     }
+
     //For CustomFrame
     public void onSelectImageClick(View view) {
         //CropImage.startPickImageActivity(this);
         selectImageFromGallery();
     }
+
     public static final int GALLERY_INTENT = 101;
+
     private void selectImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -245,6 +301,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         startActivityForResult(intent, GALLERY_INTENT);
     }
+
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -253,6 +310,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 .start(this);
 
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         // handle result of pick image chooser
@@ -310,7 +368,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             binding.categoryEdtLayout.setError(getString(R.string.brandcategory_text));
             binding.categoryEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             binding.categoryEdt.requestFocus();
-            binding.scrollView.scrollTo(0,binding.categoryEdt.getBottom());
+            binding.scrollView.scrollTo(0, binding.categoryEdt.getBottom());
 
         }
         if (binding.nameTxt.getText().toString().trim().length() == 0) {
@@ -321,11 +379,10 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             if (!isFocus) {
                 binding.nameTxt.requestFocus();
                 isFocus = true;
-                binding.scrollView.scrollTo(0,binding.nameTxt.getBottom());
+                binding.scrollView.scrollTo(0, binding.nameTxt.getBottom());
             }
 
         }
-
 
 
         if (!binding.emailIdEdt.getText().toString().trim().equals("")) {
@@ -338,7 +395,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 if (!isFocus) {
                     binding.emailIdEdt.requestFocus();
                     isFocus = true;
-                    binding.scrollView.scrollTo(0,binding.emailIdEdt.getBottom());
+                    binding.scrollView.scrollTo(0, binding.emailIdEdt.getBottom());
                 }
 
             }
@@ -354,7 +411,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 if (!isFocus) {
                     binding.phoneTxt.requestFocus();
                     isFocus = true;
-                    binding.scrollView.scrollTo(0,binding.phoneTxt.getBottom());
+                    binding.scrollView.scrollTo(0, binding.phoneTxt.getBottom());
                 }
                 return;
             }
@@ -368,7 +425,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 if (!isFocus) {
                     binding.phoneTxt.requestFocus();
                     isFocus = true;
-                    binding.scrollView.scrollTo(0,binding.phoneTxt.getBottom());
+                    binding.scrollView.scrollTo(0, binding.phoneTxt.getBottom());
                 }
                 return;
             }
@@ -385,6 +442,24 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
 
     }
+
+    CountrySelectionFragment countrySelectionFragment;
+
+    public void chooseFragment(int callingFlag, String title, ArrayList<CommonListModel> datalist, String alreadySelectedData) {
+        countrySelectionFragment = new CountrySelectionFragment(title, datalist, callingFlag, alreadySelectedData);
+
+        if (countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.dismiss();
+        }
+        if (countrySelectionFragment.isAdded()) {
+            countrySelectionFragment.dismiss();
+        }
+
+        if (!countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.show(getSupportFragmentManager(), countrySelectionFragment.getTag());
+        }
+    }
+
     public void showFragmentList(int callingFlag, String title, ArrayList<CommonListModel> datalist) {
         bottomSheetFragment = new ListBottomFragment();
         Log.e("Size---", String.valueOf(datalist.size()));
@@ -397,6 +472,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
+
     private void addBrand(Bitmap img) {
         if (isLoading)
             return;
@@ -417,18 +493,34 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 .addMultipartParameter("br_category", commonListModel.getId())
                 .addMultipartParameter("br_name", binding.nameTxt.getText().toString())
                 .addMultipartParameter("br_phone", binding.phoneTxt.getText().toString())
-                .addMultipartParameter("br_address", binding.addressEdt.getText().toString())
                 .addMultipartParameter("br_website", binding.websiteEdt.getText().toString())
                 .addMultipartParameter("br_email", binding.emailIdEdt.getText().toString())
-                .addMultipartParameter("br_service",binding.businessServiceEdt.getText().toString())
+                .addMultipartParameter("br_service", binding.businessServiceEdt.getText().toString())
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
+
+        
+        request.addMultipartParameter("br_address", binding.addressEdt.getText().toString());
+
+        if (selectedCountry!=null){
+            request.addMultipartParameter("country",selectedCountry.getId());
+        }
+        if (selectedState!=null){
+            request.addMultipartParameter("state",selectedState.getId());
+        }
+        if (selectedCity!=null){
+            request.addMultipartParameter("city",selectedCity.getId());
+        }
+
+        if (binding.pincodeEdt.getText().toString().length()==0){
+            request.addMultipartParameter("pincode",binding.pincodeEdt.getText().toString());
+        }
+
 
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
             Log.e("br_logo", String.valueOf(img1File));
         }
-
 
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
@@ -490,9 +582,12 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 });
 
     }
-    @Override public void alertListenerClick() {
+
+    @Override
+    public void alertListenerClick() {
         requestAgain();
     }
+
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -510,11 +605,11 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
 
         Utility.Log("API : ", apiUrl);
-
+        Utility.showLoadingTran(act);
         StringRequest request = new StringRequest(requestedMethod, apiUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Utility.dismissLoadingTran();
 
                 Utility.Log(flag + "- Response : ", response);
                 try {
@@ -536,11 +631,14 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                getCountryStateCity(CALL_COUNTRY);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                Utility.dismissLoadingTran();
+                getCountryStateCity(CALL_COUNTRY);
             }
         }) {
 
@@ -620,11 +718,59 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         brandListItemm.setPhonenumber(ResponseHandler.getString(jsonObject, "br_phone"));
                         brandListItemm.setWebsite(ResponseHandler.getString(jsonObject, "br_website"));
                         brandListItemm.setEmail(ResponseHandler.getString(jsonObject, "br_email"));
+                        brandListItemm.setOriginalAddress(ResponseHandler.getString(jsonObject, "br_address"));
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));
+
+
+                        if (jsonObject.has("pincode")) {
+                            brandListItemm.setPincode(ResponseHandler.getString(jsonObject, "pincode"));
+                        }
+                        if (jsonObject.has("state")) {
+                            brandListItemm.setState(ResponseHandler.getString(jsonObject, "state"));
+                        }
+                        if (jsonObject.has("country")) {
+                            brandListItemm.setCountry(ResponseHandler.getString(jsonObject, "country"));
+                        }
+                        if (jsonObject.has("city")) {
+                            brandListItemm.setCity(ResponseHandler.getString(jsonObject, "city"));
+                        }
+                        
+                        String address = brandListItemm.getOriginalAddress();
+                        if (brandListItemm.getCity() != null && !brandListItemm.getCity().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + brandListItemm.getCity();
+                        }
+
+                        if (brandListItemm.getState() != null && !brandListItemm.getState().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + brandListItemm.getState();
+                        }
+
+
+                        if (brandListItemm.getCountry() != null && !brandListItemm.getCountry().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + brandListItemm.getCountry();
+                        }
+
+                        if (brandListItemm.getPincode() != null && !brandListItemm.getPincode().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + " - ";
+
+                            address = address + brandListItemm.getPincode();
+                        }
+                        //brandListItemm.setAddress(getString(dataJsonObject, "br_address"));
+                        brandListItemm.setAddress(address);
+                        
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
                         brandListItemm.setPackage_id(ResponseHandler.getString(jsonObject, "package_id"));
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
-                        brandListItemm.setSubscriptionDate(ResponseHandler.getString(jsonObject,"subscription_date"));
+                        brandListItemm.setSubscriptionDate(ResponseHandler.getString(jsonObject, "subscription_date"));
                         brandListItemm.setFrame_message(ResponseHandler.getString(jsonObject, "frame_message"));
                         brandListItemm.setFrambaseyrl(ResponseHandler.getString(jsonObject, "fream_base_url"));
                         brandListItemm.setIs_payment_pending(ResponseHandler.getString(jsonObject, "is_payment_pending"));
@@ -664,7 +810,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     }
 
 
-                    Intent i = new Intent(act, HomeActivity.class);
+                    Intent i = new Intent(act, LoadingHomeActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);
                     finish();
@@ -719,14 +865,53 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         queue.add(stringRequest);
     }
 
+    private CommonListModel selectedCountry;
+    private CommonListModel selectedState;
+    private CommonListModel selectedCity;
+
     @Override
     public void onItemSelection(int calledFlag, int position, CommonListModel listModel) {
         if (bottomSheetFragment != null && bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
         }
+        if (countrySelectionFragment != null && countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.dismiss();
+        }
+
         if (calledFlag == BRAND_CATEGORY) {
             binding.categoryEdt.setText(listModel.getName());
             commonListModel = listModel;
+        }
+
+        if (calledFlag == COUNTRY) {
+            binding.countryEdt.setText(listModel.getName());
+            selectedCountry = listModel;
+            binding.stateLayout.setVisibility(View.VISIBLE);
+
+
+            binding.stateEdt.setText("");
+            binding.cityEdt.setText("");
+            selectedCity=null;
+            selectedState=null;
+
+            stateList.clear();
+            getCountryStateCity(CALL_STATE);
+        }
+
+        if (calledFlag == STATE) {
+            binding.stateEdt.setText(listModel.getName());
+            selectedState = listModel;
+            binding.cityLayout.setVisibility(View.VISIBLE);
+            cityList.clear();
+            binding.cityEdt.setText("");
+            selectedCity=null;
+
+            getCountryStateCity(CALL_CITY);
+        }
+
+        if (calledFlag == CITY) {
+            binding.cityEdt.setText(listModel.getName());
+            selectedCity = listModel;
         }
     }
 
@@ -736,7 +921,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-         switch (item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.logo:
                 preafManager.Logout();
                 Intent i = new Intent(act, LoginActivity.class);
@@ -752,41 +937,39 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
 
     //For Fragment
-@Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-    Fragment fragment = null;
-    switch (menuItem.getItemId()) {
-        case R.id.navigation_home:
-            addbrandAlertBox();
-            break;
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Fragment fragment = null;
+        switch (menuItem.getItemId()) {
+            case R.id.navigation_home:
+                addbrandAlertBox();
+                break;
 
-        case R.id.navigation_custom:
+            case R.id.navigation_custom:
 
-          //  if (iscutomEnable)
-           //{
+                //  if (iscutomEnable)
+                //{
                 binding.fragmentContainer.setVisibility(View.VISIBLE);
                 binding.scrollView.setVisibility(View.GONE);
-               // binding.my_toolbar.setVisibility(View.GONE);
+                // binding.my_toolbar.setVisibility(View.GONE);
                 binding.myToolbar.setVisibility(View.GONE);
                 binding.backImageLogo.setVisibility(View.GONE);
                 fragment = new CustomFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
-            break;
+                break;
 
-        case R.id.navigation_download:
-            addbrandAlertBox();
-            break;
+            case R.id.navigation_download:
+                addbrandAlertBox();
+                break;
 
-        case R.id.navigation_profile:
-            addbrandAlertBox();
-            break;
+            case R.id.navigation_profile:
+                addbrandAlertBox();
+                break;
+        }
+
+        return loadFragment(fragment);
     }
-//        if (iscutomEnable)
-//        {
-//         return false;
-//        }
-    return loadFragment(fragment);
-}
 
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
@@ -797,7 +980,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         return false;
     }
 
-    public void addbrandAlertBox(){
+    public void addbrandAlertBox() {
         alertDialogBuilder = new AlertDialog.Builder(act);
         alertDialogBuilder.setTitle("Add Barand");
         alertDialogBuilder.setMessage("Please Add Your Brand");
@@ -805,7 +988,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        Intent i = new Intent(act,AddBranddActivity.class);
+                        Intent i = new Intent(act, AddBranddActivity.class);
                         startActivity(i);
                         act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                     }
@@ -816,9 +999,104 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             }
         });
 
-       AlertDialog alertDialog = alertDialogBuilder.create();
+        AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.setCancelable(false);
         alertDialog.show();
     }
+
+
+    int CALL_COUNTRY = 0;
+    int CALL_STATE = 1;
+    int CALL_CITY = 2;
+
+    private void getCountryStateCity(int flag) {
+        if (isLoading)
+            return;
+        isLoading = true;
+        String apiUrl = "";
+
+        if (flag == CALL_COUNTRY) {
+            apiUrl = APIs.GET_COUNTRY;
+            countryList.clear();
+        }
+
+
+        if (flag == CALL_STATE) {
+            apiUrl = APIs.GET_STATE + "/" + selectedCountry.getId();
+            stateList.clear();
+        }
+
+        if (flag == CALL_CITY) {
+            apiUrl = APIs.GET_CITY + "/" + selectedState.getId();
+            cityList.clear();
+        }
+        Utility.Log("API : ", apiUrl);
+        StringRequest request = new StringRequest(Request.Method.GET, apiUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("Response : ", response);
+                isLoading = false;
+                try {
+                    if (ResponseHandler.isSuccess(response, null)) {
+                        JSONObject responseJson = ResponseHandler.createJsonObject(response);
+                        JSONArray jsonArray = ResponseHandler.getJSONArray(responseJson, "data");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject itemObj = jsonArray.getJSONObject(i);
+                            CommonListModel listModel = new CommonListModel();
+                            listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
+                            listModel.setId(ResponseHandler.getString(itemObj, "id"));
+                            listModel.setName(ResponseHandler.getString(itemObj, "name"));
+                            if (flag == CALL_COUNTRY) {
+                                countryList.add(listModel);
+                            }
+
+                            if (flag == CALL_STATE) {
+                                stateList.add(listModel);
+                            }
+
+                            if (flag == CALL_CITY) {
+                                cityList.add(listModel);
+                            }
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                isLoading = false;
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+
+
+                Utility.Log("Params : ", map.toString());
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+
+    }
+
 
 }

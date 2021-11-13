@@ -10,6 +10,43 @@ public class ViewPagerItem implements Cloneable {
     private String redirection;
     private String position;
 
+    private String imageCategory;
+    private String categoryName;
+    private String targetLink;
+    private String isActivity;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getImageCategory() {
+        return imageCategory;
+    }
+
+    public void setImageCategory(String imageCategory) {
+        this.imageCategory = imageCategory;
+    }
+
+    public String getTargetLink() {
+        return targetLink;
+    }
+
+    public void setTargetLink(String targetLink) {
+        this.targetLink = targetLink;
+    }
+
+    public String getIsActivity() {
+        return isActivity;
+    }
+
+    public void setIsActivity(String isActivity) {
+        this.isActivity = isActivity;
+    }
+
     public Object clone() throws
             CloneNotSupportedException {
         return super.clone();

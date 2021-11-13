@@ -1,8 +1,8 @@
 package com.app.brandmania.Common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 
 import com.app.brandmania.Adapter.MultiListItem;
@@ -145,6 +145,53 @@ public class ResponseHandler {
                         examModel.setWebsite(getString(dataJsonObject, "br_website"));
                         examModel.setEmail(getString(dataJsonObject, "br_email"));
                         examModel.setAddress(getString(dataJsonObject, "br_address"));
+                        examModel.setOriginalAddress(getString(dataJsonObject, "br_address"));
+
+                        if (jsonObject.has("pincode")) {
+                            examModel.setPincode(ResponseHandler.getString(jsonObject, "pincode"));
+                        }
+                        if (jsonObject.has("state")) {
+                            examModel.setState(ResponseHandler.getString(jsonObject, "state"));
+                        }
+                        if (jsonObject.has("country")) {
+                            examModel.setCountry(ResponseHandler.getString(jsonObject, "country"));
+                        }
+                        if (jsonObject.has("city")) {
+                            examModel.setCity(ResponseHandler.getString(jsonObject, "city"));
+                        }
+
+                        String address = examModel.getOriginalAddress();
+                        if (examModel.getCity() != null && !examModel.getCity().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + examModel.getCity();
+                        }
+
+                        if (examModel.getState() != null && !examModel.getState().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + examModel.getState();
+                        }
+
+
+                        if (examModel.getCountry() != null && !examModel.getCountry().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + examModel.getCountry();
+                        }
+
+                        if (examModel.getPincode() != null && !examModel.getPincode().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + " - ";
+
+                            address = address + examModel.getPincode();
+                        }
+                        //examModel.setAddress(getString(dataJsonObject, "br_address"));
+                        examModel.setAddress(address);
+
                         examModel.setLogo(getString(dataJsonObject, "br_logo"));
                         examModel.setBrandService(getString(dataJsonObject, "br_service"));
                         examModel.setIs_frame(getString(dataJsonObject, "is_frame"));
@@ -192,6 +239,7 @@ public class ResponseHandler {
         return strings;
     }
 
+
     public static ArrayList<ViewPagerItem> HandleGetBanneList(JSONObject jsonObject) {
         ArrayList<ViewPagerItem> strings = null;
         if (isSuccess(null, jsonObject)) {
@@ -210,6 +258,12 @@ public class ResponseHandler {
                         examModel.setRedirection(getString(dataJsonObject, "redirection"));
                         examModel.setBannerstatus(getString(dataJsonObject, "banner_status"));
                         examModel.setPosition(getString(dataJsonObject, "position"));
+
+                        examModel.setImageCategory(getString(dataJsonObject, "img_cat_id"));
+                        examModel.setCategoryName(getString(dataJsonObject, "img_cat_name"));
+                        examModel.setTargetLink(getString(dataJsonObject, "target_link"));
+                        examModel.setIsActivity(getString(dataJsonObject, "is_activity"));
+
                         strings.add(examModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -222,7 +276,7 @@ public class ResponseHandler {
         return strings;
     }
 
-    public static DashBoardItem HandleGetImageCategory(JSONObject jsonObject) {
+    public static DashBoardItem HandleGetImageCategory(Activity act, JSONObject jsonObject) {
         DashBoardItem returnModel = new DashBoardItem();
         ArrayList<DashBoardItem> dataList = null;
         dataList = new ArrayList<>();
@@ -253,6 +307,7 @@ public class ResponseHandler {
                         model.setName(key);
                         model.setLayout(DashBoardItem.DAILY_IMAGES);
                         ArrayList<ImageList> innerImagesList = new ArrayList<>();
+                        int userBusinessCategoryIndex = 0;
                         for (int m = 0; m < dataItemArray.length(); m++) {
                             JSONObject innerObject = dataItemArray.getJSONObject(m);
                             ImageList imageCategory = new ImageList();
@@ -266,6 +321,97 @@ public class ResponseHandler {
                             imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
                             imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
                             innerImagesList.add(imageCategory);
+
+                            if (key.contains("Business")) {
+                                if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
+                                    userBusinessCategoryIndex = m;
+                                }
+                            }
+                        }
+                        if (key.contains("Business")) {
+                            ImageList userBrandCategory = innerImagesList.get(userBusinessCategoryIndex);
+                            innerImagesList.remove(userBusinessCategoryIndex);
+                            innerImagesList.add(0, userBrandCategory);
+                        }
+                        model.setDailyImages(innerImagesList);
+                        if (innerImagesList.size() != 0) {
+                            dataList.add(model);
+                        }
+                    }
+                }
+                Collections.sort(dataList);
+            }
+            returnModel.setDashBoardItems(dataList);
+            JSONObject linkObj = getJSONObject(jsonObject, "link");
+            Links links = new Links();
+            links.setFirstPage(getString(linkObj, "first_page_url"));
+            links.setLastPageUrl(getString(linkObj, "last_page_url"));
+            links.setNextPageUrl(getString(linkObj, "next_page_url"));
+            links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
+            links.setTotalStr(getString(linkObj, "total"));
+            returnModel.setLinks(links);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnModel;
+    }
+
+    public static DashBoardItem handleBusinessCategory(Activity act, JSONObject jsonObject) {
+        DashBoardItem returnModel = new DashBoardItem();
+        ArrayList<DashBoardItem> dataList = null;
+        dataList = new ArrayList<>();
+        try {
+            if (isSuccess(null, jsonObject)) {
+                JSONObject data = getJSONObject(jsonObject, "data");
+                Iterator<String> keys = data.keys();
+                Log.e("From", "version-5");
+
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    if (!key.equalsIgnoreCase("custom Images") && !key.equalsIgnoreCase("custome Images")) {
+                        JSONArray dataItemArray = data.getJSONArray(key);
+                        DashBoardItem model = new DashBoardItem();
+                        if (key.contains("Business")) {
+                            model.setFilterIndex(2);
+                        }
+                        if (key.contains("Daily")) {
+                            model.setFilterIndex(3);
+                        }
+                        if (key.contains("Upcoming")) {
+                            model.setFilterIndex(1);
+                        }
+                        if (key.contains("Today's")) {
+                            model.setFilterIndex(0);
+                        }
+
+                        model.setName(key);
+                        model.setLayout(DashBoardItem.DAILY_IMAGES);
+                        ArrayList<ImageList> innerImagesList = new ArrayList<>();
+                        int userBusinessCategoryIndex = 0;
+                        for (int m = 0; m < dataItemArray.length(); m++) {
+                            JSONObject innerObject = dataItemArray.getJSONObject(m);
+                            ImageList imageCategory = new ImageList();
+                            if (key.equalsIgnoreCase("Daily Images")) {
+                                imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_ROUND_IMAGES);
+                            } else
+                                imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
+
+                            imageCategory.setId(getString(innerObject, "id"));
+                            imageCategory.setName(getString(innerObject, "name"));
+                            imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
+                            imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
+                            innerImagesList.add(imageCategory);
+
+                            if (key.contains("Business")) {
+                                if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
+                                    userBusinessCategoryIndex = m;
+                                }
+                            }
+                        }
+                        if (key.contains("Business")) {
+                            ImageList userBrandCategory = innerImagesList.get(userBusinessCategoryIndex);
+                            innerImagesList.remove(userBusinessCategoryIndex);
+                            innerImagesList.add(0, userBrandCategory);
                         }
                         model.setDailyImages(innerImagesList);
                         if (innerImagesList.size() != 0) {
@@ -316,19 +462,19 @@ public class ResponseHandler {
                             string.add(model);
                         } else {
                             //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                                if (getString(datajsonObject, "type").equalsIgnoreCase("gif")) {
-                                    model.setImageType(ImageList.GIF);
-                                    //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/mahadev.mp4"));
-                                    model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
-                                    model.setFrame(getString(datajsonObject, "img_thumb_path"));
-                                }
-                                if (getString(datajsonObject, "type").equalsIgnoreCase("video")) {
-                                    model.setImageType(ImageList.VIDEO);
-                                    //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
-                                    model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
-                                    model.setFrame(getString(datajsonObject, "img_thumb_path"));
-                                }
-                                string.add(model);
+                            if (getString(datajsonObject, "type").equalsIgnoreCase("gif")) {
+                                model.setImageType(ImageList.GIF);
+                                //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/mahadev.mp4"));
+                                model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
+                                model.setFrame(getString(datajsonObject, "img_thumb_path"));
+                            }
+                            if (getString(datajsonObject, "type").equalsIgnoreCase("video")) {
+                                model.setImageType(ImageList.VIDEO);
+                                //model.setVideoSet(Uri.parse("http://brandmaniaapp.in/images/teddy.mp4"));
+                                model.setVideoSet(Uri.parse(getString(datajsonObject, "img_path")));
+                                model.setFrame(getString(datajsonObject, "img_thumb_path"));
+                            }
+                            string.add(model);
                             //}
                         }
 
@@ -655,7 +801,54 @@ public class ResponseHandler {
                         examModel.setPhonenumber(getString(dataJsonObject, "br_phone"));
                         examModel.setWebsite(getString(dataJsonObject, "br_website"));
                         examModel.setEmail(getString(dataJsonObject, "br_email"));
-                        examModel.setAddress(getString(dataJsonObject, "br_address"));
+                        examModel.setOriginalAddress(getString(dataJsonObject, "br_address"));
+
+
+                        if (jsonObject.has("pincode")) {
+                            examModel.setPincode(ResponseHandler.getString(jsonObject, "pincode"));
+                        }
+                        if (jsonObject.has("state")) {
+                            examModel.setState(ResponseHandler.getString(jsonObject, "state"));
+                        }
+                        if (jsonObject.has("country")) {
+                            examModel.setCountry(ResponseHandler.getString(jsonObject, "country"));
+                        }
+                        if (jsonObject.has("city")) {
+                            examModel.setCity(ResponseHandler.getString(jsonObject, "city"));
+                        }
+
+                        String address = examModel.getOriginalAddress();
+                        if (examModel.getCity() != null && !examModel.getCity().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + examModel.getCity();
+                        }
+
+                        if (examModel.getState() != null && !examModel.getState().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + examModel.getState();
+                        }
+
+
+                        if (examModel.getCountry() != null && !examModel.getCountry().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + examModel.getCountry();
+                        }
+
+                        if (examModel.getPincode() != null && !examModel.getPincode().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + " - ";
+
+                            address = address + examModel.getPincode();
+                        }
+                        //examModel.setAddress(getString(dataJsonObject, "br_address"));
+                        examModel.setAddress(address);
+
                         examModel.setLogo(getString(dataJsonObject, "br_logo"));
                         examModel.setIs_frame(getString(dataJsonObject, "is_frame"));
                         examModel.setFrame_message(getString(dataJsonObject, "frame_message"));

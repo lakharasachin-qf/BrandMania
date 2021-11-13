@@ -43,7 +43,7 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
     @NonNull
     @Override
     public PackageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_package_layout, parent, false); //inflate layout in view
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_package_layout, parent, false);
         ItemPackageLayoutBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_package_layout, parent, false);
 
         return new PackageViewHolder(layoutBinding);
@@ -62,13 +62,25 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
         holder.binding.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, RazorPayActivity.class);
-                intent.putExtra("AmountText", model.getPriceForPay());
-                intent.putExtra("BrandListItem", gson.toJson(selectedBrand));
-                packageList.get(position).setBrandId(selectedBrand.getId());
-                intent.putExtra("detailsObj", gson.toJson(packageList.get(position)));
-                activity.startActivity(intent);
-                activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                if (selectedBrand.getPackagename() != null && !selectedBrand.getPackagename().isEmpty() && selectedBrand.getPackagename().equalsIgnoreCase(model.getPackageTitle())) {
+                    if (Utility.isPackageExpired(selectedBrand)) {
+                        Intent intent = new Intent(activity, RazorPayActivity.class);
+                        intent.putExtra("AmountText", model.getPriceForPay());
+                        intent.putExtra("BrandListItem", gson.toJson(selectedBrand));
+                        packageList.get(position).setBrandId(selectedBrand.getId());
+                        intent.putExtra("detailsObj", gson.toJson(packageList.get(position)));
+                        activity.startActivity(intent);
+                        activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    }
+                } else {
+                    Intent intent = new Intent(activity, RazorPayActivity.class);
+                    intent.putExtra("AmountText", model.getPriceForPay());
+                    intent.putExtra("BrandListItem", gson.toJson(selectedBrand));
+                    packageList.get(position).setBrandId(selectedBrand.getId());
+                    intent.putExtra("detailsObj", gson.toJson(packageList.get(position)));
+                    activity.startActivity(intent);
+                    activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                }
             }
         });
 
@@ -78,7 +90,7 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
             holder.binding.rightArrow.setVisibility(View.GONE);
             holder.binding.secondaryTitle.setClickable(false);
             holder.binding.secondaryTitle.setText("Subscribed");
-            holder.binding.itemLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.shape_package_outline_active));
+            holder.binding.itemLayout.setBackground(ContextCompat.getDrawable(activity, R.drawable.shape_package_outline_active));
             if (Utility.isPackageExpired(activity)) {
                 holder.binding.secondaryTitle.setText("Expired");
                 holder.binding.alert.setVisibility(View.VISIBLE);
@@ -87,7 +99,7 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
             }
         } else {
             holder.binding.rightArrow.setVisibility(View.VISIBLE);
-            holder.binding.itemLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.shape_package_outline));
+            holder.binding.itemLayout.setBackground(ContextCompat.getDrawable(activity, R.drawable.shape_package_outline));
             holder.binding.alert.setVisibility(View.GONE);
         }
 

@@ -22,7 +22,8 @@ public class APIs {
     public static final String GET_FAVORITLIST_ITEM = URL + "getFavoriteList";
     public static final String DELETE_BRAND = URL + "deleteBrandById";
     public static final String REMOVE_FAVOURIT = URL + "RemoveFromFav";
-    public static final String IS_COMPLETE = URL + "fetchFlowStatus";
+    //public static final String IS_COMPLETE = URL + "fetchFlowStatus";
+    public static final String IS_COMPLETE = URL + "fetchFlowStatusDeviceInfo ";
     public static final String GET_FRAME = URL + "getFrames";
     public static final String GET_BRAND = URL + "getBrand";
     public static final String GET_PROMOCODE_DESCOUNT = URL + "getPromocodeDiscount";
@@ -42,4 +43,8 @@ public class APIs {
     public static final String GET_FRAMEBYID_CATEGORY = URL + "getCustomImageCategoryImage";
     public static final String FETCH_CUSTOME_FRAME_STATUS = URL + "fetchCustomFrameStatus";
     public static final String REQUEST_BUSINESS_CATEGORY = URL + "reqCategory";
+    public static final String BUSINESS_CATEGORY = URL + "getBusinessImageCategory";
+    public static final String GET_COUNTRY = URL + "getCountry";
+    public static final String GET_STATE= URL + "getState";
+    public static final String GET_CITY = URL + "getCity";
 }

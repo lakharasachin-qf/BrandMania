@@ -285,7 +285,9 @@ public class HELPER {
             e.printStackTrace();
         }
     }
-
+    public static String deviceINFO(){
+        return "VERSION.RELEASE : "+Build.VERSION.RELEASE +"- VERSION.SDK.NUMBER : "+Build.VERSION.SDK_INT +" - BRAND : "+Build.BRAND;
+    }
     public static void WHATSAPP_REDIRECTION_2(Activity act, String businessName, String mobileNumber) {
         try {
             String number = Constant.ADMIN_CONTACT_NUMBER;

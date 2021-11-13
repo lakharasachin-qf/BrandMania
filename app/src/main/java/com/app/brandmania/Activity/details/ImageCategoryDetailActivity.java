@@ -2,8 +2,6 @@ package com.app.brandmania.Activity.details;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
-import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_CANCEL;
-import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -490,13 +488,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
             }
 
-            //if (canDownloads) {
-            if (selectedObject.getImageType() == ImageList.GIF) {
-                saveGif();
-            } else if (selectedObject.getImageType() == ImageList.VIDEO) {
-                saveVideo();
+            if (canDownloads) {
+                if (selectedObject.getImageType() == ImageList.GIF) {
+                    saveGif();
+                } else if (selectedObject.getImageType() == ImageList.VIDEO) {
+                    saveVideo();
+                }
             }
-            //}
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -85,26 +85,54 @@ public class Utility {
 
     public static boolean isPackageExpired(Activity act)
     {
+        if (new PreafManager(act).getActiveBrand().getExpiery_date()!=null && !new PreafManager(act).getActiveBrand().getExpiery_date().isEmpty()) {
+            try {
+                String expireDate = new PreafManager(act).getActiveBrand().getExpiery_date().replace('-', '/');
 
-        try {
+                Date date = new Date();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String currentDate = formatter.format(date);
+                Log.e("expireDate", expireDate);
+                Log.e("currentDate", currentDate);
 
-            String expireDate = new PreafManager(act).getActiveBrand().getExpiery_date().replace('-', '/');
-            Date date = new Date();
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String currentDate = formatter.format(date);
-            Log.e("expireDate", expireDate);
-            Log.e("currentDate", currentDate);
-
-            Date convertedExpireDate = formatter.parse(expireDate);
-            Date convertedCurrentDate = formatter.parse(currentDate);
+                Date convertedExpireDate = formatter.parse(expireDate);
+                Date convertedCurrentDate = formatter.parse(currentDate);
 
 
-            if(convertedExpireDate.compareTo(convertedCurrentDate) < 0)
-            {
-                return true;
+                if (convertedExpireDate.compareTo(convertedCurrentDate) < 0) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public static boolean isPackageExpired(BrandListItem brandListItem)
+    {
+        if (brandListItem.getExpiery_date()!=null && !brandListItem.getExpiery_date().isEmpty()) {
+
+            try {
+
+                String expireDate = brandListItem.getExpiery_date().replace('-', '/');
+                Date date = new Date();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String currentDate = formatter.format(date);
+                Log.e("expireDate", expireDate);
+                Log.e("currentDate", currentDate);
+
+                Date convertedExpireDate = formatter.parse(expireDate);
+                Date convertedCurrentDate = formatter.parse(currentDate);
+
+
+                if (convertedExpireDate.compareTo(convertedCurrentDate) < 0) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
@@ -164,7 +192,6 @@ public class Utility {
     //return true if user is paid
     public static boolean isUserPaid(BrandListItem activeBrand) {
         if (!activeBrand.getPackagename().isEmpty() && activeBrand.getIs_payment_pending().equalsIgnoreCase("0")) {
-
             return true;
         }
         else
@@ -253,7 +280,6 @@ public class Utility {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", "lakharasachin.qf@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "iSmart Homes Android app support");
-
         emailIntent.putExtra(Intent.EXTRA_TEXT, "" +
                 "===========================\n" +
                 "App Details\n" +
@@ -266,17 +292,6 @@ public class Utility {
                 "Mobile : " + contactNumber + "\n" +
                 "===========================\n"
         );
-           /*  emailIntent.putExtra(Intent.EXTRA_TEXT, "" +
-                    "===========================\n" +
-                    "App Details\n" +
-                    "\n" +
-                    "App Version : " + BuildConfig.VERSION_NAME + "\n" +
-                    "Android Version : " + Build.VERSION.SDK_INT + "\n" +
-                    "Android Device : " + Build.BRAND + "\n" +
-                    "Android Device Model : " + Build.MODEL + "\n" +
-                    "===========================\n"
-            );*/
-
         act.startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 
@@ -312,42 +327,6 @@ public class Utility {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         ((alertListenerCallback) act).alertListenerClick();
-                    }
-                })
-                .show();
-    }
-    public static void showAlertForPackage(Activity act, String msg) {
-        new AlertDialog.Builder(act)
-                .setMessage(msg)
-                .setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        Intent intent=new Intent(act, PackageActivity.class);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        act.startActivity(intent);
-                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                        //((alertListenerCallback) act).alertListenerClick();
-                    }
-                })
-                .show();
-    }
-    public static void showAlertForPayment(Activity act, String msg) {
-        new AlertDialog.Builder(act)
-                .setMessage(msg)
-                .setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        Intent intent=new Intent(act, PackageActivity.class);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        act.startActivity(intent);
-                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                        //((alertListenerCallback) act).alertListenerClick();
                     }
                 })
                 .show();

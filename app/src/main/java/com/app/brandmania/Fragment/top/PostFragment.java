@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
-import com.app.brandmania.Adapter.InnerFragmentAdpaters;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
@@ -32,7 +30,6 @@ import com.app.brandmania.R;
 import com.app.brandmania.databinding.CategoryTabBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
-import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -42,7 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryTab extends FrameTab {
+public class PostFragment extends FrameTab {
     Activity act;
     private CategoryTabBinding binding;
     private int mColorCode;
@@ -55,7 +52,7 @@ public class CategoryTab extends FrameTab {
     Gson gson;
     boolean isViewAll = false;
 
-    public CategoryTab setViewAll(boolean viewAll) {
+    public PostFragment setViewAll(boolean viewAll) {
         isViewAll = viewAll;
         return this;
     }
@@ -78,71 +75,10 @@ public class CategoryTab extends FrameTab {
         return binding.getRoot();
     }
 
-    boolean isPostAvailable = false;
-    boolean isGIFAvailable = false;
-    boolean isVideoAvailable = false;
-
-    public void loadViewPager() {
-
-
-        for (ImageList model : menuModels) {
-            if (model.getImageType() == ImageList.IMAGE) {
-                isPostAvailable = true;
-            }
-            if (model.getImageType() == ImageList.GIF) {
-                isGIFAvailable = true;
-            }
-            if (model.getImageType() == ImageList.VIDEO) {
-                isVideoAvailable = true;
-            }
-        }
-
-
-        ArrayList<Fragment> fragments = new ArrayList<>();
-        if (isPostAvailable) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Post"));
-            fragments.add(new PostFragment());
-        }
-
-        if (isGIFAvailable) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("GIF"));
-            fragments.add(new GifFragment());
-        }
-
-        if (isVideoAvailable) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Videos"));
-            fragments.add(new VideoFragment());
-        }
-
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        if (fragments.size() != 0) {
-            binding.viewRecoRecycler.setVisibility(View.GONE);
-            binding.viewPagerLayout.setVisibility(View.VISIBLE);
-
-            final InnerFragmentAdpaters adapter = new InnerFragmentAdpaters(getChildFragmentManager(), fragments);
-            binding.viewPager.setAdapter(adapter);
-            binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
-            binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    binding.viewPager.setCurrentItem(tab.getPosition());
-                }
-
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                }
-
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                }
-            });
-        }
-    }
-
-
-
     ImageCategoryAddaptor menuAddaptor;
+
+
+
     public void setAdapter() {
         menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
         //  if (isViewAll)
@@ -163,7 +99,7 @@ public class CategoryTab extends FrameTab {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                // Utility.Log("GET_IMAGE_CATEGORYyyyyyyyyyyyy : ", response);
+               // Utility.Log("GET_IMAGE_CATEGORYyyyyyyyyyyyy : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -265,14 +201,14 @@ public class CategoryTab extends FrameTab {
                             int lastPos = menuModels.size();
                             menuModels.addAll(menuModels.size(), apiObject.getCatogaryImagesList());
                             menuAddaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
-                            //       Log.e("GGG", new Gson().toJson(menuModels));
+                     //       Log.e("GGG", new Gson().toJson(menuModels));
                         } else {
                             menuModels = new ArrayList<>();
                             menuModels.addAll(0, apiObject.getCatogaryImagesList());
                         }
                     }
                     if (apiObject.getLinks() != null) {
-                        //   Log.e("APIIII", new Gson().toJson(apiObject.getLinks()));
+                     //   Log.e("APIIII", new Gson().toJson(apiObject.getLinks()));
                         if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);

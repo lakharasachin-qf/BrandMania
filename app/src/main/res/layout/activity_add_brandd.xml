@@ -155,29 +155,7 @@
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addressEdtLayout"
-                    style="@style/LoginTextInputLayoutStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:hint="Address"
-                    app:errorEnabled="true"
-                    app:hintTextColor="@color/colorPrimary">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/addressEdt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/_10sdp"
-                        android:inputType="textCapWords"
-                        android:maxEms="13"
-                        android:maxLines="3"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
-                        android:textSize="@dimen/_10sdp" />
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/websiteEdtLayout"
@@ -222,6 +200,135 @@
                         android:singleLine="true"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/countryLayout"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:hint="Choose Country"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/countryEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:fontFamily="@font/poppins_regular"
+                        android:drawableEnd="@drawable/ic_drop_arrow"
+                        android:focusable="false"
+                        android:singleLine="true"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/stateLayout"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:hint="Choose State"
+                    android:visibility="gone"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stateEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:fontFamily="@font/poppins_regular"
+                        android:drawableEnd="@drawable/ic_drop_arrow"
+                        android:focusable="false"
+                        android:singleLine="true"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/cityLayout"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:hint="Choose City"
+                    android:visibility="gone"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/cityEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:fontFamily="@font/poppins_regular"
+                        android:drawableEnd="@drawable/ic_drop_arrow"
+                        android:focusable="false"
+                        android:singleLine="true"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addressEdtLayout"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Address"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addressEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:inputType="textCapWords"
+                        android:maxEms="13"
+                        android:maxLines="3"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/pincodeLayout"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Pincode"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/pincodeEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:inputType="number"
+                        android:maxEms="13"
+                        android:maxLines="1"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/businessFacilityEdtLayout"

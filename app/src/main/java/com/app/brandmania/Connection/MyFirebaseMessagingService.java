@@ -50,12 +50,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().containsKey("cat_name")) {
             catName = remoteMessage.getData().get("cat_name");
         }
-        Log.e("onMessageReceived", "Yes");
-        Log.e("title", remoteMessage.getData().get("title"));
-        Log.e("flag", remoteMessage.getData().get("flag"));
-        Log.e("image", remoteMessage.getData().get("image"));
-        Log.e("cat_id", remoteMessage.getData().get("cat_id"));
-        Log.e("msg", remoteMessage.getData().get("msg"));
+//        Log.e("onMessageReceived", "Yes");
+//        Log.e("title", remoteMessage.getData().get("title"));
+//        Log.e("flag", remoteMessage.getData().get("flag"));
+//        Log.e("image", remoteMessage.getData().get("image")+"-");
+//        Log.e("cat_id", remoteMessage.getData().get("cat_id")+"-");
+        Log.e("msg", remoteMessage.getData().get("msg")+"-");
         shownotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("msg"), remoteMessage.getData().get("flag"), remoteMessage.getData().get("image"), remoteMessage.getData().get("cat_id"));
     }
 

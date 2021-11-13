@@ -205,8 +205,7 @@ public class ProfileFragment extends BaseFragment {
         binding.websiteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Uri webpage = Uri.parse("http://site.queryfinders.com/");
-                Uri webpage = Uri.parse("http://queryfinders.com/");
+                Uri webpage = Uri.parse("http://brandmaniaapp.in");
                 Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 //intent.setPackage("com.android.chrome");
                 startActivity(intent);

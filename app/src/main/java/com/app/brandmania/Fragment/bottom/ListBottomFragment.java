@@ -71,8 +71,6 @@ public class ListBottomFragment  extends BottomSheetDialogFragment {
             binding.recyclerList.setLayoutManager(mLayoutManager);
             binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
             binding.recyclerList.setAdapter(adpt);
-
-
         }
         if (calledFlag==0){
             binding.addBrandLayout.setVisibility(View.GONE);

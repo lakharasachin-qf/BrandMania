@@ -1,19 +1,18 @@
 package com.app.brandmania.Adapter;
 
+import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLIST;
+import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLISTBYID;
+import static com.app.brandmania.Model.BrandListItem.LAYOUT_NOTIFICATIONlIST;
+import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -34,10 +33,11 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
-import com.app.brandmania.utils.APIs;
-import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ItemLayoutGetbrandlistBinding;
 import com.app.brandmania.databinding.ItemNotificationLayoutBinding;
+import com.app.brandmania.databinding.PackageDetailAlertDialogBinding;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -48,11 +48,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLIST;
-import static com.app.brandmania.Model.BrandListItem.LAYOUT_BRANDLISTBYID;
-import static com.app.brandmania.Model.BrandListItem.LAYOUT_NOTIFICATIONlIST;
-import static com.app.brandmania.Model.ImageList.LAYOUT_LOADING;
 
 public class BrandAdapter extends RecyclerView.Adapter {
     private ArrayList<BrandListItem> brandListItems;
@@ -321,51 +316,33 @@ public class BrandAdapter extends RecyclerView.Adapter {
     }
 
     public void showDialog(int position) {
-        // Create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        // set the custom layout
-        final View customLayout = activity.getLayoutInflater().inflate(R.layout.package_detail_alert_dialog, null);
-        TextView packageName = customLayout.findViewById(R.id.packageName);
-        TextView totalImage = customLayout.findViewById(R.id.totalImage);
-        TextView usedImage = customLayout.findViewById(R.id.usedImage);
-        TextView remainingImage = customLayout.findViewById(R.id.remainingImage);
-        RelativeLayout remainingImageRelative = customLayout.findViewById(R.id.ramainingImageRelative);
-        TextView expirydate = customLayout.findViewById(R.id.expieryDateName);
-        TextView priceContent = customLayout.findViewById(R.id.priceContent);
-        TextView subscribeddate = customLayout.findViewById(R.id.SubscribedDateName);
-
-
-        if (brandListItems.get(position).getPackagename().equalsIgnoreCase("Enterprise")) {
-            remainingImageRelative.setVisibility(View.GONE);
-        } else {
-            remainingImageRelative.setVisibility(View.VISIBLE);
-            remainingImage.setText(brandListItems.get(position).getNo_of_remaining());
-
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity, R.style.MyAlertDialogStyle_extend2);
+        PackageDetailAlertDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.package_detail_alert_dialog, null, false);
+        binding.packageName.setText(brandListItems.get(position).getPackagename());
+        binding.totalImages.setText("Download Limit: "+brandListItems.get(position).getNo_of_total_image()+" Images");
+        binding.usedImages.setText("Used Images: "+brandListItems.get(position).getNo_of_used_image()+" Images");
+        binding.expiryDate.setText(brandListItems.get(position).getExpiery_date());
+        if (Utility.isPackageExpired(brandListItems.get(position))){
+            binding.alert.setVisibility(View.VISIBLE);
+            binding.alert.setText("     Dear user, your package is expired on date "+brandListItems.get(position).getExpiery_date()+". Please Upgrade your plan.");
+            binding.alert.setSelected(true);
+        }else {
+            binding.alert.setVisibility(View.GONE);
         }
-
-        ImageView closed = customLayout.findViewById(R.id.CloseImg);
-        packageName.setText(brandListItems.get(position).getPackagename());
-        totalImage.setText(brandListItems.get(position).getNo_of_total_image());
-        usedImage.setText(brandListItems.get(position).getNo_of_used_image());
-        expirydate.setText(brandListItems.get(position).getExpiery_date());
-        subscribeddate.setText(brandListItems.get(position).getSubscriptionDate());
-        priceContent.setText("(" + activity.getString(R.string.Rs) + brandListItems.get(position).getRate() + ")");
-        builder.setView(customLayout);
+        binding.price.setText(activity.getString(R.string.Rs) + brandListItems.get(position).getRate());
+        builder.setView(binding.getRoot());
+        androidx.appcompat.app.AlertDialog dialog;
+        dialog = builder.create();
 
 
-        AlertDialog dialog
-                = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
-        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
-        closed.setOnClickListener(new View.OnClickListener() {
+        binding.close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
         });
-        Button pbutton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        pbutton.setBackgroundColor(Color.WHITE);
     }
 
     private void DeletAssigement(final String BrandId) {

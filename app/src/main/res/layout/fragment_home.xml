@@ -114,10 +114,49 @@
                         android:visibility="visible" />
 
                     <RelativeLayout
+                        android:visibility="gone"
+                        android:id="@+id/easyMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_below="@+id/ViewPagerView"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:background="@drawable/home_shape_package">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentTop="true"
+                            android:background="#B7FAA81E" />
+
+                        <TextView
+                            android:id="@+id/infoMsg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:paddingTop="@dimen/_4sdp"
+                            android:paddingBottom="@dimen/_4sdp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="                           Dear user, your current package is expired on date 10-10-2021. Please Upgrade your plan and enjoy downloading image, GIF and videos."
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_9sdp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="#B7FAA81E" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/alertForFrmae"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/ViewPagerView"
+                        android:layout_below="@+id/easyMessage"
                         android:layout_marginTop="@dimen/_7sdp"
                         android:background="@android:color/transparent"
                         android:visibility="gone">
@@ -195,7 +234,7 @@
                         android:id="@+id/setcion2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/ViewPagerView"
+                        android:layout_below="@+id/easyMessage"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
@@ -526,14 +565,14 @@
                             android:clipToPadding="false" />
 
                     </RelativeLayout>
-                    <!--android:layout_below="@+id/recommendationRelativ"-->
-<!--                    <include layout="@layout/item_package_layout"/>-->
-                    <androidx.cardview.widget.CardView android:visibility="gone"
+
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/videoFeatureLayout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_100sdp"
                         android:layout_below="@+id/recommendationRelativ"
                         android:focusable="true"
+                        android:visibility="gone"
                         card_view:cardCornerRadius="@dimen/_7sdp"
                         card_view:cardElevation="@dimen/_7sdp"
                         card_view:cardPreventCornerOverlap="true"
@@ -548,10 +587,9 @@
                             <androidx.cardview.widget.CardView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:focusable="true"
-                                card_view:cardCornerRadius="@dimen/_7sdp"
                                 android:layout_margin="1dp"
-                                >
+                                android:focusable="true"
+                                card_view:cardCornerRadius="@dimen/_7sdp">
 
                                 <ImageView
                                     android:layout_width="match_parent"

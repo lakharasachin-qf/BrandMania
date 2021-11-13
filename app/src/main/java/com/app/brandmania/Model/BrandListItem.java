@@ -19,6 +19,7 @@ public class BrandListItem {
     private String email;
     private String phonenumber;
     private String address;
+    private String originalAddress;
     private String logo;
     private String framee;
     private int Image;
@@ -45,6 +46,53 @@ public class BrandListItem {
     private String duration;
     private String subscriptionDate;
     private String brandService;
+
+
+    private String country;
+    private String state;
+    private String city;
+    private String pincode;
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getOriginalAddress() {
+        return originalAddress;
+    }
+
+    public void setOriginalAddress(String originalAddress) {
+        this.originalAddress = originalAddress;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public String getSubscriptionDate() {
         return subscriptionDate;
     }

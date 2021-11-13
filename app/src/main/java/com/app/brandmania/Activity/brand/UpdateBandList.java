@@ -39,6 +39,7 @@ import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Fragment.bottom.CountrySelectionFragment;
 import com.app.brandmania.Fragment.bottom.ListBottomFragment;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
 import com.app.brandmania.Interface.ItemSelectionInterface;
@@ -46,10 +47,10 @@ import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ActivityUpdateBandListBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.ActivityUpdateBandListBinding;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -68,7 +69,14 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
     PreafManager prefManager;
     Gson gson;
     public static int BRAND_CATEGORY = 0;
+    public static int COUNTRY = 1;
+    public static int STATE = 2;
+    public static int CITY = 3;
     private String BrandTitle;
+    private String cityTitle = "Choose City";
+    private String countryTitle = "Choose Country";
+    private String stateTtitle = "Choose State";
+
     private int showingView = -1;
     private boolean isEditModeEnable = false;
     private BrandListItem listModel;
@@ -83,6 +91,11 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
     private AlertDialog.Builder alertDialogBuilder;
     private Uri mCropImageUri;
     private Bitmap selectedLogo;
+
+
+    private ArrayList<CommonListModel> countryList = new ArrayList<>();
+    private ArrayList<CommonListModel> stateList = new ArrayList<>();
+    private ArrayList<CommonListModel> cityList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +114,11 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         CodeReUse.RemoveError(binding.websiteEdt, binding.websiteEdtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
         CodeReUse.RemoveError(binding.businessServiceEdt, binding.businessFacilityEdtLayout);
+
+        CodeReUse.RemoveError(binding.countryEdt, binding.countryLayout);
+        CodeReUse.RemoveError(binding.stateEdt, binding.stateLayout);
+        CodeReUse.RemoveError(binding.cityEdt, binding.cityLayout);
+
         alertDialogBuilder = new AlertDialog.Builder(act);
         binding.viewImgFirst.setTag("0");
 
@@ -112,6 +130,39 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList);
             }
         });
+
+
+        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (countryList != null)
+                    chooseFragment(COUNTRY, countryTitle, countryList, binding.countryEdt.getText().toString());
+            }
+        });
+        binding.stateEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.countryEdt.getText().length() != 0) {
+                    if (stateList != null)
+                        chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
+                } else {
+
+                }
+            }
+        });
+        binding.cityEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.stateEdt.getText().length() != 0) {
+                    if (cityList != null)
+                        chooseFragment(CITY, cityTitle, cityList, binding.cityEdt.getText().toString());
+                } else {
+
+                }
+            }
+        });
+
+
         binding.addExpenceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,8 +171,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         });
         listModel = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
         data = gson.fromJson(getIntent().getStringExtra("data"), BrandListItem.class);
-       // Log.e("SSSS", gson.toJson(listModel));
-       // Log.e("data", gson.toJson(data));
+        // Log.e("SSSS", gson.toJson(listModel));
+        // Log.e("data", gson.toJson(data));
 
         if (listModel != null) {
             binding.catIdEdt.setText(listModel.getId());
@@ -132,7 +183,28 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             binding.addressEdt.setText(listModel.getAddress());
             binding.websiteEdt.setText(listModel.getWebsite());
             binding.emailIdEdt.setText(listModel.getEmail());
+
             binding.businessServiceEdt.setText(listModel.getBrandService());
+
+            if (listModel.getPincode() != null && !listModel.getPincode().isEmpty()) {
+                binding.pincodeEdt.setText(listModel.getPincode());
+            }
+            if (listModel.getCountry() != null && !listModel.getCountry().isEmpty()) {
+                binding.countryLayout.setVisibility(View.VISIBLE);
+                binding.countryEdt.setText(listModel.getCountry());
+            }
+
+            if (listModel.getState() != null && !listModel.getState().isEmpty()) {
+                binding.stateLayout.setVisibility(View.VISIBLE);
+                binding.stateEdt.setText(listModel.getState());
+            }
+
+            if (listModel.getCity() != null && !listModel.getCity().isEmpty()) {
+                binding.cityLayout.setVisibility(View.VISIBLE);
+                binding.cityEdt.setText(listModel.getCity());
+            }
+
+
             binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -181,13 +253,27 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             binding.websiteEdt.setText(prefManager.getActiveBrand().getWebsite());
             binding.emailIdEdt.setText(prefManager.getActiveBrand().getEmail());
             binding.businessServiceEdt.setText(prefManager.getActiveBrand().getBrandService());
-            //            binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onBackPressed();
-//                }
-//
-//            });
+
+
+            if (prefManager.getActiveBrand().getPincode() != null && !prefManager.getActiveBrand().getPincode().isEmpty()) {
+                binding.pincodeEdt.setText(prefManager.getActiveBrand().getPincode());
+            }
+            if (prefManager.getActiveBrand().getCountry() != null && !prefManager.getActiveBrand().getCountry().isEmpty()) {
+                binding.countryLayout.setVisibility(View.VISIBLE);
+                binding.countryEdt.setText(prefManager.getActiveBrand().getCountry());
+            }
+
+            if (prefManager.getActiveBrand().getState() != null && !prefManager.getActiveBrand().getState().isEmpty()) {
+                binding.stateLayout.setVisibility(View.VISIBLE);
+                binding.stateEdt.setText(prefManager.getActiveBrand().getState());
+            }
+
+            if (prefManager.getActiveBrand().getCity() != null && !prefManager.getActiveBrand().getCity().isEmpty()) {
+                binding.cityLayout.setVisibility(View.VISIBLE);
+                binding.cityEdt.setText(prefManager.getActiveBrand().getCity());
+            }
+
+
             Glide.with(act).load(prefManager.getActiveBrand().getLogo()).placeholder(R.drawable.placeholder).into((binding.viewImgFirst));
             //  Glide.with(act).load(listModel.getFrame()).placeholder(R.drawable.placeholder).into((binding.selectframe1));
 
@@ -314,11 +400,13 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                getCountryStateCity(CALL_COUNTRY);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                getCountryStateCity(CALL_COUNTRY);
             }
         }) {
 
@@ -400,19 +488,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 
         }
 
-//        if (binding.addressEdt.getText().toString().trim().length() == 0) {
-//            isError = true;
-//
-//            binding.addressEdtLayout.setError(getString(R.string.enter_address));
-//            binding.addressEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-//            if (!isFocus) {
-//                binding.addressEdt.requestFocus();
-//                isFocus = true;
-//                binding.scrollView.scrollTo(0,binding.addressEdt.getBottom());
-//            }
-//
-//        }
-
 
         if (!isError) {
             Bitmap bitmap = null;
@@ -451,6 +526,21 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
 
+
+        if (binding.pincodeEdt.getText().toString().length() == 0) {
+            request.addMultipartParameter("pincode", binding.pincodeEdt.getText().toString());
+        }
+
+        if (selectedCountry != null) {
+            request.addMultipartParameter("country", selectedCountry.getId());
+        }
+        if (selectedState != null) {
+            request.addMultipartParameter("state", selectedState.getId());
+        }
+        if (selectedCity != null) {
+            request.addMultipartParameter("city", selectedCity.getId());
+        }
+
         if (commonListModel != null) {
             request.addMultipartParameter("br_category", commonListModel.getId());
         } else {
@@ -470,7 +560,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             Log.e("br_logo", String.valueOf(img1File));
         }
 
-   //     Log.e("PARAM", gson.toJson(request));
+        //     Log.e("PARAM", gson.toJson(request));
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
@@ -496,6 +586,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                                         onBackPressed();
                                     }
                                 });
+
                                 AlertDialog alertDialog = alertDialogBuilder.create();
                                 alertDialog.setCancelable(false);
                                 alertDialog.show();
@@ -527,6 +618,24 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 });
 
     }
+
+    CountrySelectionFragment countrySelectionFragment;
+
+    public void chooseFragment(int callingFlag, String title, ArrayList<CommonListModel> datalist, String alreadySelectedData) {
+        countrySelectionFragment = new CountrySelectionFragment(title, datalist, callingFlag, alreadySelectedData);
+
+        if (countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.dismiss();
+        }
+        if (countrySelectionFragment.isAdded()) {
+            countrySelectionFragment.dismiss();
+        }
+
+        if (!countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.show(getSupportFragmentManager(), countrySelectionFragment.getTag());
+        }
+    }
+
 
     public void showFragmentList(int callingFlag, String title, ArrayList<CommonListModel> datalist) {
         bottomSheetFragment = new ListBottomFragment();
@@ -578,14 +687,49 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         CodeReUse.activityBackPress(act);
     }
 
+
+    private CommonListModel selectedCountry;
+    private CommonListModel selectedState;
+    private CommonListModel selectedCity;
+
     @Override
     public void onItemSelection(int calledFlag, int position, CommonListModel listModel) {
         if (bottomSheetFragment != null && bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
         }
+        if (countrySelectionFragment != null && countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.dismiss();
+        }
+
         if (calledFlag == BRAND_CATEGORY) {
             binding.categoryEdt.setText(listModel.getName());
             commonListModel = listModel;
+        }
+
+        if (calledFlag == COUNTRY) {
+            binding.countryEdt.setText(listModel.getName());
+            selectedCountry = listModel;
+            binding.stateLayout.setVisibility(View.VISIBLE);
+            binding.stateEdt.setText("");
+            binding.cityEdt.setText("");
+            selectedCity=null;
+            selectedState=null;
+
+            stateList.clear();
+        }
+
+        if (calledFlag == STATE) {
+            binding.stateEdt.setText(listModel.getName());
+            selectedState = listModel;
+            binding.cityLayout.setVisibility(View.VISIBLE);
+            binding.cityEdt.setText("");
+            selectedCity=null;
+            cityList.clear();
+        }
+
+        if (calledFlag == CITY) {
+            binding.cityEdt.setText(listModel.getName());
+            selectedCity = listModel;
         }
     }
 
@@ -603,6 +747,100 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+
+    int CALL_COUNTRY = 0;
+    int CALL_STATE = 1;
+    int CALL_CITY = 2;
+
+    private void getCountryStateCity(int flag) {
+        if (isLoading)
+            return;
+        isLoading = true;
+        String apiUrl = "";
+
+        if (flag == CALL_COUNTRY) {
+            apiUrl = APIs.GET_COUNTRY;
+            countryList.clear();
+        }
+
+        if (flag == CALL_STATE) {
+            apiUrl = APIs.GET_STATE + "/" + selectedCountry.getId();
+            stateList.clear();
+        }
+
+        if (flag == CALL_CITY) {
+            apiUrl = APIs.GET_CITY + "/" + selectedState.getId();
+            cityList.clear();
+        }
+        Utility.Log("API : ", apiUrl);
+        StringRequest request = new StringRequest(Request.Method.GET, apiUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("GET_COUNTRY : ", response);
+                isLoading = false;
+                try {
+                    if (ResponseHandler.isSuccess(response, null)) {
+                        JSONObject responseJson = ResponseHandler.createJsonObject(response);
+                        JSONArray jsonArray = ResponseHandler.getJSONArray(responseJson, "data");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject itemObj = jsonArray.getJSONObject(i);
+                            CommonListModel listModel = new CommonListModel();
+                            listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
+                            listModel.setId(ResponseHandler.getString(itemObj, "id"));
+                            listModel.setName(ResponseHandler.getString(itemObj, "name"));
+                            if (flag == CALL_COUNTRY) {
+                                countryList.add(listModel);
+                            }
+
+                            if (flag == CALL_STATE) {
+                                stateList.add(listModel);
+                            }
+
+                            if (flag == CALL_CITY) {
+                                cityList.add(listModel);
+                            }
+                        }
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                isLoading = false;
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + prefManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+
+
+                Utility.Log("Params : ", map.toString());
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+
     }
 
 }

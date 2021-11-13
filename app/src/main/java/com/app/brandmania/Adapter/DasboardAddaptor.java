@@ -1,9 +1,12 @@
 package com.app.brandmania.Adapter;
 
+import static com.app.brandmania.Model.DashBoardItem.DAILY_IMAGES;
+import static com.app.brandmania.Model.DashBoardItem.FESTIVAL_IMAGES;
+import static com.app.brandmania.utils.Utility.Log;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Activity.details.BusinessCategoryListActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.R;
@@ -21,10 +25,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.app.brandmania.Model.DashBoardItem.DAILY_IMAGES;
-import static com.app.brandmania.Model.DashBoardItem.FESTIVAL_IMAGES;
-import static com.app.brandmania.utils.Utility.Log;
 
 
 public class DasboardAddaptor extends RecyclerView.Adapter {
@@ -79,7 +79,6 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                 case DashBoardItem.FESTIVAL_IMAGES:
                     ((DasboardViewHolder) holder).binding.title.setText(convertFirstUpper(dashBoardItemList.get(position).getName()));
                     ((DasboardViewHolder) holder).binding.title.setSelected(true);
-                    Log.e("LLLLLL", String.valueOf(dashBoardItemList.get(position).getImageLists().size()));
                     ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(dashBoardItemList.get(position).getImageLists(), activity);
                     menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_HOMEFRAGEMENT);
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
@@ -100,18 +99,27 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                     });
                     break;
                 case DAILY_IMAGES:
-
                     ((DasboardViewHolder) holder).binding.title.setText(convertFirstUpper(dashBoardItemList.get(position).getName()));
-                    ((DasboardViewHolder) holder).binding.viewAll.setVisibility(View.GONE);
-                    // ((DasboardViewHolder) holder).binding.rootBackground.setVisibility(View.GONE);
                     menuAddaptor = new ImageCategoryAddaptor(dashBoardItemList.get(position).getDailyImages(), activity);
                     menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_HOMEFRAGEMENT);
-                    // int spacingInPixels = activity.getResources().getDimensionPixelSize(R.dimen.space);
-                    // ((DasboardViewHolder) holder).binding.imageCategoryRecycler.addItemDecoration(new SpacesItemDecoration(3, spacingInPixels, true, 0));
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setHasFixedSize(true);
                     menuAddaptor.setDashBoardItem(dashBoardItemList.get(position));
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setAdapter(menuAddaptor);
+
+                    if (dashBoardItemList.get(position).getName().contains("Business")) {
+                        ((DasboardViewHolder) holder).binding.viewAll.setVisibility(View.VISIBLE);
+                        ((DasboardViewHolder) holder).binding.viewAll.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(activity, BusinessCategoryListActivity.class);
+                                activity.startActivity(i);
+                                activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                            }
+                        });
+                    }else{
+                        ((DasboardViewHolder) holder).binding.viewAll.setVisibility(View.GONE);
+                    }
                     break;
 
             }

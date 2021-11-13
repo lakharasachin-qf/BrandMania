@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.PackageRecyclerAdapter;
 import com.app.brandmania.Adapter.SliderAdapter;
+import com.app.brandmania.Common.MySingleton;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -83,25 +84,6 @@ public class PackageActivity extends BaseActivity {
     }
 
     private void GetPackage() {
-//
-//        binding.viewPagerImageSlider.setAdapter(new SliderAdapter(sliderItems, act, selectedBrand));
-//        binding.viewPagerImageSlider.setClipToPadding(false);
-//        binding.viewPagerImageSlider.setClipChildren(false);
-//        binding.viewPagerImageSlider.setOffscreenPageLimit(2);
-//        binding.viewPagerImageSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-//
-//        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-//        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-//        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-//            @Override
-//            public void transformPage(@NonNull View page, float position) {
-//                float r = 1 - Math.abs(position);
-//                page.setScaleY(0.85f + r * 0.15f);
-//            }
-//        });
-//        binding.viewPagerImageSlider.setPageTransformer(compositePageTransformer);
-//
-//
         binding.viewPagerImageSlider.setVisibility(View.GONE);
         binding.recyclerList.setVisibility(View.VISIBLE);
 
@@ -169,9 +151,8 @@ public class PackageActivity extends BaseActivity {
             }
 
         };
+        MySingleton.getInstance(act).addToRequestQueue(stringRequest);
 
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(stringRequest);
     }
 
     @Override

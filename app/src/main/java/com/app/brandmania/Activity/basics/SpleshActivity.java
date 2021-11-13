@@ -2,7 +2,6 @@ package com.app.brandmania.Activity.basics;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,6 +24,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.brand.AddBranddActivity;
+import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -33,19 +34,15 @@ import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityMainBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +59,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-
         binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -75,21 +71,22 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         animatorSet1.setDuration(3000);
         getInvitation();
 
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-              //  Log.e("UserToken", gson.toJson(preafManager.getUserToken()));
-                    if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
-                        LoginFlow();
-                    } else {
-                        Intent intent = new Intent(act, LoginActivity.class);
-                        intent.putExtra("referrerCode", referrerCode);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                        finish();
-                    }
+                //  Log.e("UserToken", gson.toJson(preafManager.getUserToken()));
+                if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
+                    LoginFlow();
+                } else {
+                    Intent intent = new Intent(act, LoginActivity.class);
+                    intent.putExtra("referrerCode", referrerCode);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    finish();
+                }
 //                 throw new RuntimeException("Test Crash");
 
 
@@ -136,7 +133,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
     private void LoginFlow() {
         Utility.Log("API : ", APIs.IS_COMPLETE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.IS_COMPLETE, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.IS_COMPLETE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Utility.Log("IS_COMPLETE : ", response);
@@ -156,10 +153,49 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                             preafManager.setIs_Registration(true);
                             preafManager.setIS_Brand(true);
 
-                            Intent i = new Intent(act, HomeActivity.class);
-                            startActivity(i);
-                            overridePendingTransition(R.anim.right_enter, R.anim.left_out);
-                            finish();
+                            /*    "error_msg": [
+            {
+                "application_version": "1.2.0,1.2.1",
+                "message": "<p>Test Messagge new</p>"
+            },
+            {
+                "application_version": "appl verison",
+                "message": "<p><b>ffrfefr</b></p>"
+            }
+        ]*/
+                            if (jsonObject1.has("error_msg")) {
+                                boolean appError = false;
+                                String msg="";
+                                JSONArray versionDataArray = jsonObject1.getJSONArray("error_msg");
+                                if (versionDataArray.length() != 0) {
+                                    for (int i = 0; i < versionDataArray.length(); i++) {
+                                        int apiVERSION = Integer.parseInt(versionDataArray.getJSONObject(i).getString("application_version").replace(".", ""));
+                                        int currentVERSION = Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".", ""));
+
+                                        if (apiVERSION == currentVERSION) {
+                                            appError=true;
+                                            msg = versionDataArray.getJSONObject(i).getString("message");
+                                            break;
+                                        }
+                                    }
+                                }
+                                Intent i;
+                                if (appError){
+                                    i = new Intent(act, LoadingHomeActivity.class);
+                                    i.putExtra("msg",msg);
+                                }else{
+                                    i = new Intent(act, HomeActivity.class);
+                                }
+                                startActivity(i);
+                                overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+                                finish();
+
+                            } else {
+                                Intent i = new Intent(act, HomeActivity.class);
+                                startActivity(i);
+                                overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+                                finish();
+                            }
                         }
                     } else {
                         Utility.showAlert(act, ResponseHandler.getString(jsonObject, "message"));
@@ -197,6 +233,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                params.put("deviceInfo", HELPER.deviceINFO());
                 Log.e("DateNdClass", params.toString());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -205,9 +242,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         };
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                2,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 

@@ -2,7 +2,6 @@ package com.app.brandmania.Activity.basics;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -37,13 +36,16 @@ import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Fragment.bottom.CountrySelectionFragment;
+import com.app.brandmania.Interface.ItemSelectionInterface;
 import com.app.brandmania.Model.BrandListItem;
+import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ActivityRegistrationBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.ActivityRegistrationBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +56,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
+public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, ItemSelectionInterface {
     Activity act;
     private ActivityRegistrationBinding binding;
     private boolean isLoading = false;
@@ -65,6 +67,19 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
     AlertDialog.Builder alertDialogBuilder;
     private ImageView menuOtpion;
     String referrerCode = "";
+
+    public static int COUNTRY = 1;
+    public static int STATE = 2;
+    public static int CITY = 3;
+    private String BrandTitle;
+    private String cityTitle = "Choose City";
+    private String countryTitle = "Choose Country";
+    private String stateTtitle = "Choose State";
+
+    private ArrayList<CommonListModel> countryList = new ArrayList<>();
+    private ArrayList<CommonListModel> stateList = new ArrayList<>();
+    private ArrayList<CommonListModel> cityList = new ArrayList<>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,12 +93,12 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         binding.emailId.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);
 
         referrerCode = preafManager.getSpleshReferrer();
-        Log.e("refferrer", "s" + referrerCode);
 
         binding.firstName.setNextFocusDownId(R.id.lastName);
         binding.lastName.setNextFocusDownId(R.id.emailId);
         binding.emailId.setNextFocusDownId(R.id.referrer);
         binding.referrer.setNextFocusDownId(R.id.submitBtn);
+        getCountryStateCity(CALL_COUNTRY);
         binding.menuOtpion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +141,40 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         CodeReUse.RemoveError(binding.lastName, binding.lastNameTextLayout);
         CodeReUse.RemoveError(binding.emailId, binding.emailIdTextLayout);
 
+        CodeReUse.RemoveError(binding.countryEdt, binding.countryLayout);
+        CodeReUse.RemoveError(binding.stateEdt, binding.stateLayout);
+        CodeReUse.RemoveError(binding.cityEdt, binding.cityLayout);
 
+
+        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (countryList != null)
+                    chooseFragment(COUNTRY, countryTitle, countryList, binding.countryEdt.getText().toString());
+            }
+        });
+        binding.stateEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.countryEdt.getText().length() != 0) {
+                    if (stateList != null)
+                        chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
+                } else {
+
+                }
+            }
+        });
+        binding.cityEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.stateEdt.getText().length() != 0) {
+                    if (cityList != null)
+                        chooseFragment(CITY, cityTitle, cityList, binding.cityEdt.getText().toString());
+                } else {
+
+                }
+            }
+        });
 
         String CreatAccount = "Create<br>Account</font></br>";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -228,6 +276,17 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
 
+
+        if (selectedCountry != null) {
+            request.addMultipartParameter("country", selectedCountry.getId());
+        }
+        if (selectedState != null) {
+            request.addMultipartParameter("state", selectedState.getId());
+        }
+        if (selectedCity != null) {
+            request.addMultipartParameter("city", selectedCity.getId());
+        }
+
         preafManager.setEMAIL_Id(binding.emailId.getText().toString());
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
@@ -315,6 +374,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                     for (int i = 0; i < jsonArray1.length(); i++) {
                         JSONObject jsonObject = jsonArray1.getJSONObject(i);
                         BrandListItem brandListItemm = new BrandListItem();
+
                         brandListItemm.setId(ResponseHandler.getString(jsonObject, "id"));
                         brandListItemm.setCategoryId(ResponseHandler.getString(jsonObject, "br_category_id"));
                         brandListItemm.setCategoryName(ResponseHandler.getString(jsonObject, "br_category_name"));
@@ -323,6 +383,53 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                         brandListItemm.setWebsite(ResponseHandler.getString(jsonObject, "br_website"));
                         brandListItemm.setEmail(ResponseHandler.getString(jsonObject, "br_email"));
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));
+                        brandListItemm.setOriginalAddress(ResponseHandler.getString(jsonObject, "br_address"));
+
+                        if (jsonObject.has("pincode")) {
+                            brandListItemm.setPincode(ResponseHandler.getString(jsonObject, "pincode"));
+                        }
+                        if (jsonObject.has("state")) {
+                            brandListItemm.setState(ResponseHandler.getString(jsonObject, "state"));
+                        }
+                        if (jsonObject.has("country")) {
+                            brandListItemm.setCountry(ResponseHandler.getString(jsonObject, "country"));
+                        }
+                        if (jsonObject.has("city")) {
+                            brandListItemm.setCity(ResponseHandler.getString(jsonObject, "city"));
+                        }
+
+                        String address = brandListItemm.getOriginalAddress();
+                        if (brandListItemm.getCity() != null && !brandListItemm.getCity().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + brandListItemm.getCity();
+                        }
+
+                        if (brandListItemm.getState() != null && !brandListItemm.getState().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + brandListItemm.getState();
+                        }
+
+
+                        if (brandListItemm.getCountry() != null && !brandListItemm.getCountry().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + ", ";
+
+                            address = address + brandListItemm.getCountry();
+                        }
+
+                        if (brandListItemm.getPincode() != null && !brandListItemm.getPincode().isEmpty()) {
+                            if (!address.isEmpty())
+                                address = address + " - ";
+
+                            address = address + brandListItemm.getPincode();
+                        }
+                        //brandListItemm.setAddress(getString(dataJsonObject, "br_address"));
+                        brandListItemm.setAddress(address);
+
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
                         brandListItemm.setPackage_id(ResponseHandler.getString(jsonObject, "package_id"));
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
@@ -363,6 +470,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                     if (brandListItems.size() != 0) {
                         preafManager.setActiveBrand(brandListItems.get(0));
                     }
+
                     Intent i = new Intent(act, HomeActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);
@@ -420,6 +528,158 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
 
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+
+    int CALL_COUNTRY = 0;
+    int CALL_STATE = 1;
+    int CALL_CITY = 2;
+
+    private void getCountryStateCity(int flag) {
+        if (isLoading)
+            return;
+        isLoading = true;
+        String apiUrl = "";
+
+        if (flag == CALL_COUNTRY) {
+            apiUrl = APIs.GET_COUNTRY;
+            countryList.clear();
+        }
+
+        if (flag == CALL_STATE) {
+            apiUrl = APIs.GET_STATE + "/" + selectedCountry.getId();
+            stateList.clear();
+        }
+
+        if (flag == CALL_CITY) {
+            apiUrl = APIs.GET_CITY + "/" + selectedState.getId();
+            cityList.clear();
+        }
+        Utility.Log("API : ", apiUrl);
+        StringRequest request = new StringRequest(Request.Method.GET, apiUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("GET_COUNTRY : ", response);
+                isLoading = false;
+                try {
+                    if (ResponseHandler.isSuccess(response, null)) {
+                        JSONObject responseJson = ResponseHandler.createJsonObject(response);
+                        JSONArray jsonArray = ResponseHandler.getJSONArray(responseJson, "data");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject itemObj = jsonArray.getJSONObject(i);
+                            CommonListModel listModel = new CommonListModel();
+                            listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
+                            listModel.setId(ResponseHandler.getString(itemObj, "id"));
+                            listModel.setName(ResponseHandler.getString(itemObj, "name"));
+                            if (flag == CALL_COUNTRY) {
+                                countryList.add(listModel);
+                            }
+
+                            if (flag == CALL_STATE) {
+                                stateList.add(listModel);
+                            }
+
+                            if (flag == CALL_CITY) {
+                                cityList.add(listModel);
+                            }
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                isLoading = false;
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", "Bearer" + prefManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+
+
+                Utility.Log("Params : ", map.toString());
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+
+    }
+
+    CountrySelectionFragment countrySelectionFragment;
+
+    public void chooseFragment(int callingFlag, String title, ArrayList<CommonListModel> datalist, String alreadySelectedData) {
+        countrySelectionFragment = new CountrySelectionFragment(title, datalist, callingFlag, alreadySelectedData);
+
+        if (countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.dismiss();
+        }
+        if (countrySelectionFragment.isAdded()) {
+            countrySelectionFragment.dismiss();
+        }
+
+        if (!countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.show(getSupportFragmentManager(), countrySelectionFragment.getTag());
+        }
+    }
+
+    private CommonListModel selectedCountry;
+    private CommonListModel selectedState;
+    private CommonListModel selectedCity;
+
+    @Override
+    public void onItemSelection(int calledFlag, int position, CommonListModel listModel) {
+
+        if (countrySelectionFragment != null && countrySelectionFragment.isVisible()) {
+            countrySelectionFragment.dismiss();
+        }
+
+
+        if (calledFlag == COUNTRY) {
+            binding.countryEdt.setText(listModel.getName());
+            selectedCountry = listModel;
+            binding.stateLayout.setVisibility(View.VISIBLE);
+            stateList.clear();
+            binding.stateEdt.setText("");
+            binding.cityEdt.setText("");
+            selectedCity = null;
+            selectedState = null;
+            getCountryStateCity(CALL_STATE);
+        }
+
+        if (calledFlag == STATE) {
+            binding.stateEdt.setText(listModel.getName());
+            selectedState = listModel;
+            binding.cityLayout.setVisibility(View.VISIBLE);
+
+            binding.cityEdt.setText("");
+            selectedCity = null;
+
+            cityList.clear();
+            getCountryStateCity(CALL_CITY);
+        }
+
+        if (calledFlag == CITY) {
+            binding.cityEdt.setText(listModel.getName());
+            selectedCity = listModel;
+        }
     }
 
 

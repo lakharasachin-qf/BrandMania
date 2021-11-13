@@ -1,4 +1,13 @@
 
 Changes :
- 1. Hide referral input from registration activity.
- 2.
+ 1.  Hide referral input from registration activity.
+ 2. Package details pop up change
+ 3. City, state, country dropdown
+ 4. Add edit city country state
+ 5. Search in dropdowns
+ 6. Added expirey message into fragment
+ 7. Notification issue change
+ 8. video quality improvement
+
+
+     double c_width = MediaQuery.of(context).size.width*0.8;

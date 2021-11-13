@@ -66,7 +66,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
-import com.google.gson.Gson;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +78,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     VersionListIItem versionListIItem;
     PreafManager preafManager;
     private AppUpdateManager appUpdateManager;
-    private Task<AppUpdateInfo> appUpdateInfoTask;
     private Activity act;
     private boolean iscutomEnable = false;
 
@@ -148,13 +147,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private boolean loadFragment(Fragment fragment) {
-
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
             return true;
         }
         return false;
-
     }
 
 
@@ -183,9 +180,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
         }
-//        if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-//            permissionsLayoutBinding.checked3.setVisibility(View.VISIBLE);
-//        }
+ 
 
         permissionsLayoutBinding.permissionLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -326,7 +321,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private void checkForUpdates() {
 
         appUpdateManager = AppUpdateManagerFactory.create(act);
-        appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
 
         //Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {

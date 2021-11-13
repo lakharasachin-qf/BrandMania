@@ -1,223 +1,431 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/colorNavText"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--    -->
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    android:orientation="vertical"-->
+    <!--    android:background="@color/colorNavText"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent">-->
+    <!--    -->
+    <!--    <RelativeLayout-->
+
+    <!--       android:paddingStart="@dimen/_15sdp"-->
+    <!--        android:paddingEnd="@dimen/_15sdp"-->
+    <!--        android:paddingBottom="@dimen/_30sdp"-->
+    <!--        android:paddingTop="@dimen/_10sdp"-->
+    <!--        android:background="@color/colorPrimary"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+    <!--        <ImageView-->
+    <!--            android:backgroundTint="@color/colorNavText"-->
+    <!--            android:id="@+id/CloseImg"-->
+    <!--            android:layout_width="@dimen/_20sdp"-->
+    <!--            android:layout_height="@dimen/_20sdp"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_gravity="end"-->
+    <!--            android:padding="@dimen/_4sdp"-->
+    <!--            android:src="@drawable/ic_outline_close_24"-->
+    <!--            />-->
+    <!--        <RelativeLayout-->
+
+    <!--            android:layout_marginTop="@dimen/_10sdp"-->
+    <!--            android:layout_marginLeft="@dimen/_10sdp"-->
+    <!--            android:layout_marginRight="@dimen/_20sdp"-->
+    <!--            android:id="@+id/packageNameRelative"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content">-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/packageName"-->
+    <!--                android:textSize="@dimen/_15sdp"-->
+    <!--                android:fontFamily="@font/montserrat"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="vhvhh"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/priceContent"-->
+    <!--                android:textSize="@dimen/_15sdp"-->
+    <!--                android:fontFamily="@font/montserrat"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:layout_toEndOf="@+id/packageName"-->
+    <!--                android:text=""-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+
+
+    <!--        </RelativeLayout>-->
+    <!--        <RelativeLayout-->
+    <!--           android:layout_below="@+id/packageNameRelative"-->
+    <!--            android:layout_marginTop="@dimen/_7sdp"-->
+    <!--            android:layout_marginLeft="@dimen/_10sdp"-->
+    <!--            android:layout_marginRight="@dimen/_10sdp"-->
+    <!--            android:id="@+id/totalImageRelative"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content">-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/totalImageTitle"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_semibold"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="Total Image:"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+    <!--            <TextView-->
+    <!--                android:layout_toEndOf="@+id/totalImageTitle"-->
+    <!--                android:id="@+id/totalImage"-->
+    <!--                android:layout_marginLeft="@dimen/_3sdp"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_medium"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="50"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+
+    <!--        </RelativeLayout>-->
+
+
+    <!--        <RelativeLayout-->
+
+    <!--            android:layout_below="@+id/totalImageRelative"-->
+    <!--            android:layout_marginTop="@dimen/_7sdp"-->
+    <!--            android:layout_marginLeft="@dimen/_10sdp"-->
+    <!--            android:layout_marginRight="@dimen/_10sdp"-->
+    <!--            android:id="@+id/usedImageRelative"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content">-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/usedImageTitle"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_semibold"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="Used Image:"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+    <!--            <TextView-->
+    <!--                android:layout_toEndOf="@+id/usedImageTitle"-->
+    <!--                android:id="@+id/usedImage"-->
+    <!--                android:layout_marginLeft="@dimen/_3sdp"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_medium"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="50"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+
+    <!--        </RelativeLayout>-->
+    <!--        <RelativeLayout-->
+
+    <!--            android:layout_below="@+id/usedImageRelative"-->
+    <!--            android:layout_marginTop="@dimen/_7sdp"-->
+    <!--            android:layout_marginLeft="@dimen/_10sdp"-->
+
+    <!--            android:layout_marginRight="@dimen/_10sdp"-->
+    <!--            android:id="@+id/ramainingImageRelative"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content">-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/remainingImageTitle"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_semibold"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="Remaining Image:"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+    <!--            <TextView-->
+    <!--                android:layout_toEndOf="@+id/remainingImageTitle"-->
+    <!--                android:id="@+id/remainingImage"-->
+    <!--                android:layout_marginLeft="@dimen/_3sdp"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_medium"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="50"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+
+    <!--        </RelativeLayout>-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:layout_below="@+id/ramainingImageRelative"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginTop="@dimen/_7sdp"-->
+    <!--            android:layout_marginLeft="@dimen/_10sdp"-->
+    <!--            android:layout_marginRight="@dimen/_10sdp"-->
+    <!--            android:id="@+id/subscribeDateRelative"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content">-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/subscribeDateTitle"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_semibold"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="Subscribed On"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+    <!--            <TextView-->
+    <!--                android:layout_below="@+id/subscribeDateTitle"-->
+    <!--                android:id="@+id/SubscribedDateName"-->
+    <!--                android:layout_marginLeft="@dimen/_3sdp"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_medium"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="12/05/2020"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+
+    <!--        </RelativeLayout>-->
+
+
+    <!--        <RelativeLayout-->
+    <!--            android:layout_below="@+id/ramainingImageRelative"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_marginTop="@dimen/_7sdp"-->
+    <!--            android:layout_marginLeft="@dimen/_10sdp"-->
+    <!--            android:layout_marginRight="@dimen/_10sdp"-->
+    <!--            android:id="@+id/expieryDateRelative"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content">-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/expieryDateTitle"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_semibold"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="Expired On"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+    <!--            <TextView-->
+    <!--                android:layout_below="@+id/expieryDateTitle"-->
+    <!--                android:id="@+id/expieryDateName"-->
+    <!--                android:layout_marginLeft="@dimen/_3sdp"-->
+    <!--                android:textSize="@dimen/_12sdp"-->
+    <!--                android:fontFamily="@font/montserrat_medium"-->
+    <!--                android:textColor="@color/colorNavText"-->
+    <!--                android:text="12/05/2020"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            </TextView>-->
+
+    <!--        </RelativeLayout>-->
+
+    <!--    </RelativeLayout>-->
+
+
+    <!--</LinearLayout>-->
     <RelativeLayout
-
-       android:paddingStart="@dimen/_15sdp"
-        android:paddingEnd="@dimen/_15sdp"
         android:paddingBottom="@dimen/_30sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:backgroundTint="@color/colorNavText"
-            android:id="@+id/CloseImg"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
-            android:padding="@dimen/_4sdp"
-            android:src="@drawable/ic_outline_close_24"
-            />
-        <RelativeLayout
+        android:animateLayoutChanges="true"
+        android:layout_height="match_parent">
 
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_20sdp"
-            android:id="@+id/packageNameRelative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itemLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="10pt"
+
+            android:background="@drawable/view_brand_shape_package_outline_active"
+            android:elevation="3dp"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingTop="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/planLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Your Plan"
+                android:textSize="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/priceLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:background="@drawable/shape_price_background"
+                android:orientation="vertical"
+                android:padding="@dimen/_7sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="\u20B9999"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="Per Year"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_7sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+
             <TextView
                 android:id="@+id/packageName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_extrabold"
+                android:text="ENTERPRISE"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_15sdp"
-                android:fontFamily="@font/montserrat"
-                android:textColor="@color/colorNavText"
-                android:text="vhvhh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-            <TextView
-                android:id="@+id/priceContent"
-                android:textSize="@dimen/_15sdp"
-                android:fontFamily="@font/montserrat"
-                android:textColor="@color/colorNavText"
-                android:layout_toEndOf="@+id/packageName"
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/planLabel" />
 
-
-        </RelativeLayout>
-        <RelativeLayout
-           android:layout_below="@+id/packageNameRelative"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/totalImageRelative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/totalImageTitle"
-                android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/montserrat_semibold"
-                android:textColor="@color/colorNavText"
-                android:text="Total Image:"
+                android:id="@+id/secondaryTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-            <TextView
-                android:layout_toEndOf="@+id/totalImageTitle"
-                android:id="@+id/totalImage"
-                android:layout_marginLeft="@dimen/_3sdp"
-                android:textSize="@dimen/_12sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/new_label"
+                android:backgroundTint="@color/colorthird"
                 android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/colorNavText"
-                android:text="50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="Subscribed"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/packageName" />
 
-        </RelativeLayout>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:background="#EAEAEA"
+                app:layout_constraintTop_toBottomOf="@id/secondaryTitle" />
 
 
-
-        <RelativeLayout
-
-            android:layout_below="@+id/totalImageRelative"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/usedImageRelative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/usedImageTitle"
-                android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/montserrat_semibold"
-                android:textColor="@color/colorNavText"
-                android:text="Used Image:"
+                android:id="@+id/totalImages"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-            <TextView
-                android:layout_toEndOf="@+id/usedImageTitle"
-                android:id="@+id/usedImage"
-                android:layout_marginLeft="@dimen/_3sdp"
-                android:textSize="@dimen/_12sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_7sdp"
                 android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/colorNavText"
-                android:text="50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+                android:text="Download Limit: 50"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9sdp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
 
-        </RelativeLayout>
-        <RelativeLayout
-
-            android:layout_below="@+id/usedImageRelative"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/ramainingImageRelative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/remainingImageTitle"
-                android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/montserrat_semibold"
-                android:textColor="@color/colorNavText"
-                android:text="Remaining Image:"
+                android:id="@+id/usedImages"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-            <TextView
-                android:layout_toEndOf="@+id/remainingImageTitle"
-                android:id="@+id/remainingImage"
-                android:layout_marginLeft="@dimen/_3sdp"
-                android:textSize="@dimen/_12sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/colorNavText"
-                android:text="50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+                android:text="Used Images: 20"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9sdp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalImages" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_below="@+id/ramainingImageRelative"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/subscribeDateRelative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/subscribeDateTitle"
-                android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/montserrat_semibold"
-                android:textColor="@color/colorNavText"
-                android:text="Subscribed On"
+                android:id="@+id/expiryDateLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-            <TextView
-                android:layout_below="@+id/subscribeDateTitle"
-                android:id="@+id/SubscribedDateName"
-                android:layout_marginLeft="@dimen/_3sdp"
-                android:textSize="@dimen/_12sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_7sdp"
                 android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/colorNavText"
-                android:text="12/05/2020"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_below="@+id/ramainingImageRelative"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/expieryDateRelative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/expieryDateTitle"
-                android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/montserrat_semibold"
-                android:textColor="@color/colorNavText"
                 android:text="Expired On"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9sdp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
             <TextView
-                android:layout_below="@+id/expieryDateTitle"
-                android:id="@+id/expieryDateName"
-                android:layout_marginLeft="@dimen/_3sdp"
-                android:textSize="@dimen/_12sdp"
-                android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/colorNavText"
-                android:text="12/05/2020"
+                android:id="@+id/expiryDate"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="10-10-2021"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/expiryDateLabel" />
 
-        </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/serviceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_17sdp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/view">
 
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="@dimen/_7sdp"
+                android:id="@+id/alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Your package is expired"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_7sdp"
+                android:visibility="visible"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/expiryDate" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/close_background"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/ic_outline_close_24" />
     </RelativeLayout>
-
-
-</LinearLayout>
 </layout>

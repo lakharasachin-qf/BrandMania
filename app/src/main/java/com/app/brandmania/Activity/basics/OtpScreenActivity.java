@@ -28,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -189,6 +190,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                                 brandListItemm.setWebsite(ResponseHandler.getString(jsonObject,"br_website"));
                                 brandListItemm.setEmail(ResponseHandler.getString(jsonObject,"br_email"));
                                 brandListItemm.setAddress(ResponseHandler.getString(jsonObject,"br_address"));
+                                brandListItemm.setOriginalAddress(ResponseHandler.getString(jsonObject,"br_address"));
                                 brandListItemm.setPhonenumber(ResponseHandler.getString(jsonObject,"br_phone"));
                                 brandListItemm.setLogo(ResponseHandler.getString(jsonObject,"br_logo"));
                                 brandListItems.add(brandListItemm);
@@ -312,13 +314,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 isLoading = false;
                 Utility.dismissProgress();
                 volleyError.printStackTrace();
-//                try {
-//                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
-//                    Log.e("REsepinERr ", responseBody);
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-
             }
         }) {
 
@@ -334,6 +329,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("phone",NumberShow);
+                params.put("deviceInfo", HELPER.deviceINFO());
                 return params;
             }
         };
