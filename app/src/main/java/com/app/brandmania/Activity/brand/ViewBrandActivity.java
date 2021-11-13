@@ -234,7 +234,6 @@ public class ViewBrandActivity extends BaseActivity {
                     sliderItem.setBrandId(multiListItems.get(0).getId());
 
                     Gson gson=new Gson();
-                 //   Log.e("DATA",gson.toJson(sliderItem));
 
 
 

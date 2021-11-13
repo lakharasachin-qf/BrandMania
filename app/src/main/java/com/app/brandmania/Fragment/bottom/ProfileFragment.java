@@ -314,7 +314,6 @@ public class ProfileFragment extends BaseFragment {
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -323,7 +322,6 @@ public class ProfileFragment extends BaseFragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -366,8 +364,6 @@ public class ProfileFragment extends BaseFragment {
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
-                //  String facebookUrl = getFacebookPageURL(act);
-                //  Log.e("facebook",facebookUrl);
                 facebookIntent.setData(Uri.parse(FACEBOOK_URL));
                 startActivity(facebookIntent);
             }

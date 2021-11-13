@@ -133,7 +133,6 @@ public class SubscriptionActivity extends BaseActivity {
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
                 return params;
             }
 
@@ -142,7 +141,6 @@ public class SubscriptionActivity extends BaseActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;

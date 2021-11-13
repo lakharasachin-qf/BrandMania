@@ -143,9 +143,6 @@ public class CategoryFrameTab extends FrameTab {
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -159,7 +156,6 @@ public class CategoryFrameTab extends FrameTab {
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -197,14 +193,12 @@ public class CategoryFrameTab extends FrameTab {
                             int lastPos = menuModels.size();
                             menuModels.addAll(menuModels.size(), apiObject.getCatogaryImagesList());
                             menuAddaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
-                            Log.e("GGG",new Gson().toJson(menuModels));
                         } else {
                             menuModels = new ArrayList<>();
                             menuModels.addAll(0, apiObject.getCatogaryImagesList());
                         }
                     }
                     if (apiObject.getLinks() != null) {
-                        Log.e("APIIII", new Gson().toJson(apiObject.getLinks()));
                         if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
@@ -229,9 +223,6 @@ public class CategoryFrameTab extends FrameTab {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -245,7 +236,6 @@ public class CategoryFrameTab extends FrameTab {
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 

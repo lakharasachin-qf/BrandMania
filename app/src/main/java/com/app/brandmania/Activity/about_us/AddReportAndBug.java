@@ -173,7 +173,6 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
             img1File = CodeReUse.createFileFromBitmap(act, "reportBugs.jpeg", img1);
         }
 
-        Log.e("API", APIs.REPORT_BUG);
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.REPORT_BUG)
                 .addHeaders("Accept", "application/x-www-form-urlencoded")
                 .addHeaders("Content-Type", "application/x-www-form-urlencoded")
@@ -200,7 +199,6 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
                     public void onResponse(JSONObject response) {
                         isLoading = false;
                         Utility.dismissProgress();
-                        Log.e("Response", response.toString());
                         if (ResponseHandler.isSuccess(null, response)) {
                        //   Toast.makeText(act, "T",Toast.LENGTH_LONG).show();
 

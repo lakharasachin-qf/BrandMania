@@ -148,9 +148,6 @@ public class FavoriteDetailActivity extends BaseActivity implements FrameCateIte
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -164,7 +161,6 @@ public class FavoriteDetailActivity extends BaseActivity implements FrameCateIte
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 

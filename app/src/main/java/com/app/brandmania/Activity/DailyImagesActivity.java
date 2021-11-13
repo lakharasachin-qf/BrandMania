@@ -41,14 +41,15 @@ public class DailyImagesActivity extends BaseActivity {
     private ImageList selectedCategory;
     private ImageList apiObject;
     ArrayList<ImageList> list = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        act=this;
-        binding= DataBindingUtil.setContentView(act,R.layout.activity_daily_images);
+        act = this;
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_daily_images);
 
 
-        selectedCategory= new Gson().fromJson(getIntent().getStringExtra("selectedimage"),ImageList.class);
+        selectedCategory = new Gson().fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
 
     }
 
@@ -64,6 +65,7 @@ public class DailyImagesActivity extends BaseActivity {
         binding.imageList.setAdapter(menuAddaptor);
         binding.imageList.setVisibility(View.VISIBLE);
     }
+
     private void getImageCategory() {
 
         Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
@@ -75,12 +77,12 @@ public class DailyImagesActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                   // apiObject = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
-                    if (apiObject.getCatogaryImagesList() != null){
-                        list =apiObject.getCatogaryImagesList();
+                    // apiObject = ResponseHandler.HandleGetImageByIdCategory(jsonObject);
+                    if (apiObject.getCatogaryImagesList() != null) {
+                        list = apiObject.getCatogaryImagesList();
                         if (list != null && list.size() != 0) {
                             setAdapter();
-                        }else {
+                        } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
@@ -90,20 +92,19 @@ public class DailyImagesActivity extends BaseActivity {
                             if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                                 binding.shimmerForPagination.startShimmer();
                                 binding.shimmerForPagination.setVisibility(View.VISIBLE);
-                               // getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
-                            }else {
+                                // getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                            } else {
                                 binding.shimmerForPagination.stopShimmer();
                                 binding.shimmerForPagination.setVisibility(View.GONE);
                             }
-                        }else {
+                        } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
-                    }else {
+                    } else {
                         binding.shimmerForPagination.stopShimmer();
                         binding.shimmerForPagination.setVisibility(View.GONE);
                     }
-
 
 
                 } catch (JSONException e) {
@@ -117,9 +118,7 @@ public class DailyImagesActivity extends BaseActivity {
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
+
 
                     }
                 }
@@ -133,7 +132,6 @@ public class DailyImagesActivity extends BaseActivity {
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 //params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 

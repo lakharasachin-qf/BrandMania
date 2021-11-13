@@ -225,7 +225,6 @@ public class ResponseHandler {
                             frameItems.add(frameItem);
                         }
                         Gson gson = new Gson();
-                        Log.e("Viewww", gson.toJson(frameItems));
                         examModel.setFrame(frameItems);
                         strings.add(examModel);
                     } catch (JSONException e) {
@@ -284,7 +283,6 @@ public class ResponseHandler {
             if (isSuccess(null, jsonObject)) {
                 JSONObject data = getJSONObject(jsonObject, "data");
                 Iterator<String> keys = data.keys();
-                Log.e("From", "version-5");
 
                 while (keys.hasNext()) {
                     String key = keys.next();
@@ -364,7 +362,6 @@ public class ResponseHandler {
             if (isSuccess(null, jsonObject)) {
                 JSONObject data = getJSONObject(jsonObject, "data");
                 Iterator<String> keys = data.keys();
-                Log.e("From", "version-5");
 
                 while (keys.hasNext()) {
                     String key = keys.next();
@@ -876,7 +873,6 @@ public class ResponseHandler {
                             frameItems.add(frameItem);
                         }
                         Gson gson = new Gson();
-                        Log.e("Viewww", gson.toJson(frameItems));
                         examModel.setFrame(frameItems);
                         strings.add(examModel);
                     } catch (JSONException e) {

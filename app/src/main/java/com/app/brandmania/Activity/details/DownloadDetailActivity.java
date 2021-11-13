@@ -113,12 +113,10 @@ public class DownloadDetailActivity extends BaseActivity implements FrameCateIte
         Glide.with(act)
                 .load(selectedModelFromView.getFrame())
                 .into(binding.recoFrame);
-        Log.e("imageeeee",selectedModelFromView.getFrame());
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requestAgain();
-           //     Log.e("CSelectedImg", gson.toJson(selectedModelFromView.getFrame()));
                 new DownloadDetailActivity.DownloadImageTaskFrame(selectedModelFromView.getFrame()).execute(selectedModelFromView.getFrame());
 
             }
@@ -146,11 +144,9 @@ public class DownloadDetailActivity extends BaseActivity implements FrameCateIte
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
             try {
-                Log.e("ErrorImage", url);
                 InputStream in = new java.net.URL(url).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
-                Log.e("ErrorImage", e.getMessage());
                 e.printStackTrace();
             }
             return new BitmapDrawable(getResources(), mIcon11);
@@ -179,11 +175,9 @@ public class DownloadDetailActivity extends BaseActivity implements FrameCateIte
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
             try {
-                Log.e("ErrorImage", url);
                 InputStream in = new java.net.URL(url).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
-                Log.e("ErrorImage", e.getMessage());
                 e.printStackTrace();
             }
             return new BitmapDrawable(getResources(), mIcon11);
@@ -304,9 +298,6 @@ public class DownloadDetailActivity extends BaseActivity implements FrameCateIte
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -320,7 +311,6 @@ public class DownloadDetailActivity extends BaseActivity implements FrameCateIte
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 

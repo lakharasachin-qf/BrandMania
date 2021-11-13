@@ -125,7 +125,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
             switch (model.getLayoutType()) {
                 case LAYOUT_BRANDLIST:
                     ((BrandHolder) holder).binding.businessName.setText(model.getName());
-
                     ((BrandHolder) holder).binding.firsttitle.setText(model.getWebsite());
                     ((BrandHolder) holder).binding.addressText.setText(model.getAddress());
                     ((BrandHolder) holder).binding.brandService.setText(model.getBrandService());
@@ -287,7 +286,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
                     break;
                 case LAYOUT_NOTIFICATIONlIST:
                     ((NotificationHolder) holder).binding.messgae.setText(model.getMessage());
-                    //         Log.e("CurrentBrand",model.getId());
                     ((NotificationHolder) holder).binding.date.setText(model.getDate());
                     ((NotificationHolder) holder).binding.time.setText(model.getTime());
             }
@@ -350,10 +348,8 @@ public class BrandAdapter extends RecyclerView.Adapter {
             @Override
             public void onResponse(String response) {
                 Log.w("hello", response);
-                Log.e("BrandBrandBrandId", preafManager.getActiveBrand().getId());
                 try {
                     JSONObject object = new JSONObject(response);
-                    Log.e("BrandBrandBrandId", preafManager.getActiveBrand().getId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -370,7 +366,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
                 params.put("Accept", "application/json");
                 // params.put("Content-Type", "application/json");
                 params.put("Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 

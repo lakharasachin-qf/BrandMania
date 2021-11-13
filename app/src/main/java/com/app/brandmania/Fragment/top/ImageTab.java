@@ -105,7 +105,6 @@ public class ImageTab extends BaseFragment {
             listOfAllImages.add(absolutePathOfImage);
         }
 
-        Log.e("sachin-", new Gson().toJson(listOfAllImages));
 
         for (int i = 0; i < listOfAllImages.size(); i++) {
             File file = new File(listOfAllImages.get(i));
@@ -114,7 +113,6 @@ public class ImageTab extends BaseFragment {
             s.setUri(Uri.fromFile(file));
             spacecrafts.add(s);
         }
-        Log.e("GALLRY",new Gson().toJson(SearchStorage()));
         return spacecrafts;
     }
     @Override

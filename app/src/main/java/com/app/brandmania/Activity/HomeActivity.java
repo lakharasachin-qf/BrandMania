@@ -180,7 +180,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
         }
- 
+
 
         permissionsLayoutBinding.permissionLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,7 +327,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
                     startAppUpdates(appUpdateInfo);
                 }
             }
@@ -410,7 +410,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void getUpdate() {
-         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_UPDATE, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_UPDATE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -452,8 +452,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
                         // create and show
                         // the alert dialog
-                        AlertDialog dialog
-                                = builder.create();
+                        AlertDialog dialog = builder.create();
                         dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
                         dialog.setCancelable(false);
                         dialog.show();
@@ -494,9 +493,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -550,9 +546,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -571,7 +564,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                 return params;
+                return params;
             }
 
         };

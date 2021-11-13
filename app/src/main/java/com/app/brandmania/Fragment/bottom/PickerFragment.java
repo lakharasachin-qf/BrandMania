@@ -395,7 +395,6 @@ public class PickerFragment extends BottomSheetDialogFragment {
                 if (data != null) {
                     Uri filePath = data.getData();
                    // generateImageFromPdf(filePath);
-                  //  Log.e("IDDD", FilePath.getPath(act, filePath).toString());
                 } else {
                     this.dismiss();
                 }

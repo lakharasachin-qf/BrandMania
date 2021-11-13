@@ -115,7 +115,6 @@ public class AppIntroActivity extends BaseActivity implements Player.EventListen
         //if (videoUri.toLowerCase().contains("youtu.be"))
         //  extractYoutubeUrl();
 
-        Log.e("URL", videoUri);
         buildMediaSource(Uri.parse(videoUri));
 
 
@@ -256,7 +255,6 @@ public class AppIntroActivity extends BaseActivity implements Player.EventListen
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         switch (playbackState) {
             case Player.STATE_BUFFERING:
-                Log.e("Buffer", "yes");
                 binding.spinnerVideoDetails.setVisibility(View.VISIBLE);
                 break;
             case Player.STATE_ENDED:

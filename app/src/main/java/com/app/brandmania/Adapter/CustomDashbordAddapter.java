@@ -49,7 +49,6 @@ public class CustomDashbordAddapter extends RecyclerView.Adapter<CustomDashbordA
     public void onBindViewHolder(@NonNull DasboardViewHolder dasboardViewHolder, @SuppressLint("RecyclerView") int position) {
         dasboardViewHolder.title.setText(convertFirstUpper(dashBoardItemList.get(position).getName()));
         dasboardViewHolder.title.setSelected(true);
-        Log.e("LLLLLL", String.valueOf(dashBoardItemList.get(position).getImageLists().size()));
 
         ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(dashBoardItemList.get(position).getImageLists(), activity);
         menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_CATEGORYFRAGEMENT);

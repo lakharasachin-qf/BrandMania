@@ -883,7 +883,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
             binding.editableImageview.setOnTouchListener(null);
             Resources r = getResources();
-            Log.e("last", String.valueOf(d));
             int marginx = Math.round(TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, dpValuex, r.getDisplayMetrics()));
             ;//(int)((dpValuex * width)/WeidthRefDevice);  // margin in pixels
@@ -906,7 +905,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             height = displayMetrics.heightPixels;
             width = displayMetrics.widthPixels;
-            Log.e("last3", String.valueOf(d));
             marginx = (int) ((dpValuex * width) / WeidthRefDevice); // margin in pixels
             marginy = (int) ((dpValuey * height) / HeightRefDevice); // margin in pixels
             layoutParams.leftMargin = marginx;
@@ -963,8 +961,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     //For Image Select Interface
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
-        //   binding.simpleProgressBar.setVisibility(View.GONE);
-        //Log.e("SelectedImage", gson.toJson(selectedObject));
         selectedObject = listModel;
         LoadDataToUI();
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200);
@@ -976,7 +972,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
-        Log.e("last3", String.valueOf(d));
         int marginx = (int) ((dpValuex * width) / WeidthRefDevice); // margin in pixels
         int marginy = (int) ((dpValuey * height) / HeightRefDevice); // margin in pixels
         layoutParams.leftMargin = marginx;
@@ -1200,7 +1195,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("Authorization", "Bearer " + prefManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -1209,7 +1203,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -1298,7 +1291,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
                     int height = displayMetrics.heightPixels;
                     int width = displayMetrics.widthPixels;
-                    Log.e("last2", String.valueOf(d));
                     int marginx = (int) ((dpValuex * width) / WeigthRefDevice); // margin in pixels
                     int marginy = (int) ((dpValuey * height) / HeightRefDevice); // margin in pixel
                     layoutParams.leftMargin = marginx;
@@ -1332,7 +1324,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
                 int height = displayMetrics.heightPixels;
                 int width = displayMetrics.widthPixels;
-                Log.e("last2", String.valueOf(d));
                 int marginx = (int) ((dpValuex * width) / WeigthRefDevice); // margin in pixels
                 int marginy = (int) ((dpValuey * height) / HeightRefDevice); // margin in pixels
                 layoutParams.leftMargin = marginx;
@@ -1619,7 +1610,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         String name = "image" + System.currentTimeMillis() + ".jpg";
         String file_name = file.getAbsolutePath() + "/" + name;
         new_file = new File(file_name);
-        Log.e("new_file", new_file.getAbsolutePath() + "\n" + new_file.getPath());
 
         try {
             fileOutputStream = new FileOutputStream(new_file);
@@ -1700,7 +1690,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             request.addMultipartParameter("footer_id", String.valueOf(selectedFooterModel.getLayoutType()));
             if (img1File != null) {
                 request.addMultipartFile("image", img1File);
-                Log.e("br_logo", String.valueOf(img1File));
             }
         } else {
             request.addMultipartParameter("brand_id", prefManager.getActiveBrand().getId());
@@ -1709,7 +1698,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             request.addMultipartParameter("is_custom", "0");
         }
         request.addMultipartParameter("type", String.valueOf(download));
-   //     Log.e("Request", gson.toJson(request));
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
@@ -1735,7 +1723,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             brandListItem.setNo_of_used_image(String.valueOf(usedCounter));
                             prefManager.setActiveBrand(brandListItem);
                             prefManager = new PreafManager(act);
-                            Log.e("UUUU", prefManager.getActiveBrand().getNo_of_used_image() + "s");
                         }
 
                     }
@@ -1744,13 +1731,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     public void onError(ANError error) {
 
                         Utility.dismissLoadingTran();
-                        if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
-                        } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
-                        }
+
                     }
                 });
     }
@@ -1790,14 +1771,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     public void forCheckFavorite() {
         prefManager = new PreafManager(act);
         AddFavorite = prefManager.getSavedFavorites();
-      //  Log.e("ALLPREF", gson.toJson(AddFavorite));
         if (AddFavorite != null) {
             boolean isImageFound = false;
             for (int i = 0; i < AddFavorite.size(); i++) {
                 if (prefManager.getActiveBrand().getId().equalsIgnoreCase(AddFavorite.get(i).getBrandId())) {
                     if (isUsingCustomFrame) {
                         if (AddFavorite.get(i).isCustom()) {
-                            Log.e("FFF", AddFavorite.get(i).getId() + " " + selectedObject.getId());
                             if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
 //                                binding.addfabroutIcon.setVisibility(View.VISIBLE);
 //                                binding.fabroutIcon.setVisibility(View.GONE);
@@ -2261,9 +2240,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     public void onErrorResponse(VolleyError error) {
                         Utility.dismissLoadingTran();
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -2277,7 +2253,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + prefManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -2359,9 +2334,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     public void onErrorResponse(VolleyError error) {
                         Utility.dismissLoadingTran();
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -2413,7 +2385,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
-            Log.e("br_logo", String.valueOf(img1File));
         }
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
@@ -2434,13 +2405,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     public void onError(ANError error) {
                         Utility.dismissLoadingTran();
 
-                        if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
-                        } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
-                        }
                     }
                 });
 

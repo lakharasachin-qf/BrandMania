@@ -69,8 +69,6 @@ public class CategoryTab extends FrameTab {
 
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
-        Log.e("IMAGELIST--", new Gson().toJson(imageList));
-        Log.e("selectedObject--", new Gson().toJson(selectedObject));
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory();
@@ -220,7 +218,6 @@ public class CategoryTab extends FrameTab {
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -265,14 +262,12 @@ public class CategoryTab extends FrameTab {
                             int lastPos = menuModels.size();
                             menuModels.addAll(menuModels.size(), apiObject.getCatogaryImagesList());
                             menuAddaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
-                            //       Log.e("GGG", new Gson().toJson(menuModels));
                         } else {
                             menuModels = new ArrayList<>();
                             menuModels.addAll(0, apiObject.getCatogaryImagesList());
                         }
                     }
                     if (apiObject.getLinks() != null) {
-                        //   Log.e("APIIII", new Gson().toJson(apiObject.getLinks()));
                         if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
@@ -297,9 +292,6 @@ public class CategoryTab extends FrameTab {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -313,7 +305,6 @@ public class CategoryTab extends FrameTab {
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 

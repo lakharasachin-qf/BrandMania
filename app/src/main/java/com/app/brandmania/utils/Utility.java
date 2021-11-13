@@ -92,8 +92,6 @@ public class Utility {
                 Date date = new Date();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String currentDate = formatter.format(date);
-                Log.e("expireDate", expireDate);
-                Log.e("currentDate", currentDate);
 
                 Date convertedExpireDate = formatter.parse(expireDate);
                 Date convertedCurrentDate = formatter.parse(currentDate);
@@ -120,8 +118,6 @@ public class Utility {
                 Date date = new Date();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String currentDate = formatter.format(date);
-                Log.e("expireDate", expireDate);
-                Log.e("currentDate", currentDate);
 
                 Date convertedExpireDate = formatter.parse(expireDate);
                 Date convertedCurrentDate = formatter.parse(currentDate);
@@ -143,8 +139,6 @@ public class Utility {
             Date date = new Date();
             @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             String currentDate = formatter.format(date);
-            Log.e("expireDate", expireDate);
-            Log.e("currentDate", currentDate);
 
             Date convertedExpireDate = formatter.parse(expireDate);
             Date convertedCurrentDate = formatter.parse(currentDate);
@@ -175,7 +169,6 @@ public class Utility {
             endCalendar.setTime(currentDate);
             int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
             int diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
-            Log.e("Diffrenere",diffMonth+" "+diffYear);
             if ((diffYear == 0) && (diffMonth == 0)){
                 return diffMonth;
             }else {

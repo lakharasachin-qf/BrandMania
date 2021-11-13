@@ -150,7 +150,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer"+preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -160,7 +159,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 Map<String, String> params = new HashMap<>();
 
 
-                Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -191,7 +189,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                         }
                     }
                     if (apiResponse.getLinks() != null) {
-                        Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
                         if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
@@ -220,8 +217,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                         binding.shimmerForPagination.stopShimmer();
                         binding.shimmerForPagination.setVisibility(View.GONE);
 
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -235,7 +230,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -245,7 +239,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 Map<String, String> params = new HashMap<>();
 
 
-                Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -300,7 +293,6 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 

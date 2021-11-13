@@ -86,13 +86,10 @@ public class ApplicationLifeCycle implements Application.ActivityLifecycleCallba
                 try {
                     l.onBecameForeground();
                 } catch (Exception exc) {
-                    Log.e(TAG, "Listener threw exception!", exc);
                 }
             }
 
-            Log.e(TAG, "Enter foreground");
         } else {
-            Log.e(TAG, "still foreground");
         }
     }
 
@@ -103,13 +100,10 @@ public class ApplicationLifeCycle implements Application.ActivityLifecycleCallba
                 try {
                     l.onBecameBackground();
                 } catch (Exception exc) {
-                    Log.e(TAG, "Listener threw exception!", exc);
                 }
             }
 
-            Log.e(TAG, "Enter background");
         } else {
-            Log.e(TAG, "still background");
         }
     }
 

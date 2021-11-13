@@ -204,11 +204,9 @@ public class DownloadListTab extends Fragment {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
             try {
-                Log.e("ErrorImage", url);
                 InputStream in = new java.net.URL(url).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
-                Log.e("ErrorImage", e.getMessage());
                 e.printStackTrace();
             }
             return new BitmapDrawable(getResources(), mIcon11);
@@ -237,11 +235,9 @@ public class DownloadListTab extends Fragment {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
             try {
-                Log.e("ErrorImage", url);
                 InputStream in = new java.net.URL(url).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
-                Log.e("ErrorImage", e.getMessage());
                 e.printStackTrace();
             }
             return new BitmapDrawable(getResources(), mIcon11);
@@ -371,9 +367,6 @@ public class DownloadListTab extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-                     /*   String body;
-                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                        Log.e("Load-Get_Exam ", body);*/
 
                     }
                 }
@@ -387,7 +380,6 @@ public class DownloadListTab extends Fragment {
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -525,9 +517,6 @@ public class DownloadListTab extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Utility.dismissLoadingTran();
                         error.printStackTrace();
-//                        String body;
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }

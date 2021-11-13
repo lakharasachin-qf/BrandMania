@@ -141,7 +141,6 @@ public class FaqActivity extends BaseActivity {
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                // params.put("Authorization", "Bearer"+preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
             @Override

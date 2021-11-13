@@ -84,9 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (!dbExist) {
             this.getReadableDatabase();
             copyDataBase();
-            Log.e(TAG, "Database Copy");
         } else {
-            Log.e(TAG, "Database Exist");
         }
     }
 
@@ -124,7 +122,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.setVersion(DB_VERSION);
 
         } catch (Exception e) {
-            Log.e("SqlHelper", "Database Not Found");
             e.printStackTrace();
         }
 
@@ -150,9 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             oStream.flush();
             oStream.close();
             iStream.close();
-            Log.e(TAG, "Database copied");
         } catch (Exception e) {
-            Log.e(TAG, "not copied" + e.toString());
             e.printStackTrace();
         }
     }
@@ -170,7 +165,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             file.createNewFile();
             this.copyFile(dbFile, file);
         } catch (Exception e) {
-            Log.e("mypck", e.getMessage());
             e.printStackTrace();
         }
     }

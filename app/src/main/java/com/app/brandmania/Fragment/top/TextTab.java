@@ -258,7 +258,6 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
         binding.fontRecycler.setAdapter(new FontListAdeptor(fontModelList, act));    //set Adapter
     }
     @Override public void onColorChanged(int newColor) {
-        Log.e("OnColorChoose", String.valueOf(newColor));
         binding.colorChose.setBackgroundColor(newColor);
         ((IColorChange) act).onChooseColor(newColor);
     }

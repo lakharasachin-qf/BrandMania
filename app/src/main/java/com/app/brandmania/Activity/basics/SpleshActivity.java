@@ -75,7 +75,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //  Log.e("UserToken", gson.toJson(preafManager.getUserToken()));
                 if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
                     LoginFlow();
                 } else {
@@ -106,13 +105,10 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                         Uri deepLink = null;
                         if (pendingDynamicLinkData != null) {
                             deepLink = pendingDynamicLinkData.getLink();
-                            Log.e("My Refer Link", deepLink.toString());
                             String referLink = deepLink.toString();
                             try {
                                 referLink = referLink.substring(referLink.lastIndexOf("=") + 1);
-                                Log.e("First", "subString = " + referLink);
                                 referrerCode = referLink.substring(referLink.lastIndexOf("=") + 1);
-                                Log.e("referrerid", referrerCode);
                                 preafManager.setSpleshReferrer(referrerCode);
 
                             } catch (Exception e) {
@@ -125,7 +121,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                 .addOnFailureListener(this, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e("TAG", "getDynamicLink:onFailure", e);
                     }
                 });
 
@@ -225,7 +220,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -234,7 +228,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("deviceInfo", HELPER.deviceINFO());
-                Log.e("DateNdClass", params.toString());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }

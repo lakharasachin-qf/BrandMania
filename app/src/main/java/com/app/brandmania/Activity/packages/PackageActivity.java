@@ -72,7 +72,7 @@ public class PackageActivity extends BaseActivity {
             selectedBrand = preafManager.getActiveBrand();
         }
 
-        binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_recyclerListpackage);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,13 +139,11 @@ public class PackageActivity extends BaseActivity {
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                Log.e("DateNdClass", params.toString());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }

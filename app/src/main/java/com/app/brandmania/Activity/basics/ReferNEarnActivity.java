@@ -139,11 +139,8 @@ public class ReferNEarnActivity extends BaseActivity {
                             // Short link created
                             Uri shortLink = task.getResult().getShortLink();
                             Uri flowchartLink = task.getResult().getPreviewLink();
-                            Log.e("shortLink", String.valueOf(shortLink));
-                            Log.e("flowchartLink", String.valueOf(flowchartLink));
                             shareLink(shortLink);
                         } else {
-                         //   Log.e("error", gson.toJson(task));
                         }
                     }
                 });

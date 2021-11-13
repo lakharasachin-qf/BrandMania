@@ -88,9 +88,7 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
 
             listModels=preafManager.getAddBrandList();
             binding.titleText.setText("Your Brands");
-            Log.e("Prefrancedata", String.valueOf(preafManager.getAddBrandList().size()));
             if (listModels != null) {
-                Log.e("SSSS", String.valueOf(listModels.size()));
                 adpt = new SelecBrandLIstAdeptor(listModels, act, calledFlag);
                 adpt.setSelectBrandListBottomFragment(homeFragment);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);

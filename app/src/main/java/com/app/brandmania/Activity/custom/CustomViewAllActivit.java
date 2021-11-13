@@ -1117,7 +1117,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
     //save image with frame either custome or from backend
     public void saveImageToGallery(boolean wantToShare, boolean isFavourite) {
-        Log.e("TTTT", "sSSS");
         Utility.showLoadingTran(act);
         Drawable bitmapFrame;
         for (int i = 0; i < binding.CustomImageMain.getChildCount(); i++) {
@@ -1150,7 +1149,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         String name = "image" + System.currentTimeMillis() + ".jpg";
         String file_name = file.getAbsolutePath() + "/" + name;
         new_file = new File(file_name);
-        Log.e("new_file", new_file.getAbsolutePath() + "\n" + new_file.getPath());
 
         try {
             fileOutputStream = new FileOutputStream(new_file);

@@ -73,7 +73,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
         this.activity = activity;
         preafManager = new PreafManager(activity);
         Gson gson = new Gson();
-        // Log.e("menuModels",new Gson().toJson(imageLists));
     }
 
     int layoutType;
@@ -174,7 +173,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             activity.startActivity(intent);
                         }
                     });
-                    Log.e(model.getName(), String.valueOf(model.isImageFree()));
                     if (!model.isImageFree()) {
                         ((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     } else {
@@ -275,7 +273,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             if (layoutType == FROM_HOMEFRAGEMENT) {
                                 Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                                 Gson gson = new Gson();
-                                Log.e("Link", model.getFrame());
                                 intent.putExtra("selectedimage", gson.toJson(model));
                                 intent.putExtra("position", position);
                                 activity.startActivity(intent);

@@ -63,7 +63,6 @@ public class CustomImageTab extends FrameTab {
             listOfAllImages.add(absolutePathOfImage);
         }
 
-        Log.e("sachin-", new Gson().toJson(listOfAllImages));
 
         for (int i = 0; i < listOfAllImages.size(); i++) {
             File file = new File(listOfAllImages.get(i));

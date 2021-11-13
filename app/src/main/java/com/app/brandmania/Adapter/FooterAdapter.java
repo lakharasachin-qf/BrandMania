@@ -143,7 +143,6 @@ public class FooterAdapter extends RecyclerView.Adapter{
     @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final FooterModel model = footerModels.get(position);
         BrandListItem activeBrand=preafManager.getActiveBrand();
-        Log.e("NOTIFY", String.valueOf(checkedPosition));
         if (model != null) {
             switch (model.getLayoutType()) {
 

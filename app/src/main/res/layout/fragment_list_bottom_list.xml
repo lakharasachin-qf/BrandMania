@@ -20,28 +20,55 @@
             android:textColor="@color/alltextcolor"
             android:textSize="@dimen/_12sdp" />
 
-        <RelativeLayout
-            android:layout_marginTop="@dimen/_7sdp"
-            android:id="@+id/addBrandLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/addIcon"
-                android:src="@drawable/fab_add"
-                android:padding="@dimen/_2sdp"
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="@dimen/_24sdp"
-                app:tint="@color/colorPrimary" />
-        <TextView
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/addIcon"
-            android:id="@+id/addBrandText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/categoryEdtLayout"
+            style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Add Brand"
-            android:textColor="@color/alltextcolor"
-            android:textSize="@dimen/_10sdp" />
+            android:hint="Brand Category"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/categoryEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_drop_arrow"
+                android:focusable="false"
+                android:fontFamily="@font/poppins_regular"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_10sdp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:id="@+id/addBrandLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_7sdp">
+
+            <ImageView
+                android:id="@+id/addIcon"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/fab_add"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/addBrandText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/addIcon"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Add Brand"
+                android:textColor="@color/alltextcolor"
+                android:textSize="@dimen/_10sdp" />
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView

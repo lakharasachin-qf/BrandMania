@@ -729,8 +729,7 @@ public class FooterHelper {
                 layoutHeight[0] = fourBinding.main.getHeight();
                 params.height = layoutHeight[0];
                 fourBinding.topView2.setLayoutParams(params);
-                Log.e("View Height", String.valueOf(params.height));
-                Log.e("main Height", String.valueOf(layoutHeight[0]));
+
             }
         });
 

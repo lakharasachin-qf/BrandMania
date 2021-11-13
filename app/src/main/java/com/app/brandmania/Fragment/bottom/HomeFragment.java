@@ -233,7 +233,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         });
         getDeviceToken();
-
         binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -365,7 +364,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -474,7 +472,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         }
                     }
                     if (apiResponse.getLinks() != null) {
-                        // Log.e("APIIII", new Gson().toJson(apiResponse.getLinks()));
                         if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
                             // binding.shimmerForPagination.startShimmer();
                             //  binding.shimmerForPagination.setVisibility(View.VISIBLE);
@@ -500,11 +497,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     public void onErrorResponse(VolleyError error) {
                         binding.swipeContainer.setRefreshing(false);
                         error.printStackTrace();
-                        //  binding.shimmerForPagination.stopShimmer();
-                        // binding.shimmerForPagination.setVisibility(View.GONE);
-
-//                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-//                        Log.e("Load-Get_Exam ", body);
 
                     }
                 }
@@ -642,7 +634,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                 } else {
                     String nameOfActivity = targetLink;
-                    Log.e("NAMEOFAC", targetLink);
                     //String nameOfActivity = "com.app.brandmania.Activity.packages.PackageActivity";
                     try {
                         Class<?> aClass = Class.forName(nameOfActivity);
