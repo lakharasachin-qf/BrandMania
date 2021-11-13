@@ -127,9 +127,7 @@ public class ResponseHandler {
     public static ArrayList<BrandListItem> HandleGetBrandList(JSONObject jsonObject) {
         ArrayList<BrandListItem> strings = new ArrayList<>();
         if (isSuccess(null, jsonObject)) {
-            //list fetch
             JSONArray dataJsonArray = getJSONArray(jsonObject, "data");
-
             if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
                 strings = new ArrayList<>();
                 for (int i = 0; i < dataJsonArray.length(); i++) {
@@ -147,17 +145,17 @@ public class ResponseHandler {
                         examModel.setAddress(getString(dataJsonObject, "br_address"));
                         examModel.setOriginalAddress(getString(dataJsonObject, "br_address"));
 
-                        if (jsonObject.has("pincode")) {
-                            examModel.setPincode(ResponseHandler.getString(jsonObject, "pincode"));
+                        if (dataJsonObject.has("br_pincode")) {
+                            examModel.setPincode(ResponseHandler.getString(dataJsonObject, "br_pincode"));
                         }
-                        if (jsonObject.has("state")) {
-                            examModel.setState(ResponseHandler.getString(jsonObject, "state"));
+                        if (dataJsonObject.has("br_state")) {
+                            examModel.setState(ResponseHandler.getString(dataJsonObject, "br_state"));
                         }
-                        if (jsonObject.has("country")) {
-                            examModel.setCountry(ResponseHandler.getString(jsonObject, "country"));
+                        if (dataJsonObject.has("br_country")) {
+                            examModel.setCountry(ResponseHandler.getString(dataJsonObject, "br_country"));
                         }
-                        if (jsonObject.has("city")) {
-                            examModel.setCity(ResponseHandler.getString(jsonObject, "city"));
+                        if (dataJsonObject.has("br_city")) {
+                            examModel.setCity(ResponseHandler.getString(dataJsonObject, "br_city"));
                         }
 
                         String address = examModel.getOriginalAddress();
@@ -801,17 +799,18 @@ public class ResponseHandler {
                         examModel.setOriginalAddress(getString(dataJsonObject, "br_address"));
 
 
-                        if (jsonObject.has("pincode")) {
-                            examModel.setPincode(ResponseHandler.getString(jsonObject, "pincode"));
+
+                        if (dataJsonObject.has("br_pincode")) {
+                            examModel.setPincode(ResponseHandler.getString(dataJsonObject, "br_pincode"));
                         }
-                        if (jsonObject.has("state")) {
-                            examModel.setState(ResponseHandler.getString(jsonObject, "state"));
+                        if (dataJsonObject.has("br_state")) {
+                            examModel.setState(ResponseHandler.getString(dataJsonObject, "br_state"));
                         }
-                        if (jsonObject.has("country")) {
-                            examModel.setCountry(ResponseHandler.getString(jsonObject, "country"));
+                        if (dataJsonObject.has("br_country")) {
+                            examModel.setCountry(ResponseHandler.getString(dataJsonObject, "br_country"));
                         }
-                        if (jsonObject.has("city")) {
-                            examModel.setCity(ResponseHandler.getString(jsonObject, "city"));
+                        if (dataJsonObject.has("br_city")) {
+                            examModel.setCity(ResponseHandler.getString(dataJsonObject, "br_city"));
                         }
 
                         String address = examModel.getOriginalAddress();

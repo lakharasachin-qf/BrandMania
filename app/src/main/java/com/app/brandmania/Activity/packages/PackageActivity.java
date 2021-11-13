@@ -72,7 +72,7 @@ public class PackageActivity extends BaseActivity {
             selectedBrand = preafManager.getActiveBrand();
         }
 
-        binding = DataBindingUtil.setContentView(act, R.layout.activity_recyclerListpackage);
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

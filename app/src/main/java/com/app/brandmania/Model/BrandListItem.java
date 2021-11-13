@@ -53,6 +53,8 @@ public class BrandListItem {
     private String city;
     private String pincode;
 
+
+
     public String getPincode() {
         return pincode;
     }

@@ -42,6 +42,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.basics.LoadingHomeActivity;
 import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Common.Constant;
@@ -286,12 +287,6 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 .show();
     }
 
-    //For CustomFrame
-    public void onSelectImageClick(View view) {
-        //CropImage.startPickImageActivity(this);
-        selectImageFromGallery();
-    }
-
     public static final int GALLERY_INTENT = 101;
 
     private void selectImageFromGallery() {
@@ -346,12 +341,6 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             Uri result = data.getData();
             if (resultCode == RESULT_OK) {
                 startCropImageActivity(result);
-//                binding.viewImgFirst.setVisibility(View.VISIBLE);
-//                binding.imgEmptyStateFirst.setVisibility(View.GONE);
-//                binding.actionDeleteFirst.setVisibility(View.VISIBLE);
-//                ((ImageView) findViewById(R.id.viewImgFirst)).setImageURI(result);
-//                ImageView imageView = ((ImageView) findViewById(R.id.viewImgFirst));
-//                selectedLogo = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
             }
         }
@@ -499,22 +488,12 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
 
-        
         request.addMultipartParameter("br_address", binding.addressEdt.getText().toString());
+        request.addMultipartParameter("br_country",binding.countryEdt.getText().toString());
+        request.addMultipartParameter("br_state",binding.stateEdt.getText().toString());
+        request.addMultipartParameter("br_city",binding.cityEdt.getText().toString());
+        request.addMultipartParameter("br_pincode",binding.pincodeEdt.getText().toString());
 
-        if (selectedCountry!=null){
-            request.addMultipartParameter("country",selectedCountry.getId());
-        }
-        if (selectedState!=null){
-            request.addMultipartParameter("state",selectedState.getId());
-        }
-        if (selectedCity!=null){
-            request.addMultipartParameter("city",selectedCity.getId());
-        }
-
-        if (binding.pincodeEdt.getText().toString().length()==0){
-            request.addMultipartParameter("pincode",binding.pincodeEdt.getText().toString());
-        }
 
 
         if (img1File != null) {
@@ -722,18 +701,19 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         brandListItemm.setAddress(ResponseHandler.getString(jsonObject, "br_address"));
 
 
-                        if (jsonObject.has("pincode")) {
-                            brandListItemm.setPincode(ResponseHandler.getString(jsonObject, "pincode"));
+                        if (jsonObject.has("br_pincode")) {
+                            brandListItemm.setPincode(ResponseHandler.getString(jsonObject, "br_pincode"));
                         }
-                        if (jsonObject.has("state")) {
-                            brandListItemm.setState(ResponseHandler.getString(jsonObject, "state"));
+                        if (jsonObject.has("br_state")) {
+                            brandListItemm.setState(ResponseHandler.getString(jsonObject, "br_state"));
                         }
-                        if (jsonObject.has("country")) {
-                            brandListItemm.setCountry(ResponseHandler.getString(jsonObject, "country"));
+                        if (jsonObject.has("br_country")) {
+                            brandListItemm.setCountry(ResponseHandler.getString(jsonObject, "br_country"));
                         }
-                        if (jsonObject.has("city")) {
-                            brandListItemm.setCity(ResponseHandler.getString(jsonObject, "city"));
+                        if (jsonObject.has("br_city")) {
+                            brandListItemm.setCity(ResponseHandler.getString(jsonObject, "br_city"));
                         }
+
                         
                         String address = brandListItemm.getOriginalAddress();
                         if (brandListItemm.getCity() != null && !brandListItemm.getCity().isEmpty()) {
@@ -810,7 +790,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     }
 
 
-                    Intent i = new Intent(act, LoadingHomeActivity.class);
+                    Intent i = new Intent(act, HomeActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);
                     finish();
@@ -884,34 +864,61 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
 
         if (calledFlag == COUNTRY) {
-            binding.countryEdt.setText(listModel.getName());
-            selectedCountry = listModel;
-            binding.stateLayout.setVisibility(View.VISIBLE);
+            if (!listModel.getId().equalsIgnoreCase("-1")) {
+                binding.countryEdt.setText(listModel.getName());
+                selectedCountry = listModel;
+                binding.stateLayout.setVisibility(View.VISIBLE);
 
 
-            binding.stateEdt.setText("");
-            binding.cityEdt.setText("");
-            selectedCity=null;
-            selectedState=null;
+                binding.stateEdt.setText("");
+                binding.cityEdt.setText("");
+                selectedCity = null;
+                selectedState = null;
 
-            stateList.clear();
-            getCountryStateCity(CALL_STATE);
+                stateList.clear();
+                getCountryStateCity(CALL_STATE);
+            }else{
+                binding.countryEdt.setText("");
+                selectedCountry=null;
+                binding.stateEdt.setText("");
+                selectedState=null;
+                binding.cityEdt.setText("");
+                selectedCity=null;
+
+                binding.cityLayout.setVisibility(View.GONE);
+                binding.stateLayout.setVisibility(View.GONE);
+
+            }
         }
 
         if (calledFlag == STATE) {
-            binding.stateEdt.setText(listModel.getName());
-            selectedState = listModel;
-            binding.cityLayout.setVisibility(View.VISIBLE);
-            cityList.clear();
-            binding.cityEdt.setText("");
-            selectedCity=null;
+            if (!listModel.getId().equalsIgnoreCase("-1")) {
+                binding.stateEdt.setText(listModel.getName());
+                selectedState = listModel;
+                binding.cityLayout.setVisibility(View.VISIBLE);
+                cityList.clear();
+                binding.cityEdt.setText("");
+                selectedCity = null;
+                getCountryStateCity(CALL_CITY);
+            }else{
+                binding.stateEdt.setText("");
+                selectedState=null;
 
-            getCountryStateCity(CALL_CITY);
+                binding.cityEdt.setText("");
+                selectedCity=null;
+
+                binding.cityLayout.setVisibility(View.GONE);
+             }
         }
 
         if (calledFlag == CITY) {
-            binding.cityEdt.setText(listModel.getName());
-            selectedCity = listModel;
+            if (!listModel.getId().equalsIgnoreCase("-1")) {
+                binding.cityEdt.setText(listModel.getName());
+                selectedCity = listModel;
+            }else{
+                binding.cityEdt.setText("");
+                selectedCity=null;
+            }
         }
     }
 
@@ -1058,7 +1065,22 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                                 cityList.add(listModel);
                             }
                         }
+                        CommonListModel listModel = new CommonListModel();
+                        listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
+                        listModel.setId("-1");
+                        listModel.setName("None");
 
+                        if (flag == CALL_COUNTRY && countryList.size() != 0) {
+                            countryList.add(0, listModel);
+                        }
+
+                        if (flag == CALL_STATE && stateList.size() != 0) {
+                            stateList.add(0, listModel);
+                        }
+
+                        if (flag == CALL_CITY && cityList.size() != 0) {
+                            cityList.add(0, listModel);
+                        }
                     }
 
                 } catch (JSONException e) {

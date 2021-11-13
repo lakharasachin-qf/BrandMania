@@ -6,6 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@drawable/reg_screen"
         android:orientation="vertical"
         android:theme="@style/AppTheme_material_theme"
@@ -155,84 +156,6 @@
                             android:textSize="@dimen/_10sdp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/countryLayout"
-                        style="@style/RegistrationTextInputLayoutStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_20sdp"
-                        android:layout_marginRight="@dimen/_20sdp"
-                        android:hint="Choose Country"
-                        app:errorEnabled="true"
-                        android:textColorHint="#fff">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/countryEdt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:drawableEnd="@drawable/ic_drop_arrow"
-                            android:focusable="false"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:paddingBottom="@dimen/_10sdp"
-                            android:textColor="@color/colorNavText"
-                            android:textColorHint="#fff"
-                            android:singleLine="true"
-                            android:textSize="@dimen/_10sdp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/stateLayout"
-                        style="@style/RegistrationTextInputLayoutStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_20sdp"
-                        android:layout_marginRight="@dimen/_20sdp"
-                        android:hint="Choose State"
-                        android:visibility="gone"
-                        app:errorEnabled="true"
-                        android:textColorHint="#fff">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/stateEdt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:drawableEnd="@drawable/ic_drop_arrow"
-                            android:focusable="false"
-                             android:textColor="@color/colorNavText"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:paddingBottom="@dimen/_10sdp"
-                            android:singleLine="true"
-                            android:textSize="@dimen/_10sdp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/cityLayout"
-                        style="@style/RegistrationTextInputLayoutStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_20sdp"
-                        android:layout_marginRight="@dimen/_20sdp"
-                        android:hint="Choose City"
-                        android:visibility="gone"
-                        app:errorEnabled="true"
-                        android:textColorHint="#fff">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/cityEdt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:drawableEnd="@drawable/ic_drop_arrow"
-                            android:focusable="false"
-                            android:textColor="@color/colorNavText"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:paddingBottom="@dimen/_10sdp"
-                            android:singleLine="true"
-                            android:textSize="@dimen/_10sdp" />
-                    </com.google.android.material.textfield.TextInputLayout>
 
 
                     <com.google.android.material.textfield.TextInputLayout

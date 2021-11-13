@@ -6,6 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:theme="@style/AppTheme_material_theme"
         tools:context=".Activity.brand.AddBranddActivity">
 
