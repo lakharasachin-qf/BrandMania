@@ -1,9 +1,24 @@
 package com.app.brandmania.Adapter;
 
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_EIGHT;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_ELEVEN;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FIFTEEN;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FIVE;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FOUR;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FOURTEEN;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_NINE;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_ONE;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SEVEN;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SIX;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TEN;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_THIRTEEN;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_THREE;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWELVE;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWO;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,22 +42,16 @@ import com.app.brandmania.databinding.ItemFooterSevenBinding;
 import com.app.brandmania.databinding.ItemFooterTenBinding;
 import com.app.brandmania.databinding.ItemFooterThreeBinding;
 import com.app.brandmania.databinding.ItemFooterTwoBinding;
+import com.app.brandmania.databinding.ItemPreviewElevenBinding;
+import com.app.brandmania.databinding.ItemPreviewFifteenBinding;
+import com.app.brandmania.databinding.ItemPreviewFourteenBinding;
+import com.app.brandmania.databinding.ItemPreviewThirteenBinding;
+import com.app.brandmania.databinding.ItemPreviewTweloneBinding;
 
 import java.util.ArrayList;
 
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_EIGHT;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FIVE;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FOUR;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_NINE;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_ONE;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SEVEN;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SIX;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TEN;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_THREE;
-import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWO;
 
-
-public class FooterAdapter extends RecyclerView.Adapter{
+public class FooterAdapter extends RecyclerView.Adapter {
     private ArrayList<FooterModel> footerModels;
     Activity activity;
     private boolean isLoadingAdded = false;
@@ -55,60 +64,74 @@ public class FooterAdapter extends RecyclerView.Adapter{
         return this;
     }
 
-    public interface onFooterListener{
+    public interface onFooterListener {
         void onFooterChoose(int footerLayout, FooterModel footerModel);
     }
 
     public FooterAdapter(ArrayList<FooterModel> footerModels, Activity activity) {
         this.footerModels = footerModels;
         this.activity = activity;
-        this.preafManager=new PreafManager(activity);
+        this.preafManager = new PreafManager(activity);
 
     }
+
     @NonNull
-    @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
 
-            case LAYOUT_FRAME_ONE   :
+            case LAYOUT_FRAME_ONE:
                 ItemFooterOneBinding itemFooterOneBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_one, viewGroup, false);
                 return new FooterHolderOne(itemFooterOneBinding);
-            case LAYOUT_FRAME_TWO   :
+            case LAYOUT_FRAME_TWO:
                 ItemFooterTwoBinding itemFooterTwoBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_two, viewGroup, false);
                 return new FooterHolderTwo(itemFooterTwoBinding);
-            case LAYOUT_FRAME_THREE   :
+            case LAYOUT_FRAME_THREE:
                 ItemFooterThreeBinding itemFooterThreeBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_three, viewGroup, false);
                 return new FooterHolderThree(itemFooterThreeBinding);
-            case LAYOUT_FRAME_FOUR   :
+            case LAYOUT_FRAME_FOUR:
                 ItemFooterFourBinding itemFooterFourBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_four, viewGroup, false);
                 return new FooterHolderFour(itemFooterFourBinding);
-            case LAYOUT_FRAME_FIVE   :
+            case LAYOUT_FRAME_FIVE:
                 ItemFooterFiveBinding itemFooterFiveBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_five, viewGroup, false);
                 return new FooterHolderFive(itemFooterFiveBinding);
-            case LAYOUT_FRAME_SIX   :
+            case LAYOUT_FRAME_SIX:
                 ItemFooterLayoutSixBinding itemFooterLayoutSixBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_layout_six, viewGroup, false);
                 return new FooterHolderSix(itemFooterLayoutSixBinding);
-            case LAYOUT_FRAME_SEVEN   :
+            case LAYOUT_FRAME_SEVEN:
                 ItemFooterSevenBinding itemFooterSevenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_seven, viewGroup, false);
                 return new FooterHolderSeven(itemFooterSevenBinding);
-            case LAYOUT_FRAME_EIGHT   :
+            case LAYOUT_FRAME_EIGHT:
                 ItemFooterEightBinding itemFooterEightBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_eight, viewGroup, false);
                 return new FooterHolderEight(itemFooterEightBinding);
-            case LAYOUT_FRAME_NINE   :
+            case LAYOUT_FRAME_NINE:
                 ItemFooterNineBinding itemFooterNineBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_nine, viewGroup, false);
                 return new FooterHolderNine(itemFooterNineBinding);
-
-            case LAYOUT_FRAME_TEN   :
+            case LAYOUT_FRAME_TEN:
                 ItemFooterTenBinding itemFooterTenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_footer_ten, viewGroup, false);
-
                 return new FooterHolderTen(itemFooterTenBinding);
-
-
-
+            case LAYOUT_FRAME_ELEVEN:
+                ItemPreviewElevenBinding footerLayoutFiveBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_eleven, viewGroup, false);
+                return new FooterHolderEleven(footerLayoutFiveBinding);
+            case LAYOUT_FRAME_TWELVE:
+                ItemPreviewTweloneBinding tweloneBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_twelone, viewGroup, false);
+                return new FooterHolderTwelve(tweloneBinding);
+            case LAYOUT_FRAME_THIRTEEN:
+                ItemPreviewThirteenBinding previewThirteenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_thirteen, viewGroup, false);
+                return new FooterHolderThirteen(previewThirteenBinding);
+            case LAYOUT_FRAME_FOURTEEN:
+                ItemPreviewFourteenBinding fourteenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_fourteen, viewGroup, false);
+                return new FooterHolderFourteen(fourteenBinding);
+            case LAYOUT_FRAME_FIFTEEN:
+                ItemPreviewFifteenBinding itemPreviewFifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_fifteen, viewGroup, false);
+                return new FooterHolderFifteen(itemPreviewFifteenBinding);
         }
         return null;
 
     }
-    @Override public int getItemViewType(int position) {
+
+    @Override
+    public int getItemViewType(int position) {
         switch (footerModels.get(position).getLayoutType()) {
             case 1:
                 return LAYOUT_FRAME_ONE;
@@ -128,21 +151,34 @@ public class FooterAdapter extends RecyclerView.Adapter{
                 return LAYOUT_FRAME_EIGHT;
             case 9:
                 return LAYOUT_FRAME_NINE;
-
             case 10:
                 return LAYOUT_FRAME_TEN;
-                default:
+            case 11:
+                return LAYOUT_FRAME_ELEVEN;
+            case 12:
+                return LAYOUT_FRAME_TWELVE;
+            case 13:
+                return LAYOUT_FRAME_THIRTEEN;
+            case 14:
+                return LAYOUT_FRAME_FOURTEEN;
+            case 15:
+                return LAYOUT_FRAME_FIFTEEN;
+            default:
                 return -1;
         }
 
     }
-    @Override public int getItemCount() {
+
+    @Override
+    public int getItemCount() {
         return footerModels.size();
     }
+
     @SuppressLint("ResourceAsColor")
-    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final FooterModel model = footerModels.get(position);
-        BrandListItem activeBrand=preafManager.getActiveBrand();
+        BrandListItem activeBrand = preafManager.getActiveBrand();
         if (model != null) {
             switch (model.getLayoutType()) {
 
@@ -152,13 +188,13 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
 
                                 ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.VISIBLE);
 
                             } else {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.VISIBLE);
 
                             }
@@ -166,34 +202,30 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     });
 
 
-
-
                     if (!model.isFree()) {
                         ((FooterHolderOne) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderOne) holder).binding.freePremium.setVisibility(View.VISIBLE);
 
                     }
 
-                    if (!activeBrand.getEmail().isEmpty()){
+                    if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderOne) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
+                    } else {
                         ((FooterHolderOne) holder).binding.gmailLayout.setVisibility(View.GONE);
                         ((FooterHolderOne) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderOne) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderOne) holder).binding.contactLayout.setVisibility(View.GONE);
                     }
 
-                    if (!activeBrand.getAddress().isEmpty()){
+                    if (!activeBrand.getAddress().isEmpty()) {
                         ((FooterHolderOne) holder).binding.locationText.setText(activeBrand.getAddress());
-                    }else {
+                    } else {
                         ((FooterHolderOne) holder).binding.addressLayoutElement.setVisibility(View.GONE);
                     }
                     if (checkedPosition == position) {
@@ -214,77 +246,65 @@ public class FooterAdapter extends RecyclerView.Adapter{
                             if (model.isFree()) {
 
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
 
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
                     });
 
 
-
-
-
                     if (!model.isFree()) {
 
                         ((FooterHolderTwo) holder).binding.elementPremium.setVisibility(View.VISIBLE);
-                    }
-                    else
-                    {
+                    } else {
 
                         ((FooterHolderTwo) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
 
-
-
-                    if (!activeBrand.getEmail().isEmpty()){
+                    if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderTwo) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
+                    } else {
                         ((FooterHolderTwo) holder).binding.gmailLayout.setVisibility(View.GONE);
                         ((FooterHolderTwo) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderTwo) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderTwo) holder).binding.contactLayout.setVisibility(View.GONE);
                     }
-                    if (activeBrand.getPhonenumber().isEmpty() && activeBrand.getEmail().isEmpty()){
+                    if (activeBrand.getPhonenumber().isEmpty() && activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderTwo) holder).binding.firstView.setVisibility(View.GONE);
                     }
 
 
-                    if (!activeBrand.getAddress().isEmpty()){
+                    if (!activeBrand.getAddress().isEmpty()) {
                         ((FooterHolderTwo) holder).binding.locationText.setText(activeBrand.getAddress());
-                    }else {
+                    } else {
                         ((FooterHolderTwo) holder).binding.locationLayout.setVisibility(View.GONE);
                     }
-                    if (!activeBrand.getWebsite().isEmpty()){
+                    if (!activeBrand.getWebsite().isEmpty()) {
                         ((FooterHolderTwo) holder).binding.websiteText.setText(activeBrand.getWebsite());
-                    }else {
+                    } else {
                         ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
                         ((FooterHolderTwo) holder).binding.locationLayout.setGravity(Gravity.CENTER);
                     }
-                    if (activeBrand.getWebsite().equals("https://"))
-                    {
+                    if (activeBrand.getWebsite().equals("https://")) {
                         ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
                         ((FooterHolderTwo) holder).binding.locationLayout.setGravity(Gravity.CENTER);
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.VISIBLE);
                     }
 
-                    if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()){
+                    if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()) {
                         ((FooterHolderTwo) holder).binding.secondView.setVisibility(View.GONE);
                     }
-
-
 
 
                     if (checkedPosition == position) {
@@ -301,12 +321,12 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
 
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
@@ -315,47 +335,41 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (!model.isFree()) {
                         ((FooterHolderThree) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderThree) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
 
-                    if (!activeBrand.getEmail().isEmpty()){
+                    if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderThree) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
+                    } else {
                         ((FooterHolderThree) holder).binding.gmailLayout.setVisibility(View.GONE);
                         ((FooterHolderThree) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderThree) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderThree) holder).binding.contactLayout.setVisibility(View.GONE);
                     }
 
 
-
-                    if (!activeBrand.getAddress().isEmpty()){
+                    if (!activeBrand.getAddress().isEmpty()) {
                         ((FooterHolderThree) holder).binding.locationText.setText(activeBrand.getAddress());
-                    }else {
+                    } else {
                         ((FooterHolderThree) holder).binding.loactionLayout.setVisibility(View.GONE);
                     }
 
-                    if (!activeBrand.getWebsite().isEmpty()){
+                    if (!activeBrand.getWebsite().isEmpty()) {
                         ((FooterHolderThree) holder).binding.websiteText.setText(activeBrand.getWebsite());
-                    }else {
+                    } else {
                         ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.GONE);
                         ((FooterHolderThree) holder).binding.loactionLayout.setGravity(Gravity.CENTER);
                     }
-                    if (activeBrand.getWebsite().equals("https://"))
-                    {
+                    if (activeBrand.getWebsite().equals("https://")) {
                         ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.GONE);
                         ((FooterHolderThree) holder).binding.loactionLayout.setGravity(Gravity.CENTER);
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.VISIBLE);
                     }
                     if (checkedPosition == position) {
@@ -373,12 +387,12 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderFour) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
 
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderFour) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
@@ -387,50 +401,44 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (!model.isFree()) {
                         ((FooterHolderFour) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 
-                    }
-                    else
-                    {
+                    } else {
 
                         ((FooterHolderFour) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                    if (!activeBrand.getEmail().isEmpty()){
+                    if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderFour) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
+                    } else {
                         ((FooterHolderFour) holder).binding.gmailLayout.setVisibility(View.GONE);
                         ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
                         ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderFour) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderFour) holder).binding.contactLayout.setVisibility(View.GONE);
                     }
 
 
-
-                    if (!activeBrand.getAddress().isEmpty()){
+                    if (!activeBrand.getAddress().isEmpty()) {
                         ((FooterHolderFour) holder).binding.locationText.setText(activeBrand.getAddress());
-                    }else {
+                    } else {
                         ((FooterHolderFour) holder).binding.locationLayout.setVisibility(View.GONE);
                     }
 
-                    if (!activeBrand.getWebsite().isEmpty()){
+                    if (!activeBrand.getWebsite().isEmpty()) {
                         ((FooterHolderFour) holder).binding.websiteText.setText(activeBrand.getWebsite());
-                    }else {
+                    } else {
                         ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.GONE);
                         ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
                         ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
                     }
-                    if (activeBrand.getWebsite().equals("https://"))
-                    {
+                    if (activeBrand.getWebsite().equals("https://")) {
                         ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.GONE);
                         ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
                         ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.VISIBLE);
                     }
 
@@ -448,12 +456,12 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
 
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.VISIBLE);
 
                             }
@@ -465,36 +473,31 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderFive) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 
 
-                    }
-
-                    else {
+                    } else {
                         ((FooterHolderFive) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                        if (!activeBrand.getEmail().isEmpty()){
+                    if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderFive) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
+                    } else {
                         ((FooterHolderFive) holder).binding.elementEmail.setVisibility(View.GONE);
-                            ((FooterHolderFive) holder).binding.elementMobile.setGravity(Gravity.CENTER);
+                        ((FooterHolderFive) holder).binding.elementMobile.setGravity(Gravity.CENTER);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderFive) holder).binding.phoneTxt.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderFive) holder).binding.elementMobile.setVisibility(View.GONE);
                     }
 
-                    if (!activeBrand.getWebsite().isEmpty()){
+                    if (!activeBrand.getWebsite().isEmpty()) {
                         ((FooterHolderFive) holder).binding.websiteText.setText(activeBrand.getWebsite());
-                    }else {
+                    } else {
                         ((FooterHolderFive) holder).binding.element0.setVisibility(View.GONE);
                     }
-                    if (activeBrand.getWebsite().equals("https://"))
-                    {
+                    if (activeBrand.getWebsite().equals("https://")) {
                         ((FooterHolderFive) holder).binding.element0.setVisibility(View.GONE);
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderFive) holder).binding.element0.setVisibility(View.VISIBLE);
                     }
                     if (checkedPosition == position) {
@@ -513,11 +516,11 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
@@ -526,15 +529,13 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (!model.isFree()) {
                         ((FooterHolderSix) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderSix) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderSix) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderSix) holder).binding.contactLayout.setVisibility(View.GONE);
                     }
                     if (checkedPosition == position) {
@@ -548,17 +549,17 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
                     break;
 
-                    case LAYOUT_FRAME_SEVEN:
+                case LAYOUT_FRAME_SEVEN:
                     ((FooterHolderSeven) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
@@ -569,42 +570,40 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderSeven) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 
 
-                    }
-                    else
-                    {
+                    } else {
 
 
                         ((FooterHolderSeven) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderSeven) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderSeven) holder).binding.contactLayout.setVisibility(View.GONE);
                     }
 
 
-                    if (!activeBrand.getEmail().isEmpty()){
+                    if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderSeven) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
+                    } else {
                         ((FooterHolderSeven) holder).binding.gmailLayout.setVisibility(View.GONE);
                         ((FooterHolderSeven) holder).binding.element.setVisibility(View.GONE);
                         ((FooterHolderSeven) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
-                        if (!activeBrand.getName().isEmpty()){
-                            ((FooterHolderSeven) holder).binding.brandNameText.setText(activeBrand.getName());
-                        }else {
-                            ((FooterHolderSeven) holder).binding.brandNameText.setVisibility(View.GONE);
-                        }
+                    if (!activeBrand.getName().isEmpty()) {
+                        ((FooterHolderSeven) holder).binding.brandNameText.setText(activeBrand.getName());
+                    } else {
+                        ((FooterHolderSeven) holder).binding.brandNameText.setVisibility(View.GONE);
+                    }
 
 
-                        if (checkedPosition == position) {
-                            ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
-                            ((FooterHolderSeven) holder).binding.freePremium.setVisibility(View.GONE);
-                            ((FooterHolderSeven) holder).binding.elementPremium.setVisibility(View.GONE);
-                        } else {
-                            ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.GONE);
-                        }
+                    if (checkedPosition == position) {
+                        ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        ((FooterHolderSeven) holder).binding.freePremium.setVisibility(View.GONE);
+                        ((FooterHolderSeven) holder).binding.elementPremium.setVisibility(View.GONE);
+                    } else {
+                        ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
 
                     break;
 
@@ -614,11 +613,11 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderEight) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderEight) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
@@ -626,36 +625,34 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
                     if (!model.isFree()) {
                         ((FooterHolderEight) holder).binding.elementPremium.setVisibility(View.VISIBLE);
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderEight) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderEight) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderEight) holder).binding.contactLayout.setVisibility(View.GONE);
 
                     }
 
 
-                    if (!activeBrand.getEmail().isEmpty()){
+                    if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderEight) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
+                    } else {
                         ((FooterHolderEight) holder).binding.gmailLayout.setVisibility(View.GONE);
                         ((FooterHolderEight) holder).binding.element.setVisibility(View.GONE);
                         ((FooterHolderEight) holder).binding.contactLayout.setGravity(Gravity.CENTER);
                     }
 
-                    if (!activeBrand.getAddress().isEmpty()){
+                    if (!activeBrand.getAddress().isEmpty()) {
                         ((FooterHolderEight) holder).binding.locationText.setText(activeBrand.getAddress());
-                    }else {
+                    } else {
                         ((FooterHolderEight) holder).binding.addressLayoutElement.setVisibility(View.GONE);
                     }
-                    if (!activeBrand.getName().isEmpty()){
+                    if (!activeBrand.getName().isEmpty()) {
                         ((FooterHolderEight) holder).binding.brandNameText.setText(activeBrand.getName());
-                    }else {
+                    } else {
                         ((FooterHolderEight) holder).binding.addressLayoutElement.setVisibility(View.GONE);
                     }
 
@@ -676,11 +673,11 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
@@ -689,12 +686,9 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
                     if (!model.isFree()) {
                         ((FooterHolderNine) holder).binding.elementPremium.setVisibility(View.VISIBLE);
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderNine) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
-
 
 
                     if (!activeBrand.getPhonenumber().isEmpty()) {
@@ -706,17 +700,16 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderNine) holder).binding.contactText.append(activeBrand.getEmail());
                     }
 
-                    if (!activeBrand.getName().isEmpty()){
+                    if (!activeBrand.getName().isEmpty()) {
                         ((FooterHolderNine) holder).binding.brandNameText.setText(activeBrand.getName());
-                    }else {
+                    } else {
                         ((FooterHolderNine) holder).binding.brandNameText.setVisibility(View.GONE);
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderNine) holder).binding.freePremium.setVisibility(View.GONE);
                         ((FooterHolderNine) holder).binding.elementPremium.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.GONE);
                     }
 
@@ -729,11 +722,11 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (model.isFree()) {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
                                 checkedPosition = position;
-                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(),footerModels.get(position));
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
@@ -743,33 +736,32 @@ public class FooterAdapter extends RecyclerView.Adapter{
                     if (!model.isFree()) {
                         ((FooterHolderTen) holder).binding.elementPremium.setVisibility(View.VISIBLE);
 
-                    }
-                    else
-                    {
+                    } else {
                         ((FooterHolderTen) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()){
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
                         ((FooterHolderTen) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }else {
+                    } else {
                         ((FooterHolderTen) holder).binding.contactText.setVisibility(View.GONE);
                         ((FooterHolderTen) holder).binding.callImage.setVisibility(View.GONE);
                     }
 
 
-                    if (!activeBrand.getEmail().isEmpty()){
+                    if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderTen) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    }else {
+                    } else {
                         ((FooterHolderTen) holder).binding.gmailText.setVisibility(View.GONE);
                         ((FooterHolderTen) holder).binding.gmailImage.setVisibility(View.GONE);
                     }
 
-                    if (!activeBrand.getAddress().isEmpty()){
+                    if (!activeBrand.getAddress().isEmpty()) {
                         ((FooterHolderTen) holder).binding.locationText.setText(activeBrand.getAddress());
-                    }else {
+                    } else {
                         ((FooterHolderTen) holder).binding.locationText.setVisibility(View.GONE);
                         ((FooterHolderTen) holder).binding.locationImage.setVisibility(View.GONE);
                     }
+
                     if (checkedPosition == position) {
                         ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderTen) holder).binding.elementPremium.setVisibility(View.GONE);
@@ -778,6 +770,16 @@ public class FooterAdapter extends RecyclerView.Adapter{
                         ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.GONE);
                     }
 
+                    break;
+                case LAYOUT_FRAME_ELEVEN:
+                    break;
+                case LAYOUT_FRAME_TWELVE:
+                    break;
+                case LAYOUT_FRAME_THIRTEEN:
+                    break;
+                case LAYOUT_FRAME_FOURTEEN:
+                    break;
+                case LAYOUT_FRAME_FIFTEEN:
                     break;
 
             }
@@ -839,6 +841,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
         }
     }
+
     static class FooterHolderSix extends RecyclerView.ViewHolder {
         ItemFooterLayoutSixBinding binding;
 
@@ -848,6 +851,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
         }
     }
+
     static class FooterHolderSeven extends RecyclerView.ViewHolder {
         ItemFooterSevenBinding binding;
 
@@ -857,6 +861,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
         }
     }
+
     static class FooterHolderEight extends RecyclerView.ViewHolder {
         ItemFooterEightBinding binding;
 
@@ -866,6 +871,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
         }
     }
+
     static class FooterHolderNine extends RecyclerView.ViewHolder {
         ItemFooterNineBinding binding;
 
@@ -875,6 +881,7 @@ public class FooterAdapter extends RecyclerView.Adapter{
 
         }
     }
+
     static class FooterHolderTen extends RecyclerView.ViewHolder {
         ItemFooterTenBinding binding;
 
@@ -885,6 +892,49 @@ public class FooterAdapter extends RecyclerView.Adapter{
         }
     }
 
+    static class FooterHolderEleven extends RecyclerView.ViewHolder {
+        ItemPreviewElevenBinding binding;
 
+        FooterHolderEleven(ItemPreviewElevenBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
 
+        }
+    }
+
+    private class FooterHolderTwelve extends RecyclerView.ViewHolder {
+        ItemPreviewTweloneBinding binding;
+
+        public FooterHolderTwelve(ItemPreviewTweloneBinding tweloneBinding) {
+            super(tweloneBinding.getRoot());
+            binding = tweloneBinding;
+        }
+    }
+
+    private class FooterHolderThirteen extends RecyclerView.ViewHolder {
+        ItemPreviewThirteenBinding binding;
+
+        public FooterHolderThirteen(ItemPreviewThirteenBinding previewThirteenBinding) {
+            super(previewThirteenBinding.getRoot());
+            binding = previewThirteenBinding;
+        }
+    }
+
+    private class FooterHolderFourteen extends RecyclerView.ViewHolder {
+        ItemPreviewFourteenBinding binding;
+
+        public FooterHolderFourteen(ItemPreviewFourteenBinding previewFourteenBinding) {
+            super(previewFourteenBinding.getRoot());
+            binding = previewFourteenBinding;
+        }
+    }
+
+    private class FooterHolderFifteen extends RecyclerView.ViewHolder {
+        ItemPreviewFifteenBinding binding;
+
+        public FooterHolderFifteen(ItemPreviewFifteenBinding previewFourteenBinding) {
+            super(previewFourteenBinding.getRoot());
+            binding = previewFourteenBinding;
+        }
+    }
 }

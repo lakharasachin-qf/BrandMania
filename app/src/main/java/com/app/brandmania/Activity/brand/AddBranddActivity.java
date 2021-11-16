@@ -468,7 +468,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         isLoading = true;
         Utility.showProgress(act);
         Log.e("API", APIs.ADD_BRAND);
-        Log.e("API", preafManager.getUserToken());
+
         File img1File = null;
         if (img != null) {
             img1File = CodeReUse.createFileFromBitmap(act, "photo.jpeg", img);

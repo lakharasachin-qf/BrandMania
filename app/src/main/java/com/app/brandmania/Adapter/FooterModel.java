@@ -11,6 +11,11 @@ public class FooterModel {
     public static final int LAYOUT_FRAME_EIGHT=8;
     public static final int LAYOUT_FRAME_NINE=9;
     public static final int LAYOUT_FRAME_TEN=10;
+    public static final int LAYOUT_FRAME_ELEVEN=11;
+    public static final int LAYOUT_FRAME_TWELVE=12;
+    public static final int LAYOUT_FRAME_THIRTEEN=13;
+    public static final int LAYOUT_FRAME_FOURTEEN=14;
+    public static final int LAYOUT_FRAME_FIFTEEN=15;
     public static final int LAYOUT_LOADING = 33;
     private int layoutType;
     private String emailId;

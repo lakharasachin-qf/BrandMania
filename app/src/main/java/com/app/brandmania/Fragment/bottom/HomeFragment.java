@@ -137,7 +137,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         fiveStarsDialog = new FiveStarsDialog(act, "brandmania@gmail.com");
         preafManager = new PreafManager(act);
-       binding.infoMsg.setSelected(true);
+        binding.infoMsg.setSelected(true);
         if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
             if (preafManager.getActiveBrand() == null) {
                 preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
@@ -274,10 +274,19 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         }
 
-        if (preafManager.getActiveBrand()!=null){
-            if (preafManager.getActiveBrand().getExpiery_date()!=null && !preafManager.getActiveBrand().getExpiery_date().isEmpty() && Utility.isPackageExpired(act)){
-                binding.infoMsg.setText("                           Dear user, your current package is expired on date "+preafManager.getActiveBrand().getExpiery_date()+". Please Upgrade your plan and enjoy downloading image, GIF and videos.");
+        if (preafManager.getActiveBrand() != null) {
+            if (preafManager.getActiveBrand().getExpiery_date() != null && !preafManager.getActiveBrand().getExpiery_date().isEmpty() && Utility.isPackageExpired(act)) {
+                binding.infoMsg.setText("                           Dear user, your current package is expired on date " + preafManager.getActiveBrand().getExpiery_date() + ". Please Upgrade your plan and enjoy downloading image, GIF and videos.");
+                binding.tapActionBtn.setVisibility(View.VISIBLE);
                 binding.easyMessage.setVisibility(View.VISIBLE);
+                binding.easyMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(act, PackageActivity.class);
+                        startActivity(intent);
+                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    }
+                });
             }
         }
 

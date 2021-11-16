@@ -96,7 +96,7 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
                 binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
                 binding.recyclerList.setAdapter(adpt);
             }
-
+            binding.searchLayout.setVisibility(View.GONE);
             binding.addBrandLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,7 +107,13 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
                 }
             });
             binding.recyclerList.requestFocus();
-
+            binding.cancelAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!act.isDestroyed() && !act.isFinishing())
+                        fragment.dismiss();
+                }
+            });
             return view;
         }
 

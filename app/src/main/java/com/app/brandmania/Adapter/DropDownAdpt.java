@@ -104,4 +104,11 @@ public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHold
         Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateList(ArrayList<CommonListModel> list) {
+        arrayList = list;
+        notifyDataSetChanged();
+    }
 }

@@ -57,11 +57,8 @@ public class ViewBrandActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
-       // captureScreenShort();
-
         preafManager=new PreafManager(this);
         binding= DataBindingUtil.setContentView(act,R.layout.activity_view_brand);
-      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

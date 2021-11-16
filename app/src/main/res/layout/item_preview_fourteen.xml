@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_128sdp"
+        android:layout_height="@dimen/_128sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:elevation="@dimen/_3sdp"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="@dimen/_4sdp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itemLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/temporary"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/socialBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#87b927"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/fb"
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="@dimen/_3sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:src="@drawable/ic_social_media_facebook"
+                    app:layout_constraintEnd_toStartOf="@id/insta"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/insta"
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="@dimen/_3sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:src="@drawable/ic_social_media_instagram"
+                    app:layout_constraintEnd_toStartOf="@id/wp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/wp"
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="@dimen/_3sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:src="@drawable/ic_social_media_whatsapp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="#2a60b1"
+                app:layout_constraintBottom_toTopOf="@id/contentLayout"
+                app:layout_constraintEnd_toEndOf="@id/contentLayout"
+                app:layout_constraintStart_toStartOf="@id/contentLayout" />
+
+            <RelativeLayout
+                android:id="@+id/contentLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_10sdp"
+                android:background="#2a60b1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+
+                <ImageView
+                    android:id="@+id/locationPin"
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="@dimen/_3sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:background="@drawable/website"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/locationPin"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:maxLines="1"
+                    android:text="www.queryfinders.com"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_5sdp" />
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

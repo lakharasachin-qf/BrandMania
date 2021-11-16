@@ -43,7 +43,6 @@
             android:layout_toStartOf="@+id/actionLayout"
             android:id="@+id/firsttitle"
             android:layout_below="@+id/businessName"
-            android:text="Computer Hardware"
             android:textSize="@dimen/_10sdp"
             android:fontFamily="@font/inter_regular"
             android:layout_width="wrap_content"
@@ -59,8 +58,7 @@
             android:textColor="@color/alltextcolor"
             android:textSize="@dimen/_12sdp"
             android:fontFamily="@font/inter_medium"
-            android:singleLine="true"
-            android:text="QueryFinderSodfgfdgfgdfgfggdflution"></TextView>
+            android:singleLine="true" ></TextView>
 
         <LinearLayout
             android:id="@+id/actionLayout"

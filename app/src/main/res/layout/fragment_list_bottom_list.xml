@@ -11,39 +11,51 @@
         android:paddingEnd="@dimen/_20sdp"
         tools:context=".Fragments.bottomsheets.ListBottomFragment">
 
-        <TextView
-            android:id="@+id/titleText"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Title"
-            android:textColor="@color/alltextcolor"
-            android:textSize="@dimen/_12sdp" />
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Title"
+                android:textColor="@color/alltextcolor"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/cancelAction"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_baseline_close_24"
+                app:tint="@color/colorPrimary" />
+
+        </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/categoryEdtLayout"
+            android:id="@+id/searchLayout"
             style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Brand Category"
+            android:hint="Search here..."
             app:errorEnabled="true"
             app:hintTextColor="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/categoryEdt"
+                android:id="@+id/searchEdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_drop_arrow"
-                android:focusable="false"
-                android:fontFamily="@font/poppins_regular"
-                android:paddingStart="@dimen/_15sdp"
+                android:drawablePadding="@dimen/_10sdp"
+                android:inputType="text"
+                android:maxLines="1"
                 android:paddingTop="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_15sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:singleLine="true"
                 android:textSize="@dimen/_10sdp" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <RelativeLayout
             android:id="@+id/addBrandLayout"

@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/footerLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="@dimen/_128sdp"
+            android:layout_height="@dimen/_128sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:elevation="@dimen/_3sdp"
             app:cardCornerRadius="@dimen/_7sdp"
             app:cardElevation="@dimen/_4sdp"
+            app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_gravity="bottom"
                 android:orientation="vertical">
 
                 <View
-                    android:visibility="gone"
-
                     android:id="@+id/topView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@color/colorPrimary"
-                    android:backgroundTint="@color/colorPrimary" />
+                    android:backgroundTint="@color/colorPrimary"
+                    android:visibility="gone" />
 
                 <View
-                    android:visibility="gone"
-
                     android:id="@+id/topView2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
@@ -42,13 +45,14 @@
                     android:layout_marginRight="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@color/colorPrimary"
-                    android:backgroundTint="@color/colorPrimary" />
+                    android:backgroundTint="@color/colorPrimary"
+                    android:visibility="gone" />
 
                 <RelativeLayout
-                    android:paddingStart="@dimen/_7sdp"
-                    android:paddingEnd="@dimen/_7sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_7sdp">
 
                     <RelativeLayout
                         android:id="@+id/gmailLayout"
@@ -60,26 +64,26 @@
 
                         <ImageView
                             android:id="@+id/gmailImage"
-                            android:layout_width="@dimen/_12sdp"
-                            android:layout_height="@dimen/_12sdp"
+                            android:layout_width="@dimen/_4sdp"
+                            android:layout_height="@dimen/_4sdp"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_1sdp"
-                            app:tint="@color/colorPrimary"
-                            android:src="@drawable/ic_outline_mail_24" />
+                            android:src="@drawable/ic_outline_mail_24"
+                            app:tint="@color/colorPrimary" />
 
                         <TextView
                             android:id="@+id/gmailText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_marginLeft="@dimen/_2sdp"
                             android:layout_toEndOf="@+id/gmailImage"
                             android:includeFontPadding="false"
                             android:padding="0dp"
                             android:singleLine="true"
                             android:text="qfsolution@gmail.com"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_8sdp" />
+                            android:textSize="@dimen/_4sdp" />
 
                     </RelativeLayout>
 
@@ -92,20 +96,20 @@
                         android:layout_centerVertical="true">
 
                         <ImageView
-                            app:tint="@color/colorPrimary"
                             android:id="@+id/contactImage"
-                            android:layout_width="@dimen/_12sdp"
-                            android:layout_height="@dimen/_12sdp"
+                            android:layout_width="@dimen/_4sdp"
+                            android:layout_height="@dimen/_4sdp"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:src="@drawable/ic_outline_call_24" />
+                            android:src="@drawable/ic_outline_call_24"
+                            app:tint="@color/colorPrimary" />
 
                         <TextView
                             android:id="@+id/contactText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_marginLeft="@dimen/_2sdp"
                             android:layout_toEndOf="@+id/contactImage"
                             android:includeFontPadding="false"
                             android:padding="0dp"
@@ -113,7 +117,7 @@
 
                             android:text="8849896537"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_8sdp" />
+                            android:textSize="@dimen/_4sdp" />
 
                     </RelativeLayout>
                 </RelativeLayout>
@@ -125,21 +129,20 @@
                     android:background="@color/colorPrimary">
 
                     <RelativeLayout
-                        android:paddingStart="@dimen/_7sdp"
-                        android:paddingEnd="@dimen/_7sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingBottom="@dimen/_5sdp"
                         android:id="@+id/addressLayoutElement"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                       >
+                        android:paddingStart="@dimen/_7sdp"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_7sdp"
+                        android:paddingBottom="@dimen/_5sdp">
 
                         <ImageView
                             android:id="@+id/loacationImage"
-                            android:layout_width="@dimen/_12sdp"
-                            android:layout_height="@dimen/_12sdp"
+                            android:layout_width="@dimen/_8sdp"
+                            android:layout_height="@dimen/_8sdp"
                             android:layout_centerVertical="true"
-                             android:layout_marginTop="@dimen/_1sdp"
+                            android:layout_marginTop="@dimen/_1sdp"
                             android:src="@drawable/ic_outline_location_on_24"
                             app:tint="@color/white" />
 
@@ -147,54 +150,61 @@
                             android:id="@+id/locationText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingEnd="@dimen/_10sdp"
                             android:layout_centerVertical="true"
-                            android:includeFontPadding="false"
-                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_2sdp"
                             android:layout_toEndOf="@+id/loacationImage"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:paddingEnd="@dimen/_5sdp"
+                            android:text="dfgdfgdf fdg d gdf dfg  dggdgg dfgdg gdfgd"
                             android:textColor="@color/colorNavText"
-                            android:textSize="@dimen/_8sdp" />
+                            android:textSize="@dimen/_5sdp" />
                     </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+
         <androidx.cardview.widget.CardView
             android:id="@+id/elementSelected"
-            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_alignParentEnd="true"
-            app:cardElevation="@dimen/_4sdp"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/colorthird"
             app:cardCornerRadius="@dimen/_3sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            app:cardElevation="@dimen/_4sdp">
+
             <RelativeLayout
-                android:paddingTop="@dimen/_2sdp"
-                android:paddingStart="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_2sdp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_2sdp">
+
                 <TextView
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_8sdp"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/black"
-                    android:text="Selected"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Selected"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_8sdp"
+                    android:textStyle="bold" />
+
                 <ImageView
-                    android:visibility="gone"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:background="@color/colorPrimary"
                     android:elevation="@dimen/_20sdp"
                     android:src="@drawable/cpv_preset_checked"
-                    android:background="@color/colorPrimary"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"/>
+                    android:visibility="gone" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/elementPremium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -205,7 +215,8 @@
             android:paddingStart="@dimen/_10sdp"
             android:paddingTop="@dimen/_5sdp"
             android:paddingEnd="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_5sdp">
+            android:paddingBottom="@dimen/_5sdp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/_15sdp"
@@ -213,8 +224,8 @@
                 android:elevation="@dimen/_20sdp"
                 android:src="@drawable/ic_crown" />
         </RelativeLayout>
+
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/freePremium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -225,7 +236,8 @@
             android:paddingStart="@dimen/_10sdp"
             android:paddingTop="@dimen/_5sdp"
             android:paddingEnd="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_5sdp">
+            android:paddingBottom="@dimen/_5sdp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/_15sdp"

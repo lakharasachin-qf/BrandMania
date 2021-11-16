@@ -114,13 +114,14 @@
                         android:visibility="visible" />
 
                     <RelativeLayout
-                        android:visibility="gone"
                         android:id="@+id/easyMessage"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_22sdp"
                         android:layout_below="@+id/ViewPagerView"
                         android:layout_marginTop="@dimen/_7sdp"
-                        android:background="@drawable/home_shape_package">
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/home_shape_package"
+                        android:visibility="gone">
 
                         <View
                             android:layout_width="match_parent"
@@ -141,7 +142,7 @@
                             android:paddingBottom="@dimen/_4sdp"
                             android:scrollHorizontally="true"
                             android:singleLine="true"
-                            android:text="                           Dear user, your current package is expired on date 10-10-2021. Please Upgrade your plan and enjoy downloading image, GIF and videos."
+                            android:text="                   Dear user, your current package is expired on date 10-10-2021. Please Upgrade your plan and enjoy downloading image, GIF and videos."
                             android:textColor="@color/black"
                             android:textSize="@dimen/_9sdp" />
 
@@ -152,12 +153,25 @@
                             android:background="#B7FAA81E" />
                     </RelativeLayout>
 
+                    <TextView
+                        android:id="@+id/tapActionBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/easyMessage"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="-5dp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Tap to upgrade plan"
+                        android:textSize="@dimen/_6sdp"
+                        android:visibility="gone" />
+
                     <RelativeLayout
                         android:id="@+id/alertForFrmae"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/easyMessage"
-                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:background="@android:color/transparent"
                         android:visibility="gone">
 
@@ -722,6 +736,18 @@
                         </RelativeLayout>
 
                     </androidx.cardview.widget.CardView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_300sdp"
+                        android:layout_below="@id/requestBusLayout"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/temporary"
+                        android:visibility="gone">
+
+                        <include layout="@layout/footer_layout_five" />
+
+                    </RelativeLayout>
                 </RelativeLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
