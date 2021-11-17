@@ -365,7 +365,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 // params.put("Content-Type", "application/json");
-                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
                 return params;
             }
 

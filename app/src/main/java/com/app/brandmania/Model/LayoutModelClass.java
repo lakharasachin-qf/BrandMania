@@ -1,5 +1,10 @@
 package com.app.brandmania.Model;
 
+import com.app.brandmania.databinding.LayoutFooterElevenBinding;
+import com.app.brandmania.databinding.LayoutFooterFifteenBinding;
+import com.app.brandmania.databinding.LayoutFooterFourteenBinding;
+import com.app.brandmania.databinding.LayoutFooterThirteenBinding;
+import com.app.brandmania.databinding.LayoutFooterTweloneBinding;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
 import com.app.brandmania.databinding.LayoutForLoadFourBinding;
@@ -22,6 +27,51 @@ public class LayoutModelClass{
     private LayoutForLoadEightBinding eightBinding;
     private LayoutForLoadNineBinding nineBinding;
     private LayoutForLoadTenBinding tenBinding;
+    private LayoutFooterElevenBinding elevenBinding;
+    private LayoutFooterTweloneBinding twelveBinding;
+    private LayoutFooterThirteenBinding thirteenBinding;
+    private LayoutFooterFourteenBinding fourteenBinding;
+    private LayoutFooterFifteenBinding fifteenBinding;
+
+    public LayoutFooterFifteenBinding getFifteenBinding() {
+        return fifteenBinding;
+    }
+
+    public void setFifteenBinding(LayoutFooterFifteenBinding fifteenBinding) {
+        this.fifteenBinding = fifteenBinding;
+    }
+
+    public LayoutFooterFourteenBinding getFourteenBinding() {
+        return fourteenBinding;
+    }
+
+    public void setFourteenBinding(LayoutFooterFourteenBinding fourteenBinding) {
+        this.fourteenBinding = fourteenBinding;
+    }
+
+    public LayoutFooterThirteenBinding getThirteenBinding() {
+        return thirteenBinding;
+    }
+
+    public void setThirteenBinding(LayoutFooterThirteenBinding thirteenBinding) {
+        this.thirteenBinding = thirteenBinding;
+    }
+
+    public LayoutFooterTweloneBinding getTwelveBinding() {
+        return twelveBinding;
+    }
+
+    public void setTwelveBinding(LayoutFooterTweloneBinding twelveBinding) {
+        this.twelveBinding = twelveBinding;
+    }
+
+    public LayoutFooterElevenBinding getElevenBinding() {
+        return elevenBinding;
+    }
+
+    public void setElevenBinding(LayoutFooterElevenBinding elevenBinding) {
+        this.elevenBinding = elevenBinding;
+    }
 
     public LayoutForLoadOneBinding getOneBinding() {
         return oneBinding;

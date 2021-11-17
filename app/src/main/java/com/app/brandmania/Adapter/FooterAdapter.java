@@ -772,14 +772,225 @@ public class FooterAdapter extends RecyclerView.Adapter {
 
                     break;
                 case LAYOUT_FRAME_ELEVEN:
+                    ((FooterHolderEleven) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderEleven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderEleven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+
+                    if (!model.isFree()) {
+                        ((FooterHolderEleven) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
+                    } else {
+                        ((FooterHolderEleven) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
+                        ((FooterHolderEleven) holder).binding.phoneTxt.setText(activeBrand.getPhonenumber());
+                    } else {
+                        ((FooterHolderEleven) holder).binding.phoneTxt.setVisibility(View.GONE);
+                        ((FooterHolderEleven) holder).binding.call.setVisibility(View.GONE);
+                    }
+
+
+                    if (!activeBrand.getEmail().isEmpty()) {
+                        ((FooterHolderEleven) holder).binding.emailEdt.setText(activeBrand.getEmail());
+                    } else {
+                        ((FooterHolderEleven) holder).binding.emailEdt.setVisibility(View.GONE);
+                        ((FooterHolderEleven) holder).binding.email.setVisibility(View.GONE);
+                    }
+
+                    if (checkedPosition == position) {
+                        ((FooterHolderEleven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        ((FooterHolderEleven) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((FooterHolderEleven) holder).binding.freePremium.setVisibility(View.GONE);
+                    } else {
+                        ((FooterHolderEleven) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
                     break;
                 case LAYOUT_FRAME_TWELVE:
+                    ((FooterHolderTwelve) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderTwelve) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderTwelve) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+
+                    if (!model.isFree()) {
+                        ((FooterHolderTwelve) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
+                    } else {
+                        ((FooterHolderTwelve) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
+                        ((FooterHolderTwelve) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                    } else {
+                        ((FooterHolderTwelve) holder).binding.mobileNo.setVisibility(View.GONE);
+                    }
+
+
+                    if (!activeBrand.getEmail().isEmpty()) {
+                        ((FooterHolderTwelve) holder).binding.emailTxt.setText(activeBrand.getEmail());
+                    } else {
+                        ((FooterHolderTwelve) holder).binding.emailTxt.setVisibility(View.GONE);
+                    }
+
+                    if (checkedPosition == position) {
+                        ((FooterHolderTwelve) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        ((FooterHolderTwelve) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((FooterHolderTwelve) holder).binding.freePremium.setVisibility(View.GONE);
+                    } else {
+                        ((FooterHolderTwelve) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
                     break;
                 case LAYOUT_FRAME_THIRTEEN:
+                    ((FooterHolderThirteen) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderThirteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderThirteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+
+                    if (!model.isFree()) {
+                        ((FooterHolderThirteen) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
+                    } else {
+                        ((FooterHolderThirteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!activeBrand.getPhonenumber().isEmpty()) {
+                        ((FooterHolderThirteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                    } else {
+                        ((FooterHolderThirteen) holder).binding.mobileNo.setVisibility(View.GONE);
+                    }
+
+
+                    if (!activeBrand.getEmail().isEmpty()) {
+                        ((FooterHolderThirteen) holder).binding.emailTxt.setText(activeBrand.getEmail());
+                    } else {
+                        ((FooterHolderThirteen) holder).binding.emailTxt.setVisibility(View.GONE);
+                    }
+
+                    if (checkedPosition == position) {
+                        ((FooterHolderThirteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        ((FooterHolderThirteen) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((FooterHolderThirteen) holder).binding.freePremium.setVisibility(View.GONE);
+                    } else {
+                        ((FooterHolderThirteen) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
                     break;
                 case LAYOUT_FRAME_FOURTEEN:
+                    ((FooterHolderFourteen) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderFourteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderFourteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+
+                    if (!model.isFree()) {
+                        ((FooterHolderFourteen) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
+                    } else {
+                        ((FooterHolderFourteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+
+
+//
+//
+//                    if (!activeBrand.getEmail().isEmpty()) {
+//                        ((FooterHolderFourteen) holder).binding.address.setText(activeBrand.getEmail());
+//                    } else {
+//                        ((FooterHolderFourteen) holder).binding.address.setVisibility(View.GONE);
+//                        ((FooterHolderFourteen) holder).binding.locationPin.setVisibility(View.GONE);
+//                    }
+
+                    if (checkedPosition == position) {
+                        ((FooterHolderFourteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        ((FooterHolderFourteen) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((FooterHolderFourteen) holder).binding.freePremium.setVisibility(View.GONE);
+                    } else {
+                        ((FooterHolderFourteen) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
                     break;
                 case LAYOUT_FRAME_FIFTEEN:
+                    ((FooterHolderFifteen) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderFifteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderFifteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+
+                    if (!model.isFree()) {
+                        ((FooterHolderFifteen) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
+                    } else {
+                        ((FooterHolderFifteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+
+
+
+
+                    if (!activeBrand.getEmail().isEmpty()) {
+                        ((FooterHolderFifteen) holder).binding.address.setText(activeBrand.getEmail());
+                    } else {
+                        ((FooterHolderFifteen) holder).binding.address.setVisibility(View.GONE);
+                        ((FooterHolderFifteen) holder).binding.locationPin.setVisibility(View.GONE);
+                    }
+
+                    if (checkedPosition == position) {
+                        ((FooterHolderFifteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        ((FooterHolderFifteen) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((FooterHolderFifteen) holder).binding.freePremium.setVisibility(View.GONE);
+                    } else {
+                        ((FooterHolderFifteen) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
                     break;
 
             }

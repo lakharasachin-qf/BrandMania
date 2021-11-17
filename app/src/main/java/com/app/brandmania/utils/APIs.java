@@ -20,7 +20,6 @@ public class APIs {
     public static final String GET_FAVORITLIST_ITEM = URL + "getFavoriteList";
     public static final String DELETE_BRAND = URL + "deleteBrandById";
     public static final String REMOVE_FAVOURIT = URL + "RemoveFromFav";
-    //public static final String IS_COMPLETE = URL + "fetchFlowStatus";
     public static final String IS_COMPLETE = URL + "fetchFlowStatusDeviceInfo ";
     public static final String GET_FRAME = URL + "getFrames";
     public static final String GET_BRAND = URL + "getBrand";

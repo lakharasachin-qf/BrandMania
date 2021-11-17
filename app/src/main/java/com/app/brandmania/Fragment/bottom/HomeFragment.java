@@ -372,7 +372,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
             }
 
@@ -440,7 +440,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -518,7 +518,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -589,7 +589,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Accept", "application/json");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
 
             }
@@ -776,7 +776,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -847,7 +847,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -939,7 +939,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Accept", "application/json");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
             }
 

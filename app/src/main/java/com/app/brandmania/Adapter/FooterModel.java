@@ -23,8 +23,17 @@ public class FooterModel {
     private String website;
     private String address;
     private boolean isFree=false;
+    private boolean isEnable=true;
 
     public FooterModel() {
+    }
+
+    public boolean isEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(boolean enable) {
+        isEnable = enable;
     }
 
     public static int getLayoutLoading() {

@@ -105,7 +105,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         }
 
         if (prefManager.getUserToken() != null) {
-            headers.put("Authorization", "Bearer " + prefManager.getUserToken());
+            headers.put("X-Authorization", "Bearer " + prefManager.getUserToken());
         }
         return headers;
     }

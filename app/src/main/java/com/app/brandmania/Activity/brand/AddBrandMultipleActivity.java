@@ -434,7 +434,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.ADD_BRAND)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer" + preafManager.getUserToken())
+                .addHeaders("X-Authorization", "Bearer" + preafManager.getUserToken())
                 .addMultipartParameter("br_category", commonListModel.getId())
                 .addMultipartParameter("br_name", binding.nameTxt.getText().toString())
                 .addMultipartParameter("br_phone", binding.phoneTxt.getText().toString())
@@ -672,7 +672,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -746,7 +746,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -985,7 +985,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }

@@ -2,116 +2,210 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/_128sdp"
-        android:layout_height="@dimen/_128sdp"
-        android:layout_margin="@dimen/_5sdp"
-        android:elevation="@dimen/_3sdp"
-        app:cardCornerRadius="@dimen/_7sdp"
-        app:cardElevation="@dimen/_4sdp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/itemLayout"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_120sdp"
-            android:background="@drawable/temporary"
-            android:gravity="bottom"
-            android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/footerLayout"
+            android:layout_width="@dimen/_128sdp"
+            android:layout_height="@dimen/_128sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:elevation="@dimen/_3sdp"
+            app:cardCornerRadius="@dimen/_7sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_marginStart="@dimen/_7sdp"
-                android:layout_marginTop="@dimen/_1sdp"
-                android:background="@color/colorPrimary"
-                android:backgroundTint="#87b927"
-                app:layout_constraintBottom_toBottomOf="@id/emailEdt"
-                app:layout_constraintStart_toStartOf="@id/socialBackground" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/itemLayout"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:gravity="bottom"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="@dimen/_1sdp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:background="@color/colorPrimary"
-                android:backgroundTint="#87b927"
-                app:layout_constraintBottom_toTopOf="@id/socialBackground"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:layout_marginBottom="7pt"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="#87b927"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/socialBackground" />
 
-            <LinearLayout
-                android:id="@+id/socialBackground"
+                <View
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_9sdp"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="#87b927"
+                    app:layout_constraintBottom_toTopOf="@id/socialBackground"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+
+                    android:id="@+id/socialBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/shapeee_round_cornar_footer"
+                    android:backgroundTint="#87b927"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+
+                        android:id="@+id/call"
+                        android:layout_width="@dimen/_5sdp"
+                        android:layout_height="@dimen/_8sdp"
+                        android:src="@drawable/ic_phone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/email"
+                        android:layout_width="@dimen/_5sdp"
+                        android:layout_height="@dimen/_8sdp"
+                        android:src="@drawable/ic_outline_mail_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/call" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/phoneTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:maxLines="1"
+                    android:text="Mobile No."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_4sdp"
+                    app:layout_constraintStart_toEndOf="@id/socialBackground"
+                    app:layout_constraintTop_toTopOf="@id/socialBackground" />
+
+                <TextView
+                    android:id="@+id/emailEdt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:maxLines="1"
+                    android:text="email id"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_4sdp"
+                    app:layout_constraintStart_toEndOf="@id/socialBackground"
+                    app:layout_constraintTop_toBottomOf="@id/phoneTxt" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/elementSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/colorthird"
+            app:cardCornerRadius="@dimen/_3sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:layout_constraintEnd_toEndOf="@id/footerLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/shapeee_round_cornar_footer"
-                android:backgroundTint="#87b927"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_2sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Selected"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_6sdp"
+                    android:textStyle="bold" />
 
                 <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:background="@color/colorPrimary"
+                    android:elevation="@dimen/_20sdp"
+                    android:src="@drawable/cpv_preset_checked"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
-                    android:id="@+id/fb"
-                    android:layout_width="@dimen/_5sdp"
-                    android:layout_height="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:src="@drawable/ic_phone" />
+        <RelativeLayout
+            android:id="@+id/elementPremium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:elevation="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/footerLayout"
+            app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/insta"
-                    android:layout_width="@dimen/_5sdp"
-                    android:layout_height="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:src="@drawable/ic_outline_mail_24" />
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:elevation="@dimen/_20sdp"
+                android:src="@drawable/ic_crown" />
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/freePremium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:elevation="@dimen/_10sdp"
+            android:visibility="gone"
 
-            </LinearLayout>
+            app:layout_constraintEnd_toEndOf="@id/footerLayout"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/phoneTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:ellipsize="end"
-                android:fontFamily="@font/montserrat_regular"
-                android:maxLines="1"
-                android:text="+91 8200002604"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_3sdp"
-                app:layout_constraintStart_toEndOf="@id/socialBackground"
-                app:layout_constraintTop_toTopOf="@id/socialBackground" />
-
-            <TextView
-                android:id="@+id/emailEdt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_2sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:ellipsize="end"
-                android:fontFamily="@font/montserrat_regular"
-                android:maxLines="1"
-                android:paddingBottom="@dimen/_5sdp"
-                android:text="www.queryfinders.com"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_3sdp"
-                app:layout_constraintStart_toEndOf="@id/socialBackground"
-                app:layout_constraintTop_toBottomOf="@id/phoneTxt" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:elevation="@dimen/_20sdp"
+                android:src="@drawable/ic_freee" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

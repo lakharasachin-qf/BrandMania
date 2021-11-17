@@ -36,7 +36,6 @@ import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -51,6 +50,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -106,6 +106,11 @@ import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutPackegeExpiredBindingImpl;
 import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
+import com.app.brandmania.databinding.LayoutFooterElevenBinding;
+import com.app.brandmania.databinding.LayoutFooterFifteenBinding;
+import com.app.brandmania.databinding.LayoutFooterFourteenBinding;
+import com.app.brandmania.databinding.LayoutFooterThirteenBinding;
+import com.app.brandmania.databinding.LayoutFooterTweloneBinding;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
 import com.app.brandmania.databinding.LayoutForLoadFourBinding;
@@ -1262,7 +1267,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
             }
 
@@ -1879,6 +1884,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         footerLayout = layoutType;
         if (layoutType == FooterModel.LAYOUT_FRAME_ONE) {
             LayoutForLoadOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
+
             binding.elementFooter.addView(oneBinding.getRoot());
             FooterHelper.loadFrameFirstData(act, oneBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
@@ -1944,7 +1950,82 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             FooterHelper.loadFrameTenData(act, tenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
             mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_ELEVEN) {
+            LayoutFooterElevenBinding elevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eleven, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
+            binding.elementFooter.addView(elevenBinding.getRoot());
+
+            View view = elevenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            layoutModelClass.setElevenBinding(elevenBinding);
+            FooterHelper.loadFrameElevenData(act, elevenBinding);
+            mainLayout = findViewById(R.id.addressLayout);
+            mainLayout1 = findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_TWELVE) {
+            LayoutFooterTweloneBinding tweloneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twelone, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
+            binding.elementFooter.addView(tweloneBinding.getRoot());
+
+            View view = tweloneBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            layoutModelClass.setTwelveBinding(tweloneBinding);
+            FooterHelper.loadFrameTweloneData(act, tweloneBinding);
+            mainLayout = findViewById(R.id.addressLayout);
+            mainLayout1 = findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_THIRTEEN) {
+            LayoutFooterThirteenBinding thirteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_thirteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
+            binding.elementFooter.addView(thirteenBinding.getRoot());
+
+            View view = thirteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            layoutModelClass.setThirteenBinding(thirteenBinding);
+            FooterHelper.loadFrameThirteenData(act, thirteenBinding);
+            mainLayout = findViewById(R.id.addressLayout);
+            mainLayout1 = findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_FOURTEEN) {
+            LayoutFooterFourteenBinding fourteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fourteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
+            binding.elementFooter.addView(fourteenBinding.getRoot());
+
+            View view = fourteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            layoutModelClass.setFourteenBinding(fourteenBinding);
+            FooterHelper.loadFrameFourteenData(act, fourteenBinding);
+            mainLayout = findViewById(R.id.addressLayout);
+            mainLayout1 = findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_FIFTEEN) {
+            LayoutFooterFifteenBinding fifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fifteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
+            binding.elementFooter.addView(fifteenBinding.getRoot());
+
+            View view = fifteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            layoutModelClass.setFifteenBinding(fifteenBinding);
+            FooterHelper.loadFrameFifteenData(act, fifteenBinding);
+            mainLayout = findViewById(R.id.addressLayout);
+            mainLayout1 = findViewById(R.id.layout);
         }
+
     }
 
     @Override
@@ -2095,7 +2176,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
                 return params;
             }
 
@@ -2201,7 +2282,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
             }
 
@@ -2231,7 +2312,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.DOWNLOAD_SHARE)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer" + preafManager.getUserToken())
+                .addHeaders("X-Authorization", "Bearer" + preafManager.getUserToken())
                 .setPriority(Priority.HIGH);
 
 
@@ -2427,7 +2508,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
             }
 
@@ -2456,7 +2537,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.EDIT_BRAND)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer" + preafManager.getUserToken())
+                .addHeaders("X-Authorization", "Bearer" + preafManager.getUserToken())
                 .addMultipartParameter("brand_id", preafManager.getActiveBrand().getId())
                 .setPriority(Priority.HIGH);
 

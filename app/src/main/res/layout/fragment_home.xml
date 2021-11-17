@@ -745,7 +745,7 @@
                         android:background="@drawable/temporary"
                         android:visibility="gone">
 
-                        <include layout="@layout/footer_layout_five" />
+                        <include layout="@layout/layout_footer_eleven" />
 
                     </RelativeLayout>
                 </RelativeLayout>

@@ -2,102 +2,194 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/_128sdp"
-        android:layout_height="@dimen/_128sdp"
-        android:layout_margin="@dimen/_5sdp"
-        android:elevation="@dimen/_3sdp"
-        app:cardCornerRadius="@dimen/_7sdp"
-        app:cardElevation="@dimen/_4sdp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/itemLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/temporary"
-            android:gravity="bottom"
-            android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/footerLayout"
+            android:layout_width="@dimen/_128sdp"
+            android:layout_height="@dimen/_128sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:elevation="@dimen/_3sdp"
+            app:cardCornerRadius="@dimen/_7sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/itemLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_25sdp"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/footer_rounded_wave_two" />
+
+                    <TextView
+                        android:id="@+id/emailTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10pt"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="lakharasachin@gmail.com"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_3sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_15sdp"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/footer_rounded_wave" />
+
+                    <ImageView
+                        android:id="@+id/fb"
+                        android:layout_width="@dimen/_3sdp"
+                        android:layout_height="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:layout_toStartOf="@id/insta"
+                        android:src="@drawable/ic_social_media_facebook"
+                        app:tint="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/insta"
+                        android:layout_width="@dimen/_3sdp"
+                        android:layout_height="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:layout_toStartOf="@id/wp"
+                        android:src="@drawable/ic_social_media_instagram"
+                        app:tint="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/wp"
+                        android:layout_width="@dimen/_3sdp"
+                        android:layout_height="@dimen/_3sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_social_media_whatsapp"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/mobileNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="+91 8200002604"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_2sdp" />
+
+                </RelativeLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/elementSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/colorthird"
+            app:cardCornerRadius="@dimen/_3sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:layout_constraintEnd_toEndOf="@id/footerLayout"
+            app:layout_constraintTop_toTopOf="parent">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_25sdp"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/footer_rounded_wave_two" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_2sdp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="10pt"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:text="lakharasachin@gmail.com"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Selected"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_3sdp" />
+                    android:textSize="@dimen/_6sdp"
+                    android:textStyle="bold" />
 
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:background="@color/colorPrimary"
+                    android:elevation="@dimen/_20sdp"
+                    android:src="@drawable/cpv_preset_checked"
+                    android:visibility="gone" />
             </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/elementPremium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:elevation="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/footerLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
                 android:layout_height="@dimen/_15sdp"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:elevation="@dimen/_20sdp"
+                android:src="@drawable/ic_crown" />
+        </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/footer_rounded_wave" />
+        <RelativeLayout
+            android:id="@+id/freePremium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:elevation="@dimen/_10sdp"
+            android:visibility="gone"
 
-                <ImageView
-                    android:id="@+id/fb"
-                    android:layout_width="@dimen/_3sdp"
-                    android:layout_height="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_toStartOf="@id/insta"
-                    android:src="@drawable/ic_social_media_facebook"
-                    app:tint="@color/white" />
+            app:layout_constraintEnd_toEndOf="@id/footerLayout"
+            app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/insta"
-                    android:layout_width="@dimen/_3sdp"
-                    android:layout_height="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_toStartOf="@id/wp"
-                    android:src="@drawable/ic_social_media_instagram"
-                    app:tint="@color/white" />
-
-                <ImageView
-                    android:id="@+id/wp"
-                    android:layout_width="@dimen/_3sdp"
-                    android:layout_height="@dimen/_3sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:src="@drawable/ic_social_media_whatsapp"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="+91 8200002604"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_2sdp" />
-
-            </RelativeLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:elevation="@dimen/_20sdp"
+                android:src="@drawable/ic_freee" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

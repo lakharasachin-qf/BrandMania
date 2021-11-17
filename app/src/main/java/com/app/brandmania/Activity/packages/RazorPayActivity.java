@@ -251,7 +251,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
 
-                hashMap.put("Authorization", "Bearer " + preafManager.getUserToken());
+                hashMap.put("X-Authorization", "Bearer " + preafManager.getUserToken());
 
                 return hashMap;
 
@@ -316,7 +316,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             public Map<String, String> getHeaders() {
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("Authorization", "Bearer " + preafManager.getUserToken());
+                hashMap.put("X-Authorization", "Bearer " + preafManager.getUserToken());
                 return hashMap;
 
             }
@@ -396,7 +396,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             public Map<String, String> getHeaders() {
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
+                hashMap.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return hashMap;
             }
 
@@ -527,7 +527,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.Log("Header", getHeader(CodeReUse.GET_JSON_HEADER).toString());
                 HashMap<String, String> hashMap = new HashMap<>();
 
-                hashMap.put("Authorization", "Bearer" + preafManager.getUserToken());
+                hashMap.put("X-Authorization", "Bearer" + preafManager.getUserToken());
 
                 return hashMap;
             }
@@ -654,7 +654,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
                 return params;
             }
 

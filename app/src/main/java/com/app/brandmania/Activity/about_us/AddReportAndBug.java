@@ -100,6 +100,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
             binding.contactEdt.requestFocus();
             binding.scrollView.smoothScrollTo(0, binding.contactEdt.getTop());
         }
+
         if (!binding.emailEdt.getText().toString().equals("")) {
             if (!CodeReUse.isEmailValid(binding.emailEdt.getText().toString())) {
                 isError = true;
@@ -109,11 +110,6 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
                 binding.emailEdt.requestFocus();
 
             }
-            else
-            {
-
-            }
-
         }
 
         if (binding.bugsEdt.getText().toString().length() == 0) {
@@ -197,6 +193,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Utility.Log("report",response.toString());
                         isLoading = false;
                         Utility.dismissProgress();
                         if (ResponseHandler.isSuccess(null, response)) {
@@ -204,6 +201,8 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
 
                             Utility.showAlert(act, ResponseHandler.getString(ResponseHandler.createJsonObject(response.toString()), "message"), "Error");
 
+                        }else{
+                            Utility.showAlert(act, ResponseHandler.getString(ResponseHandler.createJsonObject(response.toString()), "message"), "Error");
                         }
                     }
 

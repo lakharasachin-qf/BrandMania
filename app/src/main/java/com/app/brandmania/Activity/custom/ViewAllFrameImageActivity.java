@@ -1194,7 +1194,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Bearer " + prefManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + prefManager.getUserToken());
                 return params;
             }
 
@@ -1679,7 +1679,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.DOWNLOAD_SHARE)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer" + prefManager.getUserToken())
+                .addHeaders("X-Authorization", "Bearer" + prefManager.getUserToken())
                 .setPriority(Priority.HIGH);
 
 
@@ -2252,7 +2252,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + prefManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
                 return params;
             }
 
@@ -2346,7 +2346,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + prefManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
                 return params;
             }
 
@@ -2379,7 +2379,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.EDIT_BRAND)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer" + prefManager.getUserToken())
+                .addHeaders("X-Authorization", "Bearer" + prefManager.getUserToken())
                 .addMultipartParameter("brand_id", prefManager.getActiveBrand().getId())
                 .setPriority(Priority.HIGH);
 
