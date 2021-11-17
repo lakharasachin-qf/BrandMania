@@ -188,7 +188,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     private ActivityViewAllImageBinding binding;
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     ArrayList<ImageList> menuModels = new ArrayList<>();
-    private ViewGroup mainLayout1;
+
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     public static final int DOWLOAD = 1;
     public static final int ADDFAV = 3;
@@ -1593,19 +1593,21 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+
                 Intent intent = new Intent(act, PackageActivity.class);
                 intent.putExtra("Profile", "1");
-
                 act.startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
+
         enterpriseBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
             }
         });
+
         enterpriseBinding.element3.setText("You have selected premium footer design. To use this design please upgrade your package");
         //alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -1741,7 +1743,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     }
 
-    //save image with frame either custom or from backend
     public void saveImageToGallery(boolean wantToShare, boolean isFavourite) {
         HELPER._INIT_FOLDER(Constant.ROOT);
         HELPER._INIT_FOLDER(Constant.DATA);
@@ -1888,7 +1889,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             binding.elementFooter.addView(oneBinding.getRoot());
             FooterHelper.loadFrameFirstData(act, oneBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.addressLayoutElement2);
             layoutModelClass.setOneBinding(oneBinding);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWO) {
             LayoutForLoadTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
@@ -1896,14 +1896,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setTwoBinding(twoBinding);
             FooterHelper.loadFrameTwoData(act, twoBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.firstView);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.secondView);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THREE) {
             LayoutForLoadThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
             layoutModelClass.setThreeBinding(threeBinding);
             FooterHelper.loadFrameThreeData(act, threeBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOUR) {
             LayoutForLoadFourBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
@@ -1928,7 +1926,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setSevenBinding(sevenBinding);
             FooterHelper.loadFrameSevenData(act, sevenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element0);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.socialFollow);
 
         } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHT) {
             LayoutForLoadEightBinding eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
@@ -1936,7 +1933,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setEightBinding(eightBinding);
             FooterHelper.loadFrameEightData(act, eightBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element1);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.element2);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_NINE) {
             LayoutForLoadNineBinding nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
             binding.elementFooter.addView(nineBinding.getRoot());
@@ -1949,7 +1945,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setTenBinding(tenBinding);
             FooterHelper.loadFrameTenData(act, tenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_ELEVEN) {
             LayoutFooterElevenBinding elevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eleven, null, false);
 
@@ -1963,7 +1958,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setElevenBinding(elevenBinding);
             FooterHelper.loadFrameElevenData(act, elevenBinding);
             mainLayout = findViewById(R.id.addressLayout);
-            mainLayout1 = findViewById(R.id.layout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWELVE) {
             LayoutFooterTweloneBinding tweloneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twelone, null, false);
 
@@ -1977,7 +1971,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setTwelveBinding(tweloneBinding);
             FooterHelper.loadFrameTweloneData(act, tweloneBinding);
             mainLayout = findViewById(R.id.addressLayout);
-            mainLayout1 = findViewById(R.id.layout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THIRTEEN) {
             LayoutFooterThirteenBinding thirteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_thirteen, null, false);
 
@@ -1991,7 +1984,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setThirteenBinding(thirteenBinding);
             FooterHelper.loadFrameThirteenData(act, thirteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
-            mainLayout1 = findViewById(R.id.layout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOURTEEN) {
             LayoutFooterFourteenBinding fourteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fourteen, null, false);
 
@@ -2007,7 +1999,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setFourteenBinding(fourteenBinding);
             FooterHelper.loadFrameFourteenData(act, fourteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
-            mainLayout1 = findViewById(R.id.layout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIFTEEN) {
             LayoutFooterFifteenBinding fifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fifteen, null, false);
 
@@ -2023,7 +2014,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setFifteenBinding(fifteenBinding);
             FooterHelper.loadFrameFifteenData(act, fifteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
-            mainLayout1 = findViewById(R.id.layout);
         }
 
     }
