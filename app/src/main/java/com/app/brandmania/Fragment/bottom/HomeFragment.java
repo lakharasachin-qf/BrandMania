@@ -281,6 +281,30 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
 
 
+        if (preafManager.getActiveBrand() != null) {
+            if (preafManager.getActiveBrand().getExpiery_date() != null && !preafManager.getActiveBrand().getExpiery_date().isEmpty() && Utility.isPackageExpired(act)) {
+                binding.infoMsg.setText("                           Dear user, your current package is expired on date " + preafManager.getActiveBrand().getExpiery_date() + ". Please Upgrade your plan and enjoy downloading image, GIF and videos.");
+                binding.tapActionBtn.setVisibility(View.VISIBLE);
+                binding.easyMessage.setVisibility(View.VISIBLE);
+                binding.infoMsg.setSelected(true);
+                binding.easyMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(act, PackageActivity.class);
+                        startActivity(intent);
+                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    }
+                });
+                binding.infoMsg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(act, PackageActivity.class);
+                        startActivity(intent);
+                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    }
+                });
+            }
+        }
 
 
         return binding.getRoot();
@@ -376,7 +400,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -454,7 +478,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -538,7 +562,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -610,7 +634,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Accept", "application/json");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
 
             }
@@ -790,7 +814,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -861,7 +885,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -953,7 +977,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Accept", "application/json");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
             }
 

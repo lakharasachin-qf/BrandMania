@@ -215,7 +215,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.USER_REGISTRATION)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer " + preafManager.getUserToken())
+                .addHeaders("X-Authorization", "Bearer " + preafManager.getUserToken())
                 .addMultipartParameter("first_name", binding.firstName.getText().toString())
                 .addMultipartParameter("last_name", binding.lastName.getText().toString())
                 .addMultipartParameter("email", binding.emailId.getText().toString())
@@ -392,7 +392,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Bearer " + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }

@@ -46,7 +46,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        //    Log.e("remoteMessage", remoteMessage.getData().toString());
+
         if (remoteMessage.getData().containsKey("cat_name")) {
             catName = remoteMessage.getData().get("cat_name");
         }
@@ -109,13 +109,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDeleteIntent(createOnDismissedIntent(this))
                 .setContentIntent(pendingIntent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            notificationBuilder.setContentText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT));
-            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT)));
-        } else {
-            notificationBuilder.setContentText(Html.fromHtml(msg));
-            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg)));
-        }
+        notificationBuilder.setContentText(msg);
+        notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(msg));
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            notificationBuilder.setContentText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT));
+//            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT)));
+//        } else {
+//            notificationBuilder.setContentText(Html.fromHtml(msg));
+//            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(msg)));
+//        }
+
         if (url != null && !url.isEmpty()) {
             Bitmap bitmap = getBitmapfromUrl(url);
             notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)).setLargeIcon(bitmap);
@@ -145,7 +149,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             return BitmapFactory.decodeStream(input);
 
         } catch (Exception e) {
-            Log.e("awesome", "Error in getting notification image: " + e.getLocalizedMessage());
             return null;
         }
     }

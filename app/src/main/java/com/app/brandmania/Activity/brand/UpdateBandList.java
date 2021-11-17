@@ -327,7 +327,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", "Bearer" + prefManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
                 Log.e("Token", params.toString());
                 return params;
             }
@@ -439,7 +439,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.EDIT_BRAND)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", "Bearer" + prefManager.getUserToken())
+                .addHeaders("X-Authorization", "Bearer" + prefManager.getUserToken())
                 .addMultipartParameter("brand_id", binding.IdEdt.getText().toString())
                 .addMultipartParameter("br_category", binding.categoryEdt.getText().toString())
                 .addMultipartParameter("br_name", binding.nameTxt.getText().toString())

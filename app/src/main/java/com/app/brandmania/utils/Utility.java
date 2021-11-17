@@ -83,31 +83,31 @@ public class Utility {
         });
     }
 
+
     public static boolean isPackageExpired(Activity act)
     {
+        if (new PreafManager(act).getActiveBrand().getExpiery_date()!=null && !new PreafManager(act).getActiveBrand().getExpiery_date().isEmpty()) {
+            try {
+                String expireDate = new PreafManager(act).getActiveBrand().getExpiery_date().replace('-', '/');
 
-        try {
+                Date date = new Date();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String currentDate = formatter.format(date);
 
-            String expireDate = new PreafManager(act).getActiveBrand().getExpiery_date().replace('-', '/');
-            Date date = new Date();
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String currentDate = formatter.format(date);
-            Log.e("expireDate", expireDate);
-            Log.e("currentDate", currentDate);
-
-            Date convertedExpireDate = formatter.parse(expireDate);
-            Date convertedCurrentDate = formatter.parse(currentDate);
+                Date convertedExpireDate = formatter.parse(expireDate);
+                Date convertedCurrentDate = formatter.parse(currentDate);
 
 
-            if(convertedExpireDate.compareTo(convertedCurrentDate) < 0)
-            {
-                return true;
+                if (convertedExpireDate.compareTo(convertedCurrentDate) < 0) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return false;
     }
+
 
     public static boolean isNewUser(Activity act) {
         try {

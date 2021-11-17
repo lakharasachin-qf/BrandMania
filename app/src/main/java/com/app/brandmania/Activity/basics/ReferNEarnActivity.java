@@ -189,7 +189,7 @@ public class ReferNEarnActivity extends BaseActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Accept", "application/json");
-                params.put("Authorization", "Bearer" + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
                 return params;
 
             }

@@ -36,6 +36,7 @@ import com.app.brandmania.databinding.ItemLayoutFrameBinding;
 import com.app.brandmania.databinding.ItemLayoutHomeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallframeBinding;
 import com.app.brandmania.databinding.ItemLayoutViewallimageBinding;
+import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
@@ -173,7 +174,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             activity.startActivity(intent);
                         }
                     });
-                    Log.e(model.getName(), String.valueOf(model.isImageFree()));
                     if (!model.isImageFree()) {
                         ((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     } else {
@@ -181,10 +181,11 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     }
                     preafManager = new PreafManager(activity);
                     if (preafManager.getActiveBrand() != null && preafManager.getActiveBrand().getIs_payment_pending() != null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
-                        ((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                        ((DailyRoundHolder) holder).binding.freePremium.setVisibility(View.GONE);
-                        ((DailyRoundHolder) holder).binding.premioutag.setVisibility(View.INVISIBLE);
-
+                        if (!Utility.isPackageExpired(activity)) {
+                            ((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                            ((DailyRoundHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            ((DailyRoundHolder) holder).binding.premioutag.setVisibility(View.INVISIBLE);
+                        }
                     }
                     break;
                 case LAYOUT_IMAGE_CATEGORY:
@@ -195,10 +196,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     ((ImageCategoryHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // if (layoutType==FROM_HOMEFRAGEMENT) {
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                             Gson gson = new Gson();
-                            Log.e("Link", model.getFrame());
+
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
                             intent.putExtra("selectedimage", gson.toJson(model));
                             intent.putExtra("position", position);
@@ -216,8 +216,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
                     preafManager = new PreafManager(activity);
                     if (preafManager.getActiveBrand() != null && preafManager.getActiveBrand().getIs_payment_pending() != null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
-                        ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                        ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                        if (!Utility.isPackageExpired(activity)) {
+                            ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                            ((ImageCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                        }
                     }
 
                     break;
@@ -252,8 +254,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     }
                     if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
-                            ((DailyHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                            ((DailyHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            if (!Utility.isPackageExpired(activity)) {
+                                ((DailyHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                                ((DailyHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            }
                         }
                     }
                     break;
@@ -270,7 +274,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             if (layoutType == FROM_HOMEFRAGEMENT) {
                                 Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                                 Gson gson = new Gson();
-                                Log.e("Link", model.getFrame());
                                 intent.putExtra("selectedimage", gson.toJson(model));
                                 intent.putExtra("position", position);
                                 activity.startActivity(intent);
@@ -310,8 +313,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
                     if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
-                            ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                            ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            if (!Utility.isPackageExpired(activity)) {
+                                ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                                ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            }
                         }
                     }
 
@@ -363,8 +368,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     }
                     if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
-                            ((FrameCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                            ((FrameCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            if (!Utility.isPackageExpired(activity)) {
+                                ((FrameCategoryHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                                ((FrameCategoryHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            }
                         }
                     }
                     break;
@@ -383,8 +390,10 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     }
                     if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
-                            ((FrameCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                            ((FrameCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            if (!Utility.isPackageExpired(activity)) {
+                                ((FrameCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                                ((FrameCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            }
                         }
                     }
 
