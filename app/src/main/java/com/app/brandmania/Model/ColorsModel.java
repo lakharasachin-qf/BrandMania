@@ -1,4 +1,4 @@
-package com.app.brandmania.Activity;
+package com.app.brandmania.Model;
 
 import java.util.ArrayList;
 

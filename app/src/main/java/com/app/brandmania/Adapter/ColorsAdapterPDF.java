@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.brandmania.Activity.ColorsModel;
+import com.app.brandmania.Model.ColorsModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ItemColorsForCardLayoutBinding;
 

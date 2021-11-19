@@ -1325,59 +1325,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         }
     }
 
-    Uri selectedVideoURI;
-
-    public String getRealPath(Uri uri) {
-        String docId = DocumentsContract.getDocumentId(uri);
-        String[] split = docId.split(":");
-        String type = split[0];
-        Uri contentUri;
-        switch (type) {
-            case "image":
-                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                break;
-            case "video":
-                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                break;
-            case "audio":
-                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                break;
-            default:
-                contentUri = MediaStore.Files.getContentUri("external");
-        }
-        String selection = "_id=?";
-        String[] selectionArgs = new String[]{
-                split[1]
-        };
-
-        return getDataColumn(act, contentUri, selection, selectionArgs);
-    }
-
-    private String getDataColumn(Activity act, Uri Uri, String selection, String[] selectionArgs) {
-        Cursor cursor = null;
-        String column = "_data";
-        String[] projection = {
-                column
-        };
-        try {
-            cursor = act.getContentResolver().query(Uri, projection, selection, selectionArgs, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                int column_index = cursor.getColumnIndexOrThrow(column);
-                String value = cursor.getString(column_index);
-                if (value.startsWith("content://") || !value.startsWith("/") && !value.startsWith("file://")) {
-                    return null;
-                }
-                return value;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return null;
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[],
@@ -1469,10 +1416,23 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     //fire intent for share
     public void triggerShareIntent(File new_file, Bitmap merged) {
         //  Uri uri = Uri.parse();
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, Utility.getImageUri(act, merged));
-        startActivity(Intent.createChooser(share, "Share Image"));
+//        Intent share = new Intent(Intent.ACTION_SEND);
+//        share.setType("image/*");
+//        share.putExtra(Intent.EXTRA_STREAM, Utility.getImageUri(act, merged));
+//        startActivity(Intent.createChooser(share, "Share Image"));
+
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        //File imageFileToShare = new File(String.valueOf(uris));
+        Uri uri = Uri.fromFile(new_file);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setDataAndType(uri, "image/jpeg");
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        act.startActivity(Intent.createChooser(shareIntent, "Share Image to.."));
+
     }
 
     // ask for payment
@@ -1764,10 +1724,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         if (!isFavourite) {
             FileOutputStream fileOutputStream;
-            //File file = getDisc();
-//            if (!file.exists() && !file.mkdirs()) {
-//                return;
-//            }
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
             String date = simpleDateFormat.format(new Date());
@@ -2331,8 +2287,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     @Override
                     public void onResponse(JSONObject response) {
                         //Utility.dismissLoadingTran();
-                        System.out.println("APIRESPONSE");
-                        Utility.Log("DOWNLOAD_SHARE : ", response);
+
+
                         if (updateLogo && selectedLogo != null)
                             uploadLogoForBrand(selectedLogo);
 

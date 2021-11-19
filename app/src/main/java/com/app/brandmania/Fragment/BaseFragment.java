@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.PreafManager;
 
+import com.app.brandmania.utils.CodeReUse;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -50,6 +51,21 @@ public abstract class BaseFragment extends Fragment implements Observer {
     @Override
     public void update(Observable observable, Object data) {
 
+    }
+    protected Map<String, String> getHeader(int flag) {
+        Map<String, String> headers = new HashMap<>();
+        if (flag == CodeReUse.GET_JSON_HEADER) {
+            headers.put("Accept", "application/json");
+            headers.put("Content-Type", "application/json");
+        } else {
+            headers.put("Accept", "application/x-www-form-urlencoded");
+            headers.put("Content-Type", "application/x-www-form-urlencoded");
+        }
+
+        if (prefManager.getUserToken() != null) {
+            headers.put("X-Authorization", "Bearer " + prefManager.getUserToken());
+        }
+        return headers;
     }
 
 

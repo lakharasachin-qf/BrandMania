@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -22,11 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
@@ -56,10 +52,10 @@ import com.app.brandmania.databinding.DialogOfferBinding;
 import com.app.brandmania.databinding.DialogRequestBusinessCategoryRemarksBinding;
 import com.app.brandmania.databinding.FragmentHomeBinding;
 import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,21 +77,16 @@ import angtrim.com.fivestarslibrary.ReviewListener;
 
 public class HomeFragment extends BaseFragment implements ItemMultipleSelectionInterface, ImageCateItemeInterFace, NegativeReviewListener, ReviewListener, SwipeRefreshLayout.OnRefreshListener {
     public static int BUSINESS_TYPE = 1;
-    private String BusinessTitle;
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
     DashBoardItem apiResponse;
     BrandListItem brandListItem;
-    public String referralCode;
     AlertDialog.Builder alertDialogBuilder;
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     FiveStarsDialog fiveStarsDialog;
     private DasboardAddaptor dasboardAddaptor;
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     ArrayList<ViewPagerItem> viewPagerItems = new ArrayList<>();
-    private RelativeLayout mTitleContainer;
     Activity act;
-    public String Wallet;
-    public String ReferalCode;
     PreafManager preafManager;
     private String deviceToken = "";
     private String popupImg;
@@ -124,6 +115,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     @Override
     public void onResume() {
         act = getActivity();
+        assert act != null;
         preafManager = new PreafManager(act);
         super.onResume();
     }
@@ -150,71 +142,40 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
         RateUs();
         binding.businessName.setText(preafManager.getActiveBrand().getName());
-        mTitleContainer = act.findViewById(R.id.main_linearlayout_title);
-        // binding.alertText.setSelected(true);
-        binding.showNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HELPER.ROUTE(act, ViewNotificationActivity.class);
-            }
-        });
-        binding.referCodeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(act, ReferNEarnActivity.class);
-                startActivity(intent);
-            }
+
+        binding.showNotification.setOnClickListener(view -> HELPER.ROUTE(act, ViewNotificationActivity.class));
+        binding.referCodeLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(act, ReferNEarnActivity.class);
+            startActivity(intent);
         });
 
-        binding.videoFeatureLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(act, PackageActivity.class);
-                //intent.putExtra("Profile","1");
-                startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
+        binding.videoFeatureLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(act, PackageActivity.class);
+            startActivity(intent);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
 
         binding.referralcodeTxt.setText(preafManager.getReferCode());
 
-        binding.createDigitalCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
-                    HELPER.ROUTE(act, PdfActivity.class);
-                } else {
-                    alertDialogBuilder = new AlertDialog.Builder(act);
-                    alertDialogBuilder.setTitle("Save image");
-                    alertDialogBuilder.setMessage("Your Logo is empty..!");
-                    alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.setCancelable(false);
-                    alertDialog.show();
-                }
+        binding.createDigitalCard.setOnClickListener(view -> {
+            if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
+                HELPER.ROUTE(act, PdfActivity.class);
+            } else {
+                alertDialogBuilder = new AlertDialog.Builder(act);
+                alertDialogBuilder.setTitle("Save image");
+                alertDialogBuilder.setMessage("Your Logo is empty..!");
+                alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.show();
             }
         });
 
-        binding.request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showRequestForm();
-            }
-        });
+        binding.request.setOnClickListener(v -> showRequestForm());
 
-        binding.createCustomImages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ROUTE(act, CustomViewAllActivit.class);
-            }
-        });
+        binding.createCustomImages.setOnClickListener(v -> HELPER.ROUTE(act, CustomViewAllActivit.class));
 
-        binding.createGreetingImages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CUSTOM_TAB_CHANGE_INTERFACE) getActivity()).makeTabChange(1);
-            }
-        });
+        binding.createGreetingImages.setOnClickListener(v -> ((CUSTOM_TAB_CHANGE_INTERFACE) act).makeTabChange(1));
 
         getBrandList();
 
@@ -222,50 +183,33 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
 
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
+        binding.swipeContainer.setOnRefreshListener(() -> {
 
-                startAnimation();
-                getFrame();
-                loadImagesCategory();
+            startAnimation();
+            getFrame();
+            loadImagesCategory();
 
-            }
         });
         getDeviceToken();
-        binding.businessNameDropDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFragmentList(BUSINESS_TYPE, BusinessTitle);
-            }
-        });
+        binding.businessNameDropDown.setOnClickListener(v -> showFragmentList(BUSINESS_TYPE, ""));
 
-        binding.whatsapp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
-            }
-        });
+        binding.whatsapp.setOnClickListener(v -> HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber()));
 
-        binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
-            }
-        });
+        binding.contactTxtLayout.setOnClickListener(v -> HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber()));
 
 
         if (!HomeActivity.isAlreadyDisplayedOffer) {
             try {
-                String offerValidDate = "05/11/2021";  //new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
+                String offerValidDate = "05/11/2021";
                 Date calDate = new Date();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter;
                 formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String calDateStr = formatter.format(calDate);
 
-                Date calDateFF = null;  //calDateStr
+                Date calDateFF;
                 calDateFF = formatter.parse(calDateStr);
                 Date offerValidDateFF = formatter.parse(offerValidDate);
+                assert calDateFF != null;
                 if (calDateFF.compareTo(offerValidDateFF) < 0) {
                     diwaliOffer();
                 }
@@ -279,13 +223,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 binding.infoMsg.setText("                           Dear user, your current package is expired on date " + preafManager.getActiveBrand().getExpiery_date() + ". Please Upgrade your plan and enjoy downloading image, GIF and videos.");
                 binding.tapActionBtn.setVisibility(View.VISIBLE);
                 binding.easyMessage.setVisibility(View.VISIBLE);
-                binding.easyMessage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(act, PackageActivity.class);
-                        startActivity(intent);
-                        act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    }
+                binding.easyMessage.setOnClickListener(v -> {
+                    Intent intent = new Intent(act, PackageActivity.class);
+                    startActivity(intent);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 });
             }
         }
@@ -324,63 +265,41 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     private void getBanner() {
         binding.swipeContainer.setRefreshing(true);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_BANNER, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("GET_BANNER : ", response);
-                try {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.GET_BANNER, response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                binding.swipeContainer.setRefreshing(false);
+                viewPagerItems = ResponseHandler.HandleGetBanneList(jsonObject);
 
-                    JSONObject jsonObject = new JSONObject(response);
-                    binding.swipeContainer.setRefreshing(false);
-                    viewPagerItems = ResponseHandler.HandleGetBanneList(jsonObject);
-
-                    if (viewPagerItems != null && viewPagerItems.size() != 0) {
-                        ViewPagerAdapter sliderAdapter = new ViewPagerAdapter(viewPagerItems, act);
-                        binding.ViewPagerView.setAdapter(sliderAdapter);
-                        TimerTask timerTask = new TimerTask() {
-                            @Override
-                            public void run() {
-                                binding.ViewPagerView.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        binding.ViewPagerView.setCurrentItem((binding.ViewPagerView.getCurrentItem() + 1) % sliderAdapter.getCount(), true);
-                                    }
-                                });
-                            }
-                        };
-                        timer = new Timer();
-                        timer.schedule(timerTask, 10000, 10000);
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (viewPagerItems != null && viewPagerItems.size() != 0) {
+                    ViewPagerAdapter sliderAdapter = new ViewPagerAdapter(viewPagerItems, act);
+                    binding.ViewPagerView.setAdapter(sliderAdapter);
+                    TimerTask timerTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            binding.ViewPagerView.post(() -> binding.ViewPagerView.setCurrentItem((binding.ViewPagerView.getCurrentItem() + 1) % sliderAdapter.getCount(), true));
+                        }
+                    };
+                    timer = new Timer();
+                    timer.schedule(timerTask, 10000, 10000);
                 }
 
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        binding.swipeContainer.setRefreshing(false);
-                        error.printStackTrace();
-                    }
+                error -> {
+                    binding.swipeContainer.setRefreshing(false);
+                    error.printStackTrace();
                 }
         ) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
-            }
 
         };
 
@@ -390,71 +309,48 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     private void loadImagesCategory() {
         Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY + "?page=1");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_IMAGE_CATEGORY : ", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    apiResponse = ResponseHandler.HandleGetImageCategory(act, jsonObject);
-                    if (apiResponse.getDashBoardItems() != null) {
-                        menuModels = apiResponse.getDashBoardItems();
-                        if (menuModels != null && menuModels.size() != 0) {
-                            setAdapter();
-                            binding.shimmerViewContainer.stopShimmer();
-                            binding.shimmerViewContainer.setVisibility(View.GONE);
-                            binding.swipeContainer.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-                    if (apiResponse.getLinks() != null) {
-                        if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
-                            getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        binding.swipeContainer.setRefreshing(false);
-                        error.printStackTrace();
-                        binding.swipeContainer.setRefreshing(false);
-                        binding.swipeContainer.setVisibility(View.GONE);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", response -> {
+            binding.swipeContainer.setRefreshing(false);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                apiResponse = ResponseHandler.HandleGetImageCategory(act, jsonObject);
+                if (apiResponse.getDashBoardItems() != null) {
+                    menuModels = apiResponse.getDashBoardItems();
+                    if (menuModels != null && menuModels.size() != 0) {
+                        setAdapter();
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
+                        binding.swipeContainer.setVisibility(View.VISIBLE);
                     }
+                }
+
+                if (apiResponse.getLinks() != null) {
+                    if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
+                        getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        },
+                error -> {
+                    binding.swipeContainer.setRefreshing(false);
+                    error.printStackTrace();
+                    binding.swipeContainer.setRefreshing(false);
+                    binding.swipeContainer.setVisibility(View.GONE);
+                    binding.shimmerViewContainer.stopShimmer();
+                    binding.shimmerViewContainer.setVisibility(View.GONE);
                 }
         ) {
             /**
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
-
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
         };
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
@@ -462,78 +358,42 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     private void getImageCategoryNextPage(String nextPageUrl) {
         Utility.Log("API-", nextPageUrl);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_IMAGE_CATEGORY : ", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    apiResponse = ResponseHandler.HandleGetImageCategory(act, jsonObject);
-                    if (apiResponse.getDashBoardItems() != null) {
-                        if (menuModels != null && menuModels.size() != 0) {
-                            int lastPos = menuModels.size();
-                            menuModels.addAll(menuModels.size(), apiResponse.getDashBoardItems());
-                            dasboardAddaptor.notifyItemRangeInserted(lastPos, apiResponse.getDashBoardItems().size());
-                        } else {
-                            menuModels = new ArrayList<>();
-                            menuModels.addAll(0, apiResponse.getDashBoardItems());
-                        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, response -> {
+            binding.swipeContainer.setRefreshing(false);
+            Utility.Log("GET_IMAGE_CATEGORY : ", response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                apiResponse = ResponseHandler.HandleGetImageCategory(act, jsonObject);
+                if (apiResponse.getDashBoardItems() != null) {
+                    if (menuModels != null && menuModels.size() != 0) {
+                        int lastPos = menuModels.size();
+                        menuModels.addAll(menuModels.size(), apiResponse.getDashBoardItems());
+                        dasboardAddaptor.notifyItemRangeInserted(lastPos, apiResponse.getDashBoardItems().size());
+                    } else {
+                        menuModels = new ArrayList<>();
+                        menuModels.addAll(0, apiResponse.getDashBoardItems());
                     }
-                    if (apiResponse.getLinks() != null) {
-                        if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
-                            // binding.shimmerForPagination.startShimmer();
-                            //  binding.shimmerForPagination.setVisibility(View.VISIBLE);
-                            getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
-                        } else {
-                            // binding.shimmerForPagination.stopShimmer();
-                            // binding.shimmerForPagination.setVisibility(View.GONE);
-                        }
-                    }
-                    if (apiResponse.getDashBoardItems() == null || apiResponse.getDashBoardItems().size() == 0) {
-                        //  binding.shimmerForPagination.stopShimmer();
-                        // binding.shimmerForPagination.setVisibility(View.GONE);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        binding.swipeContainer.setRefreshing(false);
-                        error.printStackTrace();
-
+                if (apiResponse.getLinks() != null) {
+                    if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
+                        getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
                     }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        },
+                error -> {
+                    binding.swipeContainer.setRefreshing(false);
+                    error.printStackTrace();
+
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-
-                Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
         };
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
@@ -543,19 +403,18 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private void UpdateToken() {
         Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("UPDATE_TOKENnn", response);
-                JSONObject jsonObject = ResponseHandler.createJsonObject(response);
-                try {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, response -> {
+
+            JSONObject jsonObject = ResponseHandler.createJsonObject(response);
+            try {
+                if (jsonObject != null) {
                     preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject, "data").getJSONObject(0), "video_url_path"));
+
                     JSONObject jsonArray1 = jsonObject.getJSONObject("message");
                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
                     popupImg = jsonArray1.getString("popup_img");
                     isActivityStatus = jsonArray1.getString("is_activity");
-                    //com.app.brandmania.Activity.packages.PackageActivity
                     targetLink = jsonArray1.getString("target_link");
                     if (jsonArray1.getString("reference_code").equals("null"))
                         jsonArray1.put("reference_code", "");
@@ -570,27 +429,15 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                             setOfferCode();
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, Throwable::printStackTrace) {
 
-                error.printStackTrace();
-            }
-        }) {
-            /**
-             * Passing some request headers*
-             */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Accept", "application/json");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
 
             }
 
@@ -665,11 +512,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
 
-    //Back Event.........................
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);
         a.addCategory(Intent.CATEGORY_HOME);
-        //  a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(a);
     }
@@ -689,9 +534,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.businessName.setText(listModel.getName());
         brandListItem = listModel;
         preafManager.setActiveBrand(listModel);
-        Gson gson = new Gson();
-
-
     }
 
     @Override
@@ -714,79 +556,51 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     private void getBrandList() {
         binding.swipeContainer.setRefreshing(true);
-        Utility.Log("API : ", APIs.GET_BRAND);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("GET_BRAND : ", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    binding.swipeContainer.setRefreshing(false);
-                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                    preafManager.setAddBrandList(multiListItems);
-                    if (preafManager.getActiveBrand() != null) {
-                        for (int i = 0; i < multiListItems.size(); i++) {
-                            if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
-                                preafManager.setActiveBrand(multiListItems.get(i));
-                                break;
-                            }
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                binding.swipeContainer.setRefreshing(false);
+                multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                preafManager.setAddBrandList(multiListItems);
+                if (preafManager.getActiveBrand() != null) {
+                    for (int i = 0; i < multiListItems.size(); i++) {
+                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
+                            preafManager.setActiveBrand(multiListItems.get(i));
+                            break;
                         }
                     }
-                    preafManager = new PreafManager(act);
-                    binding.businessName.setText(preafManager.getActiveBrand().getName());
-
-                    //FirstLogin
-                    if (act.getIntent().hasExtra("FirstLogin")) {
-                        preafManager.setIS_Brand(true);
-                        if (multiListItems.size() != 0) {
-                            preafManager.setActiveBrand(multiListItems.get(0));
-                        }
-                    }
-                    if (preafManager.getActiveBrand() == null) {
-                        if (multiListItems.size() != 0) {
-                            preafManager.setActiveBrand(multiListItems.get(0));
-                        }
-                    }
-
-                    startAnimation();
-                    loadImagesCategory();
-                    getBanner();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-
-
+                preafManager = new PreafManager(act);
+                binding.businessName.setText(preafManager.getActiveBrand().getName());
+                if (act.getIntent().hasExtra("FirstLogin")) {
+                    preafManager.setIS_Brand(true);
+                    if (multiListItems.size() != 0) {
+                        preafManager.setActiveBrand(multiListItems.get(0));
+                    }
+                }
+                if (preafManager.getActiveBrand() == null) {
+                    if (multiListItems.size() != 0) {
+                        preafManager.setActiveBrand(multiListItems.get(0));
+                    }
+                }
+                startAnimation();
+                loadImagesCategory();
+                getBanner();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        binding.swipeContainer.setRefreshing(false);
-                        error.printStackTrace();
-                    }
+                error -> {
+                    binding.swipeContainer.setRefreshing(false);
+                    error.printStackTrace();
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/json");
-                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
-            }
-
         };
 
         RequestQueue queue = Volley.newRequestQueue(act);
@@ -809,54 +623,28 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     @Override
     public void onReview(int stars) {
-        Log.d("TAG", "Review " + stars);
     }
 
     private void getFrame() {
         Utility.Log("API : ", APIs.GET_FRAME);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                Utility.Log("GET_FRAME : ", response);
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
-                    JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME, response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-
-                    }
-                }
+        }, Throwable::printStackTrace
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("brand_id", preafManager.getActiveBrand().getId());
-                Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 
@@ -868,11 +656,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     @Override
     public void update(Observable observable, Object data) {
-
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
             getBrandList();
         }
-
     }
 
 
@@ -891,24 +677,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         alertDialog.setContentView(reqBinding.getRoot());
 
         Utility.RemoveError(reqBinding.nameTxt);
-        reqBinding.close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
+        reqBinding.close.setOnClickListener(v -> alertDialog.dismiss());
+        reqBinding.submit.setOnClickListener(v -> {
+            if (reqBinding.nameTxt.getText().toString().trim().length() == 0) {
+                reqBinding.nameTxt.setError("Enter category");
+                reqBinding.nameTxt.requestFocus();
+                return;
             }
-        });
-        reqBinding.submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (reqBinding.nameTxt.getText().toString().trim().length() == 0) {
-                    reqBinding.nameTxt.setError("Enter category");
-                    reqBinding.nameTxt.requestFocus();
-                    return;
-                }
-                alertDialog.dismiss();
-                apiForCategoryRequest(reqBinding.nameTxt.getText().toString());
-                Toast.makeText(act, "Thanks for request we will contact you soon", Toast.LENGTH_SHORT).show();
-            }
+            alertDialog.dismiss();
+            apiForCategoryRequest(reqBinding.nameTxt.getText().toString());
+            Toast.makeText(act, "Thanks for request we will contact you soon", Toast.LENGTH_SHORT).show();
         });
         alertDialog.show();
 
@@ -916,38 +694,21 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
 
     private void apiForCategoryRequest(String catString) {
-        Utility.Log("BusinessCategory", APIs.REQUEST_BUSINESS_CATEGORY);
         Utility.showProgress(act);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REQUEST_BUSINESS_CATEGORY, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("Request-Business-response", response);
-                Utility.dismissProgress();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Utility.dismissProgress();
-                error.printStackTrace();
-            }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REQUEST_BUSINESS_CATEGORY, response -> Utility.dismissProgress(), error -> {
+            Utility.dismissProgress();
+            error.printStackTrace();
         }) {
-            /**
-             * Passing some request headers*
-             */
+
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Accept", "application/json");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put("cat_name", catString);
-                Utility.Log("param", hashMap.toString());
                 return hashMap;
             }
         };
@@ -973,21 +734,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         offerBinding.closeLayout.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.colorthird)));
         offerBinding.closeView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.white)));
         offerBinding.offerImage.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.diwali_offer));
-        offerBinding.offerImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                offerAlert.dismiss();
-                Intent intent = new Intent(act, PackageActivity.class);
-                startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
+        offerBinding.offerImage.setOnClickListener(v -> {
+            offerAlert.dismiss();
+            Intent intent = new Intent(act, PackageActivity.class);
+            startActivity(intent);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
-        offerBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                offerAlert.dismiss();
-            }
-        });
+        offerBinding.closeLayout.setOnClickListener(v -> offerAlert.dismiss());
         offerAlert.show();
     }
 

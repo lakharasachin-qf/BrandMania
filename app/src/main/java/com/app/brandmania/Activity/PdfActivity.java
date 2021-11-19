@@ -34,6 +34,7 @@ import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.VisitingCardHelper;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.ColorPickerFragment;
+import com.app.brandmania.Model.ColorsModel;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityPdfBinding;

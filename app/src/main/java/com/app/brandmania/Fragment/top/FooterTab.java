@@ -62,14 +62,13 @@ public class FooterTab extends Fragment {
             model.setEmailId(preafManager.getActiveBrand().getEmail());
             model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
             model.setWebsite(preafManager.getActiveBrand().getWebsite());
-            footerModels.add(model);
         } else {
             model.setAddress("");
             model.setEmailId("");
             model.setContactNo("");
             model.setWebsite("");
-            footerModels.add(model);
         }
+        footerModels.add(model);
     }
 
     public void setAdapterDuplicate() {
@@ -90,72 +89,77 @@ public class FooterTab extends Fragment {
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_TWO);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FOUR);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FIVE);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_SIX);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_EIGHT);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_NINE);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_TEN);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
 
         FooterAdapter footerAdapter = new FooterAdapter(footerModels, act);
-        FooterAdapter.onFooterListener onFooterListener = new FooterAdapter.onFooterListener() {
-            @Override
-            public void onFooterChoose(int footerLayout, FooterModel footerModel) {
-                footerAdapter.notifyDataSetChanged();
-                ((onFooterSelectListener) act).onFooterSelectEvent(footerLayout, footerModel);
+        FooterAdapter.onFooterListener onFooterListener = (footerLayout, footerModel) -> {
+            footerAdapter.notifyDataSetChanged();
+            ((onFooterSelectListener) act).onFooterSelectEvent(footerLayout, footerModel);
 
-            }
         };
         footerAdapter.setFooterListener(onFooterListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, LinearLayoutManager.VERTICAL, false);
@@ -205,62 +209,70 @@ public class FooterTab extends Fragment {
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
         model.setEnable(FooterRules._ONE(preafManager.getActiveBrand()));
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_TWO);
         model.setEnable(FooterRules._ONE(preafManager.getActiveBrand()));
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FOUR);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FIVE);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_SIX);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_EIGHT);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_NINE);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_TEN);
-        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
-            model.setFree(true);
-        }
+//        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+//            model.setFree(true);
+//        }
+        model.setFree(true);
         setData(model);
 
 

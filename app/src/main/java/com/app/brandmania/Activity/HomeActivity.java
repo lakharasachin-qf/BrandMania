@@ -432,9 +432,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     int currentVERSION = Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".", ""));
 
                     if (apiVERSION > currentVERSION) {
-                        // Create an alert builder
                         AlertDialog.Builder builder = new AlertDialog.Builder(act);
-                        // set the custom layout
                         final View customLayout = getLayoutInflater().inflate(R.layout.frame_alert_box, null);
                         ImageView cloasedBox = customLayout.findViewById(R.id.CloseImg);
                         WebView webView = customLayout.findViewById(R.id.webView);
@@ -450,8 +448,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                             cloasedBox.setVisibility(View.GONE);
                         }
 
-                        // create and show
-                        // the alert dialog
                         AlertDialog dialog = builder.create();
                         dialog.getWindow().setBackgroundDrawableResource(R.color.colorNavText);
                         dialog.setCancelable(false);
@@ -522,15 +518,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void FetchCustomFrameStatus() {
-
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.FETCH_CUSTOME_FRAME_STATUS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    //  JSONObject jsonArray1 = jsonObject.getJSONObject("data");
                     if (ResponseHandler.getBool(jsonObject, "status")) {
                         iscutomEnable = true;
                     }

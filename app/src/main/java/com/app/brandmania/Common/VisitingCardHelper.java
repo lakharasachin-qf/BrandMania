@@ -2,19 +2,17 @@ package com.app.brandmania.Common;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
-import com.app.brandmania.Activity.ColorsModel;
+import com.app.brandmania.Model.ColorsModel;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardThreeBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardTwoBinding;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
