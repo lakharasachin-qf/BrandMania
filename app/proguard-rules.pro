@@ -37,3 +37,6 @@
     public static ** valueOf(java.lang.String);
 }
 -keepclassmembers enum * { *; }
+
+-dontwarn com.squareup.okhttp.**
+

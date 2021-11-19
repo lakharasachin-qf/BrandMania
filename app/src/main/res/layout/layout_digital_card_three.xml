@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/frontPageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_178sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:fitsSystemWindows="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frontPage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#810E34">
+
+
+                <View
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:background="@drawable/digital_card_ovel"
+                    app:layout_constraintBottom_toBottomOf="@id/logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/logo" />
+
+                <View
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_120sdp"
+                    android:background="@drawable/digital_round_corner_two"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_150sdp"
+                    android:background="@drawable/digital_round_corner_one"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:src="@drawable/bm_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_178sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frontPageLayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/backPage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#810E34">
+
+
+                <View
+                    android:id="@+id/outerLayer3"
+                    android:layout_width="@dimen/_165sdp"
+                    android:layout_height="@dimen/_165sdp"
+                    android:layout_marginTop="-40dp"
+                    android:layout_marginEnd="-40dp"
+                    android:background="@drawable/digital_card_ovel"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:id="@+id/outerLayer2"
+                    android:layout_width="@dimen/_185sdp"
+                    android:layout_height="@dimen/_185sdp"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginEnd="-35dp"
+                    android:layout_marginBottom="-30dp"
+                    android:background="@drawable/digital_round_corner_two"
+                    android:rotation="-25"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/outerLayer1"
+                    android:layout_width="@dimen/_210sdp"
+                    android:layout_height="@dimen/_210sdp"
+                    android:layout_marginTop="-35dp"
+                    android:layout_marginEnd="-50dp"
+                    android:background="@drawable/digital_round_corner_one"
+                    android:rotation="-20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/logo1"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:src="@drawable/bm_logo"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/callIcon"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:background="@drawable/roundshape"
+                    android:backgroundTint="@color/colorthird"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/ic_outline_call_24"
+                    app:layout_constraintBottom_toTopOf="@+id/emailIcon"
+                    app:layout_constraintEnd_toEndOf="@+id/emailIcon"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/phoneTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+
+                    android:fontFamily="@font/montserrat_regular"
+                    android:includeFontPadding="false"
+                    android:text="Mobile No "
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_6sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/callIcon"
+                    app:layout_constraintEnd_toStartOf="@id/callIcon"
+                    app:layout_constraintTop_toTopOf="@+id/callIcon" />
+
+                <ImageView
+                    android:id="@+id/emailIcon"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_7sdp"
+                    android:background="@drawable/roundshape"
+                    android:backgroundTint="@color/colorthird"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/ic_outline_mail_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/outerLayer1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/emailTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:includeFontPadding="false"
+                    android:text="Email id "
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_6sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/emailIcon"
+                    app:layout_constraintEnd_toStartOf="@id/emailIcon"
+                    app:layout_constraintTop_toTopOf="@+id/emailIcon" />
+
+
+                <ImageView
+                    android:id="@+id/addressIcon"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:background="@drawable/roundshape"
+                    android:backgroundTint="@color/colorthird"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/ic_outline_location_on_24"
+                    app:layout_constraintEnd_toEndOf="@+id/emailIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/emailIcon"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/addressTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:includeFontPadding="false"
+                    android:text="Website"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_6sdp"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/addressIcon"
+                    app:layout_constraintEnd_toStartOf="@id/addressIcon"
+                    app:layout_constraintTop_toTopOf="@+id/addressIcon" />
+
+
+                <ImageView
+                    android:id="@+id/fb"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:padding="@dimen/_1sdp"
+                    android:src="@drawable/ic_social_media_facebook"
+                    app:layout_constraintBottom_toBottomOf="@+id/insta"
+                    app:layout_constraintEnd_toStartOf="@+id/insta" />
+
+                <ImageView
+                    android:id="@+id/insta"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:padding="@dimen/_1sdp"
+                    android:src="@drawable/ic_social_media_instagram"
+                    app:layout_constraintBottom_toBottomOf="@+id/outerLayer3"
+                    app:layout_constraintEnd_toEndOf="@+id/outerLayer3"
+                    app:layout_constraintStart_toStartOf="@+id/outerLayer3" />
+
+                <ImageView
+                    android:id="@+id/wp"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:padding="@dimen/_1sdp"
+                    android:src="@drawable/ic_social_media_whatsapp"
+                    app:layout_constraintBottom_toBottomOf="@+id/insta"
+                    app:layout_constraintStart_toEndOf="@+id/insta" />
+
+                <TextView
+                    android:id="@+id/brandNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:includeFontPadding="false"
+                    android:text="Pecificaoversears"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/outerLayer3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/outerLayer3"
+                    app:layout_constraintTop_toTopOf="@+id/outerLayer3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
