@@ -173,6 +173,7 @@ dependencies {
     implementation 'com.arthenica:mobile-ffmpeg-full:4.4.LTS'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.30"
 
-    
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -22,16 +21,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_70sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
                 android:elevation="0dp">
 
                 <ImageView
                     android:id="@+id/BackButtonMember"
                     android:layout_width="23dp"
                     android:layout_height="23dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@drawable/ic_left_arrow" />
 
                 <TextView
@@ -43,6 +42,14 @@
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/exportIcon"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_baseline_save_24" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -89,6 +96,24 @@
                     android:layout_marginTop="@dimen/_7sdp"
                     android:background="@color/colorthird" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/colorList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </RelativeLayout>
+
+                <include
+                    android:id="@+id/digitalCard"
+                    layout="@layout/layout_digital_card_three"
+                    android:visibility="gone" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -96,6 +121,7 @@
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
+                    android:visibility="gone"
                     app:cardElevation="@dimen/_5sdp"
                     app:cardUseCompatPadding="true">
 
@@ -129,9 +155,7 @@
                                     <ImageView
                                         android:id="@+id/pdfLogo"
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-
-                                        android:src="@drawable/placeholder" />
+                                        android:layout_height="match_parent" />
                                 </androidx.cardview.widget.CardView>
 
 
@@ -368,24 +392,13 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/submit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_28sdp"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:background="@drawable/buttoncornar"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/_24sdp"
-                    android:paddingEnd="@dimen/_24sdp"
-                    android:text="Export As Pdf"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="#FFF"
-                    android:textSize="@dimen/_9sdp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cardList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp" />
             </LinearLayout>
         </ScrollView>
 
