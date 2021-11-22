@@ -37,7 +37,7 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
     private View view;
     private FragmentColorsPickerBinding binding;
     private ColorPickerFragment fragment;
-    private  OnColorChoose onColorChoose;
+    private OnColorChoose onColorChoose;
 
     public OnColorChoose getOnColorChoose() {
         return onColorChoose;
@@ -47,7 +47,7 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
         this.onColorChoose = onColorChoose;
     }
 
-    public  interface  OnColorChoose{
+    public interface OnColorChoose {
         void onColorSelected(int color);
     }
 
@@ -95,7 +95,7 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
         BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
         ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
 
-        int windowHeight = getWindowHeight()/3;
+        int windowHeight = getWindowHeight() / 3;
         if (layoutParams != null) {
             layoutParams.height = windowHeight;
         }
@@ -128,7 +128,7 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
         binding.codeEdt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId== EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     if (isValidHexaCode(binding.codeEdt.getText().toString())) {
                         try {
                             int color = Color.parseColor(binding.codeEdt.getText().toString());
@@ -160,9 +160,9 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
         });
         return view;
     }
+
     // Function to validate hexadecimal color code .
-    public static boolean isValidHexaCode(String str)
-    {
+    public static boolean isValidHexaCode(String str) {
         String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
         Pattern p = Pattern.compile(regex);
 

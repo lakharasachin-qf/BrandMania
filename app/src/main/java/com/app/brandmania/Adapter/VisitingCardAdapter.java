@@ -1,6 +1,8 @@
 package com.app.brandmania.Adapter;
 
 
+import static com.app.brandmania.Model.VisitingCardModel.LAYOUT_FIVE;
+import static com.app.brandmania.Model.VisitingCardModel.LAYOUT_FOUR;
 import static com.app.brandmania.Model.VisitingCardModel.LAYOUT_ONE;
 import static com.app.brandmania.Model.VisitingCardModel.LAYOUT_THREE;
 import static com.app.brandmania.Model.VisitingCardModel.LAYOUT_TWO;
@@ -21,7 +23,11 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ItemDigitalCardFiveBinding;
+import com.app.brandmania.databinding.ItemDigitalCardFourBinding;
 import com.app.brandmania.databinding.ItemDigitalCardOneBinding;
+import com.app.brandmania.databinding.ItemDigitalCardThreeBinding;
+import com.app.brandmania.databinding.ItemDigitalCardTwoBinding;
 import com.app.brandmania.databinding.LayoutFooterElevenBinding;
 
 import java.util.ArrayList;
@@ -60,11 +66,17 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                 ItemDigitalCardOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_digital_card_one, viewGroup, false);
                 return new CardHolderOne(oneBinding);
             case LAYOUT_TWO:
-                ItemDigitalCardOneBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_digital_card_one, viewGroup, false);
+                ItemDigitalCardTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_digital_card_two, viewGroup, false);
                 return new CardHolderTwo(twoBinding);
             case LAYOUT_THREE:
-                ItemDigitalCardOneBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_digital_card_one, viewGroup, false);
+                ItemDigitalCardThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_digital_card_three, viewGroup, false);
                 return new CardHolderThree(threeBinding);
+            case LAYOUT_FOUR:
+                ItemDigitalCardFourBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_digital_card_four, viewGroup, false);
+                return new CardHolderFour(fourBinding);
+            case LAYOUT_FIVE:
+                ItemDigitalCardFiveBinding fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_digital_card_five, viewGroup, false);
+                return new CardHolderFive(fiveBinding);
 
         }
         return null;
@@ -80,7 +92,10 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                 return LAYOUT_TWO;
             case 2:
                 return LAYOUT_THREE;
-
+            case 3:
+                return LAYOUT_FOUR;
+            case 4:
+                return LAYOUT_FIVE;
             default:
                 return -1;
         }
@@ -124,6 +139,22 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                         }
                     });
                     break;
+                case LAYOUT_FOUR:
+                    ((CardHolderFour) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                        }
+                    });
+                    break;
+                case LAYOUT_FIVE:
+                    ((CardHolderFive) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                        }
+                    });
+                    break;
             }
         }
     }
@@ -145,9 +176,9 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
     }
 
     static class CardHolderTwo extends RecyclerView.ViewHolder {
-        ItemDigitalCardOneBinding binding;
+        ItemDigitalCardTwoBinding binding;
 
-        CardHolderTwo(ItemDigitalCardOneBinding itemView) {
+        CardHolderTwo(ItemDigitalCardTwoBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
 
@@ -155,9 +186,29 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
     }
 
     static class CardHolderThree extends RecyclerView.ViewHolder {
-        ItemDigitalCardOneBinding binding;
+        ItemDigitalCardThreeBinding binding;
 
-        CardHolderThree(ItemDigitalCardOneBinding itemView) {
+        CardHolderThree(ItemDigitalCardThreeBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+
+    static class CardHolderFour extends RecyclerView.ViewHolder {
+        ItemDigitalCardFourBinding binding;
+
+        CardHolderFour(ItemDigitalCardFourBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+
+        }
+    }
+
+    static class CardHolderFive extends RecyclerView.ViewHolder {
+        ItemDigitalCardFiveBinding binding;
+
+        CardHolderFive(ItemDigitalCardFiveBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
 

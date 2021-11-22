@@ -10,6 +10,8 @@ import androidx.palette.graphics.Palette;
 import com.app.brandmania.Model.ColorsModel;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.LayoutDigitalCardFifthBinding;
+import com.app.brandmania.databinding.LayoutDigitalCardFourthBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardThreeBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardTwoBinding;
@@ -33,6 +35,15 @@ public class VisitingCardHelper {
         visitingCardModel = new VisitingCardModel();
         visitingCardModel.setLayoutType(VisitingCardModel.LAYOUT_THREE);
         digitalCardList.add(visitingCardModel);
+
+        visitingCardModel = new VisitingCardModel();
+        visitingCardModel.setLayoutType(VisitingCardModel.LAYOUT_FOUR);
+        digitalCardList.add(visitingCardModel);
+
+        visitingCardModel = new VisitingCardModel();
+        visitingCardModel.setLayoutType(VisitingCardModel.LAYOUT_FIVE);
+        digitalCardList.add(visitingCardModel);
+
         return digitalCardList;
 
     }
@@ -56,6 +67,17 @@ public class VisitingCardHelper {
         loadDefaultColorCardThree(act, threeBinding, colors);
     }
 
+    public static void loadDataCardFour(Activity act, LayoutDigitalCardFourthBinding fourBinding, Palette colors) {
+        Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(fourBinding.logo);
+        Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(fourBinding.logo2);
+        loadDefaultColorCardFour(act, fourBinding, colors);
+    }
+
+    public static void loadDataCardFive(Activity act, LayoutDigitalCardFifthBinding fiveBinding, Palette colors) {
+        Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(fiveBinding.logo);
+        Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(fiveBinding.logo2);
+        loadDefaultColorCardFive(act, fiveBinding, colors);
+    }
 
     public static void loadDefaultColorCardOne(Activity act, LayoutDigitalCardOneBinding binding, Palette colors) {
         binding.frontPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
@@ -88,11 +110,32 @@ public class VisitingCardHelper {
         binding.backPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
 
         binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.addressIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
 //        binding.fb.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
 //        binding.wp.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
 //        binding.insta.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+    }
+
+    public static void loadDefaultColorCardFour(Activity act, LayoutDigitalCardFourthBinding binding, Palette colors) {
+        binding.frontPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.backPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.view.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.verticalView.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+
+    }
+
+    public static void loadDefaultColorCardFive(Activity act, LayoutDigitalCardFifthBinding binding, Palette colors) {
+        binding.frontPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.backPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+
+        binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.addressIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.userIcon.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
     }
 
     public static ArrayList<ColorsModel> getColorList(VisitingCardModel model, Palette colors, Activity act) {
@@ -102,6 +145,10 @@ public class VisitingCardHelper {
             return getColorsListCardTwo(colors, act, model.getTwoBinding());
         } else if (model.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
             return getColorsListCardThree(colors, act, model.getThreeBinding());
+        } else if (model.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+            return getColorsListCardFour(colors, act, model.getFourBinding());
+        } else if (model.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+            return getColorsListCardFive(colors, act, model.getFiveBinding());
         }
         return new ArrayList<>();
     }
@@ -212,7 +259,7 @@ public class VisitingCardHelper {
         model.setObjectPosition(1);
         viewId.add(binding.callIcon.getId());
         viewId.add(binding.emailIcon.getId());
-        viewId.add(binding.addressIcon.getId());
+        viewId.add(binding.websiteIcon.getId());
         model.setViewId(viewId);
         colorsList.add(model);
 
@@ -237,6 +284,90 @@ public class VisitingCardHelper {
         return colorsList;
     }
 
+    public static ArrayList<ColorsModel> getColorsListCardFour(Palette colors, Activity act, LayoutDigitalCardFourthBinding binding) {
+        ArrayList<ColorsModel> colorsList = new ArrayList<>();
+        ColorsModel model = new ColorsModel(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
+        ArrayList<Integer> viewId = new ArrayList<>();
+        model.setObjectPosition(0);
+        viewId.add(binding.frontPage.getId());
+        viewId.add(binding.backPage.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        model = new ColorsModel(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
+        viewId = new ArrayList<>();
+        model.setObjectPosition(1);
+        viewId.add(binding.callIcon.getId());
+        viewId.add(binding.emailIcon.getId());
+        viewId.add(binding.websiteIcon.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        model = new ColorsModel(ContextCompat.getColor(act, R.color.white));
+        viewId = new ArrayList<>();
+        model.setObjectPosition(2);
+        viewId.add(binding.phoneTxt.getId());
+        viewId.add(binding.emailTxt.getId());
+        viewId.add(binding.addressTxt.getId());
+        viewId.add(binding.websiteTxt.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        model = new ColorsModel(ContextCompat.getColor(act, R.color.black));
+        viewId = new ArrayList<>();
+        model.setObjectPosition(3);
+//        viewId.add(binding.fb.getId());
+//        viewId.add(binding.insta.getId());
+//        viewId.add(binding.wp.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        return colorsList;
+    }
+
+
+    public static ArrayList<ColorsModel> getColorsListCardFive(Palette colors, Activity act, LayoutDigitalCardFifthBinding binding) {
+        ArrayList<ColorsModel> colorsList = new ArrayList<>();
+        ColorsModel model = new ColorsModel(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
+        ArrayList<Integer> viewId = new ArrayList<>();
+        model.setObjectPosition(0);
+        viewId.add(binding.frontPage.getId());
+        viewId.add(binding.backPage.getId());
+        viewId.add(binding.verticalView.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        model = new ColorsModel(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
+        viewId = new ArrayList<>();
+        model.setObjectPosition(1);
+        viewId.add(binding.callIcon.getId());
+        viewId.add(binding.emailIcon.getId());
+        viewId.add(binding.addressIcon.getId());
+        viewId.add(binding.userIcon.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        model = new ColorsModel(ContextCompat.getColor(act, R.color.white));
+        viewId = new ArrayList<>();
+        model.setObjectPosition(2);
+        viewId.add(binding.phoneTxt.getId());
+        viewId.add(binding.addressTxt.getId());
+        viewId.add(binding.emailTxt.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        model = new ColorsModel(ContextCompat.getColor(act, R.color.black));
+        viewId = new ArrayList<>();
+        model.setObjectPosition(3);
+//        viewId.add(binding.fb.getId());
+//        viewId.add(binding.insta.getId());
+//        viewId.add(binding.wp.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        return colorsList;
+    }
+
 
     public static void applyColor(VisitingCardModel model, int colorCode, ColorsModel colorsModel) {
         if (model.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
@@ -245,6 +376,10 @@ public class VisitingCardHelper {
             applyColorCardTwo(model, colorCode, colorsModel);
         } else if (model.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
             applyColorCardThree(model, colorCode, colorsModel);
+        } else if (model.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+            applyColorCardFour(model, colorCode, colorsModel);
+        } else if (model.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+            applyColorCardFive(model, colorCode, colorsModel);
         }
     }
 
@@ -312,10 +447,9 @@ public class VisitingCardHelper {
 
         if (colorsModel.getObjectPosition() == 1) {
             model.getThreeBinding().callIcon.setBackgroundTintList(ColorStateList.valueOf(color));
-            model.getThreeBinding().addressIcon.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getThreeBinding().websiteIcon.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getThreeBinding().emailIcon.setBackgroundTintList(ColorStateList.valueOf(color));
         }
-
         if (colorsModel.getObjectPosition() == 2) {
             model.getThreeBinding().phoneTxt.setTextColor(ColorStateList.valueOf(color));
             model.getThreeBinding().addressTxt.setTextColor(ColorStateList.valueOf(color));
@@ -327,5 +461,57 @@ public class VisitingCardHelper {
             model.getThreeBinding().insta.setImageTintList(ColorStateList.valueOf(color));
         }
     }
+
+    public static void applyColorCardFour(VisitingCardModel model, int color, ColorsModel colorsModel) {
+        if (colorsModel.getObjectPosition() == 0) {
+            model.getFourBinding().frontPage.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFourBinding().verticalView.setBackgroundTintList(ColorStateList.valueOf(color));
+        }
+        if (colorsModel.getObjectPosition() == 1) {
+            model.getFourBinding().leftView.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFourBinding().rightView.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFourBinding().callIcon.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFourBinding().emailIcon.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFourBinding().websiteIcon.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFourBinding().view.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFourBinding().verticalView.setBackgroundTintList(ColorStateList.valueOf(color));
+        }
+        if (colorsModel.getObjectPosition() == 2) {
+            model.getFourBinding().logo2.setImageTintList(ColorStateList.valueOf(color));
+            model.getFourBinding().logo.setImageTintList(ColorStateList.valueOf(color));
+        }
+        if (colorsModel.getObjectPosition() == 3) {
+            model.getFourBinding().brandName.setTextColor(ColorStateList.valueOf(color));
+            model.getFourBinding().phoneTxt.setTextColor(ColorStateList.valueOf(color));
+            model.getFourBinding().emailTxt.setTextColor(ColorStateList.valueOf(color));
+            model.getFourBinding().websiteTxt.setTextColor(ColorStateList.valueOf(color));
+            model.getFourBinding().addressTxt.setTextColor(ColorStateList.valueOf(color));
+        }
+    }
+
+
+    public static void applyColorCardFive(VisitingCardModel model, int color, ColorsModel colorsModel) {
+        if (colorsModel.getObjectPosition() == 0) {
+            model.getFiveBinding().frontPage.setBackgroundTintList(ColorStateList.valueOf(color));
+        }
+        if (colorsModel.getObjectPosition() == 1) {
+            model.getFiveBinding().BottomView.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFiveBinding().callIcon.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFiveBinding().addressIcon.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFiveBinding().emailIcon.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFiveBinding().userIcon.setImageTintList(ColorStateList.valueOf(color));
+        }
+        if (colorsModel.getObjectPosition() == 2) {
+            model.getFiveBinding().logo2.setImageTintList(ColorStateList.valueOf(color));
+            model.getFiveBinding().logo.setImageTintList(ColorStateList.valueOf(color));
+        }
+        if (colorsModel.getObjectPosition() == 3) {
+            model.getFiveBinding().brandNames.setTextColor(ColorStateList.valueOf(color));
+            model.getFiveBinding().phoneTxt.setTextColor(ColorStateList.valueOf(color));
+            model.getFiveBinding().emailTxt.setTextColor(ColorStateList.valueOf(color));
+            model.getFiveBinding().addressTxt.setTextColor(ColorStateList.valueOf(color));
+        }
+    }
+
 
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/itemLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/frontPageLayout"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frontPage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <View
+                    android:id="@+id/BottomView"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/digital_card_top_flat_shap"
+                    android:backgroundTint="@color/colorthird"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="www.brandmania.in"
+                    android:textColor="@color/white"
+                    android:textSize="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/BottomView"
+                    app:layout_constraintEnd_toEndOf="@+id/BottomView"
+                    app:layout_constraintStart_toStartOf="@+id/BottomView"
+                    app:layout_constraintTop_toTopOf="@+id/BottomView" />
+
+                <ImageView
+                    android:id="@+id/logo2"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/bm_logo"
+                    app:layout_constraintBottom_toBottomOf="@id/BottomView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

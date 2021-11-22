@@ -8,11 +8,11 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/frontPageLayout"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
             android:layout_height="@dimen/_178sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_5sdp"
+            android:fitsSystemWindows="true"
             app:cardElevation="@dimen/_5sdp"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,8 +66,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/webIcon"
@@ -189,14 +188,7 @@
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/bm_logo"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-
-
-
-
-
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/callIcon"

@@ -39,6 +39,8 @@ import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityPdfBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
+import com.app.brandmania.databinding.LayoutDigitalCardFifthBinding;
+import com.app.brandmania.databinding.LayoutDigitalCardFourthBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardThreeBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardTwoBinding;
@@ -146,7 +148,6 @@ public class PdfActivity extends BaseActivity {
             binding.servicesTxt.setText(sericesStr);
         }
 
-
         digitalCardList = new ArrayList<>();
         digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
 
@@ -211,7 +212,7 @@ public class PdfActivity extends BaseActivity {
         binding.cardList.setHasFixedSize(true);
         binding.cardList.setAdapter(visitingCardAdapter);
 
-        CurrentSelectedCard = digitalCardList.get(2);
+        CurrentSelectedCard = digitalCardList.get(4);
         addDynamicLayout();
     }
 
@@ -268,13 +269,12 @@ public class PdfActivity extends BaseActivity {
 //        binding.digitalCard.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
 //        binding.digitalCard.fourthBackground.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
 
-
         //for digital card three
         if (SELECTED_LAYOUT == LAYOUT_THREE) {
             binding.digitalCard.frontPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
             binding.digitalCard.backPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
             binding.digitalCard.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            binding.digitalCard.addressIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+            binding.digitalCard.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
             binding.digitalCard.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
             binding.digitalCard.fb.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
             binding.digitalCard.wp.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
@@ -332,6 +332,30 @@ public class PdfActivity extends BaseActivity {
             view.requestLayout();
             VisitingCardHelper.loadDataCardThree(act, threeBinding, colors);
             setAdapter();
+        } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+            LayoutDigitalCardFourthBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_digital_card_fourth, null, false);
+
+            CurrentSelectedCard.setFourBinding(fourBinding);
+            binding.container.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.container.requestLayout();
+            binding.container.addView(fourBinding.getRoot());
+            View view = fourBinding.getRoot();
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            VisitingCardHelper.loadDataCardFour(act, fourBinding, colors);
+            setAdapter();
+        } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+            LayoutDigitalCardFifthBinding fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_digital_card_fifth, null, false);
+
+            CurrentSelectedCard.setFiveBinding(fiveBinding);
+            binding.container.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.container.requestLayout();
+            binding.container.addView(fiveBinding.getRoot());
+            View view = fiveBinding.getRoot();
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            VisitingCardHelper.loadDataCardFive(act, fiveBinding, colors);
+            setAdapter();
         }
     }
 
@@ -356,16 +380,22 @@ public class PdfActivity extends BaseActivity {
     }
 
     public void frontPageLayoutImage() {
-        if (CurrentSelectedCard!=null ) {
-            if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE){
+        if (CurrentSelectedCard != null) {
+            if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
                 CurrentSelectedCard.getOneBinding().frontPage.setDrawingCacheEnabled(true);
                 CurrentSelectedCard.getOneBinding().frontPage.buildDrawingCache();
-            }else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO){
+            } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
                 CurrentSelectedCard.getTwoBinding().frontPage.setDrawingCacheEnabled(true);
                 CurrentSelectedCard.getTwoBinding().frontPage.buildDrawingCache();
-            }else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE){
+            } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
                 CurrentSelectedCard.getThreeBinding().frontPage.setDrawingCacheEnabled(true);
                 CurrentSelectedCard.getThreeBinding().frontPage.buildDrawingCache();
+            } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+                CurrentSelectedCard.getFourBinding().frontPage.setDrawingCacheEnabled(true);
+                CurrentSelectedCard.getFourBinding().frontPage.buildDrawingCache();
+            } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+                CurrentSelectedCard.getFiveBinding().frontPage.setDrawingCacheEnabled(true);
+                CurrentSelectedCard.getFiveBinding().frontPage.buildDrawingCache();
             }
             FileOutputStream fileOutputStream = null;
             String name = "image" + System.currentTimeMillis() + ".jpg";
@@ -375,12 +405,16 @@ public class PdfActivity extends BaseActivity {
                 fileOutputStream = new FileOutputStream(frontPage);
                 Bitmap bitmap = null;
 
-                if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE){
+                if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
                     bitmap = CurrentSelectedCard.getOneBinding().frontPage.getDrawingCache();
-                }else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO){
+                } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
                     bitmap = CurrentSelectedCard.getTwoBinding().frontPage.getDrawingCache();
-                }else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE){
+                } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
                     bitmap = CurrentSelectedCard.getThreeBinding().frontPage.getDrawingCache();
+                } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+                    bitmap = CurrentSelectedCard.getFourBinding().frontPage.getDrawingCache();
+                } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+                    bitmap = CurrentSelectedCard.getFiveBinding().frontPage.getDrawingCache();
                 }
 
                 assert bitmap != null;
@@ -398,7 +432,7 @@ public class PdfActivity extends BaseActivity {
     }
 
     public void backPageLayoutImage() {
-        if (CurrentSelectedCard!=null ) {
+        if (CurrentSelectedCard != null) {
             if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
                 CurrentSelectedCard.getOneBinding().backPage.setDrawingCacheEnabled(true);
                 CurrentSelectedCard.getOneBinding().backPage.buildDrawingCache();
@@ -408,7 +442,14 @@ public class PdfActivity extends BaseActivity {
             } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
                 CurrentSelectedCard.getThreeBinding().backPage.setDrawingCacheEnabled(true);
                 CurrentSelectedCard.getThreeBinding().backPage.buildDrawingCache();
+            } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+                CurrentSelectedCard.getFourBinding().backPage.setDrawingCacheEnabled(true);
+                CurrentSelectedCard.getFourBinding().backPage.buildDrawingCache();
+            } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+                CurrentSelectedCard.getFiveBinding().backPage.setDrawingCacheEnabled(true);
+                CurrentSelectedCard.getFiveBinding().backPage.buildDrawingCache();
             }
+
             FileOutputStream fileOutputStream = null;
             String name = "image" + System.currentTimeMillis() + ".jpg";
             backPage = new File(act.getCacheDir(), name);
@@ -417,12 +458,16 @@ public class PdfActivity extends BaseActivity {
                 fileOutputStream = new FileOutputStream(backPage);
                 Bitmap bitmap = null;
 
-                if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE){
+                if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
                     bitmap = CurrentSelectedCard.getOneBinding().backPage.getDrawingCache();
-                }else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO){
+                } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
                     bitmap = CurrentSelectedCard.getTwoBinding().backPage.getDrawingCache();
-                }else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE){
+                } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
                     bitmap = CurrentSelectedCard.getThreeBinding().backPage.getDrawingCache();
+                } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+                    bitmap = CurrentSelectedCard.getFourBinding().backPage.getDrawingCache();
+                } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+                    bitmap = CurrentSelectedCard.getFiveBinding().backPage.getDrawingCache();
                 }
                 assert bitmap != null;
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
