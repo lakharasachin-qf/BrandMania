@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ColorsModel;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
@@ -49,21 +50,75 @@ public class VisitingCardHelper {
     }
 
     public static void loadDataCardOne(Activity act, LayoutDigitalCardOneBinding oneBinding, Palette colors) {
-        Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(oneBinding.logo2);
-        Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(oneBinding.logo);
+        BrandListItem brand = new PreafManager(act).getActiveBrand();
+        Picasso.get().load(brand.getLogo()).into(oneBinding.logo2);
+        Picasso.get().load(brand.getLogo()).into(oneBinding.logo);
 
+        if (!brand.getWebsite().isEmpty() && !brand.getWebsite().equalsIgnoreCase("https://")) {
+            oneBinding.websiteTxt1.setText(brand.getWebsite());
+        }
+
+        if (!brand.getEmail().isEmpty()) {
+            oneBinding.phoneTxt.setText(brand.getEmail());
+        }
+
+        if (!brand.getPhonenumber().isEmpty()) {
+            oneBinding.brandName.setText(brand.getPhonenumber());
+        }
+
+        if (!brand.getWebsite().isEmpty() && !brand.getWebsite().equalsIgnoreCase("https://")) {
+            oneBinding.websiteTxt.setText(brand.getWebsite());
+        }
+
+        if (!brand.getAddress().isEmpty()) {
+            oneBinding.addressTxt.setText(brand.getAddress());
+        }
 
         loadDefaultColorCardOne(act, oneBinding, colors);
     }
 
     public static void loadDataCardTwo(Activity act, LayoutDigitalCardTwoBinding twoBinding, Palette colors) {
-        Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(twoBinding.logoThumbnail);
-        Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(twoBinding.logo);
+        BrandListItem brand = new PreafManager(act).getActiveBrand();
+        Picasso.get().load(brand.getLogo()).into(twoBinding.logoThumbnail);
+        Picasso.get().load(brand.getLogo()).into(twoBinding.logo);
+        if (!brand.getWebsite().isEmpty() && !brand.getWebsite().equalsIgnoreCase("https://")) {
+            twoBinding.websiteTxt.setText(brand.getWebsite());
+            twoBinding.webTxt.setText(brand.getWebsite());
+        }
+        twoBinding.brandName.setText(brand.getName());
+
+        if (!brand.getAddress().isEmpty()) {
+            twoBinding.address.setText(brand.getAddress());
+        }
+
+        if (!brand.getPhonenumber().isEmpty()) {
+            twoBinding.phoneTxt.setText(brand.getPhonenumber());
+        }
+
+        if (!brand.getEmail().isEmpty()) {
+            twoBinding.emailTxt.setText(brand.getEmail());
+        }
+
         loadDefaultColorCardTwo(act, twoBinding, colors);
     }
 
     public static void loadDataCardThree(Activity act, LayoutDigitalCardThreeBinding threeBinding, Palette colors) {
         Picasso.get().load(new PreafManager(act).getActiveBrand().getLogo()).into(threeBinding.logo);
+        BrandListItem brand = new PreafManager(act).getActiveBrand();
+        threeBinding.brandNameText.setText(brand.getName());
+
+        if (!brand.getAddress().isEmpty()) {
+            threeBinding.addressTxt.setText(brand.getAddress());
+        }
+
+        if (!brand.getPhonenumber().isEmpty()) {
+            threeBinding.phoneTxt.setText(brand.getPhonenumber());
+        }
+
+        if (!brand.getEmail().isEmpty()) {
+            threeBinding.emailTxt.setText(brand.getEmail());
+        }
+
         loadDefaultColorCardThree(act, threeBinding, colors);
     }
 
@@ -112,9 +167,6 @@ public class VisitingCardHelper {
         binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.fb.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.wp.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.insta.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
     }
 
     public static void loadDefaultColorCardFour(Activity act, LayoutDigitalCardFourthBinding binding, Palette colors) {

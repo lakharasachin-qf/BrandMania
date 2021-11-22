@@ -8,6 +8,9 @@ Changes :
  6. Added expirey message into fragment
  7. Notification issue change
  8. video quality improvement
-
-
-     double c_width = MediaQuery.of(context).size.width*0.8;
+ 9. digital card design improved
+ 10. New footers design added
+ 11. view design of footer tab changed
+ 12. website icon to profile
+ 13. New screen for error msg if app is not working fine
+ 14.

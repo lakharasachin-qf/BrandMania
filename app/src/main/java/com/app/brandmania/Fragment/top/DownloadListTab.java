@@ -337,7 +337,6 @@ public class DownloadListTab extends Fragment {
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_DOWNLOADLIST_ITEM : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);

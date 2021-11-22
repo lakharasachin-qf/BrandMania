@@ -326,7 +326,7 @@ public class FavoritListTab extends Fragment{
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_FAVORITLIST_ITEM : ", response);
+
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);

@@ -110,6 +110,14 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_7sdp"
+                    android:layout_gravity="end"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="Please fill all the details for more better perfact design." />
+
                 <include
                     android:id="@+id/digitalCard"
                     layout="@layout/layout_digital_card_three"

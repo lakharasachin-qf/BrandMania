@@ -3,7 +3,6 @@ package com.app.brandmania.Activity;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.palette.graphics.Palette;
@@ -73,6 +71,8 @@ public class PdfActivity extends BaseActivity {
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
 
+        digitalCardList = new ArrayList<>();
+        digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
         binding.exportIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +98,7 @@ public class PdfActivity extends BaseActivity {
                     public void onSuccess() {
                         colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
                         setDigitalCardAdapter();
-                        setColors();
+
                     }
 
                     @Override
@@ -151,6 +151,7 @@ public class PdfActivity extends BaseActivity {
         digitalCardList = new ArrayList<>();
         digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
 
+
     }
 
 
@@ -199,12 +200,9 @@ public class PdfActivity extends BaseActivity {
 
     public void setDigitalCardAdapter() {
         visitingCardAdapter = new VisitingCardAdapter(digitalCardList, act);
-        VisitingCardAdapter.onVisitingCardListener onItemSelectListener = new VisitingCardAdapter.onVisitingCardListener() {
-            @Override
-            public void onCardChoose(int layout, VisitingCardModel visitingCardModel) {
-                CurrentSelectedCard = visitingCardModel;
-                addDynamicLayout();
-            }
+        VisitingCardAdapter.onVisitingCardListener onItemSelectListener = (layout, visitingCardModel) -> {
+            CurrentSelectedCard = visitingCardModel;
+            addDynamicLayout();
         };
         visitingCardAdapter.setListener(onItemSelectListener);
 
@@ -212,7 +210,7 @@ public class PdfActivity extends BaseActivity {
         binding.cardList.setHasFixedSize(true);
         binding.cardList.setAdapter(visitingCardAdapter);
 
-        CurrentSelectedCard = digitalCardList.get(4);
+        CurrentSelectedCard = digitalCardList.get(0);
         addDynamicLayout();
     }
 
@@ -221,14 +219,11 @@ public class PdfActivity extends BaseActivity {
 
     public void showFragmentList() {
         bottomSheetFragment = new ColorPickerFragment();
-        ColorPickerFragment.OnColorChoose onColorChoose = new ColorPickerFragment.OnColorChoose() {
-            @Override
-            public void onColorSelected(int color) {
-                VisitingCardHelper.applyColor(CurrentSelectedCard, color, selectedModel);
-                selectedModel.setColor(color);
-                colorsList.set(objectSelectedPosition, selectedModel);
-                colorsAdapterPDF.notifyItemChanged(objectSelectedPosition);
-            }
+        ColorPickerFragment.OnColorChoose onColorChoose = color -> {
+            VisitingCardHelper.applyColor(CurrentSelectedCard, color, selectedModel);
+            selectedModel.setColor(color);
+            colorsList.set(objectSelectedPosition, selectedModel);
+            colorsAdapterPDF.notifyItemChanged(objectSelectedPosition);
         };
 
         bottomSheetFragment.setOnColorChoose(onColorChoose);
@@ -242,47 +237,6 @@ public class PdfActivity extends BaseActivity {
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
-    public void setColors() {
-
-//        binding.digitalCard.frontPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.verticalView.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//
-//        binding.digitalCard.leftView.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.rightView.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.addressIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-
-
-        //for digital card two
-//
-//        binding.digitalCard.frontPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.thirdBackground.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.topBackground.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//
-//        binding.digitalCard.secondBackground.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        GradientDrawable drawable = (GradientDrawable)binding.digitalCard.logoThumbnail.getBackground();
-//        drawable.setStroke(2, colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
-//
-//        binding.digitalCard.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-//        binding.digitalCard.fourthBackground.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-
-        //for digital card three
-        if (SELECTED_LAYOUT == LAYOUT_THREE) {
-            binding.digitalCard.frontPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            binding.digitalCard.backPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            binding.digitalCard.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            binding.digitalCard.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            binding.digitalCard.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            binding.digitalCard.fb.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            binding.digitalCard.wp.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            binding.digitalCard.insta.setImageTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-            setAdapter();
-        }
-
-    }
 
     public Palette createPaletteSync(Bitmap bitmap) {
         Palette p = Palette.from(bitmap).generate();
@@ -495,19 +449,25 @@ public class PdfActivity extends BaseActivity {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                 PdfWriter.getInstance(document, new FileOutputStream(path + "/" + prefManager.getActiveBrand().getName() + ".pdf")); //  Change pdf's name.
                 document.open();
-                Image img = Image.getInstance(Environment.getExternalStorageDirectory() + File.separator + "image.png");
+                Image img = Image.getInstance(frontPage.getAbsolutePath());
                 float scaler = ((document.getPageSize().getWidth() - 0) / img.getWidth()) * 100;
                 img.scalePercent(scaler);
                 img.setPaddingTop(0f);
                 img.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
-
                 document.add(img);
+
+                img = Image.getInstance(backPage.getAbsolutePath());
+                scaler = ((document.getPageSize().getWidth() - 0) / img.getWidth()) * 100;
+                img.scalePercent(scaler);
+                img.setPaddingTop(0f);
+                img.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
+                document.add(img);
+
             } else {
 
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.MediaColumns.DISPLAY_NAME, prefManager.getActiveBrand().getName() + ".pdf");
                 String desDirectory = Environment.DIRECTORY_DOWNLOADS + "/" + Constant.ROOT + "/" + Constant.DOCUMENT;
-
                 outputFile = desDirectory + File.separator + prefManager.getActiveBrand().getName() + ".pdf";
                 values.put(MediaStore.MediaColumns.RELATIVE_PATH, desDirectory);
 
@@ -515,7 +475,7 @@ public class PdfActivity extends BaseActivity {
 
                 PdfWriter.getInstance(document, act.getContentResolver().openOutputStream(uri));
                 document.open();
-                //front page add
+
                 Image img = Image.getInstance(frontPage.getAbsolutePath());
                 float scaler = ((document.getPageSize().getWidth() - 0) / img.getWidth()) * 100;
                 img.scalePercent(scaler);
@@ -541,9 +501,7 @@ public class PdfActivity extends BaseActivity {
         }
     }
 
-    // Method for opening a pdf file
     private void viewPdf(String name, Activity act) {
-
 
         String FilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.DOCUMENT + "/" + name + ".pdf";
         File file;
@@ -574,25 +532,15 @@ public class PdfActivity extends BaseActivity {
         builder.setView(layoutSecondBinding.getRoot());
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(layoutSecondBinding.getRoot());
-
-        layoutSecondBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile", "1");
-                act.startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
+        layoutSecondBinding.viewPackage.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            Intent intent = new Intent(act, PackageActivity.class);
+            intent.putExtra("Profile", "1");
+            act.startActivity(intent);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
-        layoutSecondBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        layoutSecondBinding.closeBtn.setOnClickListener(v -> alertDialog.dismiss());
         layoutSecondBinding.element3.setText("To download business card, please upgrade your package");
-        //alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
