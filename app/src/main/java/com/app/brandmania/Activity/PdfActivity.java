@@ -70,7 +70,6 @@ public class PdfActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
-
         digitalCardList = new ArrayList<>();
         digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
         binding.exportIcon.setOnClickListener(new View.OnClickListener() {

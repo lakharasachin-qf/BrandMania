@@ -17,7 +17,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -33,7 +32,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.GestureDetector;
@@ -429,20 +427,22 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     @Override
     public void onResume() {
-        super.onResume();
         if (exoPlayer != null && selectedObject.getImageType() != ImageList.IMAGE) {
             startPlayer();
         }
+        super.onResume();
+
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
             exoPlayer = null;
         }
+        super.onDestroy();
+
     }
 
     public void checkForDownload() {
@@ -510,10 +510,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     @Override
     protected void onPause() {
-        super.onPause();
         if (exoPlayer != null && selectedObject.getImageType() != ImageList.IMAGE) {
             pausePlayer();
         }
+        super.onPause();
     }
 
     private void startPlayer() {
