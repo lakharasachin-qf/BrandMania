@@ -439,13 +439,11 @@ public class VisitingCardHelper {
 
     public static ArrayList<BackgroundColorsModel> getBackgroundColorsListCardThree(Palette colors, Activity act, LayoutDigitalCardThreeBinding binding) {
         ArrayList<BackgroundColorsModel> colorsList = new ArrayList<>();
-        BackgroundColorsModel model = new BackgroundColorsModel(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
+        BackgroundColorsModel model = new BackgroundColorsModel(ContextCompat.getColor(act, R.color.colorChocolaty));
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
         viewId.add(binding.frontPage.getId());
-        viewId.add(binding.backPage.getId());
         viewId.add(binding.outerLayer3.getId());
-        viewId.add(binding.outerLayer2.getId());
         model.setViewId(viewId);
         colorsList.add(model);
 
@@ -516,6 +514,7 @@ public class VisitingCardHelper {
 
         model = new BackgroundColorsModel(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
         model.setObjectPosition(1);
+        viewId.add(binding.view.getId());
         viewId.add(binding.verticalView.getId());
         viewId.add(binding.leftView.getId());
         viewId.add(binding.rightView.getId());
@@ -535,7 +534,7 @@ public class VisitingCardHelper {
         colorsList.add(model);
 
 
-        model = new TextColorsModel(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
+        model = new TextColorsModel(ContextCompat.getColor(act, R.color.colorPrimary));
         model.setObjectPosition(1);
 
         viewId.add(binding.phoneTxt.getId());
@@ -1042,6 +1041,7 @@ public class VisitingCardHelper {
             model.getFourBinding().websiteIcon.setBackgroundTintList(ColorStateList.valueOf(color));
         }
         if (colorsModel.getObjectPosition() == 1) {
+            model.getFourBinding().view.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFourBinding().verticalView.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFourBinding().leftView.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFourBinding().rightView.setBackgroundTintList(ColorStateList.valueOf(color));
