@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -70,6 +70,7 @@
                     android:letterSpacing="0.2"
                     android:text="your website"
                     android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -153,6 +154,7 @@
                         android:layout_marginBottom="@dimen/_9sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
+                        android:textColor="@color/black"
                         android:text="Mobile Number"
                         android:textSize="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="@id/verticalView"
@@ -173,15 +175,17 @@
 
                     <TextView
                         android:id="@+id/phoneTxt"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
+                        android:textColor="@color/black"
                         android:text="Your Email Id"
-                        android:textSize="@dimen/_8sdp"
-
+                        android:textSize="@dimen/_6sdp"
                         app:layout_constraintBottom_toBottomOf="@+id/callIcon"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/callIcon"
                         app:layout_constraintTop_toTopOf="@+id/callIcon" />
 
@@ -200,14 +204,17 @@
 
                     <TextView
                         android:id="@+id/websiteTxt"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
                         android:text="Your Website"
-                        android:textSize="@dimen/_8sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_6sdp"
                         app:layout_constraintBottom_toBottomOf="@id/websiteIcon"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/websiteIcon"
                         app:layout_constraintTop_toTopOf="@id/websiteIcon" />
 
@@ -226,14 +233,17 @@
 
                     <TextView
                         android:id="@+id/addressTxt"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
-                        android:text="Your Website"
-                        android:textSize="@dimen/_8sdp"
+                        android:text="Your Adress"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_6sdp"
                         app:layout_constraintBottom_toBottomOf="@id/addressIcon"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/addressIcon"
                         app:layout_constraintTop_toTopOf="@id/addressIcon" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

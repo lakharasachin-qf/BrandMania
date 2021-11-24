@@ -29,6 +29,7 @@ import com.app.brandmania.databinding.ItemDigitalCardOneBinding;
 import com.app.brandmania.databinding.ItemDigitalCardThreeBinding;
 import com.app.brandmania.databinding.ItemDigitalCardTwoBinding;
 import com.app.brandmania.databinding.LayoutFooterElevenBinding;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -120,24 +121,33 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                            Picasso.get().load(activeBrand.getLogo()).into(((CardHolderOne) holder).binding.logo);
+                            ((CardHolderOne) holder).binding.brandName.setText(activeBrand.getName());
                         }
                     });
+                    Picasso.get().load(activeBrand.getLogo()).into(((CardHolderOne) holder).binding.logo);
+                    ((CardHolderOne) holder).binding.brandName.setText(activeBrand.getName());
                     break;
                 case LAYOUT_TWO:
                     ((CardHolderTwo) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+
                         }
                     });
+                    Picasso.get().load(activeBrand.getLogo()).into(((CardHolderTwo) holder).binding.logo);
+                    ((CardHolderTwo) holder).binding.webTxt.setText(activeBrand.getAddress());
                     break;
                 case LAYOUT_THREE:
                     ((CardHolderThree) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+
                         }
                     });
+                    Picasso.get().load(activeBrand.getLogo()).into(((CardHolderThree) holder).binding.logo);
                     break;
                 case LAYOUT_FOUR:
                     ((CardHolderFour) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +156,8 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                             cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                         }
                     });
+                    Picasso.get().load(activeBrand.getLogo()).into(((CardHolderFour) holder).binding.logo);
+                    ((CardHolderFour) holder).binding.brandName.setText(activeBrand.getName());
                     break;
                 case LAYOUT_FIVE:
                     ((CardHolderFive) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +166,8 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                             cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                         }
                     });
+                    Picasso.get().load(activeBrand.getLogo()).into(((CardHolderFive) holder).binding.logo);
+                    ((CardHolderFive) holder).binding.brandName.setText(activeBrand.getName());
                     break;
             }
         }

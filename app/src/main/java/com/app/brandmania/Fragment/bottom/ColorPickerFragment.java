@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -116,6 +117,7 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
         view = binding.getRoot();
         act = getActivity();
         fragment = this;
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         binding.titleText.setText("Pick Your Color");
         binding.cancelAction.setOnClickListener(new View.OnClickListener() {
             @Override

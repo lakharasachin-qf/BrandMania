@@ -37,6 +37,7 @@
                     app:layout_constraintTop_toTopOf="@id/logo" />
 
                 <View
+                    android:id="@+id/leftView"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginEnd="@dimen/_7sdp"
@@ -48,6 +49,7 @@
                     app:layout_constraintTop_toTopOf="@id/logo" />
 
                 <View
+                    android:id="@+id/rightView"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/_7sdp"
@@ -301,7 +303,6 @@
                     android:layout_width="@dimen/_10sdp"
                     android:layout_height="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
-
                     android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_social_media_facebook"
                     app:layout_constraintEnd_toStartOf="@id/insta"
@@ -310,7 +311,6 @@
 
                 <ImageView
                     android:id="@+id/insta"
-
                     android:layout_width="@dimen/_10sdp"
                     android:layout_height="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
