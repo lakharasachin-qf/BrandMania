@@ -21,10 +21,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.app.brandmania.Activity.packages.PackageActivity;
+import com.app.brandmania.Adapter.BackgroundColorsAdapter;
 import com.app.brandmania.Adapter.ColorsAdapterPDF;
+import com.app.brandmania.Adapter.IconsColorsAdapter;
+import com.app.brandmania.Adapter.TextColorsAdapter;
 import com.app.brandmania.Adapter.VisitingCardAdapter;
 import com.app.brandmania.BuildConfig;
 import com.app.brandmania.Common.Constant;
@@ -32,7 +36,10 @@ import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.VisitingCardHelper;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.ColorPickerFragment;
+import com.app.brandmania.Model.BackgroundColorsModel;
 import com.app.brandmania.Model.ColorsModel;
+import com.app.brandmania.Model.IconsColorsModel;
+import com.app.brandmania.Model.TextColorsModel;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityPdfBinding;
@@ -97,7 +104,6 @@ public class PdfActivity extends BaseActivity {
                     public void onSuccess() {
                         colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
                         setDigitalCardAdapter();
-
                     }
 
                     @Override
@@ -149,10 +155,76 @@ public class PdfActivity extends BaseActivity {
 
         digitalCardList = new ArrayList<>();
         digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
-
-
     }
 
+    public void setBackgroundAdapter() {
+
+        if (backgroundColorsList.size() != 0) {
+            backgroundColorsList.clear();
+            if (backgroundColorsAdapter != null) {
+                backgroundColorsAdapter.notifyDataSetChanged();
+            }
+        }
+        backgroundColorsList.addAll(VisitingCardHelper.getBackgroundColorList(CurrentSelectedCard, colors, act));
+
+        backgroundColorsAdapter = new BackgroundColorsAdapter(backgroundColorsList, act);
+        BackgroundColorsAdapter.onItemSelectListener onItemSelectListener = new BackgroundColorsAdapter.onItemSelectListener() {
+            @Override
+            public void onItemSelect(BackgroundColorsModel model, int position) {
+                if (backgroundSelectModel != null) {
+                    backgroundSelectModel.setSelected(false);
+                }
+                model.setSelected(true);
+                backgroundSelectModel = model;
+                if (backgroundColorsAdapter != null) {
+                    backgroundColorsAdapter.notifyDataSetChanged();
+                }
+                objectSelectedPosition = position;
+                showBackgroundFragmentList();
+            }
+        };
+
+        backgroundColorsAdapter.setOnItemSelectListener(onItemSelectListener);
+        binding.backgroundcolorList.setLayoutManager(new GridLayoutManager(act, 3));
+        binding.backgroundcolorList.setHasFixedSize(true);
+        binding.backgroundcolorList.setAdapter(backgroundColorsAdapter);
+        backgroundSelectModel = backgroundColorsList.get(0);
+    }
+
+    public void setTextAdapter() {
+
+        if (textColorsList.size() != 0) {
+            textColorsList.clear();
+            if (textColorsAdapter != null) {
+                textColorsAdapter.notifyDataSetChanged();
+            }
+        }
+
+        textColorsList.addAll(VisitingCardHelper.getTextColorList(CurrentSelectedCard, colors, act));
+
+        textColorsAdapter = new TextColorsAdapter(textColorsList, act);
+        TextColorsAdapter.onItemSelectListener onItemSelectListener = new TextColorsAdapter.onItemSelectListener() {
+            @Override
+            public void onItemSelect(TextColorsModel model, int position) {
+                if (textSelectModel != null) {
+                    textSelectModel.setSelected(false);
+                }
+                model.setSelected(true);
+                textSelectModel = model;
+                if (textColorsAdapter != null) {
+                    textColorsAdapter.notifyDataSetChanged();
+                }
+                objectSelectedPosition = position;
+                showTextFragmentList();
+            }
+
+        };
+        textColorsAdapter.setOnItemSelectListener(onItemSelectListener);
+        binding.TextcolorList.setLayoutManager(new GridLayoutManager(act, 3));
+        binding.TextcolorList.setHasFixedSize(true);
+        binding.TextcolorList.setAdapter(textColorsAdapter);
+        textSelectModel = textColorsList.get(0);
+    }
 
     public void setAdapter() {
         if (colorsList.size() != 0) {
@@ -192,9 +264,22 @@ public class PdfActivity extends BaseActivity {
     int LAYOUT_THREE = 2;
 
     ArrayList<ColorsModel> colorsList = new ArrayList<>();
-    ColorsAdapterPDF colorsAdapterPDF;
-    int SELECTED_LAYOUT = LAYOUT_THREE;
     ColorsModel selectedModel;
+    ColorsAdapterPDF colorsAdapterPDF;
+
+    ArrayList<BackgroundColorsModel> backgroundColorsList = new ArrayList<>();
+    BackgroundColorsModel backgroundSelectModel;
+    BackgroundColorsAdapter backgroundColorsAdapter;
+
+    ArrayList<TextColorsModel> textColorsList = new ArrayList<>();
+    TextColorsModel textSelectModel;
+    TextColorsAdapter textColorsAdapter;
+
+    ArrayList<IconsColorsModel> iconsColorsList = new ArrayList<>();
+    IconsColorsModel iconsSelectModel;
+    IconsColorsAdapter iconsColorsAdapter;
+
+    int SELECTED_LAYOUT = LAYOUT_THREE;
     int objectSelectedPosition = 0;
 
     public void setDigitalCardAdapter() {
@@ -213,8 +298,66 @@ public class PdfActivity extends BaseActivity {
         addDynamicLayout();
     }
 
-
     ColorPickerFragment bottomSheetFragment;
+
+
+    public void showBackgroundFragmentList() {
+        bottomSheetFragment = new ColorPickerFragment();
+        ColorPickerFragment.OnColorChoose onColorChoose = color -> {
+            VisitingCardHelper.applyBackgroundColor(CurrentSelectedCard, color, backgroundSelectModel);
+            backgroundSelectModel.setColor(color);
+            backgroundColorsList.set(objectSelectedPosition, backgroundSelectModel);
+            backgroundColorsAdapter.notifyItemChanged(objectSelectedPosition);
+        };
+
+        bottomSheetFragment.setOnColorChoose(onColorChoose);
+        if (bottomSheetFragment.isVisible()) {
+            bottomSheetFragment.dismiss();
+        }
+        if (bottomSheetFragment.isAdded()) {
+            bottomSheetFragment.dismiss();
+        }
+
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+    public void showTextFragmentList() {
+        bottomSheetFragment = new ColorPickerFragment();
+        ColorPickerFragment.OnColorChoose onColorChoose = color -> {
+            VisitingCardHelper.applyTextColor(CurrentSelectedCard, color, textSelectModel);
+            textSelectModel.setColor(color);
+            textColorsList.set(objectSelectedPosition, textSelectModel);
+            textColorsAdapter.notifyItemChanged(objectSelectedPosition);
+        };
+
+        bottomSheetFragment.setOnColorChoose(onColorChoose);
+        if (bottomSheetFragment.isVisible()) {
+            bottomSheetFragment.dismiss();
+        }
+        if (bottomSheetFragment.isAdded()) {
+            bottomSheetFragment.dismiss();
+        }
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+    public void showIconsFragmentList() {
+        bottomSheetFragment = new ColorPickerFragment();
+        ColorPickerFragment.OnColorChoose onColorChoose = color -> {
+            VisitingCardHelper.applyIconsColor(CurrentSelectedCard, color, iconsSelectModel);
+            iconsSelectModel.setColor(color);
+            iconsColorsList.set(objectSelectedPosition, iconsSelectModel);
+            iconsColorsAdapter.notifyItemChanged(objectSelectedPosition);
+        };
+
+        bottomSheetFragment.setOnColorChoose(onColorChoose);
+        if (bottomSheetFragment.isVisible()) {
+            bottomSheetFragment.dismiss();
+        }
+        if (bottomSheetFragment.isAdded()) {
+            bottomSheetFragment.dismiss();
+        }
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
 
     public void showFragmentList() {
         bottomSheetFragment = new ColorPickerFragment();
@@ -236,6 +379,40 @@ public class PdfActivity extends BaseActivity {
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
+    public void setIconsdAdapter() {
+
+        if (iconsColorsList.size() != 0) {
+            iconsColorsList.clear();
+            if (iconsColorsAdapter != null) {
+                iconsColorsAdapter.notifyDataSetChanged();
+            }
+        }
+
+        iconsColorsList.addAll(VisitingCardHelper.getIconsColorList(CurrentSelectedCard, colors, act));
+
+        iconsColorsAdapter = new IconsColorsAdapter(iconsColorsList, act);
+        IconsColorsAdapter.onItemSelectListener onItemSelectListener = new IconsColorsAdapter.onItemSelectListener() {
+            @Override
+            public void onItemSelect(IconsColorsModel model, int position) {
+                if (iconsSelectModel != null) {
+                    iconsSelectModel.setSelected(false);
+                }
+                model.setSelected(true);
+                iconsSelectModel = model;
+                if (iconsColorsAdapter != null) {
+                    iconsColorsAdapter.notifyDataSetChanged();
+                }
+                objectSelectedPosition = position;
+                showIconsFragmentList();
+            }
+        };
+
+        iconsColorsAdapter.setOnItemSelectListener(onItemSelectListener);
+        binding.iconscolorList.setLayoutManager(new GridLayoutManager(act, 3));
+        binding.iconscolorList.setHasFixedSize(true);
+        binding.iconscolorList.setAdapter(iconsColorsAdapter);
+        iconsSelectModel = iconsColorsList.get(0);
+    }
 
     public Palette createPaletteSync(Bitmap bitmap) {
         Palette p = Palette.from(bitmap).generate();
@@ -260,7 +437,10 @@ public class PdfActivity extends BaseActivity {
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             VisitingCardHelper.loadDataCardOne(act, oneBinding, colors);
-            setAdapter();
+            setBackgroundAdapter();
+            setTextAdapter();
+            setIconsdAdapter();
+            //setAdapter();
         } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
             LayoutDigitalCardTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_digital_card_two, null, false);
 
@@ -272,7 +452,10 @@ public class PdfActivity extends BaseActivity {
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             VisitingCardHelper.loadDataCardTwo(act, twoBinding, colors);
-            setAdapter();
+            setBackgroundAdapter();
+            setTextAdapter();
+            setIconsdAdapter();
+            //setAdapter();
         } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
             LayoutDigitalCardThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_digital_card_three, null, false);
 
@@ -284,7 +467,10 @@ public class PdfActivity extends BaseActivity {
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             VisitingCardHelper.loadDataCardThree(act, threeBinding, colors);
-            setAdapter();
+            setBackgroundAdapter();
+            setTextAdapter();
+            setIconsdAdapter();
+            //setAdapter();
         } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
             LayoutDigitalCardFourthBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_digital_card_fourth, null, false);
 
@@ -296,7 +482,11 @@ public class PdfActivity extends BaseActivity {
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             VisitingCardHelper.loadDataCardFour(act, fourBinding, colors);
-            setAdapter();
+            setBackgroundAdapter();
+            setTextAdapter();
+            setIconsdAdapter();
+            //setAdapter();
+
         } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
             LayoutDigitalCardFifthBinding fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_digital_card_fifth, null, false);
 
@@ -308,7 +498,10 @@ public class PdfActivity extends BaseActivity {
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             VisitingCardHelper.loadDataCardFive(act, fiveBinding, colors);
-            setAdapter();
+            setBackgroundAdapter();
+            setTextAdapter();
+            setIconsdAdapter();
+            //setAdapter();
         }
     }
 
@@ -382,6 +575,11 @@ public class PdfActivity extends BaseActivity {
             }
         }
 
+//            textColorsAdapter.setOnItemSelectListener(onItemSelectListener);
+//            binding.TextcolorList.setLayoutManager(new GridLayoutManager(act, 2));
+//            binding.TextcolorList.setHasFixedSize(true);
+//            binding.TextcolorList.setAdapter(textColorsAdapter);
+//            textSelectModel = textColorsList.get(0);
     }
 
     public void backPageLayoutImage() {

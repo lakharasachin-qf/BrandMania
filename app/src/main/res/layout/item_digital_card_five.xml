@@ -15,7 +15,7 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            app:cardElevation="@dimen/_5sdp"
+            app:cardElevation="@dimen/_2sdp"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +41,7 @@
 
 
                 <TextView
+                    android:id="@+id/brandName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_1sdp"
@@ -54,7 +55,7 @@
                     app:layout_constraintTop_toTopOf="@+id/BottomView" />
 
                 <ImageView
-                    android:id="@+id/logo2"
+                    android:id="@+id/logo"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:src="@drawable/bm_logo"

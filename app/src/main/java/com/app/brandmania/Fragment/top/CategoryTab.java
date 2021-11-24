@@ -139,13 +139,12 @@ public class CategoryTab extends FrameTab {
     }
 
 
-
     ImageCategoryAddaptor menuAddaptor;
+
     public void setAdapter() {
         menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
         //  if (isViewAll)
         ((ImageCateItemeInterFace) act).ImageCateonItemSelection(0, menuModels.get(0));
-
         menuAddaptor.setLayoutType(FROM_VIEWALL);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
         binding.viewRecoRecycler.setLayoutManager(mLayoutManager);

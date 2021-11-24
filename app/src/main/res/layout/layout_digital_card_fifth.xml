@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -27,7 +27,7 @@
                 android:background="@color/white">
 
                 <View
-                    android:id="@+id/BottomView"
+                    android:id="@+id/bottomView"
                     android:layout_width="@dimen/_240sdp"
                     android:layout_height="@dimen/_22sdp"
                     android:layout_marginBottom="@dimen/_15sdp"
@@ -39,6 +39,7 @@
 
 
                 <TextView
+                    android:id="@+id/frontBrandName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_3sdp"
@@ -46,10 +47,10 @@
                     android:text="www.brandmania.in"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10sdp"
-                    app:layout_constraintBottom_toBottomOf="@+id/BottomView"
-                    app:layout_constraintEnd_toEndOf="@+id/BottomView"
-                    app:layout_constraintStart_toStartOf="@+id/BottomView"
-                    app:layout_constraintTop_toTopOf="@+id/BottomView" />
+                    app:layout_constraintBottom_toBottomOf="@+id/bottomView"
+                    app:layout_constraintEnd_toEndOf="@+id/bottomView"
+                    app:layout_constraintStart_toStartOf="@+id/bottomView"
+                    app:layout_constraintTop_toTopOf="@+id/bottomView" />
 
                 <ImageView
                     android:id="@+id/logo2"
@@ -76,186 +77,199 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frontPageLayout">
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/backPage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/_5sdp"
-                android:background="#E8E8E8">
+                android:background="@color/white">
 
-                <View
-                    android:id="@+id/verticalView1"
-                    android:layout_width="@dimen/_22sdp"
-                    android:layout_height="@dimen/_60sdp"
-                    android:layout_marginTop="-13dp"
-                    android:background="@drawable/digital_card_round_shap"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/innerBackPage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="#E8E8E8">
 
-
-                <ImageView
-                    android:id="@+id/userIcon"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:src="@drawable/ic_userrr"
-                    app:layout_constraintBottom_toBottomOf="@id/verticalView1"
-                    app:layout_constraintEnd_toEndOf="@id/verticalView1"
-                    app:layout_constraintStart_toStartOf="@id/verticalView1"
-                    app:tint="@color/white" />
-
-                <View
-
-                    android:id="@+id/call"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_16sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/digital_card_round_shap"
-                    app:layout_constraintStart_toStartOf="@+id/verticalView1"
-                    app:layout_constraintTop_toBottomOf="@+id/verticalView1" />
-
-                <View
-
-                    android:id="@+id/website"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_16sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/digital_card_round_shap"
-                    app:layout_constraintStart_toStartOf="@+id/verticalView1"
-                    app:layout_constraintTop_toBottomOf="@+id/call" />
-
-                <View
-
-                    android:id="@+id/address"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/digital_card_round_shap"
-                    app:layout_constraintStart_toStartOf="@+id/verticalView1"
-                    app:layout_constraintTop_toBottomOf="@+id/website" />
-
-                <TextView
-                    android:id="@+id/brandNames"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:layout_marginBottom="@dimen/_9sdp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:includeFontPadding="false"
-                    android:text="Pecificaoverseas"
-                    android:textSize="@dimen/_10sdp"
-                    app:layout_constraintBottom_toBottomOf="@id/verticalView1"
-                    app:layout_constraintStart_toEndOf="@id/verticalView1" />
+                    <View
+                        android:id="@+id/verticalView"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_65sdp"
+                        android:layout_marginTop="-13dp"
+                        android:background="@drawable/digital_card_round_shap"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
-                <View
-                    android:id="@+id/verticalView"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_130sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="-10dp"
-                    android:background="@drawable/digital_card_round_rect_thin"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/userIcon"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:src="@drawable/ic_userrr"
+                        app:layout_constraintBottom_toBottomOf="@id/verticalView"
+                        app:layout_constraintEnd_toEndOf="@id/verticalView"
+                        app:layout_constraintStart_toStartOf="@id/verticalView"
+                        app:tint="@color/black" />
+
+                    <View
+
+                        android:id="@+id/call"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/digital_card_round_shap"
+                        app:layout_constraintStart_toStartOf="@+id/verticalView"
+                        app:layout_constraintTop_toBottomOf="@+id/verticalView" />
+
+                    <View
+
+                        android:id="@+id/email"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/digital_card_round_shap"
+                        app:layout_constraintStart_toStartOf="@+id/verticalView"
+                        app:layout_constraintTop_toBottomOf="@+id/call" />
+
+                    <View
+
+                        android:id="@+id/address"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/digital_card_round_shap"
+                        app:layout_constraintStart_toStartOf="@+id/verticalView"
+                        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+                    <TextView
+                        android:id="@+id/brandName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginBottom="@dimen/_9sdp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:includeFontPadding="false"
+                        android:text="Pecificaoverseas"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/verticalView"
+                        app:layout_constraintStart_toEndOf="@id/verticalView" />
 
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:src="@drawable/bm_logo"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <View
+                        android:id="@+id/verticalView1"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="-10dp"
+                        android:background="@drawable/digital_card_round_rect_thin"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
-                <ImageView
-                    android:id="@+id/callIcon"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:background="@drawable/digital_card_round_shap_icon"
-                    android:backgroundTint="@color/black"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_outline_call_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/call"
-                    app:layout_constraintStart_toStartOf="@+id/call"
-                    app:layout_constraintTop_toTopOf="@+id/call"
-                    app:tint="@color/white" />
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_70sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:src="@drawable/bm_logo"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/phoneTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:includeFontPadding="false"
-                    android:text="Mobile No "
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_8sdp"
-                    app:layout_constraintBottom_toBottomOf="@+id/callIcon"
-                    app:layout_constraintStart_toEndOf="@id/callIcon"
-                    app:layout_constraintTop_toTopOf="@+id/callIcon" />
 
-                <ImageView
-                    android:id="@+id/emailIcon"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:background="@drawable/digital_card_round_shap_icon"
-                    android:backgroundTint="@color/black"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_outline_mail_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/website"
-                    app:layout_constraintStart_toStartOf="@+id/website"
-                    app:layout_constraintTop_toTopOf="@+id/website"
-                    app:tint="@color/white" />
+                    <ImageView
+                        android:id="@+id/callIcon"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:background="@drawable/digital_card_round_shap_icon"
+                        android:backgroundTint="@color/black"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_outline_call_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/call"
+                        app:layout_constraintStart_toStartOf="@+id/call"
+                        app:layout_constraintTop_toTopOf="@+id/call"
+                        app:tint="@color/white" />
 
-                <TextView
-                    android:id="@+id/emailTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:includeFontPadding="false"
-                    android:text="E-Mail"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_8sdp"
-                    app:layout_constraintBottom_toBottomOf="@id/emailIcon"
-                    app:layout_constraintStart_toEndOf="@id/emailIcon"
-                    app:layout_constraintTop_toTopOf="@id/emailIcon" />
+                    <TextView
+                        android:id="@+id/phoneTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:includeFontPadding="false"
+                        android:text="Mobile No "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_6sdp"
+                        app:layout_constraintBottom_toBottomOf="@+id/callIcon"
+                        app:layout_constraintEnd_toEndOf="@+id/call"
+                        app:layout_constraintStart_toEndOf="@id/callIcon"
+                        app:layout_constraintTop_toTopOf="@+id/callIcon" />
 
-                <ImageView
-                    android:id="@+id/addressIcon"
-                    android:layout_width="@dimen/_18sdp"
-                    android:layout_height="@dimen/_19sdp"
-                    android:background="@drawable/digital_card_round_shap_icon"
-                    android:backgroundTint="@color/black"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_outline_location_on_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/address"
-                    app:layout_constraintStart_toStartOf="@+id/address"
-                    app:layout_constraintTop_toTopOf="@+id/address"
-                    app:tint="@color/white" />
+                    <ImageView
+                        android:id="@+id/emailIcon"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:background="@drawable/digital_card_round_shap_icon"
+                        android:backgroundTint="@color/black"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_outline_mail_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/email"
+                        app:layout_constraintStart_toStartOf="@+id/email"
+                        app:layout_constraintTop_toTopOf="@+id/email"
+                        app:tint="@color/white" />
 
-                <TextView
-                    android:id="@+id/addressTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_7sdp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:includeFontPadding="false"
-                    android:text="Address"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_8sdp"
-                    app:layout_constraintBottom_toBottomOf="@id/addressIcon"
-                    app:layout_constraintStart_toEndOf="@id/addressIcon"
-                    app:layout_constraintTop_toTopOf="@id/addressIcon" />
+                    <TextView
+                        android:id="@+id/emailTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:includeFontPadding="false"
+                        android:text="E-Mail"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_6sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/emailIcon"
+                        app:layout_constraintEnd_toEndOf="@+id/email"
+                        app:layout_constraintStart_toEndOf="@id/emailIcon"
+                        app:layout_constraintTop_toTopOf="@id/emailIcon" />
+
+                    <ImageView
+                        android:id="@+id/addressIcon"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_19sdp"
+                        android:background="@drawable/digital_card_round_shap_icon"
+                        android:backgroundTint="@color/black"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_outline_location_on_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/address"
+                        app:layout_constraintStart_toStartOf="@+id/address"
+                        app:layout_constraintTop_toTopOf="@+id/address"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/addressTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:includeFontPadding="false"
+                        android:text="Address"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_6sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/addressIcon"
+                        app:layout_constraintEnd_toEndOf="@+id/address"
+                        app:layout_constraintStart_toEndOf="@id/addressIcon"
+                        app:layout_constraintTop_toTopOf="@id/addressIcon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

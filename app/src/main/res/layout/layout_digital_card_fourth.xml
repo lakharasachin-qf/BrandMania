@@ -49,6 +49,18 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/frontBrandName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/logo" />
+
 
                 <ImageView
                     android:id="@+id/logo"
@@ -79,30 +91,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/backPage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/_5sdp"
-                android:background="#E8E8E8">
-
-
-                <View
-                    android:id="@+id/upView"
-                    android:layout_width="@dimen/_2sdp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/digital_card_round_rect_thin"
-                    app:layout_constraintBottom_toTopOf="@+id/verticalView"
-                    app:layout_constraintEnd_toEndOf="@+id/verticalView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/downView"
-                    android:layout_width="@dimen/_2sdp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/digital_card_round_rect_thin"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/verticalView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/verticalView" />
+                android:layout_height="match_parent">
 
                 <View
                     android:id="@+id/verticalView"
@@ -127,15 +116,18 @@
 
                 <TextView
                     android:id="@+id/brandName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_50sdp"
                     android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_9sdp"
                     android:fontFamily="@font/montserrat_bold"
                     android:includeFontPadding="false"
                     android:text="Brand Mania"
                     android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/view"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/verticalView"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,21 +142,20 @@
                     app:layout_constraintStart_toStartOf="@+id/brandName"
                     app:layout_constraintTop_toBottomOf="@+id/brandName" />
 
-
                 <TextView
                     android:id="@+id/addressTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_9sdp"
                     android:fontFamily="@font/montserrat_bold"
                     android:includeFontPadding="false"
-                    android:text="address"
+                    android:text="Address"
                     android:textSize="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/brandName"
-                    app:layout_constraintTop_toBottomOf="@+id/brandName"
-
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/brandName" />
 
 
                 <ImageView
@@ -181,15 +172,16 @@
 
                 <TextView
                     android:id="@+id/phoneTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
                     android:text="Mobile No "
-                    android:textSize="@dimen/_8sdp"
-
+                    android:textSize="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/callIcon"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/callIcon"
                     app:layout_constraintTop_toTopOf="@+id/callIcon" />
 
@@ -207,14 +199,16 @@
 
                 <TextView
                     android:id="@+id/emailTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
                     android:text="E-mail"
-                    android:textSize="@dimen/_8sdp"
+                    android:textSize="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="@id/emailIcon"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/emailIcon"
                     app:layout_constraintTop_toTopOf="@id/emailIcon" />
 
@@ -232,14 +226,16 @@
 
                 <TextView
                     android:id="@+id/websiteTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
                     android:text="Website"
-                    android:textSize="@dimen/_8sdp"
+                    android:textSize="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="@id/websiteIcon"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/websiteIcon"
                     app:layout_constraintTop_toTopOf="@id/websiteIcon" />
             </androidx.constraintlayout.widget.ConstraintLayout>

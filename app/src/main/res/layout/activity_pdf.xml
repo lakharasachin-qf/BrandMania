@@ -67,7 +67,98 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp">
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fitsSystemWindows="true"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:text="Background Color"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/backgroundcolorList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginEnd="@dimen/_5sdp" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@color/colorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:gravity="center"
+                            android:text="Text color"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/TextcolorList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@color/colorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:gravity="center"
+                            android:text="Icons color"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/iconscolorList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -76,7 +167,8 @@
                         android:fontFamily="@font/montserrat_semibold"
                         android:text="Your"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="@dimen/_16sdp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -86,14 +178,16 @@
                         android:fontFamily="@font/montserrat_extrabold"
                         android:text="Digital Card"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="@dimen/_16sdp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <View
-                    android:layout_width="@dimen/_100sdp"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@color/colorthird" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -113,8 +207,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_7sdp"
                     android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/_7sdp"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="Please fill all the details for more better perfact design." />
 
