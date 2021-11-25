@@ -26,6 +26,17 @@
                 android:layout_height="match_parent"
                 android:background="#1B113A">
 
+                <ImageView
+                    android:id="@+id/paidUserCard"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/ic_crown"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <View
                     android:id="@+id/leftView"
                     android:layout_width="@dimen/_20sdp"
@@ -154,8 +165,8 @@
                         android:layout_marginBottom="@dimen/_9sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
-                        android:textColor="@color/black"
                         android:text="Mobile Number"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="@id/verticalView"
                         app:layout_constraintStart_toEndOf="@id/verticalView" />
@@ -181,8 +192,8 @@
                         android:layout_marginEnd="@dimen/_4sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
-                        android:textColor="@color/black"
                         android:text="Your Email Id"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/_6sdp"
                         app:layout_constraintBottom_toBottomOf="@+id/callIcon"
                         app:layout_constraintEnd_toEndOf="parent"

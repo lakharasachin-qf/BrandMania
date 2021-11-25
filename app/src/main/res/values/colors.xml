@@ -30,8 +30,7 @@
     <color name="linkColo">#0000EE</color>
     <color name="colorPrimarySecondary">#f2c94c</color>
     <color name="orangeColour">#F2B646</color>
-
-
+    <color name="deepColour">#F66055</color>
     <color name="blue_color_picker">#0066FF</color>
     <color name="brown_color_picker">#AF593E</color>
     <color name="green_color_picker">#01A368</color>

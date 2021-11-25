@@ -26,6 +26,17 @@
                 android:background="#1d2635">
 
 
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/paidUserCard"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/ic_crown"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"

@@ -29,6 +29,7 @@ import com.app.brandmania.databinding.ItemDigitalCardOneBinding;
 import com.app.brandmania.databinding.ItemDigitalCardThreeBinding;
 import com.app.brandmania.databinding.ItemDigitalCardTwoBinding;
 import com.app.brandmania.databinding.LayoutFooterElevenBinding;
+import com.app.brandmania.utils.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -125,6 +126,11 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                             ((CardHolderOne) holder).binding.brandName.setText(activeBrand.getName());
                         }
                     });
+                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+
+                        ((CardHolderOne) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+
+                    }
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderOne) holder).binding.logo);
                     ((CardHolderOne) holder).binding.brandName.setText(activeBrand.getName());
                     break;
@@ -136,6 +142,10 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
 
                         }
                     });
+
+                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                        ((CardHolderTwo) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+                    }
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderTwo) holder).binding.logo);
                     ((CardHolderTwo) holder).binding.webTxt.setText(activeBrand.getAddress());
                     break;
@@ -147,6 +157,10 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
 
                         }
                     });
+                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                        ((CardHolderThree) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+                    }
+
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderThree) holder).binding.logo);
                     break;
                 case LAYOUT_FOUR:
@@ -156,6 +170,10 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                             cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                         }
                     });
+                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                        ((CardHolderFour) holder).binding.freeCard.setVisibility(View.VISIBLE);
+                    }
+
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderFour) holder).binding.logo);
                     ((CardHolderFour) holder).binding.brandName.setText(activeBrand.getName());
                     break;
@@ -166,6 +184,9 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                             cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                         }
                     });
+                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                        ((CardHolderFive) holder).binding.freeCard.setVisibility(View.VISIBLE);
+                    }
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderFive) holder).binding.logo);
                     ((CardHolderFive) holder).binding.brandName.setText(activeBrand.getName());
                     break;

@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -24,6 +25,7 @@ import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.BackgroundColorsAdapter;
 import com.app.brandmania.Adapter.ColorsAdapterPDF;
@@ -63,6 +65,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import kotlin.reflect.jvm.internal.impl.descriptors.Visibility;
+
 public class PdfActivity extends BaseActivity {
     private ActivityPdfBinding binding;
     private Activity act;
@@ -70,6 +74,7 @@ public class PdfActivity extends BaseActivity {
     private ArrayList<VisitingCardModel> digitalCardList;
     private VisitingCardModel CurrentSelectedCard;
     private VisitingCardAdapter visitingCardAdapter;
+    public boolean isUserPaid = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,9 +88,27 @@ public class PdfActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
-                    askForUpgradeToEnterpisePackage();
+
+                    if (CurrentSelectedCard.isFree()) {
+                        isUserPaid = true;
+                        frontPageLayoutImage();
+                    } else {
+                        isUserPaid = false;
+                        askForUpgradeToEnterpisePackage();
+                    }
+
                 } else {
-                    frontPageLayoutImage();
+                    if (Utility.isPackageExpired(act)) {
+                        if (CurrentSelectedCard.isFree()) {
+                            isUserPaid = true;
+                            frontPageLayoutImage();
+                        } else {
+                            isUserPaid = false;
+                            askForUpgradeToEnterpisePackage();
+                        }
+                    } else {
+                        frontPageLayoutImage();
+                    }
 
                 }
             }
@@ -132,6 +155,14 @@ public class PdfActivity extends BaseActivity {
         } else {
             binding.address.setText(prefManager.getActiveBrand().getAddress());
         }
+        binding.alertTextRedirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(act, UpdateBandList.class);
+                startActivity(intent);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
 
         if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
             binding.waterMark.setVisibility(View.GONE);
@@ -300,7 +331,6 @@ public class PdfActivity extends BaseActivity {
 
     ColorPickerFragment bottomSheetFragment;
 
-
     public void showBackgroundFragmentList() {
         bottomSheetFragment = new ColorPickerFragment();
         ColorPickerFragment.OnColorChoose onColorChoose = color -> {
@@ -309,7 +339,6 @@ public class PdfActivity extends BaseActivity {
             backgroundColorsList.set(objectSelectedPosition, backgroundSelectModel);
             backgroundColorsAdapter.notifyItemChanged(objectSelectedPosition);
         };
-
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -562,13 +591,11 @@ public class PdfActivity extends BaseActivity {
                 } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
                     bitmap = CurrentSelectedCard.getFiveBinding().frontPage.getDrawingCache();
                 }
-
                 assert bitmap != null;
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
                 fileOutputStream.flush();
                 fileOutputStream.close();
                 //imageToPDF();
-
                 backPageLayoutImage();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -701,21 +728,26 @@ public class PdfActivity extends BaseActivity {
     private void viewPdf(String name, Activity act) {
 
         String FilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.DOCUMENT + "/" + name + ".pdf";
+        Log.e("FilePath", "New Path: " + FilePath);
+
         File file;
-        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
 
             file = new File(FilePath);
             Uri apkURI = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", file);
             intent.setDataAndType(apkURI, "application/pdf");
+            intent.putExtra(Intent.EXTRA_STREAM, apkURI);
         } else {
 
             file = new File(Environment.getExternalStorageDirectory() + "/" + outputFile);
             Uri apkURI = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", file);
             intent.setDataAndType(apkURI, "application/pdf");
+            intent.putExtra(Intent.EXTRA_STREAM, apkURI);
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        act.startActivity(intent);
+        act.startActivity(Intent.createChooser(intent, "Share Pdf to..."));
 
     }
 

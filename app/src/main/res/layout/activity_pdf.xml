@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/BackButtonMember"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="Digital Card"
+                    android:text="Digital Visiting Card"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
@@ -116,7 +116,7 @@
                             android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/montserrat_semibold"
                             android:gravity="center"
-                            android:text="Text color"
+                            android:text="Text Color"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_10sdp" />
 
@@ -124,7 +124,7 @@
                             android:id="@+id/TextcolorList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
                             android:layout_marginEnd="@dimen/_5sdp" />
 
                     </LinearLayout>
@@ -147,7 +147,7 @@
                             android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/montserrat_semibold"
                             android:gravity="center"
-                            android:text="Icons color"
+                            android:text="Icons Color"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_10sdp" />
 
@@ -155,7 +155,7 @@
                             android:id="@+id/iconscolorList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
                             android:layout_marginEnd="@dimen/_5sdp" />
 
                     </LinearLayout>
@@ -204,13 +204,36 @@
 
                 </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:layout_gravity="clip_vertical"
+                    android:layout_marginStart="@dimen/_7sdp"
                     android:layout_marginEnd="@dimen/_7sdp"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:text="Please fill all the details for more better perfact design." />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/alertTexts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="clip_vertical"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="Please fill all the details for better perfect design." />
+
+                    <TextView
+                        android:id="@+id/alertTextRedirection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="clip_vertical"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:gravity="end"
+                        android:text="Click Here"
+                        android:textColor="@color/colorthird"
+                        android:textSize="@dimen/_11sdp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
 
                 <include
                     android:id="@+id/digitalCard"
@@ -493,7 +516,6 @@
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cardList"

@@ -84,7 +84,6 @@
             android:maxLines="1"
             android:paddingEnd="@dimen/_5sdp"
             android:text="+91 8200002604"
-
             android:textColor="@color/black"
             android:textSize="@dimen/_8sdp"
             app:layout_constraintBottom_toTopOf="@+id/contentBackground"

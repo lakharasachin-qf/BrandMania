@@ -16,11 +16,23 @@ public class VisitingCardModel {
     public static final int LAYOUT_FIVE = 4;
     int layoutType;
 
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public VisitingCardModel setFree(boolean free) {
+        isFree = free;
+        return this;
+    }
+
+    private boolean isFree = true;
+
     private LayoutDigitalCardOneBinding oneBinding;
     private LayoutDigitalCardTwoBinding twoBinding;
     private LayoutDigitalCardThreeBinding threeBinding;
     private LayoutDigitalCardFourthBinding fourBinding;
     private LayoutDigitalCardFifthBinding fiveBinding;
+
 
     public LayoutDigitalCardFourthBinding getFourBinding() {
         return fourBinding;

@@ -975,8 +975,6 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     }
 
 
-
-
                     if (!activeBrand.getEmail().isEmpty()) {
                         ((FooterHolderFifteen) holder).binding.address.setText(activeBrand.getEmail());
                     } else {

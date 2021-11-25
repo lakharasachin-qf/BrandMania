@@ -26,6 +26,17 @@
                 android:layout_height="match_parent"
                 android:background="@color/white">
 
+                <ImageView
+                    android:id="@+id/freeCard"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/ic_freee"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <View
                     android:id="@+id/leftView"
                     android:layout_width="@dimen/_30sdp"
@@ -48,6 +59,15 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/frontBottomView"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_2sdp"
+                    android:background="@drawable/digital_card_round_rect_thin"
+                    app:layout_constraintEnd_toEndOf="@+id/frontBrandName"
+                    app:layout_constraintStart_toStartOf="@+id/frontBrandName"
+                    app:layout_constraintTop_toBottomOf="@+id/frontBrandName" />
 
                 <TextView
                     android:id="@+id/frontBrandName"
@@ -104,6 +124,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/bmLogo"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:src="@drawable/bottom"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageView
                     android:id="@+id/logo2"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_70sdp"
@@ -119,7 +148,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_50sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_25sdp"
                     android:layout_marginRight="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_9sdp"
                     android:fontFamily="@font/montserrat_bold"
@@ -133,7 +162,7 @@
 
                 <View
                     android:id="@+id/view"
-                    android:layout_width="110dp"
+                    android:layout_width="@dimen/_130sdp"
                     android:layout_height="@dimen/_2sdp"
                     android:layout_marginLeft="@dimen/_50sdp"
                     android:layout_marginTop="@dimen/_2sdp"
@@ -146,7 +175,7 @@
                     android:id="@+id/addressTxt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginRight="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_9sdp"
                     android:fontFamily="@font/montserrat_bold"
@@ -163,7 +192,7 @@
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_7sdp"
-                    android:background="@color/colorthird"
+                    android:background="@color/deepColour"
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/ic_outline_call_24"
                     app:layout_constraintStart_toStartOf="@+id/brandName"
@@ -190,7 +219,7 @@
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_7sdp"
-                    android:background="@color/colorthird"
+                    android:background="@color/deepColour"
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/ic_outline_mail_24"
                     app:layout_constraintStart_toStartOf="@+id/brandName"
@@ -217,7 +246,7 @@
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_7sdp"
-                    android:background="@color/colorthird"
+                    android:background="@color/deepColour"
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/website"
                     app:layout_constraintStart_toStartOf="@+id/brandName"

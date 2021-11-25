@@ -142,8 +142,6 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         CodeReUse.RemoveError(binding.emailId, binding.emailIdTextLayout);
 
 
-
-
         String CreatAccount = "Create<br>Account</font></br>";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // binding.signupText.setText(Html.fromHtml(Message, Html.FROM_HTML_MODE_COMPACT));
@@ -243,8 +241,6 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                 /*hashMap.put("referrerCode", referrerCode);*/
                 .setTag("Add User")
                 .setPriority(Priority.HIGH);
-
-
 
 
         preafManager.setEMAIL_Id(binding.emailId.getText().toString());
@@ -490,8 +486,5 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
-
-
-
 
 }

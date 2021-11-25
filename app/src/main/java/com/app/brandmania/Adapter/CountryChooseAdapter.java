@@ -78,6 +78,7 @@ public class CountryChooseAdapter extends RecyclerView.Adapter<CountryChooseAdap
     public static class SelecBrandLIstHolder extends RecyclerView.ViewHolder {
         RadioButton radioButton;
 
+
         public SelecBrandLIstHolder(@NonNull View itemView) {
             super(itemView);
             radioButton = itemView.findViewById(R.id.radioButton);

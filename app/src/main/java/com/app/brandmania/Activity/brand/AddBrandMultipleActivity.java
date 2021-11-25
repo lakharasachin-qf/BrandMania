@@ -160,7 +160,6 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             }
         });
 
-
         CodeReUse.RemoveError(binding.categoryEdt, binding.categoryEdtLayout);
         CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
         CodeReUse.RemoveError(binding.phoneTxt, binding.phoneTxtLayout);
@@ -245,7 +244,6 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
     }
 
 
-
     public static final int GALLERY_INTENT = 101;
 
     private void selectImageFromGallery() {
@@ -297,7 +295,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             }
         }
 
-         if (requestCode == GALLERY_INTENT) {
+        if (requestCode == GALLERY_INTENT) {
             Uri result = data.getData();
             if (resultCode == RESULT_OK) {
                 startCropImageActivity(result);
@@ -451,10 +449,10 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         }
 
         request.addMultipartParameter("br_address", binding.addressEdt.getText().toString());
-        request.addMultipartParameter("br_country",binding.countryEdt.getText().toString());
-        request.addMultipartParameter("br_state",binding.stateEdt.getText().toString());
-        request.addMultipartParameter("br_city",binding.cityEdt.getText().toString());
-        request.addMultipartParameter("br_pincode",binding.pincodeEdt.getText().toString());
+        request.addMultipartParameter("br_country", binding.countryEdt.getText().toString());
+        request.addMultipartParameter("br_state", binding.stateEdt.getText().toString());
+        request.addMultipartParameter("br_city", binding.cityEdt.getText().toString());
+        request.addMultipartParameter("br_pincode", binding.pincodeEdt.getText().toString());
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
@@ -828,14 +826,14 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 selectedCity = null;
                 selectedState = null;
                 getCountryStateCity(CALL_STATE);
-            }else{
+            } else {
                 binding.countryEdt.setText("");
-                selectedCountry=null;
+                selectedCountry = null;
 
                 binding.stateEdt.setText("");
-                selectedState=null;
+                selectedState = null;
                 binding.cityEdt.setText("");
-                selectedCity=null;
+                selectedCity = null;
 
                 binding.cityLayout.setVisibility(View.GONE);
                 binding.stateLayout.setVisibility(View.GONE);
@@ -852,13 +850,13 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 selectedCity = null;
                 cityList.clear();
                 getCountryStateCity(CALL_CITY);
-            }else{
+            } else {
                 binding.stateEdt.setText("");
-                selectedState=null;
+                selectedState = null;
 
 
                 binding.cityEdt.setText("");
-                selectedCity=null;
+                selectedCity = null;
 
                 binding.cityLayout.setVisibility(View.GONE);
                 binding.stateLayout.setVisibility(View.GONE);
@@ -869,9 +867,9 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             if (!listModel.getId().equalsIgnoreCase("-1")) {
                 binding.cityEdt.setText(listModel.getName());
                 selectedCity = listModel;
-            }else{
+            } else {
                 binding.cityEdt.setText("");
-                selectedCity=null;
+                selectedCity = null;
             }
         }
 

@@ -317,14 +317,14 @@ public class BrandAdapter extends RecyclerView.Adapter {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity, R.style.MyAlertDialogStyle_extend2);
         PackageDetailAlertDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.package_detail_alert_dialog, null, false);
         binding.packageName.setText(brandListItems.get(position).getPackagename());
-        binding.totalImages.setText("Download Limit: "+brandListItems.get(position).getNo_of_total_image()+" Images");
-        binding.usedImages.setText("Used Images: "+brandListItems.get(position).getNo_of_used_image()+" Images");
+        binding.totalImages.setText("Download Limit: " + brandListItems.get(position).getNo_of_total_image() + " Images");
+        binding.usedImages.setText("Used Images: " + brandListItems.get(position).getNo_of_used_image() + " Images");
         binding.expiryDate.setText(brandListItems.get(position).getExpiery_date());
-        if (Utility.isPackageExpired(brandListItems.get(position))){
+        if (Utility.isPackageExpired(brandListItems.get(position))) {
             binding.alert.setVisibility(View.VISIBLE);
-            binding.alert.setText("     Dear user, your package is expired on date "+brandListItems.get(position).getExpiery_date()+". Please Upgrade your plan.");
+            binding.alert.setText("     Dear user, your package is expired on date " + brandListItems.get(position).getExpiery_date() + ". Please Upgrade your plan.");
             binding.alert.setSelected(true);
-        }else {
+        } else {
             binding.alert.setVisibility(View.GONE);
         }
         binding.price.setText(activity.getString(R.string.Rs) + brandListItems.get(position).getRate());

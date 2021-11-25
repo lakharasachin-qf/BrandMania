@@ -27,24 +27,24 @@
                 android:id="@+id/callIcon"
                 android:layout_width="@dimen/_10sdp"
                 android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/ic_outline_mail_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_outline_mail_24" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                 android:id="@+id/mobileNo"
+                android:id="@+id/mobileNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/montserrat_regular"
                 android:maxLines="1"
+                android:paddingEnd="@dimen/_5sdp"
                 android:text="+91 8200002604"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_8sdp"
-                android:paddingEnd="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/callIcon"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,22 +52,22 @@
                 android:id="@+id/emailIcon"
                 android:layout_width="@dimen/_10sdp"
                 android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/ic_outline_mail_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/mobileNo"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_outline_mail_24" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/emailTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/montserrat_regular"
                 android:maxLines="2"
                 android:text="lakharasachin.qf@gmail.com"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_8sdp"
-                android:layout_marginStart="@dimen/_5sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/emailIcon"
                 app:layout_constraintTop_toTopOf="parent" />

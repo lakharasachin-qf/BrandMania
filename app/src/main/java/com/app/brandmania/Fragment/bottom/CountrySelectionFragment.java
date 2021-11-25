@@ -62,7 +62,6 @@ public class CountrySelectionFragment extends BottomSheetDialogFragment {
         super.onCreate(savedInstanceState);
     }
 
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -77,7 +76,6 @@ public class CountrySelectionFragment extends BottomSheetDialogFragment {
         });
         return dialog;
     }
-
 
     private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
         FrameLayout bottomSheet = bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
