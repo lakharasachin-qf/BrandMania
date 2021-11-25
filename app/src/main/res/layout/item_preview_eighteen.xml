@@ -30,128 +30,127 @@
                 android:gravity="bottom"
                 android:orientation="vertical">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/socialBackground"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginEnd="-20dp"
+                    android:layout_marginBottom="-20dp"
+                    android:background="@drawable/roundshape"
+                    android:backgroundTint="@color/colorthird"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/contentBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20pt"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/shapeee_round_one_corner"
+                    android:backgroundTint="@color/colorthird"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:id="@+id/emailIcon"
+                        android:layout_width="@dimen/_4sdp"
+                        android:layout_height="@dimen/_4sdp"
+                        android:src="@drawable/ic_outline_location_on_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/contentBackground"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/emailTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:maxLines="2"
+                        android:text="B/1 Parasnager Rudra Complex,opp. Bajaranj Asshram, Vastral, Ahmedabad, Gujarat, India -223545"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_4sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/emailIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/callIcon"
+                    android:layout_width="@dimen/_4sdp"
+                    android:layout_height="@dimen/_4sdp"
+                    android:src="@drawable/ic_outline_mail_24"
+                    app:layout_constraintBottom_toBottomOf="@id/mobileNo"
+                    app:layout_constraintStart_toStartOf="@+id/contentBackground"
+                    app:layout_constraintTop_toTopOf="@id/mobileNo" />
+
+                <TextView
+                    android:id="@+id/mobileNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:maxLines="1"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:text="+91 8200002604"
+
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_4sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/contentBackground"
+                    app:layout_constraintEnd_toStartOf="@+id/socialBackground"
+                    app:layout_constraintStart_toEndOf="@id/callIcon" />
+
 
                 <ImageView
                     android:id="@+id/fb"
                     android:layout_width="@dimen/_4sdp"
                     android:layout_height="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:src="@drawable/ic_social_media_facebook"
+                    app:layout_constraintBottom_toBottomOf="@+id/contentBackground"
                     app:layout_constraintEnd_toStartOf="@id/insta"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorPrimary" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/contentBackground"
+                    app:tint="@color/black" />
 
                 <ImageView
                     android:id="@+id/insta"
                     android:layout_width="@dimen/_4sdp"
                     android:layout_height="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:src="@drawable/ic_social_media_instagram"
-                    app:layout_constraintEnd_toStartOf="@id/wp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorPrimary" />
+
+                    app:layout_constraintBottom_toBottomOf="@+id/contentBackground"
+                    app:layout_constraintStart_toEndOf="@id/fb"
+                    app:layout_constraintTop_toTopOf="@+id/contentBackground"
+                    app:tint="@color/black" />
 
                 <ImageView
                     android:id="@+id/wp"
                     android:layout_width="@dimen/_4sdp"
                     android:layout_height="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
+
                     android:src="@drawable/ic_social_media_whatsapp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorPrimary" />
-
-
-                <View
-                    android:id="@+id/layoutOne"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@color/colorthird"
-                    app:layout_constraintBottom_toBottomOf="@id/email"
-                    app:layout_constraintEnd_toEndOf="@id/email"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/mobileNo">
-
-                </View>
-
-                <View
-                    android:id="@+id/layoutTwo"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/email"
-                    app:layout_constraintTop_toTopOf="@id/mobileNo">
-
-                </View>
-
-                <TextView
-                    android:id="@+id/mobileNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:maxLength="15"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/_2sdp"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingEnd="@dimen/_5sdp"
-                    android:text="+91 8200002604"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_3sdp"
-                    app:layout_constraintBottom_toTopOf="@id/email"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/_2sdp"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingEnd="@dimen/_5sdp"
-                    android:paddingBottom="@dimen/_2sdp"
-                    android:text="lakharasachin.qf@gmail.com"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_3sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-
-                    android:id="@+id/address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:maxWidth="@dimen/_50sdp"
-                    android:maxLines="2"
-                    android:paddingStart="@dimen/_2sdp"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingEnd="@dimen/_2sdp"
-                    android:paddingBottom="@dimen/_5sdp"
-                    android:text="326 Rudra Complex, Vastral, Ahmedabad, Gujarat, India -223545"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_3sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/layoutOne" />
-
+                    app:layout_constraintBottom_toBottomOf="@+id/contentBackground"
+                    app:layout_constraintStart_toEndOf="@+id/insta"
+                    app:layout_constraintTop_toTopOf="@+id/contentBackground"
+                    app:tint="@color/black" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

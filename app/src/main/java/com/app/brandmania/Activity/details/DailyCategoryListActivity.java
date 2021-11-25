@@ -1,11 +1,9 @@
 package com.app.brandmania.Activity.details;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
@@ -19,16 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.ANRequest;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Adapter.BusinessCategoryAdapter;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
-import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
@@ -40,23 +31,25 @@ import com.app.brandmania.utils.Utility;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-public class BusinessCategoryListActivity extends BaseActivity {
+public class DailyCategoryListActivity extends BaseActivity {
     Activity act;
     private ActivityViewBusinessCategoryBinding binding;
     private DashBoardItem apiModel;
     private ArrayList<ImageList> rootList;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_material_theme);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_business_category);
+        if (getIntent().hasExtra("title"))
+            binding.toolbarTitle.setText(getIntent().getStringExtra("title"));
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,9 +66,6 @@ public class BusinessCategoryListActivity extends BaseActivity {
             }
         });
 
-        startAnimation();
-        getBusinessCategory();
-
         binding.searchEdt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -90,9 +80,12 @@ public class BusinessCategoryListActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
+        startAnimation();
+        getBusinessCategory();
     }
 
-
+    BusinessCategoryAdapter MenuAddaptor;
     void filterCountry(String text) {
         ArrayList<ImageList> temp = new ArrayList<>();
         for (ImageList d : rootList) {
@@ -102,9 +95,8 @@ public class BusinessCategoryListActivity extends BaseActivity {
         }
         MenuAddaptor.updateList(temp);
     }
-    BusinessCategoryAdapter MenuAddaptor;
     private void setAdapter() {
-         MenuAddaptor = new BusinessCategoryAdapter(apiModel, this, apiModel.getDashBoardItems().get(0).getDailyImages());
+        MenuAddaptor = new BusinessCategoryAdapter(apiModel, this, apiModel.getDashBoardItems().get(0).getDailyImages());
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
         binding.recyclerList.setHasFixedSize(true);
         binding.recyclerList.setLayoutManager(mLayoutManager);
@@ -130,6 +122,11 @@ public class BusinessCategoryListActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(response);
 
                     apiModel = ResponseHandler.handleBusinessCategory(act, jsonObject);
+                    if (ResponseHandler.isSuccess(null,jsonObject)){
+                        JSONObject data = ResponseHandler.getJSONObject(jsonObject, "data");
+                        Iterator<String> keys = data.keys();
+                        binding.toolbarTitle.setText(keys.next());
+                    }
 
                     if (apiModel.getDashBoardItems() != null && apiModel.getDashBoardItems().size() != 0 && apiModel.getDashBoardItems().get(0).getDailyImages() != null && apiModel.getDashBoardItems().get(0).getDailyImages().size() != 0) {
                         rootList = ResponseHandler.handleBusinessCategory(act, jsonObject).getDashBoardItems().get(0).getDailyImages();
@@ -190,9 +187,4 @@ public class BusinessCategoryListActivity extends BaseActivity {
     @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
-
-
-
-
-
 }

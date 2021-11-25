@@ -127,7 +127,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
             }
         });
 
-
+        binding.seekBar.setVisibility(View.GONE);
         binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -144,8 +144,6 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
                 textSize = textSize + (progress - saveProgress);
                 saveProgress = progress;
 
-                //  binding.seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-                ((ITextSizeEvent) act).onfontSize(textSize);
                // ((ITextSizeEvent) act).onfontSize((int) (textSize / Resources.getSystem().getDisplayMetrics().density));
 
             }

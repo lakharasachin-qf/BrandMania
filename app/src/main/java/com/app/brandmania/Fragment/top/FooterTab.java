@@ -21,7 +21,6 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.FooterTabBinding;
-import com.app.brandmania.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -169,7 +168,34 @@ public class FooterTab extends Fragment {
     }
 
     public void setAdapter() {
+
         FooterModel model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_SIXTEEN);
+        model.setFree(true);
+        setData(model);
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVENTEEN);
+        model.setFree(true);
+        setData(model);
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_EIGHTEEN);
+        model.setFree(true);
+        setData(model);
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_NINETEEN);
+        model.setFree(true);
+        setData(model);
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_TWENTY);
+        model.setFree(true);
+        setData(model);
+
+
+        model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_ELEVEN);
         model.setFree(true);
         setData(model);

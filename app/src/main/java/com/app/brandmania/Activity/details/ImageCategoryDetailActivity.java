@@ -107,6 +107,7 @@ import com.app.brandmania.databinding.DialogUpgradeLayoutSecondBinding;
 import com.app.brandmania.databinding.LayoutFooterElevenBinding;
 import com.app.brandmania.databinding.LayoutFooterFifteenBinding;
 import com.app.brandmania.databinding.LayoutFooterFourteenBinding;
+import com.app.brandmania.databinding.LayoutFooterSixteenBinding;
 import com.app.brandmania.databinding.LayoutFooterThirteenBinding;
 import com.app.brandmania.databinding.LayoutFooterTweloneBinding;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
@@ -1970,6 +1971,21 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             layoutModelClass.setFifteenBinding(fifteenBinding);
             FooterHelper.loadFrameFifteenData(act, fifteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_SIXTEEN) {
+            LayoutFooterSixteenBinding sixteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_sixteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
+            binding.elementFooter.addView(sixteenBinding.getRoot());
+
+            View view = sixteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            layoutModelClass.setSixteenBinding(sixteenBinding);
+            FooterHelper.loadFrame16Data(act, sixteenBinding);
+            mainLayout = findViewById(R.id.addressLayout);
         }
 
     }
@@ -2446,9 +2462,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     }
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();

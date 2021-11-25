@@ -27,6 +27,7 @@ import com.app.brandmania.R;
 import com.app.brandmania.databinding.LayoutFooterElevenBinding;
 import com.app.brandmania.databinding.LayoutFooterFifteenBinding;
 import com.app.brandmania.databinding.LayoutFooterFourteenBinding;
+import com.app.brandmania.databinding.LayoutFooterSixteenBinding;
 import com.app.brandmania.databinding.LayoutFooterThirteenBinding;
 import com.app.brandmania.databinding.LayoutFooterTweloneBinding;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
@@ -77,8 +78,10 @@ public class FooterHelper {
                 FooterHelper.makeItalicForThirteen(layoutModelClass.getThirteenBinding(), true);
             } else if (footerLayout == 14) {
                 FooterHelper.makeItalicForFourteen(layoutModelClass.getFourteenBinding(), true);
-            }else if (footerLayout == 15) {
+            } else if (footerLayout == 15) {
                 FooterHelper.makeItalicForFifteen(layoutModelClass.getFifteenBinding(), true);
+            } else if (footerLayout == 16) {
+                FooterHelper.makeItalicFor16(layoutModelClass.getSixteenBinding(), true);
             }
         } else {
             if (footerLayout == 1) {
@@ -109,8 +112,10 @@ public class FooterHelper {
                 FooterHelper.makeItalicForThirteen(layoutModelClass.getThirteenBinding(), false);
             } else if (footerLayout == 14) {
                 FooterHelper.makeItalicForFourteen(layoutModelClass.getFourteenBinding(), false);
-            }else if (footerLayout == 15) {
+            } else if (footerLayout == 15) {
                 FooterHelper.makeItalicForFifteen(layoutModelClass.getFifteenBinding(), false);
+            } else if (footerLayout == 16) {
+                FooterHelper.makeItalicFor16(layoutModelClass.getSixteenBinding(), false);
             }
 
         }
@@ -201,8 +206,15 @@ public class FooterHelper {
         Utility.setItalicText(fourteenBinding.mobileNo, italic);
 
     }
+
     public static void makeItalicForFifteen(LayoutFooterFifteenBinding fifteenBinding, boolean italic) {
         Utility.setItalicText(fifteenBinding.address, italic);
+    }
+
+    public static void makeItalicFor16(LayoutFooterSixteenBinding fifteenBinding, boolean italic) {
+        Utility.setItalicText(fifteenBinding.address, italic);
+        Utility.setItalicText(fifteenBinding.mobileNo, italic);
+        Utility.setItalicText(fifteenBinding.email, italic);
     }
 
 
@@ -237,8 +249,10 @@ public class FooterHelper {
                 FooterHelper.makeBoldForThirteen(layoutModelClass.getThirteenBinding(), true);
             } else if (footerLayout == 14) {
                 FooterHelper.makeBoldForFourteen(layoutModelClass.getFourteenBinding(), true);
-            }else if (footerLayout == 15) {
+            } else if (footerLayout == 15) {
                 FooterHelper.makeBoldForFifteen(layoutModelClass.getFifteenBinding(), true);
+            } else if (footerLayout == 16) {
+                FooterHelper.makeBoldFor16(layoutModelClass.getSixteenBinding(), true);
             }
 
         } else {
@@ -270,8 +284,10 @@ public class FooterHelper {
                 FooterHelper.makeBoldForThirteen(layoutModelClass.getThirteenBinding(), false);
             } else if (footerLayout == 14) {
                 FooterHelper.makeBoldForFourteen(layoutModelClass.getFourteenBinding(), false);
-            }else if (footerLayout == 15) {
+            } else if (footerLayout == 15) {
                 FooterHelper.makeBoldForFifteen(layoutModelClass.getFifteenBinding(), false);
+            } else if (footerLayout == 16) {
+                FooterHelper.makeBoldFor16(layoutModelClass.getSixteenBinding(), false);
             }
         }
     }
@@ -365,6 +381,12 @@ public class FooterHelper {
         Utility.setBold(fifteenBinding.address, bold);
     }
 
+    public static void makeBoldFor16(LayoutFooterSixteenBinding sixteenBinding, boolean bold) {
+        Utility.setBold(sixteenBinding.address, bold);
+        Utility.setBold(sixteenBinding.mobileNo, bold);
+        Utility.setBold(sixteenBinding.email, bold);
+    }
+
 
     //For Text Size
     public static void baseForTextSize(int textsize, int footerLayout, LayoutModelClass layoutModelClass) {
@@ -396,8 +418,10 @@ public class FooterHelper {
             FooterHelper.makeTextSizeForThirteen(layoutModelClass.getThirteenBinding(), textsize);
         } else if (footerLayout == 14) {
             FooterHelper.makeTextSizeForFourteen(layoutModelClass.getFourteenBinding(), textsize);
-        }else if (footerLayout == 15) {
+        } else if (footerLayout == 15) {
             FooterHelper.makeTextSizeForFifteen(layoutModelClass.getFifteenBinding(), textsize);
+        } else if (footerLayout == 16) {
+            FooterHelper.makeTextSizeFor16(layoutModelClass.getSixteenBinding(), textsize);
         }
     }
 
@@ -483,8 +507,16 @@ public class FooterHelper {
 
     public static void makeTextSizeForFourteen(LayoutFooterFourteenBinding fourteenBinding, int textsize) {
         fourteenBinding.mobileNo.setTextSize(textsize);
-    } public static void makeTextSizeForFifteen(LayoutFooterFifteenBinding fifteenBinding, int textsize) {
+    }
+
+    public static void makeTextSizeForFifteen(LayoutFooterFifteenBinding fifteenBinding, int textsize) {
         fifteenBinding.address.setTextSize(textsize);
+    }
+
+    public static void makeTextSizeFor16(LayoutFooterSixteenBinding fifteenBinding, int textsize) {
+        fifteenBinding.address.setTextSize(textsize);
+        fifteenBinding.email.setTextSize(textsize);
+        fifteenBinding.mobileNo.setTextSize(textsize);
     }
 
 
@@ -518,8 +550,10 @@ public class FooterHelper {
             FooterHelper.ChangeBackgroundColorForFrameThirteen(act, layoutModelClass.getThirteenBinding(), colorCode);
         } else if (footerLayout == 14) {
             FooterHelper.ChangeBackgroundColorForFrameFourteen(act, layoutModelClass.getFourteenBinding(), colorCode);
-        }else if (footerLayout == 15) {
+        } else if (footerLayout == 15) {
             FooterHelper.ChangeBackgroundColorForFrameFifteen(act, layoutModelClass.getFifteenBinding(), colorCode);
+        } else if (footerLayout == 16) {
+            FooterHelper.ChangeBackgroundColorForFrame16(act, layoutModelClass.getSixteenBinding(), colorCode);
         }
     }
 
@@ -552,8 +586,10 @@ public class FooterHelper {
             FooterHelper.ChangeTextColorForFrameThirteen(act, layoutModelClass.getThirteenBinding(), colorCode);
         } else if (footerLayout == 14) {
             FooterHelper.ChangeTextColorForFrameFourteen(act, layoutModelClass.getFourteenBinding(), colorCode);
-        }else if (footerLayout == 15) {
+        } else if (footerLayout == 15) {
             FooterHelper.ChangeTextColorForFrameFifteen(act, layoutModelClass.getFifteenBinding(), colorCode);
+        } else if (footerLayout == 16) {
+            FooterHelper.ChangeTextColorForFrame16(act, layoutModelClass.getSixteenBinding(), colorCode);
         }
     }
 
@@ -743,6 +779,13 @@ public class FooterHelper {
         //tweloneBinding.view2.setBackgroundTintList(ColorStateList.valueOf(colorCode));
     }
 
+    public static void ChangeBackgroundColorForFrame16(Activity act, LayoutFooterSixteenBinding fifteenBinding, int colorCode) {
+        fifteenBinding.layoutOne.setBackgroundTintList(ColorStateList.valueOf(colorCode));
+        fifteenBinding.fb.setImageTintList(ColorStateList.valueOf(colorCode));
+        fifteenBinding.insta.setImageTintList(ColorStateList.valueOf(colorCode));
+        fifteenBinding.wp.setImageTintList(ColorStateList.valueOf(colorCode));
+    }
+
     public static void ChangeTextColorForFrameTen(Activity act, LayoutForLoadTenBinding tenBinding, int colodCode) {
         tenBinding.gmailText.setTextColor(colodCode);
         tenBinding.contactText.setTextColor(colodCode);
@@ -772,11 +815,18 @@ public class FooterHelper {
         //fourteenBinding.mobileNo.setTextColor(colodCode);
         //fourteenBinding.mobileNo.setTextColor(colodCode);
     }
+
     public static void ChangeTextColorForFrameFifteen(Activity act, LayoutFooterFifteenBinding fifteenBinding, int colodCode) {
 
-     //   fifteenBinding.socialBackground.setBackgroundTintList(ColorStateList.valueOf(colodCode));
+        //   fifteenBinding.socialBackground.setBackgroundTintList(ColorStateList.valueOf(colodCode));
         //fourteenBinding.mobileNo.setTextColor(colodCode);
         //fourteenBinding.mobileNo.setTextColor(colodCode);
+    }
+
+    public static void ChangeTextColorForFrame16(Activity act, LayoutFooterSixteenBinding fifteenBinding, int colodCode) {
+        fifteenBinding.mobileNo.setTextColor((colodCode));
+        fifteenBinding.email.setTextColor((colodCode));
+        //fifteenBinding.layoutTwo.setBackgroundTintList(ColorStateList.valueOf((colodCode)));
     }
 
     //Footer Data Load
@@ -1110,13 +1160,14 @@ public class FooterHelper {
             fourteenBinding.mobileNo.setVisibility(View.GONE);
         }
     }
+
     public static void loadFrameFifteenData(Activity act, LayoutFooterFifteenBinding fifteenBinding) {
         BrandListItem activeBrand = new PreafManager(act).getActiveBrand();
         if (!activeBrand.getAddress().isEmpty()) {
             fifteenBinding.address.setText(activeBrand.getAddress());
         } else {
             if (!activeBrand.getEmail().isEmpty()) {
-                fifteenBinding.locationPin.setImageDrawable(ContextCompat.getDrawable(act,R.drawable.ic_outline_mail_24));
+                fifteenBinding.locationPin.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_outline_mail_24));
                 fifteenBinding.address.setText(activeBrand.getEmail());
             }
         }
@@ -1142,7 +1193,29 @@ public class FooterHelper {
 
     }
 
+    public static void loadFrame16Data(Activity act, LayoutFooterSixteenBinding tweloneBinding) {
+        BrandListItem activeBrand = new PreafManager(act).getActiveBrand();
+        if (!activeBrand.getEmail().isEmpty()) {
+            tweloneBinding.email.setText(activeBrand.getEmail());
+        } else {
+            tweloneBinding.email.setVisibility(View.GONE);
+        }
 
+        if (!activeBrand.getPhonenumber().isEmpty()) {
+            tweloneBinding.mobileNo.setText(activeBrand.getPhonenumber());
+        } else {
+            tweloneBinding.mobileNo.setVisibility(View.GONE);
+        }
+        if (!activeBrand.getAddress().isEmpty()) {
+            tweloneBinding.address.setText(activeBrand.getAddress());
+        } else {
+            if (!activeBrand.getWebsite().isEmpty()) {
+                tweloneBinding.address.setText("www."+activeBrand.getWebsite().replace("http://","").replace("https://","").replace("www.",""));
+            }else{
+                tweloneBinding.address.setVisibility(View.GONE);
+            }
+        }
+    }
     //change font style----------------------------------------------------------------------------
     public static void baseForFontChange(Activity act, int footerLayout, String font, LayoutModelClass layoutModelClass) {
         if (footerLayout == 1) {
@@ -1175,6 +1248,8 @@ public class FooterHelper {
             FooterHelper.setTypographyForFourteenLayout(layoutModelClass.getFourteenBinding(), act, font);
         } else if (footerLayout == 15) {
             //FooterHelper.setTypographyForElevenLayout(layoutModelClass.getElevenBinding(), act, font);
+        } else if (footerLayout == 16) {
+            FooterHelper.setTypographyFor16(layoutModelClass.getSixteenBinding(), act, font);
         }
     }
 
@@ -1272,6 +1347,12 @@ public class FooterHelper {
     public static void setTypographyForFourteenLayout(LayoutFooterFourteenBinding fourteenBinding, Activity act, String font) {
         Typeface custom_font = Typeface.createFromAsset(act.getAssets(), font);
         fourteenBinding.mobileNo.setTypeface(custom_font);
+    }
+    public static void setTypographyFor16(LayoutFooterSixteenBinding fourteenBinding, Activity act, String font) {
+        Typeface custom_font = Typeface.createFromAsset(act.getAssets(), font);
+        fourteenBinding.mobileNo.setTypeface(custom_font);
+        fourteenBinding.email.setTypeface(custom_font);
+        fourteenBinding.address.setTypeface(custom_font);
     }
 
     //create custom image from relative layout and view

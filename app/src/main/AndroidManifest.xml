@@ -5,7 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
@@ -46,6 +47,9 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".Activity.ViewNotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.details.DailyCategoryListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.basics.LoadingHomeActivity"
@@ -156,8 +160,8 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:exported="false"
             android:enabled="true"
+            android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"

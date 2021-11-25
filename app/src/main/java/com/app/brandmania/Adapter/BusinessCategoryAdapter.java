@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
@@ -20,6 +21,7 @@ import com.app.brandmania.databinding.ItemLayoutDailyImagesBinding;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessCategoryAdapter extends RecyclerView.Adapter<BusinessCategoryAdapter.ViewHolder> {
@@ -98,5 +100,10 @@ public class BusinessCategoryAdapter extends RecyclerView.Adapter<BusinessCatego
         void onColorPickerClickListener(int colorCode);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateList(ArrayList<ImageList> list) {
+        imagesList = list;
+        notifyDataSetChanged();
+    }
 
 }

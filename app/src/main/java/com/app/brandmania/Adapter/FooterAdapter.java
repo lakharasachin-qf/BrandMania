@@ -1,19 +1,24 @@
 package com.app.brandmania.Adapter;
 
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_EIGHT;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_EIGHTEEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_ELEVEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FIFTEEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FIVE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FOUR;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_FOURTEEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_NINE;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_NINETEEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_ONE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SEVEN;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SEVENTEEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SIX;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_SIXTEEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_THIRTEEN;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_THREE;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWELVE;
+import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWENTY;
 import static com.app.brandmania.Adapter.FooterModel.LAYOUT_FRAME_TWO;
 
 import android.annotation.SuppressLint;
@@ -42,11 +47,16 @@ import com.app.brandmania.databinding.ItemFooterSevenBinding;
 import com.app.brandmania.databinding.ItemFooterTenBinding;
 import com.app.brandmania.databinding.ItemFooterThreeBinding;
 import com.app.brandmania.databinding.ItemFooterTwoBinding;
+import com.app.brandmania.databinding.ItemPreviewEighteenBinding;
 import com.app.brandmania.databinding.ItemPreviewElevenBinding;
 import com.app.brandmania.databinding.ItemPreviewFifteenBinding;
 import com.app.brandmania.databinding.ItemPreviewFourteenBinding;
+import com.app.brandmania.databinding.ItemPreviewNineteenBinding;
+import com.app.brandmania.databinding.ItemPreviewSeventeenBinding;
+import com.app.brandmania.databinding.ItemPreviewSixteenBinding;
 import com.app.brandmania.databinding.ItemPreviewThirteenBinding;
 import com.app.brandmania.databinding.ItemPreviewTweloneBinding;
+import com.app.brandmania.databinding.ItemPreviewTwentyBinding;
 
 import java.util.ArrayList;
 
@@ -125,6 +135,29 @@ public class FooterAdapter extends RecyclerView.Adapter {
             case LAYOUT_FRAME_FIFTEEN:
                 ItemPreviewFifteenBinding itemPreviewFifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_fifteen, viewGroup, false);
                 return new FooterHolderFifteen(itemPreviewFifteenBinding);
+
+            case LAYOUT_FRAME_SIXTEEN:
+                ItemPreviewSixteenBinding itemPreviewSixteenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_sixteen, viewGroup, false);
+                return new FooterHolderSixteen(itemPreviewSixteenBinding);
+
+
+            case LAYOUT_FRAME_SEVENTEEN:
+                ItemPreviewSeventeenBinding previewSeventeenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_seventeen, viewGroup, false);
+                return new FooterHolderSevenTeen(previewSeventeenBinding);
+
+
+            case LAYOUT_FRAME_EIGHTEEN:
+                ItemPreviewEighteenBinding previewEighteenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_eighteen, viewGroup, false);
+                return new FooterHolderFEighteen(previewEighteenBinding);
+
+
+            case LAYOUT_FRAME_NINETEEN:
+                ItemPreviewNineteenBinding previewNineteenBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_nineteen, viewGroup, false);
+                return new FooterHolderNineTeen(previewNineteenBinding);
+
+            case LAYOUT_FRAME_TWENTY:
+                ItemPreviewTwentyBinding twentyBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_preview_twenty, viewGroup, false);
+                return new FooterHolderTwenty(twentyBinding);
         }
         return null;
 
@@ -163,6 +196,21 @@ public class FooterAdapter extends RecyclerView.Adapter {
                 return LAYOUT_FRAME_FOURTEEN;
             case 15:
                 return LAYOUT_FRAME_FIFTEEN;
+
+            case 16:
+                return LAYOUT_FRAME_SIXTEEN;
+
+            case 17:
+                return LAYOUT_FRAME_SEVENTEEN;
+
+            case 18:
+                return LAYOUT_FRAME_EIGHTEEN;
+
+            case 19:
+                return LAYOUT_FRAME_NINETEEN;
+
+            case 20:
+                return LAYOUT_FRAME_TWENTY;
             default:
                 return -1;
         }
@@ -990,6 +1038,58 @@ public class FooterAdapter extends RecyclerView.Adapter {
                         ((FooterHolderFifteen) holder).binding.elementSelected.setVisibility(View.GONE);
                     }
                     break;
+                case LAYOUT_FRAME_SIXTEEN:
+                    ((FooterHolderSixteen) holder).binding.footerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (model.isFree()) {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderSixteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            } else {
+                                checkedPosition = position;
+                                footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                                ((FooterHolderSixteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+
+                    if (!model.isFree()) {
+                        ((FooterHolderSixteen) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
+                    } else {
+                        ((FooterHolderSixteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                    }
+
+
+                    if (!activeBrand.getAddress().isEmpty()) {
+                        ((FooterHolderSixteen) holder).binding.address.setText(activeBrand.getAddress());
+                    } else {
+                        ((FooterHolderSixteen) holder).binding.address.setVisibility(View.GONE);
+                    }
+
+                    if (!activeBrand.getEmail().isEmpty()) {
+                        ((FooterHolderSixteen) holder).binding.email.setText(activeBrand.getEmail());
+                    } else {
+                        ((FooterHolderSixteen) holder).binding.email.setVisibility(View.GONE);
+                    }
+                       if (!activeBrand.getPhonenumber().isEmpty()) {
+                        ((FooterHolderSixteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                    } else {
+                        ((FooterHolderSixteen) holder).binding.mobileNo.setVisibility(View.GONE);
+                    }
+
+
+
+                    if (checkedPosition == position) {
+                        ((FooterHolderSixteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
+                        ((FooterHolderSixteen) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((FooterHolderSixteen) holder).binding.freePremium.setVisibility(View.GONE);
+                    } else {
+                        ((FooterHolderSixteen) holder).binding.elementSelected.setVisibility(View.GONE);
+                    }
+                    break;
 
             }
         }
@@ -1142,6 +1242,51 @@ public class FooterAdapter extends RecyclerView.Adapter {
         ItemPreviewFifteenBinding binding;
 
         public FooterHolderFifteen(ItemPreviewFifteenBinding previewFourteenBinding) {
+            super(previewFourteenBinding.getRoot());
+            binding = previewFourteenBinding;
+        }
+    }
+
+    private class FooterHolderSixteen extends RecyclerView.ViewHolder {
+        ItemPreviewSixteenBinding binding;
+
+        public FooterHolderSixteen(ItemPreviewSixteenBinding previewFourteenBinding) {
+            super(previewFourteenBinding.getRoot());
+            binding = previewFourteenBinding;
+        }
+    }
+
+    private class FooterHolderSevenTeen extends RecyclerView.ViewHolder {
+        ItemPreviewSeventeenBinding binding;
+
+        public FooterHolderSevenTeen(ItemPreviewSeventeenBinding previewFourteenBinding) {
+            super(previewFourteenBinding.getRoot());
+            binding = previewFourteenBinding;
+        }
+    }
+
+    private class FooterHolderFEighteen extends RecyclerView.ViewHolder {
+        ItemPreviewEighteenBinding binding;
+
+        public FooterHolderFEighteen(ItemPreviewEighteenBinding previewFourteenBinding) {
+            super(previewFourteenBinding.getRoot());
+            binding = previewFourteenBinding;
+        }
+    }
+
+    private class FooterHolderNineTeen extends RecyclerView.ViewHolder {
+        ItemPreviewNineteenBinding binding;
+
+        public FooterHolderNineTeen(ItemPreviewNineteenBinding previewFourteenBinding) {
+            super(previewFourteenBinding.getRoot());
+            binding = previewFourteenBinding;
+        }
+    }
+
+    private class FooterHolderTwenty extends RecyclerView.ViewHolder {
+        ItemPreviewTwentyBinding binding;
+
+        public FooterHolderTwenty(ItemPreviewTwentyBinding previewFourteenBinding) {
             super(previewFourteenBinding.getRoot());
             binding = previewFourteenBinding;
         }

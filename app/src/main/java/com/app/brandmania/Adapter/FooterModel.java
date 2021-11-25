@@ -1,29 +1,36 @@
 package com.app.brandmania.Adapter;
 
 public class FooterModel {
-    public static final int LAYOUT_FRAME_ONE=1;
-    public static final int LAYOUT_FRAME_TWO=2;
-    public static final int LAYOUT_FRAME_THREE=3;
-    public static final int LAYOUT_FRAME_FOUR=4;
-    public static final int LAYOUT_FRAME_FIVE=5;
-    public static final int LAYOUT_FRAME_SIX=6;
-    public static final int LAYOUT_FRAME_SEVEN=7;
-    public static final int LAYOUT_FRAME_EIGHT=8;
-    public static final int LAYOUT_FRAME_NINE=9;
-    public static final int LAYOUT_FRAME_TEN=10;
-    public static final int LAYOUT_FRAME_ELEVEN=11;
-    public static final int LAYOUT_FRAME_TWELVE=12;
-    public static final int LAYOUT_FRAME_THIRTEEN=13;
-    public static final int LAYOUT_FRAME_FOURTEEN=14;
-    public static final int LAYOUT_FRAME_FIFTEEN=15;
+    public static final int LAYOUT_FRAME_ONE = 1;
+    public static final int LAYOUT_FRAME_TWO = 2;
+    public static final int LAYOUT_FRAME_THREE = 3;
+    public static final int LAYOUT_FRAME_FOUR = 4;
+    public static final int LAYOUT_FRAME_FIVE = 5;
+    public static final int LAYOUT_FRAME_SIX = 6;
+    public static final int LAYOUT_FRAME_SEVEN = 7;
+    public static final int LAYOUT_FRAME_EIGHT = 8;
+    public static final int LAYOUT_FRAME_NINE = 9;
+    public static final int LAYOUT_FRAME_TEN = 10;
+    public static final int LAYOUT_FRAME_ELEVEN = 11;
+    public static final int LAYOUT_FRAME_TWELVE = 12;
+    public static final int LAYOUT_FRAME_THIRTEEN = 13;
+    public static final int LAYOUT_FRAME_FOURTEEN = 14;
+    public static final int LAYOUT_FRAME_FIFTEEN = 15;
+
+    public static final int LAYOUT_FRAME_SIXTEEN = 16;
+    public static final int LAYOUT_FRAME_SEVENTEEN = 17;
+    public static final int LAYOUT_FRAME_EIGHTEEN = 18;
+    public static final int LAYOUT_FRAME_NINETEEN = 19;
+    public static final int LAYOUT_FRAME_TWENTY = 20;
+
     public static final int LAYOUT_LOADING = 33;
     private int layoutType;
     private String emailId;
     private String contactNo;
     private String website;
     private String address;
-    private boolean isFree=false;
-    private boolean isEnable=true;
+    private boolean isFree = false;
+    private boolean isEnable = true;
 
     public FooterModel() {
     }
@@ -39,15 +46,19 @@ public class FooterModel {
     public static int getLayoutLoading() {
         return LAYOUT_LOADING;
     }
+
     public static int getLayoutFrameOne() {
         return LAYOUT_FRAME_ONE;
     }
+
     public static int getLayoutFrameTwo() {
         return LAYOUT_FRAME_TWO;
     }
+
     public static int getLayoutFrameThree() {
         return LAYOUT_FRAME_THREE;
     }
+
     public static int getLayoutFrameFour() {
         return LAYOUT_FRAME_FOUR;
     }
@@ -60,9 +71,11 @@ public class FooterModel {
     public static int getLayoutFrameSeven() {
         return LAYOUT_FRAME_SEVEN;
     }
+
     public static int getLayoutFrameEight() {
         return LAYOUT_FRAME_EIGHT;
     }
+
     public static int getLayoutFrameNine() {
         return LAYOUT_FRAME_NINE;
     }
@@ -91,6 +104,7 @@ public class FooterModel {
     public static int getLayoutFrameFive() {
         return LAYOUT_FRAME_FIVE;
     }
+
     public String getEmailId() {
         return emailId;
     }

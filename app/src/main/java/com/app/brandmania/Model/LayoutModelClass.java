@@ -1,10 +1,15 @@
 package com.app.brandmania.Model;
 
+import com.app.brandmania.databinding.LayoutFooterEightteenBinding;
 import com.app.brandmania.databinding.LayoutFooterElevenBinding;
 import com.app.brandmania.databinding.LayoutFooterFifteenBinding;
 import com.app.brandmania.databinding.LayoutFooterFourteenBinding;
+import com.app.brandmania.databinding.LayoutFooterNineteenBinding;
+import com.app.brandmania.databinding.LayoutFooterSeventeenBinding;
+import com.app.brandmania.databinding.LayoutFooterSixteenBinding;
 import com.app.brandmania.databinding.LayoutFooterThirteenBinding;
 import com.app.brandmania.databinding.LayoutFooterTweloneBinding;
+import com.app.brandmania.databinding.LayoutFooterTwentyBinding;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
 import com.app.brandmania.databinding.LayoutForLoadFourBinding;
@@ -16,7 +21,7 @@ import com.app.brandmania.databinding.LayoutForLoadTenBinding;
 import com.app.brandmania.databinding.LayoutForLoadThreeBinding;
 import com.app.brandmania.databinding.LayoutForLoadTwoBinding;
 
-public class LayoutModelClass{
+public class LayoutModelClass {
     private LayoutForLoadOneBinding oneBinding;
     private LayoutForLoadTwoBinding twoBinding;
     private LayoutForLoadThreeBinding threeBinding;
@@ -32,6 +37,52 @@ public class LayoutModelClass{
     private LayoutFooterThirteenBinding thirteenBinding;
     private LayoutFooterFourteenBinding fourteenBinding;
     private LayoutFooterFifteenBinding fifteenBinding;
+
+    private LayoutFooterSixteenBinding sixteenBinding;
+    private LayoutFooterSeventeenBinding seventeenBinding;
+    private LayoutFooterEightteenBinding eightteenBinding;
+    private LayoutFooterNineteenBinding nineteenBinding;
+    private LayoutFooterTwentyBinding twentyBinding;
+
+    public LayoutFooterSixteenBinding getSixteenBinding() {
+        return sixteenBinding;
+    }
+
+    public void setSixteenBinding(LayoutFooterSixteenBinding sixteenBinding) {
+        this.sixteenBinding = sixteenBinding;
+    }
+
+    public LayoutFooterSeventeenBinding getSeventeenBinding() {
+        return seventeenBinding;
+    }
+
+    public void setSeventeenBinding(LayoutFooterSeventeenBinding seventeenBinding) {
+        this.seventeenBinding = seventeenBinding;
+    }
+
+    public LayoutFooterEightteenBinding getEightteenBinding() {
+        return eightteenBinding;
+    }
+
+    public void setEightteenBinding(LayoutFooterEightteenBinding eightteenBinding) {
+        this.eightteenBinding = eightteenBinding;
+    }
+
+    public LayoutFooterNineteenBinding getNineteenBinding() {
+        return nineteenBinding;
+    }
+
+    public void setNineteenBinding(LayoutFooterNineteenBinding nineteenBinding) {
+        this.nineteenBinding = nineteenBinding;
+    }
+
+    public LayoutFooterTwentyBinding getTwentyBinding() {
+        return twentyBinding;
+    }
+
+    public void setTwentyBinding(LayoutFooterTwentyBinding twentyBinding) {
+        this.twentyBinding = twentyBinding;
+    }
 
     public LayoutFooterFifteenBinding getFifteenBinding() {
         return fifteenBinding;

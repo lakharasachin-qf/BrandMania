@@ -2,7 +2,6 @@
 <layout>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -32,20 +31,21 @@
                     android:singleLine="true"
                     android:text="Gujrati"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_10sdp"></TextView>
+                    android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     android:id="@+id/viewAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginStart="@dimen/_7sdp"
                     android:layout_marginTop="@dimen/_3sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:fontFamily="@font/montserrat_light"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:fontFamily="@font/montserrat_semibold"
                     android:text="View All"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_8sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:visibility="visible" />
             </RelativeLayout>
 

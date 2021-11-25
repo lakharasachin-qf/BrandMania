@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-       <LinearLayout
-           android:id="@+id/addTextLayout"
-           android:gravity="end"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-           <Button
-               android:id="@+id/addText"
-               android:textColor="@color/colorPrimary"
-               android:background="@android:color/transparent"
-               android:layout_gravity="end"
-               android:text="Add Text"
-               android:textAllCaps="false"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"/>
-       </LinearLayout>
+        <LinearLayout
+            android:id="@+id/addTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/addText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:text="Add Text"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
 
         <RelativeLayout
-            android:layout_below="@+id/addTextLayout"
-             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/addTextLayout">
 
 
             <com.jaredrummler.android.colorpicker.ColorPickerView
@@ -35,43 +37,43 @@
 
             <ImageView
                 android:id="@+id/cancleClick"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:src="@drawable/ic_outline_close_24"
                 android:visibility="gone"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:src="@drawable/ic_outline_close_24"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            app:tint="@color/black" />
+                app:tint="@color/black" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/_10sdp"
-            android:visibility="gone"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fontRecycler"
+                android:layout_width="match_parent"
 
-            android:clipToPadding="false"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:paddingBottom="@dimen/_30sdp"
-            android:layout_height="wrap_content"
-            android:id="@+id/fontRecycler"
-            android:layout_width="match_parent"
-            android:layout_below="@+id/parentColroChoose" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/parentColroChoose"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/_30sdp"
+                android:visibility="gone" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/parentColroChoose"
-            app:cardCornerRadius="@dimen/_6sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/parentColroChoose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_6sdp">
 
-            <ImageView
-                android:id="@+id/colorChose"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_below="@+id/cancleClick"
+                <ImageView
+                    android:id="@+id/colorChose"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_below="@+id/cancleClick"
 
-                android:background="@color/black"
-                android:visibility="visible" />
-        </androidx.cardview.widget.CardView>
+                    android:background="@color/black"
+                    android:visibility="visible" />
+            </androidx.cardview.widget.CardView>
 
 
             <RelativeLayout
@@ -97,86 +99,82 @@
                         android:id="@+id/categoryEdt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-          android:clickable="true"
-          android:drawableEnd="@drawable/ic_drop_arrow"
-          android:focusable="false"
-          android:fontFamily="@font/inter_regular"
-          android:maxEms="13"
-          android:paddingStart="@dimen/_15sdp"
-            android:hint="Font Style"
-          android:paddingEnd="@dimen/_15sdp"
-          android:paddingBottom="@dimen/_10sdp"
-          android:textSize="@dimen/_10sdp" />
-     </com.google.android.material.textfield.TextInputLayout>
-</RelativeLayout>
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_drop_arrow"
+                        android:focusable="false"
+                        android:fontFamily="@font/inter_regular"
+                        android:hint="Font Style"
+                        android:maxEms="13"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
 
 
+            <RelativeLayout
 
-        <RelativeLayout
-
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:visibility="visible"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/colorboxtroundcorner"
-            android:id="@+id/boldRelative"
-            android:layout_below="@+id/fontStyleList"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:paddingStart="@dimen/_10sdp"
-            android:paddingEnd="@dimen/_10sdp"
-            android:layout_height="@dimen/_32sdp">
-
-
-        <ImageView
-            android:layout_centerVertical="true"
-            android:visibility="visible"
-            android:id="@+id/boldText"
-            android:background="@drawable/ic_outline_format_bold_24"
-            android:layout_width="@dimen/_20sdp"
-            android:backgroundTint="@color/black"
-            android:layout_height="@dimen/_20sdp">
-        </ImageView>
-
-        <ImageView
-            android:layout_toEndOf="@+id/boldText"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:visibility="visible"
-            android:layout_centerVertical="true"
-            android:backgroundTint="@color/black"
-            android:id="@+id/italicText"
-            android:background="@drawable/ic_baseline_format_italic_24"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp">
-        </ImageView>
-
-            <ImageView
-
-                android:backgroundTint="@color/black"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_toEndOf="@+id/italicText"
-                android:id="@+id/underlineText"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_centerVertical="true"
-                android:layout_height="@dimen/_20sdp"
-
-                android:background="@drawable/ic_baseline_format_underlined_24"
-                android:visibility="gone" />
-
-
-            <SeekBar
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:visibility="visible"
-                android:theme="@style/SeekBarColor"
-                android:id="@+id/seekBar"
-                android:max="15"
-
-                android:layout_toEndOf="@+id/underlineText"
+                android:id="@+id/boldRelative"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true" />
+                android:layout_height="@dimen/_32sdp"
+                android:layout_below="@+id/fontStyleList"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/colorboxtroundcorner"
+                android:gravity="center"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:visibility="visible">
 
-        </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/boldText"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_outline_format_bold_24"
+                    android:backgroundTint="@color/black"
+                    android:visibility="visible"></ImageView>
+
+                <ImageView
+                    android:id="@+id/italicText"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/boldText"
+                    android:background="@drawable/ic_baseline_format_italic_24"
+                    android:backgroundTint="@color/black"
+                    android:visibility="visible"></ImageView>
+
+                <ImageView
+
+                    android:id="@+id/underlineText"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/italicText"
+                    android:background="@drawable/ic_baseline_format_underlined_24"
+
+                    android:backgroundTint="@color/black"
+                    android:visibility="gone" />
+
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/underlineText"
+                    android:max="15"
+                    android:theme="@style/SeekBarColor"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
         </RelativeLayout>
 
     </RelativeLayout>

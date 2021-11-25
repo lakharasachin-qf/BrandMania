@@ -85,7 +85,7 @@
             android:paddingTop="@dimen/_5sdp"
             android:paddingEnd="@dimen/_15sdp"
             android:text="+91 8200002604"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_8sdp"
             app:layout_constraintBottom_toTopOf="@id/email"
             app:layout_constraintStart_toStartOf="parent" />
@@ -104,7 +104,7 @@
             android:paddingEnd="@dimen/_15sdp"
             android:paddingBottom="@dimen/_5sdp"
             android:text="lakharasachin.qf@gmail.com"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

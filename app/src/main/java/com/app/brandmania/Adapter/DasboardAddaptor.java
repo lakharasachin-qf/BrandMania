@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.details.BusinessCategoryListActivity;
+import com.app.brandmania.Activity.details.DailyCategoryListActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.R;
@@ -107,17 +108,23 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                     menuAddaptor.setDashBoardItem(dashBoardItemList.get(position));
                     ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setAdapter(menuAddaptor);
 
-                    if (dashBoardItemList.get(position).getName().contains("Business")) {
+                    if (dashBoardItemList.get(position).getName().contains("Business") || dashBoardItemList.get(position).getName().contains("Daily")) {
                         ((DasboardViewHolder) holder).binding.viewAll.setVisibility(View.VISIBLE);
                         ((DasboardViewHolder) holder).binding.viewAll.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent i = new Intent(activity, BusinessCategoryListActivity.class);
-                                activity.startActivity(i);
-                                activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                                if (dashBoardItemList.get(position).getName().contains("Business")) {
+                                    Intent i = new Intent(activity, BusinessCategoryListActivity.class);
+                                    i.putExtra("title",dashBoardItemList.get(position).getName());
+                                    activity.startActivity(i);
+                                } else if (dashBoardItemList.get(position).getName().contains("Daily")) {
+                                    Intent i = new Intent(activity, DailyCategoryListActivity.class);
+                                    i.putExtra("title",dashBoardItemList.get(position).getName());
+                                    activity.startActivity(i);
+                                }
                             }
                         });
-                    }else{
+                    } else {
                         ((DasboardViewHolder) holder).binding.viewAll.setVisibility(View.GONE);
                     }
                     break;
