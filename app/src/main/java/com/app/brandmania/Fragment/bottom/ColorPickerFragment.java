@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,18 +75,12 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
 //        return dialog;
 //    }
 
-    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             CodeReUse.setWhiteNavigationBar(dialog, getActivity());
         }
-        this.setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogThemeNoFloating);
-        dialog.setOnShowListener(dialogInterface -> {
-            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
-            setupFullHeight(bottomSheetDialog);
-        });
         return dialog;
     }
 
@@ -117,7 +112,7 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
         view = binding.getRoot();
         act = getActivity();
         fragment = this;
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         binding.titleText.setText("Pick Your Color");
         binding.cancelAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +130,6 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
                         try {
                             int color = Color.parseColor(binding.codeEdt.getText().toString());
                             binding.colorPickerView.setColor(color);
-                            binding.codeEdt.setText(String.valueOf(color));
                         } catch (IllegalArgumentException iae) {
                             Toast.makeText(act, "Enter valid color code", Toast.LENGTH_SHORT).show();
                         }
@@ -180,6 +174,9 @@ public class ColorPickerFragment extends BottomSheetDialogFragment implements Co
     @Override
     public void onColorChanged(int newColor) {
         (onColorChoose).onColorSelected(newColor);
-        binding.codeEdt.setText(String.valueOf(newColor));
+
+        String hexColor = String.format("#%06X", (0xFFFFFF & newColor));
+        if (!hexColor.isEmpty())
+            binding.codeEdt.setText(String.valueOf(hexColor));
     }
 }

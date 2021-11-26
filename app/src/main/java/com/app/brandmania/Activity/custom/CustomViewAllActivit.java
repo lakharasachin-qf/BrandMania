@@ -42,6 +42,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -820,76 +821,150 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             FooterHelper.loadFrameTenData(act, tenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
             mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
-        } else if (layoutType == FooterModel.LAYOUT_FRAME_ELEVEN) {
+        }else if (layoutType == FooterModel.LAYOUT_FRAME_ELEVEN) {
             LayoutFooterElevenBinding elevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eleven, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(elevenBinding.getRoot());
+
+            View view = elevenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setElevenBinding(elevenBinding);
             FooterHelper.loadFrameElevenData(act, elevenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWELVE) {
             LayoutFooterTweloneBinding tweloneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twelone, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(tweloneBinding.getRoot());
+
+            View view = tweloneBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setTwelveBinding(tweloneBinding);
             FooterHelper.loadFrameTweloneData(act, tweloneBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THIRTEEN) {
             LayoutFooterThirteenBinding thirteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_thirteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(thirteenBinding.getRoot());
+
+            View view = thirteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setThirteenBinding(thirteenBinding);
             FooterHelper.loadFrameThirteenData(act, thirteenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOURTEEN) {
             LayoutFooterFourteenBinding fourteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fourteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(fourteenBinding.getRoot());
+
+            View view = fourteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setFourteenBinding(fourteenBinding);
             FooterHelper.loadFrameFourteenData(act, fourteenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIFTEEN) {
             LayoutFooterFifteenBinding fifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fifteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(fifteenBinding.getRoot());
+
+            View view = fifteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setFifteenBinding(fifteenBinding);
             FooterHelper.loadFrameFifteenData(act, fifteenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIXTEEN) {
             LayoutFooterSixteenBinding sixteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_sixteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(sixteenBinding.getRoot());
+
+            View view = sixteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setSixteenBinding(sixteenBinding);
             FooterHelper.loadFrame16Data(act, sixteenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVENTEEN) {
             LayoutFooterSeventeenBinding seventeenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_seventeen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(seventeenBinding.getRoot());
+
+            View view = seventeenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setSeventeenBinding(seventeenBinding);
             FooterHelper.loadFrame17Data(act, seventeenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHTEEN) {
-            LayoutFooterEightteenBinding eightteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eightteen, null, false);
-            binding.elementFooter.addView(eightteenBinding.getRoot());
-            layoutModelClass.setEightteenBinding(eightteenBinding);
-            FooterHelper.loadFrame18Data(act, eightteenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            LayoutFooterEightteenBinding eighteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eightteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
+            binding.elementFooter.addView(eighteenBinding.getRoot());
+
+            View view = eighteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+            layoutModelClass.setEightteenBinding(eighteenBinding);
+            FooterHelper.loadFrame18Data(act, eighteenBinding);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_NINETEEN) {
             LayoutFooterNineteenBinding nineteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_nineteen, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(nineteenBinding.getRoot());
+
+            View view = nineteenBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setNineteenBinding(nineteenBinding);
             FooterHelper.loadFrame19Data(act, nineteenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWENTY) {
             LayoutFooterTwentyBinding twentyBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twenty, null, false);
+
+            binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.elementFooter.requestLayout();
             binding.elementFooter.addView(twentyBinding.getRoot());
+
+            View view = twentyBinding.getRoot();
+            view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
             layoutModelClass.setTwentyBinding(twentyBinding);
             FooterHelper.loadFrame20Data(act, twentyBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+            mainLayout = findViewById(R.id.addressLayout);
         }
     }
 
