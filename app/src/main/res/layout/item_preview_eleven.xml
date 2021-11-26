@@ -41,6 +41,7 @@
                     app:layout_constraintStart_toStartOf="@id/socialBackground" />
 
                 <View
+
                     android:layout_width="@dimen/_1sdp"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/_9sdp"

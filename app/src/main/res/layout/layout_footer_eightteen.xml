@@ -48,7 +48,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/emailTxt"
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -68,7 +68,7 @@
             android:id="@+id/callIcon"
             android:layout_width="@dimen/_10sdp"
             android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/ic_outline_mail_24"
+            android:src="@drawable/ic_phone"
             app:layout_constraintBottom_toBottomOf="@id/mobileNo"
             app:layout_constraintStart_toStartOf="@+id/contentBackground"
             app:layout_constraintTop_toTopOf="@id/mobileNo" />

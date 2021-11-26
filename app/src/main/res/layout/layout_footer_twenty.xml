@@ -42,7 +42,7 @@
                 android:layout_width="@dimen/_10sdp"
                 android:layout_height="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_7sdp"
-                android:src="@drawable/ic_outline_mail_24"
+                android:src="@drawable/ic_phone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/mobileNo"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,8 +72,7 @@
                 android:src="@drawable/ic_outline_mail_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/emailTxt"
-                app:layout_constraintTop_toTopOf="parent"
-               />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/emailTxt"

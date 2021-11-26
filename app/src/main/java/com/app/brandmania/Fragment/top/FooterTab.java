@@ -32,8 +32,7 @@ public class FooterTab extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
         preafManager = new PreafManager(act);
         binding = DataBindingUtil.inflate(inflater, R.layout.footer_tab, container, false);
@@ -53,7 +52,6 @@ public class FooterTab extends Fragment {
         }
         return binding.getRoot();
     }
-
 
     public void setData(FooterModel model) {
         if (preafManager.getActiveBrand() != null) {
@@ -170,6 +168,35 @@ public class FooterTab extends Fragment {
     public void setAdapter() {
 
         FooterModel model = new FooterModel();
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_ELEVEN);
+        model.setFree(true);
+        setData(model);
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_TWELVE);
+        model.setFree(true);
+        setData(model);
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_THIRTEEN);
+        model.setFree(true);
+        setData(model);
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_FOURTEEN);
+        model.setFree(true);
+        setData(model);
+
+
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_FIFTEEN);
+        model.setFree(true);
+        setData(model);
+
+
+        model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_SIXTEEN);
         model.setFree(true);
         setData(model);
@@ -194,43 +221,6 @@ public class FooterTab extends Fragment {
         model.setFree(true);
         setData(model);
 
-
-        model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_ELEVEN);
-        model.setFree(true);
-        setData(model);
-
-        model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_TWELVE);
-        model.setFree(true);
-        setData(model);
-
-        model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_FIFTEEN);
-        model.setFree(true);
-        setData(model);
-
-        model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_THIRTEEN);
-        model.setFree(true);
-        setData(model);
-
-        model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_FOURTEEN);
-        model.setFree(true);
-        setData(model);
-
-        model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
-        model.setFree(true);
-        setData(model);
-
-        model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_THREE);
-        model.setFree(true);
-        setData(model);
-
-
         //premium
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
@@ -250,6 +240,10 @@ public class FooterTab extends Fragment {
         model.setFree(true);
         setData(model);
 
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_THREE);
+        model.setFree(true);
+        setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_FOUR);
@@ -275,6 +269,10 @@ public class FooterTab extends Fragment {
         model.setFree(true);
         setData(model);
 
+        model = new FooterModel();
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
+        model.setFree(true);
+        setData(model);
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_EIGHT);
@@ -300,7 +298,6 @@ public class FooterTab extends Fragment {
 //        }
         model.setFree(true);
         setData(model);
-
 
         FooterAdapter footerAdapter = new FooterAdapter(footerModels, act);
         FooterAdapter.onFooterListener onFooterListener = new FooterAdapter.onFooterListener() {
