@@ -83,6 +83,16 @@ import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityCustomViewAllBinding;
 import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
+import com.app.brandmania.databinding.LayoutFooterEightteenBinding;
+import com.app.brandmania.databinding.LayoutFooterElevenBinding;
+import com.app.brandmania.databinding.LayoutFooterFifteenBinding;
+import com.app.brandmania.databinding.LayoutFooterFourteenBinding;
+import com.app.brandmania.databinding.LayoutFooterNineteenBinding;
+import com.app.brandmania.databinding.LayoutFooterSeventeenBinding;
+import com.app.brandmania.databinding.LayoutFooterSixteenBinding;
+import com.app.brandmania.databinding.LayoutFooterThirteenBinding;
+import com.app.brandmania.databinding.LayoutFooterTweloneBinding;
+import com.app.brandmania.databinding.LayoutFooterTwentyBinding;
 import com.app.brandmania.databinding.LayoutForLoadEightBinding;
 import com.app.brandmania.databinding.LayoutForLoadFiveBinding;
 import com.app.brandmania.databinding.LayoutForLoadFourBinding;
@@ -238,8 +248,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         gson = new Gson();
         preafManager = new PreafManager(this);
 
-        if (preafManager.getActiveBrand()==null)
-            preafManager.setActiveBrand( preafManager.getAddBrandList().get(0));
+        if (preafManager.getActiveBrand() == null)
+            preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
 
         preafManager = new PreafManager(this);
 
@@ -618,7 +628,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
     @Override
     public void onCropImage() {
-        if (imageFromGalaryModel!=null) {
+        if (imageFromGalaryModel != null) {
             isGalleryCropping = true;
             CropImage.activity(imageFromGalaryModel.getUri())
                     .setGuidelines(CropImageView.Guidelines.ON)
@@ -808,6 +818,76 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             binding.elementFooter.addView(tenBinding.getRoot());
             layoutModelClass.setTenBinding(tenBinding);
             FooterHelper.loadFrameTenData(act, tenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_ELEVEN) {
+            LayoutFooterElevenBinding elevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eleven, null, false);
+            binding.elementFooter.addView(elevenBinding.getRoot());
+            layoutModelClass.setElevenBinding(elevenBinding);
+            FooterHelper.loadFrameElevenData(act, elevenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_TWELVE) {
+            LayoutFooterTweloneBinding tweloneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twelone, null, false);
+            binding.elementFooter.addView(tweloneBinding.getRoot());
+            layoutModelClass.setTwelveBinding(tweloneBinding);
+            FooterHelper.loadFrameTweloneData(act, tweloneBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_THIRTEEN) {
+            LayoutFooterThirteenBinding thirteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_thirteen, null, false);
+            binding.elementFooter.addView(thirteenBinding.getRoot());
+            layoutModelClass.setThirteenBinding(thirteenBinding);
+            FooterHelper.loadFrameThirteenData(act, thirteenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_FOURTEEN) {
+            LayoutFooterFourteenBinding fourteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fourteen, null, false);
+            binding.elementFooter.addView(fourteenBinding.getRoot());
+            layoutModelClass.setFourteenBinding(fourteenBinding);
+            FooterHelper.loadFrameFourteenData(act, fourteenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_FIFTEEN) {
+            LayoutFooterFifteenBinding fifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fifteen, null, false);
+            binding.elementFooter.addView(fifteenBinding.getRoot());
+            layoutModelClass.setFifteenBinding(fifteenBinding);
+            FooterHelper.loadFrameFifteenData(act, fifteenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_SIXTEEN) {
+            LayoutFooterSixteenBinding sixteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_sixteen, null, false);
+            binding.elementFooter.addView(sixteenBinding.getRoot());
+            layoutModelClass.setSixteenBinding(sixteenBinding);
+            FooterHelper.loadFrame16Data(act, sixteenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVENTEEN) {
+            LayoutFooterSeventeenBinding seventeenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_seventeen, null, false);
+            binding.elementFooter.addView(seventeenBinding.getRoot());
+            layoutModelClass.setSeventeenBinding(seventeenBinding);
+            FooterHelper.loadFrame17Data(act, seventeenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHTEEN) {
+            LayoutFooterEightteenBinding eightteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eightteen, null, false);
+            binding.elementFooter.addView(eightteenBinding.getRoot());
+            layoutModelClass.setEightteenBinding(eightteenBinding);
+            FooterHelper.loadFrame18Data(act, eightteenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_NINETEEN) {
+            LayoutFooterNineteenBinding nineteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_nineteen, null, false);
+            binding.elementFooter.addView(nineteenBinding.getRoot());
+            layoutModelClass.setNineteenBinding(nineteenBinding);
+            FooterHelper.loadFrame19Data(act, nineteenBinding);
+            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
+            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
+        } else if (layoutType == FooterModel.LAYOUT_FRAME_TWENTY) {
+            LayoutFooterTwentyBinding twentyBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twenty, null, false);
+            binding.elementFooter.addView(twentyBinding.getRoot());
+            layoutModelClass.setTwentyBinding(twentyBinding);
+            FooterHelper.loadFrame20Data(act, twentyBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
             mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
         }
