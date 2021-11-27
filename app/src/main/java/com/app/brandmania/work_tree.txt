@@ -1,16 +1,10 @@
 
 Changes :
- 1.  Hide referral input from registration activity.
- 2. Package details pop up change
- 3. City, state, country dropdown
- 4. Add edit city country state
- 5. Search in dropdowns
- 6. Added expirey message into fragment
- 7. Notification issue change
- 8. video quality improvement
- 9. digital card design improved
- 10. New footers design added
- 11. view design of footer tab changed
- 12. website icon to profile
- 13. New screen for error msg if app is not working fine
- 14.
+ VERSION 1.9.1
+
+  27-11-2021
+     - Initial commit
+     - new repo started for change the flow of login and registration
+     - BY SL
+
+
