@@ -469,7 +469,6 @@ public class VisitingCardHelper {
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
         viewId.add(binding.frontPage.getId());
-        viewId.add(binding.outerLayer3.getId());
         model.setViewId(viewId);
         colorsList.add(model);
 
@@ -539,6 +538,7 @@ public class VisitingCardHelper {
 
         model = new BackgroundColorsModel(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
         model.setObjectPosition(1);
+        viewId.add(binding.frontBottomView.getId());
         viewId.add(binding.view.getId());
         viewId.add(binding.verticalView.getId());
         viewId.add(binding.leftView.getId());
@@ -591,6 +591,8 @@ public class VisitingCardHelper {
         BackgroundColorsModel model = new BackgroundColorsModel(ContextCompat.getColor(act, R.color.colorPrimary));
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
+        viewId.add(binding.topRightView.getId());
+        viewId.add(binding.bottomLeftView.getId());
         viewId.add(binding.bottomView.getId());
         model.setViewId(viewId);
         colorsList.add(model);
@@ -636,6 +638,11 @@ public class VisitingCardHelper {
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
         viewId.add(binding.userIcon.getId());
+        model.setViewId(viewId);
+        colorsList.add(model);
+
+        model = new IconsColorsModel(ContextCompat.getColor(act, R.color.white));
+        model.setObjectPosition(1);
         viewId.add(binding.callIcon.getId());
         viewId.add(binding.emailIcon.getId());
         viewId.add(binding.addressIcon.getId());
@@ -1018,7 +1025,6 @@ public class VisitingCardHelper {
         Activity act = null;
         if (colorsModel.getObjectPosition() == 0) {
             model.getThreeBinding().frontPage.setBackgroundTintList(ColorStateList.valueOf(color));
-            model.getThreeBinding().outerLayer3.setBackgroundTintList(ColorStateList.valueOf(color));
         }
         if (colorsModel.getObjectPosition() == 1) {
             model.getThreeBinding().callIcon.setBackgroundTintList(ColorStateList.valueOf(color));
@@ -1061,6 +1067,7 @@ public class VisitingCardHelper {
             model.getFourBinding().websiteIcon.setBackgroundTintList(ColorStateList.valueOf(color));
         }
         if (colorsModel.getObjectPosition() == 1) {
+            model.getFourBinding().frontBottomView.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFourBinding().view.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFourBinding().verticalView.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFourBinding().leftView.setBackgroundTintList(ColorStateList.valueOf(color));
@@ -1095,6 +1102,8 @@ public class VisitingCardHelper {
     public static void applyBackgroundColorCardFive(VisitingCardModel model, int color, BackgroundColorsModel colorsModel) {
         if (colorsModel.getObjectPosition() == 0) {
             model.getFiveBinding().bottomView.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFiveBinding().topRightView.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFiveBinding().bottomLeftView.setBackgroundTintList(ColorStateList.valueOf(color));
         }
         if (colorsModel.getObjectPosition() == 1) {
             model.getFiveBinding().verticalView.setBackgroundTintList(ColorStateList.valueOf(color));
@@ -1123,11 +1132,12 @@ public class VisitingCardHelper {
 
     public static void applyIconsColorCardFive(VisitingCardModel model, int color, IconsColorsModel colorsModel) {
         if (colorsModel.getObjectPosition() == 0) {
-
+            model.getFiveBinding().userIcon.setImageTintList(ColorStateList.valueOf(color));
+        }
+        if (colorsModel.getObjectPosition() == 1) {
             model.getFiveBinding().addressIcon.setImageTintList(ColorStateList.valueOf(color));
             model.getFiveBinding().callIcon.setImageTintList(ColorStateList.valueOf(color));
             model.getFiveBinding().emailIcon.setImageTintList(ColorStateList.valueOf(color));
-            model.getFiveBinding().userIcon.setImageTintList(ColorStateList.valueOf(color));
         }
     }
 

@@ -48,21 +48,18 @@ public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHold
     @Override
     public void onBindViewHolder(final TenamentHolder holder, @SuppressLint("RecyclerView") int position) {
         CommonListModel listModel = arrayList.get(position);
-
+        holder.radioButton.setChecked(checkedPosition == position);
         holder.radioButton.setText(convertFirstUpper(listModel.getName()));
 
         if (position == checkedPosition) {
             holder.radioButton.setChecked(true);
+            holder.radioButton.setSelected(true);
         } else {
             holder.radioButton.setChecked(false);
+            holder.radioButton.setSelected(false);
         }
 
-        holder.radioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.itemView.performClick();
-            }
-        });
+        holder.radioButton.setOnClickListener(v -> holder.itemView.performClick());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +90,7 @@ public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHold
         public TenamentHolder(@NonNull View itemView) {
             super(itemView);
             radioButton = itemView.findViewById(R.id.radioButton);
+
         }
     }
 

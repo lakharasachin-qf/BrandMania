@@ -719,7 +719,6 @@ public class PdfActivity extends BaseActivity {
             Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
             viewPdf(prefManager.getActiveBrand().getName(), act);
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -748,9 +747,7 @@ public class PdfActivity extends BaseActivity {
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         act.startActivity(Intent.createChooser(intent, "Share Pdf to..."));
-
     }
-
 
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutSecondBinding layoutSecondBinding;
