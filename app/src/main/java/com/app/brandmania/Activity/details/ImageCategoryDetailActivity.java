@@ -2564,7 +2564,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 .addHeaders("X-Authorization", "Bearer" + preafManager.getUserToken())
                 .addMultipartParameter("brand_id", preafManager.getActiveBrand().getId())
                 .setPriority(Priority.HIGH);
-
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
             //Log.e("br_logo", String.valueOf(img1File));

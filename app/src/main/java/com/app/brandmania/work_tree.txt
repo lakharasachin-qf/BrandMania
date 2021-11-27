@@ -1,4 +1,8 @@
 
+
+
+VERSION 1.9.1
+
 Changes :
  1.  Hide referral input from registration activity.
  2. Package details pop up change
@@ -13,4 +17,8 @@ Changes :
  11. view design of footer tab changed
  12. website icon to profile
  13. New screen for error msg if app is not working fine
- 14.
+
+
+   27/11/2021
+    - search and pagination in BusinessCategoryListActivity and DailyCategoryListActivity
+    - SL

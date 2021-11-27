@@ -41,6 +41,7 @@ public class APIs {
     public static final String FETCH_CUSTOME_FRAME_STATUS = URL + "fetchCustomFrameStatus";
     public static final String REQUEST_BUSINESS_CATEGORY = URL + "reqCategory";
     public static final String BUSINESS_CATEGORY = URL + "getBusinessImageCategory";
+    public static final String DAILY_CATEGORY = URL + "getDailyImageCategory";
     public static final String GET_COUNTRY = URL + "getCountry";
     public static final String GET_STATE= URL + "getState";
     public static final String GET_CITY = URL + "getCity";

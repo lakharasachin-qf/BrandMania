@@ -604,12 +604,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         alertDialogBuilder.setTitle("Save image");
         alertDialogBuilder.setMessage("You sure to save your image?");
         alertDialogBuilder.setPositiveButton("yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        requestAgain();
-                        saveImageToGallery(false, false);
-                    }
+                (arg0, arg1) -> {
+                    requestAgain();
+                    saveImageToGallery(false, false);
                 });
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
