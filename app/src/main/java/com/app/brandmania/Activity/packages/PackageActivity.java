@@ -48,7 +48,7 @@ public class PackageActivity extends BaseActivity {
     private Activity act;
     private ActivityPackageBinding binding;
     private int[] layouts;
-    PreafManager preafManager;
+
     private boolean isLoading = false;
     ArrayList<SliderItem> sliderItems = new ArrayList<>();
     BrandListItem selectedBrand;
@@ -62,42 +62,33 @@ public class PackageActivity extends BaseActivity {
         act = this;
         gson = new Gson();
 
-        preafManager = new PreafManager(act);
+
 
         if (getIntent().hasExtra("fromBrandList")) {
             layoutType = 2;
             selectedBrand = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
-        } else {
+        } else if (prefManager.getActiveBrand()!=null){
             layoutType = 0;
-            selectedBrand = preafManager.getActiveBrand();
+            selectedBrand = prefManager.getActiveBrand();
+        }else{
+            layoutType = 0;
+            selectedBrand = null;
         }
 
         binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
-        binding.BackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        binding.BackButton.setOnClickListener(v -> onBackPressed());
         GetPackageList();
-
     }
 
     private void GetPackage() {
         binding.viewPagerImageSlider.setVisibility(View.GONE);
         binding.recyclerList.setVisibility(View.VISIBLE);
-
         Collections.reverse(sliderItems);
-
         PackageRecyclerAdapter dasboardAddaptor = new PackageRecyclerAdapter(sliderItems, act, selectedBrand);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
-
         binding.recyclerList.setHasFixedSize(true);
         binding.recyclerList.setLayoutManager(mLayoutManager);
         binding.recyclerList.setAdapter(dasboardAddaptor);
-
-
-
     }
 
 
@@ -135,16 +126,11 @@ public class PackageActivity extends BaseActivity {
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/json");
-                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 

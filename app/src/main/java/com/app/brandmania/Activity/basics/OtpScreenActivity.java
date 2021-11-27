@@ -148,70 +148,74 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 isLoading = false;
                 Utility.dismissProgress();
                 Utility.Log("VERIFY_OTP", response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.getBoolean("status")) {
                         JSONObject jsonArray = jObject.getJSONObject("data");
                         preafManager.setUserToken(jsonArray.getString("token"));
+                        preafManager.setLogin(true);
                         Log.w("Tpokennnn",jsonArray.getString("token"));
+                        Intent i = new Intent(act, HomeActivity.class);
+                        i.putExtra("FirstLogin","1");
+                        i.addCategory(Intent.CATEGORY_HOME);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        finish();
 
-                        is_completed= jsonArray.getString("is_completed");
-                        preafManager.loginStep(is_completed);
-
-                        if (is_completed.equals("0"))
-                        {
-                            Intent i = new Intent(act, RegistrationActivity.class);
-                            i.putExtra("referrerCode",referrerCode);
-                            i.addCategory(Intent.CATEGORY_HOME);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            startActivity(i);
-                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                            finish();
-                        }
-                        if (is_completed.equals("1"))
-                        {
-                            Intent i = new Intent(act, AddBranddActivity.class);
-                            i.addCategory(Intent.CATEGORY_HOME);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(i);
-                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                            finish();
-                        }
-                        if (is_completed.equals("2"))
-                        {
-                            JSONArray jsonArray1 = jsonArray.getJSONArray("brands");
-                            for (int i=0;i<jsonArray1.length();i++)
-                            {
-                                JSONObject jsonObject=jsonArray1.getJSONObject(i);
-                                BrandListItem brandListItemm=new BrandListItem();
-                                brandListItemm.setId(ResponseHandler.getString(jsonObject,"id"));
-                                brandListItemm.setName(ResponseHandler.getString(jsonObject,"br_name"));
-                                brandListItemm.setWebsite(ResponseHandler.getString(jsonObject,"br_website"));
-                                brandListItemm.setEmail(ResponseHandler.getString(jsonObject,"br_email"));
-                                brandListItemm.setAddress(ResponseHandler.getString(jsonObject,"br_address"));
-                                brandListItemm.setOriginalAddress(ResponseHandler.getString(jsonObject,"br_address"));
-                                brandListItemm.setPhonenumber(ResponseHandler.getString(jsonObject,"br_phone"));
-                                brandListItemm.setLogo(ResponseHandler.getString(jsonObject,"br_logo"));
-                                brandListItems.add(brandListItemm);
-                            }
-
-                            preafManager.setAddBrandList(brandListItems);
-                            preafManager.setIS_Brand(true);
-
-                            if (brandListItems.size() != 0){
-                                preafManager.setActiveBrand(brandListItems.get(0));
-                            }
-
-
-                            Intent i = new Intent(act, HomeActivity.class);
-                            i.putExtra("FirstLogin","1");
-                            i.addCategory(Intent.CATEGORY_HOME);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(i);
-                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                            finish();
-                        }
+//                        if (is_completed.equals("0"))
+//                        {
+//                            Intent i = new Intent(act, RegistrationActivity.class);
+//                            i.putExtra("referrerCode",referrerCode);
+//                            i.addCategory(Intent.CATEGORY_HOME);
+//                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                            startActivity(i);
+//                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//                            finish();
+//                        }
+//                        if (is_completed.equals("1"))
+//                        {
+//                            Intent i = new Intent(act, AddBranddActivity.class);
+//                            i.addCategory(Intent.CATEGORY_HOME);
+//                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(i);
+//                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//                            finish();
+//                        }
+//                        if (is_completed.equals("2"))
+//                        {
+//                            JSONArray jsonArray1 = jsonArray.getJSONArray("brands");
+//                            for (int i=0;i<jsonArray1.length();i++)
+//                            {
+//                                JSONObject jsonObject=jsonArray1.getJSONObject(i);
+//                                BrandListItem brandListItemm=new BrandListItem();
+//                                brandListItemm.setId(ResponseHandler.getString(jsonObject,"id"));
+//                                brandListItemm.setName(ResponseHandler.getString(jsonObject,"br_name"));
+//                                brandListItemm.setWebsite(ResponseHandler.getString(jsonObject,"br_website"));
+//                                brandListItemm.setEmail(ResponseHandler.getString(jsonObject,"br_email"));
+//                                brandListItemm.setAddress(ResponseHandler.getString(jsonObject,"br_address"));
+//                                brandListItemm.setOriginalAddress(ResponseHandler.getString(jsonObject,"br_address"));
+//                                brandListItemm.setPhonenumber(ResponseHandler.getString(jsonObject,"br_phone"));
+//                                brandListItemm.setLogo(ResponseHandler.getString(jsonObject,"br_logo"));
+//                                brandListItems.add(brandListItemm);
+//                            }
+//
+//                            preafManager.setAddBrandList(brandListItems);
+//                            preafManager.setIS_Brand(true);
+//
+//                            if (brandListItems.size() != 0){
+//                                preafManager.setActiveBrand(brandListItems.get(0));
+//                            }
+//
+//
+//                            Intent i = new Intent(act, HomeActivity.class);
+//                            i.putExtra("FirstLogin","1");
+//                            i.addCategory(Intent.CATEGORY_HOME);
+//                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(i);
+//                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//                            finish();
+//                        }
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"Otp Dose Not Match", Toast.LENGTH_LONG).show();
@@ -274,7 +278,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
     public void TextChanger() {
         EditText[] edit = {binding.otpOne, binding.otpTwo, binding.otpThree, binding.otpFour};
         String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
-
         binding.otpOne.addTextChangedListener(new GenericTextWatcher(act,binding.otpOne, edit));
         binding.otpTwo.addTextChangedListener(new GenericTextWatcher(act,binding.otpTwo, edit));
         binding.otpThree.addTextChangedListener(new GenericTextWatcher(act,binding.otpThree, edit));

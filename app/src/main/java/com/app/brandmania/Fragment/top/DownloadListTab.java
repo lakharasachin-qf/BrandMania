@@ -44,6 +44,7 @@ import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.APIs;
@@ -69,19 +70,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DownloadListTab extends Fragment {
+public class DownloadListTab extends BaseFragment {
     Activity act;
     private DownloadlisTabBinding binding;
     ArrayList<DownloadFavoriteItemList> menuModels = new ArrayList<>();
-    PreafManager preafManager;
-    DownloadFavoriteItemList downloadingOjectttt;
+     DownloadFavoriteItemList downloadingOjectttt;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater,R.layout.downloadlis_tab,container,false);
-        preafManager=new PreafManager(act);
+        binding= DataBindingUtil.inflate(inflater,R.layout.downloadlis_tab,parent,false);
+
 
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
@@ -103,6 +102,7 @@ public class DownloadListTab extends Fragment {
         getDownloadListItem();
         return binding.getRoot();
     }
+
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
@@ -161,12 +161,6 @@ public class DownloadListTab extends Fragment {
 
     DownloadFavoriteItemList downloadingOject;
     public void setAdapter() {
-//        DBManager dbManager;
-//        dbManager=new DBManager(act);
-//        ArrayList<DownloadFavoriteItemList> downloadFavoriteItemLists=dbManager.getAllPracticeQuestion();
-//        if (downloadFavoriteItemLists!=null)
-//            menuModels.addAll(downloadFavoriteItemLists);
-
         DownloadFavoriteAdapter menuAddaptor = new DownloadFavoriteAdapter(menuModels, act);
         DownloadFavoriteAdapter.onShareImageClick onShareImageClick=new DownloadFavoriteAdapter.onShareImageClick() {
             @Override
@@ -179,7 +173,6 @@ public class DownloadListTab extends Fragment {
                     else
                         new DownloadImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
 
-                   // getImageDownloadRights();
                 }
             }
         };
@@ -375,23 +368,13 @@ public class DownloadListTab extends Fragment {
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("id",preafManager.getActiveBrand().getId());
-//                if (imageList != null)
-//                    params.put("image_category_id", imageList.getId());
-//                else
-//                    params.put("image_category_id", selectedObject.getId());
-
-                Utility.Log("POSTED-PARAMS-", params.toString());
+                params.put("id",prefManager.getActiveBrand().getId());
                 return params;
             }
 
@@ -401,7 +384,6 @@ public class DownloadListTab extends Fragment {
         queue.add(stringRequest);
     }
 
-    //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeDownloadLimitExpireBinding expireBinding;
 
     private void downloadLimitExpireDialog(String msg) {
@@ -433,116 +415,4 @@ public class DownloadListTab extends Fragment {
 
     }
 
-    //api for access rights
-    private void getImageDownloadRights() {
-        Utility.showLoadingTran(act);
-        Utility.Log("API : ", APIs.CUSTOM_FRAME_ACCESS);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.CUSTOM_FRAME_ACCESS, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.dismissLoadingTran();
-                Utility.Log("Access-Rights-Response:", response);
-                JSONObject respJson = ResponseHandler.createJsonObject(response);
-                if (ResponseHandler.getBool(respJson, "status")) {
-                    JSONArray dataJson = ResponseHandler.getJSONArray(respJson, "data");
-                   /* try {
-                        String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
-                        //FrameCountForDownload = Integer.parseInt(frameCount);
-                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
-                            if (!downloadingOject.isCustom())
-                                new DownloadImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
-                            else
-                                new DownloadImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
-                        } else {
-                          //  canDownload = false;
-                            downloadLimitExpireDialog();
-                            //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-*/
-
-
-                    try {
-                        String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
-
-                        int imageCounter=Integer.parseInt( ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter").equalsIgnoreCase("Unlimited") ?"-1": ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter"));
-
-                        int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0  : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
-
-
-                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
-                            if (Utility.isUserPaid(preafManager.getActiveBrand())){
-                                if (used_img_counter <= imageCounter) {
-                                    if (!downloadingOject.isCustom())
-                                        new DownloadImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
-                                    else
-                                        new DownloadImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
-
-                                }else {
-                                    downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
-                                }
-
-                            }else {
-                                if (!downloadingOject.isCustom())
-                                    new DownloadImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
-                                else
-                                    new DownloadImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
-                            }
-
-                        } else {
-
-                            downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-
-                }
-
-
-
-
-
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Utility.dismissLoadingTran();
-                        error.printStackTrace();
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("brand_id", preafManager.getActiveBrand().getId());
-                Utility.Log("Params", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
 }

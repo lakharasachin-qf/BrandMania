@@ -318,7 +318,7 @@ public class ResponseHandler {
                             imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
                             innerImagesList.add(imageCategory);
 
-                            if (key.contains("Business")) {
+                            if (new PreafManager(act).getActiveBrand()!=null && key.contains("Business")) {
                                 if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
                                     userBusinessCategoryIndex = m;
                                 }

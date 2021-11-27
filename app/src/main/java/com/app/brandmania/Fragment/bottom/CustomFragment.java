@@ -25,10 +25,12 @@ import com.app.brandmania.Activity.custom.CustomViewAllActivit;
 import com.app.brandmania.Adapter.CustomDashbordAddapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.FragmentCustomBinding;
 import com.google.gson.Gson;
@@ -41,19 +43,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 
-public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CustomFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     Activity act;
     private FragmentCustomBinding binding;
     Timer timer;
     DashBoardItem apiResponse;
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
-    PreafManager preafManager;
     private String is_frame="";
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
     private CustomDashbordAddapter dasboardAddaptor;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
+    @Override
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_custom,container,false);
+        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_custom,parent,false);
         binding.customImageRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +65,7 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 startActivity(intent);
             }
         });
-        preafManager=new PreafManager(act);
+
         startAnimation();
         getImageCtegory();
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,R.color.colorsecond, R.color.colorthird);
@@ -69,7 +73,7 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onRefresh() {
                 startAnimation();
-                getFrame();
+                //getFrame();
                 getImageCtegory();
             }
         });
@@ -146,21 +150,13 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer"+preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 
@@ -226,21 +222,13 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 
@@ -254,66 +242,8 @@ public class CustomFragment extends Fragment implements SwipeRefreshLayout.OnRef
         binding.frameRecycler.setVisibility(View.GONE);
 
     }
-    private void getFrame() {
-        Utility.Log("API : ", APIs.GET_FRAME);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME,new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                Utility.Log("GET_FRAME : ", response);
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
-                    JSONObject datajsonobjecttt =ResponseHandler.getJSONObject(jsonObject, "data");
-                    is_frame= datajsonobjecttt.getString("is_frame");
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("brand_id",preafManager.getActiveBrand().getId());
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
     @Override public void onRefresh() {
         startAnimation();
-        getFrame();
         getImageCtegory();
-
-
     }
 }

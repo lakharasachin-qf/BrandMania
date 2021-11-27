@@ -23,9 +23,6 @@ public class PreafManager {
     private static final String ViewAllFrameActivityIntro = "viewAllFrameActivityIntro";
     private static final String ViewAllCustomeImageActivityIntro = "viewAllCustomeImageActivityIntro";
     private static final String FORCUSTOMEFRAME = "FORCUSTOMEFRAME";
-    private static final String catogaryTab = "Tab1";
-    private static final String backgroundTab = "Tab2";
-    private static final String textTab = "Tab3";
     private static final String appTutorial = "appTutorial";
 
 
@@ -72,6 +69,16 @@ public class PreafManager {
         pref.edit().putString("referralCode", parameters).apply();
         return parameters;
     }
+
+    public String getUserMobileNo() {
+        return pref.getString("mobileNo", "");
+    }
+
+    public String setUserMobileNo(String parameters) {
+        pref.edit().putString("mobileNo", parameters).apply();
+        return parameters;
+    }
+
 
     @SuppressLint("CommitPrefEdits")
     public PreafManager(Context context) {
@@ -278,5 +285,20 @@ public class PreafManager {
         editor.putString(USER_TOKEN, token);
         editor.commit();
         editor.apply();
+    }
+
+
+
+
+
+
+    //new coding
+    public void setLogin(boolean token) {
+        editor.putBoolean("isLogin", token);
+        editor.commit();
+        editor.apply();
+    }
+    public boolean isLogin(){
+        return pref.getBoolean("isLogin", false);
     }
 }

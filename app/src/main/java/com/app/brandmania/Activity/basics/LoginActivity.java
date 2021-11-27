@@ -41,7 +41,6 @@ public class LoginActivity extends BaseActivity {
     private boolean isLoading = false;
     private ProgressDialog pDialog;
     PreafManager preafManager;
-    AlertDialog.Builder alertdialogbuilder;
     String ContactNO;
     String referrerCode = "";
 
@@ -50,7 +49,6 @@ public class LoginActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_login);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -69,11 +67,8 @@ public class LoginActivity extends BaseActivity {
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 ContactNO = binding.mobileNumber.getText().toString();
-
                 if (!binding.mobileNumber.getText().toString().equals("")) {
-
                     if (ContactNO.length() < 10) {
                         binding.mobileNumber.setError("Enter Valid Mobile Number");
                         binding.mobileNumber.requestFocus();
@@ -90,20 +85,14 @@ public class LoginActivity extends BaseActivity {
 
                     }
                 } else {
-
                     String ContactNO = binding.mobileNumber.getText().toString();
                     if (ContactNO.isEmpty()) {
                         binding.mobileNumber.setError("Enter Mobile Number");
                         binding.mobileNumber.requestFocus();
                         return;
                     }
-
                 }
-
-
             }
-
-
         });
 
     }

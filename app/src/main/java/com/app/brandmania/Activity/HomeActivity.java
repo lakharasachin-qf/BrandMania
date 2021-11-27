@@ -58,6 +58,7 @@ import com.app.brandmania.Model.VersionListIItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.DialogPermissionsLayoutBinding;
 import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -79,8 +80,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     PreafManager preafManager;
     private AppUpdateManager appUpdateManager;
     private Activity act;
-    private boolean iscutomEnable = false;
-
+    private boolean iscutomEnable = true;
     BottomNavigationView navigation;
     private boolean isHomeTab = true;
     public static boolean isAlreadyDisplayed = false;
@@ -91,7 +91,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        FetchCustomFrameStatus();
+        //FetchCustomFrameStatus();
         act = this;
 
         preafManager = new PreafManager(act);
@@ -121,13 +121,14 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
             case R.id.navigation_custom:
                 isHomeTab = false;
-                if (iscutomEnable) {
-                    fragment = new CustomFragment();
-
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), CustomViewAllActivit.class);
-                    startActivity(intent);
-                }
+//                if (iscutomEnable) {
+//                    fragment = new CustomFragment();
+//
+//                } else {
+//                    Intent intent = new Intent(getApplicationContext(), CustomViewAllActivit.class);
+//                    startActivity(intent);
+//                }
+                fragment = new CustomFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
 
@@ -181,7 +182,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
         }
 
-
         permissionsLayoutBinding.permissionLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,15 +192,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         permissionsLayoutBinding.permissionLayout2.setOnClickListener(v -> ActivityCompat.requestPermissions(act,
                 new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                 REQUESTED_STORAGE));
-
-//        permissionsLayoutBinding.permissionLayout3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ActivityCompat.requestPermissions(act,
-//                        new String[]{READ_EXTERNAL_STORAGE},
-//                        3);
-//            }
-//        });
 
         permissionsLayoutBinding.allowPermission.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -497,18 +488,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
              * Passing some request headers*
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                return params;
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
         };

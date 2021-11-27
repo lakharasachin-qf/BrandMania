@@ -42,6 +42,7 @@ import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.DialogFacebookLikesBinding;
 import com.app.brandmania.databinding.FragmentProfileBinding;
@@ -57,15 +58,17 @@ import java.util.Observable;
 public class ProfileFragment extends BaseFragment {
     Activity act;
     private FragmentProfileBinding binding;
-    PreafManager preafManager;
+
 
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, parent, false);
-        preafManager = new PreafManager(act);
-        binding.businessName.setText(preafManager.getActiveBrand().getName());
+
+        if (prefManager.getActiveBrand()!=null)
+            binding.businessName.setText(prefManager.getActiveBrand().getName());
+
         binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,10 +83,10 @@ public class ProfileFragment extends BaseFragment {
                 Intent i = new Intent(act, AppIntroActivity.class);
                 startActivity(i);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
             }
         });
-        if (!preafManager.getAppTutorial().isEmpty()) {
+
+        if (!prefManager.getAppTutorial().isEmpty()) {
             binding.introLayout.setVisibility(View.VISIBLE);
             binding.videoLine.setVisibility(View.VISIBLE);
         }
@@ -92,7 +95,7 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                preafManager.Logout();
+                prefManager.Logout();
                 Intent i = new Intent(act, LoginActivity.class);
                 i.addCategory(Intent.CATEGORY_HOME);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -193,7 +196,11 @@ public class ProfileFragment extends BaseFragment {
         binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HELPER.WHATSAPP_REDIRECTION_2(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
+                if (prefManager.getActiveBrand()!=null) {
+                    HELPER.WHATSAPP_REDIRECTION_2(act, prefManager.getActiveBrand().getName(), prefManager.getMobileNumber());
+                }else{
+                    HELPER.WHATSAPP_REDIRECTION_2(act, "", prefManager.getMobileNumber());
+                }
             }
         });
         binding.visitFacebook.setOnClickListener(new View.OnClickListener() {
@@ -228,30 +235,6 @@ public class ProfileFragment extends BaseFragment {
     public static String FACEBOOK_URL = "https://www.facebook.com/brandmania2020";
     public static String FACEBOOK_PAGE_ID = "103655598316587";
 
-    //method to get the right URL to use in the intent
-    public Uri getFacebookPageURL(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-//        try {
-//            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-//            if (versionCode >= 3002850) {
-//                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
-//            } else { //older versions of fb app
-//                return "fb://page/" + FACEBOOK_PAGE_ID;
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//            return FACEBOOK_URL; //normal web url
-//        }
-
-        Uri uri;
-        try {
-            packageManager.getPackageInfo("com.facebook.katana", 0);
-            // http://stackoverflow.com/a/24547437/1048340
-            uri = Uri.parse("fb://facewebmodal/f?href=" + FACEBOOK_URL);
-        } catch (PackageManager.NameNotFoundException e) {
-            uri = Uri.parse(FACEBOOK_URL);
-        }
-        return uri;
-    }
 
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
 
@@ -265,29 +248,31 @@ public class ProfileFragment extends BaseFragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                    preafManager.setAddBrandList(multiListItems);
-                    for (int i = 0; i < multiListItems.size(); i++) {
-                        if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
-                            preafManager.setActiveBrand(multiListItems.get(i));
-                            break;
+                    if (multiListItems!=null && multiListItems.size()!=0) {
+                        prefManager.setAddBrandList(multiListItems);
+                        for (int i = 0; i < multiListItems.size(); i++) {
+                            if (multiListItems.get(i).getId().equalsIgnoreCase(prefManager.getActiveBrand().getId())) {
+                                prefManager.setActiveBrand(multiListItems.get(i));
+                                break;
+                            }
                         }
-                    }
 
-                    //FirstLogin
-                    if (act.getIntent().hasExtra("FirstLogin")) {
-                        preafManager.setIS_Brand(true);
-                        if (multiListItems.size() != 0) {
-                            preafManager.setActiveBrand(multiListItems.get(0));
+                        //FirstLogin
+                        if (act.getIntent().hasExtra("FirstLogin")) {
+                            prefManager.setIS_Brand(true);
+                            if (multiListItems.size() != 0) {
+                                prefManager.setActiveBrand(multiListItems.get(0));
+                            }
                         }
-                    }
 
-                    if (preafManager.getActiveBrand() == null) {
-                        if (multiListItems.size() != 0) {
-                            preafManager.setActiveBrand(multiListItems.get(0));
+                        if (prefManager.getActiveBrand() == null) {
+                            if (multiListItems.size() != 0) {
+                                prefManager.setActiveBrand(multiListItems.get(0));
+                            }
                         }
+                        prefManager = new PreafManager(act);
+                        binding.businessName.setText(prefManager.getActiveBrand().getName());
                     }
-                    preafManager = new PreafManager(act);
-                    binding.businessName.setText(preafManager.getActiveBrand().getName());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -310,19 +295,13 @@ public class ProfileFragment extends BaseFragment {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/json");
-                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
@@ -337,13 +316,12 @@ public class ProfileFragment extends BaseFragment {
     public void update(Observable observable, Object data) {
 
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
-
-
             getBrandList();
+
         }
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.APP_INTRO_REFRESH) {
-            preafManager = new PreafManager(act);
-            if (!preafManager.getAppTutorial().isEmpty()) {
+            prefManager = new PreafManager(act);
+            if (!prefManager.getAppTutorial().isEmpty()) {
                 binding.introLayout.setVisibility(View.VISIBLE);
                 binding.videoLine.setVisibility(View.VISIBLE);
             }

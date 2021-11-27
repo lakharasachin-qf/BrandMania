@@ -50,14 +50,13 @@ public class ViewBrandActivity extends BaseActivity {
     private ActivityViewBrandBinding binding;
     private static final int REQUEST_CALL = 1;
     ArrayList<BrandListItem> multiListItems=new ArrayList<>();
-    PreafManager preafManager;
-    private String is_frame="";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act=this;
-        preafManager=new PreafManager(this);
+
         binding= DataBindingUtil.setContentView(act,R.layout.activity_view_brand);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,14 +120,13 @@ public class ViewBrandActivity extends BaseActivity {
 
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                    Log.e("SSS",new Gson().toJson(multiListItems));
                     if (multiListItems != null && multiListItems.size() != 0) {
                         GetBrandAddaptor();
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.getBrandList.setVisibility(View.VISIBLE);
                         binding.emptyStateLayout.setVisibility(View.GONE);
-                        preafManager.setAddBrandList(multiListItems);
+                        prefManager.setAddBrandList(multiListItems);
                     }
                     if (multiListItems == null || multiListItems.size() == 0) {
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
@@ -168,22 +166,13 @@ public class ViewBrandActivity extends BaseActivity {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/json");
-                params.put("X-Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-                Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 
@@ -205,9 +194,7 @@ public class ViewBrandActivity extends BaseActivity {
     @Override public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
-    public void captureScreenShort() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-    }
+
     private void getBrandById(BrandListItem model) {
 
         Utility.Log("API : ", APIs.GET_BRAND_BY_ID);
@@ -232,13 +219,10 @@ public class ViewBrandActivity extends BaseActivity {
 
                     Gson gson=new Gson();
 
-
-
                     Intent i = new Intent(act, PackageActivity.class);
 
                     i.putExtra("detailsObj",gson.toJson(sliderItem));
-                    /*i.addCategory(Intent.CATEGORY_HOME);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
+
                     startActivity(i);
                     overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
@@ -266,11 +250,7 @@ public class ViewBrandActivity extends BaseActivity {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("X-Authorization","Bearer "+preafManager.getUserToken());
-                Log.e("Token",params.toString());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
 
@@ -279,7 +259,6 @@ public class ViewBrandActivity extends BaseActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("brand_id",model.getId());
                 Log.e("DateNdClass", params.toString());
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }

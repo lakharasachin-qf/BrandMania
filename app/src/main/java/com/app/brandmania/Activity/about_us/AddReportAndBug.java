@@ -39,7 +39,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
     private ActivityAddReportAndBugBinding binding;
     private boolean isLoading = false;
 
-    PreafManager preafManager;
+
 
     private Bitmap selectedImagesBitmap;
     private boolean isEditModeEnable = false;
@@ -51,7 +51,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
         act=this;
 
         binding= DataBindingUtil.setContentView(act,R.layout.activity_add_report_and_bug);
-        preafManager=new PreafManager(act);
+
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +172,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.REPORT_BUG)
                 .addHeaders("Accept", "application/x-www-form-urlencoded")
                 .addHeaders("Content-Type", "application/x-www-form-urlencoded")
-                .addHeaders("token", preafManager.getUserToken())
+                .addHeaders("token", prefManager.getUserToken())
                 .addMultipartParameter("contact_no", binding.contactEdt.getText().toString())
                 .addMultipartParameter("email", binding.emailEdt.getText().toString())
                 .addMultipartParameter("problem", binding.bugsEdt.getText().toString())

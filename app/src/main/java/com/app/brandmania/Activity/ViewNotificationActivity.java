@@ -2,7 +2,6 @@ package com.app.brandmania.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
@@ -23,9 +22,10 @@ import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
-import com.app.brandmania.utils.APIs;
-import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.ActivityNotificationBinding;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,27 +37,22 @@ import java.util.Map;
 public class ViewNotificationActivity extends BaseActivity {
     private Activity act;
     private ActivityNotificationBinding binding;
-    PreafManager preafManager;
+
     BrandAdapter brandAdapter;
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act=this;
-        binding= DataBindingUtil.setContentView(act,R.layout.activity_notification);
-       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-
-        preafManager=new PreafManager(act);
+        act = this;
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_notification);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
-
-
         });
-     //   Toast.makeText(act, preafManager.getActiveBrand().getId(), Toast.LENGTH_SHORT).show();
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
                 R.color.colorthird);
@@ -72,12 +67,14 @@ public class ViewNotificationActivity extends BaseActivity {
         getNotificationList();
 
     }
+
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.noticeListRecycler.setVisibility(View.GONE);
         binding.emptyStateLayout.setVisibility(View.GONE);
     }
+
     private void setNotificationAdpters() {
 
         brandAdapter = new BrandAdapter(multiListItems, this);
@@ -87,6 +84,7 @@ public class ViewNotificationActivity extends BaseActivity {
         binding.noticeListRecycler.setAdapter(brandAdapter);
 
     }
+
     private void getNotificationList() {
 
         Utility.Log("API : ", APIs.GET_NOTIFICATION);
@@ -95,7 +93,7 @@ public class ViewNotificationActivity extends BaseActivity {
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
                 Utility.Log("getNotificationList : ", response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
 
                     JSONObject jsonObject = new JSONObject(response);
@@ -114,9 +112,6 @@ public class ViewNotificationActivity extends BaseActivity {
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                     }
-
-
-
 
 
                 } catch (JSONException e) {
@@ -148,18 +143,15 @@ public class ViewNotificationActivity extends BaseActivity {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-              /*  params.put("Accept", "application/json");
-                params.put("Content-Type", "application/json");*/
-                params.put("X-Authorization","Bearer "+preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("brand_id", preafManager.getActiveBrand().getId());
+                if (prefManager.getActiveBrand() != null)
+                    params.put("brand_id", prefManager.getActiveBrand().getId());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }

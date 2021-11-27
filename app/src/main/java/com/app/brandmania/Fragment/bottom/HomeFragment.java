@@ -130,18 +130,21 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         fiveStarsDialog = new FiveStarsDialog(act, "brandmania@gmail.com");
         preafManager = new PreafManager(act);
         binding.infoMsg.setSelected(true);
+
         if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
             if (preafManager.getActiveBrand() == null) {
                 preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
                 preafManager = new PreafManager(act);
             }
         }
+
         if (preafManager.getActiveBrand() != null) {
             Glide.with(act).load(preafManager.getActiveBrand().getLogo()).into(binding.pdfLogo);
             Glide.with(act).load(preafManager.getActiveBrand().getLogo());
+            binding.businessName.setText(preafManager.getActiveBrand().getName());
         }
         RateUs();
-        binding.businessName.setText(preafManager.getActiveBrand().getName());
+
 
         binding.showNotification.setOnClickListener(view -> HELPER.ROUTE(act, ViewNotificationActivity.class));
         binding.referCodeLayout.setOnClickListener(v -> {
@@ -158,17 +161,18 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.referralcodeTxt.setText(preafManager.getReferCode());
 
         binding.createDigitalCard.setOnClickListener(view -> {
-            if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
-                HELPER.ROUTE(act, PdfActivity.class);
-            } else {
-                alertDialogBuilder = new AlertDialog.Builder(act);
-                alertDialogBuilder.setTitle("Save image");
-                alertDialogBuilder.setMessage("Your Logo is empty..!");
-                alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.setCancelable(false);
-                alertDialog.show();
-            }
+            HELPER.ROUTE(act, PdfActivity.class);
+//            if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
+//                HELPER.ROUTE(act, PdfActivity.class);
+//            } else {
+//                alertDialogBuilder = new AlertDialog.Builder(act);
+//                alertDialogBuilder.setTitle("Save image");
+//                alertDialogBuilder.setMessage("Your Logo is empty..!");
+//                alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
+//                AlertDialog alertDialog = alertDialogBuilder.create();
+//                alertDialog.setCancelable(false);
+//                alertDialog.show();
+//            }
         });
 
         binding.request.setOnClickListener(v -> showRequestForm());
@@ -177,27 +181,21 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.createGreetingImages.setOnClickListener(v -> ((CUSTOM_TAB_CHANGE_INTERFACE) act).makeTabChange(1));
 
-        getBrandList();
+        //getBrandList();
 
-        getFrame();
-
+        //getFrame();
+        startAnimation();
+        loadImagesCategory();
+        getBanner();
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
 
         binding.swipeContainer.setOnRefreshListener(() -> {
-
             startAnimation();
-            getFrame();
+            //getFrame();
             loadImagesCategory();
-
         });
         getDeviceToken();
         binding.businessNameDropDown.setOnClickListener(v -> showFragmentList(BUSINESS_TYPE, ""));
-
-        binding.whatsapp.setOnClickListener(v -> HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber()));
-
-        binding.contactTxtLayout.setOnClickListener(v -> HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber()));
-
-
         if (!HomeActivity.isAlreadyDisplayedOffer) {
             try {
                 String offerValidDate = "05/11/2021";
@@ -217,7 +215,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 e.printStackTrace();
             }
         }
-
         if (preafManager.getActiveBrand() != null) {
             if (preafManager.getActiveBrand().getExpiery_date() != null && !preafManager.getActiveBrand().getExpiery_date().isEmpty() && Utility.isPackageExpired(act)) {
                 binding.infoMsg.setText("                           Dear user, your current package is expired on date " + preafManager.getActiveBrand().getExpiery_date() + ". Please Upgrade your plan and enjoy downloading image, GIF and videos.");
@@ -251,7 +248,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
-
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -270,7 +266,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 JSONObject jsonObject = new JSONObject(response);
                 binding.swipeContainer.setRefreshing(false);
                 viewPagerItems = ResponseHandler.HandleGetBanneList(jsonObject);
-
                 if (viewPagerItems != null && viewPagerItems.size() != 0) {
                     ViewPagerAdapter sliderAdapter = new ViewPagerAdapter(viewPagerItems, act);
                     binding.ViewPagerView.setAdapter(sliderAdapter);
@@ -283,7 +278,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     timer = new Timer();
                     timer.schedule(timerTask, 10000, 10000);
                 }
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -299,8 +293,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             public Map<String, String> getHeaders() {
                 return getHeader(CodeReUse.GET_FORM_HEADER);
             }
-
-
         };
 
         RequestQueue queue = Volley.newRequestQueue(act);
@@ -344,9 +336,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     binding.shimmerViewContainer.setVisibility(View.GONE);
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
             public Map<String, String> getHeaders() {
                 return getHeader(CodeReUse.GET_FORM_HEADER);
@@ -438,7 +427,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             @Override
             public Map<String, String> getHeaders() {
                 return getHeader(CodeReUse.GET_FORM_HEADER);
-
             }
 
             @Override
@@ -497,18 +485,18 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         act.startActivity(i);
                         act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                     } catch (ClassNotFoundException ignored) {
-
                     }
-
                 }
             }
         });
+
         dialogOfferBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
             }
         });
+
     }
 
 
@@ -562,7 +550,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 JSONObject jsonObject = new JSONObject(response);
                 binding.swipeContainer.setRefreshing(false);
                 multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                preafManager.setAddBrandList(multiListItems);
+                if (multiListItems!=null && multiListItems.size()!=0)
+                    preafManager.setAddBrandList(multiListItems);
                 if (preafManager.getActiveBrand() != null) {
                     for (int i = 0; i < multiListItems.size(); i++) {
                         if (multiListItems.get(i).getId().equalsIgnoreCase(preafManager.getActiveBrand().getId())) {
@@ -572,7 +561,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     }
                 }
                 preafManager = new PreafManager(act);
-                binding.businessName.setText(preafManager.getActiveBrand().getName());
+                if (preafManager.getActiveBrand()!=null)
+                    binding.businessName.setText(preafManager.getActiveBrand().getName());
+
                 if (act.getIntent().hasExtra("FirstLogin")) {
                     preafManager.setIS_Brand(true);
                     if (multiListItems.size() != 0) {
@@ -584,9 +575,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         preafManager.setActiveBrand(multiListItems.get(0));
                     }
                 }
-                startAnimation();
-                loadImagesCategory();
-                getBanner();
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -608,22 +597,19 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     @Override
-    public void onNegativeReview(int stars) {
-        Log.d("TAG", "Negative review " + stars);
-    }
+    public void onNegativeReview(int stars) { Log.d("TAG", "Negative review " + stars);  }
 
     @Override
     public void onRefresh() {
         startAnimation();
-        getFrame();
+        //getFrame();
         loadImagesCategory();
-        getBrandList();
+        //getBrandList();
         getBanner();
     }
 
     @Override
-    public void onReview(int stars) {
-    }
+    public void onReview(int stars) { }
 
     private void getFrame() {
         Utility.Log("API : ", APIs.GET_FRAME);
@@ -640,14 +626,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             public Map<String, String> getHeaders() {
                 return getHeader(CodeReUse.GET_FORM_HEADER);
             }
-
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("brand_id", preafManager.getActiveBrand().getId());
                 return params;
             }
-
         };
 
         RequestQueue queue = Volley.newRequestQueue(act);
@@ -692,7 +676,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     }
 
-
     private void apiForCategoryRequest(String catString) {
         Utility.showProgress(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.REQUEST_BUSINESS_CATEGORY, response -> Utility.dismissProgress(), error -> {
@@ -717,7 +700,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
 
     private androidx.appcompat.app.AlertDialog offerAlert;
     private DialogOfferBinding offerBinding;

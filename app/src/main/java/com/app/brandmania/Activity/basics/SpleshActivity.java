@@ -75,8 +75,13 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (preafManager.getUserToken() != null && !preafManager.getUserToken().isEmpty()) {
-                    LoginFlow();
+                if (preafManager.isLogin()) {
+                    Intent intent = new Intent(act, HomeActivity.class);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    finish();
                 } else {
                     Intent intent = new Intent(act, LoginActivity.class);
                     intent.putExtra("referrerCode", referrerCode);
@@ -86,8 +91,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                     overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                     finish();
                 }
-//                 throw new RuntimeException("Test Crash");
-
 
             }
         }, 1000);
@@ -275,13 +278,11 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
     @Override
     public void alertListenerClick() {
         preafManager.Logout();
-
         Intent intent = new Intent(act, LoginActivity.class);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         finish();
-
     }
 }

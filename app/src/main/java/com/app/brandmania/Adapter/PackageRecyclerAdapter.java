@@ -62,8 +62,18 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
         holder.binding.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectedBrand.getPackagename() != null && !selectedBrand.getPackagename().isEmpty() && selectedBrand.getPackagename().equalsIgnoreCase(model.getPackageTitle())) {
-                    if (Utility.isPackageExpired(selectedBrand)) {
+                if (selectedBrand != null) {
+                    if (selectedBrand.getPackagename() != null && !selectedBrand.getPackagename().isEmpty() && selectedBrand.getPackagename().equalsIgnoreCase(model.getPackageTitle())) {
+                        if (Utility.isPackageExpired(selectedBrand)) {
+                            Intent intent = new Intent(activity, RazorPayActivity.class);
+                            intent.putExtra("AmountText", model.getPriceForPay());
+                            intent.putExtra("BrandListItem", gson.toJson(selectedBrand));
+                            packageList.get(position).setBrandId(selectedBrand.getId());
+                            intent.putExtra("detailsObj", gson.toJson(packageList.get(position)));
+                            activity.startActivity(intent);
+                            activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        }
+                    } else {
                         Intent intent = new Intent(activity, RazorPayActivity.class);
                         intent.putExtra("AmountText", model.getPriceForPay());
                         intent.putExtra("BrandListItem", gson.toJson(selectedBrand));
@@ -72,20 +82,12 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
                         activity.startActivity(intent);
                         activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                     }
-                } else {
-                    Intent intent = new Intent(activity, RazorPayActivity.class);
-                    intent.putExtra("AmountText", model.getPriceForPay());
-                    intent.putExtra("BrandListItem", gson.toJson(selectedBrand));
-                    packageList.get(position).setBrandId(selectedBrand.getId());
-                    intent.putExtra("detailsObj", gson.toJson(packageList.get(position)));
-                    activity.startActivity(intent);
-                    activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 }
             }
         });
 
 
-        if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand().getPackage_id().equals(packageList.get(position).getPackageid()) &&
+        if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand() != null && preafManager.getActiveBrand().getPackage_id().equals(packageList.get(position).getPackageid()) &&
                 preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
             holder.binding.rightArrow.setVisibility(View.GONE);
             holder.binding.secondaryTitle.setClickable(false);
@@ -121,7 +123,6 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
             dynamicTextBinding.label.setText(s);
             serviceLayout.addView(dynamicTextBinding.getRoot());
         }
-
     }
 
     @Override

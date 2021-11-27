@@ -13,15 +13,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -34,12 +31,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityReferBinding;
 import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,7 +55,7 @@ public class ReferNEarnActivity extends BaseActivity {
     Activity act;
     private String deviceToken = "";
     private ActivityReferBinding binding;
-    PreafManager preafManager;
+
 
     public void getDeviceToken(Activity act) {
         Utility.showProgress(act);
@@ -79,9 +76,9 @@ public class ReferNEarnActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(act, R.layout.activity_refer);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        preafManager = new PreafManager(act);
-        binding.referralCodeTxt.setText(preafManager.getReferCode());
-        binding.walletMoney.setText(preafManager.getWallet());
+
+        binding.referralCodeTxt.setText(prefManager.getReferCode());
+        binding.walletMoney.setText(prefManager.getWallet());
         binding.referralCodeTxt.setTextIsSelectable(true);
         ObjectAnimator anim = (ObjectAnimator) AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.flipping);
         anim.setTarget(binding.coinImg);
@@ -121,7 +118,7 @@ public class ReferNEarnActivity extends BaseActivity {
     public void shortenLongLink() {
 
         String shareLinkText = "https://brandmania.page.link/?" +
-                "link=http://www.queryfinders.com?refer=" + preafManager.getReferCode() +
+                "link=http://www.queryfinders.com?refer=" + prefManager.getReferCode() +
                 "&apn=" + getPackageName() +
                 "&st=" + "Referral Code" +
                 "&sd=" + "Earn Rewards" +
@@ -158,13 +155,13 @@ public class ReferNEarnActivity extends BaseActivity {
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
                 try {
                     JSONObject jsonArray1 = jsonObject.getJSONObject("message");
-                    preafManager.setWallet(jsonArray1.getString("user_total_coin"));
+                    prefManager.setWallet(jsonArray1.getString("user_total_coin"));
                     if (jsonArray1.getString("reference_code").equals("null"))
                         jsonArray1.put("reference_code", "");
 
-                    preafManager.setReferCode(jsonArray1.getString("referal_code"));
-                    preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
-                    preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
+                    prefManager.setReferCode(jsonArray1.getString("referal_code"));
+                    prefManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
+                    prefManager.setReferrerCode(jsonArray1.getString("reference_code"));
                     binding.referralCodeTxt.setText(jsonArray1.getString("referal_code"));
                     binding.walletMoney.setText(jsonArray1.getString("user_total_coin"));
                 } catch (JSONException e) {
@@ -183,12 +180,7 @@ public class ReferNEarnActivity extends BaseActivity {
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Accept", "application/json");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
-
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
 
@@ -213,7 +205,7 @@ public class ReferNEarnActivity extends BaseActivity {
                 "\n" +
                 "Brand mania app is used to make social media marketing image for your business in 5 minutes. Here Festival images, National and International Days images will be provided.\n" +
                 "\n" + "Referral code: " +
-                preafManager.getReferCode() + "\n" + "Try it now:\n" + myDynamicLink;
+                prefManager.getReferCode() + "\n" + "Try it now:\n" + myDynamicLink;
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, msg);
         sendIntent.setType("text/plain");

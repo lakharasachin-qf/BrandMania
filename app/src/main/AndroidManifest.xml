@@ -28,10 +28,6 @@
         <activity
             android:name=".Activity.PdfActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.details.EditSelectedImages" />
-        <activity
-            android:name=".Activity.DailyImagesActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.custom.ViewAllFrameImageActivity"
             android:screenOrientation="portrait" />
@@ -56,12 +52,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.packages.PackageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.details.FavoriteDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.details.DownloadDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.brand.AddBrandMultipleActivity"
