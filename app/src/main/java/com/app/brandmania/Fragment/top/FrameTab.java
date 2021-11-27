@@ -29,10 +29,12 @@ import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.IRemoveFrame;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
 import com.app.brandmania.databinding.FrameTabBinding;
@@ -46,28 +48,37 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class FrameTab extends Fragment {
+import kotlin.reflect.jvm.internal.impl.descriptors.ClassOrPackageFragmentDescriptor;
+
+public class FrameTab extends BaseFragment {
 
     Activity act;
     private FrameTabBinding binding;
     private String is_frame = "";
-    PreafManager preafManager;
+
     ArrayList<ImageList> menuModels = new ArrayList<>();
 
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        act = getActivity();
-        binding = DataBindingUtil.inflate(inflater, R.layout.frame_tab, container, false);
-        preafManager = new PreafManager(getActivity());
 
-        getFrame();
+    @Override
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        act = getActivity();
+        binding = DataBindingUtil.inflate(inflater, R.layout.frame_tab, parent, false);
+
+        if (prefManager.getActiveBrand()!=null) {
+            getFrame();
+        }
 
         binding.subscribePlaneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") && (preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")) || preafManager.getActiveBrand().getPackagename().equalsIgnoreCase("Standard")) {
-                    HELPER.WHATSAPP_REDIRECTION(act, preafManager.getActiveBrand().getName(), preafManager.getMobileNumber());
-                } else {
-                    triggerUpgradePackage();
+                if (prefManager.getActiveBrand()!=null) {
+                    if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") && (prefManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")) || prefManager.getActiveBrand().getPackagename().equalsIgnoreCase("Standard")) {
+                        HELPER.WHATSAPP_REDIRECTION(act, prefManager.getActiveBrand().getName(), prefManager.getMobileNumber());
+                    } else {
+                        triggerUpgradePackage();
+                    }
+                }else{
+
                 }
             }
         });
@@ -79,7 +90,7 @@ public class FrameTab extends Fragment {
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
-        if (preafManager.getActiveBrand() != null) {
+        if (prefManager.getActiveBrand() != null) {
             if (this.getActivity().getClass() == ViewAllFrameImageActivity.class) {
                 binding.removeFrameBtn.setVisibility(View.VISIBLE);
                 binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
@@ -90,7 +101,7 @@ public class FrameTab extends Fragment {
                     ((IRemoveFrame) act).onRemoveSelectEvent();
                 }
             });
-            if (preafManager.getActiveBrand().getFrame() != null && preafManager.getActiveBrand().getFrame().size() != 0) {
+            if (prefManager.getActiveBrand().getFrame() != null && prefManager.getActiveBrand().getFrame().size() != 0) {
                 binding.subscribePlaneBtn.setVisibility(View.GONE);
             }
         } else {
@@ -111,8 +122,8 @@ public class FrameTab extends Fragment {
         builder.setView(upgradeLayoutBinding.getRoot());
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(upgradeLayoutBinding.getRoot());
-        if (!preafManager.getActiveBrand().getPackagename().isEmpty())
-            upgradeLayoutBinding.element4.setText("Currently you are subscribed with \"" + preafManager.getActiveBrand().getPackagename() + "\" package");
+        if (!prefManager.getActiveBrand().getPackagename().isEmpty())
+            upgradeLayoutBinding.element4.setText("Currently you are subscribed with \"" + prefManager.getActiveBrand().getPackagename() + "\" package");
         else
             upgradeLayoutBinding.element4.setText("Currently you are subscribed with \"Free\" package");
 
@@ -161,7 +172,7 @@ public class FrameTab extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     menuModels = ResponseHandler.HandleGetFrameList(jsonObject);
-                    if (preafManager.getActiveBrand() != null) {
+                    if (prefManager.getActiveBrand() != null) {
                         //  Toast.makeText(act, "NotNull", Toast.LENGTH_SHORT).show();
                         if (menuModels != null && menuModels.size() != 0 && jsonObject.getJSONObject("data").getString("is_frame").equalsIgnoreCase("1")) {
                             ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
@@ -171,7 +182,7 @@ public class FrameTab extends Fragment {
                             binding.frameRecycler.setAdapter(menuAddaptor);
                             binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
 
-                            if (preafManager.getActiveBrand().getIs_frame().equalsIgnoreCase("1")) {
+                            if (prefManager.getActiveBrand().getIs_frame().equalsIgnoreCase("1")) {
                                 binding.subscribePlaneBtn.setVisibility(View.GONE);
                             }
 
@@ -209,29 +220,25 @@ public class FrameTab extends Fragment {
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                if (preafManager.getActiveBrand() != null) {
-                    params.put("brand_id", preafManager.getActiveBrand().getId());
+                if (prefManager.getActiveBrand() != null) {
+                    params.put("brand_id", prefManager.getActiveBrand().getId());
                 }
-                Utility.Log("POSTED-PARAMS-", params.toString());
+
                 return params;
             }
 
         };
 
         RequestQueue queue = Volley.newRequestQueue(act);
-        if (preafManager.getActiveBrand() != null) {
-            queue.add(stringRequest);
-        }
+             queue.add(stringRequest);
+
     }
 
 }

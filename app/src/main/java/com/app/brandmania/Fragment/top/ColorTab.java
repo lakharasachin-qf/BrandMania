@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.app.brandmania.Adapter.ColorPickerAdapter;
 import com.app.brandmania.Adapter.OnlyTextColorPickerAddaptor;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.ITextColorChangeEvent;
 import com.app.brandmania.Interface.ITextSizeEvent;
@@ -27,25 +28,22 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 
 import java.util.Objects;
 
-public class ColorTab extends Fragment implements ColorPickerView.OnColorChangedListener {
+public class ColorTab extends BaseFragment implements ColorPickerView.OnColorChangedListener {
     Activity act;
     private ColorTabBinding binding;
     private int mColorCode;
     private ColorTab context;
     int tabLayou=0;
 
-    public void setTabLayou(int tabLayou) {
-        this.tabLayou = tabLayou;
-    }
-
     int textSize = 5;
     int saveProgress;
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         context=this;
-        binding= DataBindingUtil.inflate(inflater,R.layout.color_tab,container,false);
+        binding= DataBindingUtil.inflate(inflater,R.layout.color_tab,parent,false);
         if (tabLayou==1){
             binding.checkbox.setVisibility(View.GONE);
             binding.seekBar.setVisibility(View.GONE);
@@ -61,7 +59,7 @@ public class ColorTab extends Fragment implements ColorPickerView.OnColorChanged
 
         binding.colorPickerView.setOnColorChangedListener(this);
         binding.colorPickerView.setOnColorChangedListener(this);
-       // binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
+        // binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
 
 
         binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

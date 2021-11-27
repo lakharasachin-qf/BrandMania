@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.app.brandmania.Adapter.FontListAdeptor;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.AddTextEvent;
 import com.app.brandmania.Interface.IColorChange;
 import com.app.brandmania.Interface.IItaliTextEvent;
@@ -30,9 +31,8 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 
 import java.util.ArrayList;
 
-public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPickerView.OnColorChangedListener {
-    public static final boolean NO_BOLD_TEXT = false;
-    public boolean BOLD_TEXT = false;
+public class TextTab extends BaseFragment implements ITextColorChangeEvent, ColorPickerView.OnColorChangedListener {
+     public boolean BOLD_TEXT = false;
     public boolean ITALIC_TEXT = false;
     public boolean UNDERLINE_TEXT = false;
     Activity act;
@@ -42,20 +42,18 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
     FontModel[] fontModelObject;
     String[] fontStyle;
     private TextTabBinding binding;
-    private int mColorCode;
-    private TextTab context;
-    private int activityType=0;
-    //activity type 1 means called from view all activity so hide the seekbar
+     private int activityType=0;
 
     public void setActivityType(int activityType) {
         this.activityType = activityType;
 
     }
-    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    @Override
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        context = this;
-        binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, container, false);
-        //  binding.seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, parent, false);
         if (activityType==1){
             binding.addTextLayout.setVisibility(View.GONE);
         }
@@ -144,7 +142,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
                 textSize = textSize + (progress - saveProgress);
                 saveProgress = progress;
 
-               // ((ITextSizeEvent) act).onfontSize((int) (textSize / Resources.getSystem().getDisplayMetrics().density));
+                // ((ITextSizeEvent) act).onfontSize((int) (textSize / Resources.getSystem().getDisplayMetrics().density));
 
             }
         });
@@ -185,6 +183,7 @@ public class TextTab extends Fragment implements ITextColorChangeEvent, ColorPic
         FontChanege();
         return binding.getRoot();
     }
+
     @Override public void onColorItemChange(int colorcode) {
 
         binding.colorChose.setBackgroundColor(colorcode);

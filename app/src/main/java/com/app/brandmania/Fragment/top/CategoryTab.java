@@ -25,12 +25,14 @@ import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.InnerFragmentAdpaters;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.CategoryTabBinding;
 import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -42,14 +44,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryTab extends FrameTab {
+public class CategoryTab extends BaseFragment {
     Activity act;
     private CategoryTabBinding binding;
     private int mColorCode;
     private DashBoardItem imageList;
     private ImageList selectedObject;
     private ColorTab context;
-    PreafManager preafManager;
+
     ImageList apiObject;
     ArrayList<ImageList> menuModels = new ArrayList<>();
     Gson gson;
@@ -60,11 +62,12 @@ public class CategoryTab extends FrameTab {
         return this;
     }
 
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding = DataBindingUtil.inflate(inflater, R.layout.category_tab, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.category_tab, parent, false);
         gson = new Gson();
 
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
@@ -72,71 +75,10 @@ public class CategoryTab extends FrameTab {
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory();
-        preafManager = new PreafManager(getActivity());
+
         return binding.getRoot();
     }
 
-    boolean isPostAvailable = false;
-    boolean isGIFAvailable = false;
-    boolean isVideoAvailable = false;
-
-    public void loadViewPager() {
-
-
-        for (ImageList model : menuModels) {
-            if (model.getImageType() == ImageList.IMAGE) {
-                isPostAvailable = true;
-            }
-            if (model.getImageType() == ImageList.GIF) {
-                isGIFAvailable = true;
-            }
-            if (model.getImageType() == ImageList.VIDEO) {
-                isVideoAvailable = true;
-            }
-        }
-
-
-        ArrayList<Fragment> fragments = new ArrayList<>();
-        if (isPostAvailable) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Post"));
-            fragments.add(new PostFragment());
-        }
-
-        if (isGIFAvailable) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("GIF"));
-            fragments.add(new GifFragment());
-        }
-
-        if (isVideoAvailable) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Videos"));
-            fragments.add(new VideoFragment());
-        }
-
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        if (fragments.size() != 0) {
-            binding.viewRecoRecycler.setVisibility(View.GONE);
-            binding.viewPagerLayout.setVisibility(View.VISIBLE);
-
-            final InnerFragmentAdpaters adapter = new InnerFragmentAdpaters(getChildFragmentManager(), fragments);
-            binding.viewPager.setAdapter(adapter);
-            binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
-            binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    binding.viewPager.setCurrentItem(tab.getPosition());
-                }
-
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                }
-
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                }
-            });
-        }
-    }
 
 
     ImageCategoryAddaptor menuAddaptor;
@@ -160,7 +102,6 @@ public class CategoryTab extends FrameTab {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                // Utility.Log("GET_IMAGE_CATEGORYyyyyyyyyyyyy : ", response);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -213,11 +154,8 @@ public class CategoryTab extends FrameTab {
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
@@ -300,11 +238,8 @@ public class CategoryTab extends FrameTab {
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override

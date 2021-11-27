@@ -245,23 +245,26 @@ public class FooterAdapter extends RecyclerView.Adapter {
 
                     }
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderOne) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderOne) holder).binding.gmailLayout.setVisibility(View.GONE);
-                        ((FooterHolderOne) holder).binding.contactLayout.setGravity(Gravity.CENTER);
-                    }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderOne) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderOne) holder).binding.contactLayout.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderOne) holder).binding.gmailText.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderOne) holder).binding.gmailLayout.setVisibility(View.GONE);
+                            ((FooterHolderOne) holder).binding.contactLayout.setGravity(Gravity.CENTER);
+                        }
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderOne) holder).binding.locationText.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderOne) holder).binding.addressLayoutElement.setVisibility(View.GONE);
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderOne) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderOne) holder).binding.contactLayout.setVisibility(View.GONE);
+                        }
+
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderOne) holder).binding.locationText.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderOne) holder).binding.addressLayoutElement.setVisibility(View.GONE);
+                        }
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.VISIBLE);
@@ -301,47 +304,48 @@ public class FooterAdapter extends RecyclerView.Adapter {
                         ((FooterHolderTwo) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderTwo) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderTwo) holder).binding.gmailLayout.setVisibility(View.GONE);
-                        ((FooterHolderTwo) holder).binding.contactLayout.setGravity(Gravity.CENTER);
-                    }
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderTwo) holder).binding.gmailText.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderTwo) holder).binding.gmailLayout.setVisibility(View.GONE);
+                            ((FooterHolderTwo) holder).binding.contactLayout.setGravity(Gravity.CENTER);
+                        }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderTwo) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderTwo) holder).binding.contactLayout.setVisibility(View.GONE);
-                    }
-                    if (activeBrand.getPhonenumber().isEmpty() && activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderTwo) holder).binding.firstView.setVisibility(View.GONE);
-                    }
-
-
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderTwo) holder).binding.locationText.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderTwo) holder).binding.locationLayout.setVisibility(View.GONE);
-                    }
-                    if (!activeBrand.getWebsite().isEmpty()) {
-                        ((FooterHolderTwo) holder).binding.websiteText.setText(activeBrand.getWebsite());
-                    } else {
-                        ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
-                        ((FooterHolderTwo) holder).binding.locationLayout.setGravity(Gravity.CENTER);
-                    }
-                    if (activeBrand.getWebsite().equals("https://")) {
-                        ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
-                        ((FooterHolderTwo) holder).binding.locationLayout.setGravity(Gravity.CENTER);
-                    } else {
-                        ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.VISIBLE);
-                    }
-
-                    if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()) {
-                        ((FooterHolderTwo) holder).binding.secondView.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderTwo) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderTwo) holder).binding.contactLayout.setVisibility(View.GONE);
+                        }
+                        if (activeBrand.getPhonenumber().isEmpty() && activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderTwo) holder).binding.firstView.setVisibility(View.GONE);
+                        }
 
 
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderTwo) holder).binding.locationText.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderTwo) holder).binding.locationLayout.setVisibility(View.GONE);
+                        }
+                        if (!activeBrand.getWebsite().isEmpty()) {
+                            ((FooterHolderTwo) holder).binding.websiteText.setText(activeBrand.getWebsite());
+                        } else {
+                            ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
+                            ((FooterHolderTwo) holder).binding.locationLayout.setGravity(Gravity.CENTER);
+                        }
+                        if (activeBrand.getWebsite().equals("https://")) {
+                            ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.GONE);
+                            ((FooterHolderTwo) holder).binding.locationLayout.setGravity(Gravity.CENTER);
+                        } else {
+                            ((FooterHolderTwo) holder).binding.websiteLayout.setVisibility(View.VISIBLE);
+                        }
+
+                        if (activeBrand.getAddress().isEmpty() && activeBrand.getWebsite().isEmpty()) {
+                            ((FooterHolderTwo) holder).binding.secondView.setVisibility(View.GONE);
+                        }
+
+                    }
                     if (checkedPosition == position) {
                         ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderTwo) holder).binding.freePremium.setVisibility(View.GONE);
@@ -374,38 +378,40 @@ public class FooterAdapter extends RecyclerView.Adapter {
                         ((FooterHolderThree) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderThree) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderThree) holder).binding.gmailLayout.setVisibility(View.GONE);
-                        ((FooterHolderThree) holder).binding.contactLayout.setGravity(Gravity.CENTER);
-                    }
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderThree) holder).binding.gmailText.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderThree) holder).binding.gmailLayout.setVisibility(View.GONE);
+                            ((FooterHolderThree) holder).binding.contactLayout.setGravity(Gravity.CENTER);
+                        }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderThree) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderThree) holder).binding.contactLayout.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderThree) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderThree) holder).binding.contactLayout.setVisibility(View.GONE);
+                        }
 
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderThree) holder).binding.locationText.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderThree) holder).binding.loactionLayout.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderThree) holder).binding.locationText.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderThree) holder).binding.loactionLayout.setVisibility(View.GONE);
+                        }
 
-                    if (!activeBrand.getWebsite().isEmpty()) {
-                        ((FooterHolderThree) holder).binding.websiteText.setText(activeBrand.getWebsite());
-                    } else {
-                        ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.GONE);
-                        ((FooterHolderThree) holder).binding.loactionLayout.setGravity(Gravity.CENTER);
-                    }
-                    if (activeBrand.getWebsite().equals("https://")) {
-                        ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.GONE);
-                        ((FooterHolderThree) holder).binding.loactionLayout.setGravity(Gravity.CENTER);
-                    } else {
-                        ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.VISIBLE);
+                        if (!activeBrand.getWebsite().isEmpty()) {
+                            ((FooterHolderThree) holder).binding.websiteText.setText(activeBrand.getWebsite());
+                        } else {
+                            ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.GONE);
+                            ((FooterHolderThree) holder).binding.loactionLayout.setGravity(Gravity.CENTER);
+                        }
+                        if (activeBrand.getWebsite().equals("https://")) {
+                            ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.GONE);
+                            ((FooterHolderThree) holder).binding.loactionLayout.setGravity(Gravity.CENTER);
+                        } else {
+                            ((FooterHolderThree) holder).binding.websiteEdtLayout.setVisibility(View.VISIBLE);
+                        }
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderThree) holder).binding.elementSelected.setVisibility(View.VISIBLE);
@@ -440,41 +446,43 @@ public class FooterAdapter extends RecyclerView.Adapter {
 
                         ((FooterHolderFour) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderFour) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderFour) holder).binding.gmailLayout.setVisibility(View.GONE);
-                        ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
-                        ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
-                    }
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderFour) holder).binding.gmailText.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderFour) holder).binding.gmailLayout.setVisibility(View.GONE);
+                            ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
+                            ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
+                        }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderFour) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderFour) holder).binding.contactLayout.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderFour) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderFour) holder).binding.contactLayout.setVisibility(View.GONE);
+                        }
 
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderFour) holder).binding.locationText.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderFour) holder).binding.locationLayout.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderFour) holder).binding.locationText.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderFour) holder).binding.locationLayout.setVisibility(View.GONE);
+                        }
 
-                    if (!activeBrand.getWebsite().isEmpty()) {
-                        ((FooterHolderFour) holder).binding.websiteText.setText(activeBrand.getWebsite());
-                    } else {
-                        ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.GONE);
-                        ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
-                        ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
-                    }
-                    if (activeBrand.getWebsite().equals("https://")) {
-                        ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.GONE);
-                        ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
-                        ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
-                    } else {
-                        ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.VISIBLE);
+                        if (!activeBrand.getWebsite().isEmpty()) {
+                            ((FooterHolderFour) holder).binding.websiteText.setText(activeBrand.getWebsite());
+                        } else {
+                            ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.GONE);
+                            ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
+                            ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
+                        }
+                        if (activeBrand.getWebsite().equals("https://")) {
+                            ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.GONE);
+                            ((FooterHolderFour) holder).binding.topView2.setVisibility(View.GONE);
+                            ((FooterHolderFour) holder).binding.topView22.setVisibility(View.VISIBLE);
+                        } else {
+                            ((FooterHolderFour) holder).binding.websiteLayout.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     if (checkedPosition == position) {
@@ -511,29 +519,31 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderFive) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderFive) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderFive) holder).binding.elementEmail.setVisibility(View.GONE);
-                        ((FooterHolderFive) holder).binding.elementMobile.setGravity(Gravity.CENTER);
-                    }
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderFive) holder).binding.gmailText.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderFive) holder).binding.elementEmail.setVisibility(View.GONE);
+                            ((FooterHolderFive) holder).binding.elementMobile.setGravity(Gravity.CENTER);
+                        }
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderFive) holder).binding.phoneTxt.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderFive) holder).binding.elementMobile.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderFive) holder).binding.phoneTxt.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderFive) holder).binding.elementMobile.setVisibility(View.GONE);
+                        }
 
-                    if (!activeBrand.getWebsite().isEmpty()) {
-                        ((FooterHolderFive) holder).binding.websiteText.setText(activeBrand.getWebsite());
-                    } else {
-                        ((FooterHolderFive) holder).binding.element0.setVisibility(View.GONE);
-                    }
-                    if (activeBrand.getWebsite().equals("https://")) {
-                        ((FooterHolderFive) holder).binding.element0.setVisibility(View.GONE);
-                    } else {
-                        ((FooterHolderFive) holder).binding.element0.setVisibility(View.VISIBLE);
+                        if (!activeBrand.getWebsite().isEmpty()) {
+                            ((FooterHolderFive) holder).binding.websiteText.setText(activeBrand.getWebsite());
+                        } else {
+                            ((FooterHolderFive) holder).binding.element0.setVisibility(View.GONE);
+                        }
+                        if (activeBrand.getWebsite().equals("https://")) {
+                            ((FooterHolderFive) holder).binding.element0.setVisibility(View.GONE);
+                        } else {
+                            ((FooterHolderFive) holder).binding.element0.setVisibility(View.VISIBLE);
+                        }
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderFive) holder).binding.elementSelected.setVisibility(View.VISIBLE);
@@ -567,11 +577,13 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderSix) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderSix) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderSix) holder).binding.contactLayout.setVisibility(View.GONE);
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderSix) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderSix) holder).binding.contactLayout.setVisibility(View.GONE);
+                        }
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderSix) holder).binding.elementSelected.setVisibility(View.VISIBLE);
@@ -610,28 +622,29 @@ public class FooterAdapter extends RecyclerView.Adapter {
 
                         ((FooterHolderSeven) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderSeven) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderSeven) holder).binding.contactLayout.setVisibility(View.GONE);
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderSeven) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderSeven) holder).binding.contactLayout.setVisibility(View.GONE);
+                        }
+
+
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderSeven) holder).binding.gmailText.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderSeven) holder).binding.gmailLayout.setVisibility(View.GONE);
+                            ((FooterHolderSeven) holder).binding.element.setVisibility(View.GONE);
+                            ((FooterHolderSeven) holder).binding.contactLayout.setGravity(Gravity.CENTER);
+                        }
+                        if (!activeBrand.getName().isEmpty()) {
+                            ((FooterHolderSeven) holder).binding.brandNameText.setText(activeBrand.getName());
+                        } else {
+                            ((FooterHolderSeven) holder).binding.brandNameText.setVisibility(View.GONE);
+                        }
+
                     }
-
-
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderSeven) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderSeven) holder).binding.gmailLayout.setVisibility(View.GONE);
-                        ((FooterHolderSeven) holder).binding.element.setVisibility(View.GONE);
-                        ((FooterHolderSeven) holder).binding.contactLayout.setGravity(Gravity.CENTER);
-                    }
-                    if (!activeBrand.getName().isEmpty()) {
-                        ((FooterHolderSeven) holder).binding.brandNameText.setText(activeBrand.getName());
-                    } else {
-                        ((FooterHolderSeven) holder).binding.brandNameText.setVisibility(View.GONE);
-                    }
-
-
                     if (checkedPosition == position) {
                         ((FooterHolderSeven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderSeven) holder).binding.freePremium.setVisibility(View.GONE);
@@ -663,32 +676,34 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderEight) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderEight) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderEight) holder).binding.contactLayout.setVisibility(View.GONE);
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderEight) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderEight) holder).binding.contactLayout.setVisibility(View.GONE);
 
-                    }
+                        }
 
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderEight) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderEight) holder).binding.gmailLayout.setVisibility(View.GONE);
-                        ((FooterHolderEight) holder).binding.element.setVisibility(View.GONE);
-                        ((FooterHolderEight) holder).binding.contactLayout.setGravity(Gravity.CENTER);
-                    }
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderEight) holder).binding.gmailText.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderEight) holder).binding.gmailLayout.setVisibility(View.GONE);
+                            ((FooterHolderEight) holder).binding.element.setVisibility(View.GONE);
+                            ((FooterHolderEight) holder).binding.contactLayout.setGravity(Gravity.CENTER);
+                        }
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderEight) holder).binding.locationText.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderEight) holder).binding.addressLayoutElement.setVisibility(View.GONE);
-                    }
-                    if (!activeBrand.getName().isEmpty()) {
-                        ((FooterHolderEight) holder).binding.brandNameText.setText(activeBrand.getName());
-                    } else {
-                        ((FooterHolderEight) holder).binding.addressLayoutElement.setVisibility(View.GONE);
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderEight) holder).binding.locationText.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderEight) holder).binding.addressLayoutElement.setVisibility(View.GONE);
+                        }
+                        if (!activeBrand.getName().isEmpty()) {
+                            ((FooterHolderEight) holder).binding.brandNameText.setText(activeBrand.getName());
+                        } else {
+                            ((FooterHolderEight) holder).binding.addressLayoutElement.setVisibility(View.GONE);
+                        }
                     }
 
                     if (checkedPosition == position) {
@@ -724,21 +739,23 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderNine) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderNine) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderNine) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        }
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderNine) holder).binding.contactText.append("\n");
-                        ((FooterHolderNine) holder).binding.contactText.append(activeBrand.getEmail());
-                    }
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderNine) holder).binding.contactText.append("\n");
+                            ((FooterHolderNine) holder).binding.contactText.append(activeBrand.getEmail());
+                        }
 
-                    if (!activeBrand.getName().isEmpty()) {
-                        ((FooterHolderNine) holder).binding.brandNameText.setText(activeBrand.getName());
-                    } else {
-                        ((FooterHolderNine) holder).binding.brandNameText.setVisibility(View.GONE);
+                        if (!activeBrand.getName().isEmpty()) {
+                            ((FooterHolderNine) holder).binding.brandNameText.setText(activeBrand.getName());
+                        } else {
+                            ((FooterHolderNine) holder).binding.brandNameText.setVisibility(View.GONE);
+                        }
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderNine) holder).binding.elementSelected.setVisibility(View.VISIBLE);
@@ -774,29 +791,30 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderTen) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderTen) holder).binding.contactText.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderTen) holder).binding.contactText.setVisibility(View.GONE);
-                        ((FooterHolderTen) holder).binding.callImage.setVisibility(View.GONE);
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderTen) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderTen) holder).binding.contactText.setVisibility(View.GONE);
+                            ((FooterHolderTen) holder).binding.callImage.setVisibility(View.GONE);
+                        }
+
+
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderTen) holder).binding.gmailText.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderTen) holder).binding.gmailText.setVisibility(View.GONE);
+                            ((FooterHolderTen) holder).binding.gmailImage.setVisibility(View.GONE);
+                        }
+
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderTen) holder).binding.locationText.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderTen) holder).binding.locationText.setVisibility(View.GONE);
+                            ((FooterHolderTen) holder).binding.locationImage.setVisibility(View.GONE);
+                        }
                     }
-
-
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderTen) holder).binding.gmailText.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderTen) holder).binding.gmailText.setVisibility(View.GONE);
-                        ((FooterHolderTen) holder).binding.gmailImage.setVisibility(View.GONE);
-                    }
-
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderTen) holder).binding.locationText.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderTen) holder).binding.locationText.setVisibility(View.GONE);
-                        ((FooterHolderTen) holder).binding.locationImage.setVisibility(View.GONE);
-                    }
-
                     if (checkedPosition == position) {
                         ((FooterHolderTen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderTen) holder).binding.elementPremium.setVisibility(View.GONE);
@@ -829,22 +847,23 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderEleven) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderEleven) holder).binding.phoneTxt.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderEleven) holder).binding.phoneTxt.setVisibility(View.GONE);
-                        ((FooterHolderEleven) holder).binding.call.setVisibility(View.GONE);
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderEleven) holder).binding.phoneTxt.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderEleven) holder).binding.phoneTxt.setVisibility(View.GONE);
+                            ((FooterHolderEleven) holder).binding.call.setVisibility(View.GONE);
+                        }
+
+
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderEleven) holder).binding.emailEdt.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderEleven) holder).binding.emailEdt.setVisibility(View.GONE);
+                            ((FooterHolderEleven) holder).binding.email.setVisibility(View.GONE);
+                        }
                     }
-
-
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderEleven) holder).binding.emailEdt.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderEleven) holder).binding.emailEdt.setVisibility(View.GONE);
-                        ((FooterHolderEleven) holder).binding.email.setVisibility(View.GONE);
-                    }
-
                     if (checkedPosition == position) {
                         ((FooterHolderEleven) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderEleven) holder).binding.elementPremium.setVisibility(View.GONE);
@@ -876,18 +895,20 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderTwelve) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderTwelve) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderTwelve) holder).binding.mobileNo.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderTwelve) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderTwelve) holder).binding.mobileNo.setVisibility(View.GONE);
+                        }
 
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderTwelve) holder).binding.emailTxt.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderTwelve) holder).binding.emailTxt.setVisibility(View.GONE);
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderTwelve) holder).binding.emailTxt.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderTwelve) holder).binding.emailTxt.setVisibility(View.GONE);
+                        }
                     }
 
                     if (checkedPosition == position) {
@@ -921,18 +942,20 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderThirteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderThirteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderThirteen) holder).binding.mobileNo.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderThirteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderThirteen) holder).binding.mobileNo.setVisibility(View.GONE);
+                        }
 
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderThirteen) holder).binding.emailTxt.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderThirteen) holder).binding.emailTxt.setVisibility(View.GONE);
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderThirteen) holder).binding.emailTxt.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderThirteen) holder).binding.emailTxt.setVisibility(View.GONE);
+                        }
                     }
 
                     if (checkedPosition == position) {
@@ -997,15 +1020,16 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderFifteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderFifteen) holder).binding.address.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderFifteen) holder).binding.address.setVisibility(View.GONE);
-                        ((FooterHolderFifteen) holder).binding.locationPin.setVisibility(View.GONE);
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderFifteen) holder).binding.address.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderFifteen) holder).binding.address.setVisibility(View.GONE);
+                            ((FooterHolderFifteen) holder).binding.locationPin.setVisibility(View.GONE);
+                        }
                     }
-
                     if (checkedPosition == position) {
                         ((FooterHolderFifteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderFifteen) holder).binding.elementPremium.setVisibility(View.GONE);
@@ -1038,22 +1062,24 @@ public class FooterAdapter extends RecyclerView.Adapter {
                         ((FooterHolderSixteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
 
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderSixteen) holder).binding.address.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderSixteen) holder).binding.address.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderSixteen) holder).binding.address.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderSixteen) holder).binding.address.setVisibility(View.GONE);
+                        }
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderSixteen) holder).binding.email.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderSixteen) holder).binding.email.setVisibility(View.GONE);
-                    }
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderSixteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderSixteen) holder).binding.mobileNo.setVisibility(View.GONE);
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderSixteen) holder).binding.email.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderSixteen) holder).binding.email.setVisibility(View.GONE);
+                        }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderSixteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderSixteen) holder).binding.mobileNo.setVisibility(View.GONE);
+                        }
                     }
 
 
@@ -1088,23 +1114,25 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderSevenTeen) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderSevenTeen) holder).binding.address.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderSevenTeen) holder).binding.address.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderSevenTeen) holder).binding.address.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderSevenTeen) holder).binding.address.setVisibility(View.GONE);
+                        }
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderSevenTeen) holder).binding.emailTxt.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderSevenTeen) holder).binding.emailTxt.setVisibility(View.GONE);
-                    }
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderSevenTeen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderSevenTeen) holder).binding.mobileNo.setVisibility(View.GONE);
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderSevenTeen) holder).binding.emailTxt.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderSevenTeen) holder).binding.emailTxt.setVisibility(View.GONE);
+                        }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderSevenTeen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderSevenTeen) holder).binding.mobileNo.setVisibility(View.GONE);
+                        }
                     }
 
                     if (checkedPosition == position) {
@@ -1139,19 +1167,20 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderFEighteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderFEighteen) holder).binding.address.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderFEighteen) holder).binding.address.setVisibility(View.GONE);
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderFEighteen) holder).binding.address.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderFEighteen) holder).binding.address.setVisibility(View.GONE);
+                        }
+
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderFEighteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderFEighteen) holder).binding.mobileNo.setVisibility(View.GONE);
+                        }
                     }
-
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderFEighteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderFEighteen) holder).binding.mobileNo.setVisibility(View.GONE);
-                    }
-
                     if (checkedPosition == position) {
                         ((FooterHolderFEighteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderFEighteen) holder).binding.elementPremium.setVisibility(View.GONE);
@@ -1184,22 +1213,24 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderNineTeen) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderNineTeen) holder).binding.address.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderNineTeen) holder).binding.address.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderNineTeen) holder).binding.address.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderNineTeen) holder).binding.address.setVisibility(View.GONE);
+                        }
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderNineTeen) holder).binding.emailTxt.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderNineTeen) holder).binding.emailTxt.setVisibility(View.GONE);
-                    }
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderNineTeen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderNineTeen) holder).binding.mobileNo.setVisibility(View.GONE);
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderNineTeen) holder).binding.emailTxt.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderNineTeen) holder).binding.emailTxt.setVisibility(View.GONE);
+                        }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderNineTeen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderNineTeen) holder).binding.mobileNo.setVisibility(View.GONE);
+                        }
                     }
 
                     if (checkedPosition == position) {
@@ -1232,22 +1263,24 @@ public class FooterAdapter extends RecyclerView.Adapter {
                     } else {
                         ((FooterHolderTwenty) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getAddress().isEmpty()) {
-                        ((FooterHolderTwenty) holder).binding.address.setText(activeBrand.getAddress());
-                    } else {
-                        ((FooterHolderTwenty) holder).binding.address.setVisibility(View.GONE);
-                    }
+                        if (!activeBrand.getAddress().isEmpty()) {
+                            ((FooterHolderTwenty) holder).binding.address.setText(activeBrand.getAddress());
+                        } else {
+                            ((FooterHolderTwenty) holder).binding.address.setVisibility(View.GONE);
+                        }
 
-                    if (!activeBrand.getEmail().isEmpty()) {
-                        ((FooterHolderTwenty) holder).binding.emailTxt.setText(activeBrand.getEmail());
-                    } else {
-                        ((FooterHolderTwenty) holder).binding.emailTxt.setVisibility(View.GONE);
-                    }
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderTwenty) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
-                    } else {
-                        ((FooterHolderTwenty) holder).binding.mobileNo.setVisibility(View.GONE);
+                        if (!activeBrand.getEmail().isEmpty()) {
+                            ((FooterHolderTwenty) holder).binding.emailTxt.setText(activeBrand.getEmail());
+                        } else {
+                            ((FooterHolderTwenty) holder).binding.emailTxt.setVisibility(View.GONE);
+                        }
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderTwenty) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                        } else {
+                            ((FooterHolderTwenty) holder).binding.mobileNo.setVisibility(View.GONE);
+                        }
                     }
                     if (checkedPosition == position) {
                         ((FooterHolderTwenty) holder).binding.elementSelected.setVisibility(View.VISIBLE);

@@ -42,7 +42,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -54,7 +53,6 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -81,7 +79,6 @@ import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
-import com.app.brandmania.DataBase.DBManager;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
 import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.IColorChange;
@@ -93,7 +90,6 @@ import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.Model.BrandListItem;
-import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
@@ -185,32 +181,22 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         IFontChangeEvent, ITextBoldEvent, IItaliTextEvent, ColorPickerDialogListener, IColorChange, ColorPickerView.OnColorChangedListener,
         ITextSizeEvent, onFooterSelectListener, IBackendFrameSelect, Player.EventListener {
     Activity act;
-    ViewPager viewPager;
     private boolean isLoading = false;
     ArrayList<ImageList> AddFavorite = new ArrayList<>();
     private ActivityViewAllImageBinding binding;
-    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
-    ArrayList<ImageList> menuModels = new ArrayList<>();
 
+    ArrayList<ImageList> menuModels = new ArrayList<>();
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
+
     public static final int DOWLOAD = 1;
     public static final int ADDFAV = 3;
-    private static final int REQUEST_CALL = 1;
     public static final int REMOVEFAV = 3;
     private String is_frame = "";
-    public DBManager dbManager;
-    private String is_payment_pending = "";
-    private String packagee = "";
-    ArrayList<FrameItem> viewPagerItems = new ArrayList<>();
-    PreafManager preafManager;
+
+
     Gson gson;
-    String Website;
-    private DashBoardItem imageList;
+
     private ImageList selectedObject;
-    LinearLayout sliderDotspanel;
-    private int dotscount;
-    private ImageView[] dots;
-    FrameItem selectedModelFromView;
     AlertDialog.Builder alertDialogBuilder;
     File new_file;
     private Uri mCropImageUri;
@@ -221,8 +207,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     private int yDelta;
     private ViewGroup mainLayout;
     private boolean isUserFree = true;
-    private boolean canDownload = true;
-    private int FrameCountForDownload = 2;
+
+
     private boolean isUsingCustomFrame = true;
     private ImageList selectedBackendFrame = null;
     private FooterModel selectedFooterModel;
@@ -232,12 +218,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     private int colorCodeForTextColor = 0;
     private boolean isLoadBold = false;
     private boolean isLoadItalic = false;
-    private boolean isLoadUnderLine = false;
     private String loadDefaultFont = "";
     private int previousFontSize = -1;
     int isDownloadOrSharingOrFavPending = -1;
-    ArrayList<Bitmap> bitmaps;
-    boolean canDownloadGIF = true;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -245,32 +229,25 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
-        //triggerUpgradePackage();
-        //valve
-        //ffmpeg = FFmpeg.getInstance(act);
         act.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
-        preafManager = new PreafManager(this);
 
-        if (preafManager.getActiveBrand() == null)
-            preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
+        if (prefManager.getActiveBrand() == null && prefManager.getAddBrandList() != null && prefManager.getAddBrandList().size() != 0)
+            prefManager.setActiveBrand(prefManager.getAddBrandList().get(0));
 
-        preafManager = new PreafManager(this);
+        prefManager = new PreafManager(this);
 
         binding.titleName.setSelected(true);
         gson = new Gson();
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
-        getFrame();
-        getBrandList();
+
+
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
-        Website = preafManager.getActiveBrand().getWebsite();
 
         if (getIntent().hasExtra("notification")) {
             binding.titleName.setText(getIntent().getStringExtra("catName"));
         } else {
-            imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
             binding.titleName.setText(selectedObject.getName());
         }
 
@@ -280,7 +257,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
         drawable.setStroke((int) convertDpToPx(0), colorCodeForBackground);
 
-        updateLogo = preafManager.getActiveBrand().getLogo().isEmpty();
+        if (prefManager.getActiveBrand() != null) {
+            //getFrame();
+            updateLogo = prefManager.getActiveBrand().getLogo().isEmpty();
+        }
+        CreateTabs();
 
         colorCodeForBackground = ContextCompat.getColor(act, R.color.colorPrimary);
         binding.logoEmptyState.setOnTouchListener(onTouchListener());
@@ -306,24 +287,27 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (prefManager.getActiveBrand() != null) {
+                    selectedObject.setBrandId(prefManager.getActiveBrand().getId());
+                    if (selectedBackendFrame != null) {
+                        selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
 
-                selectedObject.setBrandId(preafManager.getActiveBrand().getId());
-                if (selectedBackendFrame != null) {
-                    selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
-
-                }
-                selectedObject.setCustom(isUsingCustomFrame);
-
-                preafManager.AddToMyFavorites(selectedObject);
-
-                if (manuallyEnablePermission(0)) {
-                    if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
-                        binding.fabroutIcon.setVisibility(View.GONE);
-                        binding.addfabroutIcon.setVisibility(View.VISIBLE);
                     }
+                    selectedObject.setCustom(isUsingCustomFrame);
 
-                    saveImageToGallery(false, true);
-                    Toast.makeText(act, "Added to Favourite", Toast.LENGTH_SHORT).show();
+                    prefManager.AddToMyFavorites(selectedObject);
+
+                    if (manuallyEnablePermission(0)) {
+                        if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
+                            binding.fabroutIcon.setVisibility(View.GONE);
+                            binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                        }
+
+                        saveImageToGallery(false, true);
+                        Toast.makeText(act, "Added to Favourite", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+
                 }
             }
         });
@@ -331,80 +315,87 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.addfabroutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (prefManager.getActiveBrand() != null) {
+                    if (selectedBackendFrame != null) {
+                        selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
+                    }
+                    selectedObject.setBrandId(prefManager.getActiveBrand().getId());
+                    selectedObject.setCustom(isUsingCustomFrame);
 
-                if (selectedBackendFrame != null) {
-                    selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
+                    prefManager.removeFromMyFavorites(selectedObject);
+                    if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
+                        binding.addfabroutIcon.setVisibility(View.GONE);
+                        binding.fabroutIcon.setVisibility(View.VISIBLE);
+                    }
+                    removeFromFavourite(REMOVEFAV);
+                    Toast.makeText(act, "Removed From Favourite", Toast.LENGTH_SHORT).show();
                 }
-                selectedObject.setBrandId(preafManager.getActiveBrand().getId());
-                selectedObject.setCustom(isUsingCustomFrame);
-
-                preafManager.removeFromMyFavorites(selectedObject);
-                if (binding.addfabroutIcon.getVisibility() == View.VISIBLE) {
-                    binding.addfabroutIcon.setVisibility(View.GONE);
-                    binding.fabroutIcon.setVisibility(View.VISIBLE);
-                }
-                removeFromFavourite(REMOVEFAV);
-                Toast.makeText(act, "Removed From Favourite", Toast.LENGTH_SHORT).show();
-                // }
             }
 
         });
         binding.downloadIcon.setOnClickListener(v -> {
-            if (manuallyEnablePermission(1)) {
-                if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
-                    if (selectedObject.isImageFree()) {
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
+            if (prefManager.getActiveBrand() != null) {
+                if (manuallyEnablePermission(1)) {
+                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                        if (selectedObject.isImageFree()) {
+                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                askForUpgradeToEnterpisePackage();
+                                return;
+                            }
+                            getImageDownloadRights("Download");
+                        } else {
+                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
-                        getImageDownloadRights("Download");
                     } else {
-                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                        getImageDownloadRights("Download");
                     }
-                } else {
-                    getImageDownloadRights("Download");
                 }
+            } else {
+
             }
         });
 
         binding.shareIcon.setOnClickListener(v -> {
+            if (prefManager.getActiveBrand() != null) {
+                if (manuallyEnablePermission(2)) {
 
-            if (manuallyEnablePermission(2)) {
-
-                if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
-                    if (selectedObject.isImageFree()) {
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
-                        }
-                        if (selectedObject.getImageType() == ImageList.IMAGE) {
-                            getImageDownloadRights("Share");
+                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                        if (selectedObject.isImageFree()) {
+                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                askForUpgradeToEnterpisePackage();
+                                return;
+                            }
+                            if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                getImageDownloadRights("Share");
+                            } else {
+                                checkForDownload();
+                            }
                         } else {
-                            checkForDownload();
+                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
                     } else {
-                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
-                    }
-                } else {
-                    if (!Utility.isPackageExpired(act)) {
-                        if (selectedObject.getImageType() == ImageList.IMAGE) {
-                            getImageDownloadRights("Share");
+                        if (!Utility.isPackageExpired(act)) {
+                            if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                getImageDownloadRights("Share");
+                            } else {
+                                checkForDownload();
+                            }
                         } else {
-                            checkForDownload();
+                            askForUpgradeToEnterpisePackaged();
                         }
-                    } else {
-                        askForUpgradeToEnterpisePackaged();
                     }
                 }
+            } else {
+
             }
         });
 
-        if (preafManager.getActiveBrand().getLogo() != null && !preafManager.getActiveBrand().getLogo().isEmpty()) {
+        if (prefManager.getActiveBrand() != null && prefManager.getActiveBrand().getLogo() != null && !prefManager.getActiveBrand().getLogo().isEmpty()) {
             binding.logoEmptyState.setVisibility(View.GONE);
             binding.logoCustom.setVisibility(View.VISIBLE);
             binding.logoCustom.setVisibility(View.VISIBLE);
             Glide.with(act)
-                    .load(preafManager.getActiveBrand().getLogo())
+                    .load(prefManager.getActiveBrand().getLogo())
                     .override(1600, 1600)
                     .into(binding.logoCustom);
             binding.logoCustom.setOnClickListener(new View.OnClickListener() {
@@ -424,6 +415,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             });
 
         }
+
         if (!getIntent().hasExtra("viewAll"))
             LoadDataToUI();
 
@@ -454,7 +446,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         try {
             String subscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
-            String currentDateStr = "01/11/2021";  //new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
+            String currentDateStr = "01/11/2021";  //new prefManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
             @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date convertedExpireDate = formatter.parse(subscriptionDate);
             Date convertedCurrentDate = formatter.parse(currentDateStr);
@@ -462,7 +454,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             boolean canDownloads = true;
             if (convertedCurrentDate.compareTo(convertedExpireDate) < 0) {
                 //new user
-                if (preafManager.getActiveBrand().getPackagename().contains("Enterprise") || preafManager.getActiveBrand().getPackagename().contains("Standard")) {
+                if (prefManager.getActiveBrand().getPackagename().contains("Enterprise") || prefManager.getActiveBrand().getPackagename().contains("Standard")) {
                     //999, 1999
                     canDownloads = true;
                 } else {
@@ -472,13 +464,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 }
             } else {
                 //old user
-                if (preafManager.getActiveBrand().getPackagename().contains("Enterprise")) {
+                if (prefManager.getActiveBrand().getPackagename().contains("Enterprise")) {
                     //means user in 999, 1999
                     canDownloads = true;
                 } else {
                     //means user are in 299, 599
                     //also check k download kri ske only till new year sudhi
-                    String offerValidDate = "05/11/2021";  //new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
+                    String offerValidDate = "05/11/2021";  //new prefManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
                     Date calDate = new Date();
                     formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String calDateStr = formatter.format(calDate);
@@ -532,21 +524,18 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
     public void LoadDataToUI() {
-        preafManager = new PreafManager(act);
+        prefManager = new PreafManager(act);
         if (selectedObject != null) {
             binding.simpleProgressBar.setVisibility(View.GONE);
             if (selectedObject.getImageType() == ImageList.IMAGE) {
-
                 if (exoPlayer != null && binding.videoView.getVisibility() == View.VISIBLE) {
                     exoPlayer.stop();
                     exoPlayer.release();
                 }
-
                 binding.videoView.setVisibility(View.GONE);
                 binding.recoImage.setVisibility(View.VISIBLE);
                 binding.imageKoadingView.setVisibility(View.VISIBLE);
                 binding.imageKoadingView.setVisibility(View.VISIBLE);
-
                 Glide.with(getApplicationContext())
                         .load(selectedObject.getFrame())
                         .override(720, 720)
@@ -569,12 +558,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
             if (selectedObject.getImageType() == ImageList.VIDEO || selectedObject.getImageType() == ImageList.GIF) {
                 binding.recoImage.setVisibility(View.GONE);
-
                 binding.videoView.setVisibility(View.VISIBLE);
                 binding.videoView.requestFocus();
                 binding.simpleProgressBar.setVisibility(View.VISIBLE);
                 try {
-
                     if (exoPlayer != null) {
                         exoPlayer.stop();
                         exoPlayer.release();
@@ -596,8 +583,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                 } catch (Exception ignored) {
                 }
-//                if (FFmpeg.getInstance(act).isSupported()) {
-//                }
+
                 binding.fabroutIcon.setVisibility(View.GONE);
             }
         }
@@ -1071,16 +1057,16 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         if (!is_frame.equalsIgnoreCase("1")) {
             IntroCounter = 0;
-            preafManager.setFrameIntro(false);
+            prefManager.setFrameIntro(false);
         }
 
-        if (preafManager.getViewAllActivityIntro()) {
+        if (prefManager.getViewAllActivityIntro()) {
             needToIntro = true;
             if (binding.logoEmptyState.getVisibility() == View.VISIBLE)
                 startIntro(binding.logoEmptyState, "Brand Logo", "Click on icon for choose your logo\n you can resize and move logo around anywhere in the image");
             else
                 startIntro(binding.logoCustom, "Brand Logo", "Click your logo to move around anywhere in the image");
-            preafManager.setViewAllActivityIntro(false);
+            prefManager.setViewAllActivityIntro(false);
         }
     }
 
@@ -1088,10 +1074,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         FooterModel model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
         model.setFree(true);
-        model.setAddress(preafManager.getActiveBrand().getAddress());
-        model.setEmailId(preafManager.getActiveBrand().getEmail());
-        model.setContactNo(preafManager.getActiveBrand().getPhonenumber());
-        model.setWebsite(preafManager.getActiveBrand().getWebsite());
+        if (prefManager.getActiveBrand() != null) {
+            model.setAddress(prefManager.getActiveBrand().getAddress());
+            model.setEmailId(prefManager.getActiveBrand().getEmail());
+            model.setContactNo(prefManager.getActiveBrand().getPhonenumber());
+            model.setWebsite(prefManager.getActiveBrand().getWebsite());
+        }
         ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_SEVEN, model);
     }
 
@@ -1129,17 +1117,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
 
-    //For
     public void refreshgallery(File file) {
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));
         sendBroadcast(intent);
-    }
-
-    //For CreatFileeDisc For Download Image.........................
-    private File getDisc() {
-        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        return new File(file, "BrandMania");
     }
 
 
@@ -1163,8 +1144,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             loadFirstImage();
         if (selectedObject.getImageType() == ImageList.IMAGE)
             forCheckFavorite();
-
-
     }
 
 
@@ -1269,21 +1248,18 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 if (selectedObject != null) {
-                    params.put("brand_id", preafManager.getActiveBrand().getId());
+                    params.put("brand_id", prefManager.getActiveBrand().getId());
                     params.put("image_id", selectedObject.getImageid());
                 } else {
-                    params.put("brand_id", preafManager.getActiveBrand().getId());
+                    params.put("brand_id", prefManager.getActiveBrand().getId());
                     params.put("image_id", selectedObject.getImageid());
 
                 }
@@ -1365,7 +1341,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     if (isDownloadOrSharingOrFavPending == 1) {
                         //   Toast.makeText(act, "fdggdgd", Toast.LENGTH_SHORT).show();
                         isDownloadOrSharingOrFavPending = -1;
-                        if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
+                        if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
                             //freee ------
                             if (selectedObject.isImageFree()) {
                                 if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
@@ -1388,7 +1364,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     //for share
                     if (isDownloadOrSharingOrFavPending == 2) {
                         isDownloadOrSharingOrFavPending = -1;
-                        if (!Utility.isUserPaid(preafManager.getActiveBrand())) {
+                        if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
                             if (selectedObject.isImageFree()) {
                                 if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                     askForUpgradeToEnterpisePackage();
@@ -1420,12 +1396,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     //fire intent for share
     public void triggerShareIntent(File new_file, Bitmap merged) {
-        //  Uri uri = Uri.parse();
-//        Intent share = new Intent(Intent.ACTION_SEND);
-//        share.setType("image/*");
-//        share.putExtra(Intent.EXTRA_STREAM, Utility.getImageUri(act, merged));
-//        startActivity(Intent.createChooser(share, "Share Image"));
-
 
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -1589,21 +1559,23 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if (gestureDetector.onTouchEvent(event)) {
-                    if ((preafManager.getActiveBrand().getLogo().isEmpty() && selectedLogo == null) || preafManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
-                        onSelectImageClick(view);
-                    } else {
-                        // Toast.makeText(act, "once you download or share image. You can't change your logo", Toast.LENGTH_SHORT).show();
-                        new AlertDialog.Builder(act)
-                                .setMessage("once you download or share image. You can't change your logo.\nIf you want to change logo please contact to admin.")
-                                .setCancelable(true)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                        ((alertListenerCallback) act).alertListenerClick();
-                                    }
-                                })
-                                .show();
+                    if (prefManager.getActiveBrand() != null) {
+                        if ((prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo == null) || prefManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
+                            onSelectImageClick(view);
+                        } else {
+                            // Toast.makeText(act, "once you download or share image. You can't change your logo", Toast.LENGTH_SHORT).show();
+                            new AlertDialog.Builder(act)
+                                    .setMessage("once you download or share image. You can't change your logo.\nIf you want to change logo please contact to admin.")
+                                    .setCancelable(true)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                            ((alertListenerCallback) act).alertListenerClick();
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 } else {
                     final int x = (int) event.getRawX();
@@ -1801,7 +1773,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         return newFinal;
     }
 
-    //backend frame load
     @Override
     public void onBackendFrameChoose(ImageList imageList, int position) {
         binding.backendFrame.setVisibility(View.VISIBLE);
@@ -1846,65 +1817,74 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         footerLayout = layoutType;
         if (layoutType == FooterModel.LAYOUT_FRAME_ONE) {
             LayoutForLoadOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
-
             binding.elementFooter.addView(oneBinding.getRoot());
-            FooterHelper.loadFrameFirstData(act, oneBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameFirstData(act, oneBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
             layoutModelClass.setOneBinding(oneBinding);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWO) {
             LayoutForLoadTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
             binding.elementFooter.addView(twoBinding.getRoot());
             layoutModelClass.setTwoBinding(twoBinding);
-            FooterHelper.loadFrameTwoData(act, twoBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameTwoData(act, twoBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.firstView);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THREE) {
             LayoutForLoadThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
             layoutModelClass.setThreeBinding(threeBinding);
-            FooterHelper.loadFrameThreeData(act, threeBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameThreeData(act, threeBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOUR) {
             LayoutForLoadFourBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
             layoutModelClass.setFourBinding(fourBinding);
-            FooterHelper.loadFrameFourData(act, fourBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameFourData(act, fourBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIVE) {
             LayoutForLoadFiveBinding fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_five, null, false);
             binding.elementFooter.addView(fiveBinding.getRoot());
             layoutModelClass.setFiveBinding(fiveBinding);
-            FooterHelper.loadFrameFiveData(act, fiveBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameFiveData(act, fiveBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIX) {
             LayoutForLoadSixBinding sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
             binding.elementFooter.addView(sixBinding.getRoot());
             layoutModelClass.setSixBinding(sixBinding);
-            FooterHelper.loadFrameSixData(act, sixBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameSixData(act, sixBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.containerElement);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVEN) {
             LayoutForLoadSevenBinding sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
             binding.elementFooter.addView(sevenBinding.getRoot());
             layoutModelClass.setSevenBinding(sevenBinding);
-            FooterHelper.loadFrameSevenData(act, sevenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameSevenData(act, sevenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element0);
 
         } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHT) {
             LayoutForLoadEightBinding eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
             binding.elementFooter.addView(eightBinding.getRoot());
             layoutModelClass.setEightBinding(eightBinding);
-            FooterHelper.loadFrameEightData(act, eightBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameEightData(act, eightBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element1);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_NINE) {
             LayoutForLoadNineBinding nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
             binding.elementFooter.addView(nineBinding.getRoot());
             layoutModelClass.setNineBinding(nineBinding);
-            FooterHelper.loadFrameNineData(act, nineBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameNineData(act, nineBinding);
             //mainLayout = (RelativeLayout) findViewById(R.id.firstLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TEN) {
             LayoutForLoadTenBinding tenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_ten, null, false);
             binding.elementFooter.addView(tenBinding.getRoot());
             layoutModelClass.setTenBinding(tenBinding);
-            FooterHelper.loadFrameTenData(act, tenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameTenData(act, tenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_ELEVEN) {
             LayoutFooterElevenBinding elevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eleven, null, false);
@@ -1917,7 +1897,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setElevenBinding(elevenBinding);
-            FooterHelper.loadFrameElevenData(act, elevenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameElevenData(act, elevenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWELVE) {
             LayoutFooterTweloneBinding tweloneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twelone, null, false);
@@ -1930,7 +1911,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setTwelveBinding(tweloneBinding);
-            FooterHelper.loadFrameTweloneData(act, tweloneBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameTweloneData(act, tweloneBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THIRTEEN) {
             LayoutFooterThirteenBinding thirteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_thirteen, null, false);
@@ -1943,7 +1925,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().height = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setThirteenBinding(thirteenBinding);
-            FooterHelper.loadFrameThirteenData(act, thirteenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameThirteenData(act, thirteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOURTEEN) {
             LayoutFooterFourteenBinding fourteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fourteen, null, false);
@@ -1958,7 +1941,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setFourteenBinding(fourteenBinding);
-            FooterHelper.loadFrameFourteenData(act, fourteenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameFourteenData(act, fourteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIFTEEN) {
             LayoutFooterFifteenBinding fifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fifteen, null, false);
@@ -1973,7 +1957,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setFifteenBinding(fifteenBinding);
-            FooterHelper.loadFrameFifteenData(act, fifteenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrameFifteenData(act, fifteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIXTEEN) {
             LayoutFooterSixteenBinding sixteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_sixteen, null, false);
@@ -1988,7 +1973,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setSixteenBinding(sixteenBinding);
-            FooterHelper.loadFrame16Data(act, sixteenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrame16Data(act, sixteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVENTEEN) {
             LayoutFooterSeventeenBinding seventeenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_seventeen, null, false);
@@ -2003,7 +1989,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setSeventeenBinding(seventeenBinding);
-            FooterHelper.loadFrame17Data(act, seventeenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrame17Data(act, seventeenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHTEEN) {
             LayoutFooterEightteenBinding eighteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eightteen, null, false);
@@ -2018,7 +2005,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setEightteenBinding(eighteenBinding);
-            FooterHelper.loadFrame18Data(act, eighteenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrame18Data(act, eighteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_NINETEEN) {
             LayoutFooterNineteenBinding nineteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_nineteen, null, false);
@@ -2033,7 +2021,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setNineteenBinding(nineteenBinding);
-            FooterHelper.loadFrame19Data(act, nineteenBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrame19Data(act, nineteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWENTY) {
             LayoutFooterTwentyBinding twentyBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twenty, null, false);
@@ -2048,7 +2037,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
             view.requestLayout();
             layoutModelClass.setTwentyBinding(twentyBinding);
-            FooterHelper.loadFrame20Data(act, twentyBinding);
+            if (prefManager.getActiveBrand() != null)
+                FooterHelper.loadFrame20Data(act, twentyBinding);
             mainLayout = findViewById(R.id.addressLayout);
         }
 
@@ -2176,89 +2166,47 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
 
-    //API CALLS---------------------
-
-    private void getBrandList() {
-        Utility.Log("API : ", APIs.GET_BRAND);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, response -> {
-            Utility.Log("GET_BRAND : ", response);
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        },
-                error -> error.printStackTrace()
-        ) {
-            /**
-             * Passing some request headers*
-             */
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/json");
-                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
-                return params;
-            }
-
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(stringRequest);
-    }
-
     public void forCheckFavorite() {
-        preafManager = new PreafManager(act);
-        AddFavorite = preafManager.getSavedFavorites();
-        if (AddFavorite != null) {
-            boolean isImageFound = false;
-            for (int i = 0; i < AddFavorite.size(); i++) {
-                if (preafManager.getActiveBrand().getId().equalsIgnoreCase(AddFavorite.get(i).getBrandId())) {
-                    if (isUsingCustomFrame) {
-                        if (AddFavorite.get(i).isCustom()) {
-                            if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
-                                binding.addfabroutIcon.setVisibility(View.VISIBLE);
-                                binding.fabroutIcon.setVisibility(View.GONE);
-                                isImageFound = true;
-                                break;
-                            } else {
-                                binding.addfabroutIcon.setVisibility(View.GONE);
-                                binding.fabroutIcon.setVisibility(View.VISIBLE);
+        prefManager = new PreafManager(act);
+        if (prefManager.getActiveBrand() != null) {
+            AddFavorite = prefManager.getSavedFavorites();
+            if (AddFavorite != null) {
+                boolean isImageFound = false;
+                for (int i = 0; i < AddFavorite.size(); i++) {
+                    if (prefManager.getActiveBrand().getId().equalsIgnoreCase(AddFavorite.get(i).getBrandId())) {
+                        if (isUsingCustomFrame) {
+                            if (AddFavorite.get(i).isCustom()) {
+                                if (AddFavorite.get(i).getId().equals(selectedObject.getId())) {
+                                    binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                                    binding.fabroutIcon.setVisibility(View.GONE);
+                                    isImageFound = true;
+                                    break;
+                                } else {
+                                    binding.addfabroutIcon.setVisibility(View.GONE);
+                                    binding.fabroutIcon.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                        } else {
+                            if (!AddFavorite.get(i).isCustom()) {
+                                if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrame1Id().equalsIgnoreCase(selectedBackendFrame.getFrame1Id())) {
+                                    binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                                    binding.fabroutIcon.setVisibility(View.GONE);
+                                    isImageFound = true;
+                                    break;
+                                } else {
+                                    binding.addfabroutIcon.setVisibility(View.GONE);
+                                    binding.fabroutIcon.setVisibility(View.VISIBLE);
+                                }
                             }
                         }
 
-                    } else {
-                        if (!AddFavorite.get(i).isCustom()) {
-                            if (AddFavorite.get(i).getId().equals(selectedObject.getId()) && AddFavorite.get(i).getFrame1Id().equalsIgnoreCase(selectedBackendFrame.getFrame1Id())) {
-                                binding.addfabroutIcon.setVisibility(View.VISIBLE);
-                                binding.fabroutIcon.setVisibility(View.GONE);
-                                isImageFound = true;
-                                break;
-                            } else {
-                                binding.addfabroutIcon.setVisibility(View.GONE);
-                                binding.fabroutIcon.setVisibility(View.VISIBLE);
-                            }
-                        }
                     }
-
                 }
-            }
-            if (!isImageFound) {
-                binding.addfabroutIcon.setVisibility(View.GONE);
-                binding.fabroutIcon.setVisibility(View.VISIBLE);
+                if (!isImageFound) {
+                    binding.addfabroutIcon.setVisibility(View.GONE);
+                    binding.fabroutIcon.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -2277,10 +2225,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
                     JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
                     is_frame = datajsonobjecttt.getString("is_frame");
-                    if (is_frame.equals("1")) {
-                        is_payment_pending = datajsonobjecttt.getString("is_payment_pending");
-                        packagee = datajsonobjecttt.getString("package");
-                    }
 
 
                     CreateTabs();
@@ -2305,18 +2249,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("brand_id", preafManager.getActiveBrand().getId());
-                Utility.Log("POSTED-PARAMS-", params.toString());
+                params.put("brand_id", prefManager.getActiveBrand().getId());
                 return params;
             }
 
@@ -2338,12 +2277,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.DOWNLOAD_SHARE)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("X-Authorization", "Bearer" + preafManager.getUserToken())
+                .addHeaders("X-Authorization", "Bearer" + prefManager.getUserToken())
                 .setPriority(Priority.HIGH);
 
 
         if (isUsingCustomFrame) {
-            request.addMultipartParameter("brand_id", preafManager.getActiveBrand().getId());
+            request.addMultipartParameter("brand_id", prefManager.getActiveBrand().getId());
             request.addMultipartParameter("image_id", selectedObject.getImageid());
             request.addMultipartParameter("is_custom", "1");
             request.addMultipartParameter("footer_id", String.valueOf(selectedFooterModel.getLayoutType()));
@@ -2351,7 +2290,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 request.addMultipartFile("image", img1File);
             }
         } else {
-            request.addMultipartParameter("brand_id", preafManager.getActiveBrand().getId());
+            request.addMultipartParameter("brand_id", prefManager.getActiveBrand().getId());
             request.addMultipartParameter("image_id", selectedObject.getImageid());
             request.addMultipartParameter("frame_id", selectedBackendFrame.getFrame1Id());
             request.addMultipartParameter("is_custom", "0");
@@ -2374,15 +2313,15 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         if (download == DOWLOAD) {
                             //this is coding for can we change logo or not
-                            String usedImageCountStr = preafManager.getActiveBrand().getNo_of_used_image();
+                            String usedImageCountStr = prefManager.getActiveBrand().getNo_of_used_image();
                             if (usedImageCountStr.isEmpty())
                                 usedImageCountStr = "0";
 
                             int usedCounter = Integer.parseInt(usedImageCountStr) + 1;
-                            BrandListItem brandListItem = preafManager.getActiveBrand();
+                            BrandListItem brandListItem = prefManager.getActiveBrand();
                             brandListItem.setNo_of_used_image(String.valueOf(usedCounter));
-                            preafManager.setActiveBrand(brandListItem);
-                            preafManager = new PreafManager(act);
+                            prefManager.setActiveBrand(brandListItem);
+                            prefManager = new PreafManager(act);
 
                             if (selectedObject.getImageType() != ImageList.IMAGE) {
                                 shareVideoOrGIF();
@@ -2462,15 +2401,15 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     JSONArray dataJson = ResponseHandler.getJSONArray(respJson, "data");
                     try {
                         String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
-                        FrameCountForDownload = Integer.parseInt(frameCount);
+
                         int imageCounter = Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter").equalsIgnoreCase("Unlimited") ? "-1" : ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter"));
 
                         int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
 
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
-                            canDownload = true;
-                            if (Utility.isUserPaid(preafManager.getActiveBrand())) {
+
+                            if (Utility.isUserPaid(prefManager.getActiveBrand())) {
 
                                 if (imageCounter == -1 || used_img_counter <= imageCounter) {
                                     if (flag.equalsIgnoreCase("Download"))
@@ -2503,7 +2442,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             }
 
                         } else {
-                            canDownload = false;
+
                             downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
                             //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
                         }
@@ -2512,7 +2451,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     }
 
                 } else {
-                    canDownload = false;
+
                 }
 
             }
@@ -2529,17 +2468,14 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("brand_id", preafManager.getActiveBrand().getId());
+                params.put("brand_id", prefManager.getActiveBrand().getId());
                 Utility.Log("Params", params.toString());
                 return params;
             }
@@ -2558,24 +2494,19 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         if (img != null) {
             img1File = CodeReUse.createFileFromBitmap(act, "photo.jpeg", img);
         }
+
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.EDIT_BRAND)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("X-Authorization", "Bearer" + preafManager.getUserToken())
-                .addMultipartParameter("brand_id", preafManager.getActiveBrand().getId())
+                .addHeaders("X-Authorization", "Bearer" + prefManager.getUserToken())
+                .addMultipartParameter("brand_id", prefManager.getActiveBrand().getId())
                 .setPriority(Priority.HIGH);
 
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
-            //Log.e("br_logo", String.valueOf(img1File));
         }
-
-
-        request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
+        request.build().setUploadProgressListener((bytesUploaded, totalBytes) -> {
+            // do anything with progress
         })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -2589,13 +2520,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     public void onError(ANError error) {
                         isLoading = false;
                         Utility.dismissLoadingTran();
-                        if (error.getErrorCode() != 0) {
-                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            //Log.e("onError errorBody : ", error.getErrorBody());
-                            //Log.e("onError errorDetail : ", error.getErrorDetail());
-                        } else {
-                            //Log.e("onError errorDetail : ", error.getErrorDetail());
-                        }
                     }
                 });
 
