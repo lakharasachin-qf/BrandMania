@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:theme="@style/AppTheme_material_theme"
-        android:animateLayoutChanges="true"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:theme="@style/AppTheme_material_theme"
         tools:context=".Activity.brand.AddBranddActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -20,20 +21,22 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <RelativeLayout
+                android:id="@+id/main_linearlayout_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_7sdp"
-                android:id="@+id/main_linearlayout_title"
-                android:elevation="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp">
+                android:elevation="0dp">
+
                 <ImageView
+                    android:id="@+id/BackButtonMember"
                     android:layout_width="23dp"
                     android:layout_height="23dp"
                     android:layout_alignParentLeft="true"
-                    android:id="@+id/BackButtonMember"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/ic_left_arrow"></ImageView>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -48,12 +51,12 @@
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView
-            android:layout_marginStart="-100dp"
-            android:layout_alignParentBottom="true"
-
-            android:src="@drawable/bottom"
             android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_300sdp">
+            android:layout_height="@dimen/_300sdp"
+
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="-100dp"
+            android:src="@drawable/bottom">
 
         </ImageView>
 
@@ -75,84 +78,86 @@
                 android:weightSum="2">
 
 
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:visibility="gone"
                     android:id="@+id/IdEdtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:hint="Brand Category"
-                    app:hintTextColor="@color/colorPrimary"
+                    android:visibility="gone"
                     app:errorEnabled="true"
-                    android:layout_height="wrap_content">
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/IdEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:fontFamily="@font/poppins_regular"
                         android:drawableEnd="@drawable/ic_drop_arrow"
                         android:focusable="false"
-                        android:singleLine="true"
+                        android:fontFamily="@font/poppins_regular"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:visibility="gone"
                     android:id="@+id/catIdEdtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:hint="Brand Category"
-                    app:hintTextColor="@color/colorPrimary"
+                    android:visibility="gone"
                     app:errorEnabled="true"
-                    android:layout_height="wrap_content">
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/catIdEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:fontFamily="@font/poppins_regular"
                         android:drawableEnd="@drawable/ic_drop_arrow"
                         android:focusable="false"
-                        android:singleLine="true"
+                        android:fontFamily="@font/poppins_regular"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/categoryEdtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:hint="Brand Category"
-                    app:hintTextColor="@color/colorPrimary"
                     app:errorEnabled="true"
-                    android:layout_height="wrap_content">
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/categoryEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:fontFamily="@font/poppins_regular"
                         android:drawableEnd="@drawable/ic_drop_arrow"
                         android:focusable="false"
-                        android:singleLine="true"
+                        android:fontFamily="@font/poppins_regular"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,85 +165,91 @@
                     android:id="@+id/nameTxtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    app:errorEnabled="true"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:hint="Brand Name"
-                    app:hintTextColor="@color/colorPrimary"
-                    android:layout_height="wrap_content">
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/nameTxt"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/_10sdp"
                         android:inputType="textCapWords"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
                         android:singleLine="true"
-                        android:textSize="@dimen/_10sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/phoneTxtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    app:errorEnabled="true"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:hint="Phone Number"
-                    app:hintTextColor="@color/colorPrimary"
-                    android:layout_height="wrap_content">
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneTxt"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:singleLine="true"
                         android:inputType="number"
                         android:maxLength="10"
-                        android:textSize="@dimen/_10sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/websiteEdtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    app:errorEnabled="true"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:hint="Website"
-                    app:hintTextColor="@color/colorPrimary"
-                    android:layout_height="wrap_content">
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/websiteEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
-                        android:drawablePadding="@dimen/_10sdp"
                         android:singleLine="true"
-                        android:textSize="@dimen/_10sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailIdEdtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    app:errorEnabled="true"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:hint="Email Id"
-                    app:hintTextColor="@color/colorPrimary"
-                    android:layout_height="wrap_content">
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailIdEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
-                        android:drawablePadding="@dimen/_10sdp"
                         android:singleLine="true"
-                        android:textSize="@dimen/_10sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -246,25 +257,26 @@
                     android:id="@+id/countryLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:hint="Choose Country"
-                    app:hintTextColor="@color/colorPrimary"
                     app:errorEnabled="true"
-                    android:layout_height="wrap_content">
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/countryEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:fontFamily="@font/poppins_regular"
                         android:drawableEnd="@drawable/ic_drop_arrow"
                         android:focusable="false"
-                        android:singleLine="true"
+                        android:fontFamily="@font/poppins_regular"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -272,26 +284,27 @@
                     android:id="@+id/stateLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:hint="Choose State"
                     android:visibility="gone"
-                    app:hintTextColor="@color/colorPrimary"
                     app:errorEnabled="true"
-                    android:layout_height="wrap_content">
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/stateEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:fontFamily="@font/poppins_regular"
                         android:drawableEnd="@drawable/ic_drop_arrow"
                         android:focusable="false"
-                        android:singleLine="true"
+                        android:fontFamily="@font/poppins_regular"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -299,26 +312,27 @@
                     android:id="@+id/cityLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:hint="Choose City"
                     android:visibility="gone"
-                    app:hintTextColor="@color/colorPrimary"
                     app:errorEnabled="true"
-                    android:layout_height="wrap_content">
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/cityEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:fontFamily="@font/poppins_regular"
                         android:drawableEnd="@drawable/ic_drop_arrow"
                         android:focusable="false"
-                        android:singleLine="true"
+                        android:fontFamily="@font/poppins_regular"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_15sdp"
                         android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -326,22 +340,23 @@
                     android:id="@+id/addressEdtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    app:errorEnabled="true"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:hint="Address"
-                    app:hintTextColor="@color/colorPrimary"
-                    android:layout_height="wrap_content">
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/addressEdt"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:inputType="textCapWords"
-                        android:paddingBottom="@dimen/_10sdp"
-                        android:drawablePadding="@dimen/_10sdp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/_10sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:inputType="textCapWords"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -372,32 +387,33 @@
                     android:id="@+id/businessFacilityEdtLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
-                    app:errorEnabled="true"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:hint="Business facility"
-                    app:hintTextColor="@color/colorPrimary"
-                    android:layout_height="wrap_content">
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/businessServiceEdt"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:maxEms="13"
-                        android:maxLines="10"
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
                         android:lines="3"
-                        android:textSize="@dimen/_10sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:maxEms="13"
+                        android:maxLines="10"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
                 <TextView
-                    android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="@string/upload_logo" />
 
@@ -426,19 +442,19 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:visibility="gone"
                                     android:layout_width="@dimen/_15sdp"
                                     android:layout_height="@dimen/_15sdp"
-                                    android:src="@drawable/ic_gallry" />
+                                    android:src="@drawable/ic_gallry"
+                                    android:visibility="gone" />
 
                                 <TextView
-                                    android:visibility="gone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_light"
-
                                     android:textAlignment="center"
-                                    android:textSize="@dimen/_6sdp" />
+
+                                    android:textSize="@dimen/_6sdp"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ImageView
@@ -456,11 +472,11 @@
                             android:id="@+id/actionDeleteFirst"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
-                            android:layout_marginEnd="@dimen/_7sdp"
-                            android:layout_marginBottom="@dimen/_7sdp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:layout_gravity="bottom|end"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
 
 
                             android:elevation="@dimen/_2sdp"
@@ -518,11 +534,11 @@
                             android:id="@+id/actionDeleteSecond"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
-                            android:layout_marginEnd="@dimen/_7sdp"
-                            android:layout_marginBottom="@dimen/_7sdp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:layout_gravity="bottom|end"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
                             android:elevation="@dimen/_2sdp"
                             android:padding="@dimen/_5sdp"
                             android:visibility="gone" />
@@ -576,11 +592,11 @@
                             android:id="@+id/actionDeleteThird"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
-                            android:layout_marginEnd="@dimen/_7sdp"
-                            android:layout_marginBottom="@dimen/_7sdp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:layout_gravity="bottom|end"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
 
 
                             android:elevation="@dimen/_2sdp"
@@ -592,30 +608,27 @@
                 </LinearLayout>
 
 
-
-
-
                 <TextView
-                    android:visibility="gone"
-                    android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_7sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:text="@string/upload_frame" />
+                    android:text="@string/upload_frame"
+                    android:visibility="gone" />
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginBottom="@dimen/_5sdp">
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:visibility="gone">
 
                     <androidx.cardview.widget.CardView
-                        android:layout_marginLeft="@dimen/_7sdp"
                         android:id="@+id/frameCard1"
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_60sdp"
                         android:layout_alignParentStart="true"
+                        android:layout_marginLeft="@dimen/_7sdp"
                         android:elevation="@dimen/_2sdp"
                         app:cardCornerRadius="@dimen/_3sdp"
                         app:cardUseCompatPadding="true">
@@ -657,25 +670,23 @@
                     </androidx.cardview.widget.CardView>
 
 
-
                 </RelativeLayout>
 
 
                 <Button
-                    android:layout_marginBottom="@dimen/_20sdp"
-                    android:background="@drawable/buttoncornar"
                     android:id="@+id/addExpenceBtn"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/buttoncornar"
 
                     android:fontFamily="@font/poppins_light"
                     android:text="SUBMIT"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textSize="@dimen/_11sdp"
-                    />
+                    android:textSize="@dimen/_11sdp" />
             </LinearLayout>
 
 

@@ -41,13 +41,13 @@ public class ListBottomFragment extends BottomSheetDialogFragment {
 
     private ListBottomFragment fragment;
 
-    public ListBottomFragment() { }
+    public ListBottomFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
 
     @NonNull
@@ -94,7 +94,6 @@ public class ListBottomFragment extends BottomSheetDialogFragment {
         act = getActivity();
         fragment = this;
         binding.titleText.setText("Brand Category");
-
 
         if (listModels != null) {
             adpt = new DropDownAdpt(act, listModels, calledFlag);

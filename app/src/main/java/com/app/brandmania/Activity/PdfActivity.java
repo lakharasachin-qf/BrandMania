@@ -35,6 +35,8 @@ import com.app.brandmania.Adapter.VisitingCardAdapter;
 import com.app.brandmania.BuildConfig;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.HELPER;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.VisitingCardHelper;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.ColorPickerFragment;
@@ -64,6 +66,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import kotlin.reflect.jvm.internal.impl.descriptors.Visibility;
 
@@ -84,7 +87,7 @@ public class PdfActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
 
 
-        if (prefManager.getActiveBrand()!=null) {
+        if (prefManager.getActiveBrand() != null) {
             digitalCardList = new ArrayList<>();
             digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
             binding.exportIcon.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +132,9 @@ public class PdfActivity extends BaseActivity {
                         @Override
                         public void onSuccess() {
                             colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
+                            //MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
                             setDigitalCardAdapter();
+
                         }
 
                         @Override
@@ -190,8 +195,14 @@ public class PdfActivity extends BaseActivity {
             digitalCardList = new ArrayList<>();
             digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
 
-        }else{
+        } else {
 
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
         }
     }
 
@@ -327,11 +338,9 @@ public class PdfActivity extends BaseActivity {
             addDynamicLayout();
         };
         visitingCardAdapter.setListener(onItemSelectListener);
-
         binding.cardList.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));
         binding.cardList.setHasFixedSize(true);
         binding.cardList.setAdapter(visitingCardAdapter);
-
         CurrentSelectedCard = digitalCardList.get(0);
         addDynamicLayout();
     }
@@ -353,7 +362,6 @@ public class PdfActivity extends BaseActivity {
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
-
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -365,7 +373,6 @@ public class PdfActivity extends BaseActivity {
             textColorsList.set(objectSelectedPosition, textSelectModel);
             textColorsAdapter.notifyItemChanged(objectSelectedPosition);
         };
-
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -384,7 +391,6 @@ public class PdfActivity extends BaseActivity {
             iconsColorsList.set(objectSelectedPosition, iconsSelectModel);
             iconsColorsAdapter.notifyItemChanged(objectSelectedPosition);
         };
-
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -403,7 +409,6 @@ public class PdfActivity extends BaseActivity {
             colorsList.set(objectSelectedPosition, selectedModel);
             colorsAdapterPDF.notifyItemChanged(objectSelectedPosition);
         };
-
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -411,7 +416,6 @@ public class PdfActivity extends BaseActivity {
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
-
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -423,9 +427,7 @@ public class PdfActivity extends BaseActivity {
                 iconsColorsAdapter.notifyDataSetChanged();
             }
         }
-
         iconsColorsList.addAll(VisitingCardHelper.getIconsColorList(CurrentSelectedCard, colors, act));
-
         iconsColorsAdapter = new IconsColorsAdapter(iconsColorsList, act);
         IconsColorsAdapter.onItemSelectListener onItemSelectListener = new IconsColorsAdapter.onItemSelectListener() {
             @Override

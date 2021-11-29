@@ -7,17 +7,13 @@
         android:background="@color/colorNavText"
         android:orientation="vertical">
 
-
         <RadioButton
-            android:layout_alignParentStart="true"
             android:id="@+id/radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:buttonTint="@color/colorPrimary"
             android:focusable="false" />
-
-
-
 
     </RelativeLayout>
 </layout>
