@@ -16,11 +16,10 @@ import com.app.brandmania.Fragment.top.FrameTab;
 import com.app.brandmania.Fragment.top.ImageTab;
 import com.app.brandmania.Fragment.top.TextTab;
 
-
 public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
     Context context;
     int totalTabs;
-    boolean isViewAll=false;
+    boolean isViewAll = false;
 
     public ViewAllTopTabAdapter setViewAll(boolean viewAll) {
         isViewAll = viewAll;
@@ -32,6 +31,7 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
         context = c;
         this.totalTabs = totalTabs;
     }
+
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -39,12 +39,10 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
                 CategoryTab categoryTab = new CategoryTab();
                 if (isViewAll)
                     categoryTab.setViewAll(isViewAll);
-
                 return categoryTab;
             case 1:
                 FooterTab footerTab = new FooterTab();
                 return footerTab;
-
 
             case 2:
                 FrameTab frameTab = new FrameTab();
@@ -54,17 +52,16 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
                 ColorTab colorTab = new ColorTab();
                 return colorTab;
 
-
             case 4:
                 TextTab textTab = new TextTab();
                 textTab.setActivityType(1);
                 return textTab;
 
-
             default:
                 return null;
         }
     }
+
     @Override
     public int getCount() {
         return totalTabs;

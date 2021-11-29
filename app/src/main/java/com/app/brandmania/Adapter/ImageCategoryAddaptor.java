@@ -197,7 +197,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         public void onClick(View v) {
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
                             Gson gson = new Gson();
-
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
                             intent.putExtra("selectedimage", gson.toJson(model));
                             intent.putExtra("position", position);

@@ -102,9 +102,11 @@ public class BusinessCategoryListActivity extends BaseActivity {
         }
         MenuAddaptor.updateList(temp);
     }
+
     BusinessCategoryAdapter MenuAddaptor;
+
     private void setAdapter() {
-         MenuAddaptor = new BusinessCategoryAdapter(apiModel, this, apiModel.getDashBoardItems().get(0).getDailyImages());
+        MenuAddaptor = new BusinessCategoryAdapter(apiModel, this, apiModel.getDashBoardItems().get(0).getDailyImages());
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
         binding.recyclerList.setHasFixedSize(true);
         binding.recyclerList.setLayoutManager(mLayoutManager);
@@ -187,12 +189,10 @@ public class BusinessCategoryListActivity extends BaseActivity {
         queue.add(stringRequest);
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
-
-
-
 
 
 }

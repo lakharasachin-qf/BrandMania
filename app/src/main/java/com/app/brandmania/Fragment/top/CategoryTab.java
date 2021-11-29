@@ -4,7 +4,6 @@ import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,12 +65,11 @@ public class CategoryTab extends FrameTab {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.category_tab, container, false);
         gson = new Gson();
-
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
-        getImageCtegory();
+        getImageCategory();
         preafManager = new PreafManager(getActivity());
         return binding.getRoot();
     }
@@ -139,22 +137,22 @@ public class CategoryTab extends FrameTab {
     }
 
 
-    ImageCategoryAddaptor menuAddaptor;
+    ImageCategoryAddaptor menuAdaptor;
 
     public void setAdapter() {
-        menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
+        menuAdaptor = new ImageCategoryAddaptor(menuModels, act);
         //  if (isViewAll)
         ((ImageCateItemeInterFace) act).ImageCateonItemSelection(0, menuModels.get(0));
-        menuAddaptor.setLayoutType(FROM_VIEWALL);
+        menuAdaptor.setLayoutType(FROM_VIEWALL);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
         binding.viewRecoRecycler.setLayoutManager(mLayoutManager);
         binding.viewRecoRecycler.setHasFixedSize(true);
-        binding.viewRecoRecycler.setAdapter(menuAddaptor);
+        binding.viewRecoRecycler.setAdapter(menuAdaptor);
         binding.viewRecoRecycler.setVisibility(View.VISIBLE);
 
     }
 
-    private void getImageCtegory() {
+    private void getImageCategory() {
 
         Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
@@ -175,12 +173,11 @@ public class CategoryTab extends FrameTab {
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
 
-
                         if (apiObject.getLinks() != null) {
                             if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                                 binding.shimmerForPagination.startShimmer();
                                 binding.shimmerForPagination.setVisibility(View.VISIBLE);
-                                getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                                getImageCategoryNextPage(apiObject.getLinks().getNextPageUrl());
                             } else {
                                 binding.shimmerForPagination.stopShimmer();
                                 binding.shimmerForPagination.setVisibility(View.GONE);
@@ -247,8 +244,7 @@ public class CategoryTab extends FrameTab {
         queue.add(stringRequest);
     }
 
-
-    private void getImageCtegoryNextPage(String nextPageUrl) {
+    private void getImageCategoryNextPage(String nextPageUrl) {
         Utility.Log("API : ", nextPageUrl);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
             @Override
@@ -260,7 +256,7 @@ public class CategoryTab extends FrameTab {
                         if (menuModels != null && menuModels.size() != 0) {
                             int lastPos = menuModels.size();
                             menuModels.addAll(menuModels.size(), apiObject.getCatogaryImagesList());
-                            menuAddaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
+                            menuAdaptor.notifyItemRangeInserted(lastPos, apiObject.getCatogaryImagesList().size());
                         } else {
                             menuModels = new ArrayList<>();
                             menuModels.addAll(0, apiObject.getCatogaryImagesList());
@@ -270,7 +266,7 @@ public class CategoryTab extends FrameTab {
                         if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
-                            getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                            getImageCategoryNextPage(apiObject.getLinks().getNextPageUrl());
                         } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
