@@ -375,7 +375,7 @@
                     app:errorEnabled="true"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:hint="Business facility"
+                    android:hint="Business Services"
                     app:hintTextColor="@color/colorPrimary"
                     android:layout_height="wrap_content">
                     <com.google.android.material.textfield.TextInputEditText

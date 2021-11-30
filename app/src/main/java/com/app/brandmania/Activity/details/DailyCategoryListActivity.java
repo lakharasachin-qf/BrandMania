@@ -93,17 +93,9 @@ public class DailyCategoryListActivity extends BaseActivity {
     }
 
     BusinessCategoryAdapter MenuAddaptor;
-    void filterCountry(String text) {
-        ArrayList<ImageList> temp = new ArrayList<>();
-        for (ImageList d : rootList) {
-            if (d.getName().toLowerCase().contains(text.toLowerCase())) {
-                temp.add(d);
-            }
-        }
-        MenuAddaptor.updateList(temp);
-    }
+
     private void setAdapter() {
-        MenuAddaptor = new BusinessCategoryAdapter(apiModel, this, menuModels);
+        MenuAddaptor = new BusinessCategoryAdapter(apiModel, act, menuModels);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
         binding.recyclerList.setHasFixedSize(true);
         binding.recyclerList.setLayoutManager(mLayoutManager);
@@ -188,7 +180,6 @@ public class DailyCategoryListActivity extends BaseActivity {
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.recyclerList.setVisibility(View.GONE);
-                        //  binding.view.setVisibility(View.VISIBLE);
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
                         binding.emptyStateMsg.setText("No Data Found");
 
@@ -205,7 +196,7 @@ public class DailyCategoryListActivity extends BaseActivity {
                 HashMap<String, String> map = new HashMap<>();
                 String keywords = binding.searchEdt.getText().toString().replace(" ",",").replace(",",",");
                 map.put("tag", keywords);
-                Log.e("pram",map.toString());
+                Utility.Log("pram",map.toString());
                 return map;
             }
 
@@ -242,12 +233,12 @@ public class DailyCategoryListActivity extends BaseActivity {
                     }else{
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
-                        //    binding.view.setVisibility(View.VISIBLE);
+
                     }
                 }else{
                     binding.shimmerViewContainer.stopShimmer();
                     binding.shimmerViewContainer.setVisibility(View.GONE);
-                    //    binding.view.setVisibility(View.VISIBLE);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -269,7 +260,7 @@ public class DailyCategoryListActivity extends BaseActivity {
                 HashMap<String, String> map = new HashMap<>();
                 String keywords = binding.searchEdt.getText().toString().replace(" ",",").replace(",",",");
                 map.put("tag", keywords);
-                Log.e("pram",map.toString());
+                Utility.Log("pram",map.toString());
                 return map;
             }
         };

@@ -9,38 +9,26 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/layer1"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_120sdp"
-            android:layout_marginStart="-30dp"
-            android:layout_marginBottom="-80dp"
-            android:background="@drawable/round_corner_footer_one"
-            android:rotation="45"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/socialBackground"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35pt"
             android:layout_marginTop="-22dp"
-            android:layout_marginBottom="-15dp"
-            android:background="@drawable/shapeee_round_cornar_only_left_both"
+            android:layout_marginBottom="@dimen/_7sdp"
+            android:background="@color/colorPrimary"
             android:backgroundTint="@color/colorPrimary"
-            android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_5sdp"
+            android:paddingTop="@dimen/_3sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_3sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/layer2"
-            app:layout_constraintTop_toTopOf="@id/layer2">
+            app:layout_constraintTop_toTopOf="@id/contentBackground">
 
             <ImageView
                 android:id="@+id/callIcon"
                 android:layout_width="@dimen/_10sdp"
-                android:layout_height="@dimen/_15sdp"
+                android:layout_height="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_7sdp"
                 android:src="@drawable/ic_phone"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -66,7 +54,7 @@
             <ImageView
                 android:id="@+id/emailIcon"
                 android:layout_width="@dimen/_10sdp"
-                android:layout_height="@dimen/_15sdp"
+                android:layout_height="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_7sdp"
                 android:src="@drawable/ic_outline_mail_24"
@@ -93,9 +81,10 @@
 
         <View
             android:id="@+id/layer2"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_120sdp"
-            android:layout_marginBottom="-110dp"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_marginStart="-40dp"
+            android:layout_marginBottom="-90dp"
             android:background="@drawable/round_corner_footer_one"
             android:backgroundTint="@color/colorPrimary"
             android:rotation="45"
@@ -104,10 +93,10 @@
 
         <View
             android:id="@+id/layer3"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_120sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginBottom="-140dp"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_marginStart="-38dp"
+            android:layout_marginBottom="-100dp"
             android:background="@drawable/round_corner_footer_one"
             android:rotation="45"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -117,28 +106,28 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentBackground"
             android:layout_width="0dp"
+android:layout_marginBottom="@dimen/_3sdp"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/_25sdp"
-            android:paddingTop="@dimen/_18sdp"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingBottom="@dimen/_5sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/layer1">
+            app:layout_constraintStart_toEndOf="@+id/layer3"
+            app:layout_constraintTop_toBottomOf="@+id/socialBackground">
 
 
             <TextView
                 android:id="@+id/address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/montserrat_regular"
                 android:maxLines="2"
                 android:text="B/1 Parasnager Rudra Complex,opp. Bajaranj Asshram, Vastral, Ahmedabad, Gujarat, India -223545"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8sdp"
+                android:paddingTop="@dimen/_3sdp"
+                android:textSize="@dimen/_6sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
 

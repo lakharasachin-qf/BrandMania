@@ -129,23 +129,21 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             }
         });
 
-
-        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (countryList != null)
-                    chooseFragment(COUNTRY, countryTitle, countryList, binding.countryEdt.getText().toString());
-            }
-        });
+        binding.stateLayout.setVisibility(View.VISIBLE);
+        binding.countryLayout.setVisibility(View.GONE);
+//        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (countryList != null)
+//                    chooseFragment(COUNTRY, countryTitle, countryList, binding.countryEdt.getText().toString());
+//            }
+//        });
         binding.stateEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.countryEdt.getText().length() != 0) {
                     if (stateList != null)
                         chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
-                } else {
 
-                }
             }
         });
         binding.cityEdt.setOnClickListener(new View.OnClickListener() {
@@ -373,6 +371,32 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             }
 
         }
+
+        if (binding.stateEdt.getText().toString().trim().length()==0) {
+            binding.stateLayout.setError("Please select state");
+            binding.stateLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+            isError = true;
+            if (!isFocus) {
+                binding.stateEdt.requestFocus();
+                isFocus = true;
+                binding.scrollView.scrollTo(0, binding.stateEdt.getBottom());
+            }
+            return;
+        }
+
+        if (binding.cityEdt.getText().toString().trim().length()==0) {
+            binding.cityLayout.setError("Please select city");
+            binding.cityLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+            isError = true;
+            if (!isFocus) {
+                binding.cityEdt.requestFocus();
+                isFocus = true;
+                binding.scrollView.scrollTo(0, binding.cityEdt.getBottom());
+            }
+            return;
+        }
+
+
         if (!isError) {
             Bitmap bitmap = null;
             if (selectedLogo != null) {
@@ -449,10 +473,12 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         }
 
         request.addMultipartParameter("br_address", binding.addressEdt.getText().toString());
-        request.addMultipartParameter("br_country", binding.countryEdt.getText().toString());
+        request.addMultipartParameter("br_country", "");
         request.addMultipartParameter("br_state", binding.stateEdt.getText().toString());
         request.addMultipartParameter("br_city", binding.cityEdt.getText().toString());
         request.addMultipartParameter("br_pincode", binding.pincodeEdt.getText().toString());
+
+        Utility.Log("data",gson.toJson(request));
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
@@ -728,14 +754,14 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                getCountryStateCity(CALL_COUNTRY);
+                getCountryStateCity(CALL_STATE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Utility.dismissLoadingTran();
-                getCountryStateCity(CALL_COUNTRY);
+                getCountryStateCity(CALL_STATE);
             }
         }) {
 
@@ -814,31 +840,31 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             commonListModel = listModel;
         }
 
-        if (calledFlag == COUNTRY) {
-            if (!listModel.getId().equalsIgnoreCase("-1")) {
-                binding.countryEdt.setText(listModel.getName());
-                selectedCountry = listModel;
-                binding.stateLayout.setVisibility(View.VISIBLE);
-                stateList.clear();
-
-                binding.stateEdt.setText("");
-                binding.cityEdt.setText("");
-                selectedCity = null;
-                selectedState = null;
-                getCountryStateCity(CALL_STATE);
-            } else {
-                binding.countryEdt.setText("");
-                selectedCountry = null;
-
-                binding.stateEdt.setText("");
-                selectedState = null;
-                binding.cityEdt.setText("");
-                selectedCity = null;
-
-                binding.cityLayout.setVisibility(View.GONE);
-                binding.stateLayout.setVisibility(View.GONE);
-            }
-        }
+//        if (calledFlag == COUNTRY) {
+//            if (!listModel.getId().equalsIgnoreCase("-1")) {
+//                binding.countryEdt.setText(listModel.getName());
+//                selectedCountry = listModel;
+//                binding.stateLayout.setVisibility(View.VISIBLE);
+//                stateList.clear();
+//
+//                binding.stateEdt.setText("");
+//                binding.cityEdt.setText("");
+//                selectedCity = null;
+//                selectedState = null;
+//                getCountryStateCity(CALL_STATE);
+//            } else {
+//                binding.countryEdt.setText("");
+//                selectedCountry = null;
+//
+//                binding.stateEdt.setText("");
+//                selectedState = null;
+//                binding.cityEdt.setText("");
+//                selectedCity = null;
+//
+//                binding.cityLayout.setVisibility(View.GONE);
+//                binding.stateLayout.setVisibility(View.GONE);
+//            }
+//        }
 
         if (calledFlag == STATE) {
             if (!listModel.getId().equalsIgnoreCase("-1")) {
@@ -912,7 +938,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         }
 
         if (flag == CALL_STATE) {
-            apiUrl = APIs.GET_STATE + "/" + selectedCountry.getId();
+            apiUrl = APIs.GET_STATE + "/101"; //+ selectedCountry.getId();
             stateList.clear();
         }
 
@@ -920,10 +946,12 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             apiUrl = APIs.GET_CITY + "/" + selectedState.getId();
             cityList.clear();
         }
+        Utility.showLoadingTran(act);
         Utility.Log("API : ", apiUrl);
         StringRequest request = new StringRequest(Request.Method.GET, apiUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Utility.dismissLoadingTran();
                 Utility.Log("GET_COUNTRY : ", response);
                 isLoading = false;
                 try {
@@ -948,22 +976,22 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                                 cityList.add(listModel);
                             }
                         }
-                        CommonListModel listModel = new CommonListModel();
-                        listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
-                        listModel.setId("-1");
-                        listModel.setName("None");
-
-                        if (flag == CALL_COUNTRY && countryList.size() != 0) {
-                            countryList.add(0, listModel);
-                        }
-
-                        if (flag == CALL_STATE && stateList.size() != 0) {
-                            stateList.add(0, listModel);
-                        }
-
-                        if (flag == CALL_CITY && cityList.size() != 0) {
-                            cityList.add(0, listModel);
-                        }
+//                        CommonListModel listModel = new CommonListModel();
+//                        listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
+//                        listModel.setId("-1");
+//                        listModel.setName("None");
+//
+//                        if (flag == CALL_COUNTRY && countryList.size() != 0) {
+//                            countryList.add(0, listModel);
+//                        }
+//
+//                        if (flag == CALL_STATE && stateList.size() != 0) {
+//                            stateList.add(0, listModel);
+//                        }
+//
+//                        if (flag == CALL_CITY && cityList.size() != 0) {
+//                            cityList.add(0, listModel);
+//                        }
                     }
 
                 } catch (JSONException e) {
@@ -974,6 +1002,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                Utility.dismissLoadingTran();
                 isLoading = false;
             }
         }) {

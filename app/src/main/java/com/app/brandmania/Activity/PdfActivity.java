@@ -26,6 +26,13 @@ import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.BackgroundColorsAdapter;
@@ -36,6 +43,7 @@ import com.app.brandmania.Adapter.VisitingCardAdapter;
 import com.app.brandmania.BuildConfig;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.HELPER;
+import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Common.VisitingCardHelper;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.ColorPickerFragment;
@@ -52,6 +60,7 @@ import com.app.brandmania.databinding.LayoutDigitalCardFourthBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardThreeBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardTwoBinding;
+import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -60,13 +69,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibility;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PdfActivity extends BaseActivity {
     private ActivityPdfBinding binding;
@@ -153,7 +165,7 @@ public class PdfActivity extends BaseActivity {
             }
         });
         isLoading = true;
-        Utility.showProgress(act);
+        activity(0);
 
         Picasso.get().load(prefManager.getActiveBrand().getLogo())
                 .into(binding.pdfLogo, new Callback() {
@@ -756,10 +768,15 @@ public class PdfActivity extends BaseActivity {
             Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
 
             if (forShareUser) {
-                viewPdf(prefManager.getActiveBrand().getName(), act);
+                //2 for share
+                activity(2);// 2 for share
+                actionFlagForDownloadOrShare = 2;
             } else {
-
+                //1 for download only
+                activity(1); // 1 for download
+                actionFlagForDownloadOrShare = 1;
             }
+
 
 
         } catch (Exception e) {
@@ -812,5 +829,84 @@ public class PdfActivity extends BaseActivity {
         layoutSecondBinding.element3.setText("To download business card, please upgrade your package");
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+    }
+
+
+    String activityId = "";
+    int actionFlagForDownloadOrShare = -1;
+
+    private void activity(int flag) {
+        if (isLoading)
+            return;
+        isLoading = true;
+
+        if (flag == 0) {
+            binding.loader.setVisibility(View.VISIBLE);
+        } else {
+            Utility.showLoadingTran(act);
+        }
+        StringRequest request = new StringRequest(Request.Method.POST, APIs.ADD_BUSS_ACTIVITY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("response : ", response);
+                isLoading = false;
+                if (flag == 0) {
+                    binding.loader.setVisibility(View.GONE);
+                    binding.scrollView.setVisibility(View.VISIBLE);
+
+                } else {
+                    Utility.dismissLoadingTran();
+                }
+
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (ResponseHandler.isSuccess(null, jsonObject)) {
+                        activityId = ResponseHandler.getString(ResponseHandler.getJSONObject(jsonObject, "data"), "id");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (actionFlagForDownloadOrShare == 2) {
+                    actionFlagForDownloadOrShare=-1;
+                    viewPdf(prefManager.getActiveBrand().getName(), act);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                isLoading = false;
+                Utility.dismissLoadingTran();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
+                Log.e("Token", params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+
+                map.put("is_download", String.valueOf(flag));
+
+                if (!activityId.isEmpty())
+                    map.put("id ", activityId);
+
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+
     }
 }

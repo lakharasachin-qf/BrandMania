@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -36,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BusinessCategoryListActivity extends BaseActivity {
-    Activity act;
+    private Activity act;
     private ActivityViewBusinessCategoryBinding binding;
     private DashBoardItem apiModel;
     private ArrayList<ImageList> rootList;
@@ -86,20 +85,11 @@ public class BusinessCategoryListActivity extends BaseActivity {
     }
 
 
-    void filterCountry(String text) {
-        ArrayList<ImageList> temp = new ArrayList<>();
-        for (ImageList d : rootList) {
-            if (d.getName().toLowerCase().contains(text.toLowerCase())) {
-                temp.add(d);
-            }
-        }
-        MenuAddaptor.updateList(temp);
-    }
 
     BusinessCategoryAdapter MenuAddaptor;
 
     private void setAdapter() {
-        MenuAddaptor = new BusinessCategoryAdapter(apiModel, this, menuModels);
+        MenuAddaptor = new BusinessCategoryAdapter(apiModel, act, menuModels);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
         binding.recyclerList.setHasFixedSize(true);
         binding.recyclerList.setLayoutManager(mLayoutManager);
@@ -115,13 +105,13 @@ public class BusinessCategoryListActivity extends BaseActivity {
 
     private void getBusinessCategory() {
         binding.progressBar.setVisibility(View.GONE);
-        Utility.Log("API : ", APIs.BUSINESS_CATEGORY+"?page=1");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.BUSINESS_CATEGORY+"?page=1", response -> {
+        Utility.Log("API : ", APIs.BUSINESS_CATEGORY + "?page=1");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.BUSINESS_CATEGORY + "?page=1", response -> {
             binding.swipeContainer.setRefreshing(false);
             Utility.Log("response : ", response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
-                if (ResponseHandler.isSuccess(null,jsonObject)) {
+                if (ResponseHandler.isSuccess(null, jsonObject)) {
                     apiModel = ResponseHandler.handleBusinessCategory(act, jsonObject);
 
                     if (apiModel.getDashBoardItems() != null && apiModel.getDashBoardItems().size() != 0 && apiModel.getDashBoardItems().get(0).getDailyImages() != null && apiModel.getDashBoardItems().get(0).getDailyImages().size() != 0) {
@@ -151,7 +141,7 @@ public class BusinessCategoryListActivity extends BaseActivity {
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.progressBar.setVisibility(View.GONE);
                     }
-                }else{
+                } else {
                     binding.shimmerViewContainer.stopShimmer();
                     binding.shimmerViewContainer.setVisibility(View.GONE);
                     binding.recyclerList.setVisibility(View.GONE);
@@ -179,7 +169,7 @@ public class BusinessCategoryListActivity extends BaseActivity {
                     binding.shimmerViewContainer.stopShimmer();
                     binding.shimmerViewContainer.setVisibility(View.GONE);
                     binding.recyclerList.setVisibility(View.GONE);
-                  //  binding.view.setVisibility(View.VISIBLE);
+                    //  binding.view.setVisibility(View.VISIBLE);
                     binding.emptyStateLayout.setVisibility(View.VISIBLE);
                     binding.emptyStateMsg.setText("No Data Found");
 
@@ -194,9 +184,9 @@ public class BusinessCategoryListActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> map = new HashMap<>();
-                String keywords = binding.searchEdt.getText().toString().replace(" ",",").replace(",",",");
+                String keywords = binding.searchEdt.getText().toString().replace(" ", ",").replace(",", ",");
                 map.put("tag", keywords);
-                Log.e("pram",map.toString());
+                Utility.Log("pram", map.toString());
                 return map;
             }
         };
@@ -231,15 +221,15 @@ public class BusinessCategoryListActivity extends BaseActivity {
                 if (apiResponse.getLinks() != null) {
                     if (apiResponse.getLinks().getNextPageUrl() != null && !apiResponse.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiResponse.getLinks().getNextPageUrl().isEmpty()) {
                         getImageCategoryNextPage(apiResponse.getLinks().getNextPageUrl());
-                    }else{
+                    } else {
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
-                    //    binding.view.setVisibility(View.VISIBLE);
+                        //    binding.view.setVisibility(View.VISIBLE);
                     }
-                }else{
+                } else {
                     binding.shimmerViewContainer.stopShimmer();
                     binding.shimmerViewContainer.setVisibility(View.GONE);
-                //    binding.view.setVisibility(View.VISIBLE);
+                    //    binding.view.setVisibility(View.VISIBLE);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -261,9 +251,9 @@ public class BusinessCategoryListActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
-                String keywords = binding.searchEdt.getText().toString().replace(" ",",").replace(",",",");
+                String keywords = binding.searchEdt.getText().toString().replace(" ", ",").replace(",", ",");
                 map.put("tag", keywords);
-                Log.e("pram",map.toString());
+                Utility.Log("pram", map.toString());
                 return map;
             }
         };
