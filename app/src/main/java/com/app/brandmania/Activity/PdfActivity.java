@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +77,7 @@ public class PdfActivity extends BaseActivity {
     private VisitingCardAdapter visitingCardAdapter;
     public boolean isUserPaid = true;
     public boolean forShareUser = true;
-    public boolean isSavePdf = true;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,8 +87,6 @@ public class PdfActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
         digitalCardList = new ArrayList<>();
         digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
-
-
         binding.saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,9 +94,7 @@ public class PdfActivity extends BaseActivity {
                 if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
                     if (CurrentSelectedCard.isFree()) {
-
                         isUserPaid = true;
-                        isSavePdf = true;
                         frontPageLayoutImage(false);
                     } else {
                         isUserPaid = false;
@@ -108,14 +105,12 @@ public class PdfActivity extends BaseActivity {
                     if (Utility.isPackageExpired(act)) {
                         if (CurrentSelectedCard.isFree()) {
                             isUserPaid = true;
-                            isSavePdf = true;
                             frontPageLayoutImage(false);
                         } else {
                             isUserPaid = false;
                             askForUpgradeToEnterpisePackage();
                         }
                     } else {
-                        isSavePdf = true;
                         frontPageLayoutImage(false);
                     }
                 }
@@ -127,7 +122,6 @@ public class PdfActivity extends BaseActivity {
                 if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
                     if (CurrentSelectedCard.isFree()) {
-                        forShareUser = true;
                         isUserPaid = true;
                         frontPageLayoutImage(true);
                     } else {
@@ -139,7 +133,6 @@ public class PdfActivity extends BaseActivity {
                     if (Utility.isPackageExpired(act)) {
                         if (CurrentSelectedCard.isFree()) {
                             isUserPaid = true;
-                            forShareUser = true;
                             frontPageLayoutImage(true);
                         } else {
                             isUserPaid = false;
@@ -159,6 +152,8 @@ public class PdfActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+        isLoading = true;
+        Utility.showProgress(act);
 
         Picasso.get().load(prefManager.getActiveBrand().getLogo())
                 .into(binding.pdfLogo, new Callback() {
@@ -194,7 +189,9 @@ public class PdfActivity extends BaseActivity {
         } else {
             binding.address.setText(prefManager.getActiveBrand().getAddress());
         }
-        binding.alertTextRedirection.setOnClickListener(new View.OnClickListener() {
+        binding.alertText.setText(Html.fromHtml("Please fill all the details for better perfect design." + "<font color=\"red\">" + "<b>" + "Fill Details.." + "</b>" + "</font>"));
+
+        binding.alertText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(act, UpdateBandList.class);
@@ -354,6 +351,8 @@ public class PdfActivity extends BaseActivity {
     int objectSelectedPosition = 0;
 
     public void setDigitalCardAdapter() {
+        isLoading = false;
+        Utility.dismissProgress();
         visitingCardAdapter = new VisitingCardAdapter(digitalCardList, act);
         VisitingCardAdapter.onVisitingCardListener onItemSelectListener = (layout, visitingCardModel) -> {
             CurrentSelectedCard = visitingCardModel;
