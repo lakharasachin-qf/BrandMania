@@ -149,7 +149,6 @@
                         app:tint="@color/black" />
 
                     <View
-
                         android:id="@+id/call"
                         android:layout_width="@dimen/_120sdp"
                         android:layout_height="@dimen/_16sdp"
@@ -224,7 +223,7 @@
                         android:layout_height="@dimen/_15sdp"
                         android:background="@drawable/digital_card_round_shap_icon"
                         android:backgroundTint="@color/black"
-                        android:padding="@dimen/_5sdp"
+                        android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_outline_call_24"
                         app:layout_constraintBottom_toBottomOf="@+id/call"
                         app:layout_constraintStart_toStartOf="@+id/call"
@@ -253,7 +252,7 @@
                         android:layout_height="@dimen/_15sdp"
                         android:background="@drawable/digital_card_round_shap_icon"
                         android:backgroundTint="@color/black"
-                        android:padding="@dimen/_5sdp"
+                        android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_outline_mail_24"
                         app:layout_constraintBottom_toBottomOf="@+id/email"
                         app:layout_constraintStart_toStartOf="@+id/email"
@@ -292,8 +291,12 @@
                     <TextView
                         android:id="@+id/addressTxt"
                         android:layout_width="0dp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_4sdp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
+                        android:maxLines="2"
+                        android:layout_marginStart="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_4sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"

@@ -30,13 +30,13 @@
 
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/paidUserCard"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:src="@drawable/ic_crown"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -162,16 +162,19 @@
 
                 <TextView
                     android:id="@+id/phoneTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/_60sdp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
                     android:text="Your Mobile No "
+                    android:textAlignment="textEnd"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/callIcon"
                     app:layout_constraintEnd_toStartOf="@id/callIcon"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/callIcon" />
 
                 <ImageView
@@ -191,16 +194,19 @@
 
                 <TextView
                     android:id="@+id/emailTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
-                    android:text="Your Email id "
+                    android:text="Your Email id"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/emailIcon"
                     app:layout_constraintEnd_toStartOf="@id/emailIcon"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/emailIcon" />
 
 
@@ -221,9 +227,11 @@
                     android:id="@+id/addressTxt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
+                    android:maxLines="2"
                     android:text="Your Address"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
@@ -236,21 +244,19 @@
 
                 <ImageView
                     android:id="@+id/fb"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
-                    android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_social_media_facebook"
                     app:layout_constraintBottom_toBottomOf="@+id/insta"
                     app:layout_constraintEnd_toStartOf="@+id/insta" />
 
                 <ImageView
                     android:id="@+id/insta"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
-                    android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_social_media_instagram"
                     app:layout_constraintBottom_toBottomOf="@+id/outerLayer3"
                     app:layout_constraintEnd_toEndOf="@+id/outerLayer3"
@@ -258,11 +264,11 @@
 
                 <ImageView
                     android:id="@+id/wp"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
-                    android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_social_media_whatsapp"
                     app:layout_constraintBottom_toBottomOf="@+id/insta"
                     app:layout_constraintStart_toEndOf="@+id/insta" />

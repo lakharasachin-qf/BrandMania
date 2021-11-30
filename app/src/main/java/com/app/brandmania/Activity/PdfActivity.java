@@ -75,6 +75,8 @@ public class PdfActivity extends BaseActivity {
     private VisitingCardModel CurrentSelectedCard;
     private VisitingCardAdapter visitingCardAdapter;
     public boolean isUserPaid = true;
+    public boolean forShareUser = true;
+    public boolean isSavePdf = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,14 +86,19 @@ public class PdfActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
         digitalCardList = new ArrayList<>();
         digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
-        binding.exportIcon.setOnClickListener(new View.OnClickListener() {
+
+
+        binding.saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
                     if (CurrentSelectedCard.isFree()) {
+
                         isUserPaid = true;
-                        frontPageLayoutImage();
+                        isSavePdf = true;
+                        frontPageLayoutImage(false);
                     } else {
                         isUserPaid = false;
                         askForUpgradeToEnterpisePackage();
@@ -101,13 +108,45 @@ public class PdfActivity extends BaseActivity {
                     if (Utility.isPackageExpired(act)) {
                         if (CurrentSelectedCard.isFree()) {
                             isUserPaid = true;
-                            frontPageLayoutImage();
+                            isSavePdf = true;
+                            frontPageLayoutImage(false);
                         } else {
                             isUserPaid = false;
                             askForUpgradeToEnterpisePackage();
                         }
                     } else {
-                        frontPageLayoutImage();
+                        isSavePdf = true;
+                        frontPageLayoutImage(false);
+                    }
+                }
+            }
+        });
+        binding.exportIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+
+                    if (CurrentSelectedCard.isFree()) {
+                        forShareUser = true;
+                        isUserPaid = true;
+                        frontPageLayoutImage(true);
+                    } else {
+                        isUserPaid = false;
+                        askForUpgradeToEnterpisePackage();
+                    }
+
+                } else {
+                    if (Utility.isPackageExpired(act)) {
+                        if (CurrentSelectedCard.isFree()) {
+                            isUserPaid = true;
+                            forShareUser = true;
+                            frontPageLayoutImage(true);
+                        } else {
+                            isUserPaid = false;
+                            askForUpgradeToEnterpisePackage();
+                        }
+                    } else {
+                        frontPageLayoutImage(true);
                     }
 
                 }
@@ -174,7 +213,8 @@ public class PdfActivity extends BaseActivity {
             String[] list = prefManager.getActiveBrand().getBrandService().split("[,\n]");
             String sericesStr = "";
             int i = 0;
-            for (String s : list) {
+            for (int j = 0; j < list.length; j++) {
+                String s = list[j];
                 sericesStr = sericesStr + "\n- " + s;
                 i++;
                 if (i == 5) {
@@ -448,7 +488,6 @@ public class PdfActivity extends BaseActivity {
         return p;
     }
 
-
     String dirpath;
     File frontPage;
     File backPage;
@@ -534,7 +573,6 @@ public class PdfActivity extends BaseActivity {
         }
     }
 
-
     public void layoutToImage() {
         binding.pdfLayout.setDrawingCacheEnabled(true);
         binding.pdfLayout.buildDrawingCache();
@@ -548,13 +586,13 @@ public class PdfActivity extends BaseActivity {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
-            imageToPDF();
+            imageToPDF(forShareUser);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void frontPageLayoutImage() {
+    public void frontPageLayoutImage(boolean forShareUser) {
         if (CurrentSelectedCard != null) {
             if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
                 CurrentSelectedCard.getOneBinding().frontPage.setDrawingCacheEnabled(true);
@@ -596,7 +634,7 @@ public class PdfActivity extends BaseActivity {
                 fileOutputStream.flush();
                 fileOutputStream.close();
                 //imageToPDF();
-                backPageLayoutImage();
+                backPageLayoutImage(forShareUser);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -609,7 +647,7 @@ public class PdfActivity extends BaseActivity {
 //            textSelectModel = textColorsList.get(0);
     }
 
-    public void backPageLayoutImage() {
+    public void backPageLayoutImage(boolean forShareUser) {
         if (CurrentSelectedCard != null) {
             if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
                 CurrentSelectedCard.getOneBinding().backPage.setDrawingCacheEnabled(true);
@@ -651,7 +689,7 @@ public class PdfActivity extends BaseActivity {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
                 fileOutputStream.flush();
                 fileOutputStream.close();
-                imageToPDF();
+                imageToPDF(forShareUser);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -660,7 +698,7 @@ public class PdfActivity extends BaseActivity {
 
     String outputFile = "";
 
-    public void imageToPDF() throws FileNotFoundException {
+    public void imageToPDF(boolean forShareUser) throws FileNotFoundException {
         try {
             HELPER._INIT_FOLDER(Constant.DOCUMENT);
             Document document = new Document(new Rectangle(1050, 600), 0, 0, 0, 0);
@@ -717,7 +755,13 @@ public class PdfActivity extends BaseActivity {
             }
             document.close();
             Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
-            viewPdf(prefManager.getActiveBrand().getName(), act);
+
+            if (forShareUser) {
+                viewPdf(prefManager.getActiveBrand().getName(), act);
+            } else {
+
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
