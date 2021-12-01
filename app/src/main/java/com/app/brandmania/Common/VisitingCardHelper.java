@@ -221,18 +221,22 @@ public class VisitingCardHelper {
         binding.thirdBackground.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.secondBackground.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.fourthBackground.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.callIcon.setImageTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.emailIcon.setImageTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.websiteIcon.setImageTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.address.setTextColor(ContextCompat.getColor(act, R.color.black));
         binding.phoneTxt.setTextColor(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.emailTxt.setTextColor(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.websiteTxt.setTextColor(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         GradientDrawable drawable = (GradientDrawable) binding.logoThumbnail.getBackground();
         drawable.setStroke(2, colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
     }
 
     public static void loadDefaultColorCardThree(Activity act, LayoutDigitalCardThreeBinding binding, Palette colors) {
+        binding.frontPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.backPage.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
@@ -240,10 +244,10 @@ public class VisitingCardHelper {
     }
 
     public static void loadDefaultColorCardFour(Activity act, LayoutDigitalCardFourthBinding binding, Palette colors) {
-        binding.view.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.verticalView.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.leftView.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.rightView.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.view.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.verticalView.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.leftView.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.rightView.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         //binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         //binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         //binding.websiteIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
@@ -252,22 +256,24 @@ public class VisitingCardHelper {
         binding.phoneTxt.setTextColor(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.emailTxt.setTextColor(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.addressTxt.setTextColor(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.frontBottomView.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.frontBottomView.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.websiteTxt.setTextColor(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
     }
 
     public static void loadDefaultColorCardFive(Activity act, LayoutDigitalCardFifthBinding binding, Palette colors) {
 
+        binding.verticalView.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.bottomView.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
         binding.brandName.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.black)));
         binding.addressTxt.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.black)));
         binding.emailTxt.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.black)));
         binding.phoneTxt.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.black)));
-        binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.userIcon.setImageTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
-        binding.addressIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+
         binding.userIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(act, R.color.white)));
-        binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+
+        binding.emailIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.addressIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
+        binding.callIcon.setBackgroundTintList(ColorStateList.valueOf(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary))));
     }
 
 
@@ -485,7 +491,7 @@ public class VisitingCardHelper {
 
     public static ArrayList<BackgroundColorsModel> getBackgroundColorsListCardThree(Palette colors, Activity act, LayoutDigitalCardThreeBinding binding) {
         ArrayList<BackgroundColorsModel> colorsList = new ArrayList<>();
-        BackgroundColorsModel model = new BackgroundColorsModel(ContextCompat.getColor(act, R.color.colorChocolaty));
+        BackgroundColorsModel model = new BackgroundColorsModel(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
         viewId.add(binding.frontPage.getId());
@@ -556,7 +562,7 @@ public class VisitingCardHelper {
 
     public static ArrayList<BackgroundColorsModel> getBackgroundColorsListCardFour(Palette colors, Activity act, LayoutDigitalCardFourthBinding binding) {
         ArrayList<BackgroundColorsModel> colorsList = new ArrayList<>();
-        BackgroundColorsModel model = new BackgroundColorsModel(ContextCompat.getColor(act, R.color.colorPrimary));
+        BackgroundColorsModel model = new BackgroundColorsModel(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
         viewId.add(binding.frontBottomView.getId());
@@ -618,7 +624,7 @@ public class VisitingCardHelper {
 
     public static ArrayList<BackgroundColorsModel> getBackgroundColorsListCardFive(Palette colors, Activity act, LayoutDigitalCardFifthBinding binding) {
         ArrayList<BackgroundColorsModel> colorsList = new ArrayList<>();
-        BackgroundColorsModel model = new BackgroundColorsModel(ContextCompat.getColor(act, R.color.colorPrimary));
+        BackgroundColorsModel model = new BackgroundColorsModel(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
         viewId.add(binding.topRightView.getId());
@@ -636,7 +642,7 @@ public class VisitingCardHelper {
         model.setViewId(viewId);
         colorsList.add(model);
 
-        model = new BackgroundColorsModel(ContextCompat.getColor(act, R.color.white));
+        model = new BackgroundColorsModel(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
         model.setObjectPosition(2);
         viewId.add(binding.callIcon.getId());
         viewId.add(binding.emailIcon.getId());
@@ -671,7 +677,7 @@ public class VisitingCardHelper {
 
     public static ArrayList<IconsColorsModel> getIconsColorsListCardFive(Palette colors, Activity act, LayoutDigitalCardFifthBinding binding) {
         ArrayList<IconsColorsModel> colorsList = new ArrayList<>();
-        IconsColorsModel model = new IconsColorsModel(colors.getDarkVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
+        IconsColorsModel model = new IconsColorsModel(ContextCompat.getColor(act, R.color.white));
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
         viewId.add(binding.userIcon.getId());
@@ -1071,6 +1077,7 @@ public class VisitingCardHelper {
         Activity act = null;
         if (colorsModel.getObjectPosition() == 0) {
             model.getThreeBinding().frontPage.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getThreeBinding().backPage.setBackgroundTintList(ColorStateList.valueOf(color));
         }
         if (colorsModel.getObjectPosition() == 1) {
             model.getThreeBinding().callIcon.setBackgroundTintList(ColorStateList.valueOf(color));
@@ -1158,10 +1165,11 @@ public class VisitingCardHelper {
         if (colorsModel.getObjectPosition() == 0) {
             model.getFiveBinding().bottomView.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFiveBinding().topRightView.setBackgroundTintList(ColorStateList.valueOf(color));
+            model.getFiveBinding().verticalView.setBackgroundTintList(ColorStateList.valueOf(color));
+
             model.getFiveBinding().bottomLeftView.setBackgroundTintList(ColorStateList.valueOf(color));
         }
         if (colorsModel.getObjectPosition() == 1) {
-            model.getFiveBinding().verticalView.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFiveBinding().call.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFiveBinding().email.setBackgroundTintList(ColorStateList.valueOf(color));
             model.getFiveBinding().address.setBackgroundTintList(ColorStateList.valueOf(color));

@@ -161,8 +161,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private int REQUESTED_STORAGE = 0003;
     private int REQUESTED_CONTACT = 0004;
     private int REQUEST_SETTINGS = 0005;
-
-    androidx.appcompat.app.AlertDialog alertDialog;
+    private androidx.appcompat.app.AlertDialog alertDialog;
 
     public void askPermissions() {
         permissionsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_permissions_layout, null, false);
@@ -193,14 +192,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                 REQUESTED_STORAGE));
 
-//        permissionsLayoutBinding.permissionLayout3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ActivityCompat.requestPermissions(act,
-//                        new String[]{READ_EXTERNAL_STORAGE},
-//                        3);
-//            }
-//        });
 
         permissionsLayoutBinding.allowPermission.setOnClickListener(new View.OnClickListener() {
             @Override

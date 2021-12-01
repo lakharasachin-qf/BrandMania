@@ -154,7 +154,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                     if (jObject.getBoolean("status")) {
                         JSONObject jsonArray = jObject.getJSONObject("data");
                         preafManager.setUserToken(jsonArray.getString("token"));
-                        Log.w("Tpokennnn",jsonArray.getString("token"));
 
                         is_completed= jsonArray.getString("is_completed");
                         preafManager.loginStep(is_completed);
@@ -292,7 +291,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             {
                 isLoading = false;
                 Utility.dismissProgress();
-                Utility.Log("Response-OTP: ", response);
 
                 preafManager.loginStep("2");
                 if (ResponseHandler.isSuccess(response, null)) {

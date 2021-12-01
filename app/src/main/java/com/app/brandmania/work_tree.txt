@@ -22,3 +22,10 @@ Changes :
    27/11/2021
     - search and pagination in BusinessCategoryListActivity and DailyCategoryListActivity
     - SL
+
+  01-12-2021
+    -  business card correction
+    - update brand and add brand state city
+    -  remove font size increase
+    - improved video quality.
+    - footer added 10 new designs

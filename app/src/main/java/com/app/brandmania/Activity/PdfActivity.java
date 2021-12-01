@@ -43,11 +43,15 @@ import com.app.brandmania.Adapter.VisitingCardAdapter;
 import com.app.brandmania.BuildConfig;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.HELPER;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
+import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Common.VisitingCardHelper;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.ColorPickerFragment;
 import com.app.brandmania.Model.BackgroundColorsModel;
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ColorsModel;
 import com.app.brandmania.Model.IconsColorsModel;
 import com.app.brandmania.Model.TextColorsModel;
@@ -61,7 +65,9 @@ import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardThreeBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardTwoBinding;
 import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
+import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
@@ -503,21 +509,11 @@ public class PdfActivity extends BaseActivity {
 
     @Override
     public void onResume() {
-        activity(0);
-
-        if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
-            VisitingCardHelper.loadDataCardOne(act, CurrentSelectedCard.getOneBinding(), colors);
-        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
-            VisitingCardHelper.loadDataCardTwo(act, CurrentSelectedCard.getTwoBinding(), colors);
-        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
-            VisitingCardHelper.loadDataCardThree(act, CurrentSelectedCard.getThreeBinding(), colors);
-        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
-            VisitingCardHelper.loadDataCardFour(act, CurrentSelectedCard.getFourBinding(), colors);
-        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
-            VisitingCardHelper.loadDataCardFive(act, CurrentSelectedCard.getFiveBinding(), colors);
-        }
         super.onResume();
 
+        if (CurrentSelectedCard!=null){
+            getBrandList();
+        }
     }
 
     public void addDynamicLayout() {
@@ -905,6 +901,9 @@ public class PdfActivity extends BaseActivity {
                 error.printStackTrace();
                 isLoading = false;
                 Utility.dismissLoadingTran();
+
+                binding.loader.setVisibility(View.GONE);
+                binding.scrollView.setVisibility(View.VISIBLE);
             }
         }) {
 
@@ -935,4 +934,96 @@ public class PdfActivity extends BaseActivity {
         queue.add(request);
 
     }
+
+    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+
+
+    public void loadDataRefreshing(){
+        prefManager =new PreafManager(act);
+        if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
+            VisitingCardHelper.loadDataCardOne(act, CurrentSelectedCard.getOneBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
+            VisitingCardHelper.loadDataCardTwo(act, CurrentSelectedCard.getTwoBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
+            VisitingCardHelper.loadDataCardThree(act, CurrentSelectedCard.getThreeBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+            Log.e("data","4");
+            VisitingCardHelper.loadDataCardFour(act, CurrentSelectedCard.getFourBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+            VisitingCardHelper.loadDataCardFive(act, CurrentSelectedCard.getFiveBinding(), colors);
+        }
+    }
+    private void getBrandList(   ) {
+        Utility.Log("API : ", APIs.GET_BRAND);
+
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.scrollView.setVisibility(View.GONE);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Utility.Log("GET_BRAND : ", response);
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+
+                    if (multiListItems != null && multiListItems.size() != 0) {
+                        for (int i=0;i<multiListItems.size();i++){
+                            if (multiListItems.get(i).getName().equalsIgnoreCase(prefManager.getActiveBrand().getName())){
+                                prefManager.setActiveBrand(multiListItems.get(i));
+                                break;
+                            }
+                        }
+                    }
+
+                    loadDataRefreshing();
+                    binding.loader.setVisibility(View.GONE);
+                    binding.scrollView.setVisibility(View.VISIBLE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        binding.loader.setVisibility(View.GONE);
+                        binding.scrollView.setVisibility(View.VISIBLE);
+                        loadDataRefreshing();
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                Log.e("DateNdClass", params.toString());
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
+    }
+
+
 }

@@ -185,6 +185,7 @@
                     android:maxWidth="@dimen/_120sdp"
                     android:paddingTop="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_10sdp"
+                    android:maxLines="2"
                     android:text="Your Address"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_6sdp"

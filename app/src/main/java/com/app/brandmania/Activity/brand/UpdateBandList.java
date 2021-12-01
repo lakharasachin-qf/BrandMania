@@ -142,6 +142,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 //                    chooseFragment(COUNTRY, countryTitle, countryList, binding.countryEdt.getText().toString());
 //            }
 //        });
+        getCountryStateCity(CALL_STATE);
         binding.stateEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,9 +153,13 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         binding.cityEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.stateEdt.getText().length() != 0) {
-                    if (cityList != null)
+                if (binding.stateEdt.getText().toString().length() != 0) {
+                    if (cityList != null && cityList.size()!=0)
                         chooseFragment(CITY, cityTitle, cityList, binding.cityEdt.getText().toString());
+                    else{
+                        wantToShowDropDown = true;
+                        getCountryStateCity(CALL_CITY);
+                    }
                 } else {
                     wantToShowDropDown = true;
                     getCountryStateCity(CALL_CITY);
@@ -178,7 +183,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             binding.categoryEdt.setText(listModel.getCategoryName());
             binding.nameTxt.setText(listModel.getName());
             binding.phoneTxt.setText(listModel.getPhonenumber());
-            binding.addressEdt.setText(listModel.getAddress());
+            binding.addressEdt.setText(listModel.getOriginalAddress());
             binding.websiteEdt.setText(listModel.getWebsite());
             binding.emailIdEdt.setText(listModel.getEmail());
 
@@ -264,7 +269,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             binding.categoryEdt.setText(prefManager.getActiveBrand().getCategoryName());
             binding.nameTxt.setText(prefManager.getActiveBrand().getName());
             binding.phoneTxt.setText(prefManager.getActiveBrand().getPhonenumber());
-            binding.addressEdt.setText(prefManager.getActiveBrand().getAddress());
+            binding.addressEdt.setText(prefManager.getActiveBrand().getOriginalAddress());
             binding.websiteEdt.setText(prefManager.getActiveBrand().getWebsite());
             binding.emailIdEdt.setText(prefManager.getActiveBrand().getEmail());
             binding.businessServiceEdt.setText(prefManager.getActiveBrand().getBrandService());
@@ -854,23 +859,17 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                                 cityList.add(listModel);
                             }
                         }
-//                        CommonListModel listModel = new CommonListModel();
-//                        listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
-//                        listModel.setId("-1");
-//                        listModel.setName("None");
-//
-//                        if (flag == CALL_COUNTRY && countryList.size() != 0) {
-//                            countryList.add(0, listModel);
-//
-//                        }
-//
-//                        if (flag == CALL_STATE && stateList.size() != 0) {
-//                            stateList.add(0, listModel);
-//                        }
-//
-//                        if (flag == CALL_CITY && cityList.size() != 0) {
-//                            cityList.add(0, listModel);
-//                        }
+
+                        if (flag == CALL_STATE && stateList.size() != 0) {
+                            for (int i = 0; i < stateList.size(); i++) {
+                                if (binding.stateEdt.getText().toString().equalsIgnoreCase(stateList.get(i).getName())) {
+                                    selectedState =stateList.get(i);
+                                    getCountryStateCity(CALL_CITY);
+                                    break;
+                                }
+                            }
+                        }
+
 
                         if (wantToShowDropDown) {
                             if (flag == CALL_STATE) {

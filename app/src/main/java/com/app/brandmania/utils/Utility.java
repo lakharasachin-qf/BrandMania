@@ -55,7 +55,7 @@ public class Utility {
     private static Dialog progressDialog;
 
     public static void Log(String act, Object msg) {
-         Log.e(act, msg + "");
+     //    Log.e(act, msg + "");
     }
     public static void showLoadingTran(Activity act) {
 
