@@ -96,8 +96,6 @@ public class PackageActivity extends BaseActivity {
         binding.recyclerList.setLayoutManager(mLayoutManager);
         binding.recyclerList.setAdapter(dasboardAddaptor);
 
-
-
     }
 
 

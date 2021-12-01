@@ -172,6 +172,7 @@ public class PdfActivity extends BaseActivity {
                     @Override
                     public void onSuccess() {
                         colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
+
                         setDigitalCardAdapter();
                     }
 
@@ -361,6 +362,7 @@ public class PdfActivity extends BaseActivity {
     int SELECTED_LAYOUT = LAYOUT_THREE;
     int objectSelectedPosition = 0;
 
+
     public void setDigitalCardAdapter() {
         isLoading = false;
         Utility.dismissProgress();
@@ -503,6 +505,26 @@ public class PdfActivity extends BaseActivity {
     String dirpath;
     File frontPage;
     File backPage;
+
+
+    @Override
+    public void onResume() {
+        activity(0);
+
+        if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
+            VisitingCardHelper.loadDataCardOne(act, CurrentSelectedCard.getOneBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
+            VisitingCardHelper.loadDataCardTwo(act, CurrentSelectedCard.getTwoBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
+            VisitingCardHelper.loadDataCardThree(act, CurrentSelectedCard.getThreeBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+            VisitingCardHelper.loadDataCardFour(act, CurrentSelectedCard.getFourBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+            VisitingCardHelper.loadDataCardFive(act, CurrentSelectedCard.getFiveBinding(), colors);
+        }
+        super.onResume();
+
+    }
 
     public void addDynamicLayout() {
         binding.container.removeAllViews();
@@ -832,11 +854,15 @@ public class PdfActivity extends BaseActivity {
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
         layoutSecondBinding.closeBtn.setOnClickListener(v -> alertDialog.dismiss());
-        layoutSecondBinding.element3.setText("To download business card, please upgrade your package");
+        if (Utility.isPackageExpired(act)) {
+            layoutSecondBinding.element2.setText("Expired");
+        } else {
+            layoutSecondBinding.element2.setText("Free");
+        }
+        layoutSecondBinding.element3.setText("To download digital visiting card, please upgrade your package.");
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-
 
     String activityId = "";
     int actionFlagForDownloadOrShare = -1;
