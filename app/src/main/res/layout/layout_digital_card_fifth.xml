@@ -181,7 +181,8 @@
 
                     <TextView
                         android:id="@+id/brandName"
-                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_marginBottom="@dimen/_9sdp"
@@ -190,7 +191,8 @@
                         android:text="Your Brand Name"
                         android:textSize="@dimen/_10sdp"
                         app:layout_constraintBottom_toBottomOf="@id/verticalView"
-                        app:layout_constraintStart_toEndOf="@id/verticalView" />
+                        app:layout_constraintStart_toEndOf="@id/verticalView"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
 
                     <View

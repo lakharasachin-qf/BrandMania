@@ -64,9 +64,11 @@ public class VisitingCardHelper {
         Picasso.get().load(brand.getLogo()).into(oneBinding.logo2);
         Picasso.get().load(brand.getLogo()).into(oneBinding.logo);
 
-        if (!brand.getWebsite().isEmpty() && !brand.getWebsite().equalsIgnoreCase("https://")) {
-            oneBinding.websiteTxt1.setText(brand.getWebsite());
-        }
+        oneBinding.userName.setText(brand.getName());
+//
+//        if (!brand.getWebsite().isEmpty() && !brand.getWebsite().equalsIgnoreCase("https://")) {
+//            oneBinding.userName.setText(brand.getName());
+//        }
 //        else {
 //            if (!brand.getWebsite().isEmpty()) {
 //                oneBinding.websiteTxt1.setText("www." + brand.getWebsite().replace("https://", "").replace("https://", "").replace("www.", ""));
@@ -361,7 +363,7 @@ public class VisitingCardHelper {
         TextColorsModel model = new TextColorsModel(ContextCompat.getColor(act, R.color.white));
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
-        viewId.add(binding.websiteTxt1.getId());
+        viewId.add(binding.userName.getId());
         model.setViewId(viewId);
         colorsList.add(model);
 
@@ -554,7 +556,7 @@ public class VisitingCardHelper {
 
     public static ArrayList<BackgroundColorsModel> getBackgroundColorsListCardFour(Palette colors, Activity act, LayoutDigitalCardFourthBinding binding) {
         ArrayList<BackgroundColorsModel> colorsList = new ArrayList<>();
-        BackgroundColorsModel model = new BackgroundColorsModel(ContextCompat.getColor(act, R.color.deepColour));
+        BackgroundColorsModel model = new BackgroundColorsModel(ContextCompat.getColor(act, R.color.colorPrimary));
         ArrayList<Integer> viewId = new ArrayList<>();
         model.setObjectPosition(0);
         viewId.add(binding.frontBottomView.getId());
@@ -565,7 +567,7 @@ public class VisitingCardHelper {
         model.setViewId(viewId);
         colorsList.add(model);
 
-        model = new BackgroundColorsModel(colors.getVibrantColor(ContextCompat.getColor(act, R.color.colorPrimary)));
+        model = new BackgroundColorsModel(colors.getVibrantColor(ContextCompat.getColor(act, R.color.deepColour)));
         model.setObjectPosition(1);
         viewId.add(binding.callIcon.getId());
         viewId.add(binding.emailIcon.getId());
@@ -989,7 +991,7 @@ public class VisitingCardHelper {
 
     public static void applyTextColorCardOne(VisitingCardModel model, int color, TextColorsModel colorsModel) {
         if (colorsModel.getObjectPosition() == 0) {
-            model.getOneBinding().websiteTxt1.setTextColor(ColorStateList.valueOf(color));
+            model.getOneBinding().userName.setTextColor(ColorStateList.valueOf(color));
         }
         if (colorsModel.getObjectPosition() == 1) {
             model.getOneBinding().brandName.setTextColor(ColorStateList.valueOf(color));

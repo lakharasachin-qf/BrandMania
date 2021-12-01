@@ -90,6 +90,23 @@ public class PdfActivity extends BaseActivity {
     public boolean isUserPaid = true;
     public boolean forShareUser = true;
     private boolean isLoading = false;
+    int objectSelectedPosition = 0;
+
+    ArrayList<ColorsModel> colorsList = new ArrayList<>();
+    ColorsModel selectedModel;
+    ColorsAdapterPDF colorsAdapterPDF;
+
+    ArrayList<BackgroundColorsModel> backgroundColorsList = new ArrayList<>();
+    BackgroundColorsModel backgroundSelectModel;
+    BackgroundColorsAdapter backgroundColorsAdapter;
+
+    ArrayList<TextColorsModel> textColorsList = new ArrayList<>();
+    TextColorsModel textSelectModel;
+    TextColorsAdapter textColorsAdapter;
+
+    ArrayList<IconsColorsModel> iconsColorsList = new ArrayList<>();
+    IconsColorsModel iconsSelectModel;
+    IconsColorsAdapter iconsColorsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -338,29 +355,6 @@ public class PdfActivity extends BaseActivity {
         binding.colorList.setAdapter(colorsAdapterPDF);
         selectedModel = colorsList.get(0);
     }
-
-    int LAYOUT_ONE = 0;
-    int LAYOUT_TWO = 1;
-    int LAYOUT_THREE = 2;
-
-    ArrayList<ColorsModel> colorsList = new ArrayList<>();
-    ColorsModel selectedModel;
-    ColorsAdapterPDF colorsAdapterPDF;
-
-    ArrayList<BackgroundColorsModel> backgroundColorsList = new ArrayList<>();
-    BackgroundColorsModel backgroundSelectModel;
-    BackgroundColorsAdapter backgroundColorsAdapter;
-
-    ArrayList<TextColorsModel> textColorsList = new ArrayList<>();
-    TextColorsModel textSelectModel;
-    TextColorsAdapter textColorsAdapter;
-
-    ArrayList<IconsColorsModel> iconsColorsList = new ArrayList<>();
-    IconsColorsModel iconsSelectModel;
-    IconsColorsAdapter iconsColorsAdapter;
-
-    int SELECTED_LAYOUT = LAYOUT_THREE;
-    int objectSelectedPosition = 0;
 
 
     public void setDigitalCardAdapter() {

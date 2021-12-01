@@ -275,17 +275,21 @@
 
                 <TextView
                     android:id="@+id/brandNameText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_5sdp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/montserrat_semibold"
                     android:includeFontPadding="false"
+                    android:maxWidth="@dimen/_250sdp"
+                    android:maxLines="2"
                     android:text="Your Brand Name"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/outerLayer3"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/backPage"
                     app:layout_constraintStart_toStartOf="@+id/outerLayer3"
                     app:layout_constraintTop_toTopOf="@+id/outerLayer3" />
 

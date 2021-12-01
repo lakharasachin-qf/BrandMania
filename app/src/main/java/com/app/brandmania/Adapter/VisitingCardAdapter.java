@@ -147,7 +147,7 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                         ((CardHolderTwo) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                     }
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderTwo) holder).binding.logo);
-                    ((CardHolderTwo) holder).binding.webTxt.setText(activeBrand.getAddress());
+                    ((CardHolderTwo) holder).binding.webTxt.setText(activeBrand.getWebsite());
                     break;
                 case LAYOUT_THREE:
                     ((CardHolderThree) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {

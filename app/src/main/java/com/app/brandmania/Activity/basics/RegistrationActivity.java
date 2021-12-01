@@ -476,7 +476,6 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
-
         };
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
