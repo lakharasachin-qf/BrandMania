@@ -79,7 +79,7 @@
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:letterSpacing="0.2"
-                    android:text="your website"
+                    android:text="Your website"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="parent"

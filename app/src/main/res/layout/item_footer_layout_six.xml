@@ -22,6 +22,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_package_dot" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,10 +62,10 @@
                         <TextView
                             android:id="@+id/textElement1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/inter_regular"
-                            android:gravity="center_vertical"
+                            android:gravity="clip_vertical"
                             android:text="Follow us:"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_5sdp" />
@@ -100,8 +106,8 @@
 
                         <ImageView
                             android:id="@+id/contactImage"
-                            android:layout_width="@dimen/_7sdp"
-                            android:layout_height="@dimen/_7sdp"
+                            android:layout_width="@dimen/_6sdp"
+                            android:layout_height="@dimen/_6sdp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:src="@drawable/ic_phone"
@@ -112,6 +118,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_2sdp"
                             android:fontFamily="@font/inter_regular"
                             android:gravity="center_vertical"
                             android:text="8849896537"

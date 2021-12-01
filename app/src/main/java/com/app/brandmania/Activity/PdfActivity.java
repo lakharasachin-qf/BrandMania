@@ -164,7 +164,7 @@ public class PdfActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-        isLoading = true;
+
         activity(0);
 
         Picasso.get().load(prefManager.getActiveBrand().getLogo())
@@ -201,7 +201,6 @@ public class PdfActivity extends BaseActivity {
         } else {
             binding.address.setText(prefManager.getActiveBrand().getAddress());
         }
-        binding.alertText.setText(Html.fromHtml("Please fill all the details for better perfect design." + "<font color=\"red\">" + "<b>" + "Fill Details.." + "</b>" + "</font>"));
 
         binding.alertText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -365,6 +364,7 @@ public class PdfActivity extends BaseActivity {
     public void setDigitalCardAdapter() {
         isLoading = false;
         Utility.dismissProgress();
+        binding.alertText.setText(Html.fromHtml("Please fill all the details for better perfect design." + "<font color=\"red\">" + "<b>" + "Click here to fill details." + "</b>" + "</font>"));
         visitingCardAdapter = new VisitingCardAdapter(digitalCardList, act);
         VisitingCardAdapter.onVisitingCardListener onItemSelectListener = (layout, visitingCardModel) -> {
             CurrentSelectedCard = visitingCardModel;
@@ -384,7 +384,8 @@ public class PdfActivity extends BaseActivity {
 
     public void showBackgroundFragmentList() {
         bottomSheetFragment = new ColorPickerFragment();
-        ColorPickerFragment.OnColorChoose onColorChoose = color -> {
+        ColorPickerFragment.OnColorChoose onColorChoose;
+        onColorChoose = color -> {
             VisitingCardHelper.applyBackgroundColor(CurrentSelectedCard, color, backgroundSelectModel);
             backgroundSelectModel.setColor(color);
             backgroundColorsList.set(objectSelectedPosition, backgroundSelectModel);
@@ -763,6 +764,12 @@ public class PdfActivity extends BaseActivity {
                 img.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
                 document.add(img);
 
+//                String FilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.DOCUMENT + "/" + prefManager.getActiveBrand().getName() + ".pdf";
+//                Intent intent = new Intent(Intent.CATEGORY_OPENABLE);
+//                File file = new File(FilePath);
+//                Uri apkURI = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", file);
+//                intent.setDataAndType(apkURI, "application/pdf");
+//                startActivity(intent);
             }
             document.close();
             Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
@@ -776,7 +783,6 @@ public class PdfActivity extends BaseActivity {
                 activity(1); // 1 for download
                 actionFlagForDownloadOrShare = 1;
             }
-
 
 
         } catch (Exception e) {
@@ -869,7 +875,7 @@ public class PdfActivity extends BaseActivity {
                 }
 
                 if (actionFlagForDownloadOrShare == 2) {
-                    actionFlagForDownloadOrShare=-1;
+                    actionFlagForDownloadOrShare = -1;
                     viewPdf(prefManager.getActiveBrand().getName(), act);
                 }
             }

@@ -1055,7 +1055,6 @@ public class VisitingCardHelper {
             model.getTwoBinding().callIcon.setImageTintList(ColorStateList.valueOf(color));
             model.getTwoBinding().emailIcon.setImageTintList(ColorStateList.valueOf(color));
             model.getTwoBinding().websiteIcon.setImageTintList(ColorStateList.valueOf(color));
-            model.getTwoBinding().locationIcon.setImageTintList(ColorStateList.valueOf(color));
         }
         if (colorsModel.getObjectPosition() == 2) {
             model.getTwoBinding().fb.setImageTintList(ColorStateList.valueOf(color));

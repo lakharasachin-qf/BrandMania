@@ -71,8 +71,8 @@
 
                 <ImageView
                     android:id="@+id/logo"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
+                    android:layout_width="@dimen/_55sdp"
+                    android:layout_height="@dimen/_55sdp"
                     android:src="@drawable/bm_logo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -105,18 +105,18 @@
                     android:id="@+id/outerLayer3"
                     android:layout_width="@dimen/_165sdp"
                     android:layout_height="@dimen/_165sdp"
-                    android:layout_marginTop="-40dp"
-                    android:layout_marginEnd="-40dp"
+                    android:layout_marginEnd="-45dp"
                     android:background="@drawable/digital_card_ovel"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/outerLayer2"
                     android:layout_width="@dimen/_185sdp"
                     android:layout_height="@dimen/_185sdp"
                     android:layout_marginTop="-20dp"
-                    android:layout_marginEnd="-35dp"
+                    android:layout_marginEnd="-40dp"
                     android:layout_marginBottom="-30dp"
                     android:background="@drawable/digital_round_corner_two"
                     android:rotation="-25"
@@ -128,7 +128,7 @@
                     android:layout_width="@dimen/_210sdp"
                     android:layout_height="@dimen/_210sdp"
                     android:layout_marginTop="-35dp"
-                    android:layout_marginEnd="-50dp"
+                    android:layout_marginEnd="-60dp"
                     android:background="@drawable/digital_round_corner_one"
                     android:rotation="-20"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -162,19 +162,19 @@
 
                 <TextView
                     android:id="@+id/phoneTxt"
-                    android:layout_width="@dimen/_60sdp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_2sdp"
                     android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
-                    android:text="Your Mobile No "
+                    android:paddingStart="@dimen/_2sdp"
+                    android:text="Your Mobile No"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/callIcon"
                     app:layout_constraintEnd_toStartOf="@id/callIcon"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/callIcon" />
 
                 <ImageView
@@ -280,7 +280,7 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:fontFamily="@font/montserrat_semibold"
                     android:includeFontPadding="false"
-                    android:text="Pecificaoversears"
+                    android:text="Your Brand Name"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     android:textStyle="bold"

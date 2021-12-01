@@ -22,176 +22,180 @@
             app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <View
-                android:layout_margin="@dimen/_4sdp"
-                android:background="@drawable/shape_package_dot"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <RelativeLayout
-                android:gravity="bottom"
-                android:layout_marginBottom="@dimen/_3sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_4sdp"
+                    android:background="@drawable/shape_package_dot" />
 
                 <RelativeLayout
-                    android:id="@+id/section1"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_alignParentStart="true"
-
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:id="@+id/gmailLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_10sdp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true">
-
-                        <ImageView
-                            android:id="@+id/gmailImage"
-                            android:layout_width="@dimen/_4sdp"
-                            android:layout_height="@dimen/_4sdp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_outline_mail_24"
-                            app:tint="@color/colorPrimary" />
-
-                        <TextView
-                            android:id="@+id/gmailText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/_2sdp"
-                            android:layout_toEndOf="@+id/gmailImage"
-                            android:includeFontPadding="false"
-                            android:maxWidth="@dimen/_120sdp"
-                            android:padding="0dp"
-                            android:singleLine="true"
-                            android:text="qfsolution@gmail.com"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_4sdp" />
-
-                    </RelativeLayout>
-
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:gravity="bottom">
 
                     <RelativeLayout
-                        android:id="@+id/contactLayout"
+                        android:id="@+id/section1"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_10sdp"
-
                         android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:orientation="horizontal">
 
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/contactImage"
-                            android:layout_width="@dimen/_4sdp"
-                            android:layout_height="@dimen/_4sdp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:src="@drawable/ic_phone"
-                            app:tint="@color/colorPrimary" />
-
-                        <TextView
-                            android:id="@+id/contactText"
-
+                        <RelativeLayout
+                            android:id="@+id/gmailLayout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center_vertical"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true">
+
+                            <ImageView
+                                android:id="@+id/gmailImage"
+                                android:layout_width="@dimen/_4sdp"
+                                android:layout_height="@dimen/_4sdp"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_outline_mail_24"
+                                app:tint="@color/colorPrimary" />
+
+                            <TextView
+                                android:id="@+id/gmailText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:layout_toEndOf="@+id/gmailImage"
+                                android:includeFontPadding="false"
+                                android:maxWidth="@dimen/_120sdp"
+                                android:padding="0dp"
+                                android:singleLine="true"
+                                android:text="qfsolution@gmail.com"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_4sdp" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/contactLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_10sdp"
                             android:layout_marginStart="@dimen/_2sdp"
-                            android:layout_toEndOf="@+id/contactImage"
-                            android:fontFamily="@font/inter_regular"
-                            android:gravity="center_vertical"
-                            android:text="8849896537"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_4sdp" />
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="horizontal">
 
 
+                            <ImageView
+                                android:id="@+id/contactImage"
+                                android:layout_width="@dimen/_4sdp"
+                                android:layout_height="@dimen/_4sdp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_phone"
+                                app:tint="@color/colorPrimary" />
+
+                            <TextView
+                                android:id="@+id/contactText"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:layout_toEndOf="@+id/contactImage"
+                                android:fontFamily="@font/inter_regular"
+                                android:gravity="center_vertical"
+                                android:text="8849896537"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_4sdp" />
+
+
+                        </RelativeLayout>
                     </RelativeLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/section2"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_below="@+id/section1"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="@dimen/_7sdp"
-                    android:orientation="vertical">
-
 
                     <RelativeLayout
-                        android:id="@+id/loactionLayout"
+                        android:id="@+id/section2"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_10sdp"
-                        android:layout_centerVertical="true">
-
-
-                        <ImageView
-                            android:id="@+id/loacationImage"
-                            android:layout_width="@dimen/_4sdp"
-                            android:layout_height="@dimen/_4sdp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_outline_location_on_24"
-                            app:tint="@color/colorPrimary" />
-
-                        <TextView
-                            android:id="@+id/locationText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/_2sdp"
-                            android:layout_toEndOf="@+id/loacationImage"
-                            android:includeFontPadding="false"
-                            android:maxWidth="@dimen/_130sdp"
-                            android:padding="0dp"
-                            android:singleLine="true"
-                            android:text="Address"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_4sdp" />
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:id="@+id/websiteEdtLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_10sdp"
+                        android:layout_below="@+id/section1"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_7sdp">
+                        android:layout_marginLeft="@dimen/_7sdp"
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/websiteImage"
-                            android:layout_width="@dimen/_4sdp"
-                            android:layout_height="@dimen/_4sdp"
+
+                        <RelativeLayout
+
+                            android:id="@+id/loactionLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_10sdp"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/ic_outline_language_24"
-                            app:tint="@color/colorPrimary" />
+                            android:layout_toStartOf="@+id/websiteEdtLayout">
 
-                        <TextView
-                            android:id="@+id/websiteText"
+                            <ImageView
+                                android:id="@+id/loacationImage"
+                                android:layout_width="@dimen/_4sdp"
+                                android:layout_height="@dimen/_4sdp"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_outline_location_on_24"
+                                app:tint="@color/colorPrimary" />
+
+                            <TextView
+                                android:id="@+id/locationText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_2sdp"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:maxWidth="@dimen/_130sdp"
+                                android:padding="0dp"
+                                android:singleLine="true"
+                                android:text="Address"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_4sdp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/websiteEdtLayout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/_2sdp"
-                            android:layout_toEndOf="@+id/websiteImage"
-                            android:singleLine="true"
-                            android:text="website"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_4sdp" />
-                    </RelativeLayout>
-                </RelativeLayout>
+                            android:layout_marginRight="@dimen/_7sdp">
 
-            </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/websiteImage"
+                                android:layout_width="@dimen/_4sdp"
+                                android:layout_height="@dimen/_4sdp"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_outline_language_24"
+                                app:tint="@color/colorPrimary" />
+
+                            <TextView
+                                android:id="@+id/websiteText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:layout_toEndOf="@+id/websiteImage"
+                                android:singleLine="true"
+                                android:text="website"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_4sdp" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </RelativeLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
 
 
         <androidx.cardview.widget.CardView

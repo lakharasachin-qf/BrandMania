@@ -21,12 +21,20 @@
             app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_package_dot" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp">
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:paddingStart="@dimen/_2sdp">
 
                 <LinearLayout
                     android:id="@+id/addressEdtLayout"
@@ -138,7 +146,6 @@
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
-
 
 
         <androidx.cardview.widget.CardView

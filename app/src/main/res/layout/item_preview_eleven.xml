@@ -22,12 +22,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_package_dot" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/itemLayout"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_120sdp"
                 android:gravity="bottom"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/_4sdp">
 
                 <View
                     android:layout_width="0dp"
