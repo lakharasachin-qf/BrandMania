@@ -98,6 +98,8 @@ public class PdfActivity extends BaseActivity {
     private boolean isLoading = false;
     int objectSelectedPosition = 0;
 
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
+
     ArrayList<ColorsModel> colorsList = new ArrayList<>();
     ColorsModel selectedModel;
     ColorsAdapterPDF colorsAdapterPDF;
@@ -229,9 +231,10 @@ public class PdfActivity extends BaseActivity {
         binding.alertText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(act, UpdateBandList.class);
-                startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                HELPER.ROUTE(act, UpdateBandList.class);
+//                Intent intent = new Intent(act, UpdateBandList.class);
+//                startActivity(intent);
+//                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
 
@@ -511,7 +514,7 @@ public class PdfActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
 
-        if (CurrentSelectedCard!=null){
+        if (CurrentSelectedCard != null) {
             getBrandList();
         }
     }
@@ -875,11 +878,9 @@ public class PdfActivity extends BaseActivity {
                 if (flag == 0) {
                     binding.loader.setVisibility(View.GONE);
                     binding.scrollView.setVisibility(View.VISIBLE);
-
                 } else {
                     Utility.dismissLoadingTran();
                 }
-
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -932,14 +933,11 @@ public class PdfActivity extends BaseActivity {
         };
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
-
     }
 
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
 
-
-    public void loadDataRefreshing(){
-        prefManager =new PreafManager(act);
+    public void loadDataRefreshing() {
+        prefManager = new PreafManager(act);
         if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
             VisitingCardHelper.loadDataCardOne(act, CurrentSelectedCard.getOneBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
@@ -947,13 +945,14 @@ public class PdfActivity extends BaseActivity {
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
             VisitingCardHelper.loadDataCardThree(act, CurrentSelectedCard.getThreeBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
-            //Log.e("data","4");
+            Log.e("data","4");
             VisitingCardHelper.loadDataCardFour(act, CurrentSelectedCard.getFourBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
             VisitingCardHelper.loadDataCardFive(act, CurrentSelectedCard.getFiveBinding(), colors);
         }
     }
-    private void getBrandList(   ) {
+
+    private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
 
         binding.loader.setVisibility(View.VISIBLE);
@@ -969,14 +968,13 @@ public class PdfActivity extends BaseActivity {
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
 
                     if (multiListItems != null && multiListItems.size() != 0) {
-                        for (int i=0;i<multiListItems.size();i++){
-                            if (multiListItems.get(i).getName().equalsIgnoreCase(prefManager.getActiveBrand().getName())){
+                        for (int i = 0; i < multiListItems.size(); i++) {
+                            if (multiListItems.get(i).getName().equalsIgnoreCase(prefManager.getActiveBrand().getName())) {
                                 prefManager.setActiveBrand(multiListItems.get(i));
                                 break;
                             }
                         }
                     }
-
                     loadDataRefreshing();
                     binding.loader.setVisibility(View.GONE);
                     binding.scrollView.setVisibility(View.VISIBLE);
@@ -984,8 +982,6 @@ public class PdfActivity extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         },
                 new Response.ErrorListener() {
@@ -1009,21 +1005,19 @@ public class PdfActivity extends BaseActivity {
                 return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
-
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                Log.e("DateNdClass", params.toString());
 
                 //Log.e("DateNdClass", params.toString());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
-
         };
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-
 
 }
