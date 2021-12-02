@@ -285,9 +285,11 @@ public class HELPER {
             e.printStackTrace();
         }
     }
-    public static String deviceINFO(){
-        return "VERSION.RELEASE : "+Build.VERSION.RELEASE +"- VERSION.SDK.NUMBER : "+Build.VERSION.SDK_INT +" - BRAND : "+Build.BRAND;
+
+    public static String deviceINFO() {
+        return "VERSION.RELEASE : " + Build.VERSION.RELEASE + "- VERSION.SDK.NUMBER : " + Build.VERSION.SDK_INT + " - BRAND : " + Build.BRAND;
     }
+
     public static void WHATSAPP_REDIRECTION_2(Activity act, String businessName, String mobileNumber) {
         try {
             String number = Constant.ADMIN_CONTACT_NUMBER;
@@ -474,19 +476,19 @@ public class HELPER {
                 baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), Constant.ROOT);
             }
             if (folderName.equalsIgnoreCase(Constant.DATA)) {
-                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.DATA);
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/", Constant.DATA);
             }
             if (folderName.equalsIgnoreCase(Constant.VIDEOS)) {
-                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.VIDEOS);
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/", Constant.VIDEOS);
             }
             if (folderName.equalsIgnoreCase(Constant.IMAGES)) {
-                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.IMAGES);
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/", Constant.IMAGES);
             }
             if (folderName.equalsIgnoreCase(Constant.DOCUMENT)) {
-                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.DOCUMENT);
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/", Constant.DOCUMENT);
             }
             if (folderName.equalsIgnoreCase(Constant.GIF)) {
-                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/" , Constant.GIF);
+                baseFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + Constant.ROOT + "/", Constant.GIF);
             }
 
             if (!baseFolder.exists()) {
