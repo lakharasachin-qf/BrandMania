@@ -11,10 +11,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/socialBackground"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_200sdp"
-            android:layout_marginEnd="-120dp"
-            android:layout_marginBottom="-160dp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginEnd="-60dp"
+            android:layout_marginBottom="-70dp"
             android:background="@drawable/roundshape"
             android:backgroundTint="@color/colorthird"
             android:gravity="center_vertical"
@@ -31,17 +31,17 @@
             android:background="@drawable/shapeee_round_one_corner"
             android:backgroundTint="@color/colorthird"
             android:paddingStart="@dimen/_7sdp"
-            android:paddingTop="@dimen/_5sdp"
+            android:paddingTop="@dimen/_3sdp"
             android:paddingEnd="@dimen/_25sdp"
-            android:paddingBottom="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_3sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
                 android:id="@+id/emailIcon"
-                android:layout_width="@dimen/_10sdp"
-                android:layout_height="@dimen/_15sdp"
+                android:layout_width="@dimen/_8sdp"
+                android:layout_height="@dimen/_8sdp"
                 android:src="@drawable/ic_outline_location_on_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/contentBackground"
@@ -56,9 +56,9 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:maxLines="2"
                 android:text="B/1 Parasnager Rudra Complex,opp. Bajaranj Asshram, Vastral, Ahmedabad, Gujarat, India -223545"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8sdp"
+                android:textSize="@dimen/_6sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/emailIcon"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,8 +66,9 @@
 
         <ImageView
             android:id="@+id/callIcon"
+            android:layout_marginStart="@dimen/_6sdp"
             android:layout_width="@dimen/_10sdp"
-            android:layout_height="@dimen/_15sdp"
+            android:layout_height="@dimen/_10sdp"
             android:src="@drawable/ic_phone"
             app:layout_constraintBottom_toBottomOf="@id/mobileNo"
             app:layout_constraintStart_toStartOf="@+id/contentBackground"
@@ -78,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_7sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
             android:ellipsize="end"
             android:fontFamily="@font/montserrat_regular"
             android:maxLines="1"
@@ -93,8 +94,8 @@
 
         <ImageView
             android:id="@+id/fb"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:src="@drawable/ic_social_media_facebook"
@@ -106,8 +107,8 @@
 
         <ImageView
             android:id="@+id/insta"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:src="@drawable/ic_social_media_instagram"
@@ -119,8 +120,8 @@
 
         <ImageView
             android:id="@+id/wp"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
 

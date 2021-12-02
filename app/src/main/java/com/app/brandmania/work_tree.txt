@@ -1,10 +1,5 @@
 
-Changes :
- VERSION 1.9.1
 
-  27-11-2021
-     - Initial commit
-     - new repo started for change the flow of login and registration
-     - BY SL
 
+VERSION 1.9.1
 

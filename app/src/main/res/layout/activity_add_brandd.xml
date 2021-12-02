@@ -338,7 +338,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:hint="Brand Service"
+                    android:hint="Business Services"
                     app:errorEnabled="true"
                     app:hintTextColor="@color/colorPrimary">
 

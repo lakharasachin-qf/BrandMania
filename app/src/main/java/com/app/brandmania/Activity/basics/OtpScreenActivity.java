@@ -263,7 +263,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 hashMap.put("otp", otp);
                 hashMap.put("phone", mobileno);
              /*   hashMap.put("referrerCode", referrerCode);*/
-                Log.e("",preafManager.getReferCode());
+                //Log.e("",preafManager.getReferCode());
                 hashMap.put("firebase_token", deviceToken);
                 Utility.Log("Verify-Param", hashMap.toString());
 
@@ -295,7 +295,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             {
                 isLoading = false;
                 Utility.dismissProgress();
-                Utility.Log("Response-OTP: ", response);
 
                 preafManager.loginStep("2");
                 if (ResponseHandler.isSuccess(response, null)) {

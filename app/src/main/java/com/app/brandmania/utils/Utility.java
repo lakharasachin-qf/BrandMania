@@ -49,13 +49,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-
 public class Utility {
     public static Dialog dialog;
     private static Dialog progressDialog;
 
     public static void Log(String act, Object msg) {
-         Log.e(act, msg + "");
+     //    Log.e(act, msg + "");
     }
     public static void showLoadingTran(Activity act) {
 

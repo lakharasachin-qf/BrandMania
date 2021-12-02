@@ -23,6 +23,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_package_dot" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/itemLayout"
                 android:layout_width="match_parent"
@@ -36,7 +42,7 @@
                     android:layout_width="@dimen/_4sdp"
                     android:layout_height="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:src="@drawable/ic_social_media_facebook"
                     app:layout_constraintEnd_toStartOf="@id/insta"
@@ -48,7 +54,7 @@
                     android:layout_width="@dimen/_4sdp"
                     android:layout_height="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:src="@drawable/ic_social_media_instagram"
                     app:layout_constraintEnd_toStartOf="@id/wp"
@@ -60,8 +66,8 @@
                     android:layout_width="@dimen/_4sdp"
                     android:layout_height="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:src="@drawable/ic_social_media_whatsapp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

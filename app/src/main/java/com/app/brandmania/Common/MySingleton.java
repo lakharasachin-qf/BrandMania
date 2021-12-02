@@ -60,7 +60,12 @@ public class MySingleton {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         getRequestQueue().add(req);
     }
+    public void cancelPendingRequests(Object tag) {
+        if (requestQueue != null) {
+            requestQueue.cancelAll(tag);
 
+        }
+    }
     public ImageLoader getImageLoader() {
         return imageLoader;
     }

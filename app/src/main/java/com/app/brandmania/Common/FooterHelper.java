@@ -988,6 +988,7 @@ public class FooterHelper {
         seventeenBinding.emailIcon.setImageTintList(ColorStateList.valueOf((colodCode)));
         seventeenBinding.mobileNo.setTextColor((colodCode));
         seventeenBinding.emailTxt.setTextColor((colodCode));
+        seventeenBinding.socialBackground.setBackgroundTintList(ColorStateList.valueOf((colodCode)));
     }
 
     public static void ChangeTextColorForFrame18(Activity act, LayoutFooterEightteenBinding eighteenBinding, int colodCode) {
@@ -1008,7 +1009,7 @@ public class FooterHelper {
         twentyBinding.emailTxt.setTextColor((colodCode));
         twentyBinding.callIcon.setImageTintList(ColorStateList.valueOf((colodCode)));
         twentyBinding.emailIcon.setImageTintList(ColorStateList.valueOf((colodCode)));
-        twentyBinding.layer1.setBackgroundTintList(ColorStateList.valueOf((colodCode)));
+        //   twentyBinding.layer1.setBackgroundTintList(ColorStateList.valueOf((colodCode)));
         twentyBinding.layer3.setBackgroundTintList(ColorStateList.valueOf((colodCode)));
     }
 
@@ -1352,6 +1353,11 @@ public class FooterHelper {
             if (!activeBrand.getEmail().isEmpty()) {
                 fifteenBinding.locationPin.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_outline_mail_24));
                 fifteenBinding.address.setText(activeBrand.getEmail());
+            }else{
+                if (!activeBrand.getPhonenumber().isEmpty()) {
+                    fifteenBinding.locationPin.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_phone));
+                    fifteenBinding.address.setText("Call us : "+activeBrand.getPhonenumber());
+                }
             }
         }
     }
@@ -1385,17 +1391,17 @@ public class FooterHelper {
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
-            tweloneBinding.mobileNo.setText(activeBrand.getPhonenumber());
+            tweloneBinding.mobileNo.setText("Contact us : "+activeBrand.getPhonenumber());
         } else {
             tweloneBinding.mobileNo.setVisibility(View.GONE);
         }
         if (!activeBrand.getAddress().isEmpty()) {
             tweloneBinding.address.setText(activeBrand.getAddress());
         } else {
-            if (!activeBrand.getWebsite().isEmpty()) {
+            if (!activeBrand.getWebsite().isEmpty() && !activeBrand.getWebsite().equalsIgnoreCase("http://") && !activeBrand.getWebsite().equalsIgnoreCase("https://")) {
                 tweloneBinding.address.setText("www." + activeBrand.getWebsite().replace("http://", "").replace("https://", "").replace("www.", ""));
             } else {
-                tweloneBinding.address.setVisibility(View.GONE);
+                tweloneBinding.layoutTwo.setVisibility(View.GONE);
             }
         }
     }
@@ -1406,17 +1412,20 @@ public class FooterHelper {
             seventeenBinding.emailTxt.setText(activeBrand.getEmail());
         } else {
             seventeenBinding.emailTxt.setVisibility(View.GONE);
+            seventeenBinding.emailIcon.setVisibility(View.GONE);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
             seventeenBinding.mobileNo.setText(activeBrand.getPhonenumber());
         } else {
             seventeenBinding.mobileNo.setVisibility(View.GONE);
+            seventeenBinding.callIcon.setVisibility(View.GONE);
         }
+
         if (!activeBrand.getAddress().isEmpty()) {
             seventeenBinding.address.setText(activeBrand.getAddress());
         } else {
-            if (!activeBrand.getWebsite().isEmpty()) {
+            if (!activeBrand.getWebsite().isEmpty() && !activeBrand.getWebsite().equalsIgnoreCase("http://") && !activeBrand.getWebsite().equalsIgnoreCase("https://")) {
                 seventeenBinding.address.setText("www." + activeBrand.getWebsite().replace("http://", "").replace("https://", "").replace("www.", ""));
             } else {
                 seventeenBinding.address.setVisibility(View.GONE);
@@ -1431,15 +1440,19 @@ public class FooterHelper {
             eighteenBinding.mobileNo.setText(activeBrand.getPhonenumber());
         } else {
             eighteenBinding.mobileNo.setVisibility(View.GONE);
+            eighteenBinding.callIcon.setVisibility(View.GONE);
         }
+
+
         if (!activeBrand.getAddress().isEmpty()) {
             eighteenBinding.address.setText(activeBrand.getAddress());
         } else {
-            if (!activeBrand.getWebsite().isEmpty()) {
-                eighteenBinding.address.setText("www." + activeBrand.getWebsite().replace("http://", "").replace("https://", "").replace("www.", ""));
-            } else {
-                eighteenBinding.address.setVisibility(View.GONE);
-            }
+            eighteenBinding.mobileNo.setVisibility(View.GONE);
+            eighteenBinding.callIcon.setVisibility(View.GONE);
+
+            eighteenBinding.address.setText(activeBrand.getPhonenumber());
+            eighteenBinding.emailIcon.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_phone));
+
         }
     }
 
@@ -1449,17 +1462,19 @@ public class FooterHelper {
             nineteenBinding.emailTxt.setText(activeBrand.getEmail());
         } else {
             nineteenBinding.emailTxt.setVisibility(View.GONE);
+            nineteenBinding.emailIcon.setVisibility(View.GONE);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
             nineteenBinding.mobileNo.setText(activeBrand.getPhonenumber());
         } else {
             nineteenBinding.mobileNo.setVisibility(View.GONE);
+            nineteenBinding.callIcon.setVisibility(View.GONE);
         }
         if (!activeBrand.getAddress().isEmpty()) {
             nineteenBinding.address.setText(activeBrand.getAddress());
         } else {
-            if (!activeBrand.getWebsite().isEmpty()) {
+            if (!activeBrand.getWebsite().isEmpty() && !activeBrand.getWebsite().equalsIgnoreCase("http://") && !activeBrand.getWebsite().equalsIgnoreCase("https://")) {
                 nineteenBinding.address.setText("www." + activeBrand.getWebsite().replace("http://", "").replace("https://", "").replace("www.", ""));
             } else {
                 nineteenBinding.address.setVisibility(View.GONE);
@@ -1473,17 +1488,19 @@ public class FooterHelper {
             twentyBinding.emailTxt.setText(activeBrand.getEmail());
         } else {
             twentyBinding.emailTxt.setVisibility(View.GONE);
+            twentyBinding.emailIcon.setVisibility(View.GONE);
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
             twentyBinding.mobileNo.setText(activeBrand.getPhonenumber());
         } else {
             twentyBinding.mobileNo.setVisibility(View.GONE);
+            twentyBinding.callIcon.setVisibility(View.GONE);
         }
         if (!activeBrand.getAddress().isEmpty()) {
             twentyBinding.address.setText(activeBrand.getAddress());
         } else {
-            if (!activeBrand.getWebsite().isEmpty()) {
+            if (!activeBrand.getWebsite().isEmpty() && !activeBrand.getWebsite().equalsIgnoreCase("http://") && !activeBrand.getWebsite().equalsIgnoreCase("https://")) {
                 twentyBinding.address.setText("www." + activeBrand.getWebsite().replace("http://", "").replace("https://", "").replace("www.", ""));
             } else {
                 twentyBinding.address.setVisibility(View.GONE);

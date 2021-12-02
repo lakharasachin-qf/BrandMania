@@ -123,7 +123,7 @@ public class AboutUsActivity extends BaseActivity {
         @Override
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             super.onReceivedError(view, request, error);
-            Log.e("Error",gson.toJson(error));
+            //Log.e("Error",gson.toJson(error));
             binding.simpleProgressBar.setVisibility(View.VISIBLE);
             loadBrandmaniaSite=true;
             loadData();

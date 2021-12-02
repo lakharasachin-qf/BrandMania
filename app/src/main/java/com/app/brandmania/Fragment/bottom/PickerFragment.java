@@ -57,9 +57,7 @@ public class PickerFragment extends BottomSheetDialogFragment {
     private Activity act;
     private FragmentPickerBinding binding;
     private final boolean isVideoMode = false;
-
     private TiggerEventParents eventParents;
-
     private HandlerImageLoad imageLoad;
     private int actionId;
     private String cameraFilePath;
@@ -102,7 +100,7 @@ public class PickerFragment extends BottomSheetDialogFragment {
         }
         try {
             Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-         //   bitmap.recycle();
+            //   bitmap.recycle();
             return bmRotated;
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
@@ -112,8 +110,6 @@ public class PickerFragment extends BottomSheetDialogFragment {
 
     public void setSelectedBitmapForFullView(Bitmap selectedBitmapForFullView) {
     }
-
-
 
     public void setImageUrl(String imageUrl) {
     }
@@ -139,7 +135,7 @@ public class PickerFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_picker, container, false);
 
@@ -394,7 +390,7 @@ public class PickerFragment extends BottomSheetDialogFragment {
             } else if (requestCode == CodeReUse.PDF_INTENT) {
                 if (data != null) {
                     Uri filePath = data.getData();
-                   // generateImageFromPdf(filePath);
+                    // generateImageFromPdf(filePath);
                 } else {
                     this.dismiss();
                 }

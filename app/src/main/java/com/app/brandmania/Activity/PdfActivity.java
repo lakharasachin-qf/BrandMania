@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,13 @@ import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.BackgroundColorsAdapter;
@@ -37,10 +45,13 @@ import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
+import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Common.VisitingCardHelper;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.ColorPickerFragment;
 import com.app.brandmania.Model.BackgroundColorsModel;
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ColorsModel;
 import com.app.brandmania.Model.IconsColorsModel;
 import com.app.brandmania.Model.TextColorsModel;
@@ -53,7 +64,10 @@ import com.app.brandmania.databinding.LayoutDigitalCardFourthBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardThreeBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardTwoBinding;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
+import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
@@ -61,14 +75,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Observable;
-
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibility;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PdfActivity extends BaseActivity {
     private ActivityPdfBinding binding;
@@ -78,6 +94,27 @@ public class PdfActivity extends BaseActivity {
     private VisitingCardModel CurrentSelectedCard;
     private VisitingCardAdapter visitingCardAdapter;
     public boolean isUserPaid = true;
+    public boolean forShareUser = true;
+    private boolean isLoading = false;
+    int objectSelectedPosition = 0;
+
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
+
+    ArrayList<ColorsModel> colorsList = new ArrayList<>();
+    ColorsModel selectedModel;
+    ColorsAdapterPDF colorsAdapterPDF;
+
+    ArrayList<BackgroundColorsModel> backgroundColorsList = new ArrayList<>();
+    BackgroundColorsModel backgroundSelectModel;
+    BackgroundColorsAdapter backgroundColorsAdapter;
+
+    ArrayList<TextColorsModel> textColorsList = new ArrayList<>();
+    TextColorsModel textSelectModel;
+    TextColorsAdapter textColorsAdapter;
+
+    ArrayList<IconsColorsModel> iconsColorsList = new ArrayList<>();
+    IconsColorsModel iconsSelectModel;
+    IconsColorsAdapter iconsColorsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,125 +122,145 @@ public class PdfActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
+        digitalCardList = new ArrayList<>();
+        digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
+        binding.saveIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
-        if (prefManager.getActiveBrand() != null) {
-            digitalCardList = new ArrayList<>();
-            digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
-            binding.exportIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                    if (CurrentSelectedCard.isFree()) {
+                        isUserPaid = true;
+                        frontPageLayoutImage(false);
+                    } else {
+                        isUserPaid = false;
+                        askForUpgradeToEnterpisePackage();
+                    }
 
+                } else {
+                    if (Utility.isPackageExpired(act)) {
                         if (CurrentSelectedCard.isFree()) {
                             isUserPaid = true;
-                            frontPageLayoutImage();
+                            frontPageLayoutImage(false);
                         } else {
                             isUserPaid = false;
                             askForUpgradeToEnterpisePackage();
                         }
-
                     } else {
-                        if (Utility.isPackageExpired(act)) {
-                            if (CurrentSelectedCard.isFree()) {
-                                isUserPaid = true;
-                                frontPageLayoutImage();
-                            } else {
-                                isUserPaid = false;
-                                askForUpgradeToEnterpisePackage();
-                            }
+                        frontPageLayoutImage(false);
+                    }
+                }
+            }
+        });
+        binding.exportIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+
+                    if (CurrentSelectedCard.isFree()) {
+                        isUserPaid = true;
+                        frontPageLayoutImage(true);
+                    } else {
+                        isUserPaid = false;
+                        askForUpgradeToEnterpisePackage();
+                    }
+
+                } else {
+                    if (Utility.isPackageExpired(act)) {
+                        if (CurrentSelectedCard.isFree()) {
+                            isUserPaid = true;
+                            frontPageLayoutImage(true);
                         } else {
-                            frontPageLayoutImage();
+                            isUserPaid = false;
+                            askForUpgradeToEnterpisePackage();
                         }
+                    } else {
+                        frontPageLayoutImage(true);
+                    }
+
+                }
+            }
+        });
+
+        binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        activity(0);
+
+        Picasso.get().load(prefManager.getActiveBrand().getLogo())
+                .into(binding.pdfLogo, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
+
+                        setDigitalCardAdapter();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
 
                     }
-                }
-            });
+                });
 
-            binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
+        binding.brandName.setText(prefManager.getActiveBrand().getName());
 
-            Picasso.get().load(prefManager.getActiveBrand().getLogo())
-                    .into(binding.pdfLogo, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
-                            //MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
-                            setDigitalCardAdapter();
-
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-
-            binding.brandName.setText(prefManager.getActiveBrand().getName());
-
-            if (prefManager.getActiveBrand().getEmail().isEmpty()) {
-                binding.emailTxtLayout.setVisibility(View.GONE);
-            } else {
-                binding.emailId.setText(prefManager.getActiveBrand().getEmail());
-            }
-
-
-            if (prefManager.getActiveBrand().getPhonenumber().isEmpty()) {
-                binding.contactTxtLayout.setVisibility(View.GONE);
-            } else {
-                binding.contactText.setText(prefManager.getActiveBrand().getPhonenumber());
-            }
-
-            if (prefManager.getActiveBrand().getAddress().isEmpty()) {
-                binding.addressEdtLayout.setVisibility(View.GONE);
-            } else {
-                binding.address.setText(prefManager.getActiveBrand().getAddress());
-            }
-            binding.alertTextRedirection.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(act, UpdateBandList.class);
-                    startActivity(intent);
-                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                }
-            });
-
-            if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
-                binding.waterMark.setVisibility(View.GONE);
-            }
-
-            if (prefManager.getActiveBrand().getBrandService().isEmpty()) {
-                binding.services.setVisibility(View.INVISIBLE);
-            } else {
-                String[] list = prefManager.getActiveBrand().getBrandService().split("[,\n]");
-                String sericesStr = "";
-                int i = 0;
-                for (String s : list) {
-                    sericesStr = sericesStr + "\n- " + s;
-                    i++;
-                    if (i == 5) {
-                        break;
-                    }
-                }
-                binding.servicesTxt.setText(sericesStr);
-            }
-
-            digitalCardList = new ArrayList<>();
-            digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
-
+        if (prefManager.getActiveBrand().getEmail().isEmpty()) {
+            binding.emailTxtLayout.setVisibility(View.GONE);
         } else {
-
+            binding.emailId.setText(prefManager.getActiveBrand().getEmail());
         }
-    }
 
-    @Override
-    public void update(Observable observable, Object data) {
-        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
+
+        if (prefManager.getActiveBrand().getPhonenumber().isEmpty()) {
+            binding.contactTxtLayout.setVisibility(View.GONE);
+        } else {
+            binding.contactText.setText(prefManager.getActiveBrand().getPhonenumber());
         }
+
+        if (prefManager.getActiveBrand().getAddress().isEmpty()) {
+            binding.addressEdtLayout.setVisibility(View.GONE);
+        } else {
+            binding.address.setText(prefManager.getActiveBrand().getAddress());
+        }
+
+        binding.alertText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HELPER.ROUTE(act, UpdateBandList.class);
+//                Intent intent = new Intent(act, UpdateBandList.class);
+//                startActivity(intent);
+//                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
+
+        if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
+            binding.waterMark.setVisibility(View.GONE);
+        }
+
+        if (prefManager.getActiveBrand().getBrandService().isEmpty()) {
+            binding.services.setVisibility(View.INVISIBLE);
+        } else {
+            String[] list = prefManager.getActiveBrand().getBrandService().split("[,\n]");
+            String sericesStr = "";
+            int i = 0;
+            for (int j = 0; j < list.length; j++) {
+                String s = list[j];
+                sericesStr = sericesStr + "\n- " + s;
+                i++;
+                if (i == 5) {
+                    break;
+                }
+            }
+            binding.servicesTxt.setText(sericesStr);
+        }
+
+        digitalCardList = new ArrayList<>();
+        digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
     }
 
     public void setBackgroundAdapter() {
@@ -308,39 +365,22 @@ public class PdfActivity extends BaseActivity {
         selectedModel = colorsList.get(0);
     }
 
-    int LAYOUT_ONE = 0;
-    int LAYOUT_TWO = 1;
-    int LAYOUT_THREE = 2;
-
-    ArrayList<ColorsModel> colorsList = new ArrayList<>();
-    ColorsModel selectedModel;
-    ColorsAdapterPDF colorsAdapterPDF;
-
-    ArrayList<BackgroundColorsModel> backgroundColorsList = new ArrayList<>();
-    BackgroundColorsModel backgroundSelectModel;
-    BackgroundColorsAdapter backgroundColorsAdapter;
-
-    ArrayList<TextColorsModel> textColorsList = new ArrayList<>();
-    TextColorsModel textSelectModel;
-    TextColorsAdapter textColorsAdapter;
-
-    ArrayList<IconsColorsModel> iconsColorsList = new ArrayList<>();
-    IconsColorsModel iconsSelectModel;
-    IconsColorsAdapter iconsColorsAdapter;
-
-    int SELECTED_LAYOUT = LAYOUT_THREE;
-    int objectSelectedPosition = 0;
 
     public void setDigitalCardAdapter() {
+        isLoading = false;
+        Utility.dismissProgress();
+        binding.alertText.setText(Html.fromHtml("Please fill all the details for better perfect design." + "<font color=\"red\">" + "<b>" + "Click here to fill details." + "</b>" + "</font>"));
         visitingCardAdapter = new VisitingCardAdapter(digitalCardList, act);
         VisitingCardAdapter.onVisitingCardListener onItemSelectListener = (layout, visitingCardModel) -> {
             CurrentSelectedCard = visitingCardModel;
             addDynamicLayout();
         };
         visitingCardAdapter.setListener(onItemSelectListener);
+
         binding.cardList.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));
         binding.cardList.setHasFixedSize(true);
         binding.cardList.setAdapter(visitingCardAdapter);
+
         CurrentSelectedCard = digitalCardList.get(0);
         addDynamicLayout();
     }
@@ -349,7 +389,8 @@ public class PdfActivity extends BaseActivity {
 
     public void showBackgroundFragmentList() {
         bottomSheetFragment = new ColorPickerFragment();
-        ColorPickerFragment.OnColorChoose onColorChoose = color -> {
+        ColorPickerFragment.OnColorChoose onColorChoose;
+        onColorChoose = color -> {
             VisitingCardHelper.applyBackgroundColor(CurrentSelectedCard, color, backgroundSelectModel);
             backgroundSelectModel.setColor(color);
             backgroundColorsList.set(objectSelectedPosition, backgroundSelectModel);
@@ -362,6 +403,7 @@ public class PdfActivity extends BaseActivity {
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
+
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -373,6 +415,7 @@ public class PdfActivity extends BaseActivity {
             textColorsList.set(objectSelectedPosition, textSelectModel);
             textColorsAdapter.notifyItemChanged(objectSelectedPosition);
         };
+
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -391,6 +434,7 @@ public class PdfActivity extends BaseActivity {
             iconsColorsList.set(objectSelectedPosition, iconsSelectModel);
             iconsColorsAdapter.notifyItemChanged(objectSelectedPosition);
         };
+
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -409,6 +453,7 @@ public class PdfActivity extends BaseActivity {
             colorsList.set(objectSelectedPosition, selectedModel);
             colorsAdapterPDF.notifyItemChanged(objectSelectedPosition);
         };
+
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -416,6 +461,7 @@ public class PdfActivity extends BaseActivity {
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
+
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -427,7 +473,9 @@ public class PdfActivity extends BaseActivity {
                 iconsColorsAdapter.notifyDataSetChanged();
             }
         }
+
         iconsColorsList.addAll(VisitingCardHelper.getIconsColorList(CurrentSelectedCard, colors, act));
+
         iconsColorsAdapter = new IconsColorsAdapter(iconsColorsList, act);
         IconsColorsAdapter.onItemSelectListener onItemSelectListener = new IconsColorsAdapter.onItemSelectListener() {
             @Override
@@ -457,10 +505,19 @@ public class PdfActivity extends BaseActivity {
         return p;
     }
 
-
     String dirpath;
     File frontPage;
     File backPage;
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (CurrentSelectedCard != null) {
+            getBrandList();
+        }
+    }
 
     public void addDynamicLayout() {
         binding.container.removeAllViews();
@@ -543,27 +600,26 @@ public class PdfActivity extends BaseActivity {
         }
     }
 
+//    public void layoutToImage() {
+//        binding.pdfLayout.setDrawingCacheEnabled(true);
+//        binding.pdfLayout.buildDrawingCache();
+//        FileOutputStream fileOutputStream = null;
+//        String name = "image" + System.currentTimeMillis() + ".jpg";
+//        frontPage = new File(act.getCacheDir(), name);
+//
+//        try {
+//            fileOutputStream = new FileOutputStream(frontPage);
+//            Bitmap bitmap = binding.pdfLayout.getDrawingCache();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+//            fileOutputStream.flush();
+//            fileOutputStream.close();
+//            imageToPDF(forShareUser);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    public void layoutToImage() {
-        binding.pdfLayout.setDrawingCacheEnabled(true);
-        binding.pdfLayout.buildDrawingCache();
-        FileOutputStream fileOutputStream = null;
-        String name = "image" + System.currentTimeMillis() + ".jpg";
-        frontPage = new File(act.getCacheDir(), name);
-
-        try {
-            fileOutputStream = new FileOutputStream(frontPage);
-            Bitmap bitmap = binding.pdfLayout.getDrawingCache();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-            imageToPDF();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void frontPageLayoutImage() {
+    public void frontPageLayoutImage(boolean forShareUser) {
         if (CurrentSelectedCard != null) {
             if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
                 CurrentSelectedCard.getOneBinding().frontPage.setDrawingCacheEnabled(true);
@@ -605,7 +661,7 @@ public class PdfActivity extends BaseActivity {
                 fileOutputStream.flush();
                 fileOutputStream.close();
                 //imageToPDF();
-                backPageLayoutImage();
+                backPageLayoutImage(forShareUser);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -618,7 +674,7 @@ public class PdfActivity extends BaseActivity {
 //            textSelectModel = textColorsList.get(0);
     }
 
-    public void backPageLayoutImage() {
+    public void backPageLayoutImage(boolean forShareUser) {
         if (CurrentSelectedCard != null) {
             if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
                 CurrentSelectedCard.getOneBinding().backPage.setDrawingCacheEnabled(true);
@@ -660,7 +716,7 @@ public class PdfActivity extends BaseActivity {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
                 fileOutputStream.flush();
                 fileOutputStream.close();
-                imageToPDF();
+                imageToPDF(forShareUser);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -669,7 +725,7 @@ public class PdfActivity extends BaseActivity {
 
     String outputFile = "";
 
-    public void imageToPDF() throws FileNotFoundException {
+    public void imageToPDF(boolean forShareUser) throws FileNotFoundException {
         try {
             HELPER._INIT_FOLDER(Constant.DOCUMENT);
             Document document = new Document(new Rectangle(1050, 600), 0, 0, 0, 0);
@@ -723,10 +779,25 @@ public class PdfActivity extends BaseActivity {
                 img.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
                 document.add(img);
 
+//                String FilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.DOCUMENT + "/" + prefManager.getActiveBrand().getName() + ".pdf";
+//                Intent intent = new Intent(Intent.CATEGORY_OPENABLE);
+//                File file = new File(FilePath);
+//                Uri apkURI = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", file);
+//                intent.setDataAndType(apkURI, "application/pdf");
+//                startActivity(intent);
             }
             document.close();
             Toast.makeText(act, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show();
-            viewPdf(prefManager.getActiveBrand().getName(), act);
+
+            if (forShareUser) {
+                //2 for share
+                activity(2);// 2 for share
+                actionFlagForDownloadOrShare = 2;
+            } else {
+                //1 for download only
+                activity(1); // 1 for download
+                actionFlagForDownloadOrShare = 1;
+            }
 
 
         } catch (Exception e) {
@@ -737,7 +808,7 @@ public class PdfActivity extends BaseActivity {
     private void viewPdf(String name, Activity act) {
 
         String FilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.DOCUMENT + "/" + name + ".pdf";
-        Log.e("FilePath", "New Path: " + FilePath);
+        //Log.e("FilePath", "New Path: " + FilePath);
 
         File file;
 
@@ -757,9 +828,7 @@ public class PdfActivity extends BaseActivity {
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         act.startActivity(Intent.createChooser(intent, "Share Pdf to..."));
-
     }
-
 
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutSecondBinding layoutSecondBinding;
@@ -778,8 +847,177 @@ public class PdfActivity extends BaseActivity {
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
         layoutSecondBinding.closeBtn.setOnClickListener(v -> alertDialog.dismiss());
-        layoutSecondBinding.element3.setText("To download business card, please upgrade your package");
+        if (Utility.isPackageExpired(act)) {
+            layoutSecondBinding.element2.setText("Expired");
+        } else {
+            layoutSecondBinding.element2.setText("Free");
+        }
+        layoutSecondBinding.element3.setText("To download digital visiting card, please upgrade your package.");
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
+
+    String activityId = "";
+    int actionFlagForDownloadOrShare = -1;
+
+    private void activity(int flag) {
+        if (isLoading)
+            return;
+        isLoading = true;
+
+        if (flag == 0) {
+            binding.loader.setVisibility(View.VISIBLE);
+        } else {
+            Utility.showLoadingTran(act);
+        }
+        StringRequest request = new StringRequest(Request.Method.POST, APIs.ADD_BUSS_ACTIVITY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.Log("response : ", response);
+                isLoading = false;
+                if (flag == 0) {
+                    binding.loader.setVisibility(View.GONE);
+                    binding.scrollView.setVisibility(View.VISIBLE);
+                } else {
+                    Utility.dismissLoadingTran();
+                }
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (ResponseHandler.isSuccess(null, jsonObject)) {
+                        activityId = ResponseHandler.getString(ResponseHandler.getJSONObject(jsonObject, "data"), "id");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (actionFlagForDownloadOrShare == 2) {
+                    actionFlagForDownloadOrShare = -1;
+                    viewPdf(prefManager.getActiveBrand().getName(), act);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                isLoading = false;
+                Utility.dismissLoadingTran();
+
+                binding.loader.setVisibility(View.GONE);
+                binding.scrollView.setVisibility(View.VISIBLE);
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/x-www-form-urlencoded");//application/json
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
+                //Log.e("Token", params.toString());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+
+                map.put("is_download", String.valueOf(flag));
+
+                if (!activityId.isEmpty())
+                    map.put("id ", activityId);
+
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+    }
+
+
+    public void loadDataRefreshing() {
+        prefManager = new PreafManager(act);
+        if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
+            VisitingCardHelper.loadDataCardOne(act, CurrentSelectedCard.getOneBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
+            VisitingCardHelper.loadDataCardTwo(act, CurrentSelectedCard.getTwoBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
+            VisitingCardHelper.loadDataCardThree(act, CurrentSelectedCard.getThreeBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
+            Log.e("data","4");
+            VisitingCardHelper.loadDataCardFour(act, CurrentSelectedCard.getFourBinding(), colors);
+        } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
+            VisitingCardHelper.loadDataCardFive(act, CurrentSelectedCard.getFiveBinding(), colors);
+        }
+    }
+
+    private void getBrandList() {
+        Utility.Log("API : ", APIs.GET_BRAND);
+
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.scrollView.setVisibility(View.GONE);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Utility.Log("GET_BRAND : ", response);
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+
+                    if (multiListItems != null && multiListItems.size() != 0) {
+                        for (int i = 0; i < multiListItems.size(); i++) {
+                            if (multiListItems.get(i).getName().equalsIgnoreCase(prefManager.getActiveBrand().getName())) {
+                                prefManager.setActiveBrand(multiListItems.get(i));
+                                break;
+                            }
+                        }
+                    }
+                    loadDataRefreshing();
+                    binding.loader.setVisibility(View.GONE);
+                    binding.scrollView.setVisibility(View.VISIBLE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        binding.loader.setVisibility(View.GONE);
+                        binding.scrollView.setVisibility(View.VISIBLE);
+                        loadDataRefreshing();
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                Log.e("DateNdClass", params.toString());
+
+                //Log.e("DateNdClass", params.toString());
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
+    }
+
 }

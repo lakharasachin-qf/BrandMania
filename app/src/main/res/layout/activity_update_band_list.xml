@@ -390,7 +390,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:hint="Business facility"
+                    android:hint="Business Services"
                     app:errorEnabled="true"
                     app:hintTextColor="@color/colorPrimary">
 
@@ -534,8 +534,6 @@
                             android:id="@+id/actionDeleteSecond"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
                             android:layout_gravity="bottom|end"
                             android:layout_marginEnd="@dimen/_7sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
@@ -675,12 +673,13 @@
 
                 <Button
                     android:id="@+id/addExpenceBtn"
-                    android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginTop="@dimen/_50sdp"
                     android:layout_marginBottom="@dimen/_20sdp"
                     android:background="@drawable/buttoncornar"
+
+                    android:layout_width="@dimen/_100sdp"
 
                     android:fontFamily="@font/poppins_light"
                     android:text="SUBMIT"

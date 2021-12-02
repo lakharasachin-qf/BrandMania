@@ -76,12 +76,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <View
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:background="@drawable/digital_card_round_rect_thin"
+                    app:layout_constraintEnd_toEndOf="@+id/brandName"
+                    app:layout_constraintStart_toStartOf="@+id/brandName"
+                    app:layout_constraintTop_toBottomOf="@+id/brandName" />
+
                 <TextView
                     android:id="@+id/brandName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_4sdp"
-                    android:fontFamily="@font/montserrat_regular"
+                    android:fontFamily="@font/montserrat_bold"
                     android:text="www.brandmania.in"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_3sdp"
