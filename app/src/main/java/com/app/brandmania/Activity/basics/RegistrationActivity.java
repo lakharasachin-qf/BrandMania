@@ -227,9 +227,9 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
             return;
         isLoading = true;
         Utility.showProgress(act);
-        Log.e("API", APIs.USER_REGISTRATION);
+        //Log.e("API", APIs.USER_REGISTRATION);
 
-        Log.w("Tokennn", preafManager.getUserToken());
+      //  Log.w("Tokennn", preafManager.getUserToken());
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.USER_REGISTRATION)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
@@ -256,7 +256,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                     public void onResponse(JSONObject response) {
                         isLoading = false;
                         Utility.dismissProgress();
-                        Utility.Log("Verify-Response", response);
+                 //       Utility.Log("Verify-Response", response);
                         try {
                             if (response.getBoolean("status")) {
                                 preafManager.setIs_Registration(true);
@@ -305,11 +305,11 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                         isLoading = false;
                         Utility.dismissProgress();
                         if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            //Log.e("onError errorBody : ", error.getErrorBody());
+                           // Log.e("onError errorDetail : ", error.getErrorDetail());
                         } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                          //  Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
                     }
                 });
@@ -321,7 +321,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("addbrandresponce", response);
+                //Log.e("addbrandresponce", response);
                 ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
                     JSONObject res = new JSONObject(response);
@@ -446,7 +446,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                         error.printStackTrace();
                         String body;
                         body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                        Log.e("Error ", body);
+                        //Log.e("Error ", body);
 
 
                     }
@@ -462,7 +462,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -471,7 +471,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
+                //Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;

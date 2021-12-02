@@ -445,8 +445,8 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             return;
         isLoading = true;
         Utility.showLoadingTran(act);
-        Log.e("API", APIs.ADD_BRAND);
-        Log.e("API", preafManager.getUserToken());
+        //Log.e("API", APIs.ADD_BRAND);
+        //Log.e("API", preafManager.getUserToken());
         File img1File = null;
         if (img != null) {
             img1File = CodeReUse.createFileFromBitmap(act, "photo.jpeg", img);
@@ -469,7 +469,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
 
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
-            Log.e("br_logo", String.valueOf(img1File));
+            //Log.e("br_logo", String.valueOf(img1File));
         }
 
         request.addMultipartParameter("br_address", binding.addressEdt.getText().toString());
@@ -528,11 +528,11 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         isLoading = false;
                         Utility.dismissLoadingTran();
                         if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            //Log.e("onError errorBody : ", error.getErrorBody());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
                     }
                 });
@@ -544,7 +544,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("addbrandresponce", response);
+                //Log.e("addbrandresponce", response);
                 int toSetActiveBrand = 0;
                 ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
@@ -681,7 +681,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         error.printStackTrace();
                         String body;
                         body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                        Log.e("Error ", body);
+                        //Log.e("Error ", body);
 
 
                     }

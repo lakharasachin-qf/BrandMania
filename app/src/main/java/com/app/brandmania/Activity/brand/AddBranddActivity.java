@@ -468,7 +468,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
     public void showFragmentList(int callingFlag, String title, ArrayList<CommonListModel> datalist) {
         bottomSheetFragment = new ListBottomFragment();
-        Log.e("Size---", String.valueOf(datalist.size()));
+        //Log.e("Size---", String.valueOf(datalist.size()));
         bottomSheetFragment.setListData(callingFlag, title, datalist);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -484,7 +484,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             return;
         isLoading = true;
         Utility.showProgress(act);
-        Log.e("API", APIs.ADD_BRAND);
+        //Log.e("API", APIs.ADD_BRAND);
 
         File img1File = null;
         if (img != null) {
@@ -515,7 +515,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
-            Log.e("br_logo", String.valueOf(img1File));
+            //Log.e("br_logo", String.valueOf(img1File));
         }
 
 
@@ -567,11 +567,11 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         Utility.dismissProgress();
 
                         if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            //Log.e("onError errorBody : ", error.getErrorBody());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
 
                     }
@@ -612,7 +612,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     if (ResponseHandler.isSuccess(response, null)) {
                         JSONObject responseJson = ResponseHandler.createJsonObject(response);
                         JSONArray jsonArray = ResponseHandler.getJSONArray(responseJson, "data");
-                        Log.e("jsonArray-", jsonArray.toString());
+                        //Log.e("jsonArray-", jsonArray.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject itemObj = jsonArray.getJSONObject(i);
                             CommonListModel listModel = new CommonListModel();
@@ -644,7 +644,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -698,7 +698,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("addbrandresponce", response);
+                //Log.e("addbrandresponce", response);
                 ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
                     JSONObject res = new JSONObject(response);
@@ -825,7 +825,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         error.printStackTrace();
                         String body;
                         body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                        Log.e("Error ", body);
+                        //Log.e("Error ", body);
 
 
                     }
@@ -841,7 +841,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -850,7 +850,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
+                //Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -1117,7 +1117,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 

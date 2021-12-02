@@ -597,24 +597,24 @@ public class PdfActivity extends BaseActivity {
         }
     }
 
-    public void layoutToImage() {
-        binding.pdfLayout.setDrawingCacheEnabled(true);
-        binding.pdfLayout.buildDrawingCache();
-        FileOutputStream fileOutputStream = null;
-        String name = "image" + System.currentTimeMillis() + ".jpg";
-        frontPage = new File(act.getCacheDir(), name);
-
-        try {
-            fileOutputStream = new FileOutputStream(frontPage);
-            Bitmap bitmap = binding.pdfLayout.getDrawingCache();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-            imageToPDF(forShareUser);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void layoutToImage() {
+//        binding.pdfLayout.setDrawingCacheEnabled(true);
+//        binding.pdfLayout.buildDrawingCache();
+//        FileOutputStream fileOutputStream = null;
+//        String name = "image" + System.currentTimeMillis() + ".jpg";
+//        frontPage = new File(act.getCacheDir(), name);
+//
+//        try {
+//            fileOutputStream = new FileOutputStream(frontPage);
+//            Bitmap bitmap = binding.pdfLayout.getDrawingCache();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+//            fileOutputStream.flush();
+//            fileOutputStream.close();
+//            imageToPDF(forShareUser);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void frontPageLayoutImage(boolean forShareUser) {
         if (CurrentSelectedCard != null) {
@@ -805,7 +805,7 @@ public class PdfActivity extends BaseActivity {
     private void viewPdf(String name, Activity act) {
 
         String FilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.DOCUMENT + "/" + name + ".pdf";
-        Log.e("FilePath", "New Path: " + FilePath);
+        //Log.e("FilePath", "New Path: " + FilePath);
 
         File file;
 
@@ -913,7 +913,7 @@ public class PdfActivity extends BaseActivity {
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -947,7 +947,7 @@ public class PdfActivity extends BaseActivity {
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
             VisitingCardHelper.loadDataCardThree(act, CurrentSelectedCard.getThreeBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
-            Log.e("data","4");
+            //Log.e("data","4");
             VisitingCardHelper.loadDataCardFour(act, CurrentSelectedCard.getFourBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
             VisitingCardHelper.loadDataCardFive(act, CurrentSelectedCard.getFiveBinding(), colors);
@@ -1014,7 +1014,7 @@ public class PdfActivity extends BaseActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
+                //Log.e("DateNdClass", params.toString());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
