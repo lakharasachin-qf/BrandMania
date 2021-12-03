@@ -1,8 +1,9 @@
 package com.app.brandmania.Fragment.top;
 
+import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALLFRAME;
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +20,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Model.DashBoardItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
-import com.app.brandmania.utils.APIs;
-import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.CategoryFrameTabBinding;
+import com.app.brandmania.utils.APIs;
+import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -37,44 +39,39 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALLFRAME;
 
-
-public class CategoryFrameTab extends FrameTab {
-    Activity act;
+public class CategoryFrameTab extends BaseFragment {
+    private Activity act;
     private CategoryFrameTabBinding binding;
-    private int mColorCode;
     private DashBoardItem imageList;
     private ImageList selectedObject;
-    private ColorTab context;
-    PreafManager preafManager;
     ImageList apiObject;
     ArrayList<ImageList> menuModels = new ArrayList<>();
     Gson gson;
-    boolean isViewAll=false;
+    boolean isViewAll = false;
 
     public CategoryFrameTab setViewAll(boolean viewAll) {
         isViewAll = viewAll;
         return this;
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding = DataBindingUtil.inflate(inflater, R.layout.category_frame_tab, container, false);
-        gson=new Gson();
+        binding = DataBindingUtil.inflate(inflater, R.layout.category_frame_tab, parent, false);
+        gson = new Gson();
 
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
-        // Toast.makeText(getActivity(),imageList.getId(),Toast.LENGTH_LONG).show();
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory();
-        preafManager=new PreafManager(getActivity());
         return binding.getRoot();
     }
+
     ImageCategoryAddaptor menuAddaptor;
+
     public void setAdapter() {
         menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
         if (isViewAll)
@@ -87,26 +84,23 @@ public class CategoryFrameTab extends FrameTab {
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
         binding.viewRecoRecycler.setVisibility(View.VISIBLE);
     }
-    private void getImageCtegory() {
 
+    private void getImageCtegory() {
         Utility.Log("API : ", APIs.GET_FRAMEBYID_CATEGORY);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAMEBYID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Utility.Log("GET_FRAMEBYID_CATEGORY : ", response);
-
+                Utility.Log("getImageCtegory : ", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
                     apiObject = ResponseHandler.HandleGetFrameByIdCategory(jsonObject);
-                    if (apiObject.getCatogaryImagesList() != null){
-                        menuModels=apiObject.getCatogaryImagesList();
+                    if (apiObject.getCatogaryImagesList() != null) {
+                        menuModels = apiObject.getCatogaryImagesList();
 
                         if (menuModels != null && menuModels.size() != 0) {
                             setAdapter();
-
-                        }else {
-
+                        } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
@@ -117,19 +111,18 @@ public class CategoryFrameTab extends FrameTab {
                                 binding.shimmerForPagination.startShimmer();
                                 binding.shimmerForPagination.setVisibility(View.VISIBLE);
                                 getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
-                            }else {
+                            } else {
                                 binding.shimmerForPagination.stopShimmer();
                                 binding.shimmerForPagination.setVisibility(View.GONE);
                             }
-                        }else {
+                        } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
-                    }else {
+                    } else {
                         binding.shimmerForPagination.stopShimmer();
                         binding.shimmerForPagination.setVisibility(View.GONE);
                     }
-
 
 
                 } catch (JSONException e) {
@@ -152,11 +145,7 @@ public class CategoryFrameTab extends FrameTab {
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
@@ -168,7 +157,6 @@ public class CategoryFrameTab extends FrameTab {
                 else
                     params.put("image_category_id", selectedObject.getId());
 
-                Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
 
@@ -179,9 +167,8 @@ public class CategoryFrameTab extends FrameTab {
     }
 
 
-
     private void getImageCtegoryNextPage(String nextPageUrl) {
-        Utility.Log("API : ",nextPageUrl);
+        Utility.Log("API : ", nextPageUrl);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -203,13 +190,13 @@ public class CategoryFrameTab extends FrameTab {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
                             getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
-                        }else {
+                        } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
                     }
 
-                    if (apiObject.getCatogaryImagesList()==null ||apiObject.getCatogaryImagesList().size()==0) {
+                    if (apiObject.getCatogaryImagesList() == null || apiObject.getCatogaryImagesList().size() == 0) {
                         binding.shimmerForPagination.stopShimmer();
                         binding.shimmerForPagination.setVisibility(View.GONE);
                     }
@@ -227,16 +214,9 @@ public class CategoryFrameTab extends FrameTab {
                     }
                 }
         ) {
-            /**
-             * Passing some request headers*
-             */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override

@@ -84,8 +84,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
     DashBoardItem apiResponse;
     BrandListItem brandListItem;
-    AlertDialog.Builder alertDialogBuilder;
-    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
+     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     FiveStarsDialog fiveStarsDialog;
     private DasboardAddaptor dasboardAddaptor;
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
@@ -100,9 +99,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private Timer timer;
     private HomeFragment homeFragment;
     private SelectBrandListBottomFragment bottomSheetFragment;
-
-    public HomeFragment() {
-    }
 
 
     public interface CUSTOM_TAB_CHANGE_INTERFACE {
@@ -143,44 +139,32 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
 
         if (preafManager.getActiveBrand() != null) {
-            //Glide.with(act).load(preafManager.getActiveBrand().getLogo()).into(binding.pdfLogo);
             Glide.with(act).load(preafManager.getActiveBrand().getLogo());
             binding.businessName.setText(preafManager.getActiveBrand().getName());
         }
 
         if (preafManager.getActiveBrand()==null){
-            addBrandList();
+            if (!HomeActivity.isAddBrandDialogDisplayed) {
+                HomeActivity.isAddBrandDialogDisplayed = true;
+                addBrandList();
+            }
         }
         RateUs();
 
 
         binding.showNotification.setOnClickListener(view -> HELPER.ROUTE(act, ViewNotificationActivity.class));
         binding.referCodeLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(act, ReferNEarnActivity.class);
-            startActivity(intent);
+            if (preafManager.getActiveBrand()!=null) {
+                HELPER.ROUTE(act,ReferNEarnActivity.class);
+            }else{
+                addBrandList();
+            }
         });
-
-//        binding.videoFeatureLayout.setOnClickListener(v -> {
-//            Intent intent = new Intent(act, PackageActivity.class);
-//            startActivity(intent);
-//            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-//        });
 
         binding.referralcodeTxt.setText(preafManager.getReferCode());
 
         binding.createDigitalCard.setOnClickListener(view -> {
             HELPER.ROUTE(act, PdfActivity.class);
-            //            if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
-//                HELPER.ROUTE(act, PdfActivity.class);
-//            } else {
-//                alertDialogBuilder = new AlertDialog.Builder(act);
-//                alertDialogBuilder.setTitle("Save image");
-//                alertDialogBuilder.setMessage("Your Logo is empty..!");
-//                alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
-//                AlertDialog alertDialog = alertDialogBuilder.create();
-//                alertDialog.setCancelable(false);
-//                alertDialog.show();
-//            }
         });
 
         binding.request.setOnClickListener(v -> showRequestForm());
@@ -189,9 +173,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.createGreetingImages.setOnClickListener(v -> ((CUSTOM_TAB_CHANGE_INTERFACE) act).makeTabChange(1));
 
-        //getBrandList();
-
-        //getFrame();
         startAnimation();
         loadImagesCategory();
         getBanner();
@@ -199,11 +180,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.swipeContainer.setOnRefreshListener(() -> {
             startAnimation();
-            //getFrame();
             loadImagesCategory();
         });
         getDeviceToken();
         binding.businessNameDropDown.setOnClickListener(v -> showFragmentList(BUSINESS_TYPE, ""));
+
         if (!HomeActivity.isAlreadyDisplayedOffer) {
             try {
                 String offerValidDate = "05/11/2021";
@@ -223,6 +204,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 e.printStackTrace();
             }
         }
+
         if (preafManager.getActiveBrand() != null) {
             if (preafManager.getActiveBrand().getExpiery_date() != null && !preafManager.getActiveBrand().getExpiery_date().isEmpty() && Utility.isPackageExpired(act)) {
                 binding.infoMsg.setText("                           Dear user, your current package is expired on date " + preafManager.getActiveBrand().getExpiery_date() + ". Please Upgrade your plan and enjoy downloading image, GIF and videos.");
@@ -235,6 +217,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 });
             }
         }
+
         if (preafManager.getActiveBrand() == null) {
             binding.businessNameDropDown.setVisibility(View.GONE);
             binding.firsttitle.setVisibility(View.GONE);

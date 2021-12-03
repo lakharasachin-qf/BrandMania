@@ -32,8 +32,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class ImageTab extends BaseFragment {
-    Activity act;
-    private ImageTabBinding binding;
+     private ImageTabBinding binding;
     ArrayList<ImageFromGalaryModel> spacecrafts;
 
 
@@ -67,9 +66,16 @@ public class ImageTab extends BaseFragment {
         });
         binding.folderView.setAdapter(galleryFolderAdapter);
 
-        if (spacecrafts != null && spacecrafts.size() != 0) {
-            ((IImageFromGalary) getActivity()).onImageFromGalaryItemSelection(0, spacecrafts.get(0));
+        if (folders.get(0).getAllImagePaths()!=null && folders.get(0).getAllImagePaths().size()!=0){
+            ImageFromGalaryModel galaryModel =new ImageFromGalaryModel();
+            galaryModel.setName(folders.get(0).getAllImagePaths().get(0));
+            File file = new File(folders.get(0).getAllImagePaths().get(0));
+            galaryModel.setUri(Uri.fromFile(file));
+            ((IImageFromGalary) getActivity()).onImageFromGalaryItemSelection(0, galaryModel);
         }
+//        if (spacecrafts != null && spacecrafts.size() != 0) {
+//            ((IImageFromGalary) getActivity()).onImageFromGalaryItemSelection(0, spacecrafts.get(0));
+//        }
         binding.goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,39 +87,6 @@ public class ImageTab extends BaseFragment {
         return binding.getRoot();
     }
 
-    private ArrayList<ImageFromGalaryModel> getData() {
-        spacecrafts = new ArrayList<>();
-        Uri uri;
-        Cursor cursor;
-        int column_index_data, column_index_folder_name;
-        ArrayList<String> listOfAllImages = new ArrayList<String>();
-        String absolutePathOfImage = null;
-        uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-
-        String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
-        final String orderBy = MediaStore.Images.Media.DATE_TAKEN;
-        cursor = getActivity().getContentResolver().query(uri, projection, null, null, orderBy + " DESC");
-
-//        cursor = act.getContentResolver().query(uri, projection, null,
-//                null, orderBy);
-
-        column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-//        column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
-        while (cursor.moveToNext()) {
-            absolutePathOfImage = cursor.getString(column_index_data);
-            listOfAllImages.add(absolutePathOfImage);
-        }
-
-
-        for (int i = 0; i < listOfAllImages.size(); i++) {
-            File file = new File(listOfAllImages.get(i));
-            ImageFromGalaryModel s = new ImageFromGalaryModel();
-            s.setName(file.getName());
-            s.setUri(Uri.fromFile(file));
-            spacecrafts.add(s);
-        }
-        return spacecrafts;
-    }
 
     @Override
     public void update(Observable observable, Object data) {

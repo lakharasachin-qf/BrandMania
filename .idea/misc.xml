@@ -56,15 +56,22 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_update_band_list.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_view_all_frame_image.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_view_all_image.xml" value="0.2986111111111111" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_view_brand.xml" value="0.4791859389454209" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_view_business_category.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/add_registration_layout.xml" value="0.1" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/add_text_dialog.xml" value="0.2986111111111111" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/add_text_dialoggg.xml" value="0.2986111111111111" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/category_tab.xml" value="0.2986111111111111" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/custom_image_tab.xml" value="0.2986111111111111" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/dashboard_item_layout.xml" value="0.21217105263157895" />
-        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/dialog_add_brand_fragment_layout.xml" value="0.2649402390438247" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/dialog_add_brand_fragment_layout.xml" value="0.2986111111111111" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/dialog_permissions_layout.xml" value="0.21217105263157895" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/dialog_upgrade_layout.xml" value="0.2986111111111111" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/fragment_colors_picker.xml" value="0.21217105263157895" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/fragment_downloads.xml" value="0.2986111111111111" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/fragment_home.xml" value="0.67" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/fragment_list_bottom_list.xml" value="0.21217105263157895" />
-        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/frame_tab.xml" value="0.21217105263157895" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/frame_tab.xml" value="0.2986111111111111" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_footer_eight.xml" value="0.67" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_footer_five.xml" value="0.5" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_footer_four.xml" value="0.5" />
@@ -114,6 +121,10 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/layout_for_load_ten.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/layout_for_load_three.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/layout_for_load_two.xml" value="0.21217105263157895" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/tab_custom.xml" value="0.2986111111111111" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/tab_daily.xml" value="0.2986111111111111" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/tab_festival.xml" value="0.2986111111111111" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/textuber_tab.xml" value="0.2986111111111111" />
       </map>
     </option>
   </component>

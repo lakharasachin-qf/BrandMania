@@ -83,6 +83,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private boolean isHomeTab = true;
     public static boolean isAlreadyDisplayed = false;
     public static boolean isAlreadyDisplayedOffer = false;
+    public static boolean isAddBrandDialogDisplayed = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

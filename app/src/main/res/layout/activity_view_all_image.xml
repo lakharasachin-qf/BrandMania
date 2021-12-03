@@ -137,6 +137,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="@dimen/_300sdp"
             android:layout_height="@dimen/_300sdp"
             android:layout_alignParentBottom="true"

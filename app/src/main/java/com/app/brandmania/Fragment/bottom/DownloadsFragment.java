@@ -7,15 +7,19 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.app.brandmania.Activity.basics.RegistrationActivity;
+import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
 import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.FragmentDownloadsBinding;
+import com.app.brandmania.views.MyBounceInterpolator;
 import com.google.android.material.tabs.TabLayout;
 
 public class DownloadsFragment extends BaseFragment {
@@ -60,16 +64,47 @@ public class DownloadsFragment extends BaseFragment {
             binding.tabLayout.setVisibility(View.GONE);
             binding.view.setVisibility(View.GONE);
             binding.viewPager.setVisibility(View.GONE);
-            binding.includeRegistration.addBrandForNewUser.setVisibility(View.VISIBLE);
-            binding.includeRegistration.textView.setText(Html.fromHtml("Add" + "<font color=\"#faa81e\"><b> Your </b></font>"));
-            binding.includeRegistration.addRegistration.setOnClickListener(new View.OnClickListener() {
+            binding.content.setVisibility(View.VISIBLE);
+            animateButton();
+            binding.continueBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HELPER.ROUTE(act, RegistrationActivity.class);
+                    HELPER.ROUTE(act, AddBrandMultipleActivity.class);
                 }
             });
 
+
         }
+
         return binding.getRoot();
+    }
+
+    void animateButton() {
+        final Animation myAnim = AnimationUtils.loadAnimation(act, R.anim.bounce_two);
+        double animationDuration = 4 * 1000;
+        myAnim.setRepeatCount(Animation.INFINITE);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(1, 10);
+
+        myAnim.setInterpolator(interpolator);
+
+        // Animate the button
+        binding.continueBtn.startAnimation(myAnim);
+
+
+        // Run button animation again after it finished
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animateButton();
+            }
+        });
     }
 }

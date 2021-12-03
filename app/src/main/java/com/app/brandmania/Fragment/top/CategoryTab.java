@@ -47,11 +47,8 @@ import java.util.Map;
 public class CategoryTab extends BaseFragment {
     Activity act;
     private CategoryTabBinding binding;
-    private int mColorCode;
-    private DashBoardItem imageList;
+     private DashBoardItem imageList;
     private ImageList selectedObject;
-    private ColorTab context;
-
     ImageList apiObject;
     ArrayList<ImageList> menuModels = new ArrayList<>();
     Gson gson;
@@ -82,7 +79,6 @@ public class CategoryTab extends BaseFragment {
 
 
     ImageCategoryAddaptor menuAddaptor;
-
     public void setAdapter() {
         menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
         //  if (isViewAll)

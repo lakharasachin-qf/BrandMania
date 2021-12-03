@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -22,22 +22,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.brandmania.Activity.basics.RegistrationActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ActivityViewBrandBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.ActivityViewBrandBinding;
+import com.app.brandmania.views.MyBounceInterpolator;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -98,16 +97,45 @@ public class ViewBrandActivity extends BaseActivity {
         } else {
             binding.addBrandImage.setVisibility(View.GONE);
             binding.swipeContainer.setVisibility(View.GONE);
-            binding.includeRegistration.addBrandForNewUser.setVisibility(View.VISIBLE);
-            binding.includeRegistration.textView.setText(Html.fromHtml("Add" + "<font color=\"#faa81e\"><b> Your </b></font>"));
-            binding.includeRegistration.addRegistration.setOnClickListener(new View.OnClickListener() {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.continueBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HELPER.ROUTE(act, RegistrationActivity.class);
+                    HELPER.ROUTE(act, AddBrandMultipleActivity.class);
                 }
             });
+            animateButton();
         }
 
+    }
+
+    void animateButton() {
+        final Animation myAnim = AnimationUtils.loadAnimation(act, R.anim.bounce_two);
+        double animationDuration = 4 * 1000;
+        myAnim.setRepeatCount(Animation.INFINITE);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(1, 10);
+
+        myAnim.setInterpolator(interpolator);
+
+        // Animate the button
+        binding.continueBtn.startAnimation(myAnim);
+
+
+        // Run button animation again after it finished
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animateButton();
+            }
+        });
     }
 
     private void startAnimation() {

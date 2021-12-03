@@ -20,7 +20,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ import android.view.ViewGroup;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -42,18 +40,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
+import com.app.brandmania.databinding.DownloadlisTabBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
-import com.app.brandmania.databinding.DownloadlisTabBinding;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,34 +67,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DownloadListTab extends BaseFragment {
-    Activity act;
     private DownloadlisTabBinding binding;
     ArrayList<DownloadFavoriteItemList> menuModels = new ArrayList<>();
-     DownloadFavoriteItemList downloadingOjectttt;
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater,R.layout.downloadlis_tab,parent,false);
-
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.downloadlis_tab, parent, false);
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
                 R.color.colorthird);
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 startAnimation();
-
                 getDownloadListItem();
-                // startAnimation();
-                //getNotice(startDate, endDate);
-
             }
         });
-
-
         getDownloadListItem();
         return binding.getRoot();
     }
@@ -112,7 +97,7 @@ public class DownloadListTab extends BaseFragment {
 
     public boolean manuallyEnablePermission() {
         if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(act)
                         .setMessage("Allow BrandMania to access photos, files to download and share images ")
                         .setCancelable(true)
@@ -126,12 +111,12 @@ public class DownloadListTab extends BaseFragment {
                         })
                         .show();
                 return false;
-            }else {
+            } else {
                 return true;
             }
 
-        }else {
-            if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+        } else {
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(act)
                         .setMessage("Allow BrandMania to access photos, files to download and share images ")
                         .setCancelable(true)
@@ -147,7 +132,7 @@ public class DownloadListTab extends BaseFragment {
                         })
                         .show();
                 return false;
-            }else {
+            } else {
 
                 return true;
             }
@@ -160,9 +145,10 @@ public class DownloadListTab extends BaseFragment {
 
 
     DownloadFavoriteItemList downloadingOject;
+
     public void setAdapter() {
         DownloadFavoriteAdapter menuAddaptor = new DownloadFavoriteAdapter(menuModels, act);
-        DownloadFavoriteAdapter.onShareImageClick onShareImageClick=new DownloadFavoriteAdapter.onShareImageClick() {
+        DownloadFavoriteAdapter.onShareImageClick onShareImageClick = new DownloadFavoriteAdapter.onShareImageClick() {
             @Override
             public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
                 //requestAgain();
@@ -177,22 +163,22 @@ public class DownloadListTab extends BaseFragment {
             }
         };
         menuAddaptor.setOnShareImageClick(onShareImageClick);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         binding.DownloadRecycler.setLayoutManager(mLayoutManager);
         binding.DownloadRecycler.setHasFixedSize(true);
         binding.DownloadRecycler.setAdapter(menuAddaptor);
     }
-    private void requestAgain() {
-        ActivityCompat.requestPermissions(act,
-                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE},
-                CodeReUse.ASK_PERMISSSION);
-    }
+
+
+
+    @SuppressLint("StaticFieldLeak")
     private class DownloadImageTaskFrame extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
+
         public DownloadImageTaskFrame(String url) {
             this.url = url;
         }
+
         protected BitmapDrawable doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -213,17 +199,21 @@ public class DownloadListTab extends BaseFragment {
 
         protected void onPostExecute(BitmapDrawable result) {
             //bmImage.setImageBitmap(result);
-            FrameDrawbable=result;
+            FrameDrawbable = result;
             Utility.dismissLoadingTran();
             new DownloadImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
 
         }
     }
+
+    @SuppressLint("StaticFieldLeak")
     private class DownloadImageTaskImage extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
+
         public DownloadImageTaskImage(String url) {
             this.url = url;
         }
+
         protected BitmapDrawable doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -235,8 +225,9 @@ public class DownloadListTab extends BaseFragment {
             }
             return new BitmapDrawable(getResources(), mIcon11);
         }
+
         protected void onPostExecute(BitmapDrawable result) {
-            backgroundImageDrable=result;
+            backgroundImageDrable = result;
             startsShare();
             Utility.dismissLoadingTran();
 
@@ -248,36 +239,30 @@ public class DownloadListTab extends BaseFragment {
             Utility.showLoadingTran(act);
         }
     }
+
     //For CreatFileeDisc For Download Image.........................
     private File getDisc() {
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         return new File(file, "BrandMania");
     }
+
     File new_file;
     BitmapDrawable FrameDrawbable;
     BitmapDrawable backgroundImageDrable;
 
-    public void startShare(File new_file) {
-
-        Uri uri = Uri.parse(new_file.getPath());
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(share, "Share Image"));
-
-    }
     //fire intent for share
-    public void triggerShareIntent(File new_file,Bitmap merged) {
+    public void triggerShareIntent(File new_file, Bitmap merged) {
         //  Uri uri = Uri.parse();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act,merged));
+        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act, merged));
         startActivity(Intent.createChooser(share, "Share Image"));
     }
+
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,"IMG_" + Calendar.getInstance().getTime(), null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "IMG_" + Calendar.getInstance().getTime(), null);
         return Uri.parse(path);
     }
 
@@ -319,13 +304,13 @@ public class DownloadListTab extends BaseFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        triggerShareIntent(new_file,merged);
+        triggerShareIntent(new_file, merged);
     }
 
     private void getDownloadListItem() {
 
         Utility.Log("API : ", APIs.GET_DOWNLOADLIST_ITEM);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_DOWNLOADLIST_ITEM , new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_DOWNLOADLIST_ITEM, new Response.Listener<String>() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(String response) {
@@ -342,7 +327,8 @@ public class DownloadListTab extends BaseFragment {
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.DownloadRecycler.setVisibility(View.VISIBLE);
                         binding.emptyStateLayout.setVisibility(View.GONE);
-                    }   if (menuModels == null || menuModels.size() == 0) {
+                    }
+                    if (menuModels == null || menuModels.size() == 0) {
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
                         binding.DownloadRecycler.setVisibility(View.GONE);
                         binding.shimmerViewContainer.stopShimmer();
@@ -374,7 +360,7 @@ public class DownloadListTab extends BaseFragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("id",prefManager.getActiveBrand().getId());
+                params.put("id", prefManager.getActiveBrand().getId());
                 return params;
             }
 
@@ -384,35 +370,6 @@ public class DownloadListTab extends BaseFragment {
         queue.add(stringRequest);
     }
 
-    public DialogUpgradeDownloadLimitExpireBinding expireBinding;
 
-    private void downloadLimitExpireDialog(String msg) {
-        expireBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_download_limit_expire, null, false);
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
-        builder.setView(expireBinding.getRoot());
-        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
-        alertDialog.setContentView(expireBinding.getRoot());
-        expireBinding.element3.setText(msg);
-        expireBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Intent intent = new Intent(act, PackageActivity.class);
-                act.startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
-        });
-        expireBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-
-        alertDialog.setCancelable(false);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
-
-    }
 
 }

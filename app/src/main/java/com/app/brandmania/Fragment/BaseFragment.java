@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.PreafManager;
-
 import com.app.brandmania.utils.CodeReUse;
 import com.google.gson.Gson;
 
@@ -21,7 +21,7 @@ import java.util.Observer;
 
 public abstract class BaseFragment extends Fragment implements Observer {
 
-   public MakeMyBrandApp myBrandApp;
+    public MakeMyBrandApp myBrandApp;
 
     public PreafManager prefManager;
     public Activity act;
@@ -29,21 +29,19 @@ public abstract class BaseFragment extends Fragment implements Observer {
     public Gson gson;
 
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         act = getActivity();
         gson = new Gson();
 
-         myBrandApp = (MakeMyBrandApp) act.getApplication();
+        myBrandApp = (MakeMyBrandApp) act.getApplication();
         myBrandApp.getObserver().addObserver(this);
         prefManager = new PreafManager(act);
 
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanseState) {
-        View view = provideFragmentView(inflater, parent, savedInstanseState);
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanseState) {
+        return provideFragmentView(inflater, parent, savedInstanseState);
     }
 
     public abstract View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);
@@ -52,6 +50,7 @@ public abstract class BaseFragment extends Fragment implements Observer {
     public void update(Observable observable, Object data) {
 
     }
+
     protected Map<String, String> getHeader(int flag) {
         Map<String, String> headers = new HashMap<>();
         if (flag == CodeReUse.GET_JSON_HEADER) {

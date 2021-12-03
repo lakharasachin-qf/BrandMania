@@ -59,7 +59,6 @@ public class ColorTab extends BaseFragment implements ColorPickerView.OnColorCha
 
         binding.colorPickerView.setOnColorChangedListener(this);
         binding.colorPickerView.setOnColorChangedListener(this);
-        // binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
 
 
         binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

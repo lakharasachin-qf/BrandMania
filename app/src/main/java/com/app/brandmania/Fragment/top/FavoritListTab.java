@@ -43,6 +43,7 @@ import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.APIs;
@@ -69,20 +70,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FavoritListTab extends Fragment{
-    Activity act;
-    private FavoritItemListBinding binding;
+public class FavoritListTab extends BaseFragment {
+     private FavoritItemListBinding binding;
     ArrayList<DownloadFavoriteItemList> menuModels = new ArrayList<>();
-    PreafManager preafManager;
-  //  DBManager dbManager;
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+
+    @Override
+    public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater, R.layout.favorit_item_list,container,false);
-        preafManager=new PreafManager(act);
-       // dbManager=new DBManager(act);
-        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
+        binding= DataBindingUtil.inflate(inflater, R.layout.favorit_item_list,parent,false);
+         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
 
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -95,6 +92,7 @@ public class FavoritListTab extends Fragment{
         getFavoritListItem();
         return binding.getRoot();
     }
+
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
@@ -110,7 +108,7 @@ public class FavoritListTab extends Fragment{
             public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
                 if (manuallyEnablePermission()) {
                     downloadingOject = favoriteItemList;
-                    if (!Utility.isUserPaid(preafManager.getActiveBrand())){
+                    if (!Utility.isUserPaid(prefManager.getActiveBrand())){
                         if (favoriteItemList.isImageFree()){
                             getImageDownloadRights();
                         }else {
@@ -365,17 +363,13 @@ public class FavoritListTab extends Fragment{
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("id",preafManager.getActiveBrand().getId());
+                params.put("id",prefManager.getActiveBrand().getId());
 //                if (imageList != null)
 //                    params.put("image_category_id", imageList.getId());
 //                else
@@ -463,7 +457,7 @@ public class FavoritListTab extends Fragment{
 
 
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
-                            if (Utility.isUserPaid(preafManager.getActiveBrand())){
+                            if (Utility.isUserPaid(prefManager.getActiveBrand())){
                                 if (imageCounter==-1 || used_img_counter <= imageCounter) {
                                     if (!downloadingOject.isCustom())
                                         new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
@@ -507,17 +501,13 @@ public class FavoritListTab extends Fragment{
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                return params;
+                return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("brand_id", preafManager.getActiveBrand().getId());
+                params.put("brand_id", prefManager.getActiveBrand().getId());
                 Utility.Log("Params", params.toString());
                 return params;
             }

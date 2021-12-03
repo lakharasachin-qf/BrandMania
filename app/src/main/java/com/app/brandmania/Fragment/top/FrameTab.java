@@ -1,17 +1,16 @@
 package com.app.brandmania.Fragment.top;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,62 +21,85 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
 import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Common.HELPER;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.IRemoveFrame;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
+import com.app.brandmania.databinding.FrameTabBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.DialogUpgradeLayoutBinding;
-import com.app.brandmania.databinding.FrameTabBinding;
+import com.app.brandmania.views.MyBounceInterpolator;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-
-import kotlin.reflect.jvm.internal.impl.descriptors.ClassOrPackageFragmentDescriptor;
 
 public class FrameTab extends BaseFragment {
 
-    Activity act;
     private FrameTabBinding binding;
-    private String is_frame = "";
 
     ArrayList<ImageList> menuModels = new ArrayList<>();
 
+    void animateButton() {
+        final Animation myAnim = AnimationUtils.loadAnimation(act, R.anim.bounce_two);
+        double animationDuration = 4 * 1000;
+        myAnim.setRepeatCount(Animation.INFINITE);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(1, 10);
+
+        myAnim.setInterpolator(interpolator);
+
+        // Animate the button
+        binding.continueBtn.startAnimation(myAnim);
+
+
+        // Run button animation again after it finished
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animateButton();
+            }
+        });
+    }
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.frame_tab, parent, false);
 
-        if (prefManager.getActiveBrand()!=null) {
+        if (prefManager.getActiveBrand() != null) {
             getFrame();
         }
 
         binding.subscribePlaneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (prefManager.getActiveBrand()!=null) {
+                if (prefManager.getActiveBrand() != null) {
                     if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0") && (prefManager.getActiveBrand().getPackagename().equalsIgnoreCase("Enterprise")) || prefManager.getActiveBrand().getPackagename().equalsIgnoreCase("Standard")) {
                         HELPER.WHATSAPP_REDIRECTION(act, prefManager.getActiveBrand().getName(), prefManager.getMobileNumber());
                     } else {
                         triggerUpgradePackage();
                     }
-                }else{
+                } else {
 
                 }
             }
@@ -108,14 +130,28 @@ public class FrameTab extends BaseFragment {
             binding.removeFrameBtn.setVisibility(View.GONE);
             binding.subscribePlaneBtn.setVisibility(View.GONE);
             binding.addbrandTag.setVisibility(View.VISIBLE);
+        }
 
+
+        if (prefManager.getActiveBrand() == null) {
+            binding.removeFrameBtn.setVisibility(View.GONE);
+            binding.subscribePlaneBtn.setVisibility(View.GONE);
+            binding.addbrandTag.setVisibility(View.GONE);
+            binding.content.setVisibility(View.VISIBLE);
+
+            animateButton();
+
+            binding.continueBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.ROUTE(act, AddBrandMultipleActivity.class);
+                }
+            });
         }
         return binding.getRoot();
     }
 
-    //show dialog for upgrading package for using all 6 frames
     public DialogUpgradeLayoutBinding upgradeLayoutBinding;
-
     private void triggerUpgradePackage() {
         upgradeLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -151,15 +187,6 @@ public class FrameTab extends BaseFragment {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
 
-    }
-
-
-    public void setAdapterFrame() {
-        ImageCategoryAddaptor menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 4);
-        binding.frameRecycler.setLayoutManager(mLayoutManager);
-        binding.frameRecycler.setHasFixedSize(true);
-        binding.frameRecycler.setAdapter(menuAddaptor);
     }
 
     private void getFrame() {
@@ -237,7 +264,7 @@ public class FrameTab extends BaseFragment {
         };
 
         RequestQueue queue = Volley.newRequestQueue(act);
-             queue.add(stringRequest);
+        queue.add(stringRequest);
 
     }
 

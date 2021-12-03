@@ -271,7 +271,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         binding.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //  if (prefManager.getActiveBrand() != null) {
+
                     if (manuallyEnablePermission(2)) {
                         if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                             askForUpgradeToEnterpisePackage();
@@ -1283,7 +1283,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
 
         FooterHelper.refreshgallery(act, new_file);
-
+        Utility.dismissLoadingTran();
         if (!isFavourite) {
             if (wantToShare) {
                 if (isUsingCustomFrame) {
@@ -1337,7 +1337,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             }
             dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_FAVORITE);
         }
-        Utility.dismissLoadingTran();
+
     }
 
     private void requestAgain() {

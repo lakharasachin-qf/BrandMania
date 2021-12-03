@@ -35,8 +35,7 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
      public boolean BOLD_TEXT = false;
     public boolean ITALIC_TEXT = false;
     public boolean UNDERLINE_TEXT = false;
-    Activity act;
-    int textSize = 5;
+     int textSize = 5;
     int saveProgress;
     ArrayList<FontModel> fontModelList = new ArrayList<>();
     FontModel[] fontModelObject;
@@ -142,8 +141,6 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
                 textSize = textSize + (progress - saveProgress);
                 saveProgress = progress;
 
-                // ((ITextSizeEvent) act).onfontSize((int) (textSize / Resources.getSystem().getDisplayMetrics().density));
-
             }
         });
 
@@ -167,7 +164,6 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
             }
         });
         binding.colorPickerView.setOnColorChangedListener((ColorPickerView.OnColorChangedListener) act);
-        //  binding.colorPickerView.setColor(ContextCompat.getColor(act,R.color.black), true);
         binding.colorChose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

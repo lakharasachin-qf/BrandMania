@@ -26,8 +26,7 @@ import com.app.brandmania.databinding.FooterTabBinding;
 import java.util.ArrayList;
 
 public class FooterTab extends BaseFragment {
-    Activity act;
-    private FooterTabBinding binding;
+     private FooterTabBinding binding;
     ArrayList<FooterModel> footerModels = new ArrayList<>();
 
 
@@ -45,12 +44,7 @@ public class FooterTab extends BaseFragment {
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
-//        if (prefManager.getActiveBrand() != null) {
-//            setAdapter();
-//        } else {
-//            binding.footerRecycler.setVisibility(View.GONE);
-//            binding.addbrandTag.setVisibility(View.VISIBLE);
-//        }
+
 
         setAdapter();
         return binding.getRoot();
