@@ -134,14 +134,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:ellipsize="marquee"
-                            android:fadingEdge="horizontal"
+
                             android:fontFamily="@font/montserrat_medium"
                             android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:ellipsize="marquee"
+                            android:singleLine="true"
+
+                            android:fadingEdge="horizontal"
                             android:paddingTop="@dimen/_4sdp"
                             android:paddingBottom="@dimen/_4sdp"
-                            android:scrollHorizontally="true"
-                            android:singleLine="true"
                             android:text="                   Dear user, your current package is expired on date 10-10-2021. Please Upgrade your plan and enjoy downloading image, GIF and videos."
                             android:textColor="@color/black"
                             android:textSize="@dimen/_9sdp" />
@@ -550,7 +552,7 @@
                                 android:text="Refer &amp; Earn"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_10sdp" />
-
+<!--android:text="Invite your friends to pay later and earn bonus amount in wallet"-->
                             <TextView
                                 android:id="@+id/inviteTxt"
                                 android:layout_width="wrap_content"
@@ -559,7 +561,8 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_marginEnd="@dimen/_10sdp"
                                 android:fontFamily="@font/montserrat_semibold"
-                                android:text="Invite your friends to pay later and earn bonus amount in wallet"
+                                android:text="Invite your friends and get discount in your next payment also your friend will get assured discount in their first payment."
+
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_8sdp" />
 
@@ -703,7 +706,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:fontFamily="@font/montserrat_regular"
-                                    android:text="Hey user, are you want more business category images?\nSend us your required business category images request"
+                                    android:text="Hey user, do you want more business category images?\nSend us your required business category images request"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_10sdp" />
 

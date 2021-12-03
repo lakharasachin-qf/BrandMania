@@ -30,6 +30,7 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
         this.totalTabs = totalTabs;
     }
 
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
@@ -44,7 +45,6 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
                 FooterTab footerTab = new FooterTab();
                 return footerTab;
 
-
             case 2:
                 FrameTab frameTab = new FrameTab();
                 return frameTab;
@@ -52,7 +52,6 @@ public class ViewAllTopTabAdapter extends FragmentPagerAdapter {
             case 3:
                 ColorTab colorTab = new ColorTab();
                 return colorTab;
-
 
             case 4:
                 TextTab textTab = new TextTab();

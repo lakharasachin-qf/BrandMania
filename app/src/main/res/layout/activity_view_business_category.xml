@@ -60,14 +60,38 @@
 
         </ImageView>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchEdtLayout"
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/my_toolbar"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:hint="Search Category"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_10sdp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/my_toolbar"
+            android:layout_below="@id/searchEdtLayout"
             android:scrollbars="none">
 
-            <LinearLayout
+            <RelativeLayout
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -98,27 +122,6 @@
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/searchEdtLayout"
-                    style="@style/LoginTextInputLayoutStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:hint="Search Category"
-                    app:errorEnabled="true"
-                    app:hintTextColor="@color/colorPrimary">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/searchEdt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/_10sdp" />
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerList"
@@ -127,10 +130,17 @@
                     android:layout_marginStart="@dimen/_7sdp"
                     android:clipToPadding="false"
                     android:paddingTop="@dimen/_15sdp"
-                    android:paddingBottom="@dimen/_70sdp"
+                    android:paddingBottom="@dimen/_30sdp"
                     tools:ignore="MissingConstraints">
 
                 </androidx.recyclerview.widget.RecyclerView>
+
+                <ProgressBar
+                    android:layout_below="@+id/recyclerList"
+                    android:visibility="gone"
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp" />
 
                 <LinearLayout
                     android:id="@+id/emptyStateLayout"
@@ -149,7 +159,7 @@
                         android:textSize="@dimen/_12sdp" />
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

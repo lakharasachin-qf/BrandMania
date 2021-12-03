@@ -3,7 +3,6 @@ package com.app.brandmania.Common;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import com.app.brandmania.Adapter.MultiListItem;
 import com.app.brandmania.Model.BrandListItem;
@@ -358,74 +357,53 @@ public class ResponseHandler {
         dataList = new ArrayList<>();
         try {
             if (isSuccess(null, jsonObject)) {
-                JSONObject data = getJSONObject(jsonObject, "data");
-                Iterator<String> keys = data.keys();
+                JSONArray data = getJSONArray(jsonObject, "data");
+                DashBoardItem model = new DashBoardItem();
+                model.setFilterIndex(2);
+                model.setName("Business Images");
+                model.setLayout(DashBoardItem.DAILY_IMAGES);
+                ArrayList<ImageList> innerImagesList = new ArrayList<>();
+                int userBusinessCategoryIndex = 0;
+                for (int m = 0; m < data.length(); m++) {
+                    JSONObject innerObject = data.getJSONObject(m);
+                    ImageList imageCategory = new ImageList();
 
-                while (keys.hasNext()) {
-                    String key = keys.next();
-                    if (!key.equalsIgnoreCase("custom Images") && !key.equalsIgnoreCase("custome Images")) {
-                        JSONArray dataItemArray = data.getJSONArray(key);
-                        DashBoardItem model = new DashBoardItem();
-                        if (key.contains("Business")) {
-                            model.setFilterIndex(2);
-                        }
-                        if (key.contains("Daily")) {
-                            model.setFilterIndex(3);
-                        }
-                        if (key.contains("Upcoming")) {
-                            model.setFilterIndex(1);
-                        }
-                        if (key.contains("Today's")) {
-                            model.setFilterIndex(0);
-                        }
+                    imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
 
-                        model.setName(key);
-                        model.setLayout(DashBoardItem.DAILY_IMAGES);
-                        ArrayList<ImageList> innerImagesList = new ArrayList<>();
-                        int userBusinessCategoryIndex = 0;
-                        for (int m = 0; m < dataItemArray.length(); m++) {
-                            JSONObject innerObject = dataItemArray.getJSONObject(m);
-                            ImageList imageCategory = new ImageList();
-                            if (key.equalsIgnoreCase("Daily Images")) {
-                                imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_ROUND_IMAGES);
-                            } else
-                                imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
+                    imageCategory.setId(getString(innerObject, "id"));
+                    imageCategory.setName(getString(innerObject, "name"));
+                    imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
+                    imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
+                    innerImagesList.add(imageCategory);
 
-                            imageCategory.setId(getString(innerObject, "id"));
-                            imageCategory.setName(getString(innerObject, "name"));
-                            imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
-                            imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
-                            innerImagesList.add(imageCategory);
 
-                            if (key.contains("Business")) {
-                                if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
-                                    userBusinessCategoryIndex = m;
-                                }
-                            }
-                        }
-                        if (key.contains("Business")) {
-                            ImageList userBrandCategory = innerImagesList.get(userBusinessCategoryIndex);
-                            innerImagesList.remove(userBusinessCategoryIndex);
-                            innerImagesList.add(0, userBrandCategory);
-                        }
-                        model.setDailyImages(innerImagesList);
-                        if (innerImagesList.size() != 0) {
-                            dataList.add(model);
-                        }
+                    if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
+                        userBusinessCategoryIndex = m;
                     }
+
                 }
+                ImageList userBrandCategory = innerImagesList.get(userBusinessCategoryIndex);
+                innerImagesList.remove(userBusinessCategoryIndex);
+                innerImagesList.add(0, userBrandCategory);
+                model.setDailyImages(innerImagesList);
+                if (innerImagesList.size() != 0) {
+                    dataList.add(model);
+                }
+
                 Collections.sort(dataList);
+                returnModel.setDashBoardItems(dataList);
+                JSONObject linkObj = getJSONObject(jsonObject, "link");
+                Links links = new Links();
+                links.setFirstPage(getString(linkObj, "first_page_url"));
+                links.setLastPageUrl(getString(linkObj, "last_page_url"));
+                links.setNextPageUrl(getString(linkObj, "next_page_url"));
+                links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
+                links.setTotalStr(getString(linkObj, "total"));
+                returnModel.setLinks(links);
             }
-            returnModel.setDashBoardItems(dataList);
-            JSONObject linkObj = getJSONObject(jsonObject, "link");
-            Links links = new Links();
-            links.setFirstPage(getString(linkObj, "first_page_url"));
-            links.setLastPageUrl(getString(linkObj, "last_page_url"));
-            links.setNextPageUrl(getString(linkObj, "next_page_url"));
-            links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
-            links.setTotalStr(getString(linkObj, "total"));
-            returnModel.setLinks(links);
-        } catch (JSONException e) {
+
+        } catch (
+                JSONException e) {
             e.printStackTrace();
         }
         return returnModel;
@@ -797,7 +775,6 @@ public class ResponseHandler {
                         examModel.setWebsite(getString(dataJsonObject, "br_website"));
                         examModel.setEmail(getString(dataJsonObject, "br_email"));
                         examModel.setOriginalAddress(getString(dataJsonObject, "br_address"));
-
 
 
                         if (dataJsonObject.has("br_pincode")) {

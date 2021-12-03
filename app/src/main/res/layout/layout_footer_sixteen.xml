@@ -47,89 +47,76 @@
             app:tint="@color/colorPrimary" />
 
 
-        <View
+        <LinearLayout
             android:id="@+id/layoutOne"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorthird"
-            app:layout_constraintBottom_toBottomOf="@id/email"
-            app:layout_constraintEnd_toEndOf="@id/email"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/mobileNo">
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/layoutTwo"
+            app:layout_constraintStart_toStartOf="parent">
 
-        </View>
+            <TextView
+                android:id="@+id/mobileNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
 
-        <View
+                android:fontFamily="@font/montserrat_regular"
+                android:maxLines="1"
+                android:paddingStart="@dimen/_7sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:text="Contact us +91 8200002604"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_7sdp" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/montserrat_regular"
+                android:maxLines="1"
+                android:paddingStart="@dimen/_7sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:text="lakharasachin.qf034940540@gmail.com"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_7sdp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:visibility="visible"
             android:id="@+id/layoutTwo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="wrap_content"
             android:background="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/email"
-            app:layout_constraintTop_toTopOf="@id/mobileNo">
-
-        </View>
-
-        <TextView
-            android:id="@+id/mobileNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:ellipsize="end"
-            android:fontFamily="@font/montserrat_regular"
-            android:maxLength="15"
-            android:maxLines="1"
             android:paddingStart="@dimen/_7sdp"
+             android:paddingEnd="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_6sdp"
             android:paddingTop="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_15sdp"
-            android:text="+91 8200002604"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_8sdp"
-            app:layout_constraintBottom_toTopOf="@id/email"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:ellipsize="end"
-            android:fontFamily="@font/montserrat_regular"
-            android:maxLines="1"
-            android:paddingStart="@dimen/_7sdp"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:text="lakharasachin.qf@gmail.com"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
+            <TextView
 
-            android:id="@+id/address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:ellipsize="end"
-            android:fontFamily="@font/montserrat_regular"
-            android:maxWidth="@dimen/_150sdp"
-            android:maxLines="2"
-            android:paddingStart="@dimen/_7sdp"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:text="326 Rudra Complex, Vastral, Ahmedabad, Gujarat, India -223545"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_8sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/layoutOne" />
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:fontFamily="@font/montserrat_regular"
+                android:maxWidth="@dimen/_150sdp"
+                android:maxLines="2"
+
+                android:text="326 Rudra Complex, Vastral, Ahmedabad, Gujarat, India -223545 fddfg df"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_7sdp" />
+        </RelativeLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

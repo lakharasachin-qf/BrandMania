@@ -115,11 +115,11 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                             public void onClick(View v) {
                                 if (dashBoardItemList.get(position).getName().contains("Business")) {
                                     Intent i = new Intent(activity, BusinessCategoryListActivity.class);
-                                    i.putExtra("title",dashBoardItemList.get(position).getName());
+                                    i.putExtra("title", dashBoardItemList.get(position).getName());
                                     activity.startActivity(i);
                                 } else if (dashBoardItemList.get(position).getName().contains("Daily")) {
                                     Intent i = new Intent(activity, DailyCategoryListActivity.class);
-                                    i.putExtra("title",dashBoardItemList.get(position).getName());
+                                    i.putExtra("title", dashBoardItemList.get(position).getName());
                                     activity.startActivity(i);
                                 }
                             }

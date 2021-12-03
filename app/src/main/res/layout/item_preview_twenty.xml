@@ -23,6 +23,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_package_dot" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/itemLayout"
                 android:layout_width="match_parent"
@@ -62,19 +68,21 @@
                         android:id="@+id/callIcon"
                         android:layout_width="@dimen/_4sdp"
                         android:layout_height="@dimen/_4sdp"
-                        android:layout_marginEnd="@dimen/_7sdp"
-                        android:src="@drawable/ic_outline_mail_24"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:src="@drawable/ic_outline_call_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/mobileNo"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/mobileNo"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
                         android:ellipsize="end"
+
                         android:fontFamily="@font/montserrat_regular"
                         android:maxLines="1"
                         android:text="+91 8200002604"
@@ -82,17 +90,17 @@
                         android:textSize="@dimen/_4sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/emailIcon"
+                        app:layout_constraintStart_toEndOf="@+id/callIcon"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/emailIcon"
                         android:layout_width="@dimen/_4sdp"
                         android:layout_height="@dimen/_4sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_7sdp"
                         android:src="@drawable/ic_outline_mail_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/emailTxt"
+                        app:layout_constraintStart_toEndOf="@+id/mobileNo"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -152,6 +160,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingEnd="@dimen/_2sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:maxLines="2"
                         android:text="B/1 Parasnager Rudra Complex,opp. Bajaranj Asshram, Vastral, Ahmedabad, Gujarat, India -223545"
@@ -160,7 +170,6 @@
                         android:textSize="@dimen/_4sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

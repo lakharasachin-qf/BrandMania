@@ -22,10 +22,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:background="@drawable/shape_package_dot" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
+                android:gravity="bottom"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/_5sdp">
 
@@ -81,7 +92,7 @@
 
                         <RelativeLayout
                             android:id="@+id/elementMobile"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
@@ -91,8 +102,8 @@
                                 android:id="@+id/contactLoho"
                                 android:layout_width="@dimen/_4sdp"
                                 android:layout_height="@dimen/_4sdp"
-                                android:layout_gravity="center_vertical"
                                 android:src="@drawable/ic_phone"
+                                android:layout_centerVertical="true"
                                 app:tint="@color/colorPrimary" />
 
                             <TextView
@@ -100,12 +111,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_toEndOf="@+id/contactLoho"
-                                android:maxWidth="@dimen/_100sdp"
-                                android:minWidth="@dimen/_70sdp"
                                 android:singleLine="true"
-                                android:text="+91 8200 0026 04"
+                                android:text="820000dddd000"
                                 android:textSize="@dimen/_4sdp" />
                         </RelativeLayout>
 
@@ -115,13 +124,16 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/_15sdp">
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_toEndOf="@+id/elementMobile">
 
                             <ImageView
+                                android:layout_centerVertical="true"
                                 android:id="@+id/gmailLogo"
                                 android:layout_width="@dimen/_4sdp"
                                 android:layout_height="@dimen/_4sdp"
                                 android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_2sdp"
                                 android:src="@drawable/ic_outline_mail_24"
                                 app:tint="@color/colorPrimary" />
 
@@ -151,7 +163,6 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
 
 
         <androidx.cardview.widget.CardView

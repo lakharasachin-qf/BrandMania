@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class BrandListItem {
 
-    public static final int LAYOUT_BRANDLIST=1;
-    public static final int LAYOUT_NOTIFICATIONlIST=2;
-    public static final int LAYOUT_BRANDLISTBYID=3;
+    public static final int LAYOUT_BRANDLIST = 1;
+    public static final int LAYOUT_NOTIFICATIONlIST = 2;
+    public static final int LAYOUT_BRANDLISTBYID = 3;
     public static final int LAYOUT_LOADING = 33;
     ArrayList<ImageList> examTimeTables;
     ArrayList<FrameItem> frame;
@@ -52,8 +52,6 @@ public class BrandListItem {
     private String state;
     private String city;
     private String pincode;
-
-
 
     public String getPincode() {
         return pincode;
@@ -156,7 +154,6 @@ public class BrandListItem {
     }
 
 
-
     public String getWebsite() {
         return website;
     }
@@ -201,9 +198,11 @@ public class BrandListItem {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
+
     public String getDescription() {
         return description;
     }

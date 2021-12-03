@@ -167,36 +167,26 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
         CodeReUse.RemoveError(binding.businessServiceEdt, binding.businessFacilityEdtLayout);
 
-
-        CodeReUse.RemoveError(binding.countryEdt, binding.countryLayout);
+        binding.countryLayout.setVisibility(View.GONE);
+        binding.stateLayout.setVisibility(View.VISIBLE);
+      //  CodeReUse.RemoveError(binding.countryEdt, binding.countryLayout);
         CodeReUse.RemoveError(binding.stateEdt, binding.stateLayout);
         CodeReUse.RemoveError(binding.cityEdt, binding.cityLayout);
 
         binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList);
             }
         });
 
 
-        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (countryList != null)
-                    chooseFragment(COUNTRY, countryTitle, countryList, binding.countryEdt.getText().toString());
-            }
-        });
+
         binding.stateEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.countryEdt.getText().length() != 0) {
                     if (stateList != null)
                         chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
-                } else {
-
-                }
             }
         });
         binding.cityEdt.setOnClickListener(new View.OnClickListener() {
@@ -420,6 +410,33 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             }
 
         }
+
+
+        if (binding.stateEdt.getText().toString().trim().length()==0) {
+                binding.stateLayout.setError("Please select state");
+                binding.stateLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+                isError = true;
+                if (!isFocus) {
+                    binding.stateEdt.requestFocus();
+                    isFocus = true;
+                    binding.scrollView.scrollTo(0, binding.stateEdt.getBottom());
+                }
+                return;
+        }
+
+        if (binding.cityEdt.getText().toString().trim().length()==0) {
+            binding.cityLayout.setError("Please select city");
+            binding.cityLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+            isError = true;
+            if (!isFocus) {
+                binding.cityEdt.requestFocus();
+                isFocus = true;
+                binding.scrollView.scrollTo(0, binding.cityEdt.getBottom());
+            }
+            return;
+        }
+
+
         if (!isError) {
             Bitmap bitmap = null;
 
@@ -451,7 +468,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
     public void showFragmentList(int callingFlag, String title, ArrayList<CommonListModel> datalist) {
         bottomSheetFragment = new ListBottomFragment();
-        Log.e("Size---", String.valueOf(datalist.size()));
+        //Log.e("Size---", String.valueOf(datalist.size()));
         bottomSheetFragment.setListData(callingFlag, title, datalist);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -467,7 +484,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             return;
         isLoading = true;
         Utility.showProgress(act);
-        Log.e("API", APIs.ADD_BRAND);
+        //Log.e("API", APIs.ADD_BRAND);
 
         File img1File = null;
         if (img != null) {
@@ -489,7 +506,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 .setPriority(Priority.HIGH);
 
         request.addMultipartParameter("br_address", binding.addressEdt.getText().toString());
-        request.addMultipartParameter("br_country",binding.countryEdt.getText().toString());
+        request.addMultipartParameter("br_country","");
         request.addMultipartParameter("br_state",binding.stateEdt.getText().toString());
         request.addMultipartParameter("br_city",binding.cityEdt.getText().toString());
         request.addMultipartParameter("br_pincode",binding.pincodeEdt.getText().toString());
@@ -498,7 +515,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
-            Log.e("br_logo", String.valueOf(img1File));
+            //Log.e("br_logo", String.valueOf(img1File));
         }
 
 
@@ -550,11 +567,11 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         Utility.dismissProgress();
 
                         if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            //Log.e("onError errorBody : ", error.getErrorBody());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
 
                     }
@@ -595,7 +612,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     if (ResponseHandler.isSuccess(response, null)) {
                         JSONObject responseJson = ResponseHandler.createJsonObject(response);
                         JSONArray jsonArray = ResponseHandler.getJSONArray(responseJson, "data");
-                        Log.e("jsonArray-", jsonArray.toString());
+                        //Log.e("jsonArray-", jsonArray.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject itemObj = jsonArray.getJSONObject(i);
                             CommonListModel listModel = new CommonListModel();
@@ -610,14 +627,14 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                getCountryStateCity(CALL_COUNTRY);
+                getCountryStateCity(CALL_STATE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Utility.dismissLoadingTran();
-                getCountryStateCity(CALL_COUNTRY);
+                getCountryStateCity(CALL_STATE);
             }
         }) {
 
@@ -627,7 +644,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -681,7 +698,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("addbrandresponce", response);
+                //Log.e("addbrandresponce", response);
                 ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
                     JSONObject res = new JSONObject(response);
@@ -808,7 +825,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         error.printStackTrace();
                         String body;
                         body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                        Log.e("Error ", body);
+                        //Log.e("Error ", body);
 
 
                     }
@@ -824,7 +841,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -833,7 +850,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
+                //Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -863,33 +880,32 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
             commonListModel = listModel;
         }
 
-        if (calledFlag == COUNTRY) {
-            if (!listModel.getId().equalsIgnoreCase("-1")) {
-                binding.countryEdt.setText(listModel.getName());
-                selectedCountry = listModel;
-                binding.stateLayout.setVisibility(View.VISIBLE);
-
-
-                binding.stateEdt.setText("");
-                binding.cityEdt.setText("");
-                selectedCity = null;
-                selectedState = null;
-
-                stateList.clear();
-                getCountryStateCity(CALL_STATE);
-            }else{
-                binding.countryEdt.setText("");
-                selectedCountry=null;
-                binding.stateEdt.setText("");
-                selectedState=null;
-                binding.cityEdt.setText("");
-                selectedCity=null;
-
-                binding.cityLayout.setVisibility(View.GONE);
-                binding.stateLayout.setVisibility(View.GONE);
-
-            }
-        }
+//        if (calledFlag == COUNTRY) {
+//            if (!listModel.getId().equalsIgnoreCase("-1")) {
+//                binding.countryEdt.setText(listModel.getName());
+//                selectedCountry = listModel;
+//                binding.stateLayout.setVisibility(View.VISIBLE);
+//
+//
+//                binding.stateEdt.setText("");
+//                binding.cityEdt.setText("");
+//                selectedCity = null;
+//                selectedState = null;
+//
+//                stateList.clear();
+//                getCountryStateCity(CALL_STATE);
+//            }else{
+//                binding.countryEdt.setText("");
+//                selectedCountry=null;
+//                binding.stateEdt.setText("");
+//                selectedState=null;
+//                binding.cityEdt.setText("");
+//                selectedCity=null;
+//
+//                binding.cityLayout.setVisibility(View.GONE);
+//                binding.stateLayout.setVisibility(View.GONE);
+//            }
+//        }
 
         if (calledFlag == STATE) {
             if (!listModel.getId().equalsIgnoreCase("-1")) {
@@ -1029,7 +1045,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
 
         if (flag == CALL_STATE) {
-            apiUrl = APIs.GET_STATE + "/" + selectedCountry.getId();
+            apiUrl = APIs.GET_STATE + "/101"; //+ selectedCountry.getId();
             stateList.clear();
         }
 
@@ -1065,22 +1081,22 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                                 cityList.add(listModel);
                             }
                         }
-                        CommonListModel listModel = new CommonListModel();
-                        listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
-                        listModel.setId("-1");
-                        listModel.setName("None");
-
-                        if (flag == CALL_COUNTRY && countryList.size() != 0) {
-                            countryList.add(0, listModel);
-                        }
-
-                        if (flag == CALL_STATE && stateList.size() != 0) {
-                            stateList.add(0, listModel);
-                        }
-
-                        if (flag == CALL_CITY && cityList.size() != 0) {
-                            cityList.add(0, listModel);
-                        }
+//                        CommonListModel listModel = new CommonListModel();
+//                        listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
+//                        listModel.setId("-1");
+//                        listModel.setName("None");
+//
+//                        if (flag == CALL_COUNTRY && countryList.size() != 0) {
+//                            countryList.add(0, listModel);
+//                        }
+//
+//                        if (flag == CALL_STATE && stateList.size() != 0) {
+//                            stateList.add(0, listModel);
+//                        }
+//
+//                        if (flag == CALL_CITY && cityList.size() != 0) {
+//                            cityList.add(0, listModel);
+//                        }
                     }
 
                 } catch (JSONException e) {
@@ -1101,7 +1117,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 

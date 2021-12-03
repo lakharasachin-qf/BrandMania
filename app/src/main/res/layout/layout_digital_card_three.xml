@@ -30,13 +30,13 @@
 
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/paidUserCard"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:src="@drawable/ic_crown"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,8 +71,8 @@
 
                 <ImageView
                     android:id="@+id/logo"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
+                    android:layout_width="@dimen/_55sdp"
+                    android:layout_height="@dimen/_55sdp"
                     android:src="@drawable/bm_logo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -105,18 +105,18 @@
                     android:id="@+id/outerLayer3"
                     android:layout_width="@dimen/_165sdp"
                     android:layout_height="@dimen/_165sdp"
-                    android:layout_marginTop="-40dp"
-                    android:layout_marginEnd="-40dp"
+                    android:layout_marginEnd="-45dp"
                     android:background="@drawable/digital_card_ovel"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/outerLayer2"
                     android:layout_width="@dimen/_185sdp"
                     android:layout_height="@dimen/_185sdp"
                     android:layout_marginTop="-20dp"
-                    android:layout_marginEnd="-35dp"
+                    android:layout_marginEnd="-40dp"
                     android:layout_marginBottom="-30dp"
                     android:background="@drawable/digital_round_corner_two"
                     android:rotation="-25"
@@ -128,7 +128,7 @@
                     android:layout_width="@dimen/_210sdp"
                     android:layout_height="@dimen/_210sdp"
                     android:layout_marginTop="-35dp"
-                    android:layout_marginEnd="-50dp"
+                    android:layout_marginEnd="-60dp"
                     android:background="@drawable/digital_round_corner_one"
                     android:rotation="-20"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -162,12 +162,15 @@
 
                 <TextView
                     android:id="@+id/phoneTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
-                    android:text="Your Mobile No "
+                    android:paddingStart="@dimen/_2sdp"
+                    android:text="Your Mobile No"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/callIcon"
@@ -191,16 +194,19 @@
 
                 <TextView
                     android:id="@+id/emailTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
-                    android:text="Your Email id "
+                    android:text="Your Email id"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_6sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/emailIcon"
                     app:layout_constraintEnd_toStartOf="@id/emailIcon"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/emailIcon" />
 
 
@@ -221,9 +227,11 @@
                     android:id="@+id/addressTxt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
+                    android:maxLines="2"
                     android:text="Your Address"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
@@ -236,21 +244,19 @@
 
                 <ImageView
                     android:id="@+id/fb"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
-                    android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_social_media_facebook"
                     app:layout_constraintBottom_toBottomOf="@+id/insta"
                     app:layout_constraintEnd_toStartOf="@+id/insta" />
 
                 <ImageView
                     android:id="@+id/insta"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
-                    android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_social_media_instagram"
                     app:layout_constraintBottom_toBottomOf="@+id/outerLayer3"
                     app:layout_constraintEnd_toEndOf="@+id/outerLayer3"
@@ -258,28 +264,32 @@
 
                 <ImageView
                     android:id="@+id/wp"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
-                    android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_social_media_whatsapp"
                     app:layout_constraintBottom_toBottomOf="@+id/insta"
                     app:layout_constraintStart_toEndOf="@+id/insta" />
 
                 <TextView
                     android:id="@+id/brandNameText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_5sdp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/montserrat_semibold"
                     android:includeFontPadding="false"
-                    android:text="Pecificaoversears"
+                    android:maxWidth="@dimen/_250sdp"
+                    android:maxLines="2"
+                    android:text="Your Brand Name"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/outerLayer3"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/backPage"
                     app:layout_constraintStart_toStartOf="@+id/outerLayer3"
                     app:layout_constraintTop_toTopOf="@+id/outerLayer3" />
 

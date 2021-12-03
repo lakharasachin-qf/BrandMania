@@ -23,6 +23,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_package_dot" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/itemLayout"
                 android:layout_width="match_parent"
@@ -89,6 +95,7 @@
                     android:id="@+id/callIcon"
                     android:layout_width="@dimen/_4sdp"
                     android:layout_height="@dimen/_4sdp"
+                    android:layout_marginStart="@dimen/_7sdp"
                     android:src="@drawable/ic_outline_mail_24"
                     app:layout_constraintBottom_toBottomOf="@id/mobileNo"
                     app:layout_constraintStart_toStartOf="@+id/contentBackground"
@@ -117,7 +124,7 @@
                     android:id="@+id/fb"
                     android:layout_width="@dimen/_4sdp"
                     android:layout_height="@dimen/_4sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_7sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:src="@drawable/ic_social_media_facebook"
                     app:layout_constraintBottom_toBottomOf="@+id/contentBackground"

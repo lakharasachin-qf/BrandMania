@@ -48,14 +48,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-
                 <TextView
                     android:id="@+id/frontBrandName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_3sdp"
                     android:fontFamily="@font/montserrat_regular"
-                    android:text="www.brandmania.in"
+                    android:text="Brand Name"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/bottomView"
@@ -95,6 +94,7 @@
                 android:background="@color/white">
 
                 <View
+                    android:id="@+id/bottomLeftView"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:background="@color/colorPrimary"
@@ -102,6 +102,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <View
+                    android:id="@+id/topRightView"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:background="@color/colorPrimary"
@@ -147,7 +148,6 @@
                         app:tint="@color/black" />
 
                     <View
-
                         android:id="@+id/call"
                         android:layout_width="@dimen/_120sdp"
                         android:layout_height="@dimen/_16sdp"
@@ -181,16 +181,18 @@
 
                     <TextView
                         android:id="@+id/brandName"
-                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:layout_marginBottom="@dimen/_9sdp"
                         android:fontFamily="@font/montserrat_bold"
                         android:includeFontPadding="false"
-                        android:text="Pecificaoverseas"
+                        android:text="Your Brand Name"
                         android:textSize="@dimen/_10sdp"
                         app:layout_constraintBottom_toBottomOf="@id/verticalView"
-                        app:layout_constraintStart_toEndOf="@id/verticalView" />
+                        app:layout_constraintStart_toEndOf="@id/verticalView"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
 
                     <View
@@ -222,7 +224,7 @@
                         android:layout_height="@dimen/_15sdp"
                         android:background="@drawable/digital_card_round_shap_icon"
                         android:backgroundTint="@color/black"
-                        android:padding="@dimen/_5sdp"
+                        android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_outline_call_24"
                         app:layout_constraintBottom_toBottomOf="@+id/call"
                         app:layout_constraintStart_toStartOf="@+id/call"
@@ -237,7 +239,7 @@
                         android:layout_marginEnd="@dimen/_4sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
-                        android:text="Mobile No "
+                        android:text="Your Mobile No"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_6sdp"
                         app:layout_constraintBottom_toBottomOf="@+id/callIcon"
@@ -251,7 +253,7 @@
                         android:layout_height="@dimen/_15sdp"
                         android:background="@drawable/digital_card_round_shap_icon"
                         android:backgroundTint="@color/black"
-                        android:padding="@dimen/_5sdp"
+                        android:padding="@dimen/_4sdp"
                         android:src="@drawable/ic_outline_mail_24"
                         app:layout_constraintBottom_toBottomOf="@+id/email"
                         app:layout_constraintStart_toStartOf="@+id/email"
@@ -266,7 +268,7 @@
                         android:layout_marginEnd="@dimen/_4sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
-                        android:text="E-Mail"
+                        android:text="Your E-Mail"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_6sdp"
                         app:layout_constraintBottom_toBottomOf="@id/emailIcon"
@@ -291,11 +293,15 @@
                         android:id="@+id/addressTxt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:includeFontPadding="false"
-                        android:text="Address"
+                        android:maxLines="2"
+                        android:paddingBottom="@dimen/_4sdp"
+                        android:text="Your Address"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_6sdp"
                         app:layout_constraintBottom_toBottomOf="@id/addressIcon"

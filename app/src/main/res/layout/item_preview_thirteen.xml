@@ -23,6 +23,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/shape_package_dot" />
+
             <LinearLayout
                 android:id="@+id/itemLayout"
                 android:layout_width="match_parent"
@@ -85,7 +91,6 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
 
 
         <androidx.cardview.widget.CardView

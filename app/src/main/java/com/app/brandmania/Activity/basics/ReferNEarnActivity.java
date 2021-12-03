@@ -86,7 +86,7 @@ public class ReferNEarnActivity extends BaseActivity {
         anim.start();
         //Invite your friends to BrandMania by sharing your referral code and Earn Discount on All your Friend's First Payment.Your friend also get assured discount on their first payment
         //change msg, add (-) to discount ,sticky bar in refer
-        binding.msgTxt.setText("Invite your friends to BrandMania by sharing your referral code and Earn Discount on All your Friend's First Payment.Your friend also get assured discount on their first payment.");
+        binding.msgTxt.setText("Invite your friends to Brandmania and get discount in your next payment also your friend will get assured discount in their first payment.");
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

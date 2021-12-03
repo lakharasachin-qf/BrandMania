@@ -80,7 +80,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     PreafManager preafManager;
     private AppUpdateManager appUpdateManager;
     private Activity act;
-    private boolean iscutomEnable = true;
+    private boolean iscutomEnable = false;
+
     BottomNavigationView navigation;
     private boolean isHomeTab = true;
     public static boolean isAlreadyDisplayed = false;
@@ -162,8 +163,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private int REQUESTED_STORAGE = 0003;
     private int REQUESTED_CONTACT = 0004;
     private int REQUEST_SETTINGS = 0005;
-
-    androidx.appcompat.app.AlertDialog alertDialog;
+    private androidx.appcompat.app.AlertDialog alertDialog;
 
     public void askPermissions() {
         permissionsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_permissions_layout, null, false);
@@ -192,6 +192,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         permissionsLayoutBinding.permissionLayout2.setOnClickListener(v -> ActivityCompat.requestPermissions(act,
                 new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                 REQUESTED_STORAGE));
+
 
         permissionsLayoutBinding.allowPermission.setOnClickListener(new View.OnClickListener() {
             @Override
