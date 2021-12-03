@@ -3,12 +3,15 @@ package com.app.brandmania.Fragment.bottom;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
+import com.app.brandmania.Activity.brand.AddBranddActivity;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.FragmentDownloadsBinding;
@@ -24,6 +27,11 @@ public class DownloadsFragment extends BaseFragment {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_downloads, parent, false);
         if (prefManager.getActiveBrand() != null) {
+
+            binding.tabLayout.setVisibility(View.VISIBLE);
+            binding.view.setVisibility(View.VISIBLE);
+            binding.viewPager.setVisibility(View.VISIBLE);
+
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText("DOWNLOAD"));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText("FAVOURITE"));
             binding.tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ad2753"));
@@ -47,6 +55,19 @@ public class DownloadsFragment extends BaseFragment {
                 public void onTabReselected(TabLayout.Tab tab) {
                 }
             });
+        } else {
+            binding.tabLayout.setVisibility(View.GONE);
+            binding.view.setVisibility(View.GONE);
+            binding.viewPager.setVisibility(View.GONE);
+            binding.includeRegistration.addBrandForNewUser.setVisibility(View.VISIBLE);
+            binding.includeRegistration.textView.setText(Html.fromHtml("Add" + "<font color=\\\"#faa81e\\\"><b> Your</b></font>\""));
+            binding.includeRegistration.addRegistration.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.ROUTE(act, AddBranddActivity.class);
+                }
+            });
+
         }
         return binding.getRoot();
     }

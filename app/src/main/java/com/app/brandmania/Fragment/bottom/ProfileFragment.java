@@ -60,23 +60,23 @@ public class ProfileFragment extends BaseFragment {
     private FragmentProfileBinding binding;
 
 
-
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, parent, false);
 
-        if (prefManager.getActiveBrand()!=null)
+        if (prefManager.getActiveBrand() != null)
             binding.businessName.setText(prefManager.getActiveBrand().getName());
 
-        binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(act, ViewBrandActivity.class);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
-        });
+            binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(act, ViewBrandActivity.class);
+                    startActivity(i);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                }
+            });
+
         binding.introLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,14 +104,20 @@ public class ProfileFragment extends BaseFragment {
                 act.finish();
             }
         });
-        binding.referNEarnLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(act, ReferNEarnActivity.class);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
-        });
+
+        if (prefManager.getActiveBrand() != null) {
+            binding.referNEarnLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(act, ReferNEarnActivity.class);
+                    startActivity(i);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                }
+            });
+        } else {
+            binding.referNEarnLayout.setVisibility(View.GONE);
+        }
+
         binding.helpandsupportLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,9 +202,9 @@ public class ProfileFragment extends BaseFragment {
         binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (prefManager.getActiveBrand()!=null) {
+                if (prefManager.getActiveBrand() != null) {
                     HELPER.WHATSAPP_REDIRECTION_2(act, prefManager.getActiveBrand().getName(), prefManager.getMobileNumber());
-                }else{
+                } else {
                     HELPER.WHATSAPP_REDIRECTION_2(act, "", prefManager.getMobileNumber());
                 }
             }
@@ -248,7 +254,7 @@ public class ProfileFragment extends BaseFragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                    if (multiListItems!=null && multiListItems.size()!=0) {
+                    if (multiListItems != null && multiListItems.size() != 0) {
                         prefManager.setAddBrandList(multiListItems);
                         for (int i = 0; i < multiListItems.size(); i++) {
                             if (multiListItems.get(i).getId().equalsIgnoreCase(prefManager.getActiveBrand().getId())) {
