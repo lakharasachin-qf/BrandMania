@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
@@ -20,6 +21,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <RelativeLayout
+
                 android:id="@+id/main_linearlayout_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,15 +37,16 @@
                     android:text="@string/yourbusiness_text"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_6sdp"
-                    android:textStyle="bold">
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
-                </TextView>
 
                 <RelativeLayout
                     android:id="@+id/businessNameDropDown"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone">
 
                     <TextView
 
@@ -63,15 +66,59 @@
                     </ImageView>
                 </RelativeLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/noBrandLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:alpha="0.4"
+                        android:backgroundTint="@color/white"
+                        android:background="@drawable/shape__add_brand_background"
+                        card_view:layout_constraintBottom_toBottomOf="parent"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        card_view:layout_constraintStart_toStartOf="parent"
+                        card_view:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/addImg"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/ic_round_add_24"
+                        card_view:layout_constraintBottom_toBottomOf="parent"
+                        card_view:layout_constraintStart_toStartOf="parent"
+                        card_view:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_marginEnd="@dimen/_11sdp"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/addTxt"
+                        android:layout_marginStart="-3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Add Brand"
+                        android:textColor="@color/colorNavText"
+                        android:textSize="@dimen/_10sdp"
+                        card_view:layout_constraintBottom_toBottomOf="@id/addImg"
+                        card_view:layout_constraintStart_toEndOf="@id/addImg"
+                        card_view:layout_constraintTop_toTopOf="@id/addImg" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <ImageView
                     android:id="@+id/showNotification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_baseline_notifications_none_24"
-                    android:visibility="visible">
+                    android:visibility="visible" />
 
-                </ImageView>
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -81,9 +128,9 @@
             android:layout_height="@dimen/_300sdp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="-100dp"
-            android:src="@drawable/bottom">
+            android:src="@drawable/bottom"
+            android:visibility="gone" />
 
-        </ImageView>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"
@@ -94,9 +141,9 @@
             android:visibility="gone">
 
             <androidx.core.widget.NestedScrollView
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
                 android:clipToPadding="false"
                 android:scrollbars="none"
                 app:behavior_overlapTop="50dp"
@@ -104,7 +151,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:animateLayoutChanges="true">
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/ViewPagerView"
@@ -135,15 +183,15 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
 
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal"
                             android:fontFamily="@font/montserrat_medium"
                             android:marqueeRepeatLimit="marquee_forever"
-                            android:scrollHorizontally="true"
-                            android:ellipsize="marquee"
-                            android:singleLine="true"
-
-                            android:fadingEdge="horizontal"
                             android:paddingTop="@dimen/_4sdp"
+
                             android:paddingBottom="@dimen/_4sdp"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
                             android:text="                   Dear user, your current package is expired on date 10-10-2021. Please Upgrade your plan and enjoy downloading image, GIF and videos."
                             android:textColor="@color/black"
                             android:textSize="@dimen/_9sdp" />
@@ -168,86 +216,86 @@
                         android:textSize="@dimen/_6sdp"
                         android:visibility="gone" />
 
-                    <RelativeLayout
-                        android:id="@+id/alertForFrmae"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/easyMessage"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@android:color/transparent"
-                        android:visibility="gone">
+                    <!--                    <RelativeLayout-->
+                    <!--                        android:id="@+id/alertForFrmae"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:layout_below="@+id/easyMessage"-->
+                    <!--                        android:layout_marginTop="@dimen/_10sdp"-->
+                    <!--                        android:background="@android:color/transparent"-->
+                    <!--                        android:visibility="gone">-->
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent">
+                    <!--                        <RelativeLayout-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:background="@android:color/transparent">-->
 
-                            <RelativeLayout
-                                android:id="@+id/alertRelative"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_marginRight="@dimen/_5sdp"
-                                android:background="@android:color/transparent"
-                                android:gravity="center">
+                    <!--                            <RelativeLayout-->
+                    <!--                                android:id="@+id/alertRelative"-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:layout_gravity="center"-->
+                    <!--                                android:layout_marginLeft="@dimen/_5sdp"-->
+                    <!--                                android:layout_marginRight="@dimen/_5sdp"-->
+                    <!--                                android:background="@android:color/transparent"-->
+                    <!--                                android:gravity="center">-->
 
-                                <TextView
-                                    android:id="@+id/alertText2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:ellipsize="marquee"
-                                    android:focusable="true"
-                                    android:focusableInTouchMode="true"
-                                    android:fontFamily="@font/montserrat_semibold"
-                                    android:gravity="center"
-                                    android:marqueeRepeatLimit="marquee_forever"
-                                    android:scrollHorizontally="true"
-                                    android:singleLine="true"
-                                    android:text=""
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="@dimen/_10sdp" />
+                    <!--                                <TextView-->
+                    <!--                                    android:id="@+id/alertText2"-->
+                    <!--                                    android:layout_width="match_parent"-->
+                    <!--                                    android:layout_height="wrap_content"-->
+                    <!--                                    android:layout_centerHorizontal="true"-->
+                    <!--                                    android:layout_marginTop="@dimen/_5sdp"-->
+                    <!--                                    android:ellipsize="marquee"-->
+                    <!--                                    android:focusable="true"-->
+                    <!--                                    android:focusableInTouchMode="true"-->
+                    <!--                                    android:fontFamily="@font/montserrat_semibold"-->
+                    <!--                                    android:gravity="center"-->
+                    <!--                                    android:marqueeRepeatLimit="marquee_forever"-->
+                    <!--                                    android:scrollHorizontally="true"-->
+                    <!--                                    android:singleLine="true"-->
+                    <!--                                    android:text=""-->
+                    <!--                                    android:textColor="@color/colorPrimary"-->
+                    <!--                                    android:textSize="@dimen/_10sdp" />-->
 
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/alertText2"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:layout_marginBottom="@dimen/_5sdp"
-                                    android:orientation="horizontal"
-                                    android:visibility="gone">
+                    <!--                                <LinearLayout-->
+                    <!--                                    android:layout_width="wrap_content"-->
+                    <!--                                    android:layout_height="wrap_content"-->
+                    <!--                                    android:layout_below="@+id/alertText2"-->
+                    <!--                                    android:layout_centerHorizontal="true"-->
+                    <!--                                    android:layout_marginTop="@dimen/_5sdp"-->
+                    <!--                                    android:layout_marginBottom="@dimen/_5sdp"-->
+                    <!--                                    android:orientation="horizontal"-->
+                    <!--                                    android:visibility="gone">-->
 
-                                    <ImageView
-                                        android:id="@+id/call"
-                                        android:layout_width="@dimen/_18sdp"
-                                        android:layout_height="@dimen/_18sdp"
-                                        android:src="@drawable/ic_phone"
-                                        android:visibility="gone" />
+                    <!--                                    <ImageView-->
+                    <!--                                        android:id="@+id/call"-->
+                    <!--                                        android:layout_width="@dimen/_18sdp"-->
+                    <!--                                        android:layout_height="@dimen/_18sdp"-->
+                    <!--                                        android:src="@drawable/ic_phone"-->
+                    <!--                                        android:visibility="gone" />-->
 
-                                    <ImageView
-                                        android:id="@+id/whatsapp"
-                                        android:layout_width="@dimen/_18sdp"
-                                        android:layout_height="@dimen/_18sdp"
-                                        android:layout_marginStart="@dimen/_5sdp"
-                                        android:src="@drawable/ic_whatsapp" />
-                                </LinearLayout>
-                            </RelativeLayout>
-                        </RelativeLayout>
-                    </RelativeLayout>
+                    <!--                                    <ImageView-->
+                    <!--                                        android:id="@+id/whatsapp"-->
+                    <!--                                        android:layout_width="@dimen/_18sdp"-->
+                    <!--                                        android:layout_height="@dimen/_18sdp"-->
+                    <!--                                        android:layout_marginStart="@dimen/_5sdp"-->
+                    <!--                                        android:src="@drawable/ic_whatsapp" />-->
+                    <!--                                </LinearLayout>-->
+                    <!--                            </RelativeLayout>-->
+                    <!--                        </RelativeLayout>-->
+                    <!--                    </RelativeLayout>-->
 
-                    <ImageView
-                        android:id="@+id/pdfLogo"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:visibility="gone">
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/pdfLogo"-->
+                    <!--                        android:layout_width="200dp"-->
+                    <!--                        android:layout_height="200dp"-->
+                    <!--                        android:visibility="gone">-->
 
-                    </ImageView>
+                    <!--                    </ImageView>-->
 
                     <LinearLayout
-                        android:id="@+id/setcion2"
+                        android:id="@+id/cardSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/easyMessage"
@@ -394,70 +442,69 @@
 
                     </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/creatPdfCard"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_65sdp"
-                        android:layout_below="@+id/setcion2"
-                        android:layout_marginLeft="@dimen/_7sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_7sdp"
-                        android:visibility="gone"
+                    <!--                    <androidx.cardview.widget.CardView-->
+                    <!--                        android:id="@+id/creatPdfCard"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="@dimen/_65sdp"-->
+                    <!--                        android:layout_below="@+id/cardSection"-->
+                    <!--                        android:layout_marginLeft="@dimen/_7sdp"-->
+                    <!--                        android:layout_marginTop="@dimen/_10sdp"-->
+                    <!--                        android:layout_marginRight="@dimen/_7sdp"-->
+                    <!--                        android:visibility="gone"-->
 
-                        card_view:cardCornerRadius="@dimen/_7sdp"
-                        card_view:cardElevation="@dimen/_5sdp">
+                    <!--                        card_view:cardCornerRadius="@dimen/_7sdp"-->
+                    <!--                        card_view:cardElevation="@dimen/_5sdp">-->
 
-                        <RelativeLayout
+                    <!--                        <RelativeLayout-->
 
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="match_parent">-->
 
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"></ImageView>
+                    <!--                            <ImageView-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="match_parent"-->
+                    <!--                                android:scaleType="centerCrop"></ImageView>-->
 
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true">
+                    <!--                            <RelativeLayout-->
+                    <!--                                android:layout_width="wrap_content"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:layout_centerHorizontal="true"-->
+                    <!--                                android:layout_centerVertical="true">-->
 
-                                <ImageView
-                                    android:id="@+id/downloadIcon"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/_10sdp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:src="@drawable/ic_baseline_cloud_download_24"
-                                    android:textColor="@color/colorNavText"
-                                    android:textSize="@dimen/_14sdp"
-                                    android:textStyle="bold"
-                                    android:visibility="visible" />
+                    <!--                                <ImageView-->
+                    <!--                                    android:id="@+id/downloadIcon"-->
+                    <!--                                    android:layout_width="wrap_content"-->
+                    <!--                                    android:layout_height="wrap_content"-->
+                    <!--                                    android:layout_marginLeft="@dimen/_10sdp"-->
+                    <!--                                    android:fontFamily="@font/inter_semibold"-->
+                    <!--                                    android:src="@drawable/ic_baseline_cloud_download_24"-->
+                    <!--                                    android:textColor="@color/colorNavText"-->
+                    <!--                                    android:textSize="@dimen/_14sdp"-->
+                    <!--                                    android:textStyle="bold"-->
+                    <!--                                    android:visibility="visible" />-->
 
-                                <TextView
-                                    android:id="@+id/creatPdf"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/_3sdp"
-                                    android:layout_toEndOf="@+id/downloadIcon"
-                                    android:fontFamily="@font/montserrat_medium"
-                                    android:text="Create Your Digital Visiting Card"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/_14sdp">
+                    <!--                                <TextView-->
+                    <!--                                    android:id="@+id/creatPdf"-->
+                    <!--                                    android:layout_width="wrap_content"-->
+                    <!--                                    android:layout_height="wrap_content"-->
+                    <!--                                    android:layout_marginLeft="@dimen/_3sdp"-->
+                    <!--                                    android:layout_toEndOf="@+id/downloadIcon"-->
+                    <!--                                    android:fontFamily="@font/montserrat_medium"-->
+                    <!--                                    android:text="Create Your Digital Visiting Card"-->
+                    <!--                                    android:textColor="@color/white"-->
+                    <!--                                    android:textSize="@dimen/_14sdp">-->
 
-                                </TextView>
-                            </RelativeLayout>
-                        </RelativeLayout>
-                    </androidx.cardview.widget.CardView>
-
+                    <!--                                </TextView>-->
+                    <!--                            </RelativeLayout>-->
+                    <!--                        </RelativeLayout>-->
+                    <!--                    </androidx.cardview.widget.CardView>-->
 
 
                     <RelativeLayout
                         android:id="@+id/recommendationRelativ"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/creatPdfCard"
+                        android:layout_below="@+id/cardSection"
                         android:layout_marginTop="@dimen/_3sdp">
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -470,46 +517,46 @@
 
                     </RelativeLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/videoFeatureLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:layout_below="@+id/recommendationRelativ"
-                        android:focusable="true"
-                        android:visibility="gone"
-                        card_view:cardCornerRadius="@dimen/_7sdp"
-                        card_view:cardElevation="@dimen/_7sdp"
-                        card_view:cardPreventCornerOverlap="true"
-                        card_view:cardUseCompatPadding="true">
+                    <!--                    <androidx.cardview.widget.CardView-->
+                    <!--                        android:id="@+id/videoFeatureLayout"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="@dimen/_100sdp"-->
+                    <!--                        android:layout_below="@+id/recommendationRelativ"-->
+                    <!--                        android:focusable="true"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        card_view:cardCornerRadius="@dimen/_7sdp"-->
+                    <!--                        card_view:cardElevation="@dimen/_7sdp"-->
+                    <!--                        card_view:cardPreventCornerOverlap="true"-->
+                    <!--                        card_view:cardUseCompatPadding="true">-->
 
-                        <RelativeLayout
+                    <!--                        <RelativeLayout-->
 
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/video_feaure_background">
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:background="@drawable/video_feaure_background">-->
 
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="1dp"
-                                android:focusable="true"
-                                card_view:cardCornerRadius="@dimen/_7sdp">
+                    <!--                            <androidx.cardview.widget.CardView-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="match_parent"-->
+                    <!--                                android:layout_margin="1dp"-->
+                    <!--                                android:focusable="true"-->
+                    <!--                                card_view:cardCornerRadius="@dimen/_7sdp">-->
 
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/video_feature" />
-                            </androidx.cardview.widget.CardView>
-                        </RelativeLayout>
+                    <!--                                <ImageView-->
+                    <!--                                    android:layout_width="match_parent"-->
+                    <!--                                    android:layout_height="match_parent"-->
+                    <!--                                    android:scaleType="centerCrop"-->
+                    <!--                                    android:src="@drawable/video_feature" />-->
+                    <!--                            </androidx.cardview.widget.CardView>-->
+                    <!--                        </RelativeLayout>-->
 
-                    </androidx.cardview.widget.CardView>
+                    <!--                    </androidx.cardview.widget.CardView>-->
 
                     <LinearLayout
                         android:id="@+id/referralCardView"
                         android:layout_width="match_parent"
-                        android:layout_below="@+id/recommendationRelativ"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/recommendationRelativ"
                         android:layout_marginStart="@dimen/_9sdp"
                         android:layout_marginTop="@dimen/_7sdp"
                         android:layout_marginEnd="@dimen/_9sdp"
@@ -552,7 +599,7 @@
                                 android:text="Refer &amp; Earn"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_10sdp" />
-<!--android:text="Invite your friends to pay later and earn bonus amount in wallet"-->
+                            <!--android:text="Invite your friends to pay later and earn bonus amount in wallet"-->
                             <TextView
                                 android:id="@+id/inviteTxt"
                                 android:layout_width="wrap_content"
@@ -740,66 +787,56 @@
 
                     </androidx.cardview.widget.CardView>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_300sdp"
-                        android:layout_below="@id/requestBusLayout"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@drawable/temporary"
-                        android:visibility="gone">
 
-                        <include layout="@layout/layout_footer_eleven" />
-
-                    </RelativeLayout>
                 </RelativeLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <ImageView
-            android:id="@+id/pdfImage"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:visibility="gone" />
+        <!--        <ImageView-->
+        <!--            android:id="@+id/pdfImage"-->
+        <!--            android:layout_width="@dimen/_100sdp"-->
+        <!--            android:layout_height="@dimen/_100sdp"-->
+        <!--            android:visibility="gone" />-->
 
-        <RelativeLayout
-            android:id="@+id/contactTxtLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_alignParentBottom="true"
-            android:background="#79000000"
-            android:visibility="gone">
+        <!--        <RelativeLayout-->
+        <!--            android:id="@+id/contactTxtLayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/_35sdp"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:background="#79000000"-->
+        <!--            android:visibility="gone">-->
 
-            <ImageView
-                android:id="@+id/whatsappImage"
-                android:layout_width="@dimen/_15sdp"
-                android:layout_height="@dimen/_15sdp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:src="@drawable/ic_whatsapp"
-                android:visibility="visible" />
+        <!--            <ImageView-->
+        <!--                android:id="@+id/whatsappImage"-->
+        <!--                android:layout_width="@dimen/_15sdp"-->
+        <!--                android:layout_height="@dimen/_15sdp"-->
+        <!--                android:layout_centerVertical="true"-->
+        <!--                android:layout_gravity="center_vertical"-->
+        <!--                android:layout_marginStart="@dimen/_10sdp"-->
+        <!--                android:layout_marginEnd="@dimen/_10sdp"-->
+        <!--                android:src="@drawable/ic_whatsapp"-->
+        <!--                android:visibility="visible" />-->
 
-            <TextView
-                android:id="@+id/alertText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/whatsappImage"
-                android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:fontFamily="@font/inter_medium"
-                android:gravity="center"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:text="You don't have frame please contact to admin for your brand frame"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_11sdp"
-                android:visibility="gone" />
-        </RelativeLayout>
+        <!--            <TextView-->
+        <!--                android:id="@+id/alertText"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_centerHorizontal="true"-->
+        <!--                android:layout_centerVertical="true"-->
+        <!--                android:layout_toEndOf="@+id/whatsappImage"-->
+        <!--                android:ellipsize="marquee"-->
+        <!--                android:focusable="true"-->
+        <!--                android:focusableInTouchMode="true"-->
+        <!--                android:fontFamily="@font/inter_medium"-->
+        <!--                android:gravity="center"-->
+        <!--                android:marqueeRepeatLimit="marquee_forever"-->
+        <!--                android:scrollHorizontally="true"-->
+        <!--                android:singleLine="true"-->
+        <!--                android:text="You don't have frame please contact to admin for your brand frame"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:textSize="@dimen/_11sdp"-->
+        <!--                android:visibility="gone" />-->
+        <!--        </RelativeLayout>-->
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"

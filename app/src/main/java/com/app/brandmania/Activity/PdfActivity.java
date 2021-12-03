@@ -122,24 +122,16 @@ public class PdfActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
-        digitalCardList = new ArrayList<>();
-        digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
-        binding.saveIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+        if (prefManager.getActiveBrand()!=null) {
+            digitalCardList = new ArrayList<>();
+            digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
+            binding.saveIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                    if (CurrentSelectedCard.isFree()) {
-                        isUserPaid = true;
-                        frontPageLayoutImage(false);
-                    } else {
-                        isUserPaid = false;
-                        askForUpgradeToEnterpisePackage();
-                    }
+                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
-                } else {
-                    if (Utility.isPackageExpired(act)) {
                         if (CurrentSelectedCard.isFree()) {
                             isUserPaid = true;
                             frontPageLayoutImage(false);
@@ -147,27 +139,27 @@ public class PdfActivity extends BaseActivity {
                             isUserPaid = false;
                             askForUpgradeToEnterpisePackage();
                         }
+
                     } else {
-                        frontPageLayoutImage(false);
+                        if (Utility.isPackageExpired(act)) {
+                            if (CurrentSelectedCard.isFree()) {
+                                isUserPaid = true;
+                                frontPageLayoutImage(false);
+                            } else {
+                                isUserPaid = false;
+                                askForUpgradeToEnterpisePackage();
+                            }
+                        } else {
+                            frontPageLayoutImage(false);
+                        }
                     }
                 }
-            }
-        });
-        binding.exportIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+            });
+            binding.exportIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
-                    if (CurrentSelectedCard.isFree()) {
-                        isUserPaid = true;
-                        frontPageLayoutImage(true);
-                    } else {
-                        isUserPaid = false;
-                        askForUpgradeToEnterpisePackage();
-                    }
-
-                } else {
-                    if (Utility.isPackageExpired(act)) {
                         if (CurrentSelectedCard.isFree()) {
                             isUserPaid = true;
                             frontPageLayoutImage(true);
@@ -175,92 +167,104 @@ public class PdfActivity extends BaseActivity {
                             isUserPaid = false;
                             askForUpgradeToEnterpisePackage();
                         }
+
                     } else {
-                        frontPageLayoutImage(true);
-                    }
+                        if (Utility.isPackageExpired(act)) {
+                            if (CurrentSelectedCard.isFree()) {
+                                isUserPaid = true;
+                                frontPageLayoutImage(true);
+                            } else {
+                                isUserPaid = false;
+                                askForUpgradeToEnterpisePackage();
+                            }
+                        } else {
+                            frontPageLayoutImage(true);
+                        }
 
+                    }
                 }
-            }
-        });
+            });
 
-        binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        activity(0);
-
-        Picasso.get().load(prefManager.getActiveBrand().getLogo())
-                .into(binding.pdfLogo, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
-
-                        setDigitalCardAdapter();
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
-
-        binding.brandName.setText(prefManager.getActiveBrand().getName());
-
-        if (prefManager.getActiveBrand().getEmail().isEmpty()) {
-            binding.emailTxtLayout.setVisibility(View.GONE);
-        } else {
-            binding.emailId.setText(prefManager.getActiveBrand().getEmail());
-        }
-
-
-        if (prefManager.getActiveBrand().getPhonenumber().isEmpty()) {
-            binding.contactTxtLayout.setVisibility(View.GONE);
-        } else {
-            binding.contactText.setText(prefManager.getActiveBrand().getPhonenumber());
-        }
-
-        if (prefManager.getActiveBrand().getAddress().isEmpty()) {
-            binding.addressEdtLayout.setVisibility(View.GONE);
-        } else {
-            binding.address.setText(prefManager.getActiveBrand().getAddress());
-        }
-
-        binding.alertText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ROUTE(act, UpdateBandList.class);
-//                Intent intent = new Intent(act, UpdateBandList.class);
-//                startActivity(intent);
-//                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
-        });
-
-        if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
-            binding.waterMark.setVisibility(View.GONE);
-        }
-
-        if (prefManager.getActiveBrand().getBrandService().isEmpty()) {
-            binding.services.setVisibility(View.INVISIBLE);
-        } else {
-            String[] list = prefManager.getActiveBrand().getBrandService().split("[,\n]");
-            String sericesStr = "";
-            int i = 0;
-            for (int j = 0; j < list.length; j++) {
-                String s = list[j];
-                sericesStr = sericesStr + "\n- " + s;
-                i++;
-                if (i == 5) {
-                    break;
+            binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
                 }
-            }
-            binding.servicesTxt.setText(sericesStr);
-        }
+            });
 
-        digitalCardList = new ArrayList<>();
-        digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
+            activity(0);
+
+            Picasso.get().load(prefManager.getActiveBrand().getLogo())
+                    .into(binding.pdfLogo, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
+
+                            setDigitalCardAdapter();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+
+            binding.brandName.setText(prefManager.getActiveBrand().getName());
+
+            if (prefManager.getActiveBrand().getEmail().isEmpty()) {
+                binding.emailTxtLayout.setVisibility(View.GONE);
+            } else {
+                binding.emailId.setText(prefManager.getActiveBrand().getEmail());
+            }
+
+
+            if (prefManager.getActiveBrand().getPhonenumber().isEmpty()) {
+                binding.contactTxtLayout.setVisibility(View.GONE);
+            } else {
+                binding.contactText.setText(prefManager.getActiveBrand().getPhonenumber());
+            }
+
+            if (prefManager.getActiveBrand().getAddress().isEmpty()) {
+                binding.addressEdtLayout.setVisibility(View.GONE);
+            } else {
+                binding.address.setText(prefManager.getActiveBrand().getAddress());
+            }
+
+            binding.alertText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.ROUTE(act, UpdateBandList.class);
+                }
+            });
+
+            if (prefManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
+                binding.waterMark.setVisibility(View.GONE);
+            }
+
+            if (prefManager.getActiveBrand().getBrandService().isEmpty()) {
+                binding.services.setVisibility(View.INVISIBLE);
+            } else {
+                String[] list = prefManager.getActiveBrand().getBrandService().split("[,\n]");
+                String sericesStr = "";
+                int i = 0;
+                for (int j = 0; j < list.length; j++) {
+                    String s = list[j];
+                    sericesStr = sericesStr + "\n- " + s;
+                    i++;
+                    if (i == 5) {
+                        break;
+                    }
+                }
+                binding.servicesTxt.setText(sericesStr);
+            }
+
+            digitalCardList = new ArrayList<>();
+            digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
+        }else{
+            binding.scrollView.setVisibility(View.GONE);
+            binding.loader.setVisibility(View.GONE);
+
+        }
     }
 
     public void setBackgroundAdapter() {

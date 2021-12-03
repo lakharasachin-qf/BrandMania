@@ -186,6 +186,9 @@
     <color name="dark_blue">#00008B</color>
     <color name="navy">#000080</color>
 
+    <color name="transparent">#00000000</color>
+    <color name="grey">#a9a9a9</color>
+    <color name="cardViewBorder">#E2E9EF</color>
 
     <color name="colorProgressBackground">#00000000</color>
 </resources>
