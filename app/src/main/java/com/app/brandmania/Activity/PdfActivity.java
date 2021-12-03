@@ -293,8 +293,9 @@ public class PdfActivity extends BaseActivity {
                 showBackgroundFragmentList();
             }
         };
-
         backgroundColorsAdapter.setOnItemSelectListener(onItemSelectListener);
+
+
         binding.backgroundcolorList.setLayoutManager(new GridLayoutManager(act, 3));
         binding.backgroundcolorList.setHasFixedSize(true);
         binding.backgroundcolorList.setAdapter(backgroundColorsAdapter);
