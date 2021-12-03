@@ -100,6 +100,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             askPermissions();
         }
+
+        Utility.Log("activeBrand",gson.toJson(prefManager.getActiveBrand()));
     }
 
     @SuppressLint("NonConstantResourceId")

@@ -123,6 +123,125 @@ public class ResponseHandler {
         }
     }
 
+    public static BrandListItem jsonToBrand(JSONObject jsonObject) {
+        BrandListItem examModel = null;
+        try {
+            examModel = new BrandListItem();
+            examModel.setLayoutType(BrandListItem.LAYOUT_BRANDLIST);
+            examModel.setId(getString(jsonObject, "id"));
+            examModel.setCategoryId(getString(jsonObject, "br_category_id"));
+            examModel.setCategoryName(getString(jsonObject, "br_category_name"));
+            examModel.setName(getString(jsonObject, "br_name"));
+            examModel.setPhonenumber(getString(jsonObject, "br_phone"));
+            examModel.setWebsite(getString(jsonObject, "br_website"));
+            examModel.setEmail(getString(jsonObject, "br_email"));
+            examModel.setAddress(getString(jsonObject, "br_address"));
+            examModel.setOriginalAddress(getString(jsonObject, "br_address"));
+
+            if (jsonObject.has("br_pincode")) {
+                examModel.setPincode(ResponseHandler.getString(jsonObject, "br_pincode"));
+            }
+            if (jsonObject.has("br_state")) {
+                examModel.setState(ResponseHandler.getString(jsonObject, "br_state"));
+            }
+            if (jsonObject.has("br_country")) {
+                examModel.setCountry(ResponseHandler.getString(jsonObject, "br_country"));
+            }
+            if (jsonObject.has("br_city")) {
+                examModel.setCity(ResponseHandler.getString(jsonObject, "br_city"));
+            }
+
+            String address = examModel.getOriginalAddress();
+            if (examModel.getCity() != null && !examModel.getCity().isEmpty()) {
+                if (!address.isEmpty())
+                    address = address + ", ";
+
+                address = address + examModel.getCity();
+            }
+            if (examModel.getState() != null && !examModel.getState().isEmpty()) {
+                if (!address.isEmpty())
+                    address = address + ", ";
+
+                address = address + examModel.getState();
+            }
+            if (examModel.getCountry() != null && !examModel.getCountry().isEmpty()) {
+                if (!address.isEmpty())
+                    address = address + ", ";
+
+                address = address + examModel.getCountry();
+            }
+            if (examModel.getPincode() != null && !examModel.getPincode().isEmpty()) {
+                if (!address.isEmpty())
+                    address = address + " - ";
+
+                address = address + examModel.getPincode();
+            }
+            examModel.setAddress(address);
+
+            examModel.setLogo(getString(jsonObject, "br_logo"));
+            examModel.setBrandService(getString(jsonObject, "br_service"));
+            examModel.setIs_frame(getString(jsonObject, "is_frame"));
+            examModel.setFrame_message(getString(jsonObject, "frame_message"));
+            examModel.setFrambaseyrl(getString(jsonObject, "fream_base_url"));
+            examModel.setIs_payment_pending(getString(jsonObject, "is_payment_pending"));
+            examModel.setPayment_message(getString(jsonObject, "payment_message"));
+            examModel.setPackagename(getString(jsonObject, "package"));
+            examModel.setPackage_id(getString(jsonObject, "package_id"));
+            examModel.setPackagemessage(getString(jsonObject, "package_message"));
+            examModel.setNo_of_total_image(getString(jsonObject, "no_of_img"));
+            examModel.setNo_of_used_image(getString(jsonObject, "no_of_used_img"));
+            examModel.setNo_of_frame(getString(jsonObject, "no_of_frame"));
+            examModel.setNo_of_remaining(getString(jsonObject, "remaining_img"));
+            examModel.setSubscriptionDate(getString(jsonObject, "subscription_date"));
+            examModel.setRate(getString(jsonObject, "rate"));
+
+
+            examModel.setExpiery_date(getString(jsonObject, "expire_date"));
+            JSONArray jsonArray = jsonObject.getJSONArray("br_frame");
+
+            ArrayList<FrameItem> frameItems = null;
+            frameItems = new ArrayList<>();
+            for (int j = 0; j < jsonArray.length(); j++) {
+                JSONObject jsonObject1 = null;
+
+                jsonObject1 = jsonArray.getJSONObject(j);
+
+                FrameItem frameItem = new FrameItem();
+                frameItem.setFrame1(ResponseHandler.getString(jsonObject1, "frame_path"));
+                frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
+                frameItems.add(frameItem);
+
+
+            }
+            examModel.setFrame(frameItems);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return examModel;
+    }
+
+    public static ArrayList<BrandListItem> handleLogin(JSONObject jsonObject) {
+        ArrayList<BrandListItem> strings = new ArrayList<>();
+        if (isSuccess(null, jsonObject)) {
+            JSONArray dataJsonArray = getJSONArray(getJSONObject(jsonObject, "data"), "brands");
+            if (!dataJsonArray.isNull(0) && dataJsonArray.length() != 0) {
+                strings = new ArrayList<>();
+                for (int i = 0; i < dataJsonArray.length(); i++) {
+                    try {
+                        BrandListItem model = jsonToBrand(dataJsonArray.getJSONObject(i));
+                        if (model != null)
+                            strings.add(model);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+
+        return strings;
+    }
+
     public static ArrayList<BrandListItem> HandleGetBrandList(JSONObject jsonObject) {
         ArrayList<BrandListItem> strings = new ArrayList<>();
         if (isSuccess(null, jsonObject)) {
@@ -131,99 +250,9 @@ public class ResponseHandler {
                 strings = new ArrayList<>();
                 for (int i = 0; i < dataJsonArray.length(); i++) {
                     try {
-                        JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
-                        BrandListItem examModel = new BrandListItem();
-                        examModel.setLayoutType(BrandListItem.LAYOUT_BRANDLIST);
-                        examModel.setId(getString(dataJsonObject, "id"));
-                        examModel.setCategoryId(getString(dataJsonObject, "br_category_id"));
-                        examModel.setCategoryName(getString(dataJsonObject, "br_category_name"));
-                        examModel.setName(getString(dataJsonObject, "br_name"));
-                        examModel.setPhonenumber(getString(dataJsonObject, "br_phone"));
-                        examModel.setWebsite(getString(dataJsonObject, "br_website"));
-                        examModel.setEmail(getString(dataJsonObject, "br_email"));
-                        examModel.setAddress(getString(dataJsonObject, "br_address"));
-                        examModel.setOriginalAddress(getString(dataJsonObject, "br_address"));
-
-                        if (dataJsonObject.has("br_pincode")) {
-                            examModel.setPincode(ResponseHandler.getString(dataJsonObject, "br_pincode"));
-                        }
-                        if (dataJsonObject.has("br_state")) {
-                            examModel.setState(ResponseHandler.getString(dataJsonObject, "br_state"));
-                        }
-                        if (dataJsonObject.has("br_country")) {
-                            examModel.setCountry(ResponseHandler.getString(dataJsonObject, "br_country"));
-                        }
-                        if (dataJsonObject.has("br_city")) {
-                            examModel.setCity(ResponseHandler.getString(dataJsonObject, "br_city"));
-                        }
-
-                        String address = examModel.getOriginalAddress();
-                        if (examModel.getCity() != null && !examModel.getCity().isEmpty()) {
-                            if (!address.isEmpty())
-                                address = address + ", ";
-
-                            address = address + examModel.getCity();
-                        }
-
-                        if (examModel.getState() != null && !examModel.getState().isEmpty()) {
-                            if (!address.isEmpty())
-                                address = address + ", ";
-
-                            address = address + examModel.getState();
-                        }
-
-
-                        if (examModel.getCountry() != null && !examModel.getCountry().isEmpty()) {
-                            if (!address.isEmpty())
-                                address = address + ", ";
-
-                            address = address + examModel.getCountry();
-                        }
-
-                        if (examModel.getPincode() != null && !examModel.getPincode().isEmpty()) {
-                            if (!address.isEmpty())
-                                address = address + " - ";
-
-                            address = address + examModel.getPincode();
-                        }
-                        //examModel.setAddress(getString(dataJsonObject, "br_address"));
-                        examModel.setAddress(address);
-
-                        examModel.setLogo(getString(dataJsonObject, "br_logo"));
-                        examModel.setBrandService(getString(dataJsonObject, "br_service"));
-                        examModel.setIs_frame(getString(dataJsonObject, "is_frame"));
-                        examModel.setFrame_message(getString(dataJsonObject, "frame_message"));
-                        examModel.setFrambaseyrl(getString(dataJsonObject, "fream_base_url"));
-                        examModel.setIs_payment_pending(getString(dataJsonObject, "is_payment_pending"));
-                        examModel.setPayment_message(getString(dataJsonObject, "payment_message"));
-                        examModel.setPackagename(getString(dataJsonObject, "package"));
-                        examModel.setPackage_id(getString(dataJsonObject, "package_id"));
-                        examModel.setPackagemessage(getString(dataJsonObject, "package_message"));
-                        examModel.setNo_of_total_image(getString(dataJsonObject, "no_of_img"));
-                        examModel.setNo_of_used_image(getString(dataJsonObject, "no_of_used_img"));
-                        examModel.setNo_of_frame(getString(dataJsonObject, "no_of_frame"));
-                        examModel.setNo_of_remaining(getString(dataJsonObject, "remaining_img"));
-                        examModel.setSubscriptionDate(getString(dataJsonObject, "subscription_date"));
-                        examModel.setRate(getString(dataJsonObject, "rate"));
-
-
-                        examModel.setExpiery_date(getString(dataJsonObject, "expire_date"));
-                        JSONArray jsonArray = dataJsonObject.getJSONArray("br_frame");
-
-                        ArrayList<FrameItem> frameItems = null;
-                        frameItems = new ArrayList<>();
-                        for (int j = 0; j < jsonArray.length(); j++) {
-                            JSONObject jsonObject1 = jsonArray.getJSONObject(j);
-                            FrameItem frameItem = new FrameItem();
-                            frameItem.setFrame1(ResponseHandler.getString(jsonObject1, "frame_path"));
-                            frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
-
-
-                            frameItems.add(frameItem);
-                        }
-                        Gson gson = new Gson();
-                        examModel.setFrame(frameItems);
-                        strings.add(examModel);
+                        BrandListItem model = jsonToBrand(dataJsonArray.getJSONObject(i));
+                        if (model != null)
+                            strings.add(model);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -317,7 +346,7 @@ public class ResponseHandler {
                             imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
                             innerImagesList.add(imageCategory);
 
-                            if (new PreafManager(act).getActiveBrand()!=null && key.contains("Business")) {
+                            if (new PreafManager(act).getActiveBrand() != null && key.contains("Business")) {
                                 if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
                                     userBusinessCategoryIndex = m;
                                 }
@@ -376,9 +405,10 @@ public class ResponseHandler {
                     imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
                     innerImagesList.add(imageCategory);
 
-
-                    if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
-                        userBusinessCategoryIndex = m;
+                    if (new PreafManager(act).getActiveBrand() != null) {
+                        if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
+                            userBusinessCategoryIndex = m;
+                        }
                     }
 
                 }

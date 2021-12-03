@@ -52,9 +52,9 @@
                             android:id="@+id/gmailLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/_10sdp"
-                            android:layout_marginEnd="@dimen/_8sdp"
                             android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true">
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_8sdp">
 
                             <ImageView
                                 android:id="@+id/gmailImage"
@@ -75,7 +75,7 @@
                                 android:maxWidth="@dimen/_120sdp"
                                 android:padding="0dp"
                                 android:singleLine="true"
-                                android:text="qfsolution@gmail.com"
+                                android:text="@string/hint_email"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_4sdp" />
 
@@ -86,9 +86,9 @@
                             android:id="@+id/contactLayout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_10sdp"
-                            android:layout_marginStart="@dimen/_2sdp"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_2sdp"
                             android:orientation="horizontal">
 
 
@@ -112,7 +112,7 @@
                                 android:layout_toEndOf="@+id/contactImage"
                                 android:fontFamily="@font/inter_regular"
                                 android:gravity="center_vertical"
-                                android:text="8849896537"
+                                android:text="@string/hint_mobile"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_4sdp" />
 
@@ -158,7 +158,7 @@
                                 android:maxWidth="@dimen/_130sdp"
                                 android:padding="0dp"
                                 android:singleLine="true"
-                                android:text="Address"
+                                android:text="@string/hint_address"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_4sdp" />
                         </RelativeLayout>
@@ -187,7 +187,7 @@
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_toEndOf="@+id/websiteImage"
                                 android:singleLine="true"
-                                android:text="website"
+                                android:text="@string/hint_website"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_4sdp" />
                         </RelativeLayout>

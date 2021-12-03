@@ -106,15 +106,15 @@
                         app:tint="@color/white" />
 
                     <TextView
-                        android:layout_toEndOf="@+id/contactImage"
                         android:id="@+id/contactText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
+                        android:layout_toEndOf="@+id/contactImage"
                         android:fontFamily="@font/inter_regular"
                         android:gravity="center_vertical"
-                        android:text="8849896537"
-                        android:layout_centerVertical="true"
+                        android:text="@string/hint_mobile"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 

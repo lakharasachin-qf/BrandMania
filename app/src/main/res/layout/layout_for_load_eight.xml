@@ -22,18 +22,18 @@
                 android:layout_centerVertical="true"
                 android:background="@color/colorPrimary"
                 android:backgroundTint="@color/colorPrimary" />
+
             <TextView
 
-                android:layout_centerHorizontal="true"
                 android:id="@+id/brandNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:textAlignment="center"
-                android:layout_centerVertical="true"
                 android:singleLine="true"
-                android:text="Brand Mania"
+                android:text="@string/hint_brandName"
+                android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_10sdp" />
             <View
@@ -82,7 +82,7 @@
                     android:includeFontPadding="false"
                     android:padding="0dp"
                     android:singleLine="true"
-                    android:text="lakharasachin047sdfj@gmail.com"
+                    android:text="@string/hint_email"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_9sdp" />
 
@@ -125,7 +125,7 @@
                     android:padding="0dp"
                     android:singleLine="true"
 
-                    android:text="+91 8849896537"
+                    android:text="@string/hint_mobile"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_9sdp" />
 
@@ -158,7 +158,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:includeFontPadding="false"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:text="326,Rudra Complex  , Ahmedabad, Gujarat,\n India - 2344554"
+                android:text="@string/hint_address"
                 android:layout_toEndOf="@+id/loacationImage"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_9sdp" />

@@ -41,6 +41,7 @@ import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
+import com.app.brandmania.Fragment.AddBrandFragment;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Interface.ItemMultipleSelectionInterface;
@@ -146,6 +147,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             Glide.with(act).load(preafManager.getActiveBrand().getLogo());
             binding.businessName.setText(preafManager.getActiveBrand().getName());
         }
+
+        if (preafManager.getActiveBrand()==null){
+            addBrandList();
+        }
         RateUs();
 
 
@@ -165,7 +170,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.createDigitalCard.setOnClickListener(view -> {
             HELPER.ROUTE(act, PdfActivity.class);
-//            if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
+            //            if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
 //                HELPER.ROUTE(act, PdfActivity.class);
 //            } else {
 //                alertDialogBuilder = new AlertDialog.Builder(act);
@@ -250,7 +255,17 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
         return binding.getRoot();
     }
+    AddBrandFragment addBrandFragment;
+    public void addBrandList() {
+        if (addBrandFragment!=null){
+            if (addBrandFragment.isVisible()){
+                addBrandFragment.dismiss();
+            }
+        }
 
+        addBrandFragment = new AddBrandFragment();
+        addBrandFragment.show(getParentFragmentManager(), "");
+    }
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);

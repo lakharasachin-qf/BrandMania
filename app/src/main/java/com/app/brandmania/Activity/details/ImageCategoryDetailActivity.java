@@ -79,6 +79,7 @@ import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Fragment.AddBrandFragment;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
 import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.IColorChange;
@@ -307,7 +308,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         Toast.makeText(act, "Added to Favourite", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-
+                    addBrandList();
                 }
             }
         });
@@ -329,6 +330,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     }
                     removeFromFavourite(REMOVEFAV);
                     Toast.makeText(act, "Removed From Favourite", Toast.LENGTH_SHORT).show();
+                }else{
+                    addBrandList();
                 }
             }
 
@@ -351,7 +354,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     }
                 }
             } else {
-
+                addBrandList();
             }
         });
 
@@ -386,7 +389,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     }
                 }
             } else {
-
+                addBrandList();
             }
         });
 
@@ -421,6 +424,20 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         binding.logoCustom.setTag("0");
     }
+
+    AddBrandFragment addBrandFragment;
+    public void addBrandList() {
+        if (addBrandFragment!=null){
+            if (addBrandFragment.isVisible()){
+                addBrandFragment.dismiss();
+            }
+        }
+
+        addBrandFragment = new AddBrandFragment();
+        addBrandFragment.show(getSupportFragmentManager(), "");
+    }
+
+
 
     @Override
     public void onResume() {

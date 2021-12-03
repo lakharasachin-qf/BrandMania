@@ -45,7 +45,7 @@
                     android:maxWidth="@dimen/_120sdp"
                     android:padding="0dp"
                     android:singleLine="true"
-                    android:text="qfsolution@fdgdgdffdgfdgfdgdgfgfdgfdfdgdfgfd.com"
+                    android:text="@string/hint_email"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_8sdp" />
 
@@ -74,15 +74,15 @@
 
                 <TextView
 
-                    android:layout_toEndOf="@+id/contactImage"
                     android:id="@+id/contactText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@+id/contactImage"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center_vertical"
-                    android:text="8849896537"
-                    android:layout_centerVertical="true"
+                    android:text="@string/hint_mobile"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_8sdp" />
 
@@ -127,7 +127,7 @@
                     android:maxWidth="@dimen/_130sdp"
                     android:padding="0dp"
                     android:singleLine="true"
-                    android:text="Vastradfgdgdgfdgfdgfdgdfgfdgfdfgdfgdfgl"
+                    android:text="@string/hint_address"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_8sdp" />
             </RelativeLayout>
@@ -158,7 +158,7 @@
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_toEndOf="@+id/websiteImage"
                     android:singleLine="true"
-                    android:text="qfsolution.com"
+                    android:text="@string/hint_website"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_8sdp" />
             </RelativeLayout>

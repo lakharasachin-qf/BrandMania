@@ -36,39 +36,28 @@
                 android:gravity="bottom"
                 android:orientation="vertical">
 
-                <View
-                    android:id="@+id/layer1"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginStart="-7dp"
-                    android:layout_marginBottom="-20dp"
-                    android:background="@drawable/round_corner_footer_one_duplicate"
-                    android:rotation="45"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/socialBackground"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12pt"
-                    android:layout_marginTop="-8dp"
-                    android:layout_marginBottom="-15dp"
-                    android:background="@drawable/shapeee_round_cornar_only_left_both"
+
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:background="@color/colorPrimary"
                     android:backgroundTint="@color/colorPrimary"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/_2sdp"
                     android:paddingBottom="@dimen/_2sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/contentBackground"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/layer2"
-                    app:layout_constraintTop_toTopOf="@id/layer2">
+                      >
 
                     <ImageView
                         android:id="@+id/callIcon"
                         android:layout_width="@dimen/_4sdp"
                         android:layout_height="@dimen/_4sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_30sdp"
                         android:layout_marginEnd="@dimen/_2sdp"
                         android:src="@drawable/ic_outline_call_24"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +74,7 @@
 
                         android:fontFamily="@font/montserrat_regular"
                         android:maxLines="1"
-                        android:text="+91 8200002604"
+                        android:text="@string/hint_mobile"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_4sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -111,7 +100,7 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:maxLines="1"
                         android:paddingEnd="@dimen/_5sdp"
-                        android:text="+91 8200002604"
+                        android:text="@string/hint_email"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_4sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -122,12 +111,14 @@
 
                 <View
                     android:id="@+id/layer2"
-                    android:layout_width="@dimen/_40sdp"
+                    android:layout_width="@dimen/_59sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_marginBottom="-29dp"
+                    android:layout_marginStart="-21dp"
+                    android:layout_marginBottom="-32dp"
                     android:background="@drawable/round_corner_footer_one_duplicate"
                     android:backgroundTint="@color/colorPrimary"
                     android:rotation="45"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -135,8 +126,8 @@
                     android:id="@+id/layer3"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginBottom="-40dp"
+                    android:layout_marginStart="-15dp"
+                    android:layout_marginBottom="-33dp"
                     android:background="@drawable/round_corner_footer_one_duplicate"
                     android:rotation="45"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -149,10 +140,12 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_7sdp"
-                    android:paddingBottom="@dimen/_2sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_3sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/layer1">
+                    app:layout_constraintStart_toEndOf="@id/layer2"
+                     >
 
 
                     <TextView
@@ -160,16 +153,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:fontFamily="@font/montserrat_regular"
+
+                        android:maxLines="2"
                         android:paddingStart="@dimen/_2sdp"
                         android:paddingEnd="@dimen/_2sdp"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:maxLines="2"
-                        android:text="B/1 Parasnager Rudra Complex,opp. Bajaranj Asshram, Vastral, Ahmedabad, Gujarat, India -223545"
+                        android:text="@string/hint_address"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_4sdp"
+                        android:textSize="@dimen/_3sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

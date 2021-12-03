@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_2sdp"
-                        android:text="Website"
+                        android:text="@string/hint_website"
                         android:textSize="@dimen/_4sdp" />
                 </LinearLayout>
 
@@ -114,7 +114,7 @@
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_toEndOf="@+id/contactLoho"
                                 android:singleLine="true"
-                                android:text="820000dddd000"
+                                android:text="@string/hint_mobile"
                                 android:textSize="@dimen/_4sdp" />
                         </RelativeLayout>
 
@@ -146,7 +146,7 @@
                                 android:layout_toEndOf="@+id/gmailLogo"
                                 android:maxWidth="@dimen/_120sdp"
                                 android:singleLine="true"
-                                android:text="lakharasachin.qf@gmail.com"
+                                android:text="@string/hint_email"
                                 android:textSize="@dimen/_4sdp" />
                         </RelativeLayout>
                     </RelativeLayout>

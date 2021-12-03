@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/addbrand_bottomsheet_background"
+        android:backgroundTint="#FFF8EC"
+        android:orientation="vertical"
+        tools:context=".Fragments.bottom.addBrandBottomFragment">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <ImageView
+                android:id="@+id/cancelBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/ic_baseline_close_24"
+                android:src="@drawable/ic_editor_cancel"
+                app:tint="#B5B5B5" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:minHeight="@dimen/_200sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Add "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_extrabold"
+                        android:text="Your"
+                        android:textColor="@color/colorPrimary" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_extrabold"
+                    android:text="Brand"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_26sdp" />
+
+                <View
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_2sdp"
+                    android:background="@drawable/addbrandview"
+                    android:backgroundTint="#D5D5D5" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="Currently you have no brand for your account. Please add brand and enjoy using our app."
+                    android:textSize="@dimen/_8sdp" />
+
+
+                <RelativeLayout
+                    android:id="@+id/continueBtn"
+                    android:layout_width="@dimen/_105sdp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorthird"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/banner_button_backgroundshap">
+
+                    <TextView
+                        android:id="@+id/regBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_32sdp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:letterSpacing="0"
+                        android:text="     Continue"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textDirection="ltr"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:background="@drawable/addbrandbackgroundshap"
+                        android:elevation="@dimen/_3sdp"
+                        android:padding="@dimen/_7sdp"
+                        android:src="@drawable/ic_round_arrow_forward_ios_24"
+                        app:tint="@color/colorPrimary" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_150sdp"
+                    android:src="@drawable/ic_add_brand_illustration" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

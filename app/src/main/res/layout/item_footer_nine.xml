@@ -87,7 +87,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:text="8849896537\n lakharasachin.qf@gmail.com"
+                        android:text="@string/_91_xxxx_xxxx_xx_n_business_gmail_com"
 
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimary"

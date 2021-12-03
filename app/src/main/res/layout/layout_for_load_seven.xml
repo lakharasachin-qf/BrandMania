@@ -11,14 +11,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_centerHorizontal="true"
             android:id="@+id/brandNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/_5sdp"
-            android:textAlignment="center"
             android:singleLine="true"
-            android:text="Brand Mania"
+            android:text="@string/hint_brandName"
+            android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_10sdp" />
 
@@ -60,7 +60,7 @@
                     android:includeFontPadding="false"
                     android:padding="0dp"
                     android:singleLine="true"
-                    android:text="qfsolfddgdfgfdgdfgdgdfution@gmail.com"
+                    android:text="@string/hint_email"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_8sdp" />
 
@@ -104,7 +104,7 @@
                     android:padding="0dp"
                     android:singleLine="true"
 
-                    android:text="+91 8849896537"
+                    android:text="@string/hint_mobile"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_8sdp" />
 

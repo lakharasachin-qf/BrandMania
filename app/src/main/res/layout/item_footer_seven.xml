@@ -46,7 +46,7 @@
                     android:includeFontPadding="false"
                     android:padding="0dp"
                     android:singleLine="true"
-                    android:text="Brand Mania"
+                    android:text="@string/hint_brandName"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_5sdp" />
@@ -91,7 +91,7 @@
                             android:maxWidth="@dimen/_100sdp"
                             android:padding="0dp"
                             android:singleLine="true"
-                            android:text="qfsolfddgdfgfdgdfgdgdfution@gmail.com"
+                            android:text="@string/hint_email"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_4sdp" />
 
@@ -135,7 +135,7 @@
                             android:includeFontPadding="false"
                             android:padding="0dp"
                             android:singleLine="true"
-                            android:text="+91 8849896537"
+                            android:text="@string/hint_mobile"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_4sdp" />
 

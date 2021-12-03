@@ -121,7 +121,7 @@
                             android:layout_marginStart="@dimen/_2sdp"
                             android:fontFamily="@font/inter_regular"
                             android:gravity="center_vertical"
-                            android:text="8849896537"
+                            android:text="@string/hint_mobile"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_5sdp" />
 

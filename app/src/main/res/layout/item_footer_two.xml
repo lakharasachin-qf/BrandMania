@@ -75,7 +75,7 @@
                             android:maxWidth="@dimen/_120sdp"
                             android:padding="0dp"
                             android:singleLine="true"
-                            android:text="qfsolution@gmail.com"
+                            android:text="@string/hint_email"
                             android:textColor="@color/colorNavText"
                             android:textSize="@dimen/_4sdp" />
 
@@ -109,7 +109,7 @@
                             android:maxWidth="@dimen/_100sdp"
                             android:padding="0dp"
                             android:singleLine="true"
-                            android:text="+91 8849896537"
+                            android:text="@string/hint_mobile"
                             android:textColor="@color/colorNavText"
                             android:textSize="@dimen/_4sdp"></TextView>
 
@@ -155,7 +155,7 @@
                             android:maxWidth="@dimen/_150sdp"
                             android:padding="0dp"
                             android:singleLine="true"
-                            android:text="Address"
+                            android:text="@string/hint_address"
                             android:textColor="@color/colorNavText"
                             android:textSize="@dimen/_4sdp" />
 
@@ -189,7 +189,7 @@
                             android:maxWidth="@dimen/_100sdp"
                             android:padding="0dp"
                             android:singleLine="true"
-                            android:text="www.queryfinders.com"
+                            android:text="@string/hint_website"
                             android:textColor="@color/colorNavText"
                             android:textSize="@dimen/_4sdp" />
 

@@ -70,7 +70,7 @@
                 android:maxLines="1"
                 android:paddingStart="@dimen/_7sdp"
                 android:paddingEnd="@dimen/_15sdp"
-                android:text="Contact us +91 8200002604"
+                android:text="@string/hint_mobile"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_7sdp" />
 
@@ -84,7 +84,7 @@
                 android:maxLines="1"
                 android:paddingStart="@dimen/_7sdp"
                 android:paddingEnd="@dimen/_15sdp"
-                android:text="lakharasachin.qf034940540@gmail.com"
+                android:text="@string/hint_email"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_7sdp" />
         </LinearLayout>
@@ -113,7 +113,7 @@
                 android:maxWidth="@dimen/_150sdp"
                 android:maxLines="2"
 
-                android:text="326 Rudra Complex, Vastral, Ahmedabad, Gujarat, India -223545 fddfg df"
+                android:text="@string/hint_address"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_7sdp" />
         </RelativeLayout>

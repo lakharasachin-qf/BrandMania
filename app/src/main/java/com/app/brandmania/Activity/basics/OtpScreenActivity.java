@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,6 +31,7 @@ import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Interface.iVerifyOTP;
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityOtpScreenBinding;
 import com.app.brandmania.utils.APIs;
@@ -45,6 +45,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -139,13 +140,19 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             public void onResponse(String response) {
                 isLoading = false;
                 Utility.dismissProgress();
-                Utility.Log("VerificationOtp", response);
+                Utility.Log("login-response", response);
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.getBoolean("status")) {
                         JSONObject jsonArray = jObject.getJSONObject("data");
                         prefManager.setUserToken(jsonArray.getString("token"));
                         prefManager.setLogin(true);
+                        ArrayList<BrandListItem> brands = ResponseHandler.handleLogin(jObject);
+                        if (brands != null && brands.size() != 0) {
+                            prefManager.setAddBrandList(brands);
+                            prefManager.setActiveBrand(brands.get(0));
+                        }
+
                         Intent i = new Intent(act, HomeActivity.class);
                         i.putExtra("FirstLogin", "1");
                         i.addCategory(Intent.CATEGORY_HOME);
@@ -167,13 +174,13 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 isLoading = false;
                 Utility.dismissProgress();
                 if (error instanceof TimeoutError) {
-               //     Toast.makeText(act, "Time out error", Toast.LENGTH_SHORT).show();
+                    //     Toast.makeText(act, "Time out error", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof AuthFailureError) {
-                   // Toast.makeText(act, "AuthFailureError", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(act, "AuthFailureError", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof ServerError) {
-                   // Toast.makeText(act, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(act, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                 } else if (error instanceof ParseError) {
-                  //  Toast.makeText(act, "ParseError", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(act, "ParseError", Toast.LENGTH_SHORT).show();
                 }
                 onBackPressed();
                 error.printStackTrace();
@@ -223,7 +230,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             public void onResponse(String response) {
                 isLoading = false;
                 Utility.dismissProgress();
-
+                Utility.Log("OTP", response.toString());
                 prefManager.loginStep("2");
                 if (ResponseHandler.isSuccess(response, null)) {
                     binding.CouterText.setVisibility(View.VISIBLE);

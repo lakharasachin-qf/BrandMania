@@ -75,6 +75,7 @@ import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.DataBase.DBManager;
 import com.app.brandmania.DataBase.DatabaseHelper;
+import com.app.brandmania.Fragment.AddBrandFragment;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
 import com.app.brandmania.Interface.AddTextEvent;
 import com.app.brandmania.Interface.FilterListener;
@@ -177,14 +178,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     private ActivityViewAllFrameImageBinding binding;
     File new_file;
     GestureDetector gestureDetector;
-    GestureDetector editorDoubleTap;
-    float angle = 0;
+     float angle = 0;
     private int _xDelta;
     private int _yDelta;
-    //EditText myEditText;
-    ImageFromGalaryModel imageFromGalaryModel;
+     ImageFromGalaryModel imageFromGalaryModel;
     Drawable yourDrawable;
-    int startwidth;
+    public int startwidth;
     private boolean isRemoveFrame = false;
     TextView selectedForEdit;
     Bitmap selectedImageBitmap = null;
@@ -194,9 +193,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     static final int NONE = 0;
     static final int DRAG = 1;
     static final int ZOOM = 2;
-    private boolean canDownload = true;
-    private int FrameCountForDownload = 2;
-    boolean isFirstTouchOnImage = false;
+
+
     float oldDist = 1f;
     private float newRot = 0f;
     RelativeLayout.LayoutParams parms;
@@ -211,11 +209,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     private FooterModel selectedFooterModel;
     float scalediff;
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
-    private DashBoardItem imageList;
     int isDownloadOrSharingOrFavPending = -1;
 
     private ScaleGestureDetector scaleGestureDetector;
-    private String packagee = "";
+
     private boolean isUsingCustomFrame = true;
     private ImageList selectedBackendFrame = null;
     private int previousFontSize = -1;
@@ -225,19 +222,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     ArrayList<ImageList> menuModels = new ArrayList<>();
     private int colorCodeForTextColor = 0;
     private ImageList selectedObject;
-    private DashBoardItem selectedObjectViewAll;
-    private String is_payment_pending = "";
-    private String is_frame = "";
 
     int mode = NONE;
-    MotionEvent event;
-    private ViewGroup mainLayout1;
-    private ViewGroup mainLayout;
-    private int colorCodeForBackground = 0;
+     private int colorCodeForBackground = 0;
     Gson gson;
     public DBManager dbManager;
-    private int xDelta, yDelta;
-    boolean canLoadImage = false;
+     boolean canLoadImage = false;
     boolean fromViewAll = false;
     private float DefaultScaleX;
     private float DefaultScaleY;
@@ -289,17 +279,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         gson = new Gson();
         dbManager = new DBManager(act);
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
-        selectedObjectViewAll = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
 
         setIconForAlignment();
 
-        if (prefManager.getActiveBrand() != null) {
-            getFrame();
-            getBrandList();
-        } else {
-            CreateTabs();
-        }
 
+        CreateTabs();
 
         DefaultScaleY = binding.editableImageview.getScaleY();
         DefaultScaleX = binding.editableImageview.getScaleX();
@@ -308,10 +292,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         binding.editableImageview.getLayoutParams().width = 150;
         binding.editableImageview.requestLayout();
 
-        imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
+        DashBoardItem imageList = gson.fromJson(getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         binding.titleName.setText(imageList.getName());
 
-        mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
         binding.backImage.setDrawingCacheEnabled(true);
 
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
@@ -387,20 +370,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                         }
                     }
 
-
-//
-//                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-//                            askForUpgradeToEnterpisePackage();
-//                            return;
-//                        }
-//                      //  getImageDownloadRights("Share");
-//
-//                requestAgain();
-//                saveImageToGallery(true, false);
-//                if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo!=null) {
-//                    uploadLogoForBrand(selectedLogo);
-//                }
-
+                }else{
+                    addBrandList();
                 }
             }
         });
@@ -484,6 +455,17 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         });
         binding.logoCustom.setTag("0");
 
+    }
+    AddBrandFragment addBrandFragment;
+    public void addBrandList() {
+        if (addBrandFragment!=null){
+            if (addBrandFragment.isVisible()){
+                addBrandFragment.dismiss();
+            }
+        }
+
+        addBrandFragment = new AddBrandFragment();
+        addBrandFragment.show(getSupportFragmentManager(), "");
     }
 
     DialogUpgradeLayoutPackegeExpiredBindingImpl expriredBinding;
@@ -653,7 +635,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 .setTitle(title)
                 .setContentText(desc)
                 .setGravity(Gravity.center)
-                .setDismissType(DismissType.targetView)
+                .setDismissType(DismissType.anywhere)
                 .setTargetView(view)
                 .setContentTextSize(12)
                 .setTitleTextSize(14)
@@ -1169,63 +1151,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
     }
 
-    private void getBrandList() {
-        Utility.Log("API : ", APIs.GET_BRAND);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                // binding.swipeContainer.setRefreshing(false);
-                Utility.Log("GET_BRAND : ", response);
-                ArrayList<BrandListItem> brandListItems = new ArrayList<>();
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                    JSONArray dataJsonArray = ResponseHandler.getJSONArray(jsonObject, "data");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // binding.swipeContainer.setRefreshing(false);
-                        error.printStackTrace();
-
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/json");
-                params.put("X-Authorization", "Bearer " + prefManager.getUserToken());
-                return params;
-            }
-
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(stringRequest);
-    }
-
     public static String convertFirstUpper(String str) {
 
         if (str == null || str.isEmpty()) {
@@ -1235,8 +1160,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    //version 3 ======================================
-    // ask for payment
+
     public DialogUpgradeLayoutSecondBinding secondBinding;
 
     public void askForPayTheirPayment(String msg) {
@@ -1264,19 +1188,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         });
 
-        //   secondBinding.element3.setText("You haven't selected any package yet. Please choose any package for download more images");
-        alertDialog.setCancelable(false);
+         alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
-    }
-
-    //fire intent for share
-    public void triggerShareIntent(File new_file, Bitmap merged) {
-        //  Uri uri = Uri.parse();
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act, merged));
-        startActivity(Intent.createChooser(share, "Share Image"));
     }
 
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -1833,65 +1747,54 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         footerLayout = layoutType;
         if (layoutType == FooterModel.LAYOUT_FRAME_ONE) {
             LayoutForLoadOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
-            binding.elementFooter.addView(oneBinding.getRoot());
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameFirstData(act, oneBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.main);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.addressLayoutElement2);
             layoutModelClass.setOneBinding(oneBinding);
+            binding.elementFooter.addView(oneBinding.getRoot());
+
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWO) {
             LayoutForLoadTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
-            binding.elementFooter.addView(twoBinding.getRoot());
             layoutModelClass.setTwoBinding(twoBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameTwoData(act, twoBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.firstView);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.secondView);
+            binding.elementFooter.addView(twoBinding.getRoot());
+
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THREE) {
             LayoutForLoadThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
             layoutModelClass.setThreeBinding(threeBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameThreeData(act, threeBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.section1);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.section2);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOUR) {
             LayoutForLoadFourBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
             layoutModelClass.setFourBinding(fourBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameFourData(act, fourBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.section1);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIVE) {
             LayoutForLoadFiveBinding fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_five, null, false);
             binding.elementFooter.addView(fiveBinding.getRoot());
             layoutModelClass.setFiveBinding(fiveBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameFiveData(act, fiveBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.main);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIX) {
             LayoutForLoadSixBinding sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
             binding.elementFooter.addView(sixBinding.getRoot());
             layoutModelClass.setSixBinding(sixBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameSixData(act, sixBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.containerElement);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVEN) {
             LayoutForLoadSevenBinding sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
             binding.elementFooter.addView(sevenBinding.getRoot());
             layoutModelClass.setSevenBinding(sevenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameSevenData(act, sevenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.element0);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.socialFollow);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHT) {
             LayoutForLoadEightBinding eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
             binding.elementFooter.addView(eightBinding.getRoot());
             layoutModelClass.setEightBinding(eightBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameEightData(act, eightBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.element1);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.element2);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_NINE) {
             LayoutForLoadNineBinding nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
             binding.elementFooter.addView(nineBinding.getRoot());
@@ -1904,8 +1807,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setTenBinding(tenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameTenData(act, tenBinding);
-            mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
-            mainLayout1 = (RelativeLayout) findViewById(R.id.layout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_ELEVEN) {
             LayoutFooterElevenBinding elevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eleven, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -1917,7 +1818,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setElevenBinding(elevenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameElevenData(act, elevenBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWELVE) {
             LayoutFooterTweloneBinding tweloneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twelone, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -1929,7 +1829,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setTwelveBinding(tweloneBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameTweloneData(act, tweloneBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THIRTEEN) {
             LayoutFooterThirteenBinding thirteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_thirteen, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -1941,7 +1840,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setThirteenBinding(thirteenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameThirteenData(act, thirteenBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOURTEEN) {
             LayoutFooterFourteenBinding fourteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fourteen, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -1955,7 +1853,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setFourteenBinding(fourteenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameFourteenData(act, fourteenBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIFTEEN) {
             LayoutFooterFifteenBinding fifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fifteen, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -1969,7 +1866,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setFifteenBinding(fifteenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrameFifteenData(act, fifteenBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIXTEEN) {
             LayoutFooterSixteenBinding sixteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_sixteen, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -1983,7 +1879,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setSixteenBinding(sixteenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrame16Data(act, sixteenBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVENTEEN) {
             LayoutFooterSeventeenBinding seventeenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_seventeen, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -1997,7 +1892,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setSeventeenBinding(seventeenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrame17Data(act, seventeenBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHTEEN) {
             LayoutFooterEightteenBinding eighteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eightteen, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2011,7 +1905,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setEightteenBinding(eighteenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrame18Data(act, eighteenBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_NINETEEN) {
             LayoutFooterNineteenBinding nineteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_nineteen, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2025,7 +1918,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setNineteenBinding(nineteenBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrame19Data(act, nineteenBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWENTY) {
             LayoutFooterTwentyBinding twentyBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twenty, null, false);
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2039,7 +1931,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             layoutModelClass.setTwentyBinding(twentyBinding);
             if (prefManager.getActiveBrand() != null)
                 FooterHelper.loadFrame20Data(act, twentyBinding);
-            mainLayout = findViewById(R.id.addressLayout);
         }
     }
 
@@ -2263,24 +2154,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     public void onCropImage() {
     }
 
-    private class DoubleTapConfirm implements GestureDetector.OnDoubleTapListener {
-
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public boolean onDoubleTapEvent(MotionEvent e) {
-            return false;
-        }
-    }
 
 
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
@@ -2310,68 +2183,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
     //API CALLS---------------------
-    //getFrames
-    private void getFrame() {
-        Utility.showLoadingTran(act);
-        Utility.Log("API : ", APIs.GET_FRAME);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.dismissLoadingTran();
-                Utility.Log("GET_FRAME : ", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
-                    JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
-                    is_frame = datajsonobjecttt.getString("is_frame");
-                    if (is_frame.equals("1")) {
-                        is_payment_pending = datajsonobjecttt.getString("is_payment_pending");
-                        packagee = datajsonobjecttt.getString("package");
-                    }
-
-
-                    CreateTabs();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Utility.dismissLoadingTran();
-                        error.printStackTrace();
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("brand_id", prefManager.getActiveBrand().getId());
-                Utility.Log("POSTED-PARAMS-", params.toString());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
 
     //api for access rights
     private void getImageDownloadRights(String flag) {
@@ -2386,15 +2197,13 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 if (ResponseHandler.getBool(respJson, "status")) {
                     JSONArray dataJson = ResponseHandler.getJSONArray(respJson, "data");
                     try {
-                        String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
-                        FrameCountForDownload = Integer.parseInt(frameCount);
-                        int imageCounter = Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter").equalsIgnoreCase("Unlimited") ? "-1" : ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter"));
+                          int imageCounter = Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter").equalsIgnoreCase("Unlimited") ? "-1" : ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter"));
 
                         int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
 
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
-                            canDownload = true;
+
                             if (Utility.isUserPaid(prefManager.getActiveBrand())) {
 
                                 if (imageCounter == -1 || used_img_counter <= imageCounter) {
@@ -2418,7 +2227,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             }
 
                         } else {
-                            canDownload = false;
+
                             downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
                             //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
                         }
@@ -2427,7 +2236,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     }
 
                 } else {
-                    canDownload = false;
+
                 }
 
             }
@@ -2513,15 +2322,13 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
     }
 
-    private int imageTouchMode;
-    private RelativeLayout.LayoutParams imgParams;
+     private RelativeLayout.LayoutParams imgParams;
     private float imgDX, imgDY;
     private float imgX, imgY;
     private int imgMode;
     private float imgNewRot = 0f;
 
-    //for logo drag and click event handle
-    private View.OnTouchListener onTouchListener() {
+     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
             Handler handler = new Handler();
 
@@ -2559,22 +2366,26 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (prefManager.getActiveBrand().getLogo().isEmpty()) {
-                                        onSelectImageClick(view);
-                                    } else {
-                                        if (!prefManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
-                                            new AlertDialog.Builder(act)
-                                                    .setMessage("once you download or share image. You can't change your logo.\nIf you want to change logo please contact to admin.")
-                                                    .setCancelable(true)
-                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                            dialogInterface.dismiss();
-                                                            ((alertListenerCallback) act).alertListenerClick();
-                                                        }
-                                                    })
-                                                    .show();
+                                    if (prefManager.getActiveBrand()!=null) {
+                                        if (prefManager.getActiveBrand().getLogo().isEmpty()) {
+                                            onSelectImageClick(view);
+                                        } else {
+                                            if (!prefManager.getActiveBrand().getNo_of_used_image().equalsIgnoreCase("0")) {
+                                                new AlertDialog.Builder(act)
+                                                        .setMessage("once you download or share image. You can't change your logo.\nIf you want to change logo please contact to admin.")
+                                                        .setCancelable(true)
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                dialogInterface.dismiss();
+                                                                ((alertListenerCallback) act).alertListenerClick();
+                                                            }
+                                                        })
+                                                        .show();
+                                            }
                                         }
+                                    }else{
+                                        addBrandList();
                                     }
                                 }
                             }, ViewConfiguration.getDoubleTapTimeout());
@@ -2677,6 +2488,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                     case MotionEvent.ACTION_DOWN:
                         touchDownMs = System.currentTimeMillis();
                         break;
+
                     case MotionEvent.ACTION_UP:
                         handler.removeCallbacksAndMessages(null);
 

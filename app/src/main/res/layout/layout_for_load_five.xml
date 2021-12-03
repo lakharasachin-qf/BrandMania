@@ -23,35 +23,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp">
 
-            <RelativeLayout
-                android:layout_marginLeft="@dimen/_120sdp"
-                android:id="@+id/element0"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="@dimen/_20sdp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/websiteImage"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:src="@drawable/ic_outline_language_24"
-                    app:tint="@color/colorPrimary" />
-
-                <TextView
-                    android:layout_toEndOf="@id/websiteImage"
-                    android:id="@+id/websiteText"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
+                <RelativeLayout
+                    android:id="@+id/element0"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:text="Website"
-                    android:textSize="@dimen/_8sdp" />
-            </RelativeLayout>
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/_120sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/websiteImage"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_outline_language_24"
+                        app:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/websiteText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_toEndOf="@id/websiteImage"
+                        android:text="@string/hint_website"
+                        android:textSize="@dimen/_8sdp" />
+                </RelativeLayout>
             </RelativeLayout>
             <View
 
@@ -117,7 +117,7 @@
                             android:layout_centerVertical="true"
                             android:maxWidth="@dimen/_100sdp"
                             android:minWidth="@dimen/_70sdp"
-                            android:text="+91 8200 0026 04"
+                            android:text="@string/hint_mobile"
                             android:layout_marginStart="@dimen/_3sdp"
                             android:textSize="@dimen/_8sdp" />
                     </RelativeLayout>
@@ -151,7 +151,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
-                            android:text="lakharasachin.qf@gmail.com"
+                            android:text="@string/hint_email"
                             android:textSize="@dimen/_8sdp" />
                     </RelativeLayout>
                 </RelativeLayout>

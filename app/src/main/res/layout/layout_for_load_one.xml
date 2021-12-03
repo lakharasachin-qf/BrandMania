@@ -64,7 +64,7 @@
                         android:layout_toEndOf="@+id/gmailImage"
                         android:fontFamily="@font/inter_regular"
                         android:singleLine="true"
-                        android:text="qfsolution@gmail.com"
+                        android:text="@string/hint_email"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_8sdp" />
 
@@ -79,13 +79,13 @@
                     android:layout_height="@dimen/_20sdp">
 
                     <ImageView
-                        android:layout_height="@dimen/_12sdp"
-                        android:backgroundTint="@color/colorPrimary"
                         android:id="@+id/contactImage"
-                        app:tint="@color/colorPrimary"
-                        android:background="@drawable/ic_outline_call_24"
                         android:layout_width="@dimen/_12sdp"
-                        android:layout_centerVertical="true" />
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/ic_outline_call_24"
+                        android:backgroundTint="@color/colorPrimary"
+                        app:tint="@color/colorPrimary" />
                     <TextView
                         android:layout_toEndOf="@+id/contactImage"
                         android:textSize="@dimen/_8sdp"
@@ -98,7 +98,7 @@
 
                         android:id="@+id/contactText"
                         android:textColor="@color/colorPrimary"
-                        android:text="+91 8849896537"
+                        android:text="@string/hint_mobile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                     </TextView>
@@ -136,12 +136,12 @@
                         android:id="@+id/locationText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:text="sdf dsjof dofsdklfj  lifjsd kfsd fjdsfkl sdflk sfksd fklsd fklsdjf sd djfklsdfjksdkdsjfksd kjdflsd fldsfk fkds"
                         android:layout_centerVertical="true"
-                        android:includeFontPadding="false"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_toEndOf="@+id/loacationImage"
+                        android:includeFontPadding="false"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/hint_address"
                         android:textColor="@color/colorNavText"
                         android:textSize="@dimen/_8sdp" />
                 </RelativeLayout>
