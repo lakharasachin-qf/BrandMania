@@ -6,7 +6,6 @@
         android:id="@+id/addBrandForNewUser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
         android:background="@color/colorBackground"
         android:paddingStart="@dimen/_25sdp"
         android:paddingEnd="@dimen/_15sdp"
@@ -19,14 +18,14 @@
             android:layout_marginTop="@dimen/_160sdp"
             android:fontFamily="@font/montserrat_semibold"
             android:includeFontPadding="false"
-            android:text="hhh"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/Texts"
+            android:id="@+id/registrationTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_7sdp"
@@ -39,16 +38,16 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <View
-            android:id="@+id/views"
+            android:id="@+id/view"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_2sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/addbrandview"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Texts" />
+            app:layout_constraintTop_toBottomOf="@+id/registrationTxt" />
 
         <TextView
-            android:id="@+id/desciption"
+            android:id="@+id/description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_12sdp"
@@ -58,7 +57,7 @@
             android:textSize="9dp"
             app:layout_constraintEnd_toStartOf="@+id/ilusion"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/views" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <RelativeLayout
             android:id="@+id/addRegistration"
@@ -67,10 +66,10 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/banner_button_backgroundshap"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/desciption">
+            app:layout_constraintTop_toBottomOf="@+id/description">
 
             <TextView
-                android:id="@+id/regBtns"
+                android:id="@+id/regBtn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
                 android:fontFamily="@font/montserrat_semibold"
