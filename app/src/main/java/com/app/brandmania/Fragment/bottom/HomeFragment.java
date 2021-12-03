@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -29,7 +31,7 @@ import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
 import com.app.brandmania.Activity.basics.ReferNEarnActivity;
-import com.app.brandmania.Activity.brand.UpdateBandList;
+import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DasboardAddaptor;
@@ -54,6 +56,7 @@ import com.app.brandmania.databinding.FragmentHomeBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
+import com.app.brandmania.views.MyBounceInterpolator;
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -139,7 +142,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
 
         if (preafManager.getActiveBrand() != null) {
-            Glide.with(act).load(preafManager.getActiveBrand().getLogo()).into(binding.pdfLogo);
+            //Glide.with(act).load(preafManager.getActiveBrand().getLogo()).into(binding.pdfLogo);
             Glide.with(act).load(preafManager.getActiveBrand().getLogo());
             binding.businessName.setText(preafManager.getActiveBrand().getName());
         }
@@ -152,11 +155,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             startActivity(intent);
         });
 
-        binding.videoFeatureLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(act, PackageActivity.class);
-            startActivity(intent);
-            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-        });
+//        binding.videoFeatureLayout.setOnClickListener(v -> {
+//            Intent intent = new Intent(act, PackageActivity.class);
+//            startActivity(intent);
+//            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//        });
 
         binding.referralcodeTxt.setText(preafManager.getReferCode());
 
@@ -227,7 +230,24 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 });
             }
         }
+        if (preafManager.getActiveBrand() == null) {
+            binding.businessNameDropDown.setVisibility(View.GONE);
+            binding.firsttitle.setVisibility(View.GONE);
+            binding.noBrandLayout.setVisibility(View.VISIBLE);
+            animateButton();
 
+            binding.noBrandLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.ROUTE(act, AddBrandMultipleActivity.class);
+                }
+            });
+
+        } else {
+            binding.businessNameDropDown.setVisibility(View.VISIBLE);
+            binding.firsttitle.setVisibility(View.VISIBLE);
+            binding.noBrandLayout.setVisibility(View.GONE);
+        }
         return binding.getRoot();
     }
 
@@ -454,6 +474,38 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     public DialogOfferBinding dialogOfferBinding;
 
+    void animateButton() {
+        final Animation myAnim = AnimationUtils.loadAnimation(act, R.anim.bounce);
+        double animationDuration = 4 * 1000;
+        //myAnim.setDuration((long)animationDuration);
+        myAnim.setRepeatCount(Animation.INFINITE);
+
+        // Use custom animation interpolator to achieve the bounce effect
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(1, 10);
+
+        myAnim.setInterpolator(interpolator);
+
+        // Animate the button
+        binding.noBrandLayout.startAnimation(myAnim);
+
+
+        // Run button animation again after it finished
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animateButton();
+            }
+        });
+    }
+
     public void setOfferCode() {
         HomeActivity.isAlreadyDisplayed = true;
         dialogOfferBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_offer, null, false);
@@ -550,7 +602,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 JSONObject jsonObject = new JSONObject(response);
                 binding.swipeContainer.setRefreshing(false);
                 multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                if (multiListItems!=null && multiListItems.size()!=0)
+                if (multiListItems != null && multiListItems.size() != 0)
                     preafManager.setAddBrandList(multiListItems);
                 if (preafManager.getActiveBrand() != null) {
                     for (int i = 0; i < multiListItems.size(); i++) {
@@ -561,7 +613,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     }
                 }
                 preafManager = new PreafManager(act);
-                if (preafManager.getActiveBrand()!=null)
+                if (preafManager.getActiveBrand() != null)
                     binding.businessName.setText(preafManager.getActiveBrand().getName());
 
                 if (act.getIntent().hasExtra("FirstLogin")) {
@@ -597,7 +649,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     @Override
-    public void onNegativeReview(int stars) { Log.d("TAG", "Negative review " + stars);  }
+    public void onNegativeReview(int stars) {
+        Log.d("TAG", "Negative review " + stars);
+    }
 
     @Override
     public void onRefresh() {
@@ -609,7 +663,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     @Override
-    public void onReview(int stars) { }
+    public void onReview(int stars) {
+    }
 
     private void getFrame() {
         Utility.Log("API : ", APIs.GET_FRAME);
@@ -626,6 +681,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             public Map<String, String> getHeaders() {
                 return getHeader(CodeReUse.GET_FORM_HEADER);
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

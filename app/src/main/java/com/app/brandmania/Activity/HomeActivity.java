@@ -77,10 +77,7 @@ import java.util.Map;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HomeFragment.CUSTOM_TAB_CHANGE_INTERFACE {
     VersionListIItem versionListIItem;
-    PreafManager preafManager;
     private AppUpdateManager appUpdateManager;
-    private Activity act;
-    private boolean iscutomEnable = false;
 
     BottomNavigationView navigation;
     private boolean isHomeTab = true;
@@ -92,10 +89,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        //FetchCustomFrameStatus();
-        act = this;
-
-        preafManager = new PreafManager(act);
         getUpdate();
         checkForUpdates();
         loadFragment(new HomeFragment());
@@ -122,13 +115,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
             case R.id.navigation_custom:
                 isHomeTab = false;
-//                if (iscutomEnable) {
-//                    fragment = new CustomFragment();
-//
-//                } else {
-//                    Intent intent = new Intent(getApplicationContext(), CustomViewAllActivit.class);
-//                    startActivity(intent);
-//                }
+
                 fragment = new CustomFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
@@ -158,11 +145,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
 
     public DialogPermissionsLayoutBinding permissionsLayoutBinding;
-    private int REQUESTED_ALL = 0001;
-    private int REQUESTED_CAMERA = 0002;
-    private int REQUESTED_STORAGE = 0003;
-    private int REQUESTED_CONTACT = 0004;
-    private int REQUEST_SETTINGS = 0005;
+    private final int REQUESTED_ALL = 1;
+    private final int REQUESTED_CAMERA = 2;
+    private final int REQUESTED_STORAGE = 3;
+    private final int REQUESTED_CONTACT = 4;
+    private final int REQUEST_SETTINGS = 5;
     private androidx.appcompat.app.AlertDialog alertDialog;
 
     public void askPermissions() {
@@ -311,17 +298,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     //app updates
     private void checkForUpdates() {
-
         appUpdateManager = AppUpdateManagerFactory.create(act);
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
-        //Checks that the platform will allow the specified type of update.
-        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
-            @Override
-            public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
-                    startAppUpdates(appUpdateInfo);
-                }
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
+                startAppUpdates(appUpdateInfo);
             }
         });
 
@@ -499,53 +480,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         queue.add(stringRequest);
     }
 
-    private void FetchCustomFrameStatus() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.FETCH_CUSTOME_FRAME_STATUS, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    if (ResponseHandler.getBool(jsonObject, "status")) {
-                        iscutomEnable = true;
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/x-www-form-urlencoded");//application/json
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(stringRequest);
-    }
 
     @Override
     public void makeTabChange(int i) {

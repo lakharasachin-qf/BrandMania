@@ -63,7 +63,6 @@ public class LoginActivity extends BaseActivity {
             binding.signupText.setText(Html.fromHtml(Message));
             binding.welcome.setText(Html.fromHtml(WELCOME));
         }
-
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +93,6 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
-
     }
 
 }
