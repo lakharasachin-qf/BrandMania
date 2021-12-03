@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
@@ -49,15 +51,15 @@ public class ViewBrandActivity extends BaseActivity {
     Activity act;
     private ActivityViewBrandBinding binding;
     private static final int REQUEST_CALL = 1;
-    ArrayList<BrandListItem> multiListItems=new ArrayList<>();
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act=this;
+        act = this;
 
-        binding= DataBindingUtil.setContentView(act,R.layout.activity_view_brand);
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_view_brand);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,38 +67,58 @@ public class ViewBrandActivity extends BaseActivity {
             }
         });
 
-        binding.addBrandImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddBrandMultipleActivity.class);
-                startActivity(intent);
-                act.overridePendingTransition(R.anim.right_enter, R.anim.left_out);
-            }
-        });
+        if (prefManager.getActiveBrand() != null) {
 
-        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
-                R.color.colorsecond,
-                R.color.colorthird);
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                startAnimation();
-                getBrandList(false);
-            }
-        });
+            binding.addBrandImage.setVisibility(View.VISIBLE);
+            binding.swipeContainer.setVisibility(View.VISIBLE);
+            binding.addBrandImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), AddBrandMultipleActivity.class);
+                    startActivity(intent);
+                    act.overridePendingTransition(R.anim.right_enter, R.anim.left_out);
+                }
+            });
 
-        startAnimation();
-        getBrandList(false);
+            binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                    R.color.colorsecond,
+                    R.color.colorthird);
+            binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    startAnimation();
+                    getBrandList(false);
+                }
+            });
+
+            startAnimation();
+            getBrandList(false);
+
+        } else {
+            binding.addBrandImage.setVisibility(View.GONE);
+            binding.swipeContainer.setVisibility(View.GONE);
+            binding.includeRegistration.addBrandForNewUser.setVisibility(View.VISIBLE);
+            binding.includeRegistration.textView.setText(Html.fromHtml("Add" + "<font color=\\\"#faa81e\\\"><b> Your</b></font>\""));
+            binding.includeRegistration.addRegistration.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.ROUTE(act, AddBranddActivity.class);
+                }
+            });
+        }
+
     }
+
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.getBrandList.setVisibility(View.GONE);
         binding.emptyStateLayout.setVisibility(View.GONE);
     }
+
     private void GetBrandAddaptor() {
         BrandAdapter MenuAddaptor = new BrandAdapter(multiListItems, this);
-        BrandAdapter.BRANDBYIDIF brandbyidif=new BrandAdapter.BRANDBYIDIF() {
+        BrandAdapter.BRANDBYIDIF brandbyidif = new BrandAdapter.BRANDBYIDIF() {
             @Override
             public void fireBrandList(int position, BrandListItem model) {
                 getBrandById(model);
@@ -109,6 +131,7 @@ public class ViewBrandActivity extends BaseActivity {
         binding.getBrandList.setAdapter(MenuAddaptor);
 
     }
+
     private void getBrandList(boolean wantToLoadHome) {
         Utility.Log("API : ", APIs.GET_BRAND);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
@@ -181,7 +204,9 @@ public class ViewBrandActivity extends BaseActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-    @Override public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CALL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -191,7 +216,9 @@ public class ViewBrandActivity extends BaseActivity {
             }
         }
     }
-    @Override public void onBackPressed() {
+
+    @Override
+    public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
 
@@ -203,13 +230,13 @@ public class ViewBrandActivity extends BaseActivity {
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
                 Utility.Log("GET_BRAND_BY_ID : ", response);
-                ArrayList<BrandListItem> brandListItems=new ArrayList<>();
+                ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetBrandById(jsonObject);
 
 
-                    SliderItem sliderItem=new SliderItem();
+                    SliderItem sliderItem = new SliderItem();
                     sliderItem.setPriceForPay(multiListItems.get(0).getRate());
                     sliderItem.setPackageTitle(multiListItems.get(0).getPackagename());
                     sliderItem.setPackageid(multiListItems.get(0).getPackage_id());
@@ -217,11 +244,11 @@ public class ViewBrandActivity extends BaseActivity {
                     sliderItem.setImageTitle(multiListItems.get(0).getNo_of_total_image());
                     sliderItem.setBrandId(multiListItems.get(0).getId());
 
-                    Gson gson=new Gson();
+                    Gson gson = new Gson();
 
                     Intent i = new Intent(act, PackageActivity.class);
 
-                    i.putExtra("detailsObj",gson.toJson(sliderItem));
+                    i.putExtra("detailsObj", gson.toJson(sliderItem));
 
                     startActivity(i);
                     overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
@@ -240,7 +267,6 @@ public class ViewBrandActivity extends BaseActivity {
                         error.printStackTrace();
 
 
-
                     }
                 }
         ) {
@@ -257,7 +283,7 @@ public class ViewBrandActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("brand_id",model.getId());
+                params.put("brand_id", model.getId());
                 Log.e("DateNdClass", params.toString());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;

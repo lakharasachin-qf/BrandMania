@@ -150,5 +150,7 @@
             shimmer:srcCompat="@drawable/ic_add_icon"
             shimmer:tint="@color/colorNavText" />
 
+        <include android:id="@+id/includeRegistration" layout="@layout/add_registration_layout" />
+
     </RelativeLayout>
 </layout>
