@@ -291,7 +291,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             {
                 isLoading = false;
                 Utility.dismissProgress();
-
+                Utility.Log("otp",response);
                 preafManager.loginStep("2");
                 if (ResponseHandler.isSuccess(response, null)) {
                     binding.CouterText.setVisibility(View.VISIBLE);

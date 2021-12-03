@@ -23,6 +23,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
@@ -57,9 +59,11 @@ import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -433,8 +437,23 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, Throwable::printStackTrace) {
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+                    String responseBody = new String(error.networkResponse.data, "utf-8");
+                    Utility.Log("responseBody",responseBody);
 
+                    JSONObject data = new JSONObject(responseBody);
+                    JSONArray errors = data.getJSONArray("errors");
+                    JSONObject jsonMessage = errors.getJSONObject(0);
+                    String message = jsonMessage.getString("message");
+                    Toast.makeText(act, message, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                } catch (UnsupportedEncodingException errorr) {
+                }
+            }
+        } ) {
             @Override
             public Map<String, String> getHeaders() {
                 return getHeader(CodeReUse.GET_FORM_HEADER);

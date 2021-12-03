@@ -207,6 +207,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         String body;
+                        error.printStackTrace();
                     }
                 }
         ) {

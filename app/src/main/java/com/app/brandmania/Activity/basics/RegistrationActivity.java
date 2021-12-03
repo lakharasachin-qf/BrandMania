@@ -13,31 +13,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.ANRequest;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
-import com.app.brandmania.Fragment.bottom.CountrySelectionFragment;
-import com.app.brandmania.Interface.ItemSelectionInterface;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.Model.FrameItem;
@@ -51,6 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -222,97 +217,102 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         return false;
     }
 
+
     private void addUser() {
         if (isLoading)
             return;
         isLoading = true;
         Utility.showProgress(act);
-        //Log.e("API", APIs.USER_REGISTRATION);
 
-      //  Log.w("Tokennn", preafManager.getUserToken());
-        ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.USER_REGISTRATION)
-                .addHeaders("Accept", "application/json")
-                .addHeaders("Content-Type", "application/json")
-                .addHeaders("X-Authorization", "Bearer " + preafManager.getUserToken())
-                .addMultipartParameter("first_name", binding.firstName.getText().toString())
-                .addMultipartParameter("last_name", binding.lastName.getText().toString())
-                .addMultipartParameter("email", binding.emailId.getText().toString())
-                .addMultipartParameter("referral_code", binding.referrer.getText().toString())
-                /*hashMap.put("referrerCode", referrerCode);*/
-                .setTag("Add User")
-                .setPriority(Priority.HIGH);
-
-
-        preafManager.setEMAIL_Id(binding.emailId.getText().toString());
-
-        request.build().setUploadProgressListener(new UploadProgressListener() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.USER_REGISTRATION, new Response.Listener<String>() {
             @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
-        })
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        isLoading = false;
-                        Utility.dismissProgress();
-                 //       Utility.Log("Verify-Response", response);
-                        try {
-                            if (response.getBoolean("status")) {
-                                preafManager.setIs_Registration(true);
-                                //preafManager.setSpleshReferrer(null);
-                                JSONObject jsonArray = response.getJSONObject("data");
-                                is_completed = jsonArray.getString("is_completed");
+            public void onResponse(String responseddd) {
+                Utility.Log("Verify-Response", responseddd);
+                try {
+                    JSONObject response = ResponseHandler.createJsonObject(responseddd);
+                    if (response.getBoolean("status")) {
+                        preafManager.setIs_Registration(true);
+                        JSONObject jsonArray = response.getJSONObject("data");
+                        is_completed = jsonArray.getString("is_completed");
 
-                                preafManager.loginStep(is_completed);
-                                if (is_completed.equals("1")) {
-                                    Intent i = new Intent(act, AddBranddActivity.class);
-                                    i.addCategory(Intent.CATEGORY_HOME);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(i);
-                                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                                    finish();
-                                }
-                                if (is_completed.equals("2")) {
-                                    getBrandList();
+                        preafManager.loginStep(is_completed);
+                        if (is_completed.equals("1")) {
+                            Utility.dismissProgress();
+                            Intent i = new Intent(act, AddBranddActivity.class);
+                            i.addCategory(Intent.CATEGORY_HOME);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                            finish();
+                        }
+                        if (is_completed.equals("2")) {
+                            getBrandList();
 //                                    Intent i = new Intent(act, HomeActivity.class);
 //                                    i.addCategory(Intent.CATEGORY_HOME);
 //                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                                    startActivity(i);
 //                                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 //                                    finish();
-                                }
-
-                            } else {
-
-                                alertDialogBuilder.setMessage(ResponseHandler.getString(response, "message"));
-                                alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> {
-                                    arg0.dismiss();
-                                });
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.setCancelable(false);
-                                alertDialog.show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
 
+                    } else {
 
+                        alertDialogBuilder.setMessage(ResponseHandler.getString(response, "message"));
+                        alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> {
+                            arg0.dismiss();
+                        });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.setCancelable(false);
+                        alertDialog.show();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                    @Override
-                    public void onError(ANError error) {
-                        isLoading = false;
-                        Utility.dismissProgress();
-                        if (error.getErrorCode() != 0) {
-                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            //Log.e("onError errorBody : ", error.getErrorBody());
-                           // Log.e("onError errorDetail : ", error.getErrorDetail());
-                        } else {
-                          //  Log.e("onError errorDetail : ", error.getErrorDetail());
-                        }
-                    }
-                });
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                isLoading = false;
+                Utility.dismissProgress();
+                error.printStackTrace();
+                try {
+                    String responseBody = new String(error.networkResponse.data, "utf-8");
+                    Utility.Log("responseBody",responseBody);
+
+                    JSONObject data = new JSONObject(responseBody);
+                    JSONArray errors = data.getJSONArray("errors");
+                    JSONObject jsonMessage = errors.getJSONObject(0);
+                    String message = jsonMessage.getString("message");
+                    Toast.makeText(act, message, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                } catch (UnsupportedEncodingException errorr) {
+                }
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Utility.Log("rheader",getHeader(CodeReUse.GET_FORM_HEADER).toString());
+                return getHeader(CodeReUse.GET_FORM_HEADER);
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("first_name", binding.firstName.getText().toString());
+                params.put("last_name", binding.lastName.getText().toString());
+                params.put("email", binding.emailId.getText().toString());
+                params.put("referral_code", binding.referrer.getText().toString());
+                preafManager.setEMAIL_Id(binding.emailId.getText().toString());
+                Utility.Log("dataPARAM",params.toString());
+                 return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
 
     }
 
@@ -321,6 +321,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Utility.dismissProgress();
                 //Log.e("addbrandresponce", response);
                 ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
