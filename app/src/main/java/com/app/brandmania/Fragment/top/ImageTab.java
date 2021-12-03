@@ -40,17 +40,17 @@ public class ImageTab extends BaseFragment {
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater, R.layout.image_tab,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.image_tab, container, false);
         binding.galleryView.setVisibility(View.GONE);
         binding.goBack.setVisibility(View.GONE);
         binding.folderView.setVisibility(View.VISIBLE);
-        binding.folderView.setLayoutManager(new GridLayoutManager(act,3));
-        GalleryFolderAdapter galleryFolderAdapter =new GalleryFolderAdapter(act,SearchStorage());
+        binding.folderView.setLayoutManager(new GridLayoutManager(act, 3));
+        GalleryFolderAdapter galleryFolderAdapter = new GalleryFolderAdapter(act, SearchStorage());
         galleryFolderAdapter.setFolderSelect(new GalleryFolderAdapter.onFolderSelect() {
             @Override
             public void onFolderSelect(int position) {
-                binding.galleryView.setLayoutManager(new GridLayoutManager(act,4));
-                ImageFromGalaryAddpater imageFromGalaryAddpater =new ImageFromGalaryAddpater(act,folders.get(position).getAllImagePaths());
+                binding.galleryView.setLayoutManager(new GridLayoutManager(act, 4));
+                ImageFromGalaryAddpater imageFromGalaryAddpater = new ImageFromGalaryAddpater(act, folders.get(position).getAllImagePaths());
                 imageFromGalaryAddpater.setImageSelection(new ImageFromGalaryAddpater.onImageSelection() {
                     @Override
                     public void onImageSelection() {
@@ -67,8 +67,8 @@ public class ImageTab extends BaseFragment {
         });
         binding.folderView.setAdapter(galleryFolderAdapter);
 
-        if (spacecrafts!=null && spacecrafts.size()!=0){
-            ((IImageFromGalary) getActivity()).onImageFromGalaryItemSelection( 0, spacecrafts.get(0));
+        if (spacecrafts != null && spacecrafts.size() != 0) {
+            ((IImageFromGalary) getActivity()).onImageFromGalaryItemSelection(0, spacecrafts.get(0));
         }
         binding.goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +81,8 @@ public class ImageTab extends BaseFragment {
         return binding.getRoot();
     }
 
-    private ArrayList<ImageFromGalaryModel> getData()
-    {
-        spacecrafts= new ArrayList<>();
+    private ArrayList<ImageFromGalaryModel> getData() {
+        spacecrafts = new ArrayList<>();
         Uri uri;
         Cursor cursor;
         int column_index_data, column_index_folder_name;
@@ -115,28 +114,31 @@ public class ImageTab extends BaseFragment {
         }
         return spacecrafts;
     }
+
     @Override
     public void update(Observable observable, Object data) {
         super.update(observable, data);
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.GALLERY_ACTION) {
-            if (getActivity()!=null){
-                if (binding.folderView.getVisibility()!= View.VISIBLE){
+            if (getActivity() != null) {
+                if (binding.folderView.getVisibility() != View.VISIBLE) {
                     binding.galleryView.setVisibility(View.GONE);
                     binding.folderView.setVisibility(View.VISIBLE);
                     binding.goBack.setVisibility(View.GONE);
-                }else {
+                } else {
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.GALLERY_CALLBACK);
                 }
 
             }
         }
     }
-    private Boolean boolean_folder=false;
-    ArrayList<ImagesFolder> folders=new ArrayList<>();
+
+    private Boolean boolean_folder = false;
+    ArrayList<ImagesFolder> folders = new ArrayList<>();
+
     public ArrayList<ImagesFolder> SearchStorage() {
         folders.clear();
-        folders=new ArrayList<>();
-        spacecrafts= new ArrayList<>();
+        folders = new ArrayList<>();
+        spacecrafts = new ArrayList<>();
         int position = 0;
         Uri uri;
         Cursor cursor;
@@ -155,7 +157,7 @@ public class ImageTab extends BaseFragment {
         while (cursor.moveToNext()) {
             absolutePathOfImage = cursor.getString(column_index_data);
             for (int i = 0; i < folders.size(); i++) {
-                if (folders.get(i).getAllFolderName()!=null && cursor.getString(column_index_folder_name) !=null) {
+                if (folders.get(i).getAllFolderName() != null && cursor.getString(column_index_folder_name) != null) {
                     if (folders.get(i).getAllFolderName().equals(cursor.getString(column_index_folder_name))) {
                         boolean_folder = true;
                         position = i;

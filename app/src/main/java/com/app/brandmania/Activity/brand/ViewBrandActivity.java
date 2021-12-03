@@ -257,8 +257,6 @@ public class ViewBrandActivity extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         },
                 new Response.ErrorListener() {

@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/goBack"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_7sdp"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_baseline_close_24"
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="@dimen/_24sdp"
-                app:tint="@color/dark_gray" />
+
+        <ImageView
+            android:id="@+id/goBack"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:src="@drawable/ic_baseline_close_24"
+            app:tint="@color/dark_gray" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@+id/goBack"
             android:id="@+id/galleryView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/goBack" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/folderView"

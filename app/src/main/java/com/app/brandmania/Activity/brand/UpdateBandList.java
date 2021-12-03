@@ -154,9 +154,9 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             @Override
             public void onClick(View v) {
                 if (binding.stateEdt.getText().toString().length() != 0) {
-                    if (cityList != null && cityList.size()!=0)
+                    if (cityList != null && cityList.size() != 0)
                         chooseFragment(CITY, cityTitle, cityList, binding.cityEdt.getText().toString());
-                    else{
+                    else {
                         wantToShowDropDown = true;
                         getCountryStateCity(CALL_CITY);
                     }
@@ -504,7 +504,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 
         }
 
-        if (binding.stateEdt.getText().toString().trim().length()==0) {
+        if (binding.stateEdt.getText().toString().trim().length() == 0) {
             binding.stateLayout.setError("Please select state");
             binding.stateLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             isError = true;
@@ -516,7 +516,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             return;
         }
 
-        if (binding.cityEdt.getText().toString().trim().length()==0) {
+        if (binding.cityEdt.getText().toString().trim().length() == 0) {
             binding.cityLayout.setError("Please select city");
             binding.cityLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             isError = true;
@@ -527,7 +527,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             }
             return;
         }
-
 
         if (!isError) {
             Bitmap bitmap = null;
@@ -628,7 +627,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                             e.printStackTrace();
                         }
 
-
                     }
 
                     @Override
@@ -645,7 +643,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                         }
                     }
                 });
-
     }
 
     CountrySelectionFragment countrySelectionFragment;
@@ -821,7 +818,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         String apiUrl = "";
 
 
-
         if (flag == CALL_STATE) {
             apiUrl = APIs.GET_STATE + "/101"; //+ selectedCountry.getId();
             stateList.clear();
@@ -862,7 +858,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                         if (flag == CALL_STATE && stateList.size() != 0) {
                             for (int i = 0; i < stateList.size(); i++) {
                                 if (binding.stateEdt.getText().toString().equalsIgnoreCase(stateList.get(i).getName())) {
-                                    selectedState =stateList.get(i);
+                                    selectedState = stateList.get(i);
                                     getCountryStateCity(CALL_CITY);
                                     break;
                                 }
