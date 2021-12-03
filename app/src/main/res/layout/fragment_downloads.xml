@@ -55,8 +55,9 @@
             android:layout_below="@+id/my_toolbar"
             android:layout_marginTop="-3dp"
             android:background="@color/colorNavText"
+            android:visibility="visible"
             app:tabIndicatorColor="@color/colorPrimary"
-            app:tabTextAppearance="@style/CustomViewAllTab"></com.google.android.material.tabs.TabLayout>
+            app:tabTextAppearance="@style/CustomViewAllTab" />
 
         <View
             android:id="@+id/view"
