@@ -34,18 +34,17 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_left_arrow"></ImageView>
+                    android:background="@drawable/ic_left_arrow"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/BackButton"
-
                     android:fontFamily="@font/montserrat_semibold"
                     android:text="My Business"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_13sdp"
-                    android:textStyle="bold"></TextView>
+                    android:textStyle="bold"/>
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>

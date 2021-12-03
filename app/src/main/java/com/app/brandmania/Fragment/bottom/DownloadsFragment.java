@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
+import com.app.brandmania.Activity.basics.RegistrationActivity;
 import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Fragment.BaseFragment;
@@ -60,11 +61,11 @@ public class DownloadsFragment extends BaseFragment {
             binding.view.setVisibility(View.GONE);
             binding.viewPager.setVisibility(View.GONE);
             binding.includeRegistration.addBrandForNewUser.setVisibility(View.VISIBLE);
-            binding.includeRegistration.textView.setText(Html.fromHtml("Add" + "<font color=\\\"#faa81e\\\"><b> Your</b></font>\""));
+            binding.includeRegistration.textView.setText(Html.fromHtml("Add" + "<font color=\"#faa81e\"><b> Your </b></font>"));
             binding.includeRegistration.addRegistration.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HELPER.ROUTE(act, AddBranddActivity.class);
+                    HELPER.ROUTE(act, RegistrationActivity.class);
                 }
             });
 

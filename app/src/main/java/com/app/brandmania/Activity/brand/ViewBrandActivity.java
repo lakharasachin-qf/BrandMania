@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.basics.RegistrationActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.BrandAdapter;
 import com.app.brandmania.Common.HELPER;
@@ -98,11 +99,11 @@ public class ViewBrandActivity extends BaseActivity {
             binding.addBrandImage.setVisibility(View.GONE);
             binding.swipeContainer.setVisibility(View.GONE);
             binding.includeRegistration.addBrandForNewUser.setVisibility(View.VISIBLE);
-            binding.includeRegistration.textView.setText(Html.fromHtml("Add" + "<font color=\\\"#faa81e\\\"><b> Your</b></font>\""));
+            binding.includeRegistration.textView.setText(Html.fromHtml("Add" + "<font color=\"#faa81e\"><b> Your </b></font>"));
             binding.includeRegistration.addRegistration.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HELPER.ROUTE(act, AddBranddActivity.class);
+                    HELPER.ROUTE(act, RegistrationActivity.class);
                 }
             });
         }

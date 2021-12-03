@@ -3,12 +3,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/addBrandForNewUser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view"
-        android:layout_centerHorizontal="true"
         android:background="@color/colorBackground"
         android:paddingStart="@dimen/_25sdp"
         android:paddingEnd="@dimen/_15sdp"
@@ -18,79 +15,82 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_180sdp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Add Your"
+            android:layout_marginTop="@dimen/_160sdp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:includeFontPadding="false"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/Texts"
+            android:id="@+id/registrationTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_7sdp"
             android:fontFamily="@font/inter_extrabold"
             android:includeFontPadding="false"
             android:text="Registration"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_25sdp"
+            android:textSize="@dimen/_24sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <View
-            android:id="@+id/views"
+            android:id="@+id/view"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_2sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/addbrandview"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Texts" />
+            app:layout_constraintTop_toBottomOf="@+id/registrationTxt" />
 
         <TextView
-            android:id="@+id/desciption"
+            android:id="@+id/description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:fontFamily="@font/montserrat_semibold"
-            android:text="Currently you have no brand for your account. Please first complete your Registration Details and then add brand and enjoy using our app."
-            android:textSize="@dimen/_8sdp"
+            android:text="Currently you have no brand for your account. Please first complete your Registration Details and then add brand and enjoy our app."
+            android:textSize="9dp"
             app:layout_constraintEnd_toStartOf="@+id/ilusion"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/views" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <RelativeLayout
             android:id="@+id/addRegistration"
-            android:layout_width="@dimen/_110sdp"
+            android:layout_width="@dimen/_90sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/banner_button_backgroundshap"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/desciption">
+            app:layout_constraintTop_toBottomOf="@+id/description">
 
             <TextView
-                android:id="@+id/regBtns"
+                android:id="@+id/regBtn"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:fontFamily="@font/montserrat_semibold"
                 android:gravity="center_vertical"
                 android:letterSpacing="0"
-                android:text="    Continue"
+                android:text="  Continue"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textDirection="ltr"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
 
             <ImageView
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
+
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:background="@drawable/addbrandbackgroundshap"
-                android:elevation="@dimen/_4sdp"
-                android:padding="@dimen/_4sdp"
+                android:elevation="@dimen/_2sdp"
+                android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_next"
                 app:tint="@color/colorPrimary" />
 
@@ -99,10 +99,10 @@
         <ImageView
             android:id="@+id/ilusion"
             android:layout_width="@dimen/_100sdp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_140sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:src="@drawable/ic_product_release_or_product_launch"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginTop="@dimen/_145sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:src="@drawable/ic_registration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
