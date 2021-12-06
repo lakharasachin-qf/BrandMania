@@ -133,7 +133,7 @@ public class ProfileFragment extends BaseFragment {
             try {
                 startActivity(intent);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
         });
