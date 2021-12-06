@@ -141,8 +141,8 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         binding.stateEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (stateList != null)
-                        chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
+                if (stateList != null)
+                    chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
 
             }
         });
@@ -372,7 +372,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
 
         }
 
-        if (binding.stateEdt.getText().toString().trim().length()==0) {
+        if (binding.stateEdt.getText().toString().trim().length() == 0) {
             binding.stateLayout.setError("Please select state");
             binding.stateLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             isError = true;
@@ -384,7 +384,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             return;
         }
 
-        if (binding.cityEdt.getText().toString().trim().length()==0) {
+        if (binding.cityEdt.getText().toString().trim().length() == 0) {
             binding.cityLayout.setError("Please select city");
             binding.cityLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             isError = true;
@@ -439,7 +439,6 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
-
     private void addBrand(Bitmap img) {
         if (isLoading)
             return;
@@ -451,7 +450,6 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         if (img != null) {
             img1File = CodeReUse.createFileFromBitmap(act, "photo.jpeg", img);
         }
-
 
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.ADD_BRAND)
                 .addHeaders("Accept", "application/json")
@@ -478,7 +476,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         request.addMultipartParameter("br_city", binding.cityEdt.getText().toString());
         request.addMultipartParameter("br_pincode", binding.pincodeEdt.getText().toString());
 
-        Utility.Log("data",gson.toJson(request));
+        Utility.Log("data", gson.toJson(request));
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
@@ -819,7 +817,6 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         pickerFragment.setImageLoad(imageLoad);
         pickerFragment.show(getSupportFragmentManager(), pickerFragment.getTag());
     }
-
 
     private CommonListModel selectedCountry;
     private CommonListModel selectedState;

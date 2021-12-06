@@ -16,6 +16,8 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
 import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.BackgroundColorsAdapter;
@@ -67,6 +70,7 @@ import com.app.brandmania.databinding.LayoutDigitalCardTwoBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
+import com.app.brandmania.views.MyBounceInterpolator;
 import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -122,6 +126,13 @@ public class PdfActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
+
+        binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         if (prefManager.getActiveBrand() != null) {
             digitalCardList = new ArrayList<>();
@@ -182,13 +193,6 @@ public class PdfActivity extends BaseActivity {
                         }
 
                     }
-                }
-            });
-
-            binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
                 }
             });
 
@@ -262,8 +266,51 @@ public class PdfActivity extends BaseActivity {
         } else {
             binding.scrollView.setVisibility(View.GONE);
             binding.loader.setVisibility(View.GONE);
+            binding.saveIcon.setVisibility(View.GONE);
+            binding.exportIcon.setVisibility(View.GONE);
+            binding.content.setVisibility(View.VISIBLE);
+            animateButton();
+            binding.continueBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.ROUTE(act, AddBrandMultipleActivity.class);
+                }
+            });
 
         }
+    }
+
+
+    void animateButton() {
+        final Animation myAnim = AnimationUtils.loadAnimation(act, R.anim.bounce);
+        double animationDuration = 4 * 1000;
+        //myAnim.setDuration((long)animationDuration);
+        myAnim.setRepeatCount(Animation.INFINITE);
+
+        // Use custom animation interpolator to achieve the bounce effect
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(1, 10);
+
+        myAnim.setInterpolator(interpolator);
+
+        // Animate the button
+        binding.continueBtn.startAnimation(myAnim);
+
+
+        // Run button animation again after it finished
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animateButton();
+            }
+        });
     }
 
     public void setBackgroundAdapter() {

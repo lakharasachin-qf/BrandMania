@@ -27,6 +27,7 @@ import com.app.brandmania.Activity.about_us.HelpAndSupport;
 import com.app.brandmania.Activity.about_us.PartnerProgramActivity;
 import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Activity.basics.ReferNEarnActivity;
+import com.app.brandmania.Activity.brand.EditActivity;
 import com.app.brandmania.Activity.brand.ViewBrandActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Common.Constant;
@@ -56,7 +57,6 @@ public class ProfileFragment extends BaseFragment {
     private Activity act;
     private FragmentProfileBinding binding;
 
-
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
@@ -66,7 +66,7 @@ public class ProfileFragment extends BaseFragment {
             binding.businessName.setText(prefManager.getActiveBrand().getName());
 
         binding.editProfile.setOnClickListener(v -> {
-            Intent i = new Intent(act, ViewBrandActivity.class);
+            Intent i = new Intent(act, EditActivity.class);
             startActivity(i);
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });

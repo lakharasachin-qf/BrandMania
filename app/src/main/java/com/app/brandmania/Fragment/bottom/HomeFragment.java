@@ -34,6 +34,7 @@ import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
 import com.app.brandmania.Activity.basics.ReferNEarnActivity;
 import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
+import com.app.brandmania.Activity.brand.EditActivity;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DasboardAddaptor;
@@ -88,7 +89,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     ArrayList<DashBoardItem> menuModels = new ArrayList<>();
     DashBoardItem apiResponse;
     BrandListItem brandListItem;
-     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
     FiveStarsDialog fiveStarsDialog;
     private DasboardAddaptor dasboardAddaptor;
     ArrayList<FrameItem> brandListItems = new ArrayList<>();
@@ -147,7 +148,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             binding.businessName.setText(preafManager.getActiveBrand().getName());
         }
 
-        if (preafManager.getActiveBrand()==null){
+        if (preafManager.getActiveBrand() == null) {
             if (!HomeActivity.isAddBrandDialogDisplayed) {
                 HomeActivity.isAddBrandDialogDisplayed = true;
                 addBrandList();
@@ -158,9 +159,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.showNotification.setOnClickListener(view -> HELPER.ROUTE(act, ViewNotificationActivity.class));
         binding.referCodeLayout.setOnClickListener(v -> {
-            if (preafManager.getActiveBrand()!=null) {
-                HELPER.ROUTE(act,ReferNEarnActivity.class);
-            }else{
+            if (preafManager.getActiveBrand() != null) {
+                HELPER.ROUTE(act, ReferNEarnActivity.class);
+            } else {
                 addBrandList();
             }
         });
@@ -215,9 +216,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 binding.tapActionBtn.setVisibility(View.VISIBLE);
                 binding.easyMessage.setVisibility(View.VISIBLE);
                 binding.easyMessage.setOnClickListener(v -> {
-                    Intent intent = new Intent(act, PackageActivity.class);
-                    startActivity(intent);
-                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    HELPER.ROUTE(act, PackageActivity.class);
                 });
             }
         }
@@ -227,12 +226,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             binding.firsttitle.setVisibility(View.GONE);
             binding.noBrandLayout.setVisibility(View.VISIBLE);
             animateButton();
-
-            binding.noBrandLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HELPER.ROUTE(act, AddBrandMultipleActivity.class);
-                }
+            binding.noBrandLayout.setOnClickListener(v -> {
+                HELPER.ROUTE(act, AddBrandMultipleActivity.class);
             });
 
         } else {
@@ -242,10 +237,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
         return binding.getRoot();
     }
+
     AddBrandFragment addBrandFragment;
+
     public void addBrandList() {
-        if (addBrandFragment!=null){
-            if (addBrandFragment.isVisible()){
+        if (addBrandFragment != null) {
+            if (addBrandFragment.isVisible()) {
                 addBrandFragment.dismiss();
             }
         }
@@ -253,6 +250,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         addBrandFragment = new AddBrandFragment();
         addBrandFragment.show(getParentFragmentManager(), "");
     }
+
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
@@ -410,7 +408,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         queue.add(stringRequest);
     }
 
-
     private void UpdateToken() {
         Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
 
@@ -449,7 +446,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             public void onErrorResponse(VolleyError error) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
-                    Utility.Log("responseBody",responseBody);
+                    Utility.Log("responseBody", responseBody);
 
                     JSONObject data = new JSONObject(responseBody);
                     JSONArray errors = data.getJSONArray("errors");
@@ -460,7 +457,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 } catch (UnsupportedEncodingException errorr) {
                 }
             }
-        } ) {
+        }) {
             @Override
             public Map<String, String> getHeaders() {
                 return getHeader(CodeReUse.GET_FORM_HEADER);
@@ -597,7 +594,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public void ImageCateonItemSelection(int position, ImageList listModel) {
 
     }
-
 
     private void RateUs() {
 
