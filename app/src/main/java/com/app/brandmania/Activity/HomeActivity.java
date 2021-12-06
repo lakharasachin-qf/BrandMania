@@ -118,7 +118,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
             case R.id.navigation_custom:
                 isHomeTab = false;
-
                 fragment = new CustomFragment();
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 break;
@@ -245,12 +244,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (shouldShowRequestPermissionRationale(CAMERA)) {
-                    showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{CAMERA}, REQUESTED_CAMERA);
-                        }
-                    });
+                    showMessageOKCancel("You need to allow access to the permissions", (dialog, which) -> requestPermissions(new String[]{CAMERA}, REQUESTED_CAMERA));
                 } else {
                     targetSetting = true;
                 }

@@ -1,14 +1,11 @@
 package com.app.brandmania.Fragment.bottom;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +38,11 @@ import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.DialogFacebookLikesBinding;
+import com.app.brandmania.databinding.FragmentProfileBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
-import com.app.brandmania.databinding.DialogFacebookLikesBinding;
-import com.app.brandmania.databinding.FragmentProfileBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +53,7 @@ import java.util.Map;
 import java.util.Observable;
 
 public class ProfileFragment extends BaseFragment {
-    Activity act;
+    private Activity act;
     private FragmentProfileBinding binding;
 
 
@@ -68,22 +65,21 @@ public class ProfileFragment extends BaseFragment {
         if (prefManager.getActiveBrand() != null)
             binding.businessName.setText(prefManager.getActiveBrand().getName());
 
-        binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(act, ViewBrandActivity.class);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
+        binding.editProfile.setOnClickListener(v -> {
+            Intent i = new Intent(act, ViewBrandActivity.class);
+            startActivity(i);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        });
+        binding.mybusinessRelative.setOnClickListener(v -> {
+            Intent i = new Intent(act, ViewBrandActivity.class);
+            startActivity(i);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
 
-        binding.introLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(act, AppIntroActivity.class);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
+        binding.introLayout.setOnClickListener(v -> {
+            Intent i = new Intent(act, AppIntroActivity.class);
+            startActivity(i);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
 
         if (!prefManager.getAppTutorial().isEmpty()) {
@@ -91,116 +87,67 @@ public class ProfileFragment extends BaseFragment {
             binding.videoLine.setVisibility(View.VISIBLE);
         }
 
-        binding.logoutRelative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                prefManager.Logout();
-                Intent i = new Intent(act, LoginActivity.class);
-                i.addCategory(Intent.CATEGORY_HOME);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                act.finish();
-            }
+        binding.logoutRelative.setOnClickListener(v -> {
+            prefManager.Logout();
+            Intent i = new Intent(act, LoginActivity.class);
+            i.addCategory(Intent.CATEGORY_HOME);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            act.finish();
         });
 
         if (prefManager.getActiveBrand() != null) {
-            binding.referNEarnLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HELPER.ROUTE(act, ReferNEarnActivity.class);
-                }
-            });
+            binding.referNEarnLayout.setOnClickListener(v -> HELPER.ROUTE(act, ReferNEarnActivity.class));
         } else {
             binding.referNEarnLayout.setVisibility(View.GONE);
         }
 
-        binding.helpandsupportLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ROUTE(act, HelpAndSupport.class);
-            }
-        });
-        binding.partnerProgRelative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ROUTE(act, PartnerProgramActivity.class);
-            }
-        });
-        binding.myFaqRelative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HELPER.ROUTE(act, FaqActivity.class);
-            }
-        });
-        binding.aboutUsRelative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(act, AboutUsActivity.class);
-                i.putExtra("aboutUs", "aboutUs");
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        binding.helpandsupportLayout.setOnClickListener(v -> HELPER.ROUTE(act, HelpAndSupport.class));
+        binding.partnerProgRelative.setOnClickListener(v -> HELPER.ROUTE(act, PartnerProgramActivity.class));
+        binding.myFaqRelative.setOnClickListener(v -> HELPER.ROUTE(act, FaqActivity.class));
+        binding.aboutUsRelative.setOnClickListener(v -> {
+            Intent i = new Intent(act, AboutUsActivity.class);
+            i.putExtra("aboutUs", "aboutUs");
+            startActivity(i);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 
-            }
         });
-        binding.shareText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                // shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Insert Subject here");
-                String app_url = "https://play.google.com/store/apps/details?id=com.make.mybrand";
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, app_url);
-                startActivity(Intent.createChooser(shareIntent, "Share via"));
-            }
+        binding.shareText.setOnClickListener(v -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            // shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Insert Subject here");
+            String app_url = "https://play.google.com/store/apps/details?id=com.make.mybrand";
+            shareIntent.putExtra(Intent.EXTRA_TEXT, app_url);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
         });
-        binding.packageRelative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile", "1");
+        binding.packageRelative.setOnClickListener(view -> {
+            Intent intent = new Intent(act, PackageActivity.class);
+            intent.putExtra("Profile", "1");
+            startActivity(intent);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        });
+        binding.rateUsLayout.setOnClickListener(view -> {
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            try {
                 startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
-        });
-        binding.rateUsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.make.mybrand");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                try {
-                    startActivity(intent);
-                } catch (Exception e) {
-
-                }
+            } catch (Exception e) {
 
             }
+
         });
-        binding.reportbugsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HELPER.ROUTE(act, AddReportAndBug.class);
-            }
-        });
+        binding.reportbugsLayout.setOnClickListener(view -> HELPER.ROUTE(act, AddReportAndBug.class));
         binding.appVersionTxt.setText("App Version " + Constant.F_VERSION);
 
-        binding.contactTxtLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (prefManager.getActiveBrand() != null) {
-                    HELPER.WHATSAPP_REDIRECTION_2(act, prefManager.getActiveBrand().getName(), prefManager.getMobileNumber());
-                } else {
-                    HELPER.WHATSAPP_REDIRECTION_2(act, "", prefManager.getMobileNumber());
-                }
+        binding.contactTxtLayout.setOnClickListener(v -> {
+            if (prefManager.getActiveBrand() != null) {
+                HELPER.WHATSAPP_REDIRECTION_2(act, prefManager.getActiveBrand().getName(), prefManager.getMobileNumber());
+            } else {
+                HELPER.WHATSAPP_REDIRECTION_2(act, "", prefManager.getMobileNumber());
             }
         });
-        binding.visitFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                facebookPageDialog();
-            }
-        });
+        binding.visitFacebook.setOnClickListener(v -> facebookPageDialog());
         binding.websiteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
