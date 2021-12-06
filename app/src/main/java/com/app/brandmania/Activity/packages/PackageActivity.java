@@ -3,8 +3,11 @@ package com.app.brandmania.Activity.packages;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -21,8 +24,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
 import com.app.brandmania.Adapter.PackageRecyclerAdapter;
 import com.app.brandmania.Adapter.SliderAdapter;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MySingleton;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
@@ -34,6 +39,7 @@ import com.app.brandmania.databinding.ActivityPackageBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
+import com.app.brandmania.views.MyBounceInterpolator;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -62,22 +68,62 @@ public class PackageActivity extends BaseActivity {
         act = this;
         gson = new Gson();
 
-
-
         if (getIntent().hasExtra("fromBrandList")) {
             layoutType = 2;
             selectedBrand = gson.fromJson(getIntent().getStringExtra("detailsObj"), BrandListItem.class);
-        } else if (prefManager.getActiveBrand()!=null){
+        } else if (prefManager.getActiveBrand() != null) {
             layoutType = 0;
             selectedBrand = prefManager.getActiveBrand();
-        }else{
+        } else {
             layoutType = 0;
             selectedBrand = null;
         }
-
         binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
         binding.BackButton.setOnClickListener(v -> onBackPressed());
         GetPackageList();
+        if (prefManager.getActiveBrand() == null) {
+            binding.addBrand.setVisibility(View.VISIBLE);
+            animateButton();
+            binding.addBrand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HELPER.ROUTE(act, AddBrandMultipleActivity.class);
+                }
+            });
+            //binding.brandTxt.setText(Html.fromHtml("  Add" + "<font color=\"#faa81e\">" + "<b>" + "<br>" + "Brand" + "</b>" + "</font>"));
+        }
+
+    }
+
+    void animateButton() {
+        final Animation myAnim = AnimationUtils.loadAnimation(act, R.anim.bounce_outer);
+        double animationDuration = 4 * 1000;
+        //myAnim.setDuration((long)animationDuration);
+        myAnim.setRepeatCount(Animation.INFINITE);
+
+        // Use custom animation interpolator to achieve the bounce effect
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(1, 10);
+
+        myAnim.setInterpolator(interpolator);
+
+        // Animate the button
+        binding.addBrand.startAnimation(myAnim);
+
+        // Run button animation again after it finished
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animateButton();
+            }
+        });
     }
 
     private void GetPackage() {
@@ -90,7 +136,6 @@ public class PackageActivity extends BaseActivity {
         binding.recyclerList.setLayoutManager(mLayoutManager);
         binding.recyclerList.setAdapter(dasboardAddaptor);
     }
-
 
     private void GetPackageList() {
         if (isLoading)
@@ -128,6 +173,7 @@ public class PackageActivity extends BaseActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return getHeader(CodeReUse.GET_FORM_HEADER);
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

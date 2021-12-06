@@ -178,10 +178,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     private ActivityViewAllFrameImageBinding binding;
     File new_file;
     GestureDetector gestureDetector;
-     float angle = 0;
+    float angle = 0;
     private int _xDelta;
     private int _yDelta;
-     ImageFromGalaryModel imageFromGalaryModel;
+    ImageFromGalaryModel imageFromGalaryModel;
     Drawable yourDrawable;
     public int startwidth;
     private boolean isRemoveFrame = false;
@@ -224,10 +224,10 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     private ImageList selectedObject;
 
     int mode = NONE;
-     private int colorCodeForBackground = 0;
+    private int colorCodeForBackground = 0;
     Gson gson;
     public DBManager dbManager;
-     boolean canLoadImage = false;
+    boolean canLoadImage = false;
     boolean fromViewAll = false;
     private float DefaultScaleX;
     private float DefaultScaleY;
@@ -370,7 +370,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                         }
                     }
 
-                }else{
+                } else {
                     addBrandList();
                 }
             }
@@ -456,10 +456,12 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         binding.logoCustom.setTag("0");
 
     }
+
     AddBrandFragment addBrandFragment;
+
     public void addBrandList() {
-        if (addBrandFragment!=null){
-            if (addBrandFragment.isVisible()){
+        if (addBrandFragment != null) {
+            if (addBrandFragment.isVisible()) {
                 addBrandFragment.dismiss();
             }
         }
@@ -1188,7 +1190,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         });
 
-         alertDialog.setCancelable(false);
+        alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
@@ -2155,7 +2157,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
 
-
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapUp(MotionEvent event) {
@@ -2197,7 +2198,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                 if (ResponseHandler.getBool(respJson, "status")) {
                     JSONArray dataJson = ResponseHandler.getJSONArray(respJson, "data");
                     try {
-                          int imageCounter = Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter").equalsIgnoreCase("Unlimited") ? "-1" : ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter"));
+                        int imageCounter = Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter").equalsIgnoreCase("Unlimited") ? "-1" : ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter"));
 
                         int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
@@ -2322,13 +2323,13 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
     }
 
-     private RelativeLayout.LayoutParams imgParams;
+    private RelativeLayout.LayoutParams imgParams;
     private float imgDX, imgDY;
     private float imgX, imgY;
     private int imgMode;
     private float imgNewRot = 0f;
 
-     private View.OnTouchListener onTouchListener() {
+    private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
             Handler handler = new Handler();
 
@@ -2366,7 +2367,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (prefManager.getActiveBrand()!=null) {
+                                    if (prefManager.getActiveBrand() != null) {
                                         if (prefManager.getActiveBrand().getLogo().isEmpty()) {
                                             onSelectImageClick(view);
                                         } else {
@@ -2384,7 +2385,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                                                         .show();
                                             }
                                         }
-                                    }else{
+                                    } else {
                                         addBrandList();
                                     }
                                 }

@@ -865,7 +865,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                             }
                         }
 
-
                         if (wantToShowDropDown) {
                             if (flag == CALL_STATE) {
                                 chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
@@ -875,7 +874,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                             }
                         }
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -889,7 +887,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 isLoading = false;
             }
         }) {
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
@@ -899,7 +896,6 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 Log.e("Token", params.toString());
                 return params;
             }
-
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
