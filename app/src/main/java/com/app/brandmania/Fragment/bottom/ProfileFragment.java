@@ -68,14 +68,14 @@ public class ProfileFragment extends BaseFragment {
         if (prefManager.getActiveBrand() != null)
             binding.businessName.setText(prefManager.getActiveBrand().getName());
 
-            binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(act, ViewBrandActivity.class);
-                    startActivity(i);
-                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                }
-            });
+        binding.mybusinessRelative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(act, ViewBrandActivity.class);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+            }
+        });
 
         binding.introLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +109,7 @@ public class ProfileFragment extends BaseFragment {
             binding.referNEarnLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(act, ReferNEarnActivity.class);
-                    startActivity(i);
-                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    HELPER.ROUTE(act, ReferNEarnActivity.class);
                 }
             });
         } else {
@@ -121,29 +119,19 @@ public class ProfileFragment extends BaseFragment {
         binding.helpandsupportLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(act, HelpAndSupport.class);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
+                HELPER.ROUTE(act, HelpAndSupport.class);
             }
         });
         binding.partnerProgRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(act, PartnerProgramActivity.class);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
+                HELPER.ROUTE(act, PartnerProgramActivity.class);
             }
         });
         binding.myFaqRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(act, FaqActivity.class);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
+                HELPER.ROUTE(act, FaqActivity.class);
             }
         });
         binding.aboutUsRelative.setOnClickListener(new View.OnClickListener() {
@@ -192,9 +180,7 @@ public class ProfileFragment extends BaseFragment {
         binding.reportbugsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(act, AddReportAndBug.class);
-                startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                HELPER.ROUTE(act, AddReportAndBug.class);
             }
         });
         binding.appVersionTxt.setText("App Version " + Constant.F_VERSION);
@@ -234,13 +220,11 @@ public class ProfileFragment extends BaseFragment {
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
-
         return binding.getRoot();
     }
 
     public static String FACEBOOK_URL = "https://www.facebook.com/brandmania2020";
     public static String FACEBOOK_PAGE_ID = "103655598316587";
-
 
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
 

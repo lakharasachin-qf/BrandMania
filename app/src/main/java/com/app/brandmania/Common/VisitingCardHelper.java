@@ -53,10 +53,7 @@ public class VisitingCardHelper {
         visitingCardModel.setFree(false);
         visitingCardModel.setLayoutType(VisitingCardModel.LAYOUT_THREE);
         digitalCardList.add(visitingCardModel);
-
-
         return digitalCardList;
-
     }
 
     public static void loadDataCardOne(Activity act, LayoutDigitalCardOneBinding oneBinding, Palette colors) {
@@ -65,18 +62,13 @@ public class VisitingCardHelper {
         Picasso.get().load(brand.getLogo()).into(oneBinding.logo);
 
         oneBinding.userName.setText(brand.getName());
-//
-//        if (!brand.getWebsite().isEmpty() && !brand.getWebsite().equalsIgnoreCase("https://")) {
-//            oneBinding.userName.setText(brand.getName());
-//        }
-//        else {
+
 //            if (!brand.getWebsite().isEmpty()) {
 //                oneBinding.websiteTxt1.setText("www." + brand.getWebsite().replace("https://", "").replace("https://", "").replace("www.", ""));
 //            } else {
 //                oneBinding.websiteTxt1.setVisibility(View.VISIBLE);
 //            }
 //        }
-
         if (!brand.getEmail().isEmpty()) {
             oneBinding.phoneTxt.setText(brand.getEmail());
         }
@@ -134,11 +126,9 @@ public class VisitingCardHelper {
         if (!brand.getAddress().isEmpty()) {
             threeBinding.addressTxt.setText(brand.getAddress());
         }
-
         if (!brand.getPhonenumber().isEmpty()) {
             threeBinding.phoneTxt.setText(brand.getPhonenumber());
         }
-
         if (!brand.getEmail().isEmpty()) {
             threeBinding.emailTxt.setText(brand.getEmail());
         }
@@ -167,7 +157,7 @@ public class VisitingCardHelper {
         if (!brand.getEmail().isEmpty()) {
             fourBinding.emailTxt.setText(brand.getEmail());
         }
-        if (!brand.getWebsite().isEmpty()) {
+        if (!brand.getWebsite().isEmpty() && !brand.getWebsite().equalsIgnoreCase("https://")) {
             fourBinding.websiteTxt.setText(brand.getWebsite());
         }
         if (brand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(act)) {

@@ -123,7 +123,7 @@ public class PdfActivity extends BaseActivity {
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_pdf);
 
-        if (prefManager.getActiveBrand()!=null) {
+        if (prefManager.getActiveBrand() != null) {
             digitalCardList = new ArrayList<>();
             digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
             binding.saveIcon.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +199,6 @@ public class PdfActivity extends BaseActivity {
                         @Override
                         public void onSuccess() {
                             colors = createPaletteSync(((BitmapDrawable) binding.pdfLogo.getDrawable()).getBitmap());
-
                             setDigitalCardAdapter();
                         }
 
@@ -260,7 +259,7 @@ public class PdfActivity extends BaseActivity {
 
             digitalCardList = new ArrayList<>();
             digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
-        }else{
+        } else {
             binding.scrollView.setVisibility(View.GONE);
             binding.loader.setVisibility(View.GONE);
 
@@ -950,7 +949,7 @@ public class PdfActivity extends BaseActivity {
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
             VisitingCardHelper.loadDataCardThree(act, CurrentSelectedCard.getThreeBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
-            Log.e("data","4");
+            Log.e("data", "4");
             VisitingCardHelper.loadDataCardFour(act, CurrentSelectedCard.getFourBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
             VisitingCardHelper.loadDataCardFive(act, CurrentSelectedCard.getFiveBinding(), colors);

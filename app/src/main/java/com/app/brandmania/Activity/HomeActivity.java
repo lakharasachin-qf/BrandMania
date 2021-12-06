@@ -102,7 +102,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             askPermissions();
         }
 
-        Utility.Log("activeBrand",gson.toJson(prefManager.getActiveBrand()));
+        Utility.Log("activeBrand", gson.toJson(prefManager.getActiveBrand()));
     }
 
     @SuppressLint("NonConstantResourceId")

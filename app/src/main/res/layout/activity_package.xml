@@ -61,7 +61,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:src="@drawable/ic_premium"></ImageView>
+                android:src="@drawable/ic_premium" />
 
             <TextView
                 android:id="@+id/upgradeTitle"
@@ -97,15 +97,92 @@
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/_7sdp"
             android:id="@+id/recyclerList"
-            android:layout_marginStart="@dimen/_7sdp"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:layout_below="@id/titleLayout"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/titleLayout"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/_30sdp"
-            android:layout_height="match_parent"/>
+            android:paddingBottom="@dimen/_30sdp" />
+
+        <LinearLayout
+            android:id="@+id/addBrand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:background="@drawable/addbrand_background_outline"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingTop="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_15sdp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/brandTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:includeFontPadding="false"
+                android:text="Add"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="Brand"
+                android:textColor="@color/colorthird"
+                android:textSize="@dimen/_12sdp" />
+
+            <RelativeLayout
+                android:id="@+id/continueBtn"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/banner_button_backgroundshap"
+                android:backgroundTint="@color/colorthird">
+
+                <TextView
+                    android:id="@+id/regBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_22sdp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:letterSpacing="0"
+                    android:text="    Continue"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textDirection="ltr"
+                    android:textSize="8dp" />
+
+                <ImageView
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:background="@drawable/addbrandbackgroundshap"
+                    android:elevation="@dimen/_3sdp"
+                    android:padding="@dimen/_4sdp"
+                    android:src="@drawable/ic_round_arrow_forward_ios_24"
+                    app:tint="@color/colorPrimary" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPagerImageSlider"

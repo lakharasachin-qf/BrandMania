@@ -37,10 +37,12 @@ import java.util.List;
 public class EditTab extends BaseFragment {
     private Activity activity;
     private EditTabBinding binding;
-      static {
+
+    static {
         System.loadLibrary("NativeImageProcessor");
     }
-     public boolean isSetCropView=false;
+
+    public boolean isSetCropView = false;
 
     public EditTab setCropView(boolean iSetCropView) {
         this.isSetCropView = iSetCropView;
@@ -49,9 +51,9 @@ public class EditTab extends BaseFragment {
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        activity  = getActivity();
+        activity = getActivity();
 
-         binding = DataBindingUtil.inflate(inflater, R.layout.edit_tab, parent, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.edit_tab, parent, false);
         initHorizontalList();
         binding.rotateImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,9 +68,9 @@ public class EditTab extends BaseFragment {
             }
         });
 
-        if (isSetCropView){
+        if (isSetCropView) {
             binding.cropImage.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             binding.cropImage.setVisibility(View.GONE);
         }
 
@@ -111,7 +113,7 @@ public class EditTab extends BaseFragment {
         final Context context = getActivity();
         Handler handler = new Handler();
         Runnable r = () -> {
-            Bitmap thumbImage = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.filter_logo), 640, 640, false);
+            Bitmap thumbImage = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.filter_logo), 640, 640, false);
             ThumbnailItem t1 = new ThumbnailItem();
             ThumbnailItem t2 = new ThumbnailItem();
             ThumbnailItem t3 = new ThumbnailItem();
@@ -158,21 +160,14 @@ public class EditTab extends BaseFragment {
     }
 
 
-
-
-
-
     public static PorterDuffColorFilter setBrightness(int progress) {
-        if (progress >=    100)
-        {
-            int value = (int) (progress-100) * 255 / 100;
+        if (progress >= 100) {
+            int value = (int) (progress - 100) * 255 / 100;
 
             return new PorterDuffColorFilter(Color.argb(value, 255, 255, 255), PorterDuff.Mode.SRC_OVER);
 
-        }
-        else
-        {
-            int value = (int) (100-progress) * 255 / 100;
+        } else {
+            int value = (int) (100 - progress) * 255 / 100;
             return new PorterDuffColorFilter(Color.argb(value, 0, 0, 0), PorterDuff.Mode.SRC_ATOP);
 
 
