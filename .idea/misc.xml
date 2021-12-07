@@ -42,8 +42,10 @@
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/activity_view_all_image.xml" value="0.18802083333333333" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/activity_view_brand.xml" value="0.17453703703703705" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/activity_view_business_category.xml" value="0.17453703703703705" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/add_logo_popup.xml" value="0.15625" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/dialog_add_brand_fragment_layout.xml" value="0.19645648775403857" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/dialog_digital_card_layout.xml" value="0.18802083333333333" />
+        <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/dialog_request_business_category_remarks.xml" value="0.147265625" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/edit_tab.xml" value="0.17453703703703705" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/fragment_colors_picker.xml" value="0.18802083333333333" />
         <entry key="..\:/_ANDROID_PROJECTS/BrandManiaUpdate/app/src/main/res/layout/fragment_home.xml" value="0.18802083333333333" />

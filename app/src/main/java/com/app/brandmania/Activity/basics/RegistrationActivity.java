@@ -279,7 +279,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                 error.printStackTrace();
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
-                    Utility.Log("responseBody",responseBody);
+                    Utility.Log("responseBody", responseBody);
 
                     JSONObject data = new JSONObject(responseBody);
                     JSONArray errors = data.getJSONArray("errors");
@@ -294,7 +294,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Utility.Log("rheader",getHeader(CodeReUse.GET_FORM_HEADER).toString());
+                Utility.Log("rheader", getHeader(CodeReUse.GET_FORM_HEADER).toString());
                 return getHeader(CodeReUse.GET_FORM_HEADER);
             }
 
@@ -306,8 +306,8 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
                 params.put("email", binding.emailId.getText().toString());
                 params.put("referral_code", binding.referrer.getText().toString());
                 preafManager.setEMAIL_Id(binding.emailId.getText().toString());
-                Utility.Log("dataPARAM",params.toString());
-                 return params;
+                Utility.Log("dataPARAM", params.toString());
+                return params;
             }
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));

@@ -79,7 +79,6 @@ public class PreafManager {
         return parameters;
     }
 
-
     @SuppressLint("CommitPrefEdits")
     public PreafManager(Context context) {
         // shared pref mode
@@ -287,18 +286,14 @@ public class PreafManager {
         editor.apply();
     }
 
-
-
-
-
-
     //new coding
     public void setLogin(boolean token) {
         editor.putBoolean("isLogin", token);
         editor.commit();
         editor.apply();
     }
-    public boolean isLogin(){
+
+    public boolean isLogin() {
         return pref.getBoolean("isLogin", false);
     }
 }

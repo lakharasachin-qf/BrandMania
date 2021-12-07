@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.AddLogoPopupBinding;
 import com.app.brandmania.databinding.DialogOfferBinding;
 import com.app.brandmania.databinding.DialogRequestBusinessCategoryRemarksBinding;
 import com.app.brandmania.databinding.FragmentHomeBinding;
@@ -63,6 +65,8 @@ import com.app.brandmania.utils.Utility;
 import com.app.brandmania.views.MyBounceInterpolator;
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -168,10 +172,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.referralcodeTxt.setText(preafManager.getReferCode());
 
-        binding.createDigitalCard.setOnClickListener(view -> {
-            HELPER.ROUTE(act, PdfActivity.class);
-        });
-
+        if (preafManager.getActiveBrand() != null) {
+            binding.createDigitalCard.setOnClickListener(view -> {
+                HELPER.ROUTE(act, PdfActivity.class);
+            });
+        } else {
+            addLogoRequest();
+        }
         binding.request.setOnClickListener(v -> showRequestForm());
 
         binding.createCustomImages.setOnClickListener(v -> HELPER.ROUTE(act, CustomViewAllActivit.class));
@@ -717,6 +724,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     private androidx.appcompat.app.AlertDialog alertDialog;
     private DialogRequestBusinessCategoryRemarksBinding reqBinding;
+    private AddLogoPopupBinding logobinding;
 
     public void showRequestForm() {
 
@@ -724,6 +732,33 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             alertDialog.dismiss();
 
         reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_request_business_category_remarks, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend2);
+        builder.setView(reqBinding.getRoot());
+        alertDialog = builder.create();
+        alertDialog.setContentView(reqBinding.getRoot());
+
+        Utility.RemoveError(reqBinding.nameTxt);
+        reqBinding.close.setOnClickListener(v -> alertDialog.dismiss());
+        reqBinding.submit.setOnClickListener(v -> {
+            if (reqBinding.nameTxt.getText().toString().trim().length() == 0) {
+                reqBinding.nameTxt.setError("Enter category");
+                reqBinding.nameTxt.requestFocus();
+                return;
+            }
+            alertDialog.dismiss();
+            apiForCategoryRequest(reqBinding.nameTxt.getText().toString());
+            Toast.makeText(act, "Thanks for request we will contact you soon", Toast.LENGTH_SHORT).show();
+        });
+        alertDialog.show();
+
+    }
+
+    public void addLogoRequest() {
+
+        if (alertDialog != null && alertDialog.isShowing())
+            alertDialog.dismiss();
+
+        reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.add_logo_popup, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend2);
         builder.setView(reqBinding.getRoot());
         alertDialog = builder.create();

@@ -134,6 +134,7 @@ public class PdfActivity extends BaseActivity {
             }
         });
 
+
         if (prefManager.getActiveBrand() != null) {
             digitalCardList = new ArrayList<>();
             digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
