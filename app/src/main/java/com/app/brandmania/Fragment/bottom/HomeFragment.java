@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,7 +34,7 @@ import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
 import com.app.brandmania.Activity.basics.ReferNEarnActivity;
 import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
-import com.app.brandmania.Activity.brand.EditActivity;
+import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.custom.CustomViewAllActivit;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DasboardAddaptor;
@@ -65,14 +64,10 @@ import com.app.brandmania.utils.Utility;
 import com.app.brandmania.views.MyBounceInterpolator;
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -172,13 +167,24 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         binding.referralcodeTxt.setText(preafManager.getReferCode());
 
-        if (preafManager.getActiveBrand() != null) {
-            binding.createDigitalCard.setOnClickListener(view -> {
-                HELPER.ROUTE(act, PdfActivity.class);
-            });
-        } else {
-            addLogoRequest();
-        }
+        binding.createDigitalCard.setOnClickListener(view -> {
+            if (preafManager.getActiveBrand() != null) {
+                if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
+                    HELPER.ROUTE(act, PdfActivity.class);
+                } else {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(act);
+                    alertDialogBuilder.setTitle("Save image");
+                    alertDialogBuilder.setMessage("Your Logo is empty..!");
+                    alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.setCancelable(false);
+                    alertDialog.show();
+                }
+            } else {
+                addBrandList();
+            }
+        });
+
         binding.request.setOnClickListener(v -> showRequestForm());
 
         binding.createCustomImages.setOnClickListener(v -> HELPER.ROUTE(act, CustomViewAllActivit.class));
@@ -451,18 +457,20 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                try {
-                    String responseBody = new String(error.networkResponse.data, "utf-8");
-                    Utility.Log("responseBody", responseBody);
-
-                    JSONObject data = new JSONObject(responseBody);
-                    JSONArray errors = data.getJSONArray("errors");
-                    JSONObject jsonMessage = errors.getJSONObject(0);
-                    String message = jsonMessage.getString("message");
-                    Toast.makeText(act, message, Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                } catch (UnsupportedEncodingException errorr) {
-                }
+                error.printStackTrace();
+//                try {
+//                    if (error.networkResponse.statusCode == 500 && error.networkResponse.data != null) {
+//                        String responseBody = new String(error.networkResponse.data, "utf-8");
+//                        Utility.Log("responseBody", responseBody);
+//
+//                        JSONObject data = new JSONObject(responseBody);
+//                        JSONArray errors = data.getJSONArray("errors");
+//                        JSONObject jsonMessage = errors.getJSONObject(0);
+//                        String message = jsonMessage.getString("message");
+//                    }
+//                } catch (JSONException | UnsupportedEncodingException ignored) {
+//                    ignored.printStackTrace();
+//                }
             }
         }) {
             @Override
@@ -753,32 +761,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     }
 
-    public void addLogoRequest() {
-
-        if (alertDialog != null && alertDialog.isShowing())
-            alertDialog.dismiss();
-
-        reqBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.add_logo_popup, null, false);
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend2);
-        builder.setView(reqBinding.getRoot());
-        alertDialog = builder.create();
-        alertDialog.setContentView(reqBinding.getRoot());
-
-        Utility.RemoveError(reqBinding.nameTxt);
-        reqBinding.close.setOnClickListener(v -> alertDialog.dismiss());
-        reqBinding.submit.setOnClickListener(v -> {
-            if (reqBinding.nameTxt.getText().toString().trim().length() == 0) {
-                reqBinding.nameTxt.setError("Enter category");
-                reqBinding.nameTxt.requestFocus();
-                return;
-            }
-            alertDialog.dismiss();
-            apiForCategoryRequest(reqBinding.nameTxt.getText().toString());
-            Toast.makeText(act, "Thanks for request we will contact you soon", Toast.LENGTH_SHORT).show();
-        });
-        alertDialog.show();
-
-    }
 
     private void apiForCategoryRequest(String catString) {
         Utility.showProgress(act);

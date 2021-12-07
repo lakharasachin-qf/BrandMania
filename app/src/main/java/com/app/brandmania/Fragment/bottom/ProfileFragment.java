@@ -178,44 +178,41 @@ public class ProfileFragment extends BaseFragment {
     private void getBrandList() {
 
         Utility.Log("API : ", APIs.GET_BRAND);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.Log("GET_BRAND : ", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
-                    if (multiListItems != null && multiListItems.size() != 0) {
-                        prefManager.setAddBrandList(multiListItems);
-                        for (int i = 0; i < multiListItems.size(); i++) {
-                            if (multiListItems.get(i).getId().equalsIgnoreCase(prefManager.getActiveBrand().getId())) {
-                                prefManager.setActiveBrand(multiListItems.get(i));
-                                break;
-                            }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, response -> {
+            Utility.Log("GET_BRAND : ", response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                if (multiListItems != null && multiListItems.size() != 0) {
+                    prefManager.setAddBrandList(multiListItems);
+                    for (int i = 0; i < multiListItems.size(); i++) {
+                        if (multiListItems.get(i).getId().equalsIgnoreCase(prefManager.getActiveBrand().getId())) {
+                            prefManager.setActiveBrand(multiListItems.get(i));
+                            break;
                         }
-
-                        //FirstLogin
-                        if (act.getIntent().hasExtra("FirstLogin")) {
-                            prefManager.setIS_Brand(true);
-                            if (multiListItems.size() != 0) {
-                                prefManager.setActiveBrand(multiListItems.get(0));
-                            }
-                        }
-
-                        if (prefManager.getActiveBrand() == null) {
-                            if (multiListItems.size() != 0) {
-                                prefManager.setActiveBrand(multiListItems.get(0));
-                            }
-                        }
-                        prefManager = new PreafManager(act);
-                        binding.businessName.setText(prefManager.getActiveBrand().getName());
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                    //FirstLogin
+                    if (act.getIntent().hasExtra("FirstLogin")) {
+                        prefManager.setIS_Brand(true);
+                        if (multiListItems.size() != 0) {
+                            prefManager.setActiveBrand(multiListItems.get(0));
+                        }
+                    }
+
+                    if (prefManager.getActiveBrand() == null) {
+                        if (multiListItems.size() != 0) {
+                            prefManager.setActiveBrand(multiListItems.get(0));
+                        }
+                    }
+                    prefManager = new PreafManager(act);
+                    binding.businessName.setText(prefManager.getActiveBrand().getName());
                 }
-
-
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+
         },
                 new Response.ErrorListener() {
                     @Override

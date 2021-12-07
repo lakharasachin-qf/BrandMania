@@ -98,7 +98,6 @@ public class PdfActivity extends BaseActivity {
     private VisitingCardModel CurrentSelectedCard;
     private VisitingCardAdapter visitingCardAdapter;
     public boolean isUserPaid = true;
-    public boolean forShareUser = true;
     private boolean isLoading = false;
     int objectSelectedPosition = 0;
 
