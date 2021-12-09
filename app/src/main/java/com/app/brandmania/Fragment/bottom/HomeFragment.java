@@ -3,6 +3,7 @@ package com.app.brandmania.Fragment.bottom;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -54,7 +55,6 @@ import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.ViewPagerItem;
 import com.app.brandmania.R;
-import com.app.brandmania.databinding.AddLogoPopupBinding;
 import com.app.brandmania.databinding.DialogOfferBinding;
 import com.app.brandmania.databinding.DialogRequestBusinessCategoryRemarksBinding;
 import com.app.brandmania.databinding.FragmentHomeBinding;
@@ -63,6 +63,7 @@ import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.views.MyBounceInterpolator;
 import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
@@ -155,7 +156,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
         RateUs();
 
-
         binding.showNotification.setOnClickListener(view -> HELPER.ROUTE(act, ViewNotificationActivity.class));
         binding.referCodeLayout.setOnClickListener(v -> {
             if (preafManager.getActiveBrand() != null) {
@@ -172,13 +172,28 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 if (!preafManager.getActiveBrand().getLogo().isEmpty()) {
                     HELPER.ROUTE(act, PdfActivity.class);
                 } else {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(act);
-                    alertDialogBuilder.setTitle("Save image");
-                    alertDialogBuilder.setMessage("Your Logo is empty..!");
-                    alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.setCancelable(false);
-                    alertDialog.show();
+                    androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+                            .setTitle("Add Your Logo")
+                            .setMessage("Your Logo is empty..!")
+                            .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
+                            .setNeutralButton("LATER", (dialogInterface, i) -> {
+                            })
+                            .show();
+                    AlertDialogBuilder.setCancelable(false);
+
+//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(act);
+//                    alertDialogBuilder.setTitle("Add Your Logo");
+//                    alertDialogBuilder.setMessage("Your Logo is empty..!");
+//                    alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
+//                    alertDialogBuilder.setNegativeButton("Later", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//                        }
+//                    });
+//                    AlertDialog alertDialog = alertDialogBuilder.create();
+//                    alertDialog.setCancelable(false);
+//                    alertDialog.show();
                 }
             } else {
                 addBrandList();
@@ -729,10 +744,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
     }
 
-
     private androidx.appcompat.app.AlertDialog alertDialog;
     private DialogRequestBusinessCategoryRemarksBinding reqBinding;
-    private AddLogoPopupBinding logobinding;
 
     public void showRequestForm() {
 
@@ -760,7 +773,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         alertDialog.show();
 
     }
-
 
     private void apiForCategoryRequest(String catString) {
         Utility.showProgress(act);

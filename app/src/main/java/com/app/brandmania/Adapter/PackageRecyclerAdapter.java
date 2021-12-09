@@ -85,8 +85,6 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
                 }
             }
         });
-
-
         if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand() != null && preafManager.getActiveBrand().getPackage_id().equals(packageList.get(position).getPackageid()) &&
                 preafManager.getActiveBrand().getIs_payment_pending().equalsIgnoreCase("0")) {
             holder.binding.rightArrow.setVisibility(View.GONE);
@@ -104,7 +102,6 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
             holder.binding.itemLayout.setBackground(ContextCompat.getDrawable(activity, R.drawable.shape_package_outline));
             holder.binding.alert.setVisibility(View.GONE);
         }
-
 
         if (packageList.get(position).getSlideSubItems() != null && packageList.get(position).getSlideSubItems().get(0) != null && !packageList.get(position).getSlideSubItems().get(0).getDescription().equalsIgnoreCase("")) {
             String description = packageList.get(position).getSlideSubItems().get(0).getDescription();

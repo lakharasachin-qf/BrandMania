@@ -108,31 +108,6 @@ public class EditActivity extends BaseActivity {
                 isFocus = true;
             }
         }
-
-//        if (!binding.emailIdEdt.getText().toString().trim().equals("")) {
-//            if (!CodeReUse.isEmailValid(binding.emailIdEdt.getText().toString().trim())) {
-//                isError = true;
-//
-//                binding.emailIdEdtLayout.setError(getString(R.string.enter_valid_email_address));
-//                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorNavText)));
-//
-//                if (!isFocus) {
-//                    binding.emailIdEdt.requestFocus();
-//                    isFocus = true;
-//                }
-//            }
-//        } else {
-//            if (binding.emailIdEdt.getText().toString().trim().equals("")) {
-//                binding.emailIdEdtLayout.setError(getString(R.string.enter_email_id));
-//                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-//                if (!isFocus) {
-//                    binding.emailIdEdt.requestFocus();
-//                    isFocus = true;
-//                }
-//                return;
-//            }
-//
-//        }
         if (!binding.phoneTxt.getText().toString().trim().equals("")) {
             if (binding.phoneTxt.getText().toString().trim().length() < 10) {
                 binding.phoneTxtLayout.setError(getString(R.string.validphoneno_txt));
@@ -158,6 +133,32 @@ public class EditActivity extends BaseActivity {
             }
 
         }
+
+//        if (!binding.emailIdEdt.getText().toString().trim().equals("")) {
+//            if (!CodeReUse.isEmailValid(binding.emailIdEdt.getText().toString().trim())) {
+//                isError = true;
+//
+//                binding.emailIdEdtLayout.setError(getString(R.string.enter_valid_email_address));
+//                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorNavText)));
+//
+//                if (!isFocus) {
+//                    binding.emailIdEdt.requestFocus();
+//                    isFocus = true;
+//                }
+//            }
+//        } else {
+//            if (binding.emailIdEdt.getText().toString().trim().equals("")) {
+//                binding.emailIdEdtLayout.setError(getString(R.string.enter_email_id));
+//                binding.emailIdEdtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+//                if (!isFocus) {
+//                    binding.emailIdEdt.requestFocus();
+//                    isFocus = true;
+//                }
+//                return;
+//            }
+//
+//        }
+
 
     }
 }
