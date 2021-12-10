@@ -19,9 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
+import com.app.brandmania.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
-import com.app.brandmania.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -44,10 +44,12 @@ public class CodeReUse {
     public static final String CHANNEL_ID = "brand360_chanel";
     public static final String CHANNEL_NAME = "Bran360App";
     public static final String CHANNEL_DESCRIPTION = "com.make.mybrand";
+
     public static void activityBackPress(Activity act) {
         act.finish();
         act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void setWhiteNavigationBar(@NonNull Dialog dialog, Activity act) {
         Window window = dialog.getWindow();
@@ -126,6 +128,7 @@ public class CodeReUse {
             }
         });
     }
+
     public static void showSnackBar(Activity act, View view, String message) {
         Snackbar snackbar = Snackbar
                 .make(view, message, Snackbar.LENGTH_LONG)

@@ -17,14 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Adapter.DropDownAdpt;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Model.CommonListModel;
 import com.app.brandmania.R;
-import com.app.brandmania.databinding.FragmentListBottomListBinding;
 import com.app.brandmania.utils.CodeReUse;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -95,9 +93,10 @@ public class ListBottomFragment extends BottomSheetDialogFragment {
         fragment = this;
         binding.titleText.setText("Brand Category");
 
+
         if (listModels != null) {
             adpt = new DropDownAdpt(act, listModels, calledFlag);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);
             binding.recyclerList.setLayoutManager(mLayoutManager);
             binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
             binding.recyclerList.setAdapter(adpt);
@@ -117,6 +116,29 @@ public class ListBottomFragment extends BottomSheetDialogFragment {
                 }
             });
         }
+
+//        if (listModels != null) {
+//            adpt = new DropDownAdpt(act, listModels, calledFlag);
+//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act);
+//            binding.recyclerList.setLayoutManager(mLayoutManager);
+//            binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
+//            binding.recyclerList.setAdapter(adpt);
+//            binding.recyclerList.setNestedScrollingEnabled(false);
+//            binding.searchEdt.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                    filterCountry(s.toString());
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//                }
+//            });
+//        }
         if (calledFlag == 0) {
             binding.addBrandLayout.setVisibility(View.GONE);
         }

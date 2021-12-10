@@ -22,12 +22,9 @@ import java.util.Observer;
 public abstract class BaseFragment extends Fragment implements Observer {
 
     public MakeMyBrandApp myBrandApp;
-
     public PreafManager prefManager;
     public Activity act;
-
     public Gson gson;
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

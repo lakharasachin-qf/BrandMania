@@ -46,8 +46,6 @@ import com.app.brandmania.Adapter.VisitingCardAdapter;
 import com.app.brandmania.BuildConfig;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.HELPER;
-import com.app.brandmania.Common.MakeMyBrandApp;
-import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Common.VisitingCardHelper;
@@ -71,7 +69,6 @@ import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.views.MyBounceInterpolator;
-import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
@@ -454,7 +451,6 @@ public class PdfActivity extends BaseActivity {
         if (bottomSheetFragment.isAdded()) {
             bottomSheetFragment.dismiss();
         }
-
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -528,20 +524,17 @@ public class PdfActivity extends BaseActivity {
         iconsColorsList.addAll(VisitingCardHelper.getIconsColorList(CurrentSelectedCard, colors, act));
 
         iconsColorsAdapter = new IconsColorsAdapter(iconsColorsList, act);
-        IconsColorsAdapter.onItemSelectListener onItemSelectListener = new IconsColorsAdapter.onItemSelectListener() {
-            @Override
-            public void onItemSelect(IconsColorsModel model, int position) {
-                if (iconsSelectModel != null) {
-                    iconsSelectModel.setSelected(false);
-                }
-                model.setSelected(true);
-                iconsSelectModel = model;
-                if (iconsColorsAdapter != null) {
-                    iconsColorsAdapter.notifyDataSetChanged();
-                }
-                objectSelectedPosition = position;
-                showIconsFragmentList();
+        IconsColorsAdapter.onItemSelectListener onItemSelectListener = (model, position) -> {
+            if (iconsSelectModel != null) {
+                iconsSelectModel.setSelected(false);
             }
+            model.setSelected(true);
+            iconsSelectModel = model;
+            if (iconsColorsAdapter != null) {
+                iconsColorsAdapter.notifyDataSetChanged();
+            }
+            objectSelectedPosition = position;
+            showIconsFragmentList();
         };
 
         iconsColorsAdapter.setOnItemSelectListener(onItemSelectListener);
@@ -947,16 +940,13 @@ public class PdfActivity extends BaseActivity {
                     viewPdf(prefManager.getActiveBrand().getName(), act);
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                isLoading = false;
-                Utility.dismissLoadingTran();
+        }, error -> {
+            error.printStackTrace();
+            isLoading = false;
+            Utility.dismissLoadingTran();
 
-                binding.loader.setVisibility(View.GONE);
-                binding.scrollView.setVisibility(View.VISIBLE);
-            }
+            binding.loader.setVisibility(View.GONE);
+            binding.scrollView.setVisibility(View.VISIBLE);
         }) {
 
             @Override
