@@ -102,7 +102,7 @@ public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHold
             super(itemView);
             //radioButton = itemView.findViewById(R.id.radioButton);
             imageView = itemView.findViewById(R.id.brandCategoryImage);
-            title = itemView.findViewById(R.id.title);
+            title = itemView.findViewById(R.id.text);
         }
     }
 

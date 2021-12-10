@@ -1,14 +1,13 @@
 package com.app.brandmania.Activity.brand;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.preference.Preference;
-
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
@@ -40,6 +39,11 @@ public class EditActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+
+        CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
+        CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
+        CodeReUse.RemoveError(binding.phoneTxt, binding.phoneTxtLayout);
+
         if (prefManager.getActiveBrand() != null) {
             binding.editProfile.setVisibility(View.VISIBLE);
             binding.content.setVisibility(View.GONE);
