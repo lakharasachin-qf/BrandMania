@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_450sdp"
+    android:layout_marginBottom="130pt"
+    android:background="#F5F5F5">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:src="@drawable/bm_logo"
+        app:layout_constraintStart_toEndOf="@id/shapeCenterOne"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/shapeTopOne"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginTop="-40dp"
+        android:layout_marginEnd="@dimen/_40sdp"
+        android:background="@drawable/ic_asset_one"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/shapeTopTwo"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="-35dp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/ic_asset_one"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/shapeTopOne"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/roundShapeTopRight"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_marginTop="-20dp"
+        android:layout_marginEnd="-20dp"
+        android:background="@drawable/png_asset_one"
+        android:rotation="45"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/shapeCenterOne"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_marginStart="-120dp"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:background="@drawable/ic_asset_one"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:layout_marginEnd="-85dp"
+        android:layout_marginBottom="@dimen/_40sdp"
+        android:background="@drawable/ic_asset_one"
+        app:layout_constraintBottom_toTopOf="@+id/shapeBottom"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/shapeBottom"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginEnd="-40dp"
+        android:layout_marginBottom="-65dp"
+        android:background="@drawable/round_shape_white"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/addressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_7sdp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:maxWidth="@dimen/_90sdp"
+        android:text="512, Satva icon, Vastral Road, Vastral , Ahmedabad, Gujrat - 382350"
+        android:textSize="@dimen/_7sdp"
+        app:layout_constraintBottom_toTopOf="@id/phoneText"
+        app:layout_constraintStart_toStartOf="@id/logo" />
+
+    <TextView
+        android:id="@+id/phoneText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:fontFamily="@font/montserrat_regular"
+        android:maxWidth="@dimen/_90sdp"
+        android:text="+91 8200 0026 04\nbrandmania@gmail.com\nwww.queryfinder.com"
+        android:textSize="@dimen/_7sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/logo" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

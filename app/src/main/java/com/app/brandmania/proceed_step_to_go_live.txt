@@ -1,0 +1,10 @@
+
+
+1. Disable the screenshot
+2. Change version code in build and constant file
+3. Check for razorpay live mode
+4. Firebase id
+5. Check process of registration
+
+
+
