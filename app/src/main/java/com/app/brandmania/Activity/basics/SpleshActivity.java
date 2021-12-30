@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -48,21 +47,18 @@ import java.util.Map;
 
 
 public class SpleshActivity extends BaseActivity implements alertListenerCallback {
-    Activity act;
-    private ActivityMainBinding binding;
-    PreafManager preafManager;
-    AnimatorSet animatorSet1;
+
+     AnimatorSet animatorSet1;
     private String referrerCode = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act = this;
-        binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
+        com.app.brandmania.databinding.ActivityMainBinding binding = DataBindingUtil.setContentView(act, R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        preafManager = new PreafManager(act);
+
         binding.logo.setVisibility(View.VISIBLE);
         final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
         ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
@@ -72,26 +68,22 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         getInvitation();
 
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (preafManager.isLogin()) {
-                    Intent intent = new Intent(act, HomeActivity.class);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    finish();
-                } else {
-                    Intent intent = new Intent(act, LoginActivity.class);
-                    intent.putExtra("referrerCode", referrerCode);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    finish();
-                }
-
+        new Handler().postDelayed(() -> {
+            if (prefManager.isLogin()) {
+                Intent intent = new Intent(act, HomeActivity.class);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                finish();
+            } else {
+                Intent intent = new Intent(act, LoginActivity.class);
+                intent.putExtra("referrerCode", referrerCode);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                finish();
             }
         }, 1000);
 
@@ -112,7 +104,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                             try {
                                 referLink = referLink.substring(referLink.lastIndexOf("=") + 1);
                                 referrerCode = referLink.substring(referLink.lastIndexOf("=") + 1);
-                                preafManager.setSpleshReferrer(referrerCode);
+                                prefManager.setSpleshReferrer(referrerCode);
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -140,16 +132,16 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                     if (ResponseHandler.getBool(jsonObject, "status")) {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         if (jsonObject1.getString("is_completed").equals("0")) {
-                            preafManager.setIs_Registration(false);
+                            prefManager.setIs_Registration(false);
                             sessionCreat();
                         }
                         if (jsonObject1.getString("is_completed").equals("1")) {
-                            preafManager.setIS_Brand(false);
+                            prefManager.setIS_Brand(false);
                             sessionCreat();
                         }
                         if (jsonObject1.getString("is_completed").equals("2")) {
-                            preafManager.setIs_Registration(true);
-                            preafManager.setIS_Brand(true);
+                            prefManager.setIs_Registration(true);
+                            prefManager.setIS_Brand(true);
 
                             /*    "error_msg": [
             {
@@ -163,7 +155,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         ]*/
                             if (jsonObject1.has("error_msg")) {
                                 boolean appError = false;
-                                String msg="";
+                                String msg = "";
                                 JSONArray versionDataArray = jsonObject1.getJSONArray("error_msg");
                                 if (versionDataArray.length() != 0) {
                                     for (int i = 0; i < versionDataArray.length(); i++) {
@@ -171,17 +163,17 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                                         int currentVERSION = Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".", ""));
 
                                         if (apiVERSION == currentVERSION) {
-                                            appError=true;
+                                            appError = true;
                                             msg = versionDataArray.getJSONObject(i).getString("message");
                                             break;
                                         }
                                     }
                                 }
                                 Intent i;
-                                if (appError){
+                                if (appError) {
                                     i = new Intent(act, LoadingHomeActivity.class);
-                                    i.putExtra("msg",msg);
-                                }else{
+                                    i.putExtra("msg", msg);
+                                } else {
                                     i = new Intent(act, HomeActivity.class);
                                 }
                                 startActivity(i);
@@ -223,7 +215,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
+                params.put("X-Authorization", "Bearer " + prefManager.getUserToken());
                 return params;
             }
 
@@ -245,9 +237,9 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
     private void sessionCreat() {
 
-        preafManager = new PreafManager(act);
-        if (preafManager.getIs_Registration()) {
-            if (preafManager.getIS_Brand()) {
+        prefManager = new PreafManager(act);
+        if (prefManager.getIs_Registration()) {
+            if (prefManager.getIS_Brand()) {
                 Intent i = new Intent(act, HomeActivity.class);
                 i.addCategory(Intent.CATEGORY_HOME);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -278,7 +270,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
     @Override
     public void alertListenerClick() {
-        preafManager.Logout();
+        prefManager.Logout();
         Intent intent = new Intent(act, LoginActivity.class);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

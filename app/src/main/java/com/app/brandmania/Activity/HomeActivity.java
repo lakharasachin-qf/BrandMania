@@ -323,22 +323,16 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             appUpdateManager
                     .getAppUpdateInfo()
                     .addOnSuccessListener(
-                            new OnSuccessListener<AppUpdateInfo>() {
-                                @Override
-                                public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                                    if (appUpdateInfo.updateAvailability()
-                                            == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                                        // If an in-app update is already running, resume the update.
-                                        try {
-                                            appUpdateManager.startUpdateFlowForResult(
-                                                    appUpdateInfo,
-                                                    IMMEDIATE,
-                                                    act,
-                                                    Constant.APP_UPDATES);
-                                        } catch (IntentSender.SendIntentException e) {
-                                            e.printStackTrace();
-                                        }
+                            appUpdateInfo -> {
+                                if (appUpdateInfo.updateAvailability()
+                                        == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+
+                                    try {
+                                        appUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE, act, Constant.APP_UPDATES);
+                                    } catch (IntentSender.SendIntentException e) {
+                                        e.printStackTrace();
                                     }
+
                                 }
                             });
         }

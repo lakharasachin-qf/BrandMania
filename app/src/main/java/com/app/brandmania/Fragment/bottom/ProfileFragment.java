@@ -135,7 +135,6 @@ public class ProfileFragment extends BaseFragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         });
         binding.reportbugsLayout.setOnClickListener(view -> HELPER.ROUTE(act, AddReportAndBug.class));
         binding.appVersionTxt.setText("App Version " + Constant.F_VERSION);

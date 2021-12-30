@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -17,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.BrandAdapter;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
@@ -47,25 +45,15 @@ public class ViewNotificationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_notification);
-        binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        binding.BackButtonMember.setOnClickListener(v -> onBackPressed());
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorsecond,
                 R.color.colorthird);
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                startAnimation();
-                getNotificationList();
-
-            }
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            startAnimation();
+            getNotificationList();
         });
         getNotificationList();
-
     }
 
     private void startAnimation() {
@@ -75,7 +63,7 @@ public class ViewNotificationActivity extends BaseActivity {
         binding.emptyStateLayout.setVisibility(View.GONE);
     }
 
-    private void setNotificationAdpters() {
+    private void setNotificationAdapters() {
 
         brandAdapter = new BrandAdapter(multiListItems, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
@@ -99,7 +87,7 @@ public class ViewNotificationActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     multiListItems = ResponseHandler.HandleGetNotificationList(jsonObject);
                     if (multiListItems != null && multiListItems.size() != 0) {
-                        setNotificationAdpters();
+                        setNotificationAdapters();
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.noticeListRecycler.setVisibility(View.VISIBLE);

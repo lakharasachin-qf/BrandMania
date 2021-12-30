@@ -90,8 +90,10 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_add_brandd.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_custom_view_all.xml" value="0.2986111111111111" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_download_detail.xml" value="0.21217105263157895" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_edit.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_edit_selected_images.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_favorite_details.xml" value="0.21217105263157895" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_notification.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_otp_screen.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_pdf.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/activity_update_band_list.xml" value="0.21217105263157895" />
@@ -119,6 +121,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_footer_three.xml" value="0.9" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_footer_two.xml" value="0.67" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_layout_daily_images.xml" value="0.17" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_layout_getbrandlist.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_layout_home.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_layout_viewallframe.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/item_layout_viewallimage.xml" value="0.21217105263157895" />
@@ -157,10 +160,11 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/layout_for_load_ten.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/layout_for_load_three.xml" value="0.21217105263157895" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/layout/layout_for_load_two.xml" value="0.21217105263157895" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.225" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -120,7 +120,9 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 VerificationOtp(OtpString.trim(), NumberShow);
             }
         });
+
         String Message = "Didn't received OTP? <u><b>RESEND</b></u></font>";
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             binding.ResendText.setText(Html.fromHtml(Message, Html.FROM_HTML_MODE_COMPACT));
         } else {
@@ -168,23 +170,20 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 }
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                isLoading = false;
-                Utility.dismissProgress();
-                if (error instanceof TimeoutError) {
-                    //     Toast.makeText(act, "Time out error", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof AuthFailureError) {
-                    // Toast.makeText(act, "AuthFailureError", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ServerError) {
-                    // Toast.makeText(act, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
-                } else if (error instanceof ParseError) {
-                    //  Toast.makeText(act, "ParseError", Toast.LENGTH_SHORT).show();
-                }
-                onBackPressed();
-                error.printStackTrace();
+        }, error -> {
+            isLoading = false;
+            Utility.dismissProgress();
+            if (error instanceof TimeoutError) {
+                //     Toast.makeText(act, "Time out error", Toast.LENGTH_SHORT).show();
+            } else if (error instanceof AuthFailureError) {
+                // Toast.makeText(act, "AuthFailureError", Toast.LENGTH_SHORT).show();
+            } else if (error instanceof ServerError) {
+                // Toast.makeText(act, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if (error instanceof ParseError) {
+                //  Toast.makeText(act, "ParseError", Toast.LENGTH_SHORT).show();
             }
+            onBackPressed();
+            error.printStackTrace();
         }) {
             /**
              * Passing some request headers*

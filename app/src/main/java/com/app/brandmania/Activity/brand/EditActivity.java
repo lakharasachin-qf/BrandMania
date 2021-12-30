@@ -33,12 +33,7 @@ public class EditActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(act, R.layout.activity_edit);
         preafManager = new PreafManager(this);
 
-        binding.BackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        binding.BackButton.setOnClickListener(v -> onBackPressed());
 
         CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
@@ -70,19 +65,10 @@ public class EditActivity extends BaseActivity {
     void animateButton() {
         final Animation myAnim = AnimationUtils.loadAnimation(act, R.anim.bounce);
         double animationDuration = 4 * 1000;
-        //myAnim.setDuration((long)animationDuration);
         myAnim.setRepeatCount(Animation.INFINITE);
-
-        // Use custom animation interpolator to achieve the bounce effect
         MyBounceInterpolator interpolator = new MyBounceInterpolator(1, 10);
-
         myAnim.setInterpolator(interpolator);
-
-        // Animate the button
         binding.continueBtn.startAnimation(myAnim);
-
-
-        // Run button animation again after it finished
         myAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation arg0) {

@@ -2,34 +2,23 @@ package com.app.brandmania.Activity.packages;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
 import com.app.brandmania.Adapter.PackageRecyclerAdapter;
-import com.app.brandmania.Adapter.SliderAdapter;
 import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MySingleton;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Model.BrandListItem;
@@ -98,18 +87,10 @@ public class PackageActivity extends BaseActivity {
     void animateButton() {
         final Animation myAnim = AnimationUtils.loadAnimation(act, R.anim.bounce_outer);
         double animationDuration = 4 * 1000;
-        //myAnim.setDuration((long)animationDuration);
         myAnim.setRepeatCount(Animation.INFINITE);
-
-        // Use custom animation interpolator to achieve the bounce effect
         MyBounceInterpolator interpolator = new MyBounceInterpolator(1, 10);
-
         myAnim.setInterpolator(interpolator);
-
-        // Animate the button
         binding.addBrand.startAnimation(myAnim);
-
-        // Run button animation again after it finished
         myAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation arg0) {
@@ -130,11 +111,11 @@ public class PackageActivity extends BaseActivity {
         binding.viewPagerImageSlider.setVisibility(View.GONE);
         binding.recyclerList.setVisibility(View.VISIBLE);
         Collections.reverse(sliderItems);
-        PackageRecyclerAdapter dasboardAddaptor = new PackageRecyclerAdapter(sliderItems, act, selectedBrand);
+        PackageRecyclerAdapter dashboardAdaptor = new PackageRecyclerAdapter(sliderItems, act, selectedBrand);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
         binding.recyclerList.setHasFixedSize(true);
         binding.recyclerList.setLayoutManager(mLayoutManager);
-        binding.recyclerList.setAdapter(dasboardAddaptor);
+        binding.recyclerList.setAdapter(dashboardAdaptor);
     }
 
     private void GetPackageList() {

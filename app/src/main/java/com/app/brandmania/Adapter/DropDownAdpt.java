@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,7 +56,7 @@ public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHold
         CommonListModel listModel = arrayList.get(position);
 
         Glide.with(act).load(R.drawable.placeholder).placeholder(R.drawable.placeholder).into((holder.imageView));
-      //  holder.radioButton.setChecked(checkedPosition == position);
+        //  holder.radioButton.setChecked(checkedPosition == position);
         holder.title.setText(convertFirstUpper(listModel.getName()));
 
 //        if (position == checkedPosition) {
@@ -72,7 +71,7 @@ public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // holder.radioButton.setChecked(true);
+                // holder.radioButton.setChecked(true);
                 checkedPosition = position;
                 notifyDataSetChanged();
                 if (fragmentSelection != null) {
