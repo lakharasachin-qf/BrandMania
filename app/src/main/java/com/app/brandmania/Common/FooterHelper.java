@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ActivityLetterHeadBinding;
 import com.app.brandmania.databinding.LayoutFooterEightteenBinding;
 import com.app.brandmania.databinding.LayoutFooterElevenBinding;
 import com.app.brandmania.databinding.LayoutFooterFifteenBinding;
@@ -140,6 +141,7 @@ public class FooterHelper {
 
         }
     }
+
 
     //For Italic
     public static void makeItalicForOne(LayoutForLoadOneBinding oneBinding, boolean italic) {
@@ -349,6 +351,75 @@ public class FooterHelper {
                 FooterHelper.makeBoldFor20(layoutModelClass.getTwentyBinding(), false);
             }
         }
+
+    }
+
+    //LatterHead Apply Bold On Text
+    public static void baseForBoldForLatterHead(boolean bold, int footerLayout, ActivityLetterHeadBinding binding) {
+        if (bold) {
+            if (footerLayout == 1) {
+                FooterHelper.makeBoldInText(binding, true);
+            }
+        } else {
+            if (footerLayout == 1) {
+                FooterHelper.makeBoldInText(binding, false);
+            }
+        }
+
+    }
+
+    public static void makeBoldInText(ActivityLetterHeadBinding binding, boolean bold) {
+        Utility.setBold(binding.phoneLabel, bold);
+        Utility.setBold(binding.phoneText, bold);
+        Utility.setBold(binding.webLabel, bold);
+        Utility.setBold(binding.webText, bold);
+        Utility.setBold(binding.addressLabel, bold);
+        Utility.setBold(binding.addressText, bold);
+        Utility.setBold(binding.editingBox, bold);
+
+    }
+
+    //LatterHead Apply Italic On Text
+    public static void baseForItalicInText(boolean italic, int footerLayout, ActivityLetterHeadBinding binding) {
+        if (italic) {
+            if (footerLayout == 1) {
+                FooterHelper.makeItalicForOne(binding, true);
+            }
+        } else {
+            if (footerLayout == 1) {
+                FooterHelper.makeItalicForOne(binding, false);
+            }
+        }
+    }
+
+    public static void makeItalicForOne(ActivityLetterHeadBinding binding, boolean italic) {
+
+        Utility.setItalicText(binding.phoneLabel, italic);
+        Utility.setItalicText(binding.phoneText, italic);
+        Utility.setItalicText(binding.webLabel, italic);
+        Utility.setItalicText(binding.webText, italic);
+        Utility.setItalicText(binding.addressLabel, italic);
+        Utility.setItalicText(binding.addressText, italic);
+        Utility.setItalicText(binding.editingBox, italic);
+
+    }
+
+
+    public static void baseForFontChangeOnLatterHead(Activity act, int footerLayout, String font, ActivityLetterHeadBinding binding) {
+        if (footerLayout == 1) {
+            FooterHelper.setTypographyForLayoutOne(binding, act, font);
+        }
+    }
+
+    public static void setTypographyForLayoutOne(ActivityLetterHeadBinding binding, Activity act, String font) {
+        Typeface custom_font = Typeface.createFromAsset(act.getAssets(), font);
+        binding.phoneLabel.setTypeface(custom_font);
+        binding.phoneText.setTypeface(custom_font);
+        binding.webLabel.setTypeface(custom_font);
+        binding.webText.setTypeface(custom_font);
+        binding.addressLabel.setTypeface(custom_font);
+        binding.addressText.setTypeface(custom_font);
+        binding.editingBox.setTypeface(custom_font);
 
     }
 
@@ -1353,10 +1424,10 @@ public class FooterHelper {
             if (!activeBrand.getEmail().isEmpty()) {
                 fifteenBinding.locationPin.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_outline_mail_24));
                 fifteenBinding.address.setText(activeBrand.getEmail());
-            }else{
+            } else {
                 if (!activeBrand.getPhonenumber().isEmpty()) {
                     fifteenBinding.locationPin.setImageDrawable(ContextCompat.getDrawable(act, R.drawable.ic_phone));
-                    fifteenBinding.address.setText("Call us : "+activeBrand.getPhonenumber());
+                    fifteenBinding.address.setText("Call us : " + activeBrand.getPhonenumber());
                 }
             }
         }
@@ -1391,7 +1462,7 @@ public class FooterHelper {
         }
 
         if (!activeBrand.getPhonenumber().isEmpty()) {
-            tweloneBinding.mobileNo.setText("Contact us : "+activeBrand.getPhonenumber());
+            tweloneBinding.mobileNo.setText("Contact us : " + activeBrand.getPhonenumber());
         } else {
             tweloneBinding.mobileNo.setVisibility(View.GONE);
         }

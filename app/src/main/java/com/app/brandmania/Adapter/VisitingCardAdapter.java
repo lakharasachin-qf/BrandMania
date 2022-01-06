@@ -127,9 +127,7 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                         }
                     });
                     if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
-
                         ((CardHolderOne) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
-
                     }
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderOne) holder).binding.logo);
                     ((CardHolderOne) holder).binding.brandName.setText(activeBrand.getName());

@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        tools:context=".LetterHead.LetterHeadActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
+                android:id="@+id/main_linearlayout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:elevation="0dp">
+
+                <ImageView
+                    android:id="@+id/BackButton"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_left_arrow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/BackButton"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="Latter Head Design"
+                    android:textColor="@color/colorNavText"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
+            android:id="@+id/MainLatterHeadLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_350sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/latterHeadLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/latterhead_background_outline">
+
+                <ImageView
+                    android:id="@+id/mainImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:layout_marginEnd="@dimen/_1sdp"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/diwali_offer"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:src="@drawable/bm_logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/dividerOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/logo" />
+
+                <View
+                    android:id="@+id/dividerTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginStart="30pt"
+                    android:layout_marginEnd="30pt"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/dividerOne"
+                    app:layout_constraintTop_toBottomOf="@id/logo"
+                    app:layout_constraintTop_toTopOf="@id/dividerOne" />
+
+
+                <View
+                    android:id="@+id/dividerThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/logo" />
+
+                <View
+                    android:id="@+id/dividerFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginStart="30pt"
+                    android:layout_marginEnd="30pt"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/dividerThree"
+                    app:layout_constraintTop_toBottomOf="@id/logo"
+                    app:layout_constraintTop_toTopOf="@id/dividerThree" />
+
+
+                <View
+                    android:id="@+id/dividerSeven"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toTopOf="@id/dividerFive"
+                    app:layout_constraintEnd_toStartOf="@id/dividerSix"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/phoneLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxWidth="@dimen/_90sdp"
+                    android:minWidth="@dimen/_90sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/webLayout">
+
+                    <TextView
+                        android:id="@+id/phoneLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Phone No."
+                        android:textSize="@dimen/_7sdp" />
+
+                    <TextView
+                        android:id="@+id/phoneText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:maxWidth="@dimen/_90sdp"
+                        android:text="+91 8200 002604"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_7sdp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/webLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:maxWidth="@dimen/_90sdp"
+                    android:minWidth="@dimen/_90sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@id/dividerSeven"
+                    app:layout_constraintEnd_toStartOf="@id/addressLayout"
+                    app:layout_constraintStart_toEndOf="@id/phoneLayout">
+
+                    <TextView
+                        android:id="@+id/webLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Web"
+                        android:textSize="@dimen/_7sdp" />
+
+                    <TextView
+                        android:id="@+id/webText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:maxWidth="@dimen/_90sdp"
+                        android:text="info@gmail.com\nwww.brandmania.com"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_7sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/addressLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxWidth="@dimen/_90sdp"
+                    android:minWidth="@dimen/_90sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/webLayout">
+
+                    <TextView
+                        android:id="@+id/addressLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Address"
+                        android:textSize="@dimen/_7sdp" />
+
+                    <TextView
+                        android:id="@+id/addressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:maxWidth="@dimen/_90sdp"
+                        android:maxLines="3"
+                        android:text="512, Satva complex, Vastral, Ahmedabad, Gujarat"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_7sdp" />
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/dividerEight"
+                    android:layout_width="2dp"
+                    android:layout_height="0dp"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/webLayout"
+                    app:layout_constraintEnd_toStartOf="@id/webLayout"
+                    app:layout_constraintStart_toEndOf="@id/phoneLayout"
+                    app:layout_constraintTop_toTopOf="@id/webLayout" />
+
+                <View
+                    android:id="@+id/dividerNine"
+                    android:layout_width="2dp"
+                    android:layout_height="0dp"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/webLayout"
+                    app:layout_constraintEnd_toStartOf="@id/addressLayout"
+                    app:layout_constraintStart_toEndOf="@id/webLayout"
+                    app:layout_constraintTop_toTopOf="@id/webLayout" />
+
+
+                <View
+                    android:id="@+id/dividerFive"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/dividerSix"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:id="@+id/dividerSix"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@color/colorthird"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/dividerFive" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <ImageView
+                android:id="@+id/mainImages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/diwali_offer"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/framesViewLayout"
+            android:layout_width="match_parent"
+            android:elevation="@dimen/_10sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/mainEditorLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/textFrames"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/inter_bold"
+                android:text="Frames"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/framesRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textFrames"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/mainEditorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:animateLayoutChanges="true"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <RelativeLayout
+                android:id="@+id/framesLayout"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp">
+
+                <ImageView
+
+                    android:id="@+id/framesImg"
+                    style="@style/LatterHeadDesignForImage"
+                    android:src="@drawable/ic_frames"
+                    app:tint="@color/white" />
+
+                <TextView
+                    style="@style/LatterHeadDesignForText"
+                    android:layout_below="@+id/framesImg"
+                    android:text="Frames" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/footersLayout"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/footersImg"
+                    style="@style/LatterHeadDesignForImage"
+                    android:src="@drawable/ic_footer"
+                    app:tint="@color/white" />
+
+                <TextView
+                    style="@style/LatterHeadDesignForText"
+                    android:layout_below="@+id/footersImg"
+                    android:text="Footers" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/chooseCameraIntent"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/imagesImg"
+                    style="@style/LatterHeadDesignForImage"
+                    android:src="@drawable/ic_images"
+                    app:tint="@color/white" />
+
+                <TextView
+                    style="@style/LatterHeadDesignForText"
+                    android:layout_below="@+id/imagesImg"
+                    android:text="Camera" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/textPropertiesLayoutShow"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/textsImg"
+                    style="@style/LatterHeadDesignForImage"
+                    android:src="@drawable/ic_text"
+                    app:tint="@color/white" />
+
+                <TextView
+                    style="@style/LatterHeadDesignForText"
+                    android:layout_below="@+id/textsImg"
+                    android:text="Text" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/backgroundLayoutShow"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/backgroundImg"
+                    style="@style/LatterHeadDesignForImage"
+                    android:src="@drawable/ic_background"
+                    app:tint="@color/white" />
+
+                <TextView
+                    style="@style/LatterHeadDesignForText"
+                    android:layout_below="@+id/backgroundImg"
+                    android:text="Background" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/cancelTextProperties"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/ic_editor_cancel"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/textPropertiesLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/black" />
+
+        <RelativeLayout
+            android:id="@+id/textPropertiesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_90sdp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/inter_bold"
+                android:gravity="center"
+                android:text="Text Properties"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
+
+
+            <LinearLayout
+                android:id="@+id/mainTextLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp">
+
+                <RelativeLayout
+                    android:id="@+id/addText"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/editImg"
+                        style="@style/LatterHeadDesignForEditImage"
+                        android:src="@drawable/ic_edit" />
+
+                    <TextView
+                        style="@style/LatterHeadDesignForText"
+                        android:layout_below="@+id/editImg"
+                        android:text="Edit" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/setColorOnLatterHeadCard"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/colourImg"
+                        style="@style/LatterHeadDesignForEditImage"
+                        android:src="@drawable/ic_color" />
+
+                    <TextView
+                        style="@style/LatterHeadDesignForText"
+                        android:layout_below="@+id/colourImg"
+                        android:text="Color" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/fontLayout"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/fontsImg"
+                        style="@style/LatterHeadDesignForEditImage"
+                        android:src="@drawable/ic_text" />
+
+                    <TextView
+                        style="@style/LatterHeadDesignForText"
+                        android:layout_below="@+id/fontsImg"
+                        android:text="Fonts" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/textAlignmentLayout"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/alignImg"
+                        style="@style/LatterHeadDesignForEditImage"
+                        android:src="@drawable/ic_centered_align" />
+
+                    <TextView
+                        style="@style/LatterHeadDesignForText"
+                        android:layout_below="@+id/alignImg"
+                        android:text="Align" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/setBoldLayout"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/boldImg"
+                        style="@style/LatterHeadDesignForEditImage"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic_outline_format_bold_24" />
+
+                    <TextView
+                        style="@style/LatterHeadDesignForText"
+                        android:layout_below="@+id/boldImg"
+                        android:text="Bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/setItalicLayout"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/italicImg"
+                        style="@style/LatterHeadDesignForEditImage"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic_baseline_format_italic_24" />
+
+                    <TextView
+                        style="@style/LatterHeadDesignForText"
+                        android:layout_below="@+id/italicImg"
+                        android:text="Italic" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/deleteLayout"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/deleteImg"
+                        style="@style/LatterHeadDesignForEditImage"
+                        android:src="@drawable/ic_delete" />
+
+                    <TextView
+                        style="@style/LatterHeadDesignForText"
+                        android:layout_below="@+id/deleteImg"
+                        android:text="Delete" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fontListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="-40dp"
+            android:background="@drawable/font_shap"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/textPropertiesLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fontRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/textEditorView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_400sdp"
+            android:visibility="gone"
+            android:elevation="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
+
+            <com.github.mmin18.widget.RealtimeBlurView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:realtimeBlurRadius="10dp"
+
+                app:realtimeOverlayColor="#88959595" />
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/textAlignment"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@android:color/transparent"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/ic_centered_align"
+                    app:tint="@color/white" />
+
+                <Button
+                    android:id="@+id/done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/montserrat_extrabold"
+                    android:text="Done"
+                    android:textSize="@dimen/_12sdp" />
+
+                <EditText
+                    android:id="@+id/editingBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/done"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:hint="Enter Your\nText" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -4,19 +4,18 @@ import android.net.Uri;
 
 import java.util.ArrayList;
 
-public class ImageList   implements Comparable<ImageList> {
+public class ImageList implements Comparable<ImageList> {
     public static final int LAYOUT_IMAGE_CATEGORY = 1;
     public static final int LAYOUT_IMAGE_CATEGORY_BY_ID = 2;
     public static final int LAYOUT_FRAME = 3;
     public static final int LAYOUT_FRAME_CATEGORY = 4;
-    public static final int LAYOUT_FRAME_CATEGORY_BY_ID=5;
-    public static final int LAYOUT_DAILY_IMAGES=6;
-    public static final int LAYOUT_DAILY_ROUND_IMAGES=7;
+    public static final int LAYOUT_FRAME_CATEGORY_BY_ID = 5;
+    public static final int LAYOUT_DAILY_IMAGES = 6;
+    public static final int LAYOUT_DAILY_ROUND_IMAGES = 7;
     public static final int LAYOUT_LOADING = 30;
     public static final int IMAGE = 0;
     public static final int GIF = 1;
     public static final int VIDEO = 2;
-
 
 
     private int layoutType;
@@ -30,6 +29,36 @@ public class ImageList   implements Comparable<ImageList> {
     private int index;
     private int imageType;
 
+    private ArrayList<String> languageData;
+
+    public ArrayList<String> getLanguageData() {
+        return languageData;
+    }
+
+    public void setLanguageData(ArrayList<String> languageData) {
+        this.languageData = languageData;
+    }
+
+    private boolean isActive = false;
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    boolean isSelected = false;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public int getIndex() {
         return index;
     }
@@ -41,7 +70,7 @@ public class ImageList   implements Comparable<ImageList> {
 
     private String frame1;
     private String frame1Id;
-    private boolean isCustom=true;
+    private boolean isCustom = true;
     private boolean isImageFree;
     private String brandId;
     private Links links;
@@ -147,18 +176,23 @@ public class ImageList   implements Comparable<ImageList> {
 
     public ImageList() {
     }
+
     public static int getLayoutImageCategory() {
         return LAYOUT_IMAGE_CATEGORY;
     }
+
     public static int getLayoutImageCategoryById() {
         return LAYOUT_IMAGE_CATEGORY_BY_ID;
     }
+
     public static int getLayoutFrame() {
         return LAYOUT_FRAME;
     }
+
     public static int getLayoutFrameCategory() {
         return LAYOUT_FRAME_CATEGORY;
     }
+
     public static int getLayoutFrameByIdCategory() {
         return LAYOUT_FRAME_CATEGORY_BY_ID;
     }
@@ -166,8 +200,6 @@ public class ImageList   implements Comparable<ImageList> {
     public static int getLayoutLoading() {
         return LAYOUT_LOADING;
     }
-
-
 
 
     public int getLayoutType() {
@@ -268,8 +300,8 @@ public class ImageList   implements Comparable<ImageList> {
 
     @Override
     public int compareTo(ImageList o) {
-        int compareage= ((ImageList)o).getImageType();
+        int compareage = ((ImageList) o).getImageType();
         //  For Ascending order
-        return compareage - this.getImageType() ;
+        return compareage - this.getImageType();
     }
 }

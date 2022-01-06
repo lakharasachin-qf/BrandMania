@@ -25,30 +25,21 @@
 
 
             <ImageView
-                android:scaleType="fitXY"
                 android:id="@+id/downloadlistImage"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_centerVertical="true"
-              
-                ></ImageView>
+                android:scaleType="fitXY" />
 
             <ImageView
-                android:scaleType="fitXY"
                 android:id="@+id/downloadlistFrame"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_centerVertical="true"
-
-                >
-
-
-            </ImageView>
-
+                android:scaleType="fitXY" />
 
             <View
                 android:id="@+id/line"
-
                 android:layout_width="3dp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="center"
@@ -57,42 +48,33 @@
                 android:layout_toEndOf="@+id/downloadlistImage"
                 android:background="@color/colorPrimary" />
 
-
-
-
-
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:layout_toEndOf="@+id/line"
-                    android:id="@+id/downloadListName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/poppins_medium"
-
-                    android:maxLines="1"
-                    android:text="Student Name"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+            <TextView
+                android:id="@+id/downloadListName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_toStartOf="@+id/shareIcon"
+                android:layout_toEndOf="@+id/line"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_medium"
+                android:maxLines="1"
+                android:text="Student Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
             <ImageView
-                android:visibility="visible"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:layout_alignParentEnd="true"
-                android:scaleType="fitXY"
                 android:id="@+id/shareIcon"
-                android:src="@drawable/ic_baseline_shareprimary"
-                android:layout_width="@dimen/_18sdp"
-                android:layout_height="@dimen/_18sdp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-
-                >
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_baseline_shareprimary"
+                android:visibility="visible">
 
 
             </ImageView>
-
-
 
 
         </RelativeLayout>

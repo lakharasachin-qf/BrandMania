@@ -26,9 +26,8 @@ import com.app.brandmania.databinding.FooterTabBinding;
 import java.util.ArrayList;
 
 public class FooterTab extends BaseFragment {
-     private FooterTabBinding binding;
+    private FooterTabBinding binding;
     ArrayList<FooterModel> footerModels = new ArrayList<>();
-
 
 
     @Override
@@ -44,7 +43,6 @@ public class FooterTab extends BaseFragment {
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
-
 
         setAdapter();
         return binding.getRoot();
@@ -125,7 +123,7 @@ public class FooterTab extends BaseFragment {
         //premium
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_ONE);
-       // model.setEnable(FooterRules._ONE(preafManager.getActiveBrand()));
+        // model.setEnable(FooterRules._ONE(preafManager.getActiveBrand()));
 //        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
 //            model.setFree(true);
 //        }
@@ -134,7 +132,7 @@ public class FooterTab extends BaseFragment {
 
         model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_TWO);
-   //     model.setEnable(FooterRules._ONE(preafManager.getActiveBrand()));
+        //     model.setEnable(FooterRules._ONE(preafManager.getActiveBrand()));
 //        if (Utility.isUserPaid(preafManager.getActiveBrand())) {
 //            model.setFree(true);
 //        }

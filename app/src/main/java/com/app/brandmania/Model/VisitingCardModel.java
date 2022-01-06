@@ -1,5 +1,6 @@
 package com.app.brandmania.Model;
 
+import com.app.brandmania.databinding.DesignLetterHeadLayoutOneBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardFifthBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardFourthBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
@@ -14,6 +15,7 @@ public class VisitingCardModel {
     public static final int LAYOUT_THREE = 2;
     public static final int LAYOUT_FOUR = 3;
     public static final int LAYOUT_FIVE = 4;
+    public static final int LAYOUT_SIX = 5;
     int layoutType;
 
     public boolean isFree() {
@@ -32,6 +34,16 @@ public class VisitingCardModel {
     private LayoutDigitalCardThreeBinding threeBinding;
     private LayoutDigitalCardFourthBinding fourBinding;
     private LayoutDigitalCardFifthBinding fiveBinding;
+
+    public DesignLetterHeadLayoutOneBinding getLatterHeadBinding() {
+        return latterHeadBinding;
+    }
+
+    public void setLatterHeadBinding(DesignLetterHeadLayoutOneBinding latterHeadBinding) {
+        this.latterHeadBinding = latterHeadBinding;
+    }
+
+    private DesignLetterHeadLayoutOneBinding latterHeadBinding;
 
 
     public LayoutDigitalCardFourthBinding getFourBinding() {

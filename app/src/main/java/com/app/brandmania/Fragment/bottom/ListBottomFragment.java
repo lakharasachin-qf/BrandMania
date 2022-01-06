@@ -100,7 +100,7 @@ public class ListBottomFragment extends BottomSheetDialogFragment {
             binding.recyclerList.setLayoutManager(mLayoutManager);
             binding.recyclerList.setItemAnimator(new DefaultItemAnimator());
             binding.recyclerList.setAdapter(adpt);
-            binding.recyclerList.setNestedScrollingEnabled(false);
+            binding.recyclerList.setNestedScrollingEnabled(true);
             binding.searchEdt.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

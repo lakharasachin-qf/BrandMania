@@ -15,6 +15,8 @@ import com.app.brandmania.Model.IconsColorsModel;
 import com.app.brandmania.Model.TextColorsModel;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.ActivityLetterHeadBinding;
+import com.app.brandmania.databinding.DesignLetterHeadLayoutOneBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardFifthBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardFourthBinding;
 import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
@@ -956,6 +958,10 @@ public class VisitingCardHelper {
         }
     }
 
+    public static void applyTextColorOnLatterHead(VisitingCardModel model, int colorCode, ActivityLetterHeadBinding binding) {
+        applyTextColorOnLatterHeadOne(model, colorCode, binding);
+    }
+
     public static void applyIconsColor(VisitingCardModel model, int colorCode, IconsColorsModel colorsModel) {
         if (model.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
             applyIconsColorCardOne(model, colorCode, colorsModel);
@@ -986,6 +992,19 @@ public class VisitingCardHelper {
         }
 
     }
+
+    public static void applyTextColorOnLatterHeadOne(VisitingCardModel model, int color, ActivityLetterHeadBinding binding) {
+
+        binding.phoneLabel.setTextColor(ColorStateList.valueOf(color));
+        binding.phoneText.setTextColor(ColorStateList.valueOf(color));
+        binding.webLabel.setTextColor(ColorStateList.valueOf(color));
+        binding.webText.setTextColor(ColorStateList.valueOf(color));
+        binding.addressLabel.setTextColor(ColorStateList.valueOf(color));
+        binding.addressText.setTextColor(ColorStateList.valueOf(color));
+        binding.editingBox.setTextColor(ColorStateList.valueOf(color));
+
+    }
+
 
     public static void applyTextColorCardOne(VisitingCardModel model, int color, TextColorsModel colorsModel) {
         if (colorsModel.getObjectPosition() == 0) {

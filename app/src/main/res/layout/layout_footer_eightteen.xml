@@ -67,8 +67,8 @@
         <ImageView
             android:id="@+id/callIcon"
             android:layout_marginStart="@dimen/_6sdp"
-            android:layout_width="@dimen/_10sdp"
-            android:layout_height="@dimen/_10sdp"
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_8sdp"
             android:src="@drawable/ic_phone"
             app:layout_constraintBottom_toBottomOf="@id/mobileNo"
             app:layout_constraintStart_toStartOf="@+id/contentBackground"

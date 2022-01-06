@@ -50,9 +50,10 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
         this.onShareImageClick = onShareImageClick;
     }
 
-    public  interface  onShareImageClick{
-        public void onShareClick(DownloadFavoriteItemList favoriteItemList,int position);
+    public interface onShareImageClick {
+        public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position);
     }
+
     int layoutType;
 
     public int getLayoutType() {
@@ -117,28 +118,28 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_DOWNLOAD:
-                ((DownloadHolder) holder).binding.downloadListName.setText(downloadFavoriteItemLists.get(position).getName());
-                Glide.with(context)
-                        .load(downloadFavoriteItemLists.get(position).getImage())
-                        .placeholder(R.drawable.placeholder)
-                        .into(((DownloadHolder) holder).binding.downloadlistImage);
-
-                if (!downloadFavoriteItemLists.get(position).isCustom()) {
+                    ((DownloadHolder) holder).binding.downloadListName.setText(downloadFavoriteItemLists.get(position).getName());
                     Glide.with(context)
-                            .load(downloadFavoriteItemLists.get(position).getFrame())
-                            .into(((DownloadHolder) holder).binding.downloadlistFrame);
+                            .load(downloadFavoriteItemLists.get(position).getImage())
+                            .placeholder(R.drawable.placeholder)
+                            .into(((DownloadHolder) holder).binding.downloadlistImage);
 
-                }
+                    if (!downloadFavoriteItemLists.get(position).isCustom()) {
+                        Glide.with(context)
+                                .load(downloadFavoriteItemLists.get(position).getFrame())
+                                .into(((DownloadHolder) holder).binding.downloadlistFrame);
+
+                    }
                     ((DownloadHolder) holder).binding.shareIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onShareImageClick.onShareClick(model,position);
+                            onShareImageClick.onShareClick(model, position);
 
                         }
                     });
 
 
-                break;
+                    break;
                 case LAYOUT_DOWNLOADGRID:
                     Glide.with(context)
                             .load(downloadFavoriteItemLists.get(position).getImage())
@@ -147,32 +148,30 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
                     Glide.with(context)
                             .load(downloadFavoriteItemLists.get(position).getFrame())
                             .into(((DownloadHolderGrid) holder).binding.frame);
-                    ((DownloadHolderGrid)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    ((DownloadHolderGrid) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             ((FrameCateItemeInterFace) context).FrameCateonItemSelection(position, model);
                         }
                     });
                     break;
-                    case LAYOUT_FAVOURIT:
-                            ((DownloadHolder) holder).binding.downloadListName.setText(downloadFavoriteItemLists.get(position).getName());
-                            Glide.with(context)
-                                    .load(downloadFavoriteItemLists.get(position).getImage())
-                                    .placeholder(R.drawable.placeholder)
-                                    .into(((DownloadHolder) holder).binding.downloadlistImage);
-                            Glide.with(context)
-                                    .load(downloadFavoriteItemLists.get(position).getFrame())
-                                    .into(((DownloadHolder) holder).binding.downloadlistFrame);
+                case LAYOUT_FAVOURIT:
+                    ((DownloadHolder) holder).binding.downloadListName.setText(downloadFavoriteItemLists.get(position).getName());
+                    Glide.with(context)
+                            .load(downloadFavoriteItemLists.get(position).getImage())
+                            .placeholder(R.drawable.placeholder)
+                            .into(((DownloadHolder) holder).binding.downloadlistImage);
+                    Glide.with(context)
+                            .load(downloadFavoriteItemLists.get(position).getFrame())
+                            .into(((DownloadHolder) holder).binding.downloadlistFrame);
 
-                        ((DownloadHolder) holder).binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                onShareImageClick.onShareClick(model,position);
-                                // activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                            }
-                        });
-
-
+                    ((DownloadHolder) holder).binding.shareIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onShareImageClick.onShareClick(model, position);
+                            // activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        }
+                    });
 
 
 //                            ((DownloadHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
@@ -189,47 +188,46 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
 //                                    //  activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 //                                }
 //                            });
-                            break;
-                        case LAYOUT_FAVOURITGRID:
-                            Glide.with(context)
-                                    .load(downloadFavoriteItemLists.get(position).getImage())
-                                    .placeholder(R.drawable.placeholder)
-                                    .into(((DownloadHolderGrid) holder).binding.image);
-                            Glide.with(context)
-                                    .load(downloadFavoriteItemLists.get(position).getFrame())
-                                    .into(((DownloadHolderGrid) holder).binding.frame);
-                            ((DownloadHolderGrid)holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    ((FrameCateItemeInterFace) context).FrameCateonItemSelection(position, model);
-                                }
-                            });
-                            break;
+                    break;
+                case LAYOUT_FAVOURITGRID:
+                    Glide.with(context)
+                            .load(downloadFavoriteItemLists.get(position).getImage())
+                            .placeholder(R.drawable.placeholder)
+                            .into(((DownloadHolderGrid) holder).binding.image);
+                    Glide.with(context)
+                            .load(downloadFavoriteItemLists.get(position).getFrame())
+                            .into(((DownloadHolderGrid) holder).binding.frame);
+                    ((DownloadHolderGrid) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((FrameCateItemeInterFace) context).FrameCateonItemSelection(position, model);
+                        }
+                    });
+                    break;
 
             }
         }
     }
 
-        static class DownloadHolder extends RecyclerView.ViewHolder {
-            DownloadlisItemListBinding binding;
+    static class DownloadHolder extends RecyclerView.ViewHolder {
+        DownloadlisItemListBinding binding;
 
-            DownloadHolder(DownloadlisItemListBinding itemView) {
-                super(itemView.getRoot());
-                binding = itemView;
+        DownloadHolder(DownloadlisItemListBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
 
-            }
         }
+    }
 
-        static class DownloadHolderGrid extends RecyclerView.ViewHolder {
-            ItemDownloadGridBinding binding;
+    static class DownloadHolderGrid extends RecyclerView.ViewHolder {
+        ItemDownloadGridBinding binding;
 
-            DownloadHolderGrid(ItemDownloadGridBinding itemView) {
-                super(itemView.getRoot());
-                binding = itemView;
+        DownloadHolderGrid(ItemDownloadGridBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
 
-            }
         }
-
+    }
 
 
 }

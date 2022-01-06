@@ -103,26 +103,27 @@
 
                     <ImageView
                         android:id="@+id/locationPin"
-                        android:layout_width="@dimen/_3sdp"
-                        android:layout_height="@dimen/_3sdp"
+                        android:layout_width="@dimen/_4sdp"
+                        android:layout_height="@dimen/_4sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:background="@drawable/website"
-                        app:tint="@color/black" />
+                        android:background="@drawable/ic_outline_call_24"
+                        android:backgroundTint="@color/white" />
 
                     <TextView
+                        android:id="@+id/callTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_3sdp"
                         android:layout_toEndOf="@+id/locationPin"
                         android:ellipsize="end"
                         android:fontFamily="@font/montserrat_regular"
                         android:maxLines="1"
-                        android:text="@string/hint_website"
+                        android:text="@string/hint_mobile"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_5sdp" />
+                        android:textSize="@dimen/_4sdp" />
 
                 </RelativeLayout>
 

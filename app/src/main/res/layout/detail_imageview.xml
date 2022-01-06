@@ -15,23 +15,22 @@
             android:visibility="visible">
 
             <RelativeLayout
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_7sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_7sdp"
-                >
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:gravity="center">
 
                 <androidx.cardview.widget.CardView
-                    android:foregroundGravity="center"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
                     android:id="@+id/viewSection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="bottom"
+                    android:foregroundGravity="center"
                     app:cardCornerRadius="@dimen/_10sdp"
                     app:cardElevation="@dimen/_3sdp"
                     app:cardUseCompatPadding="true">
@@ -39,14 +38,12 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_350sdp">
-                    <ImageView
-                        android:layout_marginStart="-100dp"
-                        android:background="@drawable/bottom"
-                        android:layout_width="match_parent"
 
-                        android:layout_height="@dimen/_350sdp"
-                        ></ImageView>
-
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_350sdp"
+                            android:layout_marginStart="-100dp"
+                            android:background="@drawable/bottom"></ImageView>
 
 
                         <ImageView
@@ -58,8 +55,8 @@
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:padding="@dimen/_4sdp"
-                            app:tint="@color/colorthird"
-                            android:src="@drawable/ic_outline_close_24" />
+                            android:src="@drawable/ic_outline_close_24"
+                            app:tint="@color/colorthird" />
 
 
                         <com.github.chrisbanes.photoview.PhotoView
@@ -104,7 +101,6 @@
                 android:elevation="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_light"
                 android:paddingTop="@dimen/_5sdp"
-
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textSize="@dimen/_11sdp"

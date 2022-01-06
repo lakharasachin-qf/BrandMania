@@ -41,7 +41,6 @@
                     android:id="@+id/socialBackground"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:layout_marginBottom="@dimen/_1sdp"
                     android:background="@color/colorPrimary"
                     android:backgroundTint="@color/colorPrimary"
@@ -50,8 +49,7 @@
                     android:paddingTop="@dimen/_2sdp"
                     android:paddingBottom="@dimen/_2sdp"
                     app:layout_constraintBottom_toTopOf="@+id/contentBackground"
-                    app:layout_constraintEnd_toEndOf="parent"
-                      >
+                    app:layout_constraintEnd_toEndOf="parent">
 
                     <ImageView
                         android:id="@+id/callIcon"
@@ -96,6 +94,7 @@
                         android:id="@+id/emailTxt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_1sdp"
                         android:ellipsize="end"
                         android:fontFamily="@font/montserrat_regular"
                         android:maxLines="1"
@@ -104,7 +103,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_4sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/emailIcon"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -138,15 +137,13 @@
                     android:id="@+id/contentBackground"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/_7sdp"
-                    android:paddingEnd="@dimen/_7sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
+                    android:paddingStart="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_7sdp"
                     android:paddingBottom="@dimen/_3sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/layer2"
-                     >
-
+                    app:layout_constraintStart_toEndOf="@id/layer2">
 
                     <TextView
                         android:id="@+id/address"
@@ -154,17 +151,14 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:fontFamily="@font/montserrat_regular"
-
                         android:maxLines="2"
-                        android:paddingStart="@dimen/_2sdp"
                         android:paddingEnd="@dimen/_2sdp"
                         android:text="@string/hint_address"
-                        android:textAlignment="center"
+                        android:textAlignment="textStart"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_3sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

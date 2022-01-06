@@ -330,7 +330,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     }
                     removeFromFavourite(REMOVEFAV);
                     Toast.makeText(act, "Removed From Favourite", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     addBrandList();
                 }
             }
@@ -426,9 +426,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
     AddBrandFragment addBrandFragment;
+
     public void addBrandList() {
-        if (addBrandFragment!=null){
-            if (addBrandFragment.isVisible()){
+        if (addBrandFragment != null) {
+            if (addBrandFragment.isVisible()) {
                 addBrandFragment.dismiss();
             }
         }
@@ -436,7 +437,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         addBrandFragment = new AddBrandFragment();
         addBrandFragment.show(getSupportFragmentManager(), "");
     }
-
 
 
     @Override
@@ -1089,7 +1089,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     public void loadFirstImage() {
         FooterModel model = new FooterModel();
-        model.setLayoutType(FooterModel.LAYOUT_FRAME_SEVEN);
+        model.setLayoutType(FooterModel.LAYOUT_FRAME_TWELVE);
         model.setFree(true);
         if (prefManager.getActiveBrand() != null) {
             model.setAddress(prefManager.getActiveBrand().getAddress());
@@ -1097,7 +1097,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             model.setContactNo(prefManager.getActiveBrand().getPhonenumber());
             model.setWebsite(prefManager.getActiveBrand().getWebsite());
         }
-        ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_SEVEN, model);
+        ((onFooterSelectListener) act).onFooterSelectEvent(FooterModel.LAYOUT_FRAME_TWELVE, model);
     }
 
     //For CustomFrame

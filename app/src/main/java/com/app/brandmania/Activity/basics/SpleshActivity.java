@@ -30,6 +30,7 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Interface.alertListenerCallback;
+import com.app.brandmania.LetterHead.LetterHeadActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityMainBinding;
 import com.app.brandmania.utils.APIs;
@@ -45,7 +46,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class SpleshActivity extends BaseActivity implements alertListenerCallback {
     Activity act;
@@ -71,63 +71,28 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         animatorSet1.setDuration(3000);
         getInvitation();
 
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (preafManager.isLogin()) {
-                    Intent intent = new Intent(act, HomeActivity.class);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    finish();
-                } else {
-                    Intent intent = new Intent(act, LoginActivity.class);
-                    intent.putExtra("referrerCode", referrerCode);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    finish();
-                }
-
+        new Handler().postDelayed(() -> {
+            if (preafManager.isLogin()) {
+                Intent intent = new Intent(act, HomeActivity.class);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                finish();
+            } else {
+                Intent intent = new Intent(act, LoginActivity.class);
+                intent.putExtra("referrerCode", referrerCode);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                finish();
             }
+
         }, 1000);
 
     }
 
-    public void getInvitation() {
-        // [START ddl_get_invitation]
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(getIntent())
-                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-                    @Override
-                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                        // Get deep link from result (may be null if no link is found)
-                        Uri deepLink = null;
-                        if (pendingDynamicLinkData != null) {
-                            deepLink = pendingDynamicLinkData.getLink();
-                            String referLink = deepLink.toString();
-                            try {
-                                referLink = referLink.substring(referLink.lastIndexOf("=") + 1);
-                                referrerCode = referLink.substring(referLink.lastIndexOf("=") + 1);
-                                preafManager.setSpleshReferrer(referrerCode);
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-
-    }
 
     private void LoginFlow() {
         Utility.Log("API : ", APIs.IS_COMPLETE);
@@ -163,7 +128,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         ]*/
                             if (jsonObject1.has("error_msg")) {
                                 boolean appError = false;
-                                String msg="";
+                                String msg = "";
                                 JSONArray versionDataArray = jsonObject1.getJSONArray("error_msg");
                                 if (versionDataArray.length() != 0) {
                                     for (int i = 0; i < versionDataArray.length(); i++) {
@@ -171,17 +136,17 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                                         int currentVERSION = Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".", ""));
 
                                         if (apiVERSION == currentVERSION) {
-                                            appError=true;
+                                            appError = true;
                                             msg = versionDataArray.getJSONObject(i).getString("message");
                                             break;
                                         }
                                     }
                                 }
                                 Intent i;
-                                if (appError){
+                                if (appError) {
                                     i = new Intent(act, LoadingHomeActivity.class);
-                                    i.putExtra("msg",msg);
-                                }else{
+                                    i.putExtra("msg", msg);
+                                } else {
                                     i = new Intent(act, HomeActivity.class);
                                 }
                                 startActivity(i);
@@ -241,6 +206,35 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
+    }
+
+    public void getInvitation() {
+        // [START ddl_get_invitation]
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                            String referLink = deepLink.toString();
+                            try {
+                                referLink = referLink.substring(referLink.lastIndexOf("=") + 1);
+                                referrerCode = referLink.substring(referLink.lastIndexOf("=") + 1);
+                                preafManager.setSpleshReferrer(referrerCode);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                })
+                .addOnFailureListener(this, e -> {
+                });
+
     }
 
     private void sessionCreat() {

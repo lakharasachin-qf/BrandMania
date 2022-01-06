@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 public class ResponseHandler {
     Context context;
@@ -330,11 +331,13 @@ public class ResponseHandler {
 
                         model.setName(key);
                         model.setLayout(DashBoardItem.DAILY_IMAGES);
+                        ImageList imageCategory = null;
+
                         ArrayList<ImageList> innerImagesList = new ArrayList<>();
                         int userBusinessCategoryIndex = 0;
                         for (int m = 0; m < dataItemArray.length(); m++) {
                             JSONObject innerObject = dataItemArray.getJSONObject(m);
-                            ImageList imageCategory = new ImageList();
+                            imageCategory = new ImageList();
                             if (key.equalsIgnoreCase("Daily Images")) {
                                 imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_ROUND_IMAGES);
                             } else
@@ -344,6 +347,16 @@ public class ResponseHandler {
                             imageCategory.setName(getString(innerObject, "name"));
                             imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
                             imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
+
+                            //Language Filter
+                            JSONArray languageArray = getJSONArray(innerObject, "lang");
+                            ArrayList<String> valueList = new ArrayList<String>();
+                            valueList.add(0, "All");
+                            for (int i = 0; i < languageArray.length(); i++) {
+                                valueList.add(languageArray.getString(i));
+                            }
+                            imageCategory.setLanguageData(valueList);
+
                             innerImagesList.add(imageCategory);
 
                             if (new PreafManager(act).getActiveBrand() != null && key.contains("Business")) {
@@ -352,6 +365,7 @@ public class ResponseHandler {
                                 }
                             }
                         }
+
                         if (key.contains("Business")) {
                             ImageList userBrandCategory = innerImagesList.get(userBusinessCategoryIndex);
                             innerImagesList.remove(userBusinessCategoryIndex);
@@ -374,7 +388,8 @@ public class ResponseHandler {
             links.setPrevPageUrl(getString(linkObj, "prev_page_url"));
             links.setTotalStr(getString(linkObj, "total"));
             returnModel.setLinks(links);
-        } catch (JSONException e) {
+        } catch (
+                JSONException e) {
             e.printStackTrace();
         }
         return returnModel;
@@ -404,6 +419,7 @@ public class ResponseHandler {
                     imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
                     imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
                     innerImagesList.add(imageCategory);
+
 
                     if (new PreafManager(act).getActiveBrand() != null) {
                         if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {

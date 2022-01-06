@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -201,7 +202,11 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put("otp", otp);
                 hashMap.put("phone", mobileno);
+                if (prefManager.getUserToken() != null) {
+                    hashMap.put("token", prefManager.getUserToken());
+                }
                 hashMap.put("firebase_token", deviceToken);
+                Utility.Log("User Data", hashMap.toString());
                 return hashMap;
             }
         };
