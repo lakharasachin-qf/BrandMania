@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.app.brandmania.Adapter.FontListAdeptor;
+import com.app.brandmania.Adapter.FooterAdapter;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.FooterHelper;
 import com.app.brandmania.Common.VisitingCardHelper;
@@ -39,11 +41,13 @@ import com.app.brandmania.Interface.IItaliTextEvent;
 import com.app.brandmania.Interface.ITextBoldEvent;
 import com.app.brandmania.LetterHead.Adapter.FrameAdaptor;
 import com.app.brandmania.Model.FontModel;
+import com.app.brandmania.Model.FrameItem;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityLetterHeadBinding;
 import com.app.brandmania.utils.IFontChangeEvent;
 import com.app.brandmania.utils.Utility;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -328,9 +332,19 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
     }
 
     public void setFramesRecycler() {
+        Log.e("frames", "data" + gson.toJson(prefManager.getActiveBrand().getFrame()));
         FrameAdaptor frameAdaptor = new FrameAdaptor(prefManager.getActiveBrand().getFrame(), act);
         binding.framesRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));
         binding.framesRecycler.setHasFixedSize(true);
+
+        FrameAdaptor.onFooterListener onFooterListener = new FrameAdaptor.onFooterListener() {
+            @Override
+            public void onFooterChoose(String Frames, Integer footerModel) {
+                binding.mainImage.setVisibility(View.VISIBLE);
+                Glide.with(getApplicationContext()).load(Frames).into(binding.mainImage);
+            }
+        };
+        frameAdaptor.setFooterListener(onFooterListener);
         binding.framesRecycler.setAdapter(frameAdaptor);
     }
 
@@ -344,9 +358,8 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             if (textViewColor) {
                 binding.phoneLabel.setTextColor(color);
             } else
-                selectedTextView.setTextColor(color);
-            //textView.setTextColor(ColorStateList.valueOf(color));
-            VisitingCardHelper.applyTextColorOnLatterHead(CurrentSelectedCard, color, binding);
+                // selectedTextView.setTextColor(color);
+                VisitingCardHelper.applyTextColorOnLatterHead(CurrentSelectedCard, color, binding);
         };
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
@@ -498,6 +511,7 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             @Override
             protected void onSingleClick(View v) {
                 selectedTextView = textView;
+                selectedTextView.setId(0);
                 textView.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             }
 
