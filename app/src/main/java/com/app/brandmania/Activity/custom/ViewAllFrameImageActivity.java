@@ -951,7 +951,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         binding.viewRecoRecycler.setHasFixedSize(true);
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
 
-
     }
 
     //For Image Select Interface

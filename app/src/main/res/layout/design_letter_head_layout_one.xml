@@ -1,205 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/_450sdp"
-    android:layout_marginBottom="130pt">
+<layout>
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="@dimen/_70sdp"
-        android:layout_height="@dimen/_70sdp"
-        android:src="@drawable/bm_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/dividerOne"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/latterHeadLayout"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        android:layout_height="@dimen/_450sdp">
 
-    <View
-        android:id="@+id/dividerTwo"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_marginStart="30pt"
-        android:layout_marginEnd="30pt"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/dividerOne"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        app:layout_constraintTop_toTopOf="@id/dividerOne" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:src="@drawable/bm_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:id="@+id/dividerOne"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@id/logo" />
 
-    <View
-        android:id="@+id/dividerThree"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
-
-    <View
-        android:id="@+id/dividerFour"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_marginStart="30pt"
-        android:layout_marginEnd="30pt"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/dividerThree"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        app:layout_constraintTop_toTopOf="@id/dividerThree" />
+        <View
+            android:id="@+id/dividerTwo"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginStart="30pt"
+            android:layout_marginEnd="30pt"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/dividerOne"
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            app:layout_constraintTop_toTopOf="@id/dividerOne" />
 
 
-    <View
-        android:id="@+id/dividerSeven"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="@dimen/_7sdp"
-        android:background="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/dividerFive"
-        app:layout_constraintEnd_toStartOf="@id/dividerSix"
-        app:layout_constraintStart_toStartOf="parent" />
+        <View
+            android:id="@+id/dividerThree"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@id/logo" />
 
-    <LinearLayout
-        android:id="@+id/phoneLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxWidth="@dimen/_90sdp"
-        android:minWidth="@dimen/_90sdp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/webLayout">
+        <View
+            android:id="@+id/dividerFour"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginStart="30pt"
+            android:layout_marginEnd="30pt"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/dividerThree"
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            app:layout_constraintTop_toTopOf="@id/dividerThree" />
 
-        <TextView
-            android:id="@+id/phoneLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_semibold"
-            android:text="Phone No."
-            android:textSize="@dimen/_7sdp" />
 
-        <TextView
-            android:id="@+id/phoneText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <View
+            android:id="@+id/dividerSeven"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginBottom="@dimen/_7sdp"
-            android:fontFamily="@font/montserrat_regular"
+            android:background="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/dividerFive"
+            app:layout_constraintEnd_toStartOf="@id/dividerSix"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/phoneLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:maxWidth="@dimen/_90sdp"
-            android:text="+91 8200 002604"
-            android:textAlignment="center"
-            android:textSize="@dimen/_7sdp" />
+            android:minWidth="@dimen/_90sdp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/webLayout">
+
+            <TextView
+                android:id="@+id/phoneLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Phone No."
+                android:textSize="@dimen/_7sdp" />
+
+            <TextView
+                android:id="@+id/phoneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:maxWidth="@dimen/_90sdp"
+                android:text="+91 8200 002604"
+                android:textAlignment="center"
+                android:textSize="@dimen/_7sdp" />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/webLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:gravity="center"
-        android:maxWidth="@dimen/_90sdp"
-        android:minWidth="@dimen/_90sdp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/dividerSeven"
-        app:layout_constraintEnd_toStartOf="@id/addressLayout"
-        app:layout_constraintStart_toEndOf="@id/phoneLayout">
-
-        <TextView
-            android:id="@+id/webLabel"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/webLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_semibold"
-            android:text="Web"
-            android:textSize="@dimen/_7sdp" />
-
-        <TextView
-            android:id="@+id/webText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_7sdp"
-            android:fontFamily="@font/montserrat_regular"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="center"
             android:maxWidth="@dimen/_90sdp"
-            android:text="info@gmail.com\nwww.brandmania.com"
-            android:textAlignment="center"
-            android:textSize="@dimen/_7sdp" />
+            android:minWidth="@dimen/_90sdp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/dividerSeven"
+            app:layout_constraintEnd_toStartOf="@id/addressLayout"
+            app:layout_constraintStart_toEndOf="@id/phoneLayout">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/webLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Web"
+                android:textSize="@dimen/_7sdp" />
 
-    <LinearLayout
-        android:id="@+id/addressLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxWidth="@dimen/_90sdp"
-        android:minWidth="@dimen/_90sdp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/webLayout">
+            <TextView
+                android:id="@+id/webText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:maxWidth="@dimen/_90sdp"
+                android:text="info@gmail.com\nwww.brandmania.com"
+                android:textAlignment="center"
+                android:textSize="@dimen/_7sdp" />
 
-        <TextView
-            android:id="@+id/addressLabel"
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/addressLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_semibold"
-            android:text="Address"
-            android:textSize="@dimen/_7sdp" />
-
-        <TextView
-            android:id="@+id/addressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_7sdp"
-            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
             android:maxWidth="@dimen/_90sdp"
-            android:maxLines="3"
-            android:text="512, Satva complex, Vastral, Ahmedabad, Gujarat"
-            android:textAlignment="center"
-            android:textSize="@dimen/_7sdp" />
-    </LinearLayout>
+            android:minWidth="@dimen/_90sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/webLayout">
+
+            <TextView
+                android:id="@+id/addressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Address"
+                android:textSize="@dimen/_7sdp" />
+
+            <TextView
+                android:id="@+id/addressText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:maxWidth="@dimen/_90sdp"
+                android:maxLines="3"
+                android:text="512, Satva complex, Vastral, Ahmedabad, Gujarat"
+                android:textAlignment="center"
+                android:textSize="@dimen/_7sdp" />
+        </LinearLayout>
 
 
-    <View
-        android:id="@+id/dividerEight"
-        android:layout_width="2dp"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/webLayout"
-        app:layout_constraintEnd_toStartOf="@id/webLayout"
-        app:layout_constraintStart_toEndOf="@id/phoneLayout"
-        app:layout_constraintTop_toTopOf="@id/webLayout" />
+        <View
+            android:id="@+id/dividerEight"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/webLayout"
+            app:layout_constraintEnd_toStartOf="@id/webLayout"
+            app:layout_constraintStart_toEndOf="@id/phoneLayout"
+            app:layout_constraintTop_toTopOf="@id/webLayout" />
 
-    <View
-        android:id="@+id/dividerNine"
-        android:layout_width="2dp"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/webLayout"
-        app:layout_constraintEnd_toStartOf="@id/addressLayout"
-        app:layout_constraintStart_toEndOf="@id/webLayout"
-        app:layout_constraintTop_toTopOf="@id/webLayout" />
-
-
-    <View
-        android:id="@+id/dividerFive"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_20sdp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/dividerSix"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View
-        android:id="@+id/dividerSix"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_20sdp"
-        android:background="@color/colorthird"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/dividerFive" />
+        <View
+            android:id="@+id/dividerNine"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/webLayout"
+            app:layout_constraintEnd_toStartOf="@id/addressLayout"
+            app:layout_constraintStart_toEndOf="@id/webLayout"
+            app:layout_constraintTop_toTopOf="@id/webLayout" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/dividerFive"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dividerSix"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/dividerSix"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@color/colorthird"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dividerFive" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+<!--  android:layout_marginBottom="130pt"-->

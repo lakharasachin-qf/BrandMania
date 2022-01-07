@@ -352,6 +352,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", response -> {
             binding.swipeContainer.setRefreshing(false);
             try {
+                Log.e("dashboard", gson.toJson(response));
                 JSONObject jsonObject = new JSONObject(response);
                 apiResponse = ResponseHandler.HandleGetImageCategory(act, jsonObject);
                 if (apiResponse.getDashBoardItems() != null) {
@@ -586,15 +587,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         });
 
-        dialogOfferBinding.closeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        dialogOfferBinding.closeLayout.setOnClickListener(v -> alertDialog.dismiss());
 
     }
-
 
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);

@@ -1,84 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:shimmer="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
+
             <RelativeLayout
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_below="@+id/alertForFrmae"
                 android:id="@+id/recommendationRelativ"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_below="@+id/alertForFrmae"
+                android:layout_marginTop="@dimen/_15sdp">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favoritRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_view_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical"
-                shimmer:shimmer_duration="800">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/favoritRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    shimmer:shimmer_duration="800">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                <include layout="@layout/item_simmer_layout_list" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                <include layout="@layout/item_simmer_layout_list" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                <include layout="@layout/item_simmer_layout_list" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                <include layout="@layout/item_simmer_layout_list" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                <include layout="@layout/item_simmer_layout_list" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                <include layout="@layout/item_simmer_layout_list" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                <include layout="@layout/item_simmer_layout_list" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-                <include layout="@layout/item_simmer_layout_list" />
+                        <include layout="@layout/item_simmer_layout_list" />
 
-            </LinearLayout>
+                    </LinearLayout>
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
-        <LinearLayout
-            android:background="@color/colorNavText"
-            android:id="@+id/emptyStateLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <ImageView
-                android:layout_gravity="center"
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
-                android:src="@drawable/notification"
-                android:layout_width="@dimen/_150sdp"
-                android:layout_height="@dimen/_150sdp">
+                <LinearLayout
+                    android:id="@+id/emptyStateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorNavText"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-            </ImageView>
-            <TextView
-                android:id="@+id/emptyStateMsg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:fontFamily="@font/montserrat_regular"
-                android:text="@string/no_favouritelist_found"
-                android:textSize="@dimen/_10sdp" />
-        </LinearLayout>
+                    <ImageView
+                        android:layout_width="@dimen/_150sdp"
+
+                        android:layout_height="@dimen/_150sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/notification">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/emptyStateMsg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="@string/no_favouritelist_found"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
             </RelativeLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>

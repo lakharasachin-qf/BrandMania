@@ -50,7 +50,6 @@
         <RelativeLayout
             android:id="@+id/element1"
             android:gravity="center_horizontal"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -107,12 +106,12 @@
                 android:layout_centerVertical="true">
 
                 <ImageView
-                    app:tint="@color/colorPrimary"
                     android:id="@+id/contactImage"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_outline_call_24" />
+                    android:src="@drawable/ic_outline_call_24"
+                    app:tint="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/contactText"
@@ -124,7 +123,6 @@
                     android:includeFontPadding="false"
                     android:padding="0dp"
                     android:singleLine="true"
-
                     android:text="@string/hint_mobile"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_9sdp" />

@@ -54,8 +54,9 @@ public class Utility {
     private static Dialog progressDialog;
 
     public static void Log(String act, Object msg) {
-        //Log.e(act, msg + "");
+        Log.e(act, msg + "");
     }
+
     public static void showLoadingTran(Activity act) {
 
         if (dialog != null && dialog.isShowing())
@@ -82,9 +83,8 @@ public class Utility {
         });
     }
 
-    public static boolean isPackageExpired(Activity act)
-    {
-        if (new PreafManager(act).getActiveBrand().getExpiery_date()!=null && !new PreafManager(act).getActiveBrand().getExpiery_date().isEmpty()) {
+    public static boolean isPackageExpired(Activity act) {
+        if (new PreafManager(act).getActiveBrand().getExpiery_date() != null && !new PreafManager(act).getActiveBrand().getExpiery_date().isEmpty()) {
             try {
                 String expireDate = new PreafManager(act).getActiveBrand().getExpiery_date().replace('-', '/');
 
@@ -107,9 +107,8 @@ public class Utility {
     }
 
 
-    public static boolean isPackageExpired(BrandListItem brandListItem)
-    {
-        if (brandListItem.getExpiery_date()!=null && !brandListItem.getExpiery_date().isEmpty()) {
+    public static boolean isPackageExpired(BrandListItem brandListItem) {
+        if (brandListItem.getExpiery_date() != null && !brandListItem.getExpiery_date().isEmpty()) {
 
             try {
 
@@ -143,8 +142,7 @@ public class Utility {
             Date convertedCurrentDate = formatter.parse(currentDate);
 
 
-            if(convertedExpireDate.compareTo(convertedCurrentDate) < 0)
-            {
+            if (convertedExpireDate.compareTo(convertedCurrentDate) < 0) {
                 return true;
             }
         } catch (Exception e) {
@@ -154,7 +152,7 @@ public class Utility {
     }
 
 
-    public static int monthsBetweenDates(String subscriptionDateStr){
+    public static int monthsBetweenDates(String subscriptionDateStr) {
         Date c = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
         String currDateStr = fmt.format(c);
@@ -168,9 +166,9 @@ public class Utility {
             endCalendar.setTime(currentDate);
             int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
             int diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
-            if ((diffYear == 0) && (diffMonth == 0)){
+            if ((diffYear == 0) && (diffMonth == 0)) {
                 return diffMonth;
-            }else {
+            } else {
                 return 1;
             }
 
@@ -185,8 +183,7 @@ public class Utility {
     public static boolean isUserPaid(BrandListItem activeBrand) {
         if (!activeBrand.getPackagename().isEmpty() && activeBrand.getIs_payment_pending().equalsIgnoreCase("0")) {
             return true;
-        }
-        else
+        } else
             return false;
     }
 
@@ -202,38 +199,41 @@ public class Utility {
 
     public static void setItalicText(TextView textView, boolean italic) {
         if (italic) {
-            if (textView.getTypeface()!=null && textView.getTypeface().isBold())
+            if (textView.getTypeface() != null && textView.getTypeface().isBold())
                 textView.setTypeface(textView.getTypeface(), Typeface.BOLD_ITALIC);
             else
                 textView.setTypeface(textView.getTypeface(), Typeface.ITALIC);
-        }else {
-            if (textView.getTypeface()!=null && textView.getTypeface().isBold() && textView.getTypeface().isItalic())
+        } else {
+            if (textView.getTypeface() != null && textView.getTypeface().isBold() && textView.getTypeface().isItalic())
                 textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
             else
                 textView.setTypeface(null, Typeface.NORMAL);
         }
     }
-    public static void setUnderlineText(TextView textView,boolean underline){
-        if (underline){
+
+    public static void setUnderlineText(TextView textView, boolean underline) {
+        if (underline) {
             textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        }else {
+        } else {
             textView.setPaintFlags(0);
         }
     }
-    public static void setBold(TextView textView,boolean bold){
+
+    public static void setBold(TextView textView, boolean bold) {
 
         if (bold) {
-            if (textView.getTypeface()!=null && textView.getTypeface().isItalic())
+            if (textView.getTypeface() != null && textView.getTypeface().isItalic())
                 textView.setTypeface(textView.getTypeface(), Typeface.BOLD_ITALIC);
             else
                 textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
-        }else {
-            if (textView.getTypeface()!=null && textView.getTypeface().isBold() && textView.getTypeface().isItalic())
+        } else {
+            if (textView.getTypeface() != null && textView.getTypeface().isBold() && textView.getTypeface().isItalic())
                 textView.setTypeface(textView.getTypeface(), Typeface.ITALIC);
             else
                 textView.setTypeface(null, Typeface.NORMAL);
         }
     }
+
     public static void RemoveError(EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -250,6 +250,7 @@ public class Utility {
             }
         });
     }
+
     public static void loadImageOnURI(Activity act, ImageView imageView, Uri uri) {
         Glide.with(act)
                 .load(uri)
@@ -259,6 +260,7 @@ public class Utility {
                 .override(1200, 1000)
                 .into(imageView);
     }
+
     public static void dismissProgress() {
         try {
             if (progressDialog != null && progressDialog.isShowing())
@@ -341,7 +343,6 @@ public class Utility {
     }
 
 
-
     public static void fullScreenImageViewer(Activity act, String imageUrl) {
         Log("Image url", imageUrl + "s");
         DetailImageviewBinding binding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.detail_imageview, null, false);
@@ -376,6 +377,7 @@ public class Utility {
                 })
                 .show();
     }
+
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -407,7 +409,6 @@ public class Utility {
             }
         });
     }
-
 
 
     public static void dismissLoading() {
@@ -451,7 +452,9 @@ public class Utility {
                     Uri.parse("http://play.google.com/store/apps/details?id=com.app.bespoke")));//+ act.getPackageName())));
         }
     }
+
     private static OnImageViewDismiss viewDismiss;
+
     public static void fullScreenImageViewerBitmap(Activity act, Bitmap imageUrl, OnImageViewDismiss viewDi) {
         viewDismiss = viewDi;
         DialogImageViewLayoutBinding binding = DataBindingUtil.inflate(LayoutInflater.from(act),
@@ -489,6 +492,7 @@ public class Utility {
     public interface OnImageViewDismiss {
         void onPhotoDialogDismiss();
     }
+
     public static void showSnackBar(View view, Activity act, String message) {
         Snackbar snackbar = Snackbar
                 .make(view, message, Snackbar.LENGTH_LONG)

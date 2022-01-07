@@ -54,7 +54,7 @@
                         android:fontFamily="@font/montserrat_semibold"
                         android:text="@string/hint_email"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_3sdp" />
+                        android:textSize="@dimen/_4sdp" />
 
                 </RelativeLayout>
 
@@ -109,7 +109,7 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:text="@string/hint_mobile"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_2sdp" />
+                        android:textSize="@dimen/_4sdp" />
 
                 </RelativeLayout>
 

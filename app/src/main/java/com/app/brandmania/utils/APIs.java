@@ -7,8 +7,8 @@ public class APIs {
     public static final String ADD_BRAND = URL + "addBrand";
     public static final String GET_BRAND_CATEGORY = URL + "getBrandCategory";
     public static final String GET_BANNER = URL + "getBanner";
-    public static final String GET_IMAGE_CATEGORY = URL + "getImageCategory";
-    public static final String GET_IMAGEBUID_CATEGORY = URL + "getImageCategoryImage";
+    public static final String GET_IMAGE_CATEGORY = URL + "getImageCategoryLang";
+    public static final String GET_IMAGEBUID_CATEGORY = URL + "getImageCategoryImageLang";
     public static final String UPDATE_TOKEN = URL + "updateToken";
     public static final String EDIT_BRAND = URL + "editBrand";
     public static final String ADD_USERACTIVITY = URL + "addUserActivity";
@@ -43,7 +43,7 @@ public class APIs {
     public static final String BUSINESS_CATEGORY = URL + "getBusinessImageCategory";
     public static final String DAILY_CATEGORY = URL + "getDailyImageCategory";
     public static final String GET_COUNTRY = URL + "getCountry";
-    public static final String GET_STATE= URL + "getState";
+    public static final String GET_STATE = URL + "getState";
     public static final String GET_CITY = URL + "getCity";
     public static final String ADD_BUSS_ACTIVITY = URL + "addBussCardActivity";
 }

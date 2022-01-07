@@ -138,10 +138,14 @@ public class PickerFragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_picker, container, false);
-
         View v = binding.getRoot();
-
         act = getActivity();
+        binding.cancelPickerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         binding.chooseCameraIntent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,7 +254,6 @@ public class PickerFragment extends BottomSheetDialogFragment {
         Utility.loadImageOnURI(act, binding.selectedImage, selectedImage);
         Bitmap bitmap;
         try {
-
             bitmap = MediaStore.Images.Media.getBitmap(act.getContentResolver(), selectedImage);
 
             imageLoad.onGalleryResult(actionId, bitmap);
@@ -288,7 +291,6 @@ public class PickerFragment extends BottomSheetDialogFragment {
                 }
                 this.dismiss();
             } else if (requestCode == CodeReUse.GALLERY_INTENT) {
-
 
                 if (data != null) {
                     Uri selectedImage = data.getData();
@@ -488,7 +490,7 @@ public class PickerFragment extends BottomSheetDialogFragment {
     private void captureFromCamera() {
         try {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".fileProvider", createImageFile()));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider", createImageFile()));
             startActivityForResult(intent, CodeReUse.CAMERA_INTENT);
         } catch (IOException ex) {
             ex.printStackTrace();

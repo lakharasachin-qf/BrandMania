@@ -61,7 +61,7 @@
                         android:maxLines="2"
                         android:text="@string/hint_address"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_4sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

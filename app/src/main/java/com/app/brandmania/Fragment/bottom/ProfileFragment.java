@@ -86,7 +86,6 @@ public class ProfileFragment extends BaseFragment {
             binding.introLayout.setVisibility(View.VISIBLE);
             binding.videoLine.setVisibility(View.VISIBLE);
         }
-
         binding.logoutRelative.setOnClickListener(v -> {
             prefManager.Logout();
             Intent i = new Intent(act, LoginActivity.class);
@@ -157,14 +156,11 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
-        binding.privacyPolicy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(act, AboutUsActivity.class);
-                i.putExtra("termsNCondition", "aboutUs");
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
+        binding.privacyPolicy.setOnClickListener(v -> {
+            Intent i = new Intent(act, AboutUsActivity.class);
+            i.putExtra("termsNCondition", "aboutUs");
+            startActivity(i);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
         return binding.getRoot();
     }

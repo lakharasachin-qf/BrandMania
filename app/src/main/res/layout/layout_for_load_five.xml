@@ -99,10 +99,10 @@
                         >
 
                         <ImageView
-                            android:layout_centerVertical="true"
                             android:id="@+id/contactImage"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
+                            android:layout_centerVertical="true"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/ic_phone"
                             app:tint="@color/colorPrimary" />

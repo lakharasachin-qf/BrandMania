@@ -35,9 +35,10 @@
                 android:layout_height="match_parent"
                 android:gravity="bottom"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/_3sdp">
+                android:paddingBottom="@dimen/_7sdp">
 
                 <RelativeLayout
+
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="@dimen/_10sdp">
 
@@ -54,7 +55,7 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:text="@string/hint_mobile"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_3sdp" />
+                        android:textSize="@dimen/_4sdp" />
 
                 </RelativeLayout>
 
@@ -83,10 +84,10 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:fontFamily="@font/montserrat_regular"
                         android:text="@string/hint_email"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_3sdp" />
+                        android:textColor="@color/colorthird"
+                        android:textSize="@dimen/_3sdp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
-
 
             </LinearLayout>
 

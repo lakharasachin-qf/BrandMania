@@ -1,6 +1,7 @@
 package com.app.brandmania.Fragment.top;
 
 import static com.app.brandmania.Adapter.ImageCategoryAddaptor.FROM_VIEWALL;
+import static com.app.brandmania.Adapter.LanguageFilterAdaptor.FROM_VIEWALLS;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Adapter.InnerFragmentAdpaters;
+import com.app.brandmania.Adapter.LanguageFilterAdaptor;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
@@ -47,18 +50,19 @@ import java.util.Map;
 public class CategoryTab extends BaseFragment {
     Activity act;
     private CategoryTabBinding binding;
-     private DashBoardItem imageList;
+    private DashBoardItem imageList;
     private ImageList selectedObject;
     ImageList apiObject;
     ArrayList<ImageList> menuModels = new ArrayList<>();
     Gson gson;
+    int objectSelectedPosition = 0;
     boolean isViewAll = false;
+
 
     public CategoryTab setViewAll(boolean viewAll) {
         isViewAll = viewAll;
         return this;
     }
-
 
 
     @Override
@@ -71,14 +75,39 @@ public class CategoryTab extends BaseFragment {
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
-        getImageCtegory();
-
+        getImageCtegory("");
+        setLanguageFilterAdapter();
         return binding.getRoot();
+
     }
 
+    String data;
+    LanguageFilterAdaptor filterAdaptor;
 
+    public void setLanguageFilterAdapter() {
+        filterAdaptor = new LanguageFilterAdaptor(selectedObject.getLanguageData(), act);
+        filterAdaptor.setLayoutType(FROM_VIEWALLS);
+        RecyclerView.LayoutManager hLayoutManager = new LinearLayoutManager(act, RecyclerView.HORIZONTAL, false);
+        binding.languageFilterRecycler.setLayoutManager(hLayoutManager);
+
+        LanguageFilterAdaptor.onItemSelectListener onItemSelectListener = new LanguageFilterAdaptor.onItemSelectListener() {
+            @Override
+            public void onItemSelect(String Data, int position) {
+                data = selectedObject.getLanguageData().get(position);
+                getImageCtegory(data);
+                if (data.contains("All")) {
+                    getImageCtegory("");
+                }
+            }
+        };
+        binding.languageFilterRecycler.setHasFixedSize(true);
+        filterAdaptor.setOnItemSelectListener(onItemSelectListener);
+        binding.languageFilterRecycler.setAdapter(filterAdaptor);
+        binding.languageFilter.setVisibility(View.VISIBLE);
+    }
 
     ImageCategoryAddaptor menuAddaptor;
+
     public void setAdapter() {
         menuAddaptor = new ImageCategoryAddaptor(menuModels, act);
         //  if (isViewAll)
@@ -92,12 +121,18 @@ public class CategoryTab extends BaseFragment {
 
     }
 
-    private void getImageCtegory() {
+    private void getImageCtegory(String filterData) {
+        binding.viewRecoRecycler.setVisibility(View.GONE);
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmer();
 
         Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                binding.shimmerViewContainer.stopShimmer();
+                binding.shimmerViewContainer.setVisibility(View.GONE);
+                binding.viewRecoRecycler.setVisibility(View.VISIBLE);
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -112,12 +147,11 @@ public class CategoryTab extends BaseFragment {
                             binding.shimmerForPagination.setVisibility(View.GONE);
                         }
 
-
                         if (apiObject.getLinks() != null) {
                             if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                                 binding.shimmerForPagination.startShimmer();
                                 binding.shimmerForPagination.setVisibility(View.VISIBLE);
-                                getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                                getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl(), filterData);
                             } else {
                                 binding.shimmerForPagination.stopShimmer();
                                 binding.shimmerForPagination.setVisibility(View.GONE);
@@ -130,7 +164,6 @@ public class CategoryTab extends BaseFragment {
                         binding.shimmerForPagination.stopShimmer();
                         binding.shimmerForPagination.setVisibility(View.GONE);
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -163,6 +196,11 @@ public class CategoryTab extends BaseFragment {
                     } else {
                         params.put("image_category_id", selectedObject.getId());
                     }
+//                    if (!selectedObject.getLanguageData().isEmpty()) {
+//                        params.put("lang", filterData);
+//                    }
+                    if (filterData != null)
+                        params.put("lang", filterData);
 
                     if (act.getIntent().hasExtra("dailyImages")) {
                         params.put("image_category_id", selectedObject.getId());
@@ -170,7 +208,6 @@ public class CategoryTab extends BaseFragment {
                 } else {
                     params.put("image_category_id", act.getIntent().getStringExtra("cat_id"));
                 }
-
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }
@@ -182,7 +219,7 @@ public class CategoryTab extends BaseFragment {
     }
 
 
-    private void getImageCtegoryNextPage(String nextPageUrl) {
+    private void getImageCtegoryNextPage(String nextPageUrl, String filterData) {
         Utility.Log("API : ", nextPageUrl);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
             @Override
@@ -204,7 +241,7 @@ public class CategoryTab extends BaseFragment {
                         if (apiObject.getLinks().getNextPageUrl() != null && !apiObject.getLinks().getNextPageUrl().equalsIgnoreCase("null") && !apiObject.getLinks().getNextPageUrl().isEmpty()) {
                             binding.shimmerForPagination.startShimmer();
                             binding.shimmerForPagination.setVisibility(View.VISIBLE);
-                            getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl());
+                            getImageCtegoryNextPage(apiObject.getLinks().getNextPageUrl(), filterData);
                         } else {
                             binding.shimmerForPagination.stopShimmer();
                             binding.shimmerForPagination.setVisibility(View.GONE);
@@ -247,6 +284,8 @@ public class CategoryTab extends BaseFragment {
                     } else {
                         params.put("image_category_id", selectedObject.getId());
                     }
+                    if (filterData != null)
+                        params.put("lang", filterData);
 
                     if (act.getIntent().hasExtra("dailyImages")) {
                         params.put("image_category_id", selectedObject.getId());

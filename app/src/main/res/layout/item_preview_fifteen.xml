@@ -108,7 +108,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:background="@drawable/ic_outline_location_on_24"
-                        app:tint="@color/white" />
+                        android:backgroundTint="@color/white" />
 
                     <TextView
                         android:id="@+id/address"

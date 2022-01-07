@@ -20,6 +20,14 @@
 
     </style>
 
+    <style name="chipAppearance" parent="Theme.AppCompat.DialogWhenLarge">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/_8sdp</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+
+    </style>
+
+
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
@@ -102,6 +110,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
     <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/poppins_medium</item>
         <item name="android:textSize">@dimen/_10sdp</item>
@@ -121,6 +130,39 @@
     <style name="AppThemeMyLight" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
+
+    <style name="LatterHeadDesignForImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_20sdp</item>
+        <item name="android:layout_marginTop">@dimen/_12sdp</item>
+
+    </style>
+
+
+    <style name="LatterHeadDesignForEditImage">
+        <item name="android:layout_width">@dimen/_32sdp</item>
+        <item name="android:layout_height">@dimen/_32sdp</item>
+        <item name="android:layout_marginTop">@dimen/_12sdp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:background">@drawable/roundshape</item>
+        <item name="android:padding">@dimen/_10sdp</item>
+        <item name="android:tint">@color/black</item>
+
+
+    </style>
+
+
+    <style name="LatterHeadDesignForText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/_1sdp</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
+
+    </style>
+
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
