@@ -34,6 +34,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -829,7 +830,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         outputFilePath = outputFile.getAbsolutePath();
 
         String command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + " overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2 " + outputFilePath;
-        command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h  " + outputFilePath;
+        command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h " + outputFilePath;
+        //command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h:enable=between(t\\,1\\,3) " + outputFilePath;   // working
+        //command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h:enable=between(t\\,1\\,3) " + outputFilePath;
 
         execCommand(command);
         finalOutputFile = new File(outputFilePath);
@@ -845,7 +848,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void saveVideoInCatch() {
         if (!isVideoIsDownloading) {
             String url = String.valueOf(selectedObject.getVideoSet());
-            url = url.replace("http", "https");
+            Log.e("URL-Download",url);
+
+            //url = url.replace("http", "https");
             DownloadManager.Request request;
             request = new DownloadManager.Request(Uri.parse(url));
             videoUrl = URLUtil.guessFileName(url, null, null).replace("0", System.currentTimeMillis() + "");
@@ -868,6 +873,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         public void onReceive(Context context, Intent intent) {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             if (downloadID == id) {
+                Log.e("Download-Process","Done");
                 File outputFrameFile = new File(act.getCacheDir() + File.separator);
                 String vdPaths = outputFrameFile.getAbsolutePath();
 
@@ -896,7 +902,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     public void execCommand(String cmd) {
         progressDialog.setMessage("Processing......");
-
+        Log.e("Prcess Start","Yes");
         long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
 
             @Override
