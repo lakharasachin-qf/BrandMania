@@ -76,7 +76,8 @@ public class CategoryTab extends BaseFragment {
         binding.shimmerForPagination.startShimmer();
         binding.shimmerForPagination.setVisibility(View.VISIBLE);
         getImageCtegory("");
-        setLanguageFilterAdapter();
+        if(selectedObject!=null && selectedObject.getLanguageData()!=null && selectedObject.getLanguageData().size()!=0)
+            setLanguageFilterAdapter();
         return binding.getRoot();
 
     }

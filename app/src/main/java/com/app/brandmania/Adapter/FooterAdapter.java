@@ -981,18 +981,19 @@ public class FooterAdapter extends RecyclerView.Adapter {
                             }
                         }
                     });
+                    if (activeBrand != null) {
 
-                    if (!activeBrand.getPhonenumber().isEmpty()) {
-                        ((FooterHolderFourteen) holder).binding.callTxt.setText(activeBrand.getPhonenumber());
+                        if (!activeBrand.getPhonenumber().isEmpty()) {
+                            ((FooterHolderFourteen) holder).binding.callTxt.setText(activeBrand.getPhonenumber());
+                        }
+
+                        if (!model.isFree()) {
+                            ((FooterHolderFourteen) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+
+                        } else {
+                            ((FooterHolderFourteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                        }
                     }
-
-                    if (!model.isFree()) {
-                        ((FooterHolderFourteen) holder).binding.elementPremium.setVisibility(View.VISIBLE);
-
-                    } else {
-                        ((FooterHolderFourteen) holder).binding.freePremium.setVisibility(View.VISIBLE);
-                    }
-
                     if (checkedPosition == position) {
                         ((FooterHolderFourteen) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                         ((FooterHolderFourteen) holder).binding.elementPremium.setVisibility(View.GONE);

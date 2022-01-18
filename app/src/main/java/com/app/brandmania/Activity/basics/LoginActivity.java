@@ -81,7 +81,6 @@ public class LoginActivity extends BaseActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-
                     }
                 } else {
                     String ContactNO = binding.mobileNumber.getText().toString();
