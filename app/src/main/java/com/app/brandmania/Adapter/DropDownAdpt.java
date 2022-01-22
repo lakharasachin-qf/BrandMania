@@ -55,23 +55,11 @@ public class DropDownAdpt extends RecyclerView.Adapter<DropDownAdpt.TenamentHold
     public void onBindViewHolder(final TenamentHolder holder, @SuppressLint("RecyclerView") int position) {
         CommonListModel listModel = arrayList.get(position);
 
-        Glide.with(act).load(R.drawable.placeholder).placeholder(R.drawable.placeholder).into((holder.imageView));
-        //  holder.radioButton.setChecked(checkedPosition == position);
+        Glide.with(act).load(arrayList.get(position).getThumbnail()).placeholder(R.drawable.placeholder).into((holder.imageView));
         holder.title.setText(convertFirstUpper(listModel.getName()));
-
-//        if (position == checkedPosition) {
-//            holder.radioButton.setChecked(true);
-//            holder.radioButton.setSelected(true);
-//        } else {
-//            holder.radioButton.setChecked(false);
-//            holder.radioButton.setSelected(false);
-//        }
-
-        //holder.radioButton.setOnClickListener(v -> holder.itemView.performClick());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // holder.radioButton.setChecked(true);
                 checkedPosition = position;
                 notifyDataSetChanged();
                 if (fragmentSelection != null) {

@@ -618,6 +618,8 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                             CommonListModel listModel = new CommonListModel();
                             listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
                             listModel.setId(ResponseHandler.getString(itemObj, "id"));
+                            listModel.setThumbnail(ResponseHandler.getString(itemObj, "thumbnail_url"));
+
                             listModel.setName(ResponseHandler.getString(itemObj, "biz_cat_name"));
                             BRANDTypeList.add(listModel);
                         }

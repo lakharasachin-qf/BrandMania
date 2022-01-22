@@ -49,19 +49,22 @@ public abstract class BaseFragment extends Fragment implements Observer {
     }
 
     protected Map<String, String> getHeader(int flag) {
-        Map<String, String> headers = new HashMap<>();
-        if (flag == CodeReUse.GET_JSON_HEADER) {
-            headers.put("Accept", "application/json");
-            headers.put("Content-Type", "application/json");
-        } else {
-            headers.put("Accept", "application/x-www-form-urlencoded");
-            headers.put("Content-Type", "application/x-www-form-urlencoded");
-        }
+        return  MakeMyBrandApp.getInstance().getHeader(flag);
 
-        if (prefManager.getUserToken() != null) {
-            headers.put("X-Authorization", "Bearer " + prefManager.getUserToken());
-        }
-        return headers;
+//        Map<String, String> headers = new HashMap<>();
+//        if (flag == CodeReUse.GET_JSON_HEADER) {
+//            headers.put("Accept", "application/json");
+//            headers.put("Content-Type", "application/json");
+//        } else {
+//            headers.put("Accept", "application/x-www-form-urlencoded");
+//            headers.put("Content-Type", "application/x-www-form-urlencoded");
+//        }
+//
+//        if (prefManager.getUserToken() != null) {
+//            //headers.put("X-Authorization", "Bearer " + prefManager.getUserToken());
+//            headers.put("Authorization", "Bearer " + prefManager.getUserToken());
+//        }
+//        return headers;
     }
 
 

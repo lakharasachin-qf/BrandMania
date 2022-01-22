@@ -2,6 +2,7 @@ package com.app.brandmania.utils;
 
 public class APIs {
     public static final String URL = "http://queryfinders.com/brandmania/public/api/";
+   // public static final String URL = "http://192.168.1.63/brandMania/public/api/";
 
     public static final String USER_REGISTRATION = URL + "userRegistration";
     public static final String ADD_BRAND = URL + "addBrand";

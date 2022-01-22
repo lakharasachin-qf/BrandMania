@@ -314,6 +314,7 @@ public class DownloadListTab extends BaseFragment {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(String response) {
+                Utility.Log("download",response);
                 binding.swipeContainer.setRefreshing(false);
 
                 try {

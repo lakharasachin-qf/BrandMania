@@ -317,13 +317,13 @@ public class ResponseHandler {
                         JSONArray dataItemArray = data.getJSONArray(key);
                         DashBoardItem model = new DashBoardItem();
                         if (key.contains("Business")) {
-                            model.setFilterIndex(2);
+                            model.setFilterIndex(1);
                         }
                         if (key.contains("Daily")) {
-                            model.setFilterIndex(3);
+                            model.setFilterIndex(2);
                         }
                         if (key.contains("Upcoming")) {
-                            model.setFilterIndex(1);
+                            model.setFilterIndex(3);
                         }
                         if (key.contains("Today's")) {
                             model.setFilterIndex(0);
@@ -348,7 +348,7 @@ public class ResponseHandler {
                             imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
                             imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
 
-                            //Language Filter
+
                             JSONArray languageArray = getJSONArray(innerObject, "lang");
                             ArrayList<String> valueList = new ArrayList<String>();
                             valueList.add(0, "All");
@@ -363,6 +363,10 @@ public class ResponseHandler {
                                 if (imageCategory.getName().equalsIgnoreCase(new PreafManager(act).getActiveBrand().getCategoryName())) {
                                     userBusinessCategoryIndex = m;
                                 }
+                            }
+                            if (key.contains("Daily Images") || key.contains("Business")) {
+                                if(m==8)
+                                    break;
                             }
                         }
 
@@ -413,7 +417,13 @@ public class ResponseHandler {
                     ImageList imageCategory = new ImageList();
 
                     imageCategory.setLayoutType(ImageList.LAYOUT_DAILY_IMAGES);
-
+                    JSONArray languageArray = getJSONArray(innerObject, "lang");
+                    ArrayList<String> valueList = new ArrayList<String>();
+                    valueList.add(0, "All");
+                    for (int i = 0; i < languageArray.length(); i++) {
+                        valueList.add(languageArray.getString(i));
+                    }
+                    imageCategory.setLanguageData(valueList);
                     imageCategory.setId(getString(innerObject, "id"));
                     imageCategory.setName(getString(innerObject, "name"));
                     imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));

@@ -95,19 +95,20 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     }
 
     protected Map<String, String> getHeader(int flag) {
-        Map<String, String> headers = new HashMap<>();
-        if (flag == CodeReUse.GET_JSON_HEADER) {
-            headers.put("Accept", "application/json");
-            headers.put("Content-Type", "application/json");
-        } else {
-            headers.put("Accept", "application/x-www-form-urlencoded");
-            headers.put("Content-Type", "application/x-www-form-urlencoded");
-        }
-
-        if (prefManager.getUserToken() != null) {
-            headers.put("X-Authorization", "Bearer " + prefManager.getUserToken());
-        }
-        return headers;
+        return  MakeMyBrandApp.getInstance().getHeader(flag);
+//        Map<String, String> headers = new HashMap<>();
+//        if (flag == CodeReUse.GET_JSON_HEADER) {
+//            headers.put("Accept", "application/json");
+//            headers.put("Content-Type", "application/json");
+//        } else {
+//            headers.put("Accept", "application/x-www-form-urlencoded");
+//            headers.put("Content-Type", "application/x-www-form-urlencoded");
+//        }
+//
+//        if (prefManager.getUserToken() != null) {
+//            headers.put("X-Authorization", "Bearer " + prefManager.getUserToken());
+//        }
+//        return headers;
     }
 
     private void unregisterNetworkChanges() {

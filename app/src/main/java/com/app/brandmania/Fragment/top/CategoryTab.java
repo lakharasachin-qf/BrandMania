@@ -70,7 +70,7 @@ public class CategoryTab extends BaseFragment {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.category_tab, parent, false);
         gson = new Gson();
-
+        queue = Volley.newRequestQueue(act);
         imageList = gson.fromJson(act.getIntent().getStringExtra("detailsObj"), DashBoardItem.class);
         selectedObject = gson.fromJson(act.getIntent().getStringExtra("selectedimage"), ImageList.class);
         binding.shimmerForPagination.startShimmer();
@@ -122,7 +122,12 @@ public class CategoryTab extends BaseFragment {
 
     }
 
+    RequestQueue queue;
     private void getImageCtegory(String filterData) {
+
+        queue.cancelAll("categoryCall");
+        queue.cancelAll("categoryCallPage");
+
         binding.viewRecoRecycler.setVisibility(View.GONE);
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.shimmerViewContainer.startShimmer();
@@ -215,12 +220,17 @@ public class CategoryTab extends BaseFragment {
 
         };
 
-        RequestQueue queue = Volley.newRequestQueue(act);
+
+        stringRequest.setTag("categoryCall");
+
         queue.add(stringRequest);
     }
 
 
     private void getImageCtegoryNextPage(String nextPageUrl, String filterData) {
+        queue.cancelAll("categoryCallPage");
+        queue.cancelAll("categoryCall");
+
         Utility.Log("API : ", nextPageUrl);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, nextPageUrl, new Response.Listener<String>() {
             @Override
@@ -300,7 +310,8 @@ public class CategoryTab extends BaseFragment {
 
         };
 
-        RequestQueue queue = Volley.newRequestQueue(act);
+        stringRequest.setTag("categoryCallPage");
+
         queue.add(stringRequest);
     }
 

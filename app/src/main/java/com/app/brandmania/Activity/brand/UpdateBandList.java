@@ -406,6 +406,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                             JSONObject itemObj = jsonArray.getJSONObject(i);
                             CommonListModel listModel = new CommonListModel();
                             listModel.setLayoutType(CommonListModel.LAYOUT_BLOCK);
+                            listModel.setThumbnail(ResponseHandler.getString(itemObj, "thumbnail_url"));
+
                             listModel.setId(ResponseHandler.getString(itemObj, "id"));
                             listModel.setName(ResponseHandler.getString(itemObj, "biz_cat_name"));
                             BRANDTypeList.add(listModel);

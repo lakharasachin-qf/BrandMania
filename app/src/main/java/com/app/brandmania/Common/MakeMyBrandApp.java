@@ -15,6 +15,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.utils.CodeReUse;
 
 
 import java.net.CookieHandler;
@@ -22,6 +23,8 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MakeMyBrandApp extends MultiDexApplication {
     private static MakeMyBrandApp sInstance;
@@ -135,5 +138,21 @@ public class MakeMyBrandApp extends MultiDexApplication {
         editor.apply();
     }
 
+    public  Map<String, String> getHeader(int flag) {
+        Map<String, String> headers = new HashMap<>();
+        if (flag == CodeReUse.GET_JSON_HEADER) {
+            headers.put("Accept", "application/json");
+            headers.put("Content-Type", "application/json");
+        } else {
+            headers.put("Accept", "application/x-www-form-urlencoded");
+            headers.put("Content-Type", "application/x-www-form-urlencoded");
+        }
+        PreafManager prefManager =new PreafManager(this);
+        if (prefManager.getUserToken() != null) {
+            headers.put("Authorization", "Bearer " + prefManager.getUserToken());
+            //headers.put("X-Authorization", "Bearer " + prefManager.getUserToken());
+        }
+        return headers;
+    }
 
 }

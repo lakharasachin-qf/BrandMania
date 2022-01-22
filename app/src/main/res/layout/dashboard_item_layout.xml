@@ -55,12 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rootBackground"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:clipToPadding="false"
-                android:paddingStart="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_10sdp">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginTop="@dimen/_6sdp" />
 
 
         </RelativeLayout>

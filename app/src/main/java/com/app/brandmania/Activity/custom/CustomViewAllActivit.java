@@ -1,5 +1,6 @@
 package com.app.brandmania.Activity.custom;
 
+import static com.app.brandmania.Activity.details.ImageCategoryDetailActivity.DOWLOAD;
 import static com.app.brandmania.Fragment.top.EditTab.setBrightness;
 
 import android.Manifest;
@@ -46,6 +47,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.ANRequest;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.EditPicAddapter;
 import com.app.brandmania.Adapter.FooterModel;
@@ -77,6 +84,7 @@ import com.app.brandmania.Interface.ItemeInterFace;
 import com.app.brandmania.Interface.ThumbnailCallback;
 import com.app.brandmania.Interface.alertListenerCallback;
 import com.app.brandmania.Interface.onFooterSelectListener;
+import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
@@ -104,6 +112,7 @@ import com.app.brandmania.databinding.LayoutForLoadSixBinding;
 import com.app.brandmania.databinding.LayoutForLoadTenBinding;
 import com.app.brandmania.databinding.LayoutForLoadThreeBinding;
 import com.app.brandmania.databinding.LayoutForLoadTwoBinding;
+import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.IFontChangeEvent;
 import com.app.brandmania.utils.Utility;
@@ -115,6 +124,8 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.zomato.photofilters.imageprocessors.Filter;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -228,7 +239,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         dbManager = new DBManager(act);
         gson = new Gson();
 
-        if (prefManager.getActiveBrand() == null && prefManager.getAddBrandList()!=null && prefManager.getAddBrandList().size()!=0)
+        if (prefManager.getActiveBrand() == null && prefManager.getAddBrandList() != null && prefManager.getAddBrandList().size() != 0)
             prefManager.setActiveBrand(prefManager.getAddBrandList().get(0));
 
         prefManager = new PreafManager(this);
@@ -251,7 +262,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                         requestAgain();
                         saveImageToGallery(false, false);
                     }
-                }else{
+                } else {
                     addBrandList();
                 }
             }
@@ -272,14 +283,14 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             @Override
             public void onClick(View v) {
 
-                    if (manuallyEnablePermission(2)) {
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
-                        }
-                        requestAgain();
-                        saveImageToGallery(true, false);
+                if (manuallyEnablePermission(2)) {
+                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                        askForUpgradeToEnterpisePackage();
+                        return;
                     }
+                    requestAgain();
+                    saveImageToGallery(true, false);
+                }
 
 
             }
@@ -379,10 +390,12 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
 
     }
+
     AddBrandFragment addBrandFragment;
+
     public void addBrandList() {
-        if (addBrandFragment!=null){
-            if (addBrandFragment.isVisible()){
+        if (addBrandFragment != null) {
+            if (addBrandFragment.isVisible()) {
                 addBrandFragment.dismiss();
             }
         }
@@ -1293,7 +1306,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                     binding.FrameImageDuplicate.setImageBitmap(null);
                 } else {
                 }
-                FooterHelper.triggerShareIntent(act, new_file, merged);
+                //FooterHelper.triggerShareIntent(act, new_file, merged);
                 dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
             } else {
                 Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
@@ -1309,13 +1322,11 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
                     Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.frameImage);
                 }
-
                 dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
             }
 
             InputStream inputStream = null;
             try {
-
                 inputStream = getContentResolver().openInputStream(imageFromGalaryModel.getUri());
                 yourDrawable = Drawable.createFromStream(inputStream, imageFromGalaryModel.getUri().toString());
                 binding.backImage.setImageDrawable(yourDrawable);
@@ -1324,7 +1335,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
+            downloadAndShareApi(DOWLOAD, merged);
 
         } else {
             if (isUsingCustomFrame) {
@@ -1338,6 +1349,76 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_FAVORITE);
         }
 
+    }
+
+    private void downloadAndShareApi(int download, Bitmap customImage) {
+
+        Utility.showLoadingTran(act);
+        Utility.Log("API : ", APIs.DOWNLOAD_SHARE);
+        File img1File = null;
+        if (customImage != null) {
+            img1File = CodeReUse.createFileFromBitmap(act, "photo.jpeg", customImage);
+        }
+
+        ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.DOWNLOAD_SHARE)
+                .addHeaders("Accept", "application/json")
+                .addHeaders("Content-Type", "application/json")
+                .addHeaders("Authorization", "Bearer " + prefManager.getUserToken())
+                .setPriority(Priority.HIGH);
+
+
+        if (isUsingCustomFrame) {
+            request.addMultipartParameter("brand_id", prefManager.getActiveBrand().getId());
+            request.addMultipartParameter("image_id", "");
+            request.addMultipartParameter("is_custom", "1");
+            request.addMultipartParameter("footer_id", String.valueOf(selectedFooterModel.getLayoutType()));
+            if (img1File != null) {
+                Log.e("is email", "exits");
+                request.addMultipartFile("image", img1File);
+            }
+        } else {
+            request.addMultipartParameter("brand_id", prefManager.getActiveBrand().getId());
+            request.addMultipartParameter("image_id", "");
+            request.addMultipartParameter("frame_id", selectedBackendFrame.getFrame1Id());
+            request.addMultipartParameter("is_custom", "0");
+        }
+        request.addMultipartParameter("type", String.valueOf(download));
+        request.build().setUploadProgressListener(new UploadProgressListener() {
+            @Override
+            public void onProgress(long bytesUploaded, long totalBytes) {
+                // do anything with progress
+                Log.e("byupload", String.valueOf(totalBytes));
+            }
+        })
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Utility.dismissLoadingTran();
+                        Utility.Log("DOWNLOAD_SHARE : ", response);
+
+                        if (download == DOWLOAD) {
+                            //this is coding for can we change logo or not
+                            String usedImageCountStr = prefManager.getActiveBrand().getNo_of_used_image();
+                            if (usedImageCountStr.isEmpty())
+                                usedImageCountStr = "0";
+
+                            int usedCounter = Integer.parseInt(usedImageCountStr) + 1;
+                            BrandListItem brandListItem = prefManager.getActiveBrand();
+                            brandListItem.setNo_of_used_image(String.valueOf(usedCounter));
+                            prefManager.setActiveBrand(brandListItem);
+                            prefManager = new PreafManager(act);
+                            FooterHelper.triggerShareIntent(act, new_file, customImage);
+                            CodeReUse.activityBackPress(act);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        error.printStackTrace();
+                        Utility.dismissLoadingTran();
+
+                    }
+                });
     }
 
     private void requestAgain() {

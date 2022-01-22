@@ -1566,10 +1566,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
                     }
                 }
-
-
-                FooterHelper.triggerShareIntent(act, new_file, merged);
-
+         //       FooterHelper.triggerShareIntent(act, new_file, merged);
             }
             dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
             InputStream inputStream = null;
@@ -1591,7 +1588,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             downloadAndShareApi(DOWLOAD, merged);
         }
 
-        CodeReUse.activityBackPress(act);
     }
 
     private void downloadAndShareApi(final int download, Bitmap customImage) {
@@ -1606,7 +1602,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.DOWNLOAD_SHARE)
                 .addHeaders("Accept", "application/json")
                 .addHeaders("Content-Type", "application/json")
-                .addHeaders("X-Authorization", "Bearer" + prefManager.getUserToken())
+                .addHeaders("Authorization", "Bearer " + prefManager.getUserToken())
                 .setPriority(Priority.HIGH);
 
 
@@ -1650,13 +1646,16 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                             brandListItem.setNo_of_used_image(String.valueOf(usedCounter));
                             prefManager.setActiveBrand(brandListItem);
                             prefManager = new PreafManager(act);
+                            FooterHelper.triggerShareIntent(act, new_file, customImage);
+                            CodeReUse.activityBackPress(act);
+
                         }
 
                     }
 
                     @Override
                     public void onError(ANError error) {
-
+                        error.printStackTrace();
                         Utility.dismissLoadingTran();
 
                     }

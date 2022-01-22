@@ -18,6 +18,8 @@ import com.app.brandmania.databinding.ItemDownloadGridBinding;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import static com.app.brandmania.Model.DownloadFavoriteItemList.LAYOUT_DOWNLOAD;
@@ -119,6 +121,19 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
             switch (model.getLayoutType()) {
                 case LAYOUT_DOWNLOAD:
                     ((DownloadHolder) holder).binding.downloadListName.setText(downloadFavoriteItemLists.get(position).getName());
+                    if(downloadFavoriteItemLists.get(position).getName().contains("custom_default_placeholder")){
+                        String url = downloadFavoriteItemLists.get(position).getImage();
+                        URL urlObj = null;
+                        try {
+                            urlObj = new URL(url);
+                            String urlPath = urlObj.getPath();
+                            String fileName = urlPath.substring(urlPath.lastIndexOf('/') + 1);
+                            ((DownloadHolder) holder).binding.downloadListName.setText(fileName);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
                     Glide.with(context)
                             .load(downloadFavoriteItemLists.get(position).getImage())
                             .placeholder(R.drawable.placeholder)

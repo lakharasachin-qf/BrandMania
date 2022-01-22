@@ -3,6 +3,7 @@ package com.app.brandmania.Fragment.bottom;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -18,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -303,8 +305,14 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         dasboardAddaptor = new DasboardAddaptor(menuModels, act);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
         binding.rocommRecycler.setHasFixedSize(true);
+
         binding.rocommRecycler.setLayoutManager(mLayoutManager);
         binding.rocommRecycler.setAdapter(dasboardAddaptor);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     private void getBanner() {
@@ -736,6 +744,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public void update(Observable observable, Object data) {
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
             getBrandList();
+        }
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.NOTIFY) {
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (dasboardAddaptor!=null){
+                        dasboardAddaptor.notifyDataSetChanged();
+                    }
+                }
+            });
         }
     }
 
