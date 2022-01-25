@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.app.brandadmin.Adapter.User1Adapter;
 import com.app.brandadmin.Connection.BaseActivity;
 import com.app.brandadmin.R;
 import com.app.brandadmin.Utils.APIs;
@@ -87,16 +88,17 @@ public class ViewUserListActivity extends BaseActivity {
         binding.getBrandList.setHasFixedSize(true);
         binding.getBrandList.setLayoutManager(mLayoutManager);
         binding.getBrandList.setAdapter(listViewAdapter);
-        User1Adapter.OnCheckedItem onCheckedItem=new User1Adapter.OnCheckedItem() {
+
+        User1Adapter.OnCheckedItem onCheckedItem = new User1Adapter.OnCheckedItem() {
             @Override
-            public void onCheck(String flag, UserListModel model, int pos) {
+            public void onCheck(UserListModel itemmodel, int position, String flag) {
                 if (flag.equals("add")) {
-                    addremoveUser.add(model);
-                    Log.e("OnAdd" , new Gson().toJson(addremoveUser));
+                    addremoveUser.add(itemmodel);
+                    Log.e("OnAdd", new Gson().toJson(addremoveUser));
 
                 } else {
                     for (int i = 0; i < addremoveUser.size(); i++)
-                        if (addremoveUser.get(i).getId().equalsIgnoreCase(model.getId())) {
+                        if (addremoveUser.get(i).getId().equalsIgnoreCase(itemmodel.getId())) {
                             addremoveUser.get(i).setSelected(false);
                             addremoveUser.remove(i);
                             Log.e("OnRemove", new Gson().toJson(addremoveUser));
@@ -105,8 +107,8 @@ public class ViewUserListActivity extends BaseActivity {
                 }
             }
         };
-        listViewAdapter.setOnCheckedItem(onCheckedItem);
 
+        listViewAdapter.setInteface(onCheckedItem);
 
 
         binding.searchHere.addTextChangedListener(new TextWatcher() {

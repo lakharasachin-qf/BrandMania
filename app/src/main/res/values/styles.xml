@@ -91,9 +91,9 @@
     </style>
     <style name="ShapeAppearanceOverlay_card_custom_corners" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">@dimen/_10sdp</item>
+        <item name="cornerSizeTopLeft">@dimen/_15sdp</item>
         <item name="background">@color/colorNavText</item>
-        <item name="cornerSizeTopLeft">@dimen/_10sdp</item>
+        <item name="cornerSizeBottomRight">@dimen/_15sdp</item>
     </style>
     <style name="CustomCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>

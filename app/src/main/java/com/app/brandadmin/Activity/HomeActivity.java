@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.app.brandadmin.Activity.admin.ViewNewCategory;
+import com.app.brandadmin.Activity.admin.ViewCategoryActivity;
 import com.app.brandadmin.Activity.admin.ViewUserListActivity;
 import com.app.brandadmin.Common.HELPER;
 import com.app.brandadmin.Connection.BaseActivity;
@@ -30,7 +30,7 @@ public class HomeActivity extends BaseActivity  {
         binding.categoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HELPER.ROUTE(act, ViewNewCategory.class);
+                HELPER.ROUTE(act, ViewCategoryActivity.class);
             }
         });
 

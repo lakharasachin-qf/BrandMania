@@ -106,8 +106,8 @@ public class CategoryAdapter extends RecyclerView.Adapter implements Filterable 
             ((BrandHolder) holder).binding.categorylistCardview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((BrandHolder) holder).binding.active.performClick();
-                    ((BrandHolder) holder).binding.inactive.performClick();
+                    // ((BrandHolder) holder).binding.active.performClick();
+                    // ((BrandHolder) holder).binding.inactive.performClick();
                 }
             });
 

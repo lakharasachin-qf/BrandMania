@@ -39,7 +39,7 @@ import java.util.Map;
 public class ViewCategoryActivity extends BaseActivity {
     Activity act;
     private ActivityViewCategoryBinding binding;
-    ArrayList<CatModel> multiListItems=new ArrayList<>();
+    ArrayList<CatModel> multiListItems = new ArrayList<>();
     CatModel catlistmodel;
 
 
@@ -47,8 +47,8 @@ public class ViewCategoryActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act=this;
-        binding= DataBindingUtil.setContentView(act,R.layout.activity_view_category);
+        act = this;
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_view_category);
 
 
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
@@ -76,11 +76,13 @@ public class ViewCategoryActivity extends BaseActivity {
 
     private void categoryApi() {
         Utility.Log("API", APIs.ACTIVATE_CATEGORY);
+        Utility.showLoadingTran(act);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.ACTIVATE_CATEGORY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                 Log.e("ACTIVATE_CATAGORY" , response);
-               }
+                Utility.dismissLoadingTran();
+                Log.e("ACTIVATE_CATAGORY", response);
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -97,20 +99,20 @@ public class ViewCategoryActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("id" , catlistmodel.getId());
+                params.put("id", catlistmodel.getId());
                 if (catlistmodel.isActive())
-                     params.put("status", String.valueOf(0));
+                    params.put("status", String.valueOf(0));
                 else {
                     params.put("status", String.valueOf(1));
                 }
-                Log.e("status_category" , params.toString());
+                Log.e("status_category", params.toString());
                 return params;
             }
         };
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
-        }
+    }
 
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
@@ -118,19 +120,20 @@ public class ViewCategoryActivity extends BaseActivity {
         binding.getBrandList.setVisibility(View.GONE);
         binding.emptyStateLayout.setVisibility(View.GONE);
     }
+
     private void GetBrandAddaptor() {
-        CategoryAdapter MenuAddaptor = new CategoryAdapter(R.layout.item_catagory_list,multiListItems,act);
+        CategoryAdapter MenuAddaptor = new CategoryAdapter(R.layout.item_catagory_list, multiListItems, act);
 
         CategoryAdapter.handleSelectionEvent handleSelectionEvent = new handleSelectionEvent() {
             @Override
             public void selectionEvent(CatModel itemmodel, int position, String flag) {
                 catlistmodel = itemmodel;
-               if (flag.equals("Active")){
-                   categoryApi();
-               }
-               if (flag.equals("Inactive")){
-                   categoryApi();
-               }
+                if (flag.equals("Active")) {
+                    categoryApi();
+                }
+                if (flag.equals("Inactive")) {
+                    categoryApi();
+                }
 
 //                Map<String, String> params = new HashMap<>();
 //                params.put("id" , itemmodel.getId());
@@ -193,9 +196,9 @@ public class ViewCategoryActivity extends BaseActivity {
 //                    JSONArray dailyArray = jsonObject.getJSONObject("data").getJSONArray("Daily Images");
 //                    JSONArray businessArray = jsonObject.getJSONObject("data").getJSONArray("Business Images");
 
-                    for (int i=0;i<festivalArray.length();i++){
-                        JSONObject inn=festivalArray.getJSONObject(i);
-                        CatModel catModel=new CatModel();
+                    for (int i = 0; i < festivalArray.length(); i++) {
+                        JSONObject inn = festivalArray.getJSONObject(i);
+                        CatModel catModel = new CatModel();
                         catModel.setImageType("Festival Images");
                         catModel.setlayoutType(0);
                         catModel.setId(inn.getString("id"));
@@ -204,12 +207,12 @@ public class ViewCategoryActivity extends BaseActivity {
                         catModel.setActive(inn.getString("is_active").equals("0"));
                         catModel.setFree(!inn.getString("is_free").equals("0"));
                         multiListItems.add(catModel);
-                         Log.e("categoryList" , new Gson().toJson(multiListItems));
+                        Log.e("categoryList", new Gson().toJson(multiListItems));
                     }
 
-                    for (int i=0;i<dailyArray.length();i++){
-                        JSONObject inn=dailyArray.getJSONObject(i);
-                        CatModel catModel=new CatModel();
+                    for (int i = 0; i < dailyArray.length(); i++) {
+                        JSONObject inn = dailyArray.getJSONObject(i);
+                        CatModel catModel = new CatModel();
                         catModel.setlayoutType(1);
                         catModel.setImageType("Daily Images");
                         catModel.setId(inn.getString("id"));
@@ -220,9 +223,9 @@ public class ViewCategoryActivity extends BaseActivity {
                         multiListItems.add(catModel);
                     }
 
-                    for (int i=0;i<businessArray.length();i++){
-                        JSONObject inn=businessArray.getJSONObject(i);
-                        CatModel catModel=new CatModel();
+                    for (int i = 0; i < businessArray.length(); i++) {
+                        JSONObject inn = businessArray.getJSONObject(i);
+                        CatModel catModel = new CatModel();
                         catModel.setImageType("Business Images");
                         catModel.setlayoutType(2);
                         catModel.setId(inn.getString("id"));
@@ -279,7 +282,7 @@ public class ViewCategoryActivity extends BaseActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
-                Log.e("Token",params.toString());
+                Log.e("Token", params.toString());
                 return params;
             }
 
@@ -295,7 +298,8 @@ public class ViewCategoryActivity extends BaseActivity {
         queue.add(stringRequest);
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
 
