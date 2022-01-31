@@ -38,9 +38,6 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
 
     private ActivityAddReportAndBugBinding binding;
     private boolean isLoading = false;
-
-
-
     private Bitmap selectedImagesBitmap;
     private boolean isEditModeEnable = false;
 
@@ -48,10 +45,11 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act=this;
+        act = this;
 
-        binding= DataBindingUtil.setContentView(act,R.layout.activity_add_report_and_bug);
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_add_report_and_bug);
 
+        Utility.isLiveModeOff(act);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +80,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
 
 
     }
+
     private void validateData() {
         boolean isError = false;
         boolean isFocus = false;
@@ -122,7 +121,6 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
         }
 
 
-
         if (!binding.contactEdt.getText().toString().equals("")) {
             if (binding.contactEdt.getText().toString().length() < 10) {
                 binding.contactTxtLayout.setError(getString(R.string.validphoneno_txt));
@@ -141,9 +139,6 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
         }
 
 
-
-
-
         if (!isError) {
 
             Bitmap bitmap = null;
@@ -159,6 +154,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
         }
 
     }
+
     private void addReport(Bitmap img1) {
         if (isLoading)
             return;
@@ -193,15 +189,15 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Utility.Log("report",response.toString());
+                        Utility.Log("report", response.toString());
                         isLoading = false;
                         Utility.dismissProgress();
                         if (ResponseHandler.isSuccess(null, response)) {
-                       //   Toast.makeText(act, "T",Toast.LENGTH_LONG).show();
+                            //   Toast.makeText(act, "T",Toast.LENGTH_LONG).show();
 
                             Utility.showAlert(act, ResponseHandler.getString(ResponseHandler.createJsonObject(response.toString()), "message"), "Error");
 
-                        }else{
+                        } else {
                             Utility.showAlert(act, ResponseHandler.getString(ResponseHandler.createJsonObject(response.toString()), "message"), "Error");
                         }
                     }
@@ -215,6 +211,7 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
                 });
 
     }
+
     private void pickerView(int actionId, boolean viewMode, Bitmap selectedBitmap) {
         PickerFragment pickerFragment = new PickerFragment(act);
         pickerFragment.setEnableViewMode(viewMode);
@@ -244,13 +241,18 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
         pickerFragment.setImageLoad(imageLoad);
         pickerFragment.show(getSupportFragmentManager(), pickerFragment.getTag());
     }
-    @Override public void onBackPressed() {
+
+    @Override
+    public void onBackPressed() {
         CodeReUse.activityBackPress(act);
     }
+
     public void captureScreenShort() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
-    @Override public void alertListenerClick() {
+
+    @Override
+    public void alertListenerClick() {
         onBackPressed();
     }
 }

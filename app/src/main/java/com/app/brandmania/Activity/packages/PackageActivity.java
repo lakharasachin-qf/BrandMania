@@ -67,6 +67,7 @@ public class PackageActivity extends BaseActivity {
             layoutType = 0;
             selectedBrand = null;
         }
+        Utility.isLiveModeOff(act);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
         binding.BackButton.setOnClickListener(v -> onBackPressed());
         GetPackageList();

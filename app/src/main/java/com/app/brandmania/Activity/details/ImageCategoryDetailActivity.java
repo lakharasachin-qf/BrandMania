@@ -848,7 +848,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void saveVideoInCatch() {
         if (!isVideoIsDownloading) {
             String url = String.valueOf(selectedObject.getVideoSet());
-            Log.e("URL-Download",url);
+            Log.e("URL-Download", url);
 
             //url = url.replace("http", "https");
             DownloadManager.Request request;
@@ -873,7 +873,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         public void onReceive(Context context, Intent intent) {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             if (downloadID == id) {
-                Log.e("Download-Process","Done");
+                Log.e("Download-Process", "Done");
                 File outputFrameFile = new File(act.getCacheDir() + File.separator);
                 String vdPaths = outputFrameFile.getAbsolutePath();
 
@@ -902,7 +902,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     public void execCommand(String cmd) {
         progressDialog.setMessage("Processing......");
-        Log.e("Prcess Start","Yes");
+        Log.e("Prcess Start", "Yes");
         long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
 
             @Override

@@ -4,6 +4,7 @@ package com.app.brandmania.LetterHead;
 import android.app.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -23,11 +25,13 @@ import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Adapter.FontListAdeptor;
 import com.app.brandmania.Adapter.FooterAdapter;
 import com.app.brandmania.Common.Constant;
@@ -61,13 +65,22 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
     private int _yDelta;
     public boolean BOLD_TEXT = false;
     public boolean ITALIC_TEXT = false;
+    public int firstText;
 
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_letter_head);
 
+
+        binding.backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(act, HomeActivity.class);
+            startActivity(intent);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        });
         binding.cancelTextProperties.setOnClickListener(v -> {
+
             binding.textPropertiesLayout.setVisibility(View.GONE);
             binding.cancelTextProperties.setVisibility(View.GONE);
             binding.fontListLayout.setVisibility(View.GONE);
@@ -95,6 +108,7 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
         binding.textPropertiesLayoutShow.setOnClickListener(v -> {
             binding.framesViewLayout.setVisibility(View.GONE);
             binding.deleteLayout.setVisibility(View.VISIBLE);
+            binding.textAlignmentLayout.setVisibility(View.GONE);
             binding.textPropertiesLayout.setVisibility(View.VISIBLE);
             binding.cancelTextProperties.setVisibility(View.VISIBLE);
         });
@@ -156,6 +170,7 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
                 ((ITextBoldEvent) act).onBoldTextChange(false);
                 BOLD_TEXT = false;
             } else {
+
                 BOLD_TEXT = true;
                 binding.boldImg.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#faa81e")));
                 ((ITextBoldEvent) act).onBoldTextChange(true);
@@ -175,50 +190,54 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             }
         });
 
-        binding.addText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.editImg.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#faa81e")));
-                ((AddTextEvent) act).onAddTextTrigger();
-            }
+        binding.addText.setOnClickListener(v -> {
+            binding.editImg.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#faa81e")));
+            ((AddTextEvent) act).onAddTextTrigger();
         });
         binding.setColorOnLatterHeadCard.setOnClickListener(v -> {
-            textviewColour = false;
             showTextColorList(false);
         });
-        binding.fontLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.fontLayout.setOnClickListener(v -> {
 
-                if (binding.fontListLayout.getVisibility() == View.GONE) {
-                    binding.fontListLayout.setVisibility(View.VISIBLE);
+            if (binding.fontListLayout.getVisibility() == View.GONE) {
+                binding.fontListLayout.setVisibility(View.VISIBLE);
 
-                    binding.fontsImg.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#faa81e")));
-                } else {
-                    binding.fontListLayout.setVisibility(View.GONE);
-                    binding.fontsImg.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
-                }
-                FontChange();
-
+                binding.fontsImg.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#faa81e")));
+            } else {
+                binding.fontListLayout.setVisibility(View.GONE);
+                binding.fontsImg.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
             }
+            FontChange();
+
         });
         setFramesRecycler();
     }
 
-    boolean textviewColour = true;
-
     public void dynamicChangeOnText() {
         binding.phoneLabel.setOnClickListener(v -> {
+            firstText = 0;
             binding.phoneLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             binding.phoneText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.webLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
             binding.textPropertiesLayout.setVisibility(View.VISIBLE);
             binding.cancelTextProperties.setVisibility(View.VISIBLE);
             binding.deleteLayout.setVisibility(View.GONE);
             binding.textAlignmentLayout.setVisibility(View.GONE);
             // showTextFragmentList(true);
             binding.setColorOnLatterHeadCard.setOnClickListener(v1 -> showTextColorList(true));
+
         });
         binding.phoneText.setOnClickListener(v -> {
+            firstText = 1;
+            binding.webLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.textPropertiesLayout.setVisibility(View.VISIBLE);
+            binding.phoneLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
             binding.phoneText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             binding.textPropertiesLayout.setVisibility(View.VISIBLE);
             binding.cancelTextProperties.setVisibility(View.VISIBLE);
@@ -226,6 +245,13 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             binding.deleteLayout.setVisibility(View.GONE);
         });
         binding.webLabel.setOnClickListener(v -> {
+            firstText = 2;
+            binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.textPropertiesLayout.setVisibility(View.VISIBLE);
+            binding.phoneLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.phoneText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
             binding.webLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             binding.textPropertiesLayout.setVisibility(View.VISIBLE);
             binding.cancelTextProperties.setVisibility(View.VISIBLE);
@@ -233,6 +259,14 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             binding.deleteLayout.setVisibility(View.GONE);
         });
         binding.webText.setOnClickListener(v -> {
+            firstText = 3;
+            binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.textPropertiesLayout.setVisibility(View.VISIBLE);
+            binding.phoneLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.phoneText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.webLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
             binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             binding.textPropertiesLayout.setVisibility(View.VISIBLE);
             binding.cancelTextProperties.setVisibility(View.VISIBLE);
@@ -240,6 +274,15 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             binding.deleteLayout.setVisibility(View.GONE);
         });
         binding.addressLabel.setOnClickListener(v -> {
+            firstText = 4;
+            binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.textPropertiesLayout.setVisibility(View.VISIBLE);
+            binding.phoneLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.phoneText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.webLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
             binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             binding.textPropertiesLayout.setVisibility(View.VISIBLE);
             binding.cancelTextProperties.setVisibility(View.VISIBLE);
@@ -247,6 +290,15 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             binding.deleteLayout.setVisibility(View.GONE);
         });
         binding.addressText.setOnClickListener(v -> {
+            firstText = 5;
+            binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.phoneLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.phoneText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.webLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+            binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
             binding.addressText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             binding.textPropertiesLayout.setVisibility(View.VISIBLE);
             binding.cancelTextProperties.setVisibility(View.VISIBLE);
@@ -260,7 +312,7 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
     String[] fontStyle;
 
     public void FontChange() {
-        fontModelList = new ArrayList<>();  //initialized list
+        fontModelList = new ArrayList<>();  //Initialized list
         fontModelObject = new FontModel[24];   //Array of model class
         fontStyle = new String[24];  //Array of String
         fontStyle[0] = "font/inter_bold.otf";
@@ -324,6 +376,7 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
         binding.fontRecycler.setAdapter(new FontListAdeptor(fontModelList, act));    //set Adapter
     }
 
+
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapUp(MotionEvent event) {
@@ -332,16 +385,16 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
     }
 
     public void setFramesRecycler() {
-        Log.e("frames", "data" + gson.toJson(prefManager.getActiveBrand().getFrame()));
+        Log.e("Frames List", gson.toJson(prefManager.getActiveBrand().getFrame()));
         FrameAdaptor frameAdaptor = new FrameAdaptor(prefManager.getActiveBrand().getFrame(), act);
         binding.framesRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));
         binding.framesRecycler.setHasFixedSize(true);
 
         FrameAdaptor.onFooterListener onFooterListener = new FrameAdaptor.onFooterListener() {
             @Override
-            public void onFooterChoose(String Frames, Integer footerModel) {
-                binding.mainImage.setVisibility(View.VISIBLE);
-                Glide.with(getApplicationContext()).load(Frames).into(binding.mainImage);
+            public void onFooterChoose(String Frames, Integer position) {
+                binding.footerOverlay.setVisibility(View.VISIBLE);
+                Glide.with(getApplicationContext()).load(Frames).into(binding.footerOverlay);
             }
         };
         frameAdaptor.setFooterListener(onFooterListener);
@@ -356,10 +409,15 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
         ColorPickerFragment.OnColorChoose onColorChoose = color -> {
 
             if (textViewColor) {
-                binding.phoneLabel.setTextColor(color);
-            } else
-                // selectedTextView.setTextColor(color);
+                if (firstText == 0) {
+                    binding.phoneLabel.setTextColor(color);
+                }
+            } else {
                 VisitingCardHelper.applyTextColorOnLatterHead(CurrentSelectedCard, color, binding);
+            }
+
+            // selectedTextView.setTextColor(color);
+
         };
         bottomSheetFragment.setOnColorChoose(onColorChoose);
         if (bottomSheetFragment.isVisible()) {
@@ -512,6 +570,12 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             protected void onSingleClick(View v) {
                 selectedTextView = textView;
                 selectedTextView.setId(0);
+                binding.phoneLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+                binding.phoneText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+                binding.webLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+                binding.webText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+                binding.addressLabel.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
+                binding.addressText.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border_white));
                 textView.setBackground(ContextCompat.getDrawable(act, R.drawable.editing_text_border));
             }
 
@@ -706,6 +770,7 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
     public void onBoldTextChange(boolean Bold) {
         if (Bold) {
             isLoadBold = Bold;
+
             if (selectedForEdit != null) {
 
                 Utility.setBold(selectedForEdit, true);
@@ -727,6 +792,7 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
 
         isLoadItalic = Italic;
         if (Italic) {
+
             if (selectedForEdit != null) {
 
                 Utility.setItalicText(selectedForEdit, true);
@@ -745,41 +811,11 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
 
     }
 
-    //for font change
+    //For font change
     @Override
     public void onFontChangeListenert(String Font) {
 
         FooterHelper.baseForFontChangeOnLatterHead(act, footerLayout, Font, binding);
-    }
-
-    private void beginLogoAnimation() {
-        Animation translateAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_bottom);
-//       Animation translateAnim =new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-//                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-//                0.0f, Animation.RELATIVE_TO_SELF, -5.0f);
-//        translateAnim.setDuration(400);
-//        translateAnim.setFillAfter(true);
-//        translateAnim.setFillEnabled(true);
-//        binding.framesLayout.startAnimation(translateAnim);
-        translateAnim.setFillAfter(true);
-        translateAnim.setFillEnabled(true);
-        translateAnim.setFillBefore(false);
-        translateAnim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                binding.framesLayout.startAnimation(translateAnim);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                binding.framesLayout.clearAnimation();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
     }
 
 }

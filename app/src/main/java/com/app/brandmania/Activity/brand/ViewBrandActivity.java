@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class ViewBrandActivity extends BaseActivity {
     Activity act;
     private ActivityViewBrandBinding binding;
     private static final int REQUEST_CALL = 1;
+
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
 
     @Override
@@ -66,7 +68,7 @@ public class ViewBrandActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-
+        Utility.isLiveModeOff(act);
         if (prefManager.getActiveBrand() != null) {
 
             binding.addBrandImage.setVisibility(View.VISIBLE);

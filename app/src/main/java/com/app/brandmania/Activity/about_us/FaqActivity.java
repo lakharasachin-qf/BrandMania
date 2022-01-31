@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,13 +40,14 @@ public class FaqActivity extends BaseActivity {
     Activity act;
     private ActivityFaqBinding binding;
     private ArrayList<MultiListItem> faqList = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
-        act=this;
-        binding= DataBindingUtil.setContentView(act,R.layout.activity_faq);
-
+        act = this;
+        binding = DataBindingUtil.setContentView(act, R.layout.activity_faq);
+        Utility.isLiveModeOff(act);
         binding.BackButtonIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +73,7 @@ public class FaqActivity extends BaseActivity {
         startAnimation();
         getFaq();
     }
+
     private void setAdpters() {
         MenuAddaptor faqAdpter = new MenuAddaptor(faqList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
@@ -81,12 +84,14 @@ public class FaqActivity extends BaseActivity {
 
 
     }
+
     private void startAnimation() {
         binding.shimmerViewContainer.startShimmer();
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.faqRecycler.setVisibility(View.GONE);
         binding.emptyStateLayout.setVisibility(View.GONE);
     }
+
     private void getFaq() {
         Utility.Log("API : ", APIs.FAQ);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, APIs.FAQ, new Response.Listener<String>() {
@@ -140,14 +145,15 @@ public class FaqActivity extends BaseActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-               // params.put("X-Authorization", "Bearer"+preafManager.getUserToken());
+                // params.put("X-Authorization", "Bearer"+preafManager.getUserToken());
                 return params;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-               // params.put("image_category_id", imageList.getId());
+                // params.put("image_category_id", imageList.getId());
 
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -159,8 +165,10 @@ public class FaqActivity extends BaseActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
+
     @Override
-    public void onBackPressed() {CodeReUse.activityBackPress(act);
+    public void onBackPressed() {
+        CodeReUse.activityBackPress(act);
     }
 
 }

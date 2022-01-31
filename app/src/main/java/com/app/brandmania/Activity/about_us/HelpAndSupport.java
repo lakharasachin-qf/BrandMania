@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.databinding.ActivityHelpAndSupportBinding;
+import com.app.brandmania.utils.Utility;
 
 
 public class HelpAndSupport extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class HelpAndSupport extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         act=this;
         binding= DataBindingUtil.setContentView(act,R.layout.activity_help_and_support);
+        Utility.isLiveModeOff(act);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

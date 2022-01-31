@@ -44,6 +44,7 @@ public class ViewNotificationActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         super.onCreate(savedInstanceState);
         act = this;
+        Utility.isLiveModeOff(act);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_notification);
         binding.BackButtonMember.setOnClickListener(v -> onBackPressed());
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary,

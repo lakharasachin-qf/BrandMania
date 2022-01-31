@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityAboutUsBinding;
+import com.app.brandmania.utils.Utility;
 
 public class AboutUsActivity extends BaseActivity {
     Activity act;
@@ -30,7 +31,7 @@ public class AboutUsActivity extends BaseActivity {
         setContentView(R.layout.activity_about_us);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_about_us);
-
+        Utility.isLiveModeOff(act);
         binding.BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,8 +72,8 @@ public class AboutUsActivity extends BaseActivity {
                 url = "http://site.queryfinders.com/brandmania/index.html";
                 binding.toolbarTitle.setText("About us");
             }
-        }else{
-            loadBrandmaniaSite=false;
+        } else {
+            loadBrandmaniaSite = false;
             url = "http://brandmaniaapp.in/";
         }
         binding.webView.setVisibility(View.GONE);
@@ -95,6 +96,7 @@ public class AboutUsActivity extends BaseActivity {
             view.loadUrl(url);
             return true;
         }
+
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
@@ -125,7 +127,7 @@ public class AboutUsActivity extends BaseActivity {
             super.onReceivedError(view, request, error);
             //Log.e("Error",gson.toJson(error));
             binding.simpleProgressBar.setVisibility(View.VISIBLE);
-            loadBrandmaniaSite=true;
+            loadBrandmaniaSite = true;
             loadData();
         }
     }

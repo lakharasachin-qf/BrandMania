@@ -3,7 +3,6 @@ package com.app.brandmania.Common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.ImageList;
@@ -70,6 +69,17 @@ public class PreafManager {
         return parameters;
     }
 
+    public String isOneTimeLoad(String date) {
+        pref.edit().putString("day", date).apply();
+        editor.commit();
+        return date;
+    }
+
+    public String getOneTimeLoad() {
+        return pref.getString("day", "");
+    }
+
+
     public String getUserMobileNo() {
         return pref.getString("mobileNo", "");
     }
@@ -85,7 +95,6 @@ public class PreafManager {
         int PRIVATE_MODE = 0;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
-
     }
 
     public void Logout() {
@@ -112,7 +121,6 @@ public class PreafManager {
     public void setFrameIntro(Boolean parameters) {
         pref.edit().putBoolean(FORCUSTOMEFRAME, parameters).apply();
     }
-
 
     public Boolean getViewAllActivityIntro() {
         return pref.getBoolean(ViewAllActivityIntro, true);

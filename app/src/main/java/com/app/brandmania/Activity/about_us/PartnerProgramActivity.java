@@ -10,6 +10,7 @@ import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.databinding.ActivityPartnerProgramBinding;
+import com.app.brandmania.utils.Utility;
 
 public class PartnerProgramActivity extends BaseActivity {
     Activity act;
@@ -21,6 +22,7 @@ public class PartnerProgramActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         act=this;
         binding= DataBindingUtil.setContentView(act,R.layout.activity_partner_program);
+        Utility.isLiveModeOff(act);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

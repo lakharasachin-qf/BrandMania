@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -74,6 +76,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,8 +106,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     private String isActivityStatus;
     private String targetLink;
     private FragmentHomeBinding binding;
+    private boolean LIVE_MODE = true;
     private Timer timer;
     private HomeFragment homeFragment;
+    static Calendar now = Calendar.getInstance();
     private SelectBrandListBottomFragment bottomSheetFragment;
 
 
@@ -137,6 +142,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         fiveStarsDialog = new FiveStarsDialog(act, "brandmania@gmail.com");
         preafManager = new PreafManager(act);
         binding.infoMsg.setSelected(true);
+
+        if (LIVE_MODE) {
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
 
         if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
             if (preafManager.getActiveBrand() == null) {
@@ -217,7 +226,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             startAnimation();
             loadImagesCategory();
         });
-        getDeviceToken();
+
+        if (Utility.oneTimeCodeExecutes(act)) {
+            //Toast.makeText(act, "Only Once A Day Code Run", Toast.LENGTH_LONG).show();
+            getDeviceToken();
+        }
+        //getDeviceToken();
         binding.businessNameDropDown.setOnClickListener(v -> showFragmentList(BUSINESS_TYPE, ""));
 
         if (!HomeActivity.isAlreadyDisplayedOffer) {
@@ -749,7 +763,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             act.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (dasboardAddaptor!=null){
+                    if (dasboardAddaptor != null) {
                         dasboardAddaptor.notifyDataSetChanged();
                     }
                 }

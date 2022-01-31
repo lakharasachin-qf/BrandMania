@@ -355,6 +355,40 @@ public class FooterHelper {
     }
 
     //LatterHead Apply Bold On Text
+    public static void baseForBoldForLatterHeadOnText(boolean bold, int footerLayout, ActivityLetterHeadBinding binding) {
+        if (bold) {
+            if (footerLayout == 1) {
+                FooterHelper.makeBoldInPhoneText(binding, true);
+            }
+        } else {
+            if (footerLayout == 1) {
+                FooterHelper.makeBoldInPhoneText(binding, false);
+            }
+        }
+    }
+    public static void makeBoldInPhoneText(ActivityLetterHeadBinding binding, boolean bold) {
+        Utility.setBold(binding.phoneLabel, bold);
+
+    }
+
+    //LatterHead Apply Italic On Text
+    public static void baseForItalicInTextOnText(boolean italic, int footerLayout, ActivityLetterHeadBinding binding) {
+        if (italic) {
+            if (footerLayout == 1) {
+                FooterHelper.makeItalicInPhoneText(binding, true);
+            }
+        } else {
+            if (footerLayout == 1) {
+                FooterHelper.makeItalicInPhoneText(binding, false);
+            }
+        }
+    }
+
+    public static void makeItalicInPhoneText(ActivityLetterHeadBinding binding, boolean italic) {
+        Utility.setItalicText(binding.phoneLabel, italic);
+    }
+
+    //LatterHead Apply Bold On Text
     public static void baseForBoldForLatterHead(boolean bold, int footerLayout, ActivityLetterHeadBinding binding) {
         if (bold) {
             if (footerLayout == 1) {

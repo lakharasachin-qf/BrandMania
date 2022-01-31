@@ -84,6 +84,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         binding.verificationChildTitle.setText("We sent OTP to verify your number \n" + "+91" + NumberShow);
         String Verify = "OTP<br>Verification</font></br>";
         referrerCode = getIntent().getStringExtra("referrerCode");
+        Utility.isLiveModeOff(act);
         InsertRecord();
         binding.ResendText.setOnClickListener(new View.OnClickListener() {
             @Override

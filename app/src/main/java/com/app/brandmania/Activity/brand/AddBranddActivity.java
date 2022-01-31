@@ -134,7 +134,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
         binding.navigation.setOnNavigationItemSelectedListener(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+        Utility.isLiveModeOff(act);
 
         binding.websiteEdt.setText("https://");
         alertDialogBuilder = new AlertDialog.Builder(act);

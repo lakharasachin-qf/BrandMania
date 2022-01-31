@@ -83,6 +83,7 @@ public class RegistrationActivity extends BaseActivity implements PopupMenu.OnMe
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_registration);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        Utility.isLiveModeOff(act);
         alertDialogBuilder = new AlertDialog.Builder(act);
         preafManager = new PreafManager(this);
         binding.emailId.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);

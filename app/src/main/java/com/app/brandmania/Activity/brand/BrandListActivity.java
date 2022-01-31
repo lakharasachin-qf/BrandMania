@@ -42,6 +42,7 @@ public class BrandListActivity extends BaseActivity {
         setContentView(R.layout.activity_brand_list);
         act=this;
         binding= DataBindingUtil.setContentView(act,R.layout.activity_brand_list);
+        Utility.isLiveModeOff(act);
         getBrandList();
     }
 

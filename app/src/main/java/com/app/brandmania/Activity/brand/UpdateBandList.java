@@ -107,6 +107,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
         binding = DataBindingUtil.setContentView(act, R.layout.activity_update_band_list);
         prefManager = new PreafManager(this);
         gson = new Gson();
+        Utility.isLiveModeOff(act);
         CodeReUse.RemoveError(binding.categoryEdt, binding.categoryEdtLayout);
         CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
         CodeReUse.RemoveError(binding.phoneTxt, binding.phoneTxtLayout);

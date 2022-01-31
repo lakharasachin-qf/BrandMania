@@ -75,8 +75,7 @@ public class ReferNEarnActivity extends BaseActivity {
         getDeviceToken(act);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_refer);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-
+        Utility.isLiveModeOff(act);
         binding.referralCodeTxt.setText(prefManager.getReferCode());
         binding.walletMoney.setText(prefManager.getWallet());
         binding.referralCodeTxt.setTextIsSelectable(true);

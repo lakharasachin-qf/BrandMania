@@ -23,6 +23,7 @@ import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.databinding.ActivityAppIntroBinding;
+import com.app.brandmania.utils.Utility;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -94,6 +95,7 @@ public class AppIntroActivity extends BaseActivity implements Player.EventListen
         gestureDetector = new GestureDetector(act, (GestureDetector.OnGestureListener) act);
         //  if (getIntent().hasExtra(KEY_VIDEO_URI)) {
         videoUri = prefManager.getAppTutorial();
+        Utility.isLiveModeOff(act);
         // }
        /* binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override

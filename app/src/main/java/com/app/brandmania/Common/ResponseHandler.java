@@ -212,7 +212,6 @@ public class ResponseHandler {
                 frameItem.setFrameId(ResponseHandler.getString(jsonObject1, "id"));
                 frameItems.add(frameItem);
 
-
             }
             examModel.setFrame(frameItems);
         } catch (JSONException e) {

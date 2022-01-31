@@ -53,6 +53,7 @@ public class LoginActivity extends BaseActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         preafManager = new PreafManager(act);
+        Utility.isLiveModeOff(act);
         referrerCode = getIntent().getStringExtra("referrerCode");
         String WELCOME = "Welcome<br>Back!</font></br>";
         String Message = "Don't have account?<font color='#ad2753'><b><u>SignUp</u></b></font>";

@@ -109,6 +109,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         preafManager = new PreafManager(this);
         alertDialogBuilder = new AlertDialog.Builder(act);
         binding.websiteEdt.setText("https://");
+        Utility.isLiveModeOff(act);
         binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

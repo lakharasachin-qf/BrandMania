@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -15,6 +16,7 @@ import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityEditBinding;
 import com.app.brandmania.utils.CodeReUse;
+import com.app.brandmania.utils.Utility;
 import com.app.brandmania.views.MyBounceInterpolator;
 
 public class EditActivity extends BaseActivity {
@@ -34,7 +36,7 @@ public class EditActivity extends BaseActivity {
         preafManager = new PreafManager(this);
 
         binding.BackButton.setOnClickListener(v -> onBackPressed());
-
+        Utility.isLiveModeOff(act);
         CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
         CodeReUse.RemoveError(binding.phoneTxt, binding.phoneTxtLayout);
@@ -123,8 +125,6 @@ public class EditActivity extends BaseActivity {
             }
 
         }
-
-
 
 
     }

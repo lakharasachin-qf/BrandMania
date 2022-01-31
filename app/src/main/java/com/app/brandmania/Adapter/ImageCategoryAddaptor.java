@@ -174,9 +174,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     });
                     if (!model.isImageFree()) {
-                        ((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                        //((DailyRoundHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     } else {
-                        ((DailyRoundHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                        //((DailyRoundHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
                     preafManager = new PreafManager(activity);
                     if (preafManager.getActiveBrand() != null && preafManager.getActiveBrand().getIs_payment_pending() != null && preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
@@ -247,9 +247,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     });
 
                     if (!model.isImageFree()) {
-                        ((DailyHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
+                        //((DailyHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     } else {
-                        ((DailyHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                       // ((DailyHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
                     if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {

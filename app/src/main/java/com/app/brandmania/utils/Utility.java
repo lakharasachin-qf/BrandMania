@@ -8,6 +8,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -25,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -81,6 +83,54 @@ public class Utility {
                 }
             }
         });
+    }
+
+    public static void isLiveModeOff(Activity activity) {
+        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+
+    public static boolean oneTimeCodeExecutes(Activity act) {
+
+        try {
+            Date date = new Date();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDate = formatter.format(date);
+            //new PreafManager(act).isOneTimeLoad(currentDate);
+            String expireDate = new PreafManager(act).getOneTimeLoad();
+            Log.e("expired Date", expireDate);
+            //String dates = "30/01/2022";
+            if (!expireDate.equals(currentDate)) {
+                Log.e("inner Date", expireDate);
+                new PreafManager(act).isOneTimeLoad(currentDate);
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean oneTimeCodeExecute(Activity act) {
+
+        Date date = new Date();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = formatter.format(date);
+        Calendar calendar = Calendar.getInstance();
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        Log.e("currentDay", String.valueOf(currentDay));
+        SharedPreferences settings = act.getSharedPreferences("makemybrand", 0);
+        int lastDay = settings.getInt("day", 0);
+        //int lastDay = new PreafManager(act).getOneTimeLoad();
+        if (lastDay != currentDay) {
+            // new PreafManager(act).isOneTimeLoad(currentDay);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("day", currentDay);
+            editor.commit();
+            return true;
+        }
+        return false;
     }
 
     public static boolean isPackageExpired(Activity act) {

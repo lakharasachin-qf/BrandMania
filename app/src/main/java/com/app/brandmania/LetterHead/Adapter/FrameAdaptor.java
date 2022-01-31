@@ -45,7 +45,7 @@ public class FrameAdaptor extends RecyclerView.Adapter<FrameAdaptor.FrameAdaptor
     }
 
     public interface onFooterListener {
-        void onFooterChoose(String Frames, Integer footerModel);
+        void onFooterChoose(String Frames, Integer position);
     }
 
     public FrameAdaptor(ArrayList<FrameItem> frameItems, Activity activity) {
@@ -63,17 +63,18 @@ public class FrameAdaptor extends RecyclerView.Adapter<FrameAdaptor.FrameAdaptor
     @Override
     public void onBindViewHolder(@NonNull FrameAdaptorViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final FrameItem model = frameItems.get(position);
+
         Glide.with(activity)
                 .load(model.getFrame1())
                 .placeholder(R.drawable.placeholder)
                 .into(holder.binding.frameImage);
-
-        holder.binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                footerListener.onFooterChoose(model.getFrame1(), position);
-            }
-        });
+        holder.binding.itemLayout.setOnClickListener(v -> footerListener.onFooterChoose(model.getFrame1(), position));
+//        if (position == 0) {
+//            Glide.with(activity)
+//                    .load(R.drawable.placeholder)
+//                    .placeholder(R.drawable.placeholder)
+//                    .into(holder.binding.frameImage);
+//        }
 
     }
 
