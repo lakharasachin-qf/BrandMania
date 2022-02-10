@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -21,6 +22,7 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +35,15 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
+import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.BuildConfig;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.R;
 import com.app.brandmania.utils.CodeReUse;
 import com.app.brandmania.utils.Utility;
 import com.app.brandmania.databinding.FragmentPickerBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -48,6 +53,7 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -277,6 +283,9 @@ public class PickerFragment extends BottomSheetDialogFragment {
 
     }
 
+    String imagePath;
+    Bitmap bmp;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         try {
@@ -294,11 +303,44 @@ public class PickerFragment extends BottomSheetDialogFragment {
 
                 if (data != null) {
                     Uri selectedImage = data.getData();
-                    CropImage.activity(selectedImage)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setMultiTouchEnabled(true)
-                            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-                            .start(getContext(), this);
+
+                    imagePath = CodeReUse.getRealPathFromURI(act, selectedImage);
+                    Log.e("ImageUrl", imagePath);
+                    if (imagePath.endsWith(".jpg") || imagePath.endsWith(".jpeg")) {
+
+//                        CropImage.activity(selectedImage)
+//                                .setGuidelines(CropImageView.Guidelines.ON)
+//                                .setMultiTouchEnabled(true)
+//                                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+//                                .start(getContext(), this);
+
+                        androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+                                .setTitle("Add Your Logo")
+                                .setMessage("You Want to Transparent Your Logo?? ")
+                                .setPositiveButton("OK", (dialogInterface, i) -> {
+
+                                    InputStream is = null;
+                                    if (selectedImage.getAuthority() != null) {
+                                        try {
+                                            is = act.getContentResolver().openInputStream(Uri.fromFile(new File(imagePath)));
+                                            Bitmap bmp = BitmapFactory.decodeStream(is);
+                                            Uri imgPath = CodeReUse.writeToTempImageAndGetPathUri(act, bmp, imagePath);
+                                            setSelectedImage(imgPath);
+                                        } catch (FileNotFoundException e) {
+                                            Log.e("test", e.toString());
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    //CodeReUse.jpgTopngImageConvert(act, bmp, imagePath);
+                                    //String uri = CodeReUse.getImageUrlWithAuthority(act, Uri.parse(imagePath));
+
+                                })
+                                .setNeutralButton("LATER", (dialogInterface, i) -> {
+                                })
+                                .show();
+                        AlertDialogBuilder.setCancelable(false);
+                    }
+
 
 //                    String selectedImagePath = getRealPathFromURIPath(selectedImage, act);
 //                    if (eventParents != null)

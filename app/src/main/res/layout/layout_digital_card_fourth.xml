@@ -27,12 +27,12 @@
                 android:background="@color/white">
 
                 <ImageView
-                    android:id="@+id/freeCard"
+                    android:id="@+id/paidUserCard"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:src="@drawable/ic_freee"
+                    android:src="@drawable/ic_crown"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
