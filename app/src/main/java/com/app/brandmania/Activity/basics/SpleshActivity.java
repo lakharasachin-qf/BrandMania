@@ -93,7 +93,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
 
     }
 
-
     private void LoginFlow() {
         Utility.Log("API : ", APIs.IS_COMPLETE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.IS_COMPLETE, new Response.Listener<String>() {

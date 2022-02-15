@@ -2,14 +2,22 @@ package com.app.brandmania.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -25,8 +33,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,6 +95,79 @@ public class CodeReUse {
             e.printStackTrace();
         }
         return file;
+    }
+
+    public static String getRealPathFromURI(Activity activity, Uri contentURI) {
+
+        String thePath = null;
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = activity.getContentResolver().query(contentURI, filePathColumn, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            thePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+
+        return thePath;
+    }
+
+    public static String getImageUrlWithAuthority(Context context, Uri uri) {
+        InputStream is = null;
+        if (uri.getAuthority() != null) {
+            try {
+                is = context.getContentResolver().openInputStream(uri);
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                //return writeToTempImageAndGetPathUri(context, bmp).toString();
+            } catch (FileNotFoundException e) {
+                Log.e("test", e.toString());
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return uri.getPath();
+    }
+
+    public static Uri writeToTempImageAndGetPathUri(Context inContext, Bitmap inImage, String imgPath) {
+        String path = null;
+
+        try {
+            FileOutputStream out = new FileOutputStream(String.valueOf((Uri.fromFile(new File(imgPath)))));
+            inImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+            path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "BMLogo", null);
+            Log.e("ImageFinalPath", Uri.parse(path).getPath());
+            out.close();
+
+        } catch (Exception e) {
+            Log.e("fileNotFound", e.toString());
+            e.printStackTrace();
+        }
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+//        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "BMLogo", null);
+//        Log.e("ImageFinalPath", Uri.parse(path).getPath());
+        return Uri.parse(path);
+
+    }
+
+    public static void jpgTopngImageConvert(Activity act, Bitmap bmp, String uripath) {
+        try {
+            //writeToTempImageAndGetPathUri(act, bmp);
+            FileOutputStream fos = new FileOutputStream(new File(act.getFilesDir(), uripath));
+            bmp = MediaStore.Images.Media.getBitmap(act.getContentResolver(), Uri.parse(uripath));
+            //bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            Log.e("Conversion", "successfully done");
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void hideKeyboard(Activity activity, View view) {

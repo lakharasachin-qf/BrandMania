@@ -162,10 +162,14 @@ public class VisitingCardHelper {
         if (!brand.getWebsite().isEmpty() && !brand.getWebsite().equalsIgnoreCase("https://")) {
             fourBinding.websiteTxt.setText(brand.getWebsite());
         }
+
         if (brand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(act)) {
-            fourBinding.freeCard.setVisibility(View.GONE);
-            fourBinding.bmLogo.setVisibility(View.VISIBLE);
+            fourBinding.paidUserCard.setVisibility(View.VISIBLE);
         }
+//        if (brand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(act)) {
+//            fourBinding.paidUserCard.setVisibility(View.GONE);
+//            fourBinding.bmLogo.setVisibility(View.VISIBLE);
+//        }
         loadDefaultColorCardFour(act, fourBinding, colors);
     }
 
@@ -187,11 +191,14 @@ public class VisitingCardHelper {
         if (!brand.getEmail().isEmpty()) {
             fiveBinding.emailTxt.setText(brand.getEmail());
         }
-
         if (brand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(act)) {
-            fiveBinding.freeCard.setVisibility(View.GONE);
-            fiveBinding.bmLogo.setVisibility(View.VISIBLE);
+            fiveBinding.paidUserCard.setVisibility(View.VISIBLE);
         }
+
+//        if (brand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(act)) {
+//            fiveBinding.paidUserCard.setVisibility(View.GONE);
+//            fiveBinding.bmLogo.setVisibility(View.VISIBLE);
+//        }
         loadDefaultColorCardFive(act, fiveBinding, colors);
     }
 

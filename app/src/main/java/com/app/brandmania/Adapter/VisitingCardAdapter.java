@@ -169,9 +169,8 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                         }
                     });
                     if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
-                        ((CardHolderFour) holder).binding.freeCard.setVisibility(View.VISIBLE);
+                        ((CardHolderFour) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                     }
-
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderFour) holder).binding.logo);
                     ((CardHolderFour) holder).binding.brandName.setText(activeBrand.getName());
                     break;
@@ -183,7 +182,7 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
                         }
                     });
                     if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
-                        ((CardHolderFive) holder).binding.freeCard.setVisibility(View.VISIBLE);
+                        ((CardHolderFive) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                     }
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderFive) holder).binding.logo);
                     ((CardHolderFive) holder).binding.brandName.setText(activeBrand.getName());

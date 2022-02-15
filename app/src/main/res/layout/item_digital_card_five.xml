@@ -30,15 +30,26 @@
 
 
                 <ImageView
-                    android:id="@+id/freeCard"
+                    android:id="@+id/paidUserCard"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:src="@drawable/ic_freee"
+                    android:src="@drawable/ic_crown"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/freeCard"-->
+                <!--                    android:layout_width="@dimen/_12sdp"-->
+                <!--                    android:layout_height="@dimen/_12sdp"-->
+                <!--                    android:layout_marginTop="@dimen/_5sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_5sdp"-->
+                <!--                    android:src="@drawable/ic_freee"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
                 <View
                     android:id="@+id/BottomView"

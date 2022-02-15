@@ -298,7 +298,6 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 }
             }
         });
-
         if (prefManager.getActiveBrand() != null) {
             if (prefManager.getActiveBrand().getLogo() != null && !prefManager.getActiveBrand().getLogo().isEmpty()) {
                 binding.logoEmptyState.setVisibility(View.GONE);

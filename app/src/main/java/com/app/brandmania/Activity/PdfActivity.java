@@ -132,6 +132,7 @@ public class PdfActivity extends BaseActivity {
 
 
         if (prefManager.getActiveBrand() != null) {
+
             digitalCardList = new ArrayList<>();
             digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
             binding.saveIcon.setOnClickListener(new View.OnClickListener() {
@@ -140,23 +141,26 @@ public class PdfActivity extends BaseActivity {
 
                     if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
-                        if (CurrentSelectedCard.isFree()) {
-                            isUserPaid = true;
-                            frontPageLayoutImage(false);
-                        } else {
-                            isUserPaid = false;
-                            askForUpgradeToEnterpisePackage();
-                        }
+                        askForUpgradeToEnterpisePackage();
+
+
+//                        if (CurrentSelectedCard.isFree()) {
+//                            isUserPaid = true;
+//                            frontPageLayoutImage(false);
+//                        } else {
+//                            isUserPaid = false;
+//                        }
 
                     } else {
                         if (Utility.isPackageExpired(act)) {
-                            if (CurrentSelectedCard.isFree()) {
-                                isUserPaid = true;
-                                frontPageLayoutImage(false);
-                            } else {
-                                isUserPaid = false;
-                                askForUpgradeToEnterpisePackage();
-                            }
+//                            if (CurrentSelectedCard.isFree()) {
+//                                isUserPaid = true;
+//                                frontPageLayoutImage(false);
+//                            } else {
+//                                isUserPaid = false;
+//
+//                            }
+                            askForUpgradeToEnterpisePackage();
                         } else {
                             frontPageLayoutImage(false);
                         }
@@ -168,23 +172,25 @@ public class PdfActivity extends BaseActivity {
                 public void onClick(View v) {
                     if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
-                        if (CurrentSelectedCard.isFree()) {
-                            isUserPaid = true;
-                            frontPageLayoutImage(true);
-                        } else {
-                            isUserPaid = false;
-                            askForUpgradeToEnterpisePackage();
-                        }
+//                        if (CurrentSelectedCard.isFree()) {
+//                            isUserPaid = true;
+//                            frontPageLayoutImage(true);
+//                        } else {
+//                            isUserPaid = false;
+//
+//                        }
+                        askForUpgradeToEnterpisePackage();
 
                     } else {
                         if (Utility.isPackageExpired(act)) {
-                            if (CurrentSelectedCard.isFree()) {
-                                isUserPaid = true;
-                                frontPageLayoutImage(true);
-                            } else {
-                                isUserPaid = false;
-                                askForUpgradeToEnterpisePackage();
-                            }
+//                            if (CurrentSelectedCard.isFree()) {
+//                                isUserPaid = true;
+//                                frontPageLayoutImage(true);
+//                            } else {
+//                                isUserPaid = false;
+//                                askForUpgradeToEnterpisePackage();
+//                            }
+                            askForUpgradeToEnterpisePackage();
                         } else {
                             frontPageLayoutImage(true);
                         }
@@ -241,7 +247,7 @@ public class PdfActivity extends BaseActivity {
                 binding.waterMark.setVisibility(View.GONE);
             }
 
-            if (prefManager.getActiveBrand().getBrandService().isEmpty()) {
+            if (prefManager.getActiveBrand().getBrandService() == null) {
                 binding.services.setVisibility(View.INVISIBLE);
             } else {
                 String[] list = prefManager.getActiveBrand().getBrandService().split("[,\n]");
