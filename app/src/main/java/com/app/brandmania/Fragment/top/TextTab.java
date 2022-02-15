@@ -32,16 +32,16 @@ import com.jaredrummler.android.colorpicker.ColorPickerView;
 import java.util.ArrayList;
 
 public class TextTab extends BaseFragment implements ITextColorChangeEvent, ColorPickerView.OnColorChangedListener {
-     public boolean BOLD_TEXT = false;
+    public boolean BOLD_TEXT = false;
     public boolean ITALIC_TEXT = false;
     public boolean UNDERLINE_TEXT = false;
-     int textSize = 5;
+    int textSize = 5;
     int saveProgress;
     ArrayList<FontModel> fontModelList = new ArrayList<>();
     FontModel[] fontModelObject;
     String[] fontStyle;
     private TextTabBinding binding;
-     private int activityType=0;
+    private int activityType = 0;
 
     public void setActivityType(int activityType) {
         this.activityType = activityType;
@@ -53,7 +53,7 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
         act = getActivity();
 
         binding = DataBindingUtil.inflate(inflater, R.layout.text_tab, parent, false);
-        if (activityType==1){
+        if (activityType == 1) {
             binding.addTextLayout.setVisibility(View.GONE);
         }
         binding.cancleClick.setOnClickListener(new View.OnClickListener() {
@@ -70,39 +70,28 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
 
             }
         });
-        binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Toast.makeText(act,"Toast",Toast.LENGTH_LONG).show();
-                binding.fontRecycler.setVisibility(View.VISIBLE);
-                binding.fontStyleList.setVisibility(View.GONE);
-                binding.colorChose.setVisibility(View.GONE);
-                binding.cancleClick.setVisibility(View.VISIBLE);
-                binding.boldRelative.setVisibility(View.GONE);
-            }
+        binding.categoryEdt.setOnClickListener(view -> {
+            // Toast.makeText(act,"Toast",Toast.LENGTH_LONG).show();
+            binding.fontRecycler.setVisibility(View.VISIBLE);
+            binding.fontStyleList.setVisibility(View.GONE);
+            binding.colorChose.setVisibility(View.GONE);
+            binding.cancleClick.setVisibility(View.VISIBLE);
+            binding.boldRelative.setVisibility(View.GONE);
         });
-        binding.addText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((AddTextEvent) act).onAddTextTrigger();
-            }
-        });
-        binding.boldText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ITALIC_TEXT) {
-                    binding.boldText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0C0C0C")));
-                    ((ITextBoldEvent) act).onBoldTextChange(false);
+        binding.addText.setOnClickListener(v -> ((AddTextEvent) act).onAddTextTrigger());
+        binding.boldText.setOnClickListener(v -> {
+            if (ITALIC_TEXT) {
+                binding.boldText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0C0C0C")));
+                ((ITextBoldEvent) act).onBoldTextChange(false);
 
-                    ITALIC_TEXT = false;
+                ITALIC_TEXT = false;
 
 
-                } else {
-                    ITALIC_TEXT = true;
-                    binding.boldText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AD2753")));
-                    ((ITextBoldEvent) act).onBoldTextChange(true);
+            } else {
+                ITALIC_TEXT = true;
+                binding.boldText.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#AD2753")));
+                ((ITextBoldEvent) act).onBoldTextChange(true);
 
-                }
             }
         });
         binding.underlineText.setOnClickListener(new View.OnClickListener() {
@@ -180,10 +169,12 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
         return binding.getRoot();
     }
 
-    @Override public void onColorItemChange(int colorcode) {
+    @Override
+    public void onColorItemChange(int colorcode) {
 
         binding.colorChose.setBackgroundColor(colorcode);
     }
+
     public void FontChanege() {
         fontModelList = new ArrayList<>();  //initialized list
         fontModelObject = new FontModel[24];   //Array of model class
@@ -204,7 +195,7 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
         fontStyle[13] = "font/worksans_regular.ttf";
         fontStyle[14] = "font/worksans_semibold.ttf";
         fontStyle[15] = "font/source_serifpro_regular.ttf";
-        fontStyle[16] =  "font/robotomono_regular.ttf";
+        fontStyle[16] = "font/robotomono_regular.ttf";
         fontStyle[17] = "font/ptsansnarrow_regular.ttf";
         fontStyle[18] = "font/nunito_regular.ttf";
         fontStyle[19] = "font/josefinsans_medium.ttf";
@@ -212,7 +203,6 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
         fontStyle[21] = "font/balsamiqsans_regular.ttf";
         fontStyle[22] = "font/asap_regular.ttf";
         fontStyle[23] = "font/andika_basic.ttf";
-
 
 
         for (int i = 0; i < 24; i++) {
@@ -236,21 +226,23 @@ public class TextTab extends BaseFragment implements ITextColorChangeEvent, Colo
                     .replace("montserrat", "BrandMania")
                     .replace("sourceserifpro", "BrandMania")
                     .replace("robotomono", "BrandMania")
-                    .replace("ptsansnarrow","BrandMania")
-                    .replace("nunito","BrandMania")
-                    .replace("josefinsans","BrandMania")
-                    .replace("cabin_variable","BrandMania")
-                    .replace("balsamiqsans","BrandMania")
-                    .replace("asap","BrandMania")
-                    .replace("andika","BrandMania")
-                    .replace("source_serifpro","BrandMania")
+                    .replace("ptsansnarrow", "BrandMania")
+                    .replace("nunito", "BrandMania")
+                    .replace("josefinsans", "BrandMania")
+                    .replace("cabin_variable", "BrandMania")
+                    .replace("balsamiqsans", "BrandMania")
+                    .replace("asap", "BrandMania")
+                    .replace("andika", "BrandMania")
+                    .replace("source_serifpro", "BrandMania")
             );
             fontModelList.add(fontModelObject[i]);
         }
         binding.fontRecycler.setLayoutManager(new GridLayoutManager(act, 3));   //set layout
         binding.fontRecycler.setAdapter(new FontListAdeptor(fontModelList, act));    //set Adapter
     }
-    @Override public void onColorChanged(int newColor) {
+
+    @Override
+    public void onColorChanged(int newColor) {
         binding.colorChose.setBackgroundColor(newColor);
         ((IColorChange) act).onChooseColor(newColor);
     }

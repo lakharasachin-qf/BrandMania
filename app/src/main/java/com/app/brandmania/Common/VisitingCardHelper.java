@@ -958,8 +958,8 @@ public class VisitingCardHelper {
         }
     }
 
-    public static void applyTextColorOnLatterHead(VisitingCardModel model, int colorCode, ActivityLetterHeadBinding binding) {
-        applyTextColorOnLatterHeadOne(model, colorCode, binding);
+    public static void applyTextColorOnLatterHead(int colorCode, ActivityLetterHeadBinding binding) {
+        applyTextColorOnLatterHeadOne(colorCode, binding);
     }
 
     public static void applyIconsColor(VisitingCardModel model, int colorCode, IconsColorsModel colorsModel) {
@@ -993,7 +993,7 @@ public class VisitingCardHelper {
 
     }
 
-    public static void applyTextColorOnLatterHeadOne(VisitingCardModel model, int color, ActivityLetterHeadBinding binding) {
+    public static void applyTextColorOnLatterHeadOne(int color, ActivityLetterHeadBinding binding) {
 
         binding.phoneLabel.setTextColor(ColorStateList.valueOf(color));
         binding.phoneText.setTextColor(ColorStateList.valueOf(color));

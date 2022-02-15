@@ -37,6 +37,7 @@ import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
+import com.app.brandmania.LetterHead.LetterHeadActivity;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.DialogFacebookLikesBinding;
@@ -66,10 +67,16 @@ public class ProfileFragment extends BaseFragment {
             binding.businessName.setText(prefManager.getActiveBrand().getName());
 
         binding.editProfile.setOnClickListener(v -> {
-            Intent i = new Intent(act, EditActivity.class);
+            Intent i = new Intent(act, LetterHeadActivity.class);
             startActivity(i);
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
+
+//        binding.editProfile.setOnClickListener(v -> {
+//            Intent i = new Intent(act, EditActivity.class);
+//            startActivity(i);
+//            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//        });
         binding.mybusinessRelative.setOnClickListener(v -> {
             Intent i = new Intent(act, ViewBrandActivity.class);
             startActivity(i);

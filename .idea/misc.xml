@@ -3,7 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/BrandMania-Live/app/src/main/res/layout/activity_letter_head.xml" value="0.17453703703703705" />
+        <entry key="..\:/BrandMania-Live/app/src/main/res/layout/activity_login.xml" value="0.17453703703703705" />
+        <entry key="..\:/BrandMania-Live/app/src/main/res/layout/dynamic_service_layout.xml" value="0.17453703703703705" />
+        <entry key="..\:/BrandMania-Live/app/src/main/res/layout/item_layout_viewframe.xml" value="0.17453703703703705" />
+        <entry key="..\:/BrandMania-Live/app/src/main/res/layout/item_layout_viewframes.xml" value="0.17453703703703705" />
+        <entry key="..\:/BrandMania-Live/app/src/main/res/layout/item_package_layout.xml" value="0.17453703703703705" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/drawable/editing_text_border_white.xml" value="0.2125" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.13518518518518519" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/drawable/ic_down_arrow.xml" value="0.17435897435897435" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/drawable/latterhead_background_shap.xml" value="0.18611111111111112" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/drawable/roundedbottomsheet_background.xml" value="0.18611111111111112" />
@@ -15,13 +22,25 @@
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/activity_letter_head.xml" value="0.25" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/activity_login.xml" value="0.16111111111111112" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/activity_otp_screen.xml" value="0.16111111111111112" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/activity_pdf.xml" value="0.16111111111111112" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/activity_view_all_image.xml" value="0.12083333333333333" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/activity_view_brand.xml" value="0.16111111111111112" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/activity_view_business_category.xml" value="0.12083333333333333" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/color_picker_item_list.xml" value="0.16111111111111112" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/fragment_picker.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/fragment_profile.xml" value="0.16111111111111112" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/item_banner_layout.xml" value="0.16111111111111112" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/item_digital_card_four.xml" value="0.17453703703703705" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/item_digital_card_one.xml" value="0.13564814814814816" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/item_footer_seven.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/item_layout_daily_images.xml" value="0.16111111111111112" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/item_layout_daily_round_images.xml" value="0.16111111111111112" />
         <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/item_layout_viewframe.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/item_letter_head_card_one.xml" value="0.67" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/layout_digital_card_one.xml" value="0.14351851851851852" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/letter_head_card_one.xml" value="0.33" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/letter_head_card_two.xml" value="0.25" />
+        <entry key="..\:/__1.QueryFinders/BrandMania-Live/app/src/main/res/layout/only_text_color_picker_item.xml" value="0.16111111111111112" />
       </map>
     </option>
   </component>

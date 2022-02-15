@@ -283,16 +283,19 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             @Override
             public void onClick(View v) {
 
-                if (manuallyEnablePermission(2)) {
-                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                        askForUpgradeToEnterpisePackage();
-                        return;
+                if (prefManager.getActiveBrand() != null) {
+                    if (manuallyEnablePermission(2)) {
+                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                            askForUpgradeToEnterpisePackage();
+                            return;
+                        }
+                        requestAgain();
+                        saveImageToGallery(true, false);
                     }
-                    requestAgain();
-                    saveImageToGallery(true, false);
+
+                } else {
+                    addBrandList();
                 }
-
-
             }
         });
 
