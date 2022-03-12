@@ -12,8 +12,10 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,10 +25,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,8 +38,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Adapter.FontListAdeptor;
 import com.app.brandmania.Adapter.FooterAdapter;
+import com.app.brandmania.Adapter.VisitingCardAdapter;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.FooterHelper;
+import com.app.brandmania.Common.LetterHeadHelper;
 import com.app.brandmania.Common.VisitingCardHelper;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.ColorPickerFragment;
@@ -44,11 +50,16 @@ import com.app.brandmania.Interface.AddTextEvent;
 import com.app.brandmania.Interface.IItaliTextEvent;
 import com.app.brandmania.Interface.ITextBoldEvent;
 import com.app.brandmania.LetterHead.Adapter.FrameAdaptor;
+import com.app.brandmania.LetterHead.Adapter.LetterHeadAdapter;
 import com.app.brandmania.Model.FontModel;
 import com.app.brandmania.Model.FrameItem;
+import com.app.brandmania.Model.LetterHeadModel;
 import com.app.brandmania.Model.VisitingCardModel;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityLetterHeadBinding;
+import com.app.brandmania.databinding.LayoutDigitalCardOneBinding;
+import com.app.brandmania.databinding.LetterHeadCardOneBinding;
+import com.app.brandmania.databinding.LetterHeadCardTwoBinding;
 import com.app.brandmania.utils.IFontChangeEvent;
 import com.app.brandmania.utils.Utility;
 import com.bumptech.glide.Glide;
@@ -58,11 +69,12 @@ import java.util.ArrayList;
 public class LetterHeadActivity extends BaseActivity implements AddTextEvent, IItaliTextEvent, ITextBoldEvent, IFontChangeEvent {
     ActivityLetterHeadBinding binding;
     Activity act;
-    private VisitingCardModel CurrentSelectedCard;
     private TextView selectedTextView;
     GestureDetector gestureDetector;
     private int _xDelta;
     private int _yDelta;
+    private ArrayList<LetterHeadModel> LetterHeadList;
+    private LetterHeadModel CurrentSelectedCard;
     public boolean BOLD_TEXT = false;
     public boolean ITALIC_TEXT = false;
     public int firstText;
@@ -72,13 +84,14 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
         super.onCreate(savedInstanceState);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_letter_head);
-
-
+        LetterHeadList = new ArrayList<>();
+        LetterHeadList.addAll(LetterHeadHelper.getDigitalCardList());
         binding.backButton.setOnClickListener(view -> {
             Intent intent = new Intent(act, HomeActivity.class);
             startActivity(intent);
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
+        setLetterHeadAdapter();
         binding.cancelTextProperties.setOnClickListener(v -> {
 
             binding.textPropertiesLayout.setVisibility(View.GONE);
@@ -211,6 +224,44 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
 
         });
         setFramesRecycler();
+    }
+
+    private LetterHeadAdapter visitingCardAdapter;
+
+    public void setFramesRecycler() {
+        Log.e("Frames List", gson.toJson(prefManager.getActiveBrand().getFrame()));
+        FrameAdaptor frameAdaptor = new FrameAdaptor(prefManager.getActiveBrand().getFrame(), act);
+        binding.framesRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));
+        binding.framesRecycler.setHasFixedSize(true);
+
+        FrameAdaptor.onFooterListener onFooterListener = new FrameAdaptor.onFooterListener() {
+            @Override
+            public void onFooterChoose(String Frames, Integer position) {
+                if (position == 0) {
+                    binding.footerOverlay.setVisibility(View.GONE);
+                } else {
+                    binding.footerOverlay.setVisibility(View.VISIBLE);
+                    Glide.with(getApplicationContext()).load(Frames).into(binding.letterItemImg);
+                }
+            }
+        };
+        frameAdaptor.setFooterListener(onFooterListener);
+        binding.framesRecycler.setAdapter(frameAdaptor);
+    }
+
+    public void setLetterHeadAdapter() {
+        Utility.dismissProgress();
+        visitingCardAdapter = new LetterHeadAdapter(LetterHeadList, act);
+        LetterHeadAdapter.onLetterHeadListener onLetterHeadListener = (layout, letterHeadModel) -> {
+            CurrentSelectedCard = letterHeadModel;
+            addDynamicLayout();
+        };
+        visitingCardAdapter.setListener(onLetterHeadListener);
+        binding.letterHeadList.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));
+        binding.letterHeadList.setHasFixedSize(true);
+        binding.letterHeadList.setAdapter(visitingCardAdapter);
+        CurrentSelectedCard = LetterHeadList.get(0);
+        addDynamicLayout();
     }
 
     public void dynamicChangeOnText() {
@@ -384,23 +435,6 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
         }
     }
 
-    public void setFramesRecycler() {
-        Log.e("Frames List", gson.toJson(prefManager.getActiveBrand().getFrame()));
-        FrameAdaptor frameAdaptor = new FrameAdaptor(prefManager.getActiveBrand().getFrame(), act);
-        binding.framesRecycler.setLayoutManager(new LinearLayoutManager(act, LinearLayoutManager.HORIZONTAL, false));
-        binding.framesRecycler.setHasFixedSize(true);
-
-        FrameAdaptor.onFooterListener onFooterListener = new FrameAdaptor.onFooterListener() {
-            @Override
-            public void onFooterChoose(String Frames, Integer position) {
-                binding.footerOverlay.setVisibility(View.VISIBLE);
-                Glide.with(getApplicationContext()).load(Frames).into(binding.footerOverlay);
-            }
-        };
-        frameAdaptor.setFooterListener(onFooterListener);
-        binding.framesRecycler.setAdapter(frameAdaptor);
-    }
-
     ColorPickerFragment bottomSheetFragment;
 
     public void showTextColorList(boolean textViewColor) {
@@ -413,7 +447,7 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
                     binding.phoneLabel.setTextColor(color);
                 }
             } else {
-                VisitingCardHelper.applyTextColorOnLatterHead(CurrentSelectedCard, color, binding);
+                VisitingCardHelper.applyTextColorOnLatterHead(color, binding);
             }
 
             // selectedTextView.setTextColor(color);
@@ -809,6 +843,31 @@ public class LetterHeadActivity extends BaseActivity implements AddTextEvent, II
             }
         }
 
+    }
+
+    public void addDynamicLayout() {
+        binding.container.removeAllViews();
+        if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_ONE) {
+            LetterHeadCardOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.letter_head_card_one, null, false);
+            CurrentSelectedCard.setOneBinding(oneBinding);
+            binding.container.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.container.requestLayout();
+            binding.container.addView(oneBinding.getRoot());
+            View view = oneBinding.getRoot();
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+
+
+        } else if (CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_TWO) {
+            LetterHeadCardTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.letter_head_card_two, null, false);
+            CurrentSelectedCard.setTwoBinding(twoBinding);
+            binding.container.getLayoutParams().width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            binding.container.requestLayout();
+            binding.container.addView(twoBinding.getRoot());
+            View view = twoBinding.getRoot();
+            view.getLayoutParams().width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            view.requestLayout();
+        }
     }
 
     //For font change
