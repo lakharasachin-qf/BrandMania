@@ -259,7 +259,6 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 .setMultiTouchEnabled(true)
                 .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                 .start(this);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

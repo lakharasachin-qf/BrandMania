@@ -47,4 +47,5 @@ public class APIs {
     public static final String GET_STATE = URL + "getState";
     public static final String GET_CITY = URL + "getCity";
     public static final String ADD_BUSS_ACTIVITY = URL + "addBussCardActivity";
+    public static final String PRE_LOGIN_DATA = URL + "userPreLoginData";
 }

@@ -105,6 +105,14 @@ public class PreafManager {
         editor.commit();
         editor.apply();
     }
+    public String getUserName() {
+        return pref.getString("Username", "");
+    }
+
+    public void setUserName(String parameters) {
+        pref.edit().putString("Username", parameters).apply();
+    }
+
 
     public String getEMAIL_Id() {
         return pref.getString("email_id", null);

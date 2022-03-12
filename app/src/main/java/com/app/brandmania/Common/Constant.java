@@ -11,7 +11,7 @@ public class Constant {
 
     public static final int APP_UPDATES = 1001;
 
-    public static final String F_VERSION = "1.9.0";
+    public static final String F_VERSION = "1.9.1";
 
 
     public static final String  currentVersionCode = "16";

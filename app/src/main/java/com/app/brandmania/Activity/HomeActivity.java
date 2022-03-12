@@ -183,6 +183,10 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                         ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
                         ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     alertDialog.dismiss();
+                    isHomeTab = true;
+                    Fragment fragment = new HomeFragment();
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    loadFragment(fragment);
                 } else {
                     ActivityCompat.requestPermissions(act,
                             new String[]{CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
@@ -348,8 +352,13 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 permissionsLayoutBinding.allowPermission.setText("Close");
-                if (alertDialog != null)
+                if (alertDialog != null) {
                     alertDialog.dismiss();
+                    isHomeTab = true;
+                    Fragment fragment = new HomeFragment();
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    loadFragment(fragment);
+                }
             }
         }
       //  MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.NOTIFY);

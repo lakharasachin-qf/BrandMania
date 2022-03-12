@@ -149,6 +149,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.getBoolean("status")) {
                         JSONObject jsonArray = jObject.getJSONObject("data");
+                        prefManager.setUserName(jsonArray.getString("name"));
                         prefManager.setUserToken(jsonArray.getString("token"));
                         prefManager.setLogin(true);
                         ArrayList<BrandListItem> brands = ResponseHandler.handleLogin(jObject);

@@ -305,84 +305,41 @@ public class PickerFragment extends BottomSheetDialogFragment {
                     Uri selectedImage = data.getData();
 
                     imagePath = CodeReUse.getRealPathFromURI(act, selectedImage);
+
+                        CropImage.activity(selectedImage)
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setMultiTouchEnabled(true)
+                                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                                .start(getContext(), this);
                     Log.e("ImageUrl", imagePath);
-                    if (imagePath.endsWith(".jpg") || imagePath.endsWith(".jpeg")) {
 
-//                        CropImage.activity(selectedImage)
-//                                .setGuidelines(CropImageView.Guidelines.ON)
-//                                .setMultiTouchEnabled(true)
-//                                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-//                                .start(getContext(), this);
-
-                        androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
-                                .setTitle("Add Your Logo")
-                                .setMessage("You Want to Transparent Your Logo?? ")
-                                .setPositiveButton("OK", (dialogInterface, i) -> {
-
-                                    InputStream is = null;
-                                    if (selectedImage.getAuthority() != null) {
-                                        try {
-                                            is = act.getContentResolver().openInputStream(Uri.fromFile(new File(imagePath)));
-                                            Bitmap bmp = BitmapFactory.decodeStream(is);
-                                            Uri imgPath = CodeReUse.writeToTempImageAndGetPathUri(act, bmp, imagePath);
-                                            setSelectedImage(imgPath);
-                                        } catch (FileNotFoundException e) {
-                                            Log.e("test", e.toString());
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    //CodeReUse.jpgTopngImageConvert(act, bmp, imagePath);
-                                    //String uri = CodeReUse.getImageUrlWithAuthority(act, Uri.parse(imagePath));
-
-                                })
-                                .setNeutralButton("LATER", (dialogInterface, i) -> {
-                                })
-                                .show();
-                        AlertDialogBuilder.setCancelable(false);
-                    }
-
-
-//                    String selectedImagePath = getRealPathFromURIPath(selectedImage, act);
-//                    if (eventParents != null)
-//                        eventParents.handleEventOnImageSelection(1);
-//                    Utility.loadImageOnURI(act, binding.selectedImage, selectedImage);
-//                    Bitmap bitmap;
-//                    try {
-//                        bitmap = MediaStore.Images.Media.getBitmap(act.getContentResolver(), selectedImage);
-//                        Bitmap imageRotate;
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                            ExifInterface exifObject = new ExifInterface(selectedImagePath);
-//                            int orientation = exifObject.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-//                            imageRotate = rotateBitmap(bitmap, orientation);
-//                        } else {
-//                            imageRotate = bitmap;
-//                        }
+                    //code for transperent logo
+//                    if (imagePath.endsWith(".jpg") || imagePath.endsWith(".jpeg")) {
+//                        androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+//                                .setTitle("Add Your Logo")
+//                                .setMessage("You Want to Transparent Your Logo?? ")
+//                                .setPositiveButton("OK", (dialogInterface, i) -> {
 //
-//                        if (imageRotate == null || imageRotate.getByteCount() == 0) {
-//                            imageRotate = bitmap;
-//                        }
+//                                    InputStream is = null;
+//                                    if (selectedImage.getAuthority() != null) {
+//                                        try {
+//                                            is = act.getContentResolver().openInputStream(Uri.fromFile(new File(imagePath)));
+//                                            Bitmap bmp = BitmapFactory.decodeStream(is);
+//                                            Uri imgPath = CodeReUse.writeToTempImageAndGetPathUri(act, bmp, imagePath);
+//                                            setSelectedImage(imgPath);
+//                                        } catch (FileNotFoundException e) {
+//                                            Log.e("test", e.toString());
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
 //
-//                        if (actionId == Constant.PICKER_PROFILE) {
-//                            CropImage.activity(selectedImage)
-//                                    .setGuidelines(CropImageView.Guidelines.ON)
-//                                    .setAspectRatio(1, 1)
-//                                    .setOutputCompressQuality(100)
-//                                    .setRequestedSize(700, 700)
-//                                    .start(getContext(), this);
-//                        } else {
-//
-//                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
-//
-//                            byte[] byteArray = stream.toByteArray();
-//                            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//
-//                            imageLoad.onGalleryResult(actionId, compressedBitmap);
-//                            this.dismiss();
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
+//                                })
+//                                .setNeutralButton("LATER", (dialogInterface, i) -> {
+//                                })
+//                                .show();
+//                        AlertDialogBuilder.setCancelable(false);
 //                    }
+
                 }
 
             } else if (requestCode == CodeReUse.CAMERA_INTENT && resultCode == RESULT_OK) {
@@ -448,26 +405,6 @@ public class PickerFragment extends BottomSheetDialogFragment {
 
     }
 
-//    void generateImageFromPdf(Uri pdfUri) {
-//        int pageNumber = 0;
-//        PdfiumCore pdfiumCore = new PdfiumCore(act);
-//        try {
-//            //http://www.programcreek.com/java-api-examples/index.php?api=android.os.ParcelFileDescriptor
-//            ParcelFileDescriptor fd = act.getContentResolver().openFileDescriptor(pdfUri, "r");
-//            PdfDocument pdfDocument = pdfiumCore.newDocument(fd);
-//            pdfiumCore.openPage(pdfDocument, pageNumber);
-//            int width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNumber);
-//            int height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNumber);
-//            Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//            pdfiumCore.renderPageBitmap(pdfDocument, bmp, pageNumber, 0, 0, width, height);
-//            imageLoad.onGalleryResult(actionId, bmp);
-//
-//            pdfiumCore.closeDocument(pdfDocument);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        this.dismiss();
-//    }
 
     private void saveImage(Bitmap bmp) {
         FileOutputStream out = null;

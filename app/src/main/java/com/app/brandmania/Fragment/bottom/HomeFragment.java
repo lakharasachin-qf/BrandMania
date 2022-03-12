@@ -1,12 +1,14 @@
 package com.app.brandmania.Fragment.bottom;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -51,6 +53,7 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.AddBrandFragment;
 import com.app.brandmania.Fragment.BaseFragment;
+import com.app.brandmania.Fragment.UserRegistrationFragment;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Interface.ItemMultipleSelectionInterface;
 import com.app.brandmania.Model.BrandListItem;
@@ -159,13 +162,20 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             binding.businessName.setText(preafManager.getActiveBrand().getName());
         }
 
-        if (preafManager.getActiveBrand() == null) {
-            if (!HomeActivity.isAddBrandDialogDisplayed) {
-                HomeActivity.isAddBrandDialogDisplayed = true;
-                addBrandList();
+        if (ContextCompat.checkSelfPermission(act, CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(act, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(act, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (preafManager.getUserName().isEmpty()) {
+                addUserInfo();
+            } else if (preafManager.getActiveBrand() == null) {
+                if (!HomeActivity.isAddBrandDialogDisplayed) {
+                    HomeActivity.isAddBrandDialogDisplayed = true;
+                    addBrandList();
+                }
+            } else {
+                RateUs();
             }
         }
-        RateUs();
 
         binding.showNotification.setOnClickListener(view -> HELPER.ROUTE(act, ViewNotificationActivity.class));
         binding.referCodeLayout.setOnClickListener(v -> {
@@ -227,10 +237,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             loadImagesCategory();
         });
 
-        if (Utility.oneTimeCodeExecutes(act)) {
+        //if (Utility.oneTimeCodeExecutes(act)) {
             //Toast.makeText(act, "Only Once A Day Code Run", Toast.LENGTH_LONG).show();
             getDeviceToken();
-        }
+        //}
         //getDeviceToken();
         binding.businessNameDropDown.setOnClickListener(v -> showFragmentList(BUSINESS_TYPE, ""));
 
@@ -293,6 +303,19 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         addBrandFragment = new AddBrandFragment();
         addBrandFragment.show(getParentFragmentManager(), "");
+    }
+
+    UserRegistrationFragment registrationFragment;
+
+    public void addUserInfo() {
+        if (registrationFragment != null) {
+            if (registrationFragment.isVisible()) {
+                registrationFragment.dismiss();
+            }
+        }
+
+        registrationFragment = new UserRegistrationFragment();
+        registrationFragment.show(getParentFragmentManager(), "");
     }
 
     private void startAnimation() {
@@ -463,13 +486,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, response -> {
-
             JSONObject jsonObject = ResponseHandler.createJsonObject(response);
             try {
                 if (jsonObject != null) {
                     preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject, "data").getJSONObject(0), "video_url_path"));
 
                     JSONObject jsonArray1 = jsonObject.getJSONObject("message");
+                    preafManager.setUserName(jsonArray1.getString("name"));
                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
                     popupImg = jsonArray1.getString("popup_img");
@@ -478,8 +501,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     if (jsonArray1.getString("reference_code").equals("null"))
                         jsonArray1.put("reference_code", "");
 
-                    preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
-                    preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
+                    if (!preafManager.getUserName().isEmpty()) {
+                        preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
+                        preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
+                    }
 
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();

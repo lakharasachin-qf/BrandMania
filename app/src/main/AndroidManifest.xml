@@ -32,7 +32,9 @@
         <activity
             android:name=".Activity.brand.EditActivity"
             android:exported="false" />
+
         <activity android:name=".Activity.basics.ReferNEarnActivity" />
+
         <activity
             android:name=".Activity.PdfActivity"
             android:screenOrientation="portrait" />
@@ -110,17 +112,16 @@
         <activity
             android:name=".Activity.HomeActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activity.basics.SpleshActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
@@ -132,13 +133,12 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="brandmania.page.link"
                     android:scheme="http" />
-                <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
