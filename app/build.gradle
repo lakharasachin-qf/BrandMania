@@ -2,24 +2,36 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
+apply plugin: 'io.michaelrocks.paranoid'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.make.mybrand"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 24
-        versionName "1.9.1"
+        versionName "2.0.0"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+//        release {
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
         release {
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -53,13 +65,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: "lib", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'com.google.android.gms:play-services-appinvite:18.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.github.duanhong169:drawabletoolbox:1.0.7"
 
-    //implementation project(path: ':ffmpegg')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -75,8 +86,7 @@ dependencies {
     // dependencies for android material
 
     // dependencies for android material
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
 
     // dependencies for facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
@@ -89,17 +99,15 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
 
     // dependency file for gson
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.8'
     // dependency file for permission
     implementation 'com.karumi:dexter:6.2.2'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
-    implementation 'com.google.android.material:material:1.4.0'
-    //viewpager material dots
+     //viewpager material dots
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-    implementation 'ja.burhanrashid52:photoeditor:1.0.0'
+     implementation 'ja.burhanrashid52:photoeditor:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
     androidTestImplementation 'androidx.test:runner:1.4.0'
@@ -116,7 +124,7 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-    implementation 'com.google.android.play:core:1.10.2'
+    implementation 'com.google.android.play:core:1.10.3'
     //dependency for image view
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
@@ -140,7 +148,7 @@ dependencies {
     implementation 'com.jaredrummler:colorpicker:1.1.0'
 
 
-    implementation 'com.github.yalantis:ucrop:2.2.6'
+    implementation 'com.github.yalantis:ucrop:2.2.8'
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'com.itextpdf:kernel:7.0.3'
 
@@ -170,14 +178,14 @@ dependencies {
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation 'com.google.firebase:firebase-core:19.0.2'
+    implementation 'com.google.firebase:firebase-messaging:23.0.3'
+    implementation 'com.google.firebase:firebase-core:20.1.2'
     implementation 'com.google.firebase:firebase-dynamic-links'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'com.arthenica:mobile-ffmpeg-full:4.4.LTS'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.30"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
 
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'

@@ -33,87 +33,113 @@
             android:name=".Activity.brand.EditActivity"
             android:exported="false" />
 
-        <activity android:name=".Activity.basics.ReferNEarnActivity" />
+        <activity android:name=".Activity.basics.ReferNEarnActivity" android:exported="false" />
 
         <activity
+            android:exported="false"
             android:name=".Activity.PdfActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.custom.ViewAllFrameImageActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.about_us.AppIntroActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.custom.CustomViewAllActivit"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.packages.RazorPayActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
+            android:exported="false"
             android:name=".Activity.ViewNotificationActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.details.DailyCategoryListActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.basics.LoadingHomeActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.packages.PackageActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.brand.AddBrandMultipleActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.about_us.AboutUsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.details.BusinessCategoryListActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.about_us.AddReportAndBug"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.about_us.FaqActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.packages.SubscriptionActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.about_us.HelpAndSupport"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.about_us.PartnerProgramActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.brand.ViewBrandActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.brand.AddBranddActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.brand.UpdateBandList"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.basics.RegistrationActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.basics.OtpScreenActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.basics.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_material_theme" />
         <activity
+            android:exported="false"
             android:name=".Activity.details.ImageCategoryDetailActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".Activity.HomeActivity"
             android:screenOrientation="portrait" />
 
         <activity
+            android:exported="true"
             android:name=".Activity.basics.SpleshActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -141,11 +167,13 @@
         </activity>
 
         <activity
+            android:exported="true"
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <service
+            android:exported="true"
             android:name=".Connection.MyFirebaseMessagingService"
             android:stopWithTask="false">
             <intent-filter>
@@ -170,6 +198,7 @@
         <!-- android:name="com.razorpay.ApiKey" -->
         <!-- android:value="rzp_test_g34adOBwCItfce" /> -->
         <activity
+            android:exported="true"
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />

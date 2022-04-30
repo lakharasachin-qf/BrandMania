@@ -4,8 +4,10 @@
 
 
         <item
+
             app:itemTextAppearance="@style/Style_TextView"
             android:id="@+id/navigation_home"
+
             android:icon="@drawable/home_select"
             android:title="@string/title_home" />
 
@@ -16,6 +18,7 @@
             android:title="@string/title_custom" />
 
         <item
+
             app:itemTextAppearance="@style/Style_TextView"
             android:id="@+id/navigation_download"
             android:icon="@drawable/download_select"

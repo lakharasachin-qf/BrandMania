@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+
         <item name="android:windowTranslucentStatus">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/startcolor</item>
@@ -10,7 +11,9 @@
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
     </style>
-
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/blue</item>
+    </style>
     <style name="AppTheme_Second" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -47,6 +50,7 @@
     </style>
 
     <style name="Style_TextView">
+
         <item name="fontFamily">@font/montserrat_semibold</item>
     </style>
 
