@@ -42,8 +42,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Common.Constant;
-import com.app.brandmania.Common.MakeMyBrandApp;
-import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.CustomFragment;
 import com.app.brandmania.Fragment.bottom.DownloadsFragment;
@@ -60,7 +58,6 @@ import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
 
 import org.json.JSONException;
@@ -91,11 +88,16 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
         if (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             askPermissions();
         }
 
+
         Utility.Log("activeBrand", gson.toJson(prefManager.getActiveBrand()));
+
+
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -164,34 +166,26 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             permissionsLayoutBinding.checked2.setVisibility(View.VISIBLE);
         }
 
-        permissionsLayoutBinding.permissionLayout1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.requestPermissions(act,
-                        new String[]{CAMERA}, REQUESTED_CAMERA);
-            }
-        });
+        permissionsLayoutBinding.permissionLayout1.setOnClickListener(v -> ActivityCompat.requestPermissions(act,
+                new String[]{CAMERA}, REQUESTED_CAMERA));
         permissionsLayoutBinding.permissionLayout2.setOnClickListener(v -> ActivityCompat.requestPermissions(act,
                 new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                 REQUESTED_STORAGE));
 
 
-        permissionsLayoutBinding.allowPermission.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    alertDialog.dismiss();
-                    isHomeTab = true;
-                    Fragment fragment = new HomeFragment();
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                    loadFragment(fragment);
-                } else {
-                    ActivityCompat.requestPermissions(act,
-                            new String[]{CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
-                            REQUESTED_ALL);
-                }
+        permissionsLayoutBinding.allowPermission.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                alertDialog.dismiss();
+                isHomeTab = true;
+                Fragment fragment = new HomeFragment();
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                loadFragment(fragment);
+            } else {
+                ActivityCompat.requestPermissions(act,
+                        new String[]{CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
+                        REQUESTED_ALL);
             }
         });
 
@@ -218,12 +212,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (shouldShowRequestPermissionRationale(CAMERA)) {
-                        showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(new String[]{CAMERA}, REQUESTED_CAMERA);
-                            }
-                        });
+                        showMessageOKCancel("You need to allow access to the permissions", (dialog, which) -> requestPermissions(new String[]{CAMERA}, REQUESTED_CAMERA));
                     } else if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
                         requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, REQUESTED_STORAGE);
                     } else {
@@ -269,14 +258,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             }
         }
         if (targetSetting) {
-            showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    intent.setData(uri);
-                    startActivityForResult(intent, REQUEST_SETTINGS);
-                }
+            showMessageOKCancel("You need to allow access to the permissions", (dialog, which) -> {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivityForResult(intent, REQUEST_SETTINGS);
             });
         }
     }
@@ -328,9 +314,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     .getAppUpdateInfo()
                     .addOnSuccessListener(
                             appUpdateInfo -> {
-                                if (appUpdateInfo.updateAvailability()
-                                        == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-
+                                if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                                     try {
                                         appUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE, act, Constant.APP_UPDATES);
                                     } catch (IntentSender.SendIntentException e) {
@@ -361,7 +345,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 }
             }
         }
-      //  MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.NOTIFY);
+        //  MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.NOTIFY);
 
 
     }

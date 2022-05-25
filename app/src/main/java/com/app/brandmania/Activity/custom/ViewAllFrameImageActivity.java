@@ -868,23 +868,19 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.backImage);
 
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(250, 250);
-//            int WeidthRefDevice=1080;
-//            int HeightRefDevice=2028;
             int dpValuex = Integer.parseInt(selectedObject.getX_conrdinate());
             int dpValuey = Integer.parseInt(selectedObject.getY_cordinate()); //margin in dips
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int height = displayMetrics.heightPixels;
-            int width = displayMetrics.widthPixels;
+            int height;
+            int width;
 
             binding.editableImageview.setOnTouchListener(null);
             Resources r = getResources();
             int marginx = Math.round(TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, dpValuex, r.getDisplayMetrics()));
-            ;//(int)((dpValuex * width)/WeidthRefDevice);  // margin in pixels
             int marginy = Math.round(TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, dpValuey, r.getDisplayMetrics()));
-            ;//(int)((dpValuey * height)/HeightRefDevice);  // margin in pixels
 
             layoutParams.leftMargin = marginx;
             layoutParams.topMargin = marginy;

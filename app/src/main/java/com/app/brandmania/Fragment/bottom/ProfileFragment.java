@@ -95,12 +95,14 @@ public class ProfileFragment extends BaseFragment {
         }
         binding.logoutRelative.setOnClickListener(v -> {
             prefManager.Logout();
+
             Intent i = new Intent(act, LoginActivity.class);
             i.addCategory(Intent.CATEGORY_HOME);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             act.finish();
+
         });
 
         if (prefManager.getActiveBrand() != null) {

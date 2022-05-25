@@ -122,7 +122,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     public void getDeviceToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            deviceToken = task.getResult();
+            if(task.isSuccessful())
+                deviceToken = task.getResult();
+
             UpdateToken();
         });
     }
@@ -545,6 +547,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
+                if(deviceToken!=null)
                 hashMap.put("firebase_token", deviceToken);
                 Utility.Log("Verify-Param", hashMap.toString());
                 return hashMap;

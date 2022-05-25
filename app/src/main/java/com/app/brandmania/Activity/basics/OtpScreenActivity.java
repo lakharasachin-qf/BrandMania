@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -68,7 +67,9 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
-                deviceToken = task.getResult();
+                if (task!=null && task.isSuccessful() && task.getResult() != null) {
+                    deviceToken = task.getResult();
+                }
             }
         });
 
