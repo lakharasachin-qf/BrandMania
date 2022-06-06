@@ -15,9 +15,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
-import com.bumptech.glide.Glide;
-import com.app.brandmania.R;
 import com.app.brandmania.Model.ViewPagerItem;
+import com.app.brandmania.R;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -52,57 +52,65 @@ public class ViewPagerAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.viewpager, null);
 
         ViewPagerItem utils = sliderImg.get(position);
+
         ImageView imageView = (ImageView) view.findViewById(R.id.pageView);
 
-        Glide.with(context)
-                .load(utils.getSliderImageUrl())
-                .placeholder(R.drawable.placeholder)
-                .into(imageView);
 
-        CardView itemLayout = view.findViewById(R.id.itemLayout);
-        itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String catId= utils.getImageCategory();
-                String targetLink= utils.getTargetLink();
-                String isActivity= utils.getIsActivity();
+        if (!utils.getId().equalsIgnoreCase("-1")) {
 
-                if (catId==null || catId.equalsIgnoreCase("null"))
-                    catId="";
+            Glide.with(context)
+                    .load(utils.getSliderImageUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+            CardView itemLayout = view.findViewById(R.id.itemLayout);
+            itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String catId = utils.getImageCategory();
+                    String targetLink = utils.getTargetLink();
+                    String isActivity = utils.getIsActivity();
 
-                if (targetLink==null || targetLink.equalsIgnoreCase("null"))
-                    targetLink="";
+                    if (catId == null || catId.equalsIgnoreCase("null"))
+                        catId = "";
 
-                if (isActivity==null || isActivity.equalsIgnoreCase("null"))
-                    isActivity="";
+                    if (targetLink == null || targetLink.equalsIgnoreCase("null"))
+                        targetLink = "";
+
+                    if (isActivity == null || isActivity.equalsIgnoreCase("null"))
+                        isActivity = "";
 
 
-                if (!catId.isEmpty()){
-                    Intent  intent = new Intent(context, ImageCategoryDetailActivity.class);
-                    intent.putExtra("notification", "1");
-                    intent.putExtra("cat_id", catId);
-                    intent.putExtra("catName", utils.getCategoryName());
-                    context.startActivity(intent);
-                }
-
-            }
-        });
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(position == 0){
-
-                } else if(position == 1){
-
-                } else {
+                    if (!catId.isEmpty()) {
+                        Intent intent = new Intent(context, ImageCategoryDetailActivity.class);
+                        intent.putExtra("notification", "1");
+                        intent.putExtra("cat_id", catId);
+                        intent.putExtra("catName", utils.getCategoryName());
+                        context.startActivity(intent);
+                    }
 
                 }
+            });
 
-            }
-        });
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    if (position == 0) {
+
+                    } else if (position == 1) {
+
+                    } else {
+
+                    }
+
+                }
+            });
+        } else {
+            Glide.with(context)
+                    .load(R.drawable.banner_one)
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+        }
         ViewPager vp = (ViewPager) container;
         vp.addView(view, 0);
         return view;

@@ -5,6 +5,7 @@ import static com.app.brandmania.Model.ImageList.LAYOUT_DAILY_ROUND_IMAGES;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY;
 import static com.app.brandmania.Model.ImageList.LAYOUT_FRAME_CATEGORY_BY_ID;
+import static com.app.brandmania.Model.ImageList.LAYOUT_HOME_BUSINESS_PERSONAL;
 import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY;
 import static com.app.brandmania.Model.ImageList.LAYOUT_IMAGE_CATEGORY_BY_ID;
 
@@ -96,6 +97,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
             case LAYOUT_DAILY_IMAGES:
                 ItemLayoutDailyImagesBinding inflate = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_daily_images, viewGroup, false);
                 return new DailyHolder(inflate);
+            case LAYOUT_HOME_BUSINESS_PERSONAL:
+                ItemLayoutDailyImagesBinding inflates = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_daily_images, viewGroup, false);
+                return new DailyHolder(inflates);
             case LAYOUT_DAILY_ROUND_IMAGES:
                 ItemLayoutDailyRoundImagesBinding infdlate = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_daily_round_images, viewGroup, false);
                 return new DailyRoundHolder(infdlate);
@@ -133,6 +137,8 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                 return LAYOUT_DAILY_IMAGES;
             case 7:
                 return LAYOUT_DAILY_ROUND_IMAGES;
+            case 8:
+                return LAYOUT_HOME_BUSINESS_PERSONAL;
             default:
                 return -1;
         }
@@ -160,13 +166,9 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     ((DailyRoundHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //ImageCategoryDetailActivity
                             Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
-                            // Intent intent = new Intent(activity, GifCategoryDetailActivity.class);
                             Gson gson = new Gson();
                             intent.putExtra("dailyImages", "1");
-                            // intent.putExtra("viewAll","12");
-
                             intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
                             intent.putExtra("selectedimage", gson.toJson(model));
                             intent.putExtra("position", position);
@@ -223,6 +225,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
 
                     break;
                 case LAYOUT_DAILY_IMAGES:
+                    Log.e("DAILY",model.getName() + "   " +model.getId());
                     Glide.with(activity)
                             .load(model.getFrame())
                             .placeholder(R.drawable.placeholder)
@@ -251,6 +254,34 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     } else {
                        // ((DailyHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
+                    if (preafManager.getActiveBrand() != null) {
+                        if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
+                            if (!Utility.isPackageExpired(activity)) {
+                                ((DailyHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                                ((DailyHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                    break;
+                case LAYOUT_HOME_BUSINESS_PERSONAL:
+                    Glide.with(activity)
+                            .load(model.getFrame())
+                            .placeholder(R.drawable.placeholder)
+                            .into(((DailyHolder) holder).binding.image);
+                    ((DailyHolder) holder).binding.title.setText(model.getName());
+                    ((DailyHolder) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(activity, ImageCategoryDetailActivity.class);
+                            Gson gson = new Gson();
+                            intent.putExtra("dailyImages", "1");
+                            intent.putExtra("detailsObj", gson.toJson(dashBoardItem));
+                            intent.putExtra("selectedimage", gson.toJson(model.getCategoryObject()));
+                            intent.putExtra("position", position);
+                            activity.startActivity(intent);
+                        }
+                    });
+
                     if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
                             if (!Utility.isPackageExpired(activity)) {

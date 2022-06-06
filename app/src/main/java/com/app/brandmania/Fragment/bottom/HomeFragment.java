@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -122,7 +123,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     public void getDeviceToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if(task.isSuccessful())
+            if (task.isSuccessful())
                 deviceToken = task.getResult();
 
             UpdateToken();
@@ -147,7 +148,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         fiveStarsDialog = new FiveStarsDialog(act, "brandmania@gmail.com");
         preafManager = new PreafManager(act);
         binding.infoMsg.setSelected(true);
-
+        queue = Volley.newRequestQueue(act);
         if (LIVE_MODE) {
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
@@ -203,20 +204,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                             })
                             .show();
                     AlertDialogBuilder.setCancelable(false);
-
-//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(act);
-//                    alertDialogBuilder.setTitle("Add Your Logo");
-//                    alertDialogBuilder.setMessage("Your Logo is empty..!");
-//                    alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> HELPER.ROUTE(act, UpdateBandList.class));
-//                    alertDialogBuilder.setNegativeButton("Later", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//
-//                        }
-//                    });
-//                    AlertDialog alertDialog = alertDialogBuilder.create();
-//                    alertDialog.setCancelable(false);
-//                    alertDialog.show();
                 }
             } else {
                 addBrandList();
@@ -230,20 +217,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding.createGreetingImages.setOnClickListener(v -> ((CUSTOM_TAB_CHANGE_INTERFACE) act).makeTabChange(1));
 
         startAnimation();
-        loadImagesCategory();
+        getImageCtegory();
         getBanner();
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
 
         binding.swipeContainer.setOnRefreshListener(() -> {
             startAnimation();
-            loadImagesCategory();
+            getImageCtegory();
         });
 
-        //if (Utility.oneTimeCodeExecutes(act)) {
-            //Toast.makeText(act, "Only Once A Day Code Run", Toast.LENGTH_LONG).show();
-            getDeviceToken();
-        //}
-        //getDeviceToken();
+        getDeviceToken();
         binding.businessNameDropDown.setOnClickListener(v -> showFragmentList(BUSINESS_TYPE, ""));
 
         if (!HomeActivity.isAlreadyDisplayedOffer) {
@@ -394,17 +377,81 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         queue.add(stringRequest);
     }
 
+    RequestQueue queue;
+    ImageList apiObject;
+
+    private void getImageCtegory() {
+
+        Utility.Log("API : ", APIs.GET_IMAGEBUID_CATEGORY);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGEBUID_CATEGORY + "/1", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("DETAILS", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    apiObject = ResponseHandler.homeBusinessCAtegory(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                loadImagesCategory();
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        loadImagesCategory();
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                return getHeader(CodeReUse.GET_FORM_HEADER);
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("image_category_id", "248");
+                params.put("lang", "");
+
+                return params;
+            }
+
+        };
+        stringRequest.setTag("categorydetails");
+        queue.add(stringRequest);
+    }
+
     private void loadImagesCategory() {
         Utility.Log("API : ", APIs.GET_IMAGE_CATEGORY + "?page=1");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", response -> {
             binding.swipeContainer.setRefreshing(false);
             try {
-                Log.e("dashboard", gson.toJson(response));
+
                 JSONObject jsonObject = new JSONObject(response);
                 apiResponse = ResponseHandler.HandleGetImageCategory(act, jsonObject);
+                ImageList categoryObject = ResponseHandler.getCategoryObject(act, jsonObject);
                 if (apiResponse.getDashBoardItems() != null) {
                     menuModels = apiResponse.getDashBoardItems();
                     if (menuModels != null && menuModels.size() != 0) {
+                        if (apiObject != null && apiObject.getCatogaryImagesList() != null && apiObject.getCatogaryImagesList().size() != 0) {
+                            DashBoardItem model = new DashBoardItem();
+                            model.setFilterIndex(0);
+                            model.setName(apiObject.getCatogaryImagesList().get(0).getName());
+                            model.setLayout(DashBoardItem.BUSINESS_DETAIL_IMAGES);
+                            model.setDailyImages(apiObject.getCatogaryImagesList());
+                            for (int i = 0; i < apiObject.getCatogaryImagesList().size(); i++) {
+                                apiObject.getCatogaryImagesList().get(i).setCategoryObject(categoryObject);
+                            }
+                            apiResponse.getDashBoardItems().add(0, model);
+                        }
                         setAdapter();
                         binding.shimmerViewContainer.stopShimmer();
                         binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -489,6 +536,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, response -> {
+            Log.e("UPDATE", response);
             JSONObject jsonObject = ResponseHandler.createJsonObject(response);
             try {
                 if (jsonObject != null) {
@@ -547,8 +595,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
-                if(deviceToken!=null)
-                hashMap.put("firebase_token", deviceToken);
+                if (deviceToken != null)
+                    hashMap.put("firebase_token", deviceToken);
                 Utility.Log("Verify-Param", hashMap.toString());
                 return hashMap;
             }
@@ -746,7 +794,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     public void onRefresh() {
         startAnimation();
         //getFrame();
-        loadImagesCategory();
+        getImageCtegory();
         //getBrandList();
         getBanner();
     }

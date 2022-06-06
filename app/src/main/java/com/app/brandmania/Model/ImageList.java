@@ -12,11 +12,21 @@ public class ImageList implements Comparable<ImageList> {
     public static final int LAYOUT_FRAME_CATEGORY_BY_ID = 5;
     public static final int LAYOUT_DAILY_IMAGES = 6;
     public static final int LAYOUT_DAILY_ROUND_IMAGES = 7;
+    public static final int LAYOUT_HOME_BUSINESS_PERSONAL = 8;
     public static final int LAYOUT_LOADING = 30;
     public static final int IMAGE = 0;
     public static final int GIF = 1;
     public static final int VIDEO = 2;
 
+    private ImageList categoryObject;
+
+    public ImageList getCategoryObject() {
+        return categoryObject;
+    }
+
+    public void setCategoryObject(ImageList categoryObject) {
+        this.categoryObject = categoryObject;
+    }
 
     private int layoutType;
     private String name;

@@ -19,6 +19,7 @@ public class DashBoardItem   implements Comparable<DashBoardItem> {
 
     public static final int DAILY_IMAGES=0;
     public static final int FESTIVAL_IMAGES=1;
+    public static final int BUSINESS_DETAIL_IMAGES=2;
 
     private int layout;
 

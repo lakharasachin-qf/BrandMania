@@ -1,5 +1,6 @@
 package com.app.brandmania.Adapter;
 
+import static com.app.brandmania.Model.DashBoardItem.BUSINESS_DETAIL_IMAGES;
 import static com.app.brandmania.Model.DashBoardItem.DAILY_IMAGES;
 import static com.app.brandmania.Model.DashBoardItem.FESTIVAL_IMAGES;
 import static com.app.brandmania.utils.Utility.Log;
@@ -7,6 +8,7 @@ import static com.app.brandmania.utils.Utility.Log;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,7 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
 
                 return new DasboardViewHolder(layoutBinding);
             case FESTIVAL_IMAGES:
+            case BUSINESS_DETAIL_IMAGES:
                 layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dashboard_item_layout, viewGroup, false);
                 return new DasboardViewHolder(layoutBinding);
         }
@@ -67,6 +70,8 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                 return DAILY_IMAGES;
             case 1:
                 return FESTIVAL_IMAGES;
+            case 2:
+                return BUSINESS_DETAIL_IMAGES;
             default:
                 return 0;
         }
@@ -85,6 +90,32 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
         final DashBoardItem model = dashBoardItemList.get(position);
         if (model != null) {
             switch (model.getLayout()) {
+                case BUSINESS_DETAIL_IMAGES:
+                    ((DasboardViewHolder) holder).binding.viewAll.setVisibility(View.GONE);
+                    ((DasboardViewHolder) holder).binding.title.setText(convertFirstUpper(dashBoardItemList.get(position).getName()));
+                    ((DasboardViewHolder) holder).binding.title.setSelected(true);
+                    ImageCategoryAddaptor menuAddaptor2 = new ImageCategoryAddaptor(dashBoardItemList.get(position).getDailyImages(), activity);
+                    menuAddaptor2.setLayoutType(ImageCategoryAddaptor.FROM_HOMEFRAGEMENT);
+                    RecyclerView.LayoutManager mLayoutManagder = new GridLayoutManager(activity, 3);
+                    ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setLayoutManager(mLayoutManagder);
+                    ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setHasFixedSize(true);
+                    menuAddaptor2.setDashBoardItem(dashBoardItemList.get(position));
+                    ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setRecycledViewPool(viewPool);
+                    ((DasboardViewHolder) holder).binding.imageCategoryRecycler.addItemDecoration(new SpacesItemDecoration(activity.getResources().getDimensionPixelSize(R.dimen.space)));
+                    ((DasboardViewHolder) holder).binding.imageCategoryRecycler.setAdapter(menuAddaptor2);
+                    ((DasboardViewHolder) holder).binding.viewAll.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(activity, ImageCategoryDetailActivity.class);
+                            i.putExtra("viewAll", "12");
+                            i.putExtra("detailsObj", gson.toJson(dashBoardItemList.get(position)));
+                            i.addCategory(Intent.CATEGORY_HOME);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            activity.startActivity(i);
+                            activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        }
+                    });
+                    break;
                 case DashBoardItem.FESTIVAL_IMAGES:
                     ((DasboardViewHolder) holder).binding.title.setText(convertFirstUpper(dashBoardItemList.get(position).getName()));
                     ((DasboardViewHolder) holder).binding.title.setSelected(true);
@@ -110,6 +141,7 @@ public class DasboardAddaptor extends RecyclerView.Adapter {
                     });
                     break;
                 case DAILY_IMAGES:
+
                     ((DasboardViewHolder) holder).binding.title.setText(convertFirstUpper(dashBoardItemList.get(position).getName()));
                     menuAddaptor = new ImageCategoryAddaptor(dashBoardItemList.get(position).getDailyImages(), activity);
                     menuAddaptor.setLayoutType(ImageCategoryAddaptor.FROM_HOMEFRAGEMENT);

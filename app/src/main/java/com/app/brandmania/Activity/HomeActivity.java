@@ -145,7 +145,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private final int REQUESTED_ALL = 1;
     private final int REQUESTED_CAMERA = 2;
     private final int REQUESTED_STORAGE = 3;
-    private final int REQUESTED_CONTACT = 4;
     private final int REQUEST_SETTINGS = 5;
     private androidx.appcompat.app.AlertDialog alertDialog;
 
@@ -320,7 +319,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                                     } catch (IntentSender.SendIntentException e) {
                                         e.printStackTrace();
                                     }
-
                                 }
                             });
         }
