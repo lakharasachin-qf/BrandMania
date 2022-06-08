@@ -66,17 +66,17 @@ public class ProfileFragment extends BaseFragment {
         if (prefManager.getActiveBrand() != null)
             binding.businessName.setText(prefManager.getActiveBrand().getName());
 
-        binding.editProfile.setOnClickListener(v -> {
-            Intent i = new Intent(act, LetterHeadActivity.class);
-            startActivity(i);
-            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-        });
-
 //        binding.editProfile.setOnClickListener(v -> {
-//            Intent i = new Intent(act, EditActivity.class);
+//            Intent i = new Intent(act, LetterHeadActivity.class);
 //            startActivity(i);
 //            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 //        });
+
+        binding.editProfile.setOnClickListener(v -> {
+            Intent i = new Intent(act, EditActivity.class);
+            startActivity(i);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        });
         binding.mybusinessRelative.setOnClickListener(v -> {
             Intent i = new Intent(act, ViewBrandActivity.class);
             startActivity(i);

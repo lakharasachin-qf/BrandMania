@@ -364,19 +364,19 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 if (manuallyEnablePermission(2)) {
 
                     if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
-                        if (selectedObject.isImageFree()) {
-                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                askForUpgradeToEnterpisePackage();
-                                return;
-                            }
-                            if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                getImageDownloadRights("Share");
-                            } else {
-                                checkForDownload();
-                            }
-                        } else {
-                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                        if (selectedObject.isImageFree()) {
+                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                            askForUpgradeToEnterpisePackage();
+                            return;
                         }
+                        if (selectedObject.getImageType() == ImageList.IMAGE) {
+                            getImageDownloadRights("Share");
+                        } else {
+                            checkForDownload();
+                        }
+//                        } else {
+//                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                        }
                     } else {
                         if (!Utility.isPackageExpired(act)) {
                             if (selectedObject.getImageType() == ImageList.IMAGE) {
@@ -417,12 +417,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     onSelectImageClick(view);
                 }
             });
-
         }
-
         if (!getIntent().hasExtra("viewAll"))
             LoadDataToUI();
-
         binding.logoCustom.setTag("0");
     }
 
@@ -434,7 +431,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 addBrandFragment.dismiss();
             }
         }
-
         addBrandFragment = new AddBrandFragment();
         addBrandFragment.show(getSupportFragmentManager(), "");
     }
@@ -2320,11 +2316,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         }
         request.addMultipartParameter("type", String.valueOf(download));
         request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
-        })
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                    }
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -2429,7 +2425,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
-
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
 
                             if (Utility.isUserPaid(prefManager.getActiveBrand())) {
@@ -2465,8 +2460,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             }
 
                         } else {
-
-                            downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
+                           // downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
+                            downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day.To get more images please upgrade your package");
                             //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
@@ -2528,8 +2523,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             request.addMultipartFile("br_logo", img1File);
         }
         request.build().setUploadProgressListener((bytesUploaded, totalBytes) -> {
-            // do anything with progress
-        })
+                    // do anything with progress
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {

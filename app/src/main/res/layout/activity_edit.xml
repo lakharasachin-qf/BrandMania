@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:id="@+id/rootLayout"
         android:layout_height="match_parent"
         tools:context=".Activity.brand.EditActivity">
 
@@ -40,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/BackButton"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="Edit Brand"
+                    android:text="Edit Profile"
                     android:textColor="@color/colorNavText"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
@@ -48,102 +49,113 @@
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <LinearLayout
-            android:id="@+id/editProfile"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/my_toolbar"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/_10sdp"
-            android:paddingEnd="@dimen/_10sdp">
+            android:layout_below="@+id/my_toolbar">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nameTxtLayout"
-                style="@style/LoginTextInputLayoutStyle"
+            <LinearLayout
+                android:id="@+id/editProfile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:hint="Brand Name"
-                app:errorEnabled="true"
-                app:hintTextColor="@color/colorPrimary">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nameTxt"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nameTxtLayout"
+                    style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/_10sdp"
-                    android:inputType="text"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_10sdp"
-                    android:singleLine="true"
-                    android:textSize="@dimen/_10sdp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Enter Name"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phoneTxtLayout"
-                style="@style/LoginTextInputLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:hint="Phone Number"
-                app:errorEnabled="true"
-                app:hintTextColor="@color/colorPrimary">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nameTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:inputType="text"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phoneTxt"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phoneTxtLayout"
+                    style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/_10sdp"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_10sdp"
-                    android:singleLine="true"
-                    android:textSize="@dimen/_10sdp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Phone Number"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailIdEdtLayout"
-                style="@style/LoginTextInputLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:hint="Email Id"
-                app:errorEnabled="true"
-                app:hintTextColor="@color/colorPrimary">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailIdEdt"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailIdEdtLayout"
+                    style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/_10sdp"
-                    android:imeOptions="actionDone"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_10sdp"
-                    android:singleLine="true"
-                    android:textSize="@dimen/_10sdp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:hint="Email Id"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/colorPrimary">
 
-            <Button
-                android:id="@+id/editBrandBtn"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_32sdp"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginTop="@dimen/_40sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:background="@drawable/buttoncornar"
-                android:fontFamily="@font/poppins_light"
-                android:text="SUBMIT"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textSize="@dimen/_11sdp" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailIdEdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:imeOptions="actionDone"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/_10sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/editBrandBtn"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/buttoncornar"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="SUBMIT"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_11sdp" />
 
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_130sdp"
+                android:visibility="gone" />
+        </RelativeLayout>
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
@@ -258,6 +270,5 @@
 
 
         </LinearLayout>
-
     </RelativeLayout>
 </layout>

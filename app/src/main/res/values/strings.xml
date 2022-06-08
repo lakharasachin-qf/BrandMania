@@ -18,8 +18,11 @@
     <string name="submit_text">Submit</string>
     <string name="add_report_bugs">Report Bug</string>
     <string name="about_us_activity">About Us</string>
+    <string name="enter_number">Enter Your Number</string>
     <string name="enter_valid_contact_number">Enter valid contact number</string>
+    <string name="enter_valid_number">Enter valid number</string>
     <string name="enter_valid_email_address">Enter valid email id</string>
+    <string name="enter_valid_brand_email_address">Enter valid brand email id</string>
     <string name="ismart_homes_logo">iSmart Homes Logo</string>
     <string name="app_intent_name">PhotoEditor</string>
     <string name="enter_problem">Enter problem</string>
@@ -40,12 +43,15 @@
     <string name="loginchieldthirtitle_text">Terms of Service</string>
     <string name="entermobileno_text">Enter Your Mobile Number</string>
     <string name="enter_first_name">Enter First Name</string>
+    <string name="enter_name">Enter Your Name</string>
     <string name="enter_last_name">Enter Last Name</string>
     <string name="enter_brend_name">Enter Brand Name</string>
     <string name="enter_contact_number">Enter Contact Number</string>
     <string name="enter_address">Enter Address</string>
     <string name="enter_website">Enter Website</string>
     <string name="enter_email_id">Enter Email Id</string>
+    <string name="enter_your_email_id">Enter Your Email Id</string>
+    <string name="enter_brand_email_id">Enter Brand Email Id</string>
     <string name="phoneno_txt">Enter Mobile Number</string>
     <string name="validphoneno_txt">Enter Valid Mobile Number</string>
     <string name="brandcategory_text">Enter Brand Category</string>

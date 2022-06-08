@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:hint="Phone Number"
+                    android:hint="Brand Number"
                     app:errorEnabled="true"
                     app:hintTextColor="@color/colorPrimary">
 
@@ -150,7 +150,6 @@
                         android:inputType="number"
                         android:maxLength="10"
                         android:paddingTop="@dimen/_10sdp"
-
                         android:paddingBottom="@dimen/_10sdp"
                         android:singleLine="true"
                         android:textSize="@dimen/_10sdp" />

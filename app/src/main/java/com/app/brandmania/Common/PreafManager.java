@@ -105,14 +105,14 @@ public class PreafManager {
         editor.commit();
         editor.apply();
     }
-    public String getUserName() {
-        return pref.getString("Username", "");
-    }
 
-    public void setUserName(String parameters) {
-        pref.edit().putString("Username", parameters).apply();
-    }
-
+//    public String getUserName() {
+//        return pref.getString("Username", "");
+//    }
+//
+//    public void setUserName(String parameters) {
+//        pref.edit().putString("Username", parameters).apply();
+//    }
 
     public String getEMAIL_Id() {
         return pref.getString("email_id", null);
@@ -156,13 +156,36 @@ public class PreafManager {
         pref.edit().putBoolean(ViewAllCustomeImageActivityIntro, parameters).apply();
     }
 
+    public void setMobileNumber(String parameters) {
+        pref.edit().putString("MOBILE_NUMBER", parameters).apply();
+    }
 
     public String getMobileNumber() {
         return pref.getString("MOBILE_NUMBER", null);
     }
 
-    public void setMobileNumber(String parameters) {
-        pref.edit().putString("MOBILE_NUMBER", parameters).apply();
+    public String getUserMobileNumber() {
+        return pref.getString("User_number", null);
+    }
+
+    public void setUserMobileNumber(String parameters) {
+        pref.edit().putString("User_number", parameters).apply();
+    }
+
+    public String getUserEmail_Id() {
+        return pref.getString("User_email", "");
+    }
+
+    public void setUserEmail_Id(String parameters) {
+        pref.edit().putString("User_email", parameters).apply();
+    }
+
+    public String getUserName() {
+        return pref.getString("Username", "");
+    }
+
+    public void setUserName(String parameters) {
+        pref.edit().putString("Username", parameters).apply();
     }
 
     public Boolean getIS_Brand() {

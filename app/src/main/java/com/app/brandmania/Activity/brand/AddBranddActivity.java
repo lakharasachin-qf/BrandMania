@@ -43,7 +43,6 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Activity.HomeActivity;
-import com.app.brandmania.Activity.basics.LoadingHomeActivity;
 import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.PreafManager;
@@ -169,7 +168,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
         binding.countryLayout.setVisibility(View.GONE);
         binding.stateLayout.setVisibility(View.VISIBLE);
-      //  CodeReUse.RemoveError(binding.countryEdt, binding.countryLayout);
+        //  CodeReUse.RemoveError(binding.countryEdt, binding.countryLayout);
         CodeReUse.RemoveError(binding.stateEdt, binding.stateLayout);
         CodeReUse.RemoveError(binding.cityEdt, binding.cityLayout);
 
@@ -181,12 +180,11 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         });
 
 
-
         binding.stateEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (stateList != null)
-                        chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
+                if (stateList != null)
+                    chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
             }
         });
         binding.cityEdt.setOnClickListener(new View.OnClickListener() {
@@ -412,19 +410,19 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         }
 
 
-        if (binding.stateEdt.getText().toString().trim().length()==0) {
-                binding.stateLayout.setError("Please select state");
-                binding.stateLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                isError = true;
-                if (!isFocus) {
-                    binding.stateEdt.requestFocus();
-                    isFocus = true;
-                    binding.scrollView.scrollTo(0, binding.stateEdt.getBottom());
-                }
-                return;
+        if (binding.stateEdt.getText().toString().trim().length() == 0) {
+            binding.stateLayout.setError("Please select state");
+            binding.stateLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+            isError = true;
+            if (!isFocus) {
+                binding.stateEdt.requestFocus();
+                isFocus = true;
+                binding.scrollView.scrollTo(0, binding.stateEdt.getBottom());
+            }
+            return;
         }
 
-        if (binding.cityEdt.getText().toString().trim().length()==0) {
+        if (binding.cityEdt.getText().toString().trim().length() == 0) {
             binding.cityLayout.setError("Please select city");
             binding.cityLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             isError = true;
@@ -506,11 +504,10 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 .setPriority(Priority.HIGH);
 
         request.addMultipartParameter("br_address", binding.addressEdt.getText().toString());
-        request.addMultipartParameter("br_country","");
-        request.addMultipartParameter("br_state",binding.stateEdt.getText().toString());
-        request.addMultipartParameter("br_city",binding.cityEdt.getText().toString());
-        request.addMultipartParameter("br_pincode",binding.pincodeEdt.getText().toString());
-
+        request.addMultipartParameter("br_country", "");
+        request.addMultipartParameter("br_state", binding.stateEdt.getText().toString());
+        request.addMultipartParameter("br_city", binding.cityEdt.getText().toString());
+        request.addMultipartParameter("br_pincode", binding.pincodeEdt.getText().toString());
 
 
         if (img1File != null) {
@@ -520,11 +517,11 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
 
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
-        })
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                    }
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -733,7 +730,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                             brandListItemm.setCity(ResponseHandler.getString(jsonObject, "br_city"));
                         }
 
-                        
+
                         String address = brandListItemm.getOriginalAddress();
                         if (brandListItemm.getCity() != null && !brandListItemm.getCity().isEmpty()) {
                             if (!address.isEmpty())
@@ -765,7 +762,7 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                         }
                         //brandListItemm.setAddress(getString(dataJsonObject, "br_address"));
                         brandListItemm.setAddress(address);
-                        
+
                         brandListItemm.setLogo(ResponseHandler.getString(jsonObject, "br_logo"));
                         brandListItemm.setPackage_id(ResponseHandler.getString(jsonObject, "package_id"));
                         brandListItemm.setIs_frame(ResponseHandler.getString(jsonObject, "is_frame"));
@@ -918,24 +915,24 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                 binding.cityEdt.setText("");
                 selectedCity = null;
                 getCountryStateCity(CALL_CITY);
-            }else{
+            } else {
                 binding.stateEdt.setText("");
-                selectedState=null;
+                selectedState = null;
 
                 binding.cityEdt.setText("");
-                selectedCity=null;
+                selectedCity = null;
 
                 binding.cityLayout.setVisibility(View.GONE);
-             }
+            }
         }
 
         if (calledFlag == CITY) {
             if (!listModel.getId().equalsIgnoreCase("-1")) {
                 binding.cityEdt.setText(listModel.getName());
                 selectedCity = listModel;
-            }else{
+            } else {
                 binding.cityEdt.setText("");
-                selectedCity=null;
+                selectedCity = null;
             }
         }
     }

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -67,7 +68,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
-                if (task!=null && task.isSuccessful() && task.getResult() != null) {
+                if (task != null && task.isSuccessful() && task.getResult() != null) {
                     deviceToken = task.getResult();
                 }
             }
@@ -131,7 +132,6 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         } else {
             binding.ResendText.setText(Html.fromHtml(Message));
         }
-
     }
 
     private void VerificationOtp(String otp, String mobileno) {
@@ -149,16 +149,19 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.getBoolean("status")) {
+                        Log.e("otpResponse", "yes");
                         JSONObject jsonArray = jObject.getJSONObject("data");
                         prefManager.setUserName(jsonArray.getString("name"));
+                        prefManager.setUserMobileNo(jsonArray.getString("phone"));
+                        prefManager.setUserEmail_Id(jsonArray.getString("email"));
                         prefManager.setUserToken(jsonArray.getString("token"));
                         prefManager.setLogin(true);
+
                         ArrayList<BrandListItem> brands = ResponseHandler.handleLogin(jObject);
                         if (brands != null && brands.size() != 0) {
                             prefManager.setAddBrandList(brands);
                             prefManager.setActiveBrand(brands.get(0));
                         }
-
                         Intent i = new Intent(act, HomeActivity.class);
                         i.putExtra("FirstLogin", "1");
                         i.addCategory(Intent.CATEGORY_HOME);

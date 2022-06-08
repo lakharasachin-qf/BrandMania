@@ -53,6 +53,7 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.AddBrandFragment;
 import com.app.brandmania.Fragment.BaseFragment;
+import com.app.brandmania.Fragment.UserNewRegistrationFragment;
 import com.app.brandmania.Fragment.UserRegistrationFragment;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
 import com.app.brandmania.Interface.ItemMultipleSelectionInterface;
@@ -122,7 +123,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     public void getDeviceToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if(task.isSuccessful())
+            if (task.isSuccessful())
                 deviceToken = task.getResult();
 
             UpdateToken();
@@ -168,7 +169,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 ContextCompat.checkSelfPermission(act, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(act, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             if (preafManager.getUserName().isEmpty()) {
-                addUserInfo();
+                newUserRegistration();
+                //addUserInfo();
             } else if (preafManager.getActiveBrand() == null) {
                 if (!HomeActivity.isAddBrandDialogDisplayed) {
                     HomeActivity.isAddBrandDialogDisplayed = true;
@@ -178,7 +180,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 RateUs();
             }
         }
-
+//        binding.showNotification.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                newUserRegistration();
+//            }
+//        });
         binding.showNotification.setOnClickListener(view -> HELPER.ROUTE(act, ViewNotificationActivity.class));
         binding.referCodeLayout.setOnClickListener(v -> {
             if (preafManager.getActiveBrand() != null) {
@@ -222,13 +229,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 addBrandList();
             }
         });
-
         binding.request.setOnClickListener(v -> showRequestForm());
-
         binding.createCustomImages.setOnClickListener(v -> HELPER.ROUTE(act, CustomViewAllActivit.class));
-
         binding.createGreetingImages.setOnClickListener(v -> ((CUSTOM_TAB_CHANGE_INTERFACE) act).makeTabChange(1));
-
         startAnimation();
         loadImagesCategory();
         getBanner();
@@ -240,8 +243,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         });
 
         //if (Utility.oneTimeCodeExecutes(act)) {
-            //Toast.makeText(act, "Only Once A Day Code Run", Toast.LENGTH_LONG).show();
-            getDeviceToken();
+        //Toast.makeText(act, "Only Once A Day Code Run", Toast.LENGTH_LONG).show();
+        getDeviceToken();
         //}
         //getDeviceToken();
         binding.businessNameDropDown.setOnClickListener(v -> showFragmentList(BUSINESS_TYPE, ""));
@@ -296,13 +299,24 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     AddBrandFragment addBrandFragment;
 
+    public UserNewRegistrationFragment userRegistrationFragment;
+
+    public void newUserRegistration() {
+        if (userRegistrationFragment != null) {
+            if (userRegistrationFragment.isVisible()) {
+                userRegistrationFragment.dismiss();
+            }
+        }
+        userRegistrationFragment = new UserNewRegistrationFragment();
+        userRegistrationFragment.show(getParentFragmentManager(), "");
+    }
+
     public void addBrandList() {
         if (addBrandFragment != null) {
             if (addBrandFragment.isVisible()) {
                 addBrandFragment.dismiss();
             }
         }
-
         addBrandFragment = new AddBrandFragment();
         addBrandFragment.show(getParentFragmentManager(), "");
     }
@@ -486,7 +500,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     private void UpdateToken() {
-        Utility.Log("TokenURL", APIs.UPDATE_TOKEN);
+        Utility.Log("UpdateToken", APIs.UPDATE_TOKEN);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, response -> {
             JSONObject jsonObject = ResponseHandler.createJsonObject(response);
@@ -496,6 +510,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                     JSONObject jsonArray1 = jsonObject.getJSONObject("message");
                     preafManager.setUserName(jsonArray1.getString("name"));
+                    preafManager.setUserEmail_Id(jsonArray1.getString("email"));
+                    preafManager.setUserMobileNumber(jsonArray1.getString("phone"));
                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
                     popupImg = jsonArray1.getString("popup_img");
@@ -547,8 +563,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             @Override
             protected Map<String, String> getParams() {
                 HashMap<String, String> hashMap = new HashMap<>();
-                if(deviceToken!=null)
-                hashMap.put("firebase_token", deviceToken);
+                if (deviceToken != null)
+                    hashMap.put("firebase_token", deviceToken);
                 Utility.Log("Verify-Param", hashMap.toString());
                 return hashMap;
             }

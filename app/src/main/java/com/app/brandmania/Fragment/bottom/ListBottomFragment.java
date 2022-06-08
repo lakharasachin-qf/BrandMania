@@ -92,8 +92,6 @@ public class ListBottomFragment extends BottomSheetDialogFragment {
         act = getActivity();
         fragment = this;
         binding.titleText.setText("Brand Category");
-
-
         if (listModels != null) {
             adpt = new DropDownAdpt(act, listModels, calledFlag);
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(act, 3);

@@ -2209,6 +2209,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                                         saveImageToGallery(true, false);
                                     }
                                 } else {
+                                    //for weakly doanloaded image
                                     downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
                                 }
 
@@ -2223,6 +2224,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
                         } else {
 
+                            //per day download image
                             downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
                             //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
                         }
