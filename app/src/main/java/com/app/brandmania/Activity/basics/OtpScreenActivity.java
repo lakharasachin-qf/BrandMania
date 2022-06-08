@@ -152,11 +152,13 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                         Log.e("otpResponse", "yes");
                         JSONObject jsonArray = jObject.getJSONObject("data");
                         prefManager.setUserName(jsonArray.getString("name"));
-                        prefManager.setUserMobileNo(jsonArray.getString("phone"));
+                        prefManager.setUserMobileNumber(jsonArray.getString("phone"));
                         prefManager.setUserEmail_Id(jsonArray.getString("email"));
                         prefManager.setUserToken(jsonArray.getString("token"));
                         prefManager.setLogin(true);
-
+                        Log.e("name", prefManager.getUserName());
+                        Log.e("phone", prefManager.getUserMobileNumber());
+                        Log.e("email", prefManager.getUserEmail_Id());
                         ArrayList<BrandListItem> brands = ResponseHandler.handleLogin(jObject);
                         if (brands != null && brands.size() != 0) {
                             prefManager.setAddBrandList(brands);

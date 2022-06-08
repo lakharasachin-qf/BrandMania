@@ -55,8 +55,8 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
         assert act != null;
         pref = new PreafManager(act);
         Log.e("number", pref.getMobileNumber());
-        if (pref.getMobileNumber() != null && !pref.getMobileNumber().isEmpty()) {
-            binding.phoneEdt.setText(pref.getMobileNumber());
+        if (pref.getUserMobileNumber() != null && !pref.getUserMobileNumber().isEmpty()) {
+            binding.phoneEdt.setText(pref.getUserMobileNumber());
         }
         binding.cancelBtn.setOnClickListener(v -> dismiss());
         setInitView();
