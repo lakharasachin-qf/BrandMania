@@ -196,7 +196,6 @@ public class ResponseHandler {
             examModel.setSubscriptionDate(getString(jsonObject, "subscription_date"));
             examModel.setRate(getString(jsonObject, "rate"));
 
-
             examModel.setExpiery_date(getString(jsonObject, "expire_date"));
             JSONArray jsonArray = jsonObject.getJSONArray("br_frame");
 
@@ -346,7 +345,6 @@ public class ResponseHandler {
                             imageCategory.setName(getString(innerObject, "name"));
                             imageCategory.setImageFree(getString(innerObject, "is_free").equalsIgnoreCase("1"));
                             imageCategory.setFrame(getString(innerObject, "thumbnail_url"));
-
 
                             JSONArray languageArray = getJSONArray(innerObject, "lang");
                             ArrayList<String> valueList = new ArrayList<String>();

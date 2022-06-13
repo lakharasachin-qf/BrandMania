@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
@@ -30,12 +29,10 @@ import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Interface.alertListenerCallback;
-import com.app.brandmania.LetterHead.LetterHeadActivity;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityMainBinding;
 import com.app.brandmania.utils.APIs;
 import com.app.brandmania.utils.Utility;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
@@ -44,6 +41,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,6 +71,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
         animatorSet1.setDuration(3000);
         getInvitation();
+        //HELPER.IsTwoDateComparison(preafManager.getLoginDate(), act);
 
         new Handler().postDelayed(() -> {
             if (preafManager.isLogin()) {
@@ -234,6 +236,19 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
                 .addOnFailureListener(this, e -> {
                 });
 
+    }
+
+    public static String getCalculatedDate(String date, String dateFormat, int days) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat s = new SimpleDateFormat(dateFormat);
+        cal.add(Calendar.DAY_OF_YEAR, days);
+        try {
+            return s.format(new Date(s.parse(date).getTime()));
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            Log.e("TAG", "Error in Parsing Date : " + e.getMessage());
+        }
+        return null;
     }
 
     private void sessionCreat() {

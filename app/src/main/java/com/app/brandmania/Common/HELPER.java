@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class HELPER {
 
@@ -254,6 +263,198 @@ public class HELPER {
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
+        }
+    }
+
+    public static String getDateAfterSevenDay() {
+
+//        SimpleDateFormat dateFormat= new SimpleDateFormat("EEEE dd.MM.yyyy");
+//        Calendar currentCal = Calendar.getInstance();
+//        String currentdate=dateFormat.format(currentCal.getTime());
+//        currentCal.add(Calendar.DATE, 7);
+//        String toDate=dateFormat.format(currentCal.getTime());
+
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DAY_OF_YEAR, +7);
+        Date afterDay = cal.getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return simpleDateFormat.format(afterDay);
+    }
+
+    public static Date StringToDate(String apiData) {
+        String dtStart = apiData;
+        Date date = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = format.parse(dtStart);
+            System.out.println(date);
+            Log.e("DateTimeValue", String.valueOf(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static String simpleDateFormat(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String strDate = dateFormat.format(date);
+        Log.e("dateOutput", strDate);
+        return strDate;
+    }
+
+    public static boolean IsTwoDateComparison(String ApiData, Activity act) {
+
+        PreafManager pre = new PreafManager(act);
+
+        //String startDates = "Wed Jun 08 00:00:00 GMT+05:30 2022";
+        //String endDates = "Wed Jun 15 00:00:00 GMT+05:30 2022";
+
+        //startDate
+        Calendar c = Calendar.getInstance();
+        c.setTime(StringToDate(ApiData));
+        Date startDate = c.getTime();
+        String SDate = simpleDateFormat(startDate);
+
+        //TodayDate
+        Date TodayDATE = Calendar.getInstance().getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String TodayDate = simpleDateFormat.format(TodayDATE);
+        Log.e("todayDate", TodayDate);
+
+        //forTest
+//        String TodayDate = "16-06-2022";
+//        Log.e("todayDate", TodayDate);
+
+        //endDate
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(c.getTime());
+        cal.add(Calendar.DATE, 7);
+        Date endDate = cal.getTime();
+        String eDate = simpleDateFormat(endDate);
+
+        try {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date convertedEndDate = formatter.parse(eDate);
+            Date convertedStartDate = formatter.parse(SDate);
+            Date convertTodayDate = formatter.parse(TodayDate);
+            assert convertedStartDate != null;
+            assert convertedEndDate != null;
+            assert convertTodayDate != null;
+
+            if (convertTodayDate.compareTo(convertedStartDate) >= 0 && convertTodayDate.compareTo(convertedEndDate) <= 0) {
+//            if (convertTodayDate.equals(convertedStartDate) && convertTodayDate.after(convertedStartDate) && convertTodayDate.before(convertedEndDate) && convertTodayDate.equals(convertedEndDate)) {
+                Log.e("isDateBetween", "yes");
+                pre = new PreafManager(act);
+                pre.setFreeUserDownloadForOneWeak(true);
+                return true;
+            } else {
+                pre.setFreeUserDownloadForOneWeak(false);
+                Log.e("isDateBetween", "no");
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static Date stringToDaTE(String dates) {
+
+        Date date = null;
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            date = format.parse(dates);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static boolean IsDateComparison(String ApiData) {
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(StringToDate(ApiData));
+        //c.add(Calendar.DATE, 7);
+        Log.e("FromDate", String.valueOf(c.getTime()));
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(c.getTime());
+        cal.add(Calendar.DATE, 7);
+        Date toDate = cal.getTime();
+        Log.e("toDate", String.valueOf(toDate));
+
+        if (c.getTime().compareTo(toDate) < 0) {
+            Log.e("isDateBetween", "yes");
+            return true;
+        } else {
+            Log.e("isDAteBetween", "no");
+        }
+        return false;
+    }
+
+    public static String DateToStringApi(String apiData) {
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat output = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date d = null;
+        try {
+            d = input.parse(apiData);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (d != null) {
+            Log.e("convertDateValue", output.format(d));
+        }
+        return output.format(d);
+    }
+
+    public static String DateToStringApis(String apiData) {
+        SimpleDateFormat input = new SimpleDateFormat("EEE MM dd kk:mm:ss zzzz yyyy");
+        SimpleDateFormat output = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date d = null;
+        try {
+            d = input.parse(apiData);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (d != null) {
+            Log.e("convertDateValuesss", output.format(d));
+        }
+        return output.format(d);
+    }
+
+    public static void DateToString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date date = new Date();
+        String dateTime = dateFormat.format(date);
+        System.out.println("Current Date Time : " + dateTime);
+    }
+
+    public static void date() {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = simpleDateFormat.format(c);
+
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DAY_OF_YEAR, +7);
+        Date afterDay = cal.getTime();
+
+        String dateStr = "16-06-2022";
+        SimpleDateFormat curFormater = new SimpleDateFormat("dd-MM-yyyy");
+        Date dateObj = null;
+        try {
+            dateObj = curFormater.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (c.before(dateObj)) {
+            Log.e("yesAfter", "yes");
+            // In between
+        } else {
+            Log.e("yesAfter", "no");
         }
     }
 

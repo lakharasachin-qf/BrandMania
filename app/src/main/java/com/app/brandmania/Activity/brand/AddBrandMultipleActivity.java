@@ -402,10 +402,8 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             if (selectedLogo != null) {
                 bitmap = selectedLogo;
             }
-
             addBrand(bitmap);
         }
-
     }
 
 
@@ -944,6 +942,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             apiUrl = APIs.GET_CITY + "/" + selectedState.getId();
             cityList.clear();
         }
+
         Utility.showLoadingTran(act);
         Utility.Log("API : ", apiUrl);
         StringRequest request = new StringRequest(Request.Method.GET, apiUrl, new Response.Listener<String>() {

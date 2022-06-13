@@ -496,9 +496,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         };
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
-
     }
-
     private void UpdateToken() {
         Utility.Log("UpdateToken", APIs.UPDATE_TOKEN);
 

@@ -62,8 +62,8 @@ public class EditActivity extends BaseActivity {
             binding.emailIdEdt.setText(preafManager.getUserEmail_Id());
         }
 
-        if (preafManager.getMobileNumber() != null && !preafManager.getMobileNumber().isEmpty()) {
-            binding.phoneTxt.setText(preafManager.getMobileNumber());
+        if (preafManager.getUserMobileNumber() != null && !preafManager.getUserMobileNumber().isEmpty()) {
+            binding.phoneTxt.setText(preafManager.getUserMobileNumber());
         }
         if (preafManager.getUserName() != null && !preafManager.getUserName().isEmpty()) {
             binding.nameTxt.setText(preafManager.getUserName());
@@ -71,7 +71,6 @@ public class EditActivity extends BaseActivity {
         binding.editProfile.setVisibility(View.VISIBLE);
         binding.content.setVisibility(View.GONE);
         binding.editBrandBtn.setOnClickListener(v -> {
-
             Validation();
         });
 

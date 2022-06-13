@@ -79,6 +79,15 @@ public class PreafManager {
         return pref.getString("day", "");
     }
 
+    public String isLoginDate(String date) {
+        pref.edit().putString("afterDate", date).apply();
+        editor.commit();
+        return date;
+    }
+
+    public String getLoginDate() {
+        return pref.getString("afterDate", "");
+    }
 
     public String getUserMobileNo() {
         return pref.getString("mobileNo", "");
@@ -334,5 +343,16 @@ public class PreafManager {
 
     public boolean isLogin() {
         return pref.getBoolean("isLogin", false);
+    }
+
+    //for freeUser
+    public void setFreeUserDownloadForOneWeak(boolean status) {
+        editor.putBoolean("isUserFree", status);
+        editor.commit();
+        editor.apply();
+    }
+
+    public boolean IsFreeUserDownloadForOneWeak() {
+        return pref.getBoolean("isUserFree", false);
     }
 }
