@@ -304,27 +304,17 @@ public class HELPER {
     }
 
     public static boolean IsTwoDateComparison(String ApiData, Activity act) {
-
         PreafManager pre = new PreafManager(act);
-
-        //String startDates = "Wed Jun 08 00:00:00 GMT+05:30 2022";
-        //String endDates = "Wed Jun 15 00:00:00 GMT+05:30 2022";
-
         //startDate
         Calendar c = Calendar.getInstance();
         c.setTime(StringToDate(ApiData));
         Date startDate = c.getTime();
         String SDate = simpleDateFormat(startDate);
-
-        //TodayDate
+         //TodayDate
         Date TodayDATE = Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String TodayDate = simpleDateFormat.format(TodayDATE);
-        Log.e("todayDate", TodayDate);
 
-        //forTest
-//        String TodayDate = "16-06-2022";
-//        Log.e("todayDate", TodayDate);
 
         //endDate
         Calendar cal = GregorianCalendar.getInstance();
@@ -343,14 +333,11 @@ public class HELPER {
             assert convertTodayDate != null;
 
             if (convertTodayDate.compareTo(convertedStartDate) >= 0 && convertTodayDate.compareTo(convertedEndDate) <= 0) {
-//            if (convertTodayDate.equals(convertedStartDate) && convertTodayDate.after(convertedStartDate) && convertTodayDate.before(convertedEndDate) && convertTodayDate.equals(convertedEndDate)) {
-                Log.e("isDateBetween", "yes");
                 pre = new PreafManager(act);
                 pre.setFreeUserDownloadForOneWeak(true);
                 return true;
             } else {
                 pre.setFreeUserDownloadForOneWeak(false);
-                Log.e("isDateBetween", "no");
                 return false;
             }
 

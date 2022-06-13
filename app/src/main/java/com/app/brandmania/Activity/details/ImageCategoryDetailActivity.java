@@ -243,7 +243,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         gson = new Gson();
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
 
-
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
@@ -293,7 +292,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     selectedObject.setBrandId(prefManager.getActiveBrand().getId());
                     if (selectedBackendFrame != null) {
                         selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
-
                     }
                     selectedObject.setCustom(isUsingCustomFrame);
 
@@ -2496,7 +2494,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         } else {
                             // downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
-                            downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day.To get more images please upgrade your package");
+                            downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for a week.To get more images please upgrade your package");
                             //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
