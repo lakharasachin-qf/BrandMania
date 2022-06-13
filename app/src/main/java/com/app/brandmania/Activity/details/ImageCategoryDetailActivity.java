@@ -292,6 +292,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     selectedObject.setBrandId(prefManager.getActiveBrand().getId());
                     if (selectedBackendFrame != null) {
                         selectedObject.setFrame1Id(selectedBackendFrame.getFrame1Id());
+
                     }
                     selectedObject.setCustom(isUsingCustomFrame);
 
