@@ -365,7 +365,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         if (!prefManager.getLoginDate().isEmpty()) {
                             //For Seven Day Image Download for free User in a day
-                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(),act)) {
+                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act)) {
 
                                 if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                     askForUpgradeToEnterpisePackage();
@@ -1449,7 +1449,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     //fire intent for share
     public void triggerShareIntent(File new_file, Bitmap merged) {
-
+        Log.e("shareIntent", "yes");
+        binding.simpleProgressBar.setVisibility(View.GONE);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1772,6 +1773,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             refreshgallery(new_file);
 
             if (wantToShare) {
+
+                Log.e("wantToShare", "yes");
+                binding.simpleProgressBar.setVisibility(View.VISIBLE);
                 if (isUsingCustomFrame) {
                     ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
                     binding.FrameImageDuplicate.setVisibility(View.GONE);
@@ -1782,6 +1786,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
                 triggerShareIntent(new_file, merged);
             } else {
+
                 Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
                 if (isUsingCustomFrame) {
                     ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
@@ -2473,6 +2478,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                         } else {
                                             saveGif();
                                         }*/
+
                                         saveImageToGallery(true, false);
                                     }
                                 } else {

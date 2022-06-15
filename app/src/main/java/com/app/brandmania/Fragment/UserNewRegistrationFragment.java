@@ -151,11 +151,6 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
                 String[] array = binding.nameTxt.getText().toString().split(" ");
                 params.put("first_name", array[0]);
                 params.put("last_name", array.length > 1 ? array[1] : "");
-//                if(array.length>1){
-//                    params.put("last_name", array[1]);
-//                }else{
-//                    params.put("last_name", "");
-//                }
                 params.put("phone", binding.phoneEdt.getText().toString());
                 params.put("email", binding.emailEdt.getText().toString());
                 Log.e("Edit-PARAM", params.toString());

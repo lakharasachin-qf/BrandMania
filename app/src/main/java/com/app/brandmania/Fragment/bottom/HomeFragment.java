@@ -502,6 +502,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, response -> {
             JSONObject jsonObject = ResponseHandler.createJsonObject(response);
+            Log.e("UpdateToken",gson.toJson(jsonObject));
             try {
                 if (jsonObject != null) {
                     preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject, "data").getJSONObject(0), "video_url_path"));

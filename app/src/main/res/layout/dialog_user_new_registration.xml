@@ -78,14 +78,14 @@
                         android:id="@+id/nameTxt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:cursorVisible="true"
                         android:drawablePadding="@dimen/_10sdp"
                         android:hint="Enter Full Name*"
-                        android:cursorVisible="true"
-                        android:textCursorDrawable="@null"
                         android:inputType="textCapWords"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:singleLine="true"
+                        android:textCursorDrawable="@null"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,11 +97,11 @@
                 <!--                    android:textSize="@dimen/_12sdp" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:id="@+id/emailLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
                     app:errorEnabled="true"
@@ -111,23 +111,23 @@
                         android:id="@+id/emailEdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:cursorVisible="true"
                         android:drawablePadding="@dimen/_10sdp"
                         android:hint="Enter Email Id*"
                         android:inputType="textCapWords"
                         android:paddingTop="@dimen/_10sdp"
-                        android:cursorVisible="true"
-                        android:textCursorDrawable="@null"
                         android:paddingBottom="@dimen/_10sdp"
                         android:singleLine="true"
+                        android:textCursorDrawable="@null"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:id="@+id/phoneLayout"
                     style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_7sdp"
                     android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
                     app:errorEnabled="true"
@@ -138,16 +138,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/_10sdp"
+                        android:enabled="false"
                         android:hint="Your Number"
                         android:inputType="number"
-                        android:enabled="false"
                         android:maxLength="10"
                         android:paddingTop="@dimen/_10sdp"
-                        android:textCursorDrawable="@color/black"
                         android:paddingBottom="@dimen/_10sdp"
                         android:singleLine="true"
+                        android:textCursorDrawable="@color/black"
                         android:textSize="@dimen/_10sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="You can not change your number"
+                    android:textColor="@color/colorRed"
+                    android:textSize="@dimen/_8sdp" />
 
                 <RelativeLayout
                     android:id="@+id/continueBtn"
