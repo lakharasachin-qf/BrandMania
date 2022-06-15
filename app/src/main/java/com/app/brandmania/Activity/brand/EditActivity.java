@@ -43,6 +43,9 @@ public class EditActivity extends BaseActivity {
     boolean isError = false;
     boolean isFocus = false;
     PreafManager preafManager;
+    String[] splitName;
+    String firstName;
+    String lastNames;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,19 +58,32 @@ public class EditActivity extends BaseActivity {
         binding.BackButton.setOnClickListener(v -> onBackPressed());
         Utility.isLiveModeOff(act);
         CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
+        CodeReUse.RemoveError(binding.lastNameTxt, binding.lastNameTxtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
         CodeReUse.RemoveError(binding.phoneTxt, binding.phoneTxtLayout);
 
         if (preafManager.getUserEmail_Id() != null && !preafManager.getUserEmail_Id().isEmpty()) {
             binding.emailIdEdt.setText(preafManager.getUserEmail_Id());
         }
-
         if (preafManager.getUserMobileNumber() != null && !preafManager.getUserMobileNumber().isEmpty()) {
             binding.phoneTxt.setText(preafManager.getUserMobileNumber());
         }
-        if (preafManager.getUserName() != null && !preafManager.getUserName().isEmpty()) {
-            binding.nameTxt.setText(preafManager.getUserName());
+
+        if (preafManager.getUserName().split("\\w+").length > 1) {
+
+            firstName = preafManager.getUserName().substring(0, preafManager.getUserName().lastIndexOf(' '));
+            lastNames = preafManager.getUserName().substring(preafManager.getUserName().lastIndexOf(" ") + 1);
+
+            if (!firstName.isEmpty()) {
+                binding.nameTxt.setText(firstName);
+            }
+            if (!lastNames.isEmpty()) {
+                binding.lastNameTxt.setText(lastNames);
+            }
+            Log.e("LastName:", lastNames);
+            Log.e("FirstName:", firstName);
         }
+
         binding.editProfile.setVisibility(View.VISIBLE);
         binding.content.setVisibility(View.GONE);
         binding.editBrandBtn.setOnClickListener(v -> {
@@ -129,16 +145,29 @@ public class EditActivity extends BaseActivity {
 
     private void Validation() {
 
-        if (binding.nameTxt.getText().toString().trim().length() == 0) {
+        if (binding.nameTxt.getText().toString().isEmpty()) {
             isError = true;
 
-            binding.nameTxtLayout.setError(getString(R.string.enter_name));
+            binding.nameTxtLayout.setError(getString(R.string.empty_name));
             binding.nameTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
 
             if (!isFocus) {
                 binding.nameTxt.requestFocus();
                 isFocus = true;
             }
+            return;
+        }
+        if (binding.lastNameTxt.getText().toString().isEmpty()) {
+            isError = true;
+
+            binding.lastNameTxtLayout.setError(getString(R.string.enter_last_name));
+            binding.lastNameTxtLayout.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+
+            if (!isFocus) {
+                binding.lastNameTxt.requestFocus();
+                isFocus = true;
+            }
+            return;
         }
         if (!binding.phoneTxt.getText().toString().trim().equals("")) {
             if (binding.phoneTxt.getText().toString().trim().length() < 10) {
@@ -174,7 +203,7 @@ public class EditActivity extends BaseActivity {
             }
 
         } else {
-            if (binding.emailIdEdt.getText().toString().trim().length() == 0) {
+            if (binding.emailIdEdt.getText().toString().trim().isEmpty()) {
                 isError = true;
                 binding.emailIdEdtLayout.setError(getString(R.string.enter_email_id));
                 binding.emailIdEdt.requestFocus();
@@ -195,7 +224,7 @@ public class EditActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject jsonArray1 = jsonObject.getJSONObject("data");
                     Toast.makeText(act, "Profile Updated", Toast.LENGTH_SHORT).show();
-                    preafManager.setUserName(Objects.requireNonNull(binding.nameTxt.getText()).toString());
+                    preafManager.setUserName(Objects.requireNonNull(binding.nameTxt.getText()).toString() + " " + binding.lastNameTxt.getText().toString());
                     preafManager.setUserEmail_Id(Objects.requireNonNull(binding.emailIdEdt.getText()).toString());
                     preafManager.setUserMobileNumber(Objects.requireNonNull(binding.phoneTxt.getText()).toString());
                 } catch (JSONException e) {
@@ -217,9 +246,8 @@ public class EditActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                String[] array = binding.nameTxt.getText().toString().split(" ");
-                params.put("first_name", array[0]);
-                params.put("last_name", array.length > 1 ? array[1] : "");
+                params.put("first_name", binding.nameTxt.getText().toString());
+                params.put("last_name", binding.lastNameTxt.getText().toString());
                 params.put("phone", binding.phoneTxt.getText().toString());
                 params.put("email", binding.emailIdEdt.getText().toString());
                 Log.e("Edit-PARAM", params.toString());

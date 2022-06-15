@@ -71,8 +71,9 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         animatorSet1.playTogether(scaleAnimatiorXX, scaleAnimatiorYX);
         animatorSet1.setDuration(3000);
         getInvitation();
-        //HELPER.IsTwoDateComparison(preafManager.getLoginDate(), act);
-
+        if (!preafManager.getLoginDate().isEmpty()) {
+            HELPER.IsTwoDateComparison(preafManager.getLoginDate(), act);
+        }
         new Handler().postDelayed(() -> {
             if (preafManager.isLogin()) {
                 Intent intent = new Intent(act, HomeActivity.class);

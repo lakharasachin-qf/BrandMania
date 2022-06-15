@@ -285,12 +285,12 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     });
 
-//                    if (preafManager.IsFreeUserDownloadForOneWeak()) {
-//                        Log.e("isUserFree4", "yes");
-//                        ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-//                        ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
-//                        return;
-//                    }
+                    if (preafManager.IsFreeUserDownloadForOneWeak()) {
+                        Log.e("isUserFree", "yes");
+                        ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
+                        return;
+                    }
 
                     if (model.getImageType() == ImageList.IMAGE) {
                         ((ImageCategoryByIdHolder) holder).binding.gifVideoLayout.setVisibility(View.GONE);

@@ -469,11 +469,16 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         addBrandFragment.show(getSupportFragmentManager(), "");
     }
 
+    boolean isShareIntentVisisble = false;
 
     @Override
     public void onResume() {
         if (exoPlayer != null && selectedObject.getImageType() != ImageList.IMAGE) {
             startPlayer();
+        }
+        if (isShareIntentVisisble) {
+            Log.e("stopLoader", "yes");
+            Utility.dismissLoadingTran();
         }
         super.onResume();
 
@@ -1447,10 +1452,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     }
 
+
     //fire intent for share
     public void triggerShareIntent(File new_file, Bitmap merged) {
         Log.e("shareIntent", "yes");
-        binding.simpleProgressBar.setVisibility(View.GONE);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1775,7 +1780,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             if (wantToShare) {
 
                 Log.e("wantToShare", "yes");
-                binding.simpleProgressBar.setVisibility(View.VISIBLE);
                 if (isUsingCustomFrame) {
                     ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
                     binding.FrameImageDuplicate.setVisibility(View.GONE);
@@ -1784,9 +1788,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     Glide.with(getApplicationContext()).load(selectedBackendFrame.getFrame1()).into(binding.backendFrame);
                 }
                 Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
+                Utility.showLoadingTran(act);
+                isShareIntentVisisble = true;
                 triggerShareIntent(new_file, merged);
             } else {
-
                 Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
                 if (isUsingCustomFrame) {
                     ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
@@ -1808,7 +1813,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             }
             downloadAndShareApi(ADDFAV, merged);
         }
-
     }
 
     //generate custom frame from relative layout

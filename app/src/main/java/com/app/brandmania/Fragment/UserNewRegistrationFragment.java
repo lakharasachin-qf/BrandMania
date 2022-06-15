@@ -66,12 +66,8 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
     public void setInitView() {
         CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
         CodeReUse.RemoveError(binding.emailEdt, binding.emailLayout);
+        CodeReUse.RemoveError(binding.lastNameTxt, binding.lastNameTxtLayout);
         CodeReUse.RemoveError(binding.phoneEdt, binding.phoneLayout);
-        if (binding.phoneEdt.getText().toString().isEmpty()) {
-            binding.phoneEdt.setEnabled(true);
-        } else {
-            binding.phoneEdt.setEnabled(false);
-        }
         binding.continueBtn.setOnClickListener(view -> UserNewRegistrationFragment.this.Validation());
     }
 
@@ -79,12 +75,17 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
         boolean isError = false;
         if (binding.nameTxt.getText().toString().trim().isEmpty()) {
             isError = true;
-            binding.nameTxtLayout.setError(getString(R.string.enter_name));
+            binding.nameTxtLayout.setError(getString(R.string.empty_name));
             binding.nameTxt.requestFocus();
+        }
+        if (binding.lastNameTxt.getText().toString().trim().isEmpty()) {
+            isError = true;
+            binding.lastNameTxtLayout.setError(getString(R.string.enter_last_name));
+            binding.lastNameTxt.requestFocus();
         }
         if (binding.phoneEdt.getText().toString().isEmpty()) {
             isError = true;
-            binding.phoneLayout.setError(getString(R.string.enter_number));
+            binding.phoneLayout.setError("Enter Number");
             binding.phoneEdt.requestFocus();
         } else if (binding.phoneEdt.getText().toString().length() < 10) {
             isError = true;
@@ -100,7 +101,7 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
         } else {
             if (binding.emailEdt.getText().toString().trim().length() == 0) {
                 isError = true;
-                binding.emailLayout.setError(getString(R.string.enter_your_email_id));
+                binding.emailLayout.setError(getString(R.string.enter_email_id));
                 binding.emailEdt.requestFocus();
             }
         }
@@ -109,7 +110,6 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
             updateProfile();
         }
     }
-
     private void updateProfile() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.EDIT_BRAND_PROFILE, new Response.Listener<String>() {
             @Override
@@ -120,10 +120,9 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject jsonArray1 = jsonObject.getJSONObject("data");
                     context.dismiss();
-                    pref.setUserName(Objects.requireNonNull(binding.nameTxt.getText()).toString());
+                    pref.setUserName(Objects.requireNonNull(binding.nameTxt.getText()).toString()+" "+binding.lastNameTxt.getText().toString());
                     pref.setUserEmail_Id(Objects.requireNonNull(binding.emailEdt.getText()).toString());
                     pref.setUserMobileNumber(Objects.requireNonNull(binding.phoneEdt.getText()).toString());
-                    // pref.setUserName(binding.nameTxt.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -148,11 +147,11 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                String[] array = binding.nameTxt.getText().toString().split(" ");
-                params.put("first_name", array[0]);
-                params.put("last_name", array.length > 1 ? array[1] : "");
-                params.put("phone", binding.phoneEdt.getText().toString());
-                params.put("email", binding.emailEdt.getText().toString());
+                //String[] array = binding.nameTxt.getText().toString().split(" ");
+                params.put("first_name", Objects.requireNonNull(binding.nameTxt.getText()).toString());
+                params.put("last_name", Objects.requireNonNull(binding.lastNameTxt.getText()).toString());
+                params.put("phone", Objects.requireNonNull(binding.phoneEdt.getText()).toString());
+                params.put("email", Objects.requireNonNull(binding.emailEdt.getText()).toString());
                 Log.e("Edit-PARAM", params.toString());
                 return params;
             }

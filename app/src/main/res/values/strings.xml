@@ -44,6 +44,7 @@
     <string name="entermobileno_text">Enter Your Mobile Number</string>
     <string name="enter_first_name">Enter First Name</string>
     <string name="enter_name">Enter Your Name</string>
+    <string name="empty_name">Enter Name</string>
     <string name="enter_last_name">Enter Last Name</string>
     <string name="enter_brend_name">Enter Brand Name</string>
     <string name="enter_contact_number">Enter Contact Number</string>
