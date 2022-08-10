@@ -45,6 +45,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,7 +57,7 @@ public class Utility {
     private static Dialog progressDialog;
 
     public static void Log(String act, Object msg) {
-        Log.e(act, msg + "");
+       // Log.e(act, msg + "");
     }
 
     public static void showLoadingTran(Activity act) {
@@ -375,6 +376,18 @@ public class Utility {
                 })
                 .show();
     }
+    public static void error(Activity act, String msg) {
+        new AlertDialog.Builder(act)
+                .setMessage(msg)
+                .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                     }
+                })
+                .show();
+    }
 
 
     public static void showAlert(Activity act, String msg, String flag) {
@@ -571,5 +584,26 @@ public class Utility {
         Utility.Log("FirstLetter", str.substring(0, 1) + "    " + str.substring(1));
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {}
+    }
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
 }

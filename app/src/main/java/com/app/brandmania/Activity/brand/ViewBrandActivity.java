@@ -313,7 +313,7 @@ public class ViewBrandActivity extends BaseActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("brand_id", model.getId());
-                Log.e("DateNdClass", params.toString());
+                //Log.e("DateNdClass", params.toString());
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
             }

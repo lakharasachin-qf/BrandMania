@@ -79,13 +79,21 @@
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/item_layout_daily_round_images.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/item_layout_home.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/item_layout_viewallimage.xml" value="0.2734375" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_add_brand.xml" value="0.36666666666666664" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_add_brand_multiple.xml" value="0.17269736842105263" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_add_brandd.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_edit.xml" value="0.23190789473684212" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_otp_screen.xml" value="0.18802083333333333" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_razor_pay.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_view_all_frame_image.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_view_all_image.xml" value="0.16282894736842105" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dashboard_item_layout.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dialog_add_brand_fragment_layout.xml" value="0.17269736842105263" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dialog_offer.xml" value="0.23190789473684212" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dialog_request_business_category_remarks.xml" value="0.36666666666666664" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dialog_upgrade_download_limit_expire.xml" value="0.23190789473684212" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dialog_upgrade_layout_packege_expired.xml" value="0.23190789473684212" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dialog_upgrade_layout_second.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dialog_user_new_registration.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/dialog_user_registration_layout.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/fragment_home.xml" value="0.23190789473684212" />
@@ -93,6 +101,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/fragment_user_new_registartion.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/item_layout_daily_images.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/item_layout_viewallimage.xml" value="0.23190789473684212" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/item_package_layout.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

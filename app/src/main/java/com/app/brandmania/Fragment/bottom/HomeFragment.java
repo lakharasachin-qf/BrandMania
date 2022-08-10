@@ -413,7 +413,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_IMAGE_CATEGORY + "?page=1", response -> {
             binding.swipeContainer.setRefreshing(false);
             try {
-                Log.e("dashboard", gson.toJson(response));
+                //Log.e("dashboard", gson.toJson(response));
                 JSONObject jsonObject = new JSONObject(response);
                 apiResponse = ResponseHandler.HandleGetImageCategory(act, jsonObject);
                 if (apiResponse.getDashBoardItems() != null) {
@@ -502,7 +502,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, response -> {
             JSONObject jsonObject = ResponseHandler.createJsonObject(response);
-            Log.e("UpdateToken",gson.toJson(jsonObject));
+            //Log.e("UpdateToken",gson.toJson(jsonObject));
             try {
                 if (jsonObject != null) {
                     preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject, "data").getJSONObject(0), "video_url_path"));

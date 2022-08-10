@@ -21,6 +21,8 @@ import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MySingleton;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
+import com.app.brandmania.Fragment.AddBrandFragment;
+import com.app.brandmania.Fragment.UserNewRegistrationFragment;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.Model.SliderItem;
 import com.app.brandmania.R;
@@ -67,6 +69,7 @@ public class PackageActivity extends BaseActivity {
             layoutType = 0;
             selectedBrand = null;
         }
+
         Utility.isLiveModeOff(act);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_package);
         binding.BackButton.setOnClickListener(v -> onBackPressed());
@@ -113,12 +116,31 @@ public class PackageActivity extends BaseActivity {
         binding.recyclerList.setVisibility(View.VISIBLE);
         Collections.reverse(sliderItems);
         PackageRecyclerAdapter dashboardAdaptor = new PackageRecyclerAdapter(sliderItems, act, selectedBrand);
+        PackageRecyclerAdapter.listClick click = new PackageRecyclerAdapter.listClick() {
+            @Override
+            public void onClickAddPackage() {
+                addBrandList();
+            }
+        };
+        dashboardAdaptor.setClick(click);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(act, RecyclerView.VERTICAL, false);
         binding.recyclerList.setHasFixedSize(true);
         binding.recyclerList.setLayoutManager(mLayoutManager);
         binding.recyclerList.setAdapter(dashboardAdaptor);
     }
 
+    AddBrandFragment addBrandFragment;
+
+
+    public void addBrandList() {
+        if (addBrandFragment != null) {
+            if (addBrandFragment.isVisible()) {
+                addBrandFragment.dismiss();
+            }
+        }
+        addBrandFragment = new AddBrandFragment();
+        addBrandFragment.show(getSupportFragmentManager(), "");
+    }
     private void GetPackageList() {
         if (isLoading)
             return;

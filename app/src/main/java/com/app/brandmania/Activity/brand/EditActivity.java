@@ -80,8 +80,8 @@ public class EditActivity extends BaseActivity {
             if (!lastNames.isEmpty()) {
                 binding.lastNameTxt.setText(lastNames);
             }
-            Log.e("LastName:", lastNames);
-            Log.e("FirstName:", firstName);
+            //Log.e("LastName:", lastNames);
+            //Log.e("FirstName:", firstName);
         }
 
         binding.editProfile.setVisibility(View.VISIBLE);
@@ -218,7 +218,7 @@ public class EditActivity extends BaseActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.EDIT_BRAND_PROFILE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Edit-RESPONSE", response);
+                //Log.e("Edit-RESPONSE", response);
                 binding.progressCircular.setVisibility(View.GONE);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -250,7 +250,7 @@ public class EditActivity extends BaseActivity {
                 params.put("last_name", binding.lastNameTxt.getText().toString());
                 params.put("phone", binding.phoneTxt.getText().toString());
                 params.put("email", binding.emailIdEdt.getText().toString());
-                Log.e("Edit-PARAM", params.toString());
+                //Log.e("Edit-PARAM", params.toString());
                 return params;
             }
         };

@@ -693,7 +693,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
                 params.put("X-Authorization", "Bearer " + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -702,7 +702,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.e("DateNdClass", params.toString());
+                //Log.e("DateNdClass", params.toString());
                 //params.put("upload_type_id", String.valueOf(Constant.ADD_NOTICE));
                 Utility.Log("POSTED-PARAMS-", params.toString());
                 return params;
@@ -735,7 +735,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                     if (ResponseHandler.isSuccess(response, null)) {
                         JSONObject responseJson = ResponseHandler.createJsonObject(response);
                         JSONArray jsonArray = ResponseHandler.getJSONArray(responseJson, "data");
-                        Log.e("jsonArray-", jsonArray.toString());
+                        //Log.e("jsonArray-", jsonArray.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject itemObj = jsonArray.getJSONObject(i);
                             CommonListModel listModel = new CommonListModel();
@@ -768,7 +768,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -1010,7 +1010,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + preafManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 

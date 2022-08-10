@@ -992,7 +992,7 @@ public class PdfActivity extends BaseActivity {
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_THREE) {
             VisitingCardHelper.loadDataCardThree(act, CurrentSelectedCard.getThreeBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FOUR) {
-            Log.e("data", "4");
+            //Log.e("data", "4");
             VisitingCardHelper.loadDataCardFour(act, CurrentSelectedCard.getFourBinding(), colors);
         } else if (CurrentSelectedCard != null && CurrentSelectedCard.getLayoutType() == VisitingCardModel.LAYOUT_FIVE) {
             VisitingCardHelper.loadDataCardFive(act, CurrentSelectedCard.getFiveBinding(), colors);
@@ -1055,7 +1055,7 @@ public class PdfActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                Log.e("DateNdClass", params.toString());
+                //Log.e("DateNdClass", params.toString());
 
                 //Log.e("DateNdClass", params.toString());
                 Utility.Log("POSTED-PARAMS-", params.toString());

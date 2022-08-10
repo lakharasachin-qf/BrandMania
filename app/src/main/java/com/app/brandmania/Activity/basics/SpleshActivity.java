@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,6 +55,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
     PreafManager preafManager;
     AnimatorSet animatorSet1;
     private String referrerCode = "";
+    //app updates
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,19 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         preafManager = new PreafManager(act);
+
+        try {
+            int versionCode = act.getPackageManager().getPackageInfo(act.getPackageName(), 0).versionCode;
+            if (versionCode > preafManager.getPreviousCode()) {
+                preafManager.Logout();
+                Utility.deleteCache(act);
+            }
+
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         binding.logo.setVisibility(View.VISIBLE);
         final ObjectAnimator scaleAnimatiorXX = ObjectAnimator.ofFloat(binding.logo, "scaleX", 0, 1f);
         ObjectAnimator scaleAnimatiorYX = ObjectAnimator.ofFloat(binding.logo, "scaleY", 0, 1f);
@@ -247,7 +262,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
             return s.format(new Date(s.parse(date).getTime()));
         } catch (ParseException e) {
             // TODO Auto-generated catch block
-            Log.e("TAG", "Error in Parsing Date : " + e.getMessage());
+            //Log.e("TAG", "Error in Parsing Date : " + e.getMessage());
         }
         return null;
     }

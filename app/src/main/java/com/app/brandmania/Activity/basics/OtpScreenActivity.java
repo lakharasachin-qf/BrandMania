@@ -41,6 +41,13 @@ import com.app.brandmania.utils.GenericTextWatcher;
 import com.app.brandmania.utils.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
@@ -50,6 +57,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class OtpScreenActivity extends BaseActivity implements alertListenerCallback, iVerifyOTP {
     private Activity act;
@@ -63,6 +71,8 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
     private boolean isLoading = false;
     String NumberShow;
     String referrerCode = "";
+    String firebaseCode = "";
+
 
     public String getDeviceToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
@@ -80,20 +90,38 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme_material_theme);
         act = this;
+
         binding = DataBindingUtil.setContentView(act, R.layout.activity_otp_screen);
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.getFirebaseAuthSettings().forceRecaptchaFlowForTesting(true);
         NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
+        //sendVerificationCode("+91" + NumberShow);
+
+        binding.otpTxtLayout.setVisibility(View.GONE);
+        binding.CouterText.setVisibility(View.VISIBLE);
+        binding.otpOne.setText("");
+        binding.otpTwo.setText("");
+        binding.otpThree.setText("");
+        binding.otpFour.setText("");
+        binding.otpOne.requestFocus();
+
         binding.verificationChildTitle.setText("We sent OTP to verify your number \n" + "+91" + NumberShow);
         String Verify = "OTP<br>Verification</font></br>";
         referrerCode = getIntent().getStringExtra("referrerCode");
         Utility.isLiveModeOff(act);
+
         InsertRecord();
         binding.ResendText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.ResendText.setVisibility(View.GONE);
-                binding.CouterText.setVisibility(View.VISIBLE);
-                InsertRecord();
+//                binding.ResendText.setVisibility(View.GONE);
+//                binding.CouterText.setVisibility(View.VISIBLE);
+                //InsertRecord();
+                resendVerificationCode("+91" + NumberShow, resendingToken);
+
                 updateCountDownText();
                 if (countDownTimer != null)
                     countDownTimer.start();
@@ -120,8 +148,26 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         binding.regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
-                VerificationOtp(OtpString.trim(), NumberShow);
+                if (!isNormalLogin) {
+                    if (binding.otpTxt.getText().toString().length() != 0) {
+                        verifyVerificationCode(binding.otpTxt.getText().toString());
+                    } else {
+                        Toast.makeText(act, "Enter otp", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } else {
+                    String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
+
+                    if (!OtpString.isEmpty()) {
+
+                        VerificationOtp(OtpString, NumberShow);
+                    } else {
+                        Toast.makeText(act, "Enter otp", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
             }
         });
 
@@ -133,6 +179,125 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             binding.ResendText.setText(Html.fromHtml(Message));
         }
     }
+
+    private FirebaseAuth mAuth;
+    private String mVerificationId;
+    private PhoneAuthProvider.ForceResendingToken resendingToken;
+
+    //sending message
+    private void sendVerificationCode(String mobile) {
+        Utility.showProgress(act);
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(mobile)       // Phone number to verify
+                        .setTimeout(120L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        try {
+            PhoneAuthProvider.verifyPhoneNumber(options);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(act, "Error in sending otp", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void resendVerificationCode(String phoneNumber,
+                                        PhoneAuthProvider.ForceResendingToken token) {
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(phoneNumber)       // Phone number to verify
+                        .setTimeout(120L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallbacks)
+                        .setForceResendingToken(token)// OnVerificationStateChangedCallbacks
+                        .build();
+        try {
+            PhoneAuthProvider.verifyPhoneNumber(options);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(act, "Error in sending otp", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void verifyVerificationCode(String code) {
+        Utility.showProgress(act);
+        if(code.isEmpty()){
+            Utility.error(act,"Otp is empty");
+            return;
+        }
+        try {
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+            signInWithPhoneAuthCredential(credential);
+        }catch (Exception e){
+            Utility.dismissProgress();
+            e.printStackTrace();
+            Utility.error(act,"Entered otp is not valid");
+        }
+    }
+
+    private void signInWithPhoneAuthCredential(final PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(act, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Utility.dismissProgress();
+                        if (task.isSuccessful()) {
+                            FirebaseAuth.getInstance().signOut();
+                            VerificationOtp(responseOTP, NumberShow);
+                        } else {
+                            String message = "Something is wrong, we will fix it soon...";
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(act, "Please enter correct OTP", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                }).addOnFailureListener(act, e -> {
+                    Utility.dismissProgress();
+                });
+    }
+
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        @Override
+        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            Utility.dismissProgress();
+
+            String code = phoneAuthCredential.getSmsCode();
+            if (code != null) {
+                firebaseCode = code;
+                verifyVerificationCode(code);
+            }
+        }
+
+        @Override
+        public void onVerificationFailed(FirebaseException e) {
+            Utility.dismissProgress();
+            e.printStackTrace();
+            if (e.getMessage().contains("SafetyNet")) {
+                Utility.error(act, "Please fill reCAPTCHA to get OTP, Click on RESEND to get otp again");
+
+            }
+        }
+
+        @Override
+        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            Utility.dismissProgress();
+            super.onCodeSent(s, forceResendingToken);
+            mVerificationId = s;
+            resendingToken = forceResendingToken;
+            binding.CouterText.setVisibility(View.VISIBLE);
+            counter();
+            //Log.e("onCodeSent", "s" + mVerificationId);
+        }
+
+        @Override
+        public void onCodeAutoRetrievalTimeOut(String s) {
+            Utility.dismissProgress();
+            super.onCodeAutoRetrievalTimeOut(s);
+           // Log.e("Time", "Out" + s);
+        }
+    };
 
     private void VerificationOtp(String otp, String mobileno) {
         if (isLoading)
@@ -149,7 +314,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.getBoolean("status")) {
-                        Log.e("otpResponse", "yes");
+                        //Log.e("otpResponse", "yes");
                         JSONObject jsonArray = jObject.getJSONObject("data");
                         prefManager.setUserName(jsonArray.getString("name"));
                         prefManager.setUserMobileNumber(jsonArray.getString("phone"));
@@ -230,6 +395,9 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
 
     }
 
+    boolean isNormalLogin = false;
+    String responseOTP = "";
+
     private void InsertRecord() {
         if (isLoading)
             return;
@@ -243,12 +411,27 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                 Utility.Log("OTP", response.toString());
                 prefManager.loginStep("2");
                 if (ResponseHandler.isSuccess(response, null)) {
+                    isNormalLogin = ResponseHandler.getBool(ResponseHandler.createJsonObject(response), "is_normal_login");
+                    if (!isNormalLogin) {
+                        responseOTP = ResponseHandler.getString(ResponseHandler.createJsonObject(response), "data");
+                        binding.otpTxtLayout.setVisibility(View.VISIBLE);
+                        binding.CouterText.setVisibility(View.GONE);
+                        binding.otpOne.setVisibility(View.GONE);
+                        binding.otpTwo.setVisibility(View.GONE);
+                        binding.otpThree.setVisibility(View.GONE);
+                        binding.otpFour.setVisibility(View.GONE);
+                        sendVerificationCode("+91" + NumberShow);
+                        return;
+                    }
+
+                    binding.otpTxtLayout.setVisibility(View.GONE);
                     binding.CouterText.setVisibility(View.VISIBLE);
                     binding.otpOne.setText("");
                     binding.otpTwo.setText("");
                     binding.otpThree.setText("");
                     binding.otpFour.setText("");
                     binding.otpOne.requestFocus();
+
                     counter();
                 } else {
                     JSONObject responseJson = ResponseHandler.createJsonObject(response);
@@ -324,7 +507,12 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
     @Override
     public void onVerification() {
         String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
-        VerificationOtp(OtpString.trim(), NumberShow);
+        //VerificationOtp(OtpString.trim(), NumberShow);
+        if (!isNormalLogin) {
+            verifyVerificationCode(binding.otpTxt.getText().toString());
+        } else {
+            VerificationOtp(OtpString, NumberShow);
+        }
     }
 
     @Override

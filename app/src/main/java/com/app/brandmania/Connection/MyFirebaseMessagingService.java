@@ -94,7 +94,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+       // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        PendingIntent pendingIntent;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+
+            pendingIntent = PendingIntent.getActivity(
+                    this,
+                    0, intent,
+                    PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(
+                    this,
+                    0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CodeReUse.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_icon)

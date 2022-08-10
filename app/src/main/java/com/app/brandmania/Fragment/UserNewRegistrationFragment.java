@@ -44,7 +44,7 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.MyBottomSheetDialogTheme);
-        setCancelable(false);
+        setCancelable(true);
     }
 
     @Override

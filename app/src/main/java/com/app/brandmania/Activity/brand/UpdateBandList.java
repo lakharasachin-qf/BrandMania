@@ -402,7 +402,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                     if (ResponseHandler.isSuccess(response, null)) {
                         JSONObject responseJson = ResponseHandler.createJsonObject(response);
                         JSONArray jsonArray = ResponseHandler.getJSONArray(responseJson, "data");
-                        Log.e("jsonArray-", jsonArray.toString());
+                        //Log.e("jsonArray-", jsonArray.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject itemObj = jsonArray.getJSONObject(i);
                             CommonListModel listModel = new CommonListModel();
@@ -435,7 +435,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 
@@ -547,8 +547,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             return;
         isLoading = true;
         Utility.showProgress(act);
-        Log.e("API", APIs.EDIT_BRAND);
-        Log.e("API", prefManager.getUserToken());
+        //Log.e("API", APIs.EDIT_BRAND);
+      //  Log.e("API", prefManager.getUserToken());
         File img1File = null;
         if (img != null) {
             img1File = CodeReUse.createFileFromBitmap(act, "photo.jpeg", img);
@@ -585,12 +585,12 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 
         if (img1File != null) {
             request.addMultipartFile("br_logo", img1File);
-            Log.e("br_logo", String.valueOf(img1File));
+            //Log.e("br_logo", String.valueOf(img1File));
         }
 
         if (img1File != null) {
             request.addMultipartFile("frame", img1File);
-            Log.e("br_logo", String.valueOf(img1File));
+            //Log.e("br_logo", String.valueOf(img1File));
         }
 
 
@@ -638,11 +638,11 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                         Utility.dismissProgress();
 
                         if (error.getErrorCode() != 0) {
-                            Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
-                            Log.e("onError errorBody : ", error.getErrorBody());
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                            //Log.e("onError errorCode : ", String.valueOf(error.getErrorCode()));
+                            //Log.e("onError errorBody : ", error.getErrorBody());
+                            //Log.e("onError errorDetail : ", error.getErrorDetail());
                         } else {
-                            Log.e("onError errorDetail : ", error.getErrorDetail());
+                           // Log.e("onError errorDetail : ", error.getErrorDetail());
                         }
                     }
                 });
@@ -668,7 +668,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
 
     public void showFragmentList(int callingFlag, String title, ArrayList<CommonListModel> datalist) {
         bottomSheetFragment = new ListBottomFragment();
-        Log.e("Size---", String.valueOf(datalist.size()));
+        //Log.e("Size---", String.valueOf(datalist.size()));
         bottomSheetFragment.setListData(callingFlag, title, datalist);
         if (bottomSheetFragment.isVisible()) {
             bottomSheetFragment.dismiss();
@@ -896,7 +896,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                 params.put("Accept", "application/x-www-form-urlencoded");//application/json
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("X-Authorization", "Bearer" + prefManager.getUserToken());
-                Log.e("Token", params.toString());
+                //Log.e("Token", params.toString());
                 return params;
             }
 

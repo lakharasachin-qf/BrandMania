@@ -39,8 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/element1"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/inter_regular"
             android:layout_marginTop="@dimen/_7sdp"
+            android:fontFamily="@font/inter_regular"
             android:text="Currently your package is"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp" />

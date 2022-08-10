@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
 import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Interface.IBackendFrameSelect;
 import com.app.brandmania.Interface.ImageCateItemeInterFace;
@@ -89,7 +90,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
-
             case LAYOUT_IMAGE_CATEGORY:
                 ItemLayoutHomeBinding layoutBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.item_layout_home, viewGroup, false);
                 return new ImageCategoryHolder(layoutBinding);
@@ -285,16 +285,13 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     });
 
-                    if (preafManager.IsFreeUserDownloadForOneWeak()) {
-                        Log.e("isUserFree", "yes");
-                        ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
-                        ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
-                        return;
-                    }
+
 
                     if (model.getImageType() == ImageList.IMAGE) {
                         ((ImageCategoryByIdHolder) holder).binding.gifVideoLayout.setVisibility(View.GONE);
                         ((ImageCategoryByIdHolder) holder).binding.playerLayout.setVisibility(View.GONE);
+                    }else{
+
                     }
                     if (model.getImageType() == ImageList.GIF) {
                         ((ImageCategoryByIdHolder) holder).binding.labeledForGV.setText("GIF");
@@ -327,6 +324,12 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     }
 
+                    if (HELPER.IsTwoDateComparison(preafManager.getLoginDate(), activity)) {
+                        Log.e("isUserFree", "yes");
+                        ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
+                        ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);
+
+                    }
                     break;
                 case LAYOUT_FRAME:
 

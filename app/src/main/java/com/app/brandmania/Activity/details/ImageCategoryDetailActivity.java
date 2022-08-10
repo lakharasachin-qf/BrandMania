@@ -276,6 +276,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             }
         });
         binding.videoTutorial.setVisibility(View.VISIBLE);
+
         binding.videoTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -477,7 +478,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             startPlayer();
         }
         if (isShareIntentVisisble) {
-            Log.e("stopLoader", "yes");
+            //Log.e("stopLoader", "yes");
             Utility.dismissLoadingTran();
         }
         super.onResume();
@@ -864,10 +865,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         outputFilePath = outputFile.getAbsolutePath();
 
-        String command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + " overlay=x=(main_w-overlay_w)/2:y=(main_h-overlay_h)/2 " + outputFilePath;
-        command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h " + outputFilePath;
-        //command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h:enable=between(t\\,1\\,3) " + outputFilePath;   // working
-        //command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h:enable=between(t\\,1\\,3) " + outputFilePath;
+        String  command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h " + outputFilePath;
 
         execCommand(command);
         finalOutputFile = new File(outputFilePath);
@@ -883,7 +881,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void saveVideoInCatch() {
         if (!isVideoIsDownloading) {
             String url = String.valueOf(selectedObject.getVideoSet());
-            Log.e("URL-Download", url);
+            //Log.e("URL-Download", url);
 
             //url = url.replace("http", "https");
             DownloadManager.Request request;
@@ -908,7 +906,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         public void onReceive(Context context, Intent intent) {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             if (downloadID == id) {
-                Log.e("Download-Process", "Done");
+                //Log.e("Download-Process", "Done");
                 File outputFrameFile = new File(act.getCacheDir() + File.separator);
                 String vdPaths = outputFrameFile.getAbsolutePath();
 
@@ -937,7 +935,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     public void execCommand(String cmd) {
         progressDialog.setMessage("Processing......");
-        Log.e("Prcess Start", "Yes");
+        //Log.e("Prcess Start", "Yes");
         long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
 
             @Override
@@ -1455,7 +1453,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     //fire intent for share
     public void triggerShareIntent(File new_file, Bitmap merged) {
-        Log.e("shareIntent", "yes");
+        //Log.e("shareIntent", "yes");
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1779,7 +1777,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
             if (wantToShare) {
 
-                Log.e("wantToShare", "yes");
+                //Log.e("wantToShare", "yes");
                 if (isUsingCustomFrame) {
                     ((onFooterSelectListener) act).onFooterSelectEvent(selectedFooterModel.getLayoutType(), selectedFooterModel);
                     binding.FrameImageDuplicate.setVisibility(View.GONE);
@@ -2274,58 +2272,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
     //getFrames
-    private void getFrame() {
-        Utility.showLoadingTran(act);
-        Utility.Log("API : ", APIs.GET_FRAME);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FRAME, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Utility.dismissLoadingTran();
-                Utility.Log("GET_FRAME : ", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    brandListItems = ResponseHandler.HandleGetFrame(jsonObject);
-                    JSONObject datajsonobjecttt = ResponseHandler.getJSONObject(jsonObject, "data");
-                    is_frame = datajsonobjecttt.getString("is_frame");
 
-
-                    CreateTabs();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Utility.dismissLoadingTran();
-                        error.printStackTrace();
-
-                    }
-                }
-        ) {
-            /**
-             * Passing some request headers*
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return getHeader(CodeReUse.GET_FORM_HEADER);
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("brand_id", prefManager.getActiveBrand().getId());
-                return params;
-            }
-
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(act);
-        queue.add(stringRequest);
-    }
 
     //For Download,Share and Fav
     private void downloadAndShareApi(final int download, Bitmap customImage) {
@@ -2504,9 +2451,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             }
 
                         } else {
-                            // downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for 7 days. To get more images please upgrade your package");
                             downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for a week.To get more images please upgrade your package");
-                            //Toast.makeText(act, "You can't download image bcoz your limit get expire for one day", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

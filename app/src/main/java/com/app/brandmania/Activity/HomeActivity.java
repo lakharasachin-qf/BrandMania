@@ -96,7 +96,14 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
 
         Utility.Log("activeBrand", gson.toJson(prefManager.getActiveBrand()));
+        try{
+            int versionCode = act.getPackageManager()
+                    .getPackageInfo(act.getPackageName(), 0).versionCode;
+            prefManager.setAppCode(versionCode);
 
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 

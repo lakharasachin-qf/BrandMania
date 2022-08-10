@@ -120,8 +120,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 }
             }
 
-            // addDynamicServices(sliderItemList.getImageTitle() + " Images Download / Year");
-            // addDynamicServices(act.getString(R.string.Rs) + sliderItemList.getPayTitle() + " / " + sliderItemList.getDuration());
 
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
             calculateAmount = sliderItemList.getPriceForPay();
@@ -267,7 +265,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             }
         };
         MySingleton.getInstance(act).addToRequestQueue(stringRequest);
-
     }
 
     boolean isCodeApply = false;

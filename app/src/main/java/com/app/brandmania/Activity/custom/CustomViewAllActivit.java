@@ -1375,7 +1375,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             request.addMultipartParameter("is_custom", "1");
             request.addMultipartParameter("footer_id", String.valueOf(selectedFooterModel.getLayoutType()));
             if (img1File != null) {
-                Log.e("is email", "exits");
+                //Log.e("is email", "exits");
                 request.addMultipartFile("image", img1File);
             }
         } else {
@@ -1389,7 +1389,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
                 // do anything with progress
-                Log.e("byupload", String.valueOf(totalBytes));
+                //Log.e("byupload", String.valueOf(totalBytes));
             }
         })
                 .getAsJSONObject(new JSONObjectRequestListener() {

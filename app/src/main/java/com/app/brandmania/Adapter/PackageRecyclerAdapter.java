@@ -3,6 +3,7 @@ package com.app.brandmania.Adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,16 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
     private BrandListItem selectedBrand;
     PreafManager preafManager;
 
+    public interface listClick {
+        void onClickAddPackage();
+    }
+
+    private listClick click;
+
+    public void setClick(listClick click) {
+        this.click = click;
+    }
+
     public PackageRecyclerAdapter(ArrayList<SliderItem> packageList, Activity activity, BrandListItem selectedBrand) {
         this.packageList = packageList;
         this.activity = activity;
@@ -56,11 +67,15 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
         SliderItem model = packageList.get(position);
 
         holder.binding.price.setText(activity.getString(R.string.Rs) + model.getPriceForPay());
+        holder.binding.duration.setText(model.getDuration());
         holder.binding.packageName.setText(model.getPackageTitle());
         holder.binding.planLabel.setText("Plan " + String.valueOf(position + 1));
 
         holder.binding.itemLayout.setOnClickListener(view -> {
             if (selectedBrand != null) {
+                Log.e("sdfsd","sachin");
+                Log.e("selecetd",gson.toJson(selectedBrand));
+                Log.e("model",gson.toJson(model));
                 if (selectedBrand.getPackagename() != null && !selectedBrand.getPackagename().isEmpty() && selectedBrand.getPackagename().equalsIgnoreCase(model.getPackageTitle())) {
                     if (Utility.isPackageExpired(selectedBrand)) {
                         Intent intent = new Intent(activity, RazorPayActivity.class);
@@ -80,6 +95,9 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
                     activity.startActivity(intent);
                     activity.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 }
+            } else {
+
+                click.onClickAddPackage();
             }
         });
         if (activity.getIntent().hasExtra("Profile") && preafManager.getActiveBrand() != null && preafManager.getActiveBrand().getPackage_id().equals(packageList.get(position).getPackageid()) &&

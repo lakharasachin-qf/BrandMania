@@ -24,6 +24,14 @@ public class PreafManager {
     private static final String FORCUSTOMEFRAME = "FORCUSTOMEFRAME";
     private static final String appTutorial = "appTutorial";
 
+    public int getPreviousCode() {
+        return pref.getInt("code", 1);
+    }
+
+    public void setAppCode(int parameters) {
+        pref.edit().putInt("code", parameters).apply();
+    }
+
 
     public String getAppTutorial() {
         return pref.getString(appTutorial, "");
