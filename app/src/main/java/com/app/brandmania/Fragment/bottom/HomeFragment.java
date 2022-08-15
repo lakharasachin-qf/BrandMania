@@ -39,6 +39,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
+import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Activity.basics.ReferNEarnActivity;
 import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
 import com.app.brandmania.Activity.brand.UpdateBandList;
@@ -504,7 +505,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.UPDATE_TOKEN, response -> {
             JSONObject jsonObject = ResponseHandler.createJsonObject(response);
-            //Log.e("UpdateToken",gson.toJson(jsonObject));
+            Log.e("UpdateToken::::::", gson.toJson(jsonObject));
             try {
                 if (jsonObject != null) {
                     preafManager.setAppTutorial(ResponseHandler.getString(ResponseHandler.getJSONArray(jsonObject, "data").getJSONObject(0), "video_url_path"));
@@ -525,7 +526,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
                         preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
                     }
-                    preafManager.setImageCounter("10");
+
+                    //preafManager.setImageCounter("1");
+                    preafManager.setImageCounter(jsonArray1.getString("image_counter"));
+                    preafManager.setDaysCounter(jsonArray1.getString("days_counter"));
+
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
                     if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed) {
@@ -541,6 +546,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+
+                //if Errors occurred than go to Login Page
+                prefManager.Logout();
+                Intent i = new Intent(act, LoginActivity.class);
+                i.addCategory(Intent.CATEGORY_HOME);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                act.finish();
+
 //                try {
 //                    if (error.networkResponse.statusCode == 500 && error.networkResponse.data != null) {
 //                        String responseBody = new String(error.networkResponse.data, "utf-8");

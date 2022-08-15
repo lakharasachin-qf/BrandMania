@@ -32,6 +32,8 @@
     <string name="partnerprogram_text">Partner Program</string>
     <string name="helpandsupport_text">Help Support</string>
     <string name="privacypolicy_text">Privacy Policy</string>
+    <string name="qr_code">If you are facing some issue with payment then  scan QR code and pay with<font color="#FF0000"> GOOGLE PAY</font></string>
+    <string name = "Qr_code"><font color="#FF0000">GOOGLE PAY</font> is available now, scan code below and share receipt to active your account.</string>
     <string name="shareapp_text">Share App</string>
     <string name="logout">Logout</string>
     <string name="opps_no_connection">Opps, No Connection</string>

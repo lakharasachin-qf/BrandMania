@@ -137,12 +137,12 @@
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView
-            android:visibility="gone"
             android:layout_width="@dimen/_300sdp"
             android:layout_height="@dimen/_300sdp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="-100dp"
-            android:src="@drawable/bottom">
+            android:src="@drawable/bottom"
+            android:visibility="gone">
 
         </ImageView>
 

@@ -66,6 +66,14 @@ public class PreafManager {
         pref.edit().putString("ImageCounter", parameters).apply();
         return parameters;
     }
+    public String getDaysCounter() {
+        return pref.getString("DaysCounter", "");
+    }
+
+    public String setDaysCounter(String parameters) {
+        pref.edit().putString("DaysCounter", parameters).apply();
+        return parameters;
+    }
 
     public String getReferrerCode() {
         return pref.getString("referrerCode", "");

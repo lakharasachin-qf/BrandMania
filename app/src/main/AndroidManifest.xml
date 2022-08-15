@@ -194,10 +194,12 @@
         </provider>
 
         <meta-data
+
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_Sq3SAdZBt9Vec4" /> <!-- <meta-data -->
-        <!-- android:name="com.razorpay.ApiKey" -->
-        <!-- android:value="rzp_test_g34adOBwCItfce" /> -->
+            android:value="rzp_test_g34adOBwCItfce" />
+<!--            android:name="com.razorpay.ApiKey"-->
+<!--            android:value="rzp_live_Sq3SAdZBt9Vec4" /> &lt;!&ndash; <meta-data &ndash;&gt;-->
+
         <activity
             android:exported="true"
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

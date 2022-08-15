@@ -4,9 +4,20 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
 import com.android.volley.AuthFailureError;
@@ -25,7 +37,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.brandmania.Activity.HomeActivity;
+import com.app.brandmania.BuildConfig;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MySingleton;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
@@ -48,8 +62,14 @@ import com.razorpay.PaymentResultWithDataListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
@@ -107,6 +127,8 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         binding.proceedToPayment.setOnClickListener(v -> generateOrderID());
 
         showReferrer();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         if (sliderItemList != null) {
 
@@ -124,7 +146,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
             calculateAmount = sliderItemList.getPriceForPay();
 
-            if (selectedBrand!=null && !selectedBrand.getIs_payment_pending().isEmpty()
+            if (selectedBrand != null && !selectedBrand.getIs_payment_pending().isEmpty()
                     && selectedBrand.getIs_payment_pending().equalsIgnoreCase("0")
                     && Utility.monthsBetweenDates(selectedBrand.getSubscriptionDate()) < 1) {
 
@@ -181,6 +203,13 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 binding.promoEditTxt.setVisibility(View.VISIBLE);
             }
         });
+
+        binding.continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadQrCode();
+            }
+        });
     }
 
     /*   @Override
@@ -205,9 +234,67 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         });
     }
 
+    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // create a matrix for the manipulation
+        Matrix matrix = new Matrix();
+        // resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+        // recreate the new Bitmap
+        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
+        return resizedBitmap;
+    }
+
+    File new_file;
+
+    public void downloadQrCode() {
+        HELPER._INIT_FOLDER(Constant.ROOT);
+        HELPER._INIT_FOLDER(Constant.DATA);
+        HELPER._INIT_FOLDER(Constant.IMAGES);
+        Bitmap ImageDrawable;
+        ImageDrawable = getResizedBitmap(((BitmapDrawable) (BitmapDrawable) binding.qrCodeImg.getDrawable()).getBitmap(), 1280, 908);
+        FileOutputStream fileOutputStream;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
+        String date = simpleDateFormat.format(new Date());
+        String name = "BM-QRCode" + System.currentTimeMillis() + ".jpg";
+        String file_name = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.IMAGES + "/" + name;
+        new_file = new File(file_name);
+
+        try {
+            fileOutputStream = new FileOutputStream(new_file);
+            ImageDrawable.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        triggerShareIntent(new_file, ImageDrawable);
+    }
+
+    //fire intent for share
+    public void triggerShareIntent(File new_file, Bitmap merged) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+
+        List<ResolveInfo> resInfoList = act.getPackageManager().queryIntentActivities(shareIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            act.grantUriPermission(packageName, Uri.fromFile(new_file), Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        Uri uri = Uri.fromFile(new_file);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setDataAndType(uri, "image/*");
+        shareIntent.setType("image/*");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        act.startActivity(Intent.createChooser(shareIntent, "Share Image to.."));
+    }
+
     public void showReferrer() {
 
-        if (preafManager.getSpleshReferrer()!=null && !preafManager.getSpleshReferrer().isEmpty()) {
+        if (preafManager.getSpleshReferrer() != null && !preafManager.getSpleshReferrer().isEmpty()) {
             verifyCode(preafManager.getSpleshReferrer());
         }
     }
@@ -477,6 +564,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
         alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         alertDialog.show();
 
     }
@@ -494,12 +582,10 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
             //{"status":true,"data":"","message":"Subscription Added Successfully."}
             if (ResponseHandler.isSuccess(response, null)) {
-
                 getBrandList();
             } else {
                 JSONObject jsonObject = ResponseHandler.createJsonObject(response);
                 showAlert(act, ResponseHandler.getString(jsonObject, "message"), "Error");
-
 
             }
         }, new Response.ErrorListener() {
@@ -617,11 +703,13 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 Utility.dismissLoadingTran();
                 Utility.Log("GET_BRAND : ", response);
                 try {
-                    paymentSuccessDiaog();
+
                     JSONObject jsonObject = new JSONObject(response);
 
                     multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
                     preafManager.setAddBrandList(multiListItems);
+                    prefManager.setActiveBrand(multiListItems.get(0));
+                    paymentSuccessDiaog();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

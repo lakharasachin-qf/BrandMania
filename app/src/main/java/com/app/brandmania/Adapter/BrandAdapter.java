@@ -166,6 +166,11 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         //payment done  - isFrame=0, isPayment=0
                         if (brandListItems.get(position).getIs_payment_pending().equalsIgnoreCase("0")) {
                             //((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
+
+                            if (brandListItems.get(position).getNo_of_frame().equalsIgnoreCase("0")) {
+                                ((BrandHolder) holder).binding.warning.setVisibility(View.GONE);
+                                ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.GONE);
+                            }
                             ((BrandHolder) holder).binding.warning.setText("Please create your frame!!");
                             ((BrandHolder) holder).binding.warning.setTextColor(Color.RED);
                             ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.VISIBLE);

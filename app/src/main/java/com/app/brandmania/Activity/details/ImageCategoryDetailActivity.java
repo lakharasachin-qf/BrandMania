@@ -70,6 +70,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.about_us.AppIntroActivity;
+import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
@@ -77,6 +78,8 @@ import com.app.brandmania.Adapter.ViewAllTopTabAdapter;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.FooterHelper;
 import com.app.brandmania.Common.HELPER;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -151,6 +154,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -172,6 +176,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Observable;
 import java.util.Random;
 
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
@@ -362,6 +367,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.shareIcon.setOnClickListener(v -> {
             if (prefManager.getActiveBrand() != null) {
                 if (manuallyEnablePermission(2)) {
+
                     if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
                         if (!prefManager.getLoginDate().isEmpty()) {
@@ -369,19 +375,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             Log.e("ImageConuter:::", prefManager.getImageCounter());
                             if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getImageCounter())) {
 
-                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                    askForUpgradeToEnterpisePackage();
-                                    return;
-                                }
-                                if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                    getImageDownloadRights("Share");
-                                } else {
-                                    checkForDownload();
-                                }
-
-                            } else {
-
-                                if (selectedObject.isImageFree()) {
+                                if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
                                     if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                         askForUpgradeToEnterpisePackage();
                                         return;
@@ -391,9 +385,49 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                     } else {
                                         checkForDownload();
                                     }
+
                                 } else {
-                                    askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                                    androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+                                            .setTitle("Add Your Logo")
+                                            .setMessage("Your Logo is empty..!")
+                                            .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
+                                            .setNeutralButton("LATER", (dialogInterface, i) -> {
+                                            })
+                                            .show();
+                                    AlertDialogBuilder.setCancelable(false);
+
                                 }
+
+                            } else {
+
+                                if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
+                                    if (selectedObject.isImageFree()) {
+                                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                            askForUpgradeToEnterpisePackage();
+                                            return;
+                                        }
+                                        if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                            getImageDownloadRights("Share");
+                                        } else {
+                                            checkForDownload();
+                                        }
+                                    } else {
+                                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                                    }
+
+                                } else {
+                                    androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+                                            .setTitle("Add Your Logo")
+                                            .setMessage("Your Logo is empty..!")
+                                            .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
+                                            .setNeutralButton("LATER", (dialogInterface, i) -> {
+                                            })
+                                            .show();
+                                    AlertDialogBuilder.setCancelable(false);
+
+                                }
+
+
                             }
 
                         }
@@ -414,21 +448,45 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 ////                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
 ////                        }
                     } else {
-                        if (!Utility.isPackageExpired(act)) {
-                            if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                getImageDownloadRights("Share");
+                        if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
+
+                            if (!Utility.isPackageExpired(act)) {
+                                if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                    getImageDownloadRights("Share");
+                                } else {
+                                    checkForDownload();
+                                }
                             } else {
-                                checkForDownload();
+                                askForUpgradeToEnterpisePackaged();
                             }
+
                         } else {
-                            askForUpgradeToEnterpisePackaged();
+                            androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+                                    .setTitle("Add Your Logo")
+                                    .setMessage("Your Logo is empty..!")
+                                    .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
+                                    .setNeutralButton("LATER", (dialogInterface, i) -> {
+                                    })
+                                    .show();
+                            AlertDialogBuilder.setCancelable(false);
+
                         }
+
                     }
+
                 }
             } else {
                 addBrandList();
             }
         });
+        setLogo();
+        if (!getIntent().hasExtra("viewAll"))
+            LoadDataToUI();
+        binding.logoCustom.setTag("0");
+    }
+
+
+    public void setLogo() {
 
         if (prefManager.getActiveBrand() != null && prefManager.getActiveBrand().getLogo() != null && !prefManager.getActiveBrand().getLogo().isEmpty()) {
             binding.logoEmptyState.setVisibility(View.GONE);
@@ -454,9 +512,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 }
             });
         }
-        if (!getIntent().hasExtra("viewAll"))
-            LoadDataToUI();
-        binding.logoCustom.setTag("0");
+
     }
 
     AddBrandFragment addBrandFragment;
@@ -482,9 +538,80 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             //Log.e("stopLoader", "yes");
             Utility.dismissLoadingTran();
         }
+
         super.onResume();
 
     }
+
+    ArrayList<BrandListItem> multiListItems = new ArrayList<>();
+
+    private void getBrandList() {
+        Utility.Log("API : ", APIs.GET_BRAND);
+
+        binding.simpleProgressBar.setVisibility(View.VISIBLE);
+        //binding.scrollView.setVisibility(View.GONE);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Utility.Log("GET_BRAND : ", response);
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+
+                    if (multiListItems != null && multiListItems.size() != 0) {
+                        for (int i = 0; i < multiListItems.size(); i++) {
+                            if (multiListItems.get(i).getName().equalsIgnoreCase(prefManager.getActiveBrand().getName())) {
+                                prefManager.setActiveBrand(multiListItems.get(i));
+                                break;
+                            }
+                        }
+                    }
+                    setLogo();
+                    binding.simpleProgressBar.setVisibility(View.GONE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        binding.simpleProgressBar.setVisibility(View.GONE);
+                        //binding.scrollView.setVisibility(View.VISIBLE);
+                        //loadDataRefreshing();
+
+                    }
+                }
+        ) {
+            /**
+             * Passing some request headers*
+             */
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                //Log.e("DateNdClass", params.toString());
+
+                //Log.e("DateNdClass", params.toString());
+                Utility.Log("POSTED-PARAMS-", params.toString());
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -2359,6 +2486,16 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 });
     }
 
+
+    @Override
+    public void update(Observable observable, Object data) {
+        super.update(observable, data);
+
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_LOGO) {
+            Utility.Log("REFRESH_LOGO", "yes");
+            getBrandList();
+        }
+    }
 
     public void shareVideoOrGIF() {
         if (isUsingCustomFrame) {

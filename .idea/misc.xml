@@ -72,11 +72,16 @@
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/activity_add_brand_multiple.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/activity_add_brandd.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/activity_edit.xml" value="0.2734375" />
-        <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/activity_view_all_image.xml" value="0.23333333333333334" />
+        <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/activity_razor_pay.xml" value="0.33" />
+        <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/activity_view_all_image.xml" value="0.22" />
+        <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/activity_view_brand.xml" value="0.2734375" />
+        <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/dialog_add_brand_fragment_layout.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/dialog_discard_image.xml" value="0.2734375" />
+        <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/dialog_upgrade_layout_enterprise.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/dialog_user_new_registration.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/item_layout_daily_images.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/item_layout_daily_round_images.xml" value="0.2734375" />
+        <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/item_layout_getbrandlist.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/item_layout_home.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/BrandManiaLive/app/src/main/res/layout/item_layout_viewallimage.xml" value="0.2734375" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/BrandMania-2.0/app/src/main/res/layout/activity_add_brand.xml" value="0.36666666666666664" />
