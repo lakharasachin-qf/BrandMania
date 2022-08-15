@@ -323,7 +323,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     }
 
-                    if (HELPER.IsTwoDateComparison(preafManager.getLoginDate(), activity, preafManager.getImageCounter())) {
+                    if (HELPER.IsTwoDateComparison(preafManager.getLoginDate(), activity, preafManager.getDaysCounter())) {
                         Log.e("isUserFree", "yes");
                         ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                         ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);

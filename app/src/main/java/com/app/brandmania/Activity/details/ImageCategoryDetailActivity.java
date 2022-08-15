@@ -372,8 +372,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         if (!prefManager.getLoginDate().isEmpty()) {
                             //For Seven Day Image Download for free User in a day
-                            Log.e("ImageConuter:::", prefManager.getImageCounter());
-                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getImageCounter())) {
+                            Log.e("ImageConuter:::", prefManager.getDaysCounter());
+                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getDaysCounter())) {
 
                                 if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
                                     if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
