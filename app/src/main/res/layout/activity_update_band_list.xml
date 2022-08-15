@@ -452,7 +452,6 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_light"
                                     android:textAlignment="center"
-
                                     android:textSize="@dimen/_6sdp"
                                     android:visibility="gone" />
                             </LinearLayout>

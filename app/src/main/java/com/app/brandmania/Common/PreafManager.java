@@ -58,6 +58,14 @@ public class PreafManager {
         pref.edit().putString("SplashReferrer", parameters).apply();
         return parameters;
     }
+    public String getImageCounter() {
+        return pref.getString("ImageCounter", "");
+    }
+
+    public String setImageCounter(String parameters) {
+        pref.edit().putString("ImageCounter", parameters).apply();
+        return parameters;
+    }
 
     public String getReferrerCode() {
         return pref.getString("referrerCode", "");

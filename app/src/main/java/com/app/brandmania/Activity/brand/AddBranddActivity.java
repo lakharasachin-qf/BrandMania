@@ -804,8 +804,6 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     if (brandListItems.size() != 0) {
                         preafManager.setActiveBrand(brandListItems.get(0));
                     }
-
-
                     Intent i = new Intent(act, HomeActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.right_enter, R.anim.left_out);

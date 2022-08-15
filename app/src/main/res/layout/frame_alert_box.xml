@@ -5,10 +5,10 @@
     android:background="@color/colorNavText"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/CloseImg"
@@ -22,23 +22,21 @@
             android:src="@drawable/ic_outline_close_24"
             app:tint="@color/colorthird" />
 
-
-
         <ImageView
-            android:layout_marginStart="-80dp"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/bottom"
             android:layout_width="@dimen/_250sdp"
-            android:layout_height="@dimen/_250sdp">
+            android:layout_height="@dimen/_250sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="-80dp"
+            android:src="@drawable/bottom">
 
         </ImageView>
 
         <RelativeLayout
             android:id="@+id/relativeForLogo"
-            android:layout_marginLeft="@dimen/_50sdp"
-            android:layout_marginTop="@dimen/_100sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_100sdp"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -48,12 +46,11 @@
 
                 <androidx.cardview.widget.CardView
 
-                  android:layout_width="@dimen/_70sdp"
+                    android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_70sdp"
-                    app:cardElevation="@dimen/_2sdp"
                     app:cardCornerRadius="@dimen/_3sdp"
-                    app:cardUseCompatPadding="true"
-                   >
+                    app:cardElevation="@dimen/_2sdp"
+                    app:cardUseCompatPadding="true">
 
 
                     <ImageView
@@ -70,96 +67,94 @@
 
 
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/titlOfApp"
-              android:layout_toEndOf="@+id/logoShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:text="Brand Mania"
+                android:layout_toEndOf="@+id/logoShow"
                 android:fontFamily="@font/inter_bold"
+                android:text="Brand Mania"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_13sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+                android:textSize="@dimen/_13sdp"></TextView>
 
             <TextView
-                android:layout_below="@+id/titlOfApp"
                 android:id="@+id/subTitlOfApp"
-                android:layout_toEndOf="@+id/logoShow"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:text="Qf-Core Team"
-                android:fontFamily="@font/inter_medium"
-                android:textColor="@color/colorGreen"
-                android:textSize="@dimen/_10sdp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-
-
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titlOfApp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_toEndOf="@+id/logoShow"
+                android:fontFamily="@font/inter_medium"
+                android:text="Qf-Core Team"
+                android:textColor="@color/colorGreen"
+                android:textSize="@dimen/_10sdp"></TextView>
 
 
         </RelativeLayout>
+
         <TextView
             android:id="@+id/updateTitle"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/relativeForLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:layout_below="@+id/relativeForLogo"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_30sdp"
-            android:text="App Update"
             android:fontFamily="@font/inter_bold"
+            android:text="App Update"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_15sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
+            android:textSize="@dimen/_15sdp"></TextView>
+
         <TextView
-            android:visibility="gone"
             android:id="@+id/messageMaessage"
-            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
             android:layout_below="@+id/updateTitle"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_30sdp"
-            android:text="App Update"
 
             android:fontFamily="@font/inter_regular"
+            android:text="App Update"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_12sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </TextView>
-        <RelativeLayout
-            android:visibility="visible"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="gone"></TextView>
 
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
             android:layout_below="@+id/updateTitle"
+            android:layout_marginTop="@dimen/_10sdp"
             android:padding="@dimen/_10sdp"
-            android:layout_height="match_parent">
+            android:visibility="visible">
+
             <WebView
 
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </WebView>
-            <Button
-                android:layout_centerHorizontal="true"
+                android:layout_height="match_parent"></WebView>
 
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:background="@drawable/buttoncornar"
+            <Button
                 android:id="@+id/updateBtn"
+
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_32sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/buttoncornar"
                 android:fontFamily="@font/poppins_light"
                 android:text="UPDATE"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textSize="@dimen/_11sdp"
-                />
+                android:textSize="@dimen/_11sdp" />
         </RelativeLayout>
 
     </RelativeLayout>

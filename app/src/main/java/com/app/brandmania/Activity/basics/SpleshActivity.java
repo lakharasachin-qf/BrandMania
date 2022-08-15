@@ -87,7 +87,7 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
         animatorSet1.setDuration(3000);
         getInvitation();
         if (!preafManager.getLoginDate().isEmpty()) {
-            HELPER.IsTwoDateComparison(preafManager.getLoginDate(), act);
+            HELPER.IsTwoDateComparison(preafManager.getLoginDate(), act, preafManager.getImageCounter());
         }
         new Handler().postDelayed(() -> {
             if (preafManager.isLogin()) {

@@ -302,29 +302,30 @@ public class HELPER {
         return strDate;
     }
 
-    public static boolean IsTwoDateComparison(String ApiData, Activity act) {
+    public static boolean IsTwoDateComparison(String ApiData, Activity act, String daysCounter) {
         PreafManager pre = new PreafManager(act);
         //startDate
         Calendar c = Calendar.getInstance();
         c.setTime(StringToDate(ApiData));
         Date startDate = c.getTime();
         String SDate = simpleDateFormat(startDate);
-        Log.e("StartFormat",SDate);
-         //TodayDate
+        Log.e("StartFormat", SDate);
+        //TodayDate
         Date TodayDATE = Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String TodayDate = simpleDateFormat.format(TodayDATE);
-        Log.e("TodayDateFormat",TodayDate);
+        Log.e("TodayDateFormat", TodayDate);
 
         //String todayDate = "23-06-2022";
 
         //endDate
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(c.getTime());
-        cal.add(Calendar.DATE, 7);
+        cal.add(Calendar.DATE, Integer.parseInt(daysCounter));
+        //cal.add(Calendar.DATE, 7);
         Date endDate = cal.getTime();
         String eDate = simpleDateFormat(endDate);
-        Log.e("EndDateFormat",eDate);
+        Log.e("EndDateFormat", eDate);
 
         try {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -336,12 +337,12 @@ public class HELPER {
             assert convertTodayDate != null;
 
             if (convertTodayDate.compareTo(convertedStartDate) >= 0 && convertTodayDate.compareTo(convertedEndDate) <= 0) {
-                Log.e("dateIsBetween","true");
+                Log.e("dateIsBetween", "true");
                 pre = new PreafManager(act);
                 pre.setFreeUserDownloadForOneWeak(true);
                 return true;
             } else {
-                Log.e("dateIsBetween","false");
+                Log.e("dateIsBetween", "false");
                 pre.setFreeUserDownloadForOneWeak(false);
                 return false;
             }

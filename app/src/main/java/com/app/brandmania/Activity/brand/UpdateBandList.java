@@ -592,8 +592,7 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
             request.addMultipartFile("frame", img1File);
             //Log.e("br_logo", String.valueOf(img1File));
         }
-
-
+        Log.e("UpdateParam:",gson.toJson(request));
         request.build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {

@@ -675,8 +675,8 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-                        String body;
-                        body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        //String body;
+                        //body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                         //Log.e("Error ", body);
 
 

@@ -89,7 +89,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         navigation.setOnNavigationItemSelectedListener(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-
         if (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             askPermissions();
         }
@@ -465,7 +464,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-
 
     @Override
     public void makeTabChange(int i) {

@@ -1224,7 +1224,6 @@ public class FooterHelper {
             threeBinding.websiteEdtLayout.setVisibility(View.VISIBLE);
         }
 
-
     }
 
     public static void loadFrameFourData(Activity act, LayoutForLoadFourBinding fourBinding) {

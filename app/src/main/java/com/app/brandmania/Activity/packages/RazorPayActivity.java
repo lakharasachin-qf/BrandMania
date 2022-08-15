@@ -148,12 +148,9 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         binding.applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 verifyCode(binding.promoCodeTxt.getText().toString());
             }
         });
-
-
         binding.cancleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -239,7 +239,6 @@ public class BrandAdapter extends RecyclerView.Adapter {
                                 ((BrandHolder) holder).binding.frameitemLayout.setAdapter(frameAddaptor);
                                 ((BrandHolder) holder).binding.frameitemLayout.setVisibility(View.VISIBLE);
                                 ((BrandHolder) holder).binding.frameitemLayoutRelative.setVisibility(View.VISIBLE);
-
                             }
                         }
                         //Not payment - isFrame=1, isPendingPayment=1 but create frame

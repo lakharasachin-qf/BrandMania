@@ -249,7 +249,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     if (!model.isImageFree()) {
                         //((DailyHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     } else {
-                       // ((DailyHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
+                        // ((DailyHolder) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
                     if (preafManager.getActiveBrand() != null) {
                         if (preafManager.getActiveBrand().getIs_payment_pending().equals("0")) {
@@ -286,25 +286,24 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                     });
 
 
-
                     if (model.getImageType() == ImageList.IMAGE) {
                         ((ImageCategoryByIdHolder) holder).binding.gifVideoLayout.setVisibility(View.GONE);
                         ((ImageCategoryByIdHolder) holder).binding.playerLayout.setVisibility(View.GONE);
-                    }else{
+                    } else {
 
                     }
                     if (model.getImageType() == ImageList.GIF) {
                         ((ImageCategoryByIdHolder) holder).binding.labeledForGV.setText("GIF");
                         ((ImageCategoryByIdHolder) holder).binding.gifVideoLayout.setVisibility(View.VISIBLE);
                         ((ImageCategoryByIdHolder) holder).binding.playerLayout.setVisibility(View.VISIBLE);
-                        ((ImageCategoryByIdHolder) holder).binding.placeHolderImage.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_baseline_gif_24));
+                        ((ImageCategoryByIdHolder) holder).binding.placeHolderImage.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_baseline_gif_24));
                         //ic_baseline_gif_24
                     }
                     if (model.getImageType() == ImageList.VIDEO) {
                         ((ImageCategoryByIdHolder) holder).binding.labeledForGV.setText("Video");
                         ((ImageCategoryByIdHolder) holder).binding.gifVideoLayout.setVisibility(View.VISIBLE);
                         ((ImageCategoryByIdHolder) holder).binding.playerLayout.setVisibility(View.VISIBLE);
-                        ((ImageCategoryByIdHolder) holder).binding.placeHolderImage.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_round_play_arrow_24));
+                        ((ImageCategoryByIdHolder) holder).binding.placeHolderImage.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_arrow_24));
                     }
 
                     if (!model.isImageFree()) {
@@ -324,7 +323,7 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     }
 
-                    if (HELPER.IsTwoDateComparison(preafManager.getLoginDate(), activity)) {
+                    if (HELPER.IsTwoDateComparison(preafManager.getLoginDate(), activity, preafManager.getImageCounter())) {
                         Log.e("isUserFree", "yes");
                         ((ImageCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.GONE);
                         ((ImageCategoryByIdHolder) holder).binding.freePremium.setVisibility(View.GONE);

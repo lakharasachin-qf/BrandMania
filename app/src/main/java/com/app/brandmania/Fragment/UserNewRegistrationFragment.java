@@ -54,7 +54,7 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
         context = this;
         assert act != null;
         pref = new PreafManager(act);
-        Log.e("number", pref.getMobileNumber());
+        //Log.e("number", pref.getMobileNumber());
         if (pref.getUserMobileNumber() != null && !pref.getUserMobileNumber().isEmpty()) {
             binding.phoneEdt.setText(pref.getUserMobileNumber());
         }
@@ -66,7 +66,7 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
     public void setInitView() {
         CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
         CodeReUse.RemoveError(binding.emailEdt, binding.emailLayout);
-        CodeReUse.RemoveError(binding.lastNameTxt, binding.lastNameTxtLayout);
+        //CodeReUse.RemoveError(binding.lastNameTxt, binding.lastNameTxtLayout);
         CodeReUse.RemoveError(binding.phoneEdt, binding.phoneLayout);
         binding.continueBtn.setOnClickListener(view -> UserNewRegistrationFragment.this.Validation());
     }
@@ -78,11 +78,11 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
             binding.nameTxtLayout.setError(getString(R.string.empty_name));
             binding.nameTxt.requestFocus();
         }
-        if (binding.lastNameTxt.getText().toString().trim().isEmpty()) {
-            isError = true;
-            binding.lastNameTxtLayout.setError(getString(R.string.enter_last_name));
-            binding.lastNameTxt.requestFocus();
-        }
+//        if (binding.lastNameTxt.getText().toString().trim().isEmpty()) {
+//            isError = true;
+//            binding.lastNameTxtLayout.setError(getString(R.string.enter_last_name));
+//            binding.lastNameTxt.requestFocus();
+//        }
         if (binding.phoneEdt.getText().toString().isEmpty()) {
             isError = true;
             binding.phoneLayout.setError("Enter Number");
@@ -114,13 +114,14 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.EDIT_BRAND_PROFILE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Edit-RESPONSE", response);
+                //Log.e("Edit-RESPONSE", response);
                 binding.progressCircular.setVisibility(View.GONE);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject jsonArray1 = jsonObject.getJSONObject("data");
                     context.dismiss();
-                    pref.setUserName(Objects.requireNonNull(binding.nameTxt.getText()).toString()+" "+binding.lastNameTxt.getText().toString());
+                    pref.setUserName(binding.nameTxt.getText().toString());
+                    //pref.setUserName(Objects.requireNonNull(binding.nameTxt.getText()).toString()+" "+binding.lastNameTxt.getText().toString());
                     pref.setUserEmail_Id(Objects.requireNonNull(binding.emailEdt.getText()).toString());
                     pref.setUserMobileNumber(Objects.requireNonNull(binding.phoneEdt.getText()).toString());
                 } catch (JSONException e) {
@@ -149,7 +150,7 @@ public class UserNewRegistrationFragment extends BottomSheetDialogFragment imple
                 Map<String, String> params = new HashMap<>();
                 //String[] array = binding.nameTxt.getText().toString().split(" ");
                 params.put("first_name", Objects.requireNonNull(binding.nameTxt.getText()).toString());
-                params.put("last_name", Objects.requireNonNull(binding.lastNameTxt.getText()).toString());
+                params.put("last_name", "");
                 params.put("phone", Objects.requireNonNull(binding.phoneEdt.getText()).toString());
                 params.put("email", Objects.requireNonNull(binding.emailEdt.getText()).toString());
                 Log.e("Edit-PARAM", params.toString());

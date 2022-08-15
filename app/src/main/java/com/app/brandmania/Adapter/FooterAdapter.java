@@ -273,7 +273,6 @@ public class FooterAdapter extends RecyclerView.Adapter {
 
                     } else {
                         ((FooterHolderOne) holder).binding.elementSelected.setVisibility(View.GONE);
-
                     }
 
                     break;
@@ -282,19 +281,16 @@ public class FooterAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             if (model.isFree()) {
-
                                 checkedPosition = position;
                                 footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             } else {
-
                                 checkedPosition = position;
                                 footerListener.onFooterChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
                                 ((FooterHolderTwo) holder).binding.elementSelected.setVisibility(View.VISIBLE);
                             }
                         }
                     });
-
 
                     if (!model.isFree()) {
 

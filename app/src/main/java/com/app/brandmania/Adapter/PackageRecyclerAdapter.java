@@ -73,9 +73,9 @@ public class PackageRecyclerAdapter extends RecyclerView.Adapter<PackageRecycler
 
         holder.binding.itemLayout.setOnClickListener(view -> {
             if (selectedBrand != null) {
-                Log.e("sdfsd","sachin");
-                Log.e("selecetd",gson.toJson(selectedBrand));
-                Log.e("model",gson.toJson(model));
+                //Log.e("sdfsd","sachin");
+                //Log.e("selecetd",gson.toJson(selectedBrand));
+               //Log.e("model",gson.toJson(model));
                 if (selectedBrand.getPackagename() != null && !selectedBrand.getPackagename().isEmpty() && selectedBrand.getPackagename().equalsIgnoreCase(model.getPackageTitle())) {
                     if (Utility.isPackageExpired(selectedBrand)) {
                         Intent intent = new Intent(activity, RazorPayActivity.class);

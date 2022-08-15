@@ -180,6 +180,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 RateUs();
             }
         }
+        Log.e("Token::::", prefManager.getUserToken());
 //        binding.showNotification.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -497,6 +498,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
+
     private void UpdateToken() {
         Utility.Log("UpdateToken", APIs.UPDATE_TOKEN);
 
@@ -523,7 +525,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         preafManager.setSpleshReferrer(jsonArray1.getString("reference_code"));
                         preafManager.setReferrerCode(jsonArray1.getString("reference_code"));
                     }
-
+                    preafManager.setImageCounter("10");
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
                     if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed) {
@@ -640,6 +642,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     startActivity(intent);
 
                 } else {
+
                     String nameOfActivity = targetLink;
                     //String nameOfActivity = "com.app.brandmania.Activity.packages.PackageActivity";
                     try {

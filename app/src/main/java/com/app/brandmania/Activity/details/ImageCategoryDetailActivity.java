@@ -366,7 +366,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         if (!prefManager.getLoginDate().isEmpty()) {
                             //For Seven Day Image Download for free User in a day
-                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act)) {
+                            Log.e("ImageConuter:::", prefManager.getImageCounter());
+                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getImageCounter())) {
 
                                 if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                     askForUpgradeToEnterpisePackage();
@@ -499,11 +500,16 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void checkForDownload() {
 
         try {
+
             String subscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
+
+            Log.e("subscriptionDate::::::", subscriptionDate);
             String currentDateStr = "01/11/2021";  //new prefManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
             @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date convertedExpireDate = formatter.parse(subscriptionDate);
             Date convertedCurrentDate = formatter.parse(currentDateStr);
+            //7016920443
+            //Log.e("subscriptionDate"+subscriptionDate);
 
             boolean canDownloads = true;
             if (convertedCurrentDate.compareTo(convertedExpireDate) < 0) {
@@ -865,7 +871,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         outputFilePath = outputFile.getAbsolutePath();
 
-        String  command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h " + outputFilePath;
+        String command = "-i " + finalVideoPath + " -i " + framePath + " -filter_complex " + "[0]scale=1080:-2[bg];[bg][1]overlay=main_w-overlay_w:main_h-overlay_h " + outputFilePath;
 
         execCommand(command);
         finalOutputFile = new File(outputFilePath);

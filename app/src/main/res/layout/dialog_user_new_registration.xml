@@ -96,31 +96,31 @@
                 <!--                    android:text="Have Referral Code ?"-->
                 <!--                    android:textSize="@dimen/_12sdp" />-->
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/lastNameTxtLayout"
-                    style="@style/LoginTextInputLayoutStyle"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/_7sdp"
-                    android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
-                    app:errorEnabled="true"
-                    app:hintTextColor="@color/colorPrimary">
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/lastNameTxtLayout"-->
+<!--                    style="@style/LoginTextInputLayoutStyle"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_marginTop="@dimen/_5sdp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginRight="@dimen/_7sdp"-->
+<!--                    android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"-->
+<!--                    app:errorEnabled="true"-->
+<!--                    app:hintTextColor="@color/colorPrimary">-->
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/lastNameTxt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:cursorVisible="true"
-                        android:drawablePadding="@dimen/_10sdp"
-                        android:hint="Enter Last Name*"
-                        android:inputType="textCapWords"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
-                        android:singleLine="true"
-                        android:textCursorDrawable="@null"
-                        android:textSize="@dimen/_10sdp" />
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/lastNameTxt"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:cursorVisible="true"-->
+<!--                        android:drawablePadding="@dimen/_10sdp"-->
+<!--                        android:hint="Enter Last Name*"-->
+<!--                        android:inputType="textCapWords"-->
+<!--                        android:paddingTop="@dimen/_10sdp"-->
+<!--                        android:paddingBottom="@dimen/_10sdp"-->
+<!--                        android:singleLine="true"-->
+<!--                        android:textCursorDrawable="@null"-->
+<!--                        android:textSize="@dimen/_10sdp" />-->
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailLayout"
