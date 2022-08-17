@@ -1,6 +1,5 @@
 package com.app.brandmania.Fragment.top;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,22 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.brandmania.Activity.brand.AddBranddActivity;
 import com.app.brandmania.Adapter.FooterAdapter;
 import com.app.brandmania.Adapter.FooterModel;
-import com.app.brandmania.Common.FooterRules;
-import com.app.brandmania.Common.PreafManager;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.onFooterSelectListener;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.FooterTabBinding;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 public class FooterTab extends BaseFragment {
     private FooterTabBinding binding;
@@ -46,6 +44,15 @@ public class FooterTab extends BaseFragment {
 
         setAdapter();
         return binding.getRoot();
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_IMAGE_CATEGORY_DATA) {
+            setAdapter();
+        }
+        super.update(observable, data);
     }
 
     public void setData(FooterModel model) {

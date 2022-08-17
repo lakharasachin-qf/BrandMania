@@ -167,14 +167,19 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         if (brandListItems.get(position).getIs_payment_pending().equalsIgnoreCase("0")) {
                             //((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
 
+                           // brandListItems.get(position).setNo_of_frame("0");
+
                             if (brandListItems.get(position).getNo_of_frame().equalsIgnoreCase("0")) {
+                                Utility.Log("NoOfFrames", "0");
                                 ((BrandHolder) holder).binding.warning.setVisibility(View.GONE);
                                 ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.GONE);
+                            } else {
+                                ((BrandHolder) holder).binding.warning.setVisibility(View.VISIBLE);
+                                ((BrandHolder) holder).binding.warning.setText("Please create your frame!!");
+                                ((BrandHolder) holder).binding.warning.setTextColor(Color.RED);
+                                ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.VISIBLE);
+                                ((BrandHolder) holder).binding.whatsappImage.setVisibility(View.VISIBLE);
                             }
-                            ((BrandHolder) holder).binding.warning.setText("Please create your frame!!");
-                            ((BrandHolder) holder).binding.warning.setTextColor(Color.RED);
-                            ((BrandHolder) holder).binding.contactTxtLayout.setVisibility(View.VISIBLE);
-                            ((BrandHolder) holder).binding.whatsappImage.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.showImage.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.selectPlane.setVisibility(View.GONE);
                             ((BrandHolder) holder).binding.makePayment.setVisibility(View.GONE);
@@ -318,6 +323,8 @@ public class BrandAdapter extends RecyclerView.Adapter {
     }
 
     public void showDialog(int position) {
+        Utility.Log("brandListItems",   gson.toJson(brandListItems.get(position)) );
+
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity, R.style.MyAlertDialogStyle_extend2);
         PackageDetailAlertDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.package_detail_alert_dialog, null, false);
         binding.packageName.setText(brandListItems.get(position).getPackagename());
@@ -331,7 +338,9 @@ public class BrandAdapter extends RecyclerView.Adapter {
         } else {
             binding.alert.setVisibility(View.GONE);
         }
+        Utility.Log("Duration", brandListItems.get(position).getDuration());
         binding.price.setText(activity.getString(R.string.Rs) + brandListItems.get(position).getRate());
+        binding.duration.setText(brandListItems.get(position).getDuration());
         builder.setView(binding.getRoot());
         androidx.appcompat.app.AlertDialog dialog;
         dialog = builder.create();

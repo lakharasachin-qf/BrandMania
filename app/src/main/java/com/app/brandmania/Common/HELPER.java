@@ -309,12 +309,12 @@ public class HELPER {
         c.setTime(StringToDate(ApiData));
         Date startDate = c.getTime();
         String SDate = simpleDateFormat(startDate);
-        Log.e("StartFormat", SDate);
+        Log.e("Created Date", SDate);
         //TodayDate
         Date TodayDATE = Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String TodayDate = simpleDateFormat.format(TodayDATE);
-        Log.e("TodayDateFormat", TodayDate);
+        Log.e("TodayDate", TodayDate);
 
         //String todayDate = "23-06-2022";
 
@@ -325,7 +325,7 @@ public class HELPER {
         //cal.add(Calendar.DATE, 7);
         Date endDate = cal.getTime();
         String eDate = simpleDateFormat(endDate);
-        Log.e("EndDateFormat", eDate);
+        Log.e("EndDate", eDate);
 
         try {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");

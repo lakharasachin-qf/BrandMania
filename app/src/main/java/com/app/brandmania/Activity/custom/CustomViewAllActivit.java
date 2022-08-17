@@ -298,38 +298,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 }
             }
         });
-        if (prefManager.getActiveBrand() != null) {
-            if (prefManager.getActiveBrand().getLogo() != null && !prefManager.getActiveBrand().getLogo().isEmpty()) {
-                binding.logoEmptyState.setVisibility(View.GONE);
-                binding.logoCustom.setVisibility(View.VISIBLE);
-                binding.logoCustom.setVisibility(View.VISIBLE);
-                Glide.with(act)
-                        .load(prefManager.getActiveBrand().getLogo())
-                        .override(1600, 1600)
-                        .into(binding.logoCustom);
-                binding.logoCustom.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onSelectImageClick(view);
-                    }
-                });
-            } else {
-                binding.logoEmptyState.setVisibility(View.VISIBLE);
-                binding.logoCustom.setVisibility(View.GONE);
 
-                binding.logoCustom.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onSelectImageClick(view);
-                    }
-                });
-
-
-            }
-        } else {
-            binding.logoEmptyState.setVisibility(View.GONE);
-            binding.logoCustom.setVisibility(View.GONE);
-        }
+        setLogo();
 
 
         if (getIntent().hasExtra("flag")) {
@@ -390,6 +360,42 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
         binding.logoCustom.setTag("0");
 
+
+    }
+
+
+    public void setLogo() {
+        if (prefManager.getActiveBrand() != null) {
+            if (prefManager.getActiveBrand().getLogo() != null && !prefManager.getActiveBrand().getLogo().isEmpty()) {
+                binding.logoEmptyState.setVisibility(View.GONE);
+                binding.logoCustom.setVisibility(View.VISIBLE);
+                binding.logoCustom.setVisibility(View.VISIBLE);
+                Glide.with(act)
+                        .load(prefManager.getActiveBrand().getLogo())
+                        .override(1600, 1600)
+                        .into(binding.logoCustom);
+                binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onSelectImageClick(view);
+                    }
+                });
+            } else {
+                binding.logoEmptyState.setVisibility(View.VISIBLE);
+                binding.logoCustom.setVisibility(View.GONE);
+
+                binding.logoCustom.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onSelectImageClick(view);
+                    }
+                });
+
+            }
+        } else {
+            binding.logoEmptyState.setVisibility(View.GONE);
+            binding.logoCustom.setVisibility(View.GONE);
+        }
 
     }
 
@@ -1250,6 +1256,8 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         requestAgain();
     }
 
+    boolean isLogoEmpty = false;
+
     //save image with frame either custome or from backend
     public void saveImageToGallery(boolean wantToShare, boolean isFavourite) {
         Utility.showLoadingTran(act);
@@ -1259,6 +1267,11 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                 TextView textView = (TextView) binding.CustomImageMain.getChildAt(i);
                 textView.setBackground(null);
             }
+        }
+
+        if ((prefManager.getActiveBrand().getLogo() != null && prefManager.getActiveBrand().getLogo().isEmpty())) {
+            binding.logoEmptyState.setVisibility(View.GONE);
+            isLogoEmpty = true;
         }
         if (isUsingCustomFrame) {
             bitmapFrame = new BitmapDrawable(getResources(), FooterHelper.getCustomFrameInBitmap(binding.CustomImageMain, binding.backImage));
@@ -1445,6 +1458,22 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
     }
 
+    @Override
+    public void onResume() {
+
+        if (isLogoEmpty) {
+            if (prefManager.getActiveBrand().getLogo() != null && prefManager.getActiveBrand().getLogo().isEmpty()) {
+                if (isLogoNotEmpty) {
+                    binding.logoEmptyState.setVisibility(View.GONE);
+                } else {
+                    binding.logoEmptyState.setVisibility(View.VISIBLE);
+                }
+            } else {
+                binding.logoEmptyState.setVisibility(View.GONE);
+            }
+        }
+        super.onResume();
+    }
 
     @Override
     public void onFilterSelected(PhotoFilter photoFilter) {
@@ -1725,6 +1754,7 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
 
     }
 
+    boolean isLogoNotEmpty = false;
 
     //For CustomFrame
     public void onSelectImageClick(View view) {
@@ -1747,6 +1777,9 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
             public void onGalleryResult(int flag, Bitmap bitmap) {
                 if (flag == Constant.PICKER_FIRST) {
                     selectedLogo = bitmap;
+                    if (selectedLogo != null) {
+                        isLogoNotEmpty = true;
+                    }
                     binding.logoCustom.setTag("1");
                     binding.logoCustom.setImageBitmap(bitmap);
                     binding.logoCustom.setVisibility(View.VISIBLE);

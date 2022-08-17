@@ -776,6 +776,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         //CropImage.startPickImageActivity(this);
     }
 
+    boolean isLogoNotEmpty = false;
+
     private void pickerView(boolean viewMode, Bitmap selectedBitmap) {
         PickerFragment pickerFragment = new PickerFragment(act);
         pickerFragment.setEnableViewMode(viewMode);
@@ -789,6 +791,9 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             public void onGalleryResult(int flag, Bitmap bitmap) {
                 if (flag == Constant.PICKER_FIRST) {
                     selectedLogo = bitmap;
+                    if (selectedLogo != null) {
+                        isLogoNotEmpty = true;
+                    }
                     binding.logoCustom.setTag("1");
                     binding.logoCustom.setImageBitmap(bitmap);
                     binding.logoCustom.setVisibility(View.VISIBLE);
@@ -1500,6 +1505,8 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         return returnedBitmap;
     }
 
+    boolean isLogoEmpty = false;
+
     public void saveImageToGallery(boolean wantToShare, boolean isFavourite) {
         for (int i = 0; i < binding.CustomImageMain.getChildCount(); i++) {
             if (binding.CustomImageMain.getChildAt(i) instanceof TextView) {
@@ -1509,6 +1516,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
 
         Utility.showLoadingTran(act);
+
+        if ((prefManager.getActiveBrand().getLogo() != null && prefManager.getActiveBrand().getLogo().isEmpty())) {
+            binding.logoEmptyState.setVisibility(View.GONE);
+            isLogoEmpty = true;
+        }
         Drawable bitmapFrame;
         if (isUsingCustomFrame) {
             bitmapFrame = new BitmapDrawable(getResources(), getBitmapFromView(binding.CustomImageMain));
@@ -1562,7 +1574,7 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
                     }
                 }
-         //       FooterHelper.triggerShareIntent(act, new_file, merged);
+                //       FooterHelper.triggerShareIntent(act, new_file, merged);
             }
             dbManager.insertStaticContent(new_file.toString(), DatabaseHelper.FLAG_DOWNLOAD);
             InputStream inputStream = null;
@@ -1731,6 +1743,24 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 //                binding.fabroutIcon.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+
+    @Override
+    public void onResume() {
+
+        if (isLogoEmpty) {
+            if (prefManager.getActiveBrand().getLogo() != null && prefManager.getActiveBrand().getLogo().isEmpty()) {
+                if (isLogoNotEmpty) {
+                    binding.logoEmptyState.setVisibility(View.GONE);
+                } else {
+                    binding.logoEmptyState.setVisibility(View.VISIBLE);
+                }
+            } else {
+                binding.logoEmptyState.setVisibility(View.GONE);
+            }
+        }
+        super.onResume();
     }
 
     //for adding footer dynamically

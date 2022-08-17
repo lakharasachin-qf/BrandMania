@@ -70,7 +70,6 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.about_us.AppIntroActivity;
-import com.app.brandmania.Activity.brand.UpdateBandList;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.FooterModel;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
@@ -154,7 +153,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -238,12 +236,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         act = this;
         act.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_all_image);
-
-        if (prefManager.getActiveBrand() == null && prefManager.getAddBrandList() != null && prefManager.getAddBrandList().size() != 0)
-            prefManager.setActiveBrand(prefManager.getAddBrandList().get(0));
-
-        prefManager = new PreafManager(this);
-
+        setActiveBrand();
         binding.titleName.setSelected(true);
         gson = new Gson();
         selectedObject = gson.fromJson(getIntent().getStringExtra("selectedimage"), ImageList.class);
@@ -256,8 +249,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         } else {
             binding.titleName.setText(selectedObject.getName());
         }
-
-
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
         mainLayout = (RelativeLayout) findViewById(R.id.elementCustomFrame);
         GradientDrawable drawable = (GradientDrawable) binding.elementCustomFrame.getBackground();
@@ -365,6 +356,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         });
 
         binding.shareIcon.setOnClickListener(v -> {
+
             if (prefManager.getActiveBrand() != null) {
                 if (manuallyEnablePermission(2)) {
 
@@ -372,10 +364,30 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         if (!prefManager.getLoginDate().isEmpty()) {
                             //For Seven Day Image Download for free User in a day
-                            Log.e("ImageConuter:::", prefManager.getDaysCounter());
+                            Utility.Log("ImageConuter:::", prefManager.getDaysCounter());
                             if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getDaysCounter())) {
 
-                                if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
+                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                    askForUpgradeToEnterpisePackage();
+                                    return;
+                                }
+                                if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                    //for Image download
+                                    getImageDownloadRights("Share");
+                                } else {
+                                    String SubscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate();
+                                    Utility.Log("getSubscriptionDate", SubscriptionDate);
+                                    if (SubscriptionDate.isEmpty()) {
+                                        alertOffer("Kindly upgrade your package to use video and gif feature.");
+                                    } else {
+                                        //for gif/video download
+                                        checkForDownload();
+                                    }
+                                }
+
+                            } else {
+
+                                if (selectedObject.isImageFree()) {
                                     if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                         askForUpgradeToEnterpisePackage();
                                         return;
@@ -385,48 +397,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                     } else {
                                         checkForDownload();
                                     }
-
                                 } else {
-                                    androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
-                                            .setTitle("Add Your Logo")
-                                            .setMessage("Your Logo is empty..!")
-                                            .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
-                                            .setNeutralButton("LATER", (dialogInterface, i) -> {
-                                            })
-                                            .show();
-                                    AlertDialogBuilder.setCancelable(false);
-
+                                    askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                                 }
-
-                            } else {
-
-                                if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
-                                    if (selectedObject.isImageFree()) {
-                                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                            askForUpgradeToEnterpisePackage();
-                                            return;
-                                        }
-                                        if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                            getImageDownloadRights("Share");
-                                        } else {
-                                            checkForDownload();
-                                        }
-                                    } else {
-                                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
-                                    }
-
-                                } else {
-                                    androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
-                                            .setTitle("Add Your Logo")
-                                            .setMessage("Your Logo is empty..!")
-                                            .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
-                                            .setNeutralButton("LATER", (dialogInterface, i) -> {
-                                            })
-                                            .show();
-                                    AlertDialogBuilder.setCancelable(false);
-
-                                }
-
 
                             }
 
@@ -448,28 +421,15 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 ////                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
 ////                        }
                     } else {
-                        if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
 
-                            if (!Utility.isPackageExpired(act)) {
-                                if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                    getImageDownloadRights("Share");
-                                } else {
-                                    checkForDownload();
-                                }
+                        if (!Utility.isPackageExpired(act)) {
+                            if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                getImageDownloadRights("Share");
                             } else {
-                                askForUpgradeToEnterpisePackaged();
+                                checkForDownload();
                             }
-
                         } else {
-                            androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
-                                    .setTitle("Add Your Logo")
-                                    .setMessage("Your Logo is empty..!")
-                                    .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
-                                    .setNeutralButton("LATER", (dialogInterface, i) -> {
-                                    })
-                                    .show();
-                            AlertDialogBuilder.setCancelable(false);
-
+                            askForUpgradeToEnterpisePackaged();
                         }
 
                     }
@@ -479,10 +439,138 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 addBrandList();
             }
         });
+
+//        binding.shareIcon.setOnClickListener(v -> {
+//            if (prefManager.getActiveBrand() != null) {
+//                if (manuallyEnablePermission(2)) {
+//
+//                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+//
+//                        if (!prefManager.getLoginDate().isEmpty()) {
+//                            //For Seven Day Image Download for free User in a day
+//                            Log.e("ImageConuter:::", prefManager.getDaysCounter());
+//                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getDaysCounter())) {
+//
+//                                if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
+//                                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                                        askForUpgradeToEnterpisePackage();
+//                                        return;
+//                                    }
+//                                    if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                                        //for Image download
+//                                        getImageDownloadRights("Share");
+//                                    } else {
+//                                        //for gif/video download
+//                                        checkForDownload();
+//                                    }
+//
+//                                } else {
+//                                    androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+//                                            .setTitle("Add Your Logo")
+//                                            .setMessage("Your Logo is empty..!")
+//                                            .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
+//                                            .setNeutralButton("LATER", (dialogInterface, i) -> {
+//                                            })
+//                                            .show();
+//                                    AlertDialogBuilder.setCancelable(false);
+//                                }
+//
+//                            } else {
+//
+//                                if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
+//                                    if (selectedObject.isImageFree()) {
+//                                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                                            askForUpgradeToEnterpisePackage();
+//                                            return;
+//                                        }
+//                                        if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                                            getImageDownloadRights("Share");
+//                                        } else {
+//                                            checkForDownload();
+//                                        }
+//                                    } else {
+//                                        askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                                    }
+//
+//                                } else {
+//                                    androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+//                                            .setTitle("Add Your Logo")
+//                                            .setMessage("Your Logo is empty..!")
+//                                            .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
+//                                            .setNeutralButton("LATER", (dialogInterface, i) -> {
+//                                            })
+//                                            .show();
+//                                    AlertDialogBuilder.setCancelable(false);
+//
+//                                }
+//
+//
+//                            }
+//
+//                        }
+//
+//                        //For normal Flow
+//
+//////                        if (selectedObject.isImageFree()) {
+////                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+////                            askForUpgradeToEnterpisePackage();
+////                            return;
+////                        }
+////                        if (selectedObject.getImageType() == ImageList.IMAGE) {
+////                            getImageDownloadRights("Share");
+////                        } else {
+////                            checkForDownload();
+////                        }
+//////                        } else {
+//////                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//////                        }
+//                    } else {
+//                        if (!prefManager.getActiveBrand().getLogo().isEmpty()) {
+//
+//                            if (!Utility.isPackageExpired(act)) {
+//                                if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                                    getImageDownloadRights("Share");
+//                                } else {
+//                                    checkForDownload();
+//                                }
+//                            } else {
+//                                askForUpgradeToEnterpisePackaged();
+//                            }
+//
+//                        } else {
+//                            androidx.appcompat.app.AlertDialog AlertDialogBuilder = new MaterialAlertDialogBuilder(act, R.style.RoundShapeTheme)
+//                                    .setTitle("Add Your Logo")
+//                                    .setMessage("Your Logo is empty..!")
+//                                    .setPositiveButton("OK", (dialogInterface, i) -> HELPER.ROUTE(act, UpdateBandList.class))
+//                                    .setNeutralButton("LATER", (dialogInterface, i) -> {
+//                                    })
+//                                    .show();
+//                            AlertDialogBuilder.setCancelable(false);
+//
+//                        }
+//
+//                    }
+//
+//                }
+//            } else {
+//                addBrandList();
+//            }
+//        });
         setLogo();
         if (!getIntent().hasExtra("viewAll"))
             LoadDataToUI();
         binding.logoCustom.setTag("0");
+    }
+
+    public void setActiveBrand() {
+
+        if (prefManager.getActiveBrand() == null && prefManager.getAddBrandList() != null && prefManager.getAddBrandList().size() != 0)
+            prefManager.setActiveBrand(prefManager.getAddBrandList().get(0));
+
+        prefManager = new PreafManager(this);
+        if (prefManager.getActiveBrand() != null) {
+
+        }
     }
 
 
@@ -524,6 +612,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             }
         }
         addBrandFragment = new AddBrandFragment();
+        addBrandFragment.setAddBrandFromImageCat(true);
         addBrandFragment.show(getSupportFragmentManager(), "");
     }
 
@@ -539,8 +628,19 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             Utility.dismissLoadingTran();
         }
 
+        if (isLogoEmpty) {
+            Utility.Log("isLogoClickFromEmptyLAyout", "yesssssss");
+            if (prefManager.getActiveBrand().getLogo() != null && prefManager.getActiveBrand().getLogo().isEmpty()) {
+                if (isLogoNotEmpty) {
+                    binding.logoEmptyState.setVisibility(View.GONE);
+                } else {
+                    binding.logoEmptyState.setVisibility(View.VISIBLE);
+                }
+            } else {
+                binding.logoEmptyState.setVisibility(View.GONE);
+            }
+        }
         super.onResume();
-
     }
 
     ArrayList<BrandListItem> multiListItems = new ArrayList<>();
@@ -568,7 +668,16 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             }
                         }
                     }
+                    prefManager = new PreafManager(act);
+
+                    if (prefManager.getActiveBrand() == null) {
+                        if (multiListItems.size() != 0) {
+                            prefManager.setActiveBrand(multiListItems.get(0));
+                        }
+                    }
                     setLogo();
+                    setActiveBrand();
+                    loadFirstImage();
                     binding.simpleProgressBar.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
@@ -582,8 +691,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         error.printStackTrace();
                         binding.simpleProgressBar.setVisibility(View.GONE);
-                        //binding.scrollView.setVisibility(View.VISIBLE);
-                        //loadDataRefreshing();
 
                     }
                 }
@@ -611,7 +718,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(stringRequest);
     }
-
 
     @Override
     protected void onDestroy() {
@@ -1260,6 +1366,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     }
 
     public void loadFirstImage() {
+
         FooterModel model = new FooterModel();
         model.setLayoutType(FooterModel.LAYOUT_FRAME_TWELVE);
         model.setFree(true);
@@ -1280,6 +1387,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             pickerView(false, null);
     }
 
+    boolean isLogoNotEmpty = false;
+
     private void pickerView(boolean viewMode, Bitmap selectedBitmap) {
         PickerFragment pickerFragment = new PickerFragment(act);
         pickerFragment.setEnableViewMode(viewMode);
@@ -1293,6 +1402,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             public void onGalleryResult(int flag, Bitmap bitmap) {
                 if (flag == Constant.PICKER_FIRST) {
                     selectedLogo = bitmap;
+                    if (selectedLogo != null) {
+                        isLogoNotEmpty = true;
+                    }
                     binding.logoCustom.setTag("1");
                     binding.logoCustom.setImageBitmap(bitmap);
                     binding.logoCustom.setVisibility(View.VISIBLE);
@@ -1863,17 +1975,23 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         .show();
                 return false;
             } else {
-
                 return true;
             }
         }
 
     }
 
+    boolean isLogoEmpty = false;
+
     public void saveImageToGallery(boolean wantToShare, boolean isFavourite) {
         HELPER._INIT_FOLDER(Constant.ROOT);
         HELPER._INIT_FOLDER(Constant.DATA);
         HELPER._INIT_FOLDER(Constant.IMAGES);
+
+        if ((prefManager.getActiveBrand().getLogo() == null && prefManager.getActiveBrand().getLogo().isEmpty())) {
+            binding.logoEmptyState.setVisibility(View.GONE);
+            isLogoEmpty = true;
+        }
 
         Drawable bitmapFrame;
         if (isUsingCustomFrame) {
@@ -1921,7 +2039,9 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
                 Utility.showLoadingTran(act);
                 isShareIntentVisisble = true;
+
                 triggerShareIntent(new_file, merged);
+
             } else {
                 Toast.makeText(act, "Your image is downloaded", Toast.LENGTH_SHORT).show();
                 if (isUsingCustomFrame) {
@@ -1992,8 +2112,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         addDynamicFooter(footerLayout, false);
         if (selectedObject != null && selectedObject.getImageType() == ImageList.IMAGE)
             forCheckFavorite();
-
-
         changeBorderColorAsFrame();
         loadSameColorToBackgroundAndTextAgain();
         ((ITextSizeEvent) act).onfontSize(previousFontSize);
@@ -2009,6 +2127,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.elementFooter.removeAllViews();
         footerLayout = layoutType;
         if (layoutType == FooterModel.LAYOUT_FRAME_ONE) {
+
             LayoutForLoadOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
             binding.elementFooter.addView(oneBinding.getRoot());
             if (prefManager.getActiveBrand() != null)
@@ -2489,12 +2608,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     @Override
     public void update(Observable observable, Object data) {
-        super.update(observable, data);
 
-        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_LOGO) {
-            Utility.Log("REFRESH_LOGO", "yes");
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_IMAGE_CATEGORY_DATA) {
+            Utility.Log("REFRESH_IMAGE_CATEGORY_DATA", "Yessssssss");
             getBrandList();
         }
+        super.update(observable, data);
     }
 
     public void shareVideoOrGIF() {

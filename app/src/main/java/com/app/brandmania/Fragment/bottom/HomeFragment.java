@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,6 @@ import com.android.volley.toolbox.Volley;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.PdfActivity;
 import com.app.brandmania.Activity.ViewNotificationActivity;
-import com.app.brandmania.Activity.basics.LoginActivity;
 import com.app.brandmania.Activity.basics.ReferNEarnActivity;
 import com.app.brandmania.Activity.brand.AddBrandMultipleActivity;
 import com.app.brandmania.Activity.brand.UpdateBandList;
@@ -153,19 +153,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         if (LIVE_MODE) {
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
-
-        if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
-            if (preafManager.getActiveBrand() == null) {
-                preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
-                preafManager = new PreafManager(act);
-            }
-        }
-
+        setActiveBrand();
         if (preafManager.getActiveBrand() != null) {
             Glide.with(act).load(preafManager.getActiveBrand().getLogo());
             binding.businessName.setText(preafManager.getActiveBrand().getName());
         }
-
         if (ContextCompat.checkSelfPermission(act, CAMERA) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(act, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(act, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -181,7 +173,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 RateUs();
             }
         }
-        Log.e("Token::::", prefManager.getUserToken());
+        Utility.Log("Token::::", prefManager.getUserToken());
 //        binding.showNotification.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -311,6 +303,17 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         }
         userRegistrationFragment = new UserNewRegistrationFragment();
         userRegistrationFragment.show(getParentFragmentManager(), "");
+    }
+
+
+    public void setActiveBrand() {
+
+        if (preafManager.getAddBrandList() != null && preafManager.getAddBrandList().size() != 0) {
+            if (preafManager.getActiveBrand() == null) {
+                preafManager.setActiveBrand(preafManager.getAddBrandList().get(0));
+                preafManager = new PreafManager(act);
+            }
+        }
     }
 
     public void addBrandList() {
@@ -530,12 +533,21 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     //preafManager.setImageCounter("1");
                     preafManager.setImageCounter(jsonArray1.getString("image_counter"));
                     preafManager.setDaysCounter(jsonArray1.getString("days_counter"));
+                    //preafManager.setDaysCounter("15");
 
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
                     if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed) {
                         if (popupImg != null && !popupImg.isEmpty()) {
-                            setOfferCode();
+                            Handler handler = null;
+                            handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                public void run() {
+                                    // Utility.Log("OfferDialog","yessssssss");
+                                    setOfferCode();
+                                }
+                            }, 10000);
+
                         }
                     }
                 }
@@ -547,14 +559,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
 
+                //Utility.Log("UpdateTokenError","Occurred");
                 //if Errors occurred than go to Login Page
-                prefManager.Logout();
-                Intent i = new Intent(act, LoginActivity.class);
-                i.addCategory(Intent.CATEGORY_HOME);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                act.finish();
+
+//                prefManager.Logout();
+//                Intent i = new Intent(act, LoginActivity.class);
+//                i.addCategory(Intent.CATEGORY_HOME);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+//                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//                act.finish();
 
 //                try {
 //                    if (error.networkResponse.statusCode == 500 && error.networkResponse.data != null) {
@@ -645,7 +659,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Glide.with(act).load(popupImg).placeholder(R.drawable.place_holder_vertical).into(dialogOfferBinding.offerImage);
-        alertDialog.show();
+
+        if (!act.isDestroyed() && !act.isFinishing()) {
+            if (!alertDialog.isShowing())
+                alertDialog.show();
+        }
+
         dialogOfferBinding.offerImageLayout.setOnClickListener(v -> {
             alertDialog.dismiss();
 
@@ -736,6 +755,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 }
                 preafManager = new PreafManager(act);
                 if (preafManager.getActiveBrand() != null)
+
                     binding.businessName.setText(preafManager.getActiveBrand().getName());
 
                 if (act.getIntent().hasExtra("FirstLogin")) {
@@ -749,6 +769,9 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         preafManager.setActiveBrand(multiListItems.get(0));
                     }
                 }
+
+                setActiveBrand();
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -821,6 +844,12 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
             getBrandList();
         }
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_HOME_FRAGMENT) {
+            Utility.Log("REFRESH_HOME", "yesssssssss");
+
+            getBrandList();
+        }
+
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.NOTIFY) {
             act.runOnUiThread(new Runnable() {
                 @Override

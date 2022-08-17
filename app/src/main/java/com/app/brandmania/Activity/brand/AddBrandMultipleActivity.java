@@ -42,6 +42,8 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
@@ -66,7 +68,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,6 +95,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
     private AlertDialog.Builder alertDialogBuilder;
     private Uri mCropImageUri;
     private Bitmap selectedLogo;
+    public boolean isImageFromCat = false;
 
 
     private ArrayList<CommonListModel> countryList = new ArrayList<>();
@@ -129,7 +131,9 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList);
             }
         });
-
+        if (act.getIntent().hasExtra("fromImageCat")) {
+            isImageFromCat = true;
+        }
         binding.stateLayout.setVisibility(View.VISIBLE);
         binding.countryLayout.setVisibility(View.GONE);
 //        binding.countryEdt.setOnClickListener(new View.OnClickListener() {
@@ -491,9 +495,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                         try {
 
-
                             if (response.getBoolean("status")) {
-
 
                                 JSONObject jsonArray = response.getJSONObject("data");
                                 is_completed = jsonArray.getString("is_completed");
@@ -540,7 +542,7 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Log.e("addbrandresponce", response);
+                Utility.Log("GetBrandResponse", response);
                 int toSetActiveBrand = 0;
                 ArrayList<BrandListItem> brandListItems = new ArrayList<>();
                 try {
@@ -643,26 +645,28 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         brandListItems.add(brandListItemm);
                     }
 
-
                     preafManager.setAddBrandList(brandListItems);
                     preafManager.setIS_Brand(true);
 
                     if (brandListItems.size() != 0) {
                         preafManager.setActiveBrand(brandListItems.get(toSetActiveBrand));
                     }
-
                     //  MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.JUSTBRAND);
 
+                    if (isImageFromCat) {
+                        MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_IMAGE_CATEGORY_DATA);
+                        MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_HOME_FRAGMENT);
+                        Utility.Log("addBrabdFromImageCat", "yessssss");
+                        onBackPressed();
+                        return;
+                    }
 
                     Intent i = new Intent(act, HomeActivity.class);
-
                     i.addCategory(Intent.CATEGORY_HOME);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
                     overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                     finish();
-
-                    //  onBackPressed();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

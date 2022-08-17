@@ -16,5 +16,7 @@ public class ObserverActionID {
     public static final int GALLERY_ACTION = 6;
     public static final int GALLERY_CALLBACK = 7;
     public static final int NOTIFY = 8;
-    public static final int REFRESH_LOGO = 9;
+    public static final int REFRESH_IMAGE_CATEGORY_DATA = 9;
+    public static final int REFRESH_HOME_FRAGMENT = 10;
+    public  static final int LOAD_TEXT_BG_COLOUR = 11;
 }

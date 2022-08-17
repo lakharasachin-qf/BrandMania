@@ -622,8 +622,8 @@ public class UpdateBandList extends BaseActivity implements ItemSelectionInterfa
                                 alertDialog.setCancelable(false);
                                 alertDialog.show();
                                 MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.RELOAD_BRANDS);
-                                MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_LOGO);
                                 MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_BRAND_NAME);
+                                //MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_LOGO);
 
                             }
                         } catch (JSONException e) {
