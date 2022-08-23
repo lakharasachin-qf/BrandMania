@@ -385,7 +385,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                     versionListIItem.setUpdatedAt(jsonArray1.getString("updated_at"));
                     versionListIItem.setDeletedAt(jsonArray1.getString("deleted_at"));
 
-
                     int apiVERSION = Integer.parseInt(versionListIItem.getAppliactionVersion().replace(".", ""));
                     int currentVERSION = Integer.parseInt(String.valueOf(Constant.F_VERSION).replace(".", ""));
 

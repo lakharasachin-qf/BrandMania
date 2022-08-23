@@ -376,7 +376,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                     getImageDownloadRights("Share");
                                 } else {
                                     String SubscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate();
-                                    Utility.Log("getSubscriptionDate", SubscriptionDate);
+                                    //Utility.Log("getSubscriptionDate", SubscriptionDate);
                                     if (SubscriptionDate.isEmpty()) {
                                         alertOffer("Kindly upgrade your package to use video and gif feature.");
                                     } else {
@@ -647,9 +647,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
-
         binding.simpleProgressBar.setVisibility(View.VISIBLE);
-        //binding.scrollView.setVisibility(View.GONE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -1202,7 +1200,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         saveVideo();
     }
 
-
     DialogUpgradeLayoutPackegeExpiredBindingImpl expriredBinding;
 
     public void askForUpgradeToEnterpisePackaged() {
@@ -1212,16 +1209,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(expriredBinding.getRoot());
 
-        expriredBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
+        expriredBinding.viewPackage.setOnClickListener((View.OnClickListener) v -> {
+            alertDialog.dismiss();
 
-                Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile", "1");
-                act.startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
+            Intent intent = new Intent(act, PackageActivity.class);
+            intent.putExtra("Profile", "1");
+            act.startActivity(intent);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
         expriredBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1515,7 +1509,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void onDialogDismissed(int dialogId) {
     }
 
-
     private void removeFromFavourite(final int removeFav) {
         Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.REMOVE_FAVOURIT);
@@ -1606,7 +1599,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             }
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[],

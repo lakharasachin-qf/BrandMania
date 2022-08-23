@@ -366,6 +366,7 @@ public class FooterHelper {
             }
         }
     }
+
     public static void makeBoldInPhoneText(ActivityLetterHeadBinding binding, boolean bold) {
         Utility.setBold(binding.phoneLabel, bold);
 
@@ -1305,9 +1306,9 @@ public class FooterHelper {
 
     public static void loadFrameSixData(Activity act, LayoutForLoadSixBinding sixBinding) {
         BrandListItem activeBrand = new PreafManager(act).getActiveBrand();
-
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            sixBinding.contactText.setText(activeBrand.getPhonenumber());
+        PreafManager preafManager = new PreafManager(act);
+        if (!preafManager.getUserName().isEmpty()) {
+            sixBinding.contactText.setText(preafManager.getUserName());
         } else {
             sixBinding.contactLayout.setVisibility(View.GONE);
         }
@@ -1512,6 +1513,7 @@ public class FooterHelper {
 
     public static void loadFrame17Data(Activity act, LayoutFooterSeventeenBinding seventeenBinding) {
         BrandListItem activeBrand = new PreafManager(act).getActiveBrand();
+        PreafManager preafManager = new PreafManager(act);
         if (!activeBrand.getEmail().isEmpty()) {
             seventeenBinding.emailTxt.setText(activeBrand.getEmail());
         } else {
@@ -1519,8 +1521,8 @@ public class FooterHelper {
             seventeenBinding.emailIcon.setVisibility(View.GONE);
         }
 
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            seventeenBinding.mobileNo.setText(activeBrand.getPhonenumber());
+        if (!preafManager.getUserName().isEmpty()) {
+            seventeenBinding.mobileNo.setText(preafManager.getUserName());
         } else {
             seventeenBinding.mobileNo.setVisibility(View.GONE);
             seventeenBinding.callIcon.setVisibility(View.GONE);
@@ -1539,9 +1541,10 @@ public class FooterHelper {
 
     public static void loadFrame18Data(Activity act, LayoutFooterEightteenBinding eighteenBinding) {
         BrandListItem activeBrand = new PreafManager(act).getActiveBrand();
+        PreafManager preafManager = new PreafManager(act);
 
-        if (!activeBrand.getPhonenumber().isEmpty()) {
-            eighteenBinding.mobileNo.setText(activeBrand.getPhonenumber());
+        if (!preafManager.getUserName().isEmpty()) {
+            eighteenBinding.mobileNo.setText(preafManager.getUserName());
         } else {
             eighteenBinding.mobileNo.setVisibility(View.GONE);
             eighteenBinding.callIcon.setVisibility(View.GONE);

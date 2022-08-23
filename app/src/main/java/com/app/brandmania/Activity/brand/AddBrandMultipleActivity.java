@@ -655,12 +655,10 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
 
                     if (isImageFromCat) {
                         MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_IMAGE_CATEGORY_DATA);
-                        MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_HOME_FRAGMENT);
-                        Utility.Log("addBrabdFromImageCat", "yessssss");
+                        //MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_HOME_FRAGMENT);
                         onBackPressed();
                         return;
                     }
-
                     Intent i = new Intent(act, HomeActivity.class);
                     i.addCategory(Intent.CATEGORY_HOME);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -145,13 +145,21 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, parent, false);
         homeFragment = this;
-
         fiveStarsDialog = new FiveStarsDialog(act, "brandmania@gmail.com");
+        homeLoad();
+        return binding.getRoot();
+    }
+
+    AddBrandFragment addBrandFragment;
+
+    public UserNewRegistrationFragment userRegistrationFragment;
+
+    public void homeLoad() {
         preafManager = new PreafManager(act);
         binding.infoMsg.setSelected(true);
 
         if (LIVE_MODE) {
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            act.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
         setActiveBrand();
         if (preafManager.getActiveBrand() != null) {
@@ -174,12 +182,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             }
         }
         Utility.Log("Token::::", prefManager.getUserToken());
-//        binding.showNotification.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                newUserRegistration();
-//            }
-//        });
+
         binding.showNotification.setOnClickListener(view -> HELPER.ROUTE(act, ViewNotificationActivity.class));
         binding.referCodeLayout.setOnClickListener(v -> {
             if (preafManager.getActiveBrand() != null) {
@@ -273,6 +276,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 });
             }
         }
+        setActiveBrandText();
+    }
+
+
+    public void setActiveBrandText() {
 
         if (preafManager.getActiveBrand() == null) {
             binding.businessNameDropDown.setVisibility(View.GONE);
@@ -287,13 +295,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             binding.businessNameDropDown.setVisibility(View.VISIBLE);
             binding.firsttitle.setVisibility(View.VISIBLE);
             binding.noBrandLayout.setVisibility(View.GONE);
+
         }
-        return binding.getRoot();
+
     }
-
-    AddBrandFragment addBrandFragment;
-
-    public UserNewRegistrationFragment userRegistrationFragment;
 
     public void newUserRegistration() {
         if (userRegistrationFragment != null) {
@@ -301,10 +306,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 userRegistrationFragment.dismiss();
             }
         }
+
         userRegistrationFragment = new UserNewRegistrationFragment();
         userRegistrationFragment.show(getParentFragmentManager(), "");
     }
-
 
     public void setActiveBrand() {
 
@@ -659,11 +664,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Glide.with(act).load(popupImg).placeholder(R.drawable.place_holder_vertical).into(dialogOfferBinding.offerImage);
-
-        if (!act.isDestroyed() && !act.isFinishing()) {
-            if (!alertDialog.isShowing())
-                alertDialog.show();
-        }
+        alertDialog.show();
 
         dialogOfferBinding.offerImageLayout.setOnClickListener(v -> {
             alertDialog.dismiss();
@@ -689,9 +690,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 }
             }
         });
-
         dialogOfferBinding.closeLayout.setOnClickListener(v -> alertDialog.dismiss());
-
     }
 
     public void onBackPressed() {
@@ -737,12 +736,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     private void getBrandList() {
         binding.swipeContainer.setRefreshing(true);
+        Utility.Log("GetBrandList:::", APIs.GET_BRAND);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, response -> {
             try {
+
                 JSONObject jsonObject = new JSONObject(response);
                 binding.swipeContainer.setRefreshing(false);
                 multiListItems = ResponseHandler.HandleGetBrandList(jsonObject);
+                Utility.Log("GetBrandList:::", gson.toJson(multiListItems));
+
                 if (multiListItems != null && multiListItems.size() != 0)
                     preafManager.setAddBrandList(multiListItems);
                 if (preafManager.getActiveBrand() != null) {
@@ -769,9 +772,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                         preafManager.setActiveBrand(multiListItems.get(0));
                     }
                 }
-
-                setActiveBrand();
-
+                //setActiveBrand();
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -844,10 +845,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
             getBrandList();
         }
-        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_HOME_FRAGMENT) {
-            Utility.Log("REFRESH_HOME", "yesssssssss");
-
-            getBrandList();
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_IMAGE_CATEGORY_DATA) {
+            if (preafManager.getActiveBrand() != null) {
+                act.recreate();
+                setActiveBrandText();
+            }
         }
 
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.NOTIFY) {
