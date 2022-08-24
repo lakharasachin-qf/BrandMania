@@ -845,7 +845,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             getBrandList();
         }
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_HOME_FRAGMENT) {
-            Utility.Log("REFRESH_HOME", "yesssssssss");
 
             getBrandList();
         }

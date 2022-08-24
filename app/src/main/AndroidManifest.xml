@@ -196,7 +196,7 @@
         <meta-data
 
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_g34adOBwCItfce" />
+            android:value="rzp_live_Sq3SAdZBt9Vec4" />
 <!--            android:name="com.razorpay.ApiKey"-->
 <!--            android:value="rzp_live_Sq3SAdZBt9Vec4" /> &lt;!&ndash; <meta-data &ndash;&gt;-->
 
