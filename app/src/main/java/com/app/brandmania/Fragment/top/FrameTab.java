@@ -27,6 +27,8 @@ import com.app.brandmania.Activity.custom.ViewAllFrameImageActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.ImageCategoryAddaptor;
 import com.app.brandmania.Common.HELPER;
+import com.app.brandmania.Common.MakeMyBrandApp;
+import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Interface.IRemoveFrame;
@@ -45,6 +47,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 public class FrameTab extends BaseFragment {
 
@@ -86,6 +89,13 @@ public class FrameTab extends BaseFragment {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.frame_tab, parent, false);
 
+        setFootersData();
+
+        return binding.getRoot();
+    }
+
+    public void setFootersData() {
+
         if (prefManager.getActiveBrand() != null) {
             getFrame();
         }
@@ -113,7 +123,7 @@ public class FrameTab extends BaseFragment {
             }
         });
         if (prefManager.getActiveBrand() != null) {
-            if (this.getActivity().getClass() == ViewAllFrameImageActivity.class) {
+            if (act.getClass() == ViewAllFrameImageActivity.class) {
                 binding.removeFrameBtn.setVisibility(View.VISIBLE);
                 binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
             }
@@ -132,7 +142,6 @@ public class FrameTab extends BaseFragment {
             binding.addbrandTag.setVisibility(View.VISIBLE);
         }
 
-
         if (prefManager.getActiveBrand() == null) {
             binding.removeFrameBtn.setVisibility(View.GONE);
             binding.subscribePlaneBtn.setVisibility(View.GONE);
@@ -144,14 +153,21 @@ public class FrameTab extends BaseFragment {
             binding.continueBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HELPER.ROUTE(act, AddBrandMultipleActivity.class);
+                    Intent i = new Intent(getActivity(), AddBrandMultipleActivity.class);
+                    i.putExtra("fromImageCat", "yes");
+                    startActivity(i);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    //HELPER.ROUTE(act, AddBrandMultipleActivity.class);
                 }
             });
+        } else {
+            binding.content.setVisibility(View.GONE);
         }
-        return binding.getRoot();
+
     }
 
     public DialogUpgradeLayoutBinding upgradeLayoutBinding;
+
     private void triggerUpgradePackage() {
         upgradeLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
@@ -213,6 +229,7 @@ public class FrameTab extends BaseFragment {
                                 binding.subscribePlaneBtn.setVisibility(View.GONE);
                             }
 
+
                         } else {
                             binding.text1.setVisibility(View.VISIBLE);
                             binding.frameRecycler.setVisibility(View.GONE);
@@ -226,6 +243,7 @@ public class FrameTab extends BaseFragment {
                         binding.frameRecycler.setVisibility(View.GONE);
                         binding.addbrandTag.setVisibility(View.VISIBLE);
                     }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -268,4 +286,12 @@ public class FrameTab extends BaseFragment {
 
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_IMAGE_CATEGORY_DATA) {
+            setFootersData();
+        }
+        super.update(observable, data);
+    }
 }

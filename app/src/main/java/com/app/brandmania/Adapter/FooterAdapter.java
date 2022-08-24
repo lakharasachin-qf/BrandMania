@@ -574,9 +574,8 @@ public class FooterAdapter extends RecyclerView.Adapter {
                         ((FooterHolderSix) holder).binding.freePremium.setVisibility(View.VISIBLE);
                     }
                     if (activeBrand != null) {
-
-                        if (!activeBrand.getPhonenumber().isEmpty()) {
-                            ((FooterHolderSix) holder).binding.contactText.setText(activeBrand.getPhonenumber());
+                        if (!preafManager.getUserName().isEmpty()) {
+                            ((FooterHolderSix) holder).binding.contactText.setText(preafManager.getUserName());
                         } else {
                             ((FooterHolderSix) holder).binding.contactLayout.setVisibility(View.GONE);
                         }
@@ -1128,12 +1127,25 @@ public class FooterAdapter extends RecyclerView.Adapter {
                             ((FooterHolderSevenTeen) holder).binding.emailTxt.setText(activeBrand.getEmail());
                         } else {
                             ((FooterHolderSevenTeen) holder).binding.emailTxt.setVisibility(View.GONE);
+                            ((FooterHolderSevenTeen) holder).binding.emailIcon.setVisibility(View.GONE);
                         }
-                        if (!activeBrand.getPhonenumber().isEmpty()) {
-                            ((FooterHolderSevenTeen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+
+                        if (!preafManager.getUserName().isEmpty()) {
+                            ((FooterHolderSevenTeen) holder).binding.mobileNo.setText(preafManager.getUserName());
                         } else {
                             ((FooterHolderSevenTeen) holder).binding.mobileNo.setVisibility(View.GONE);
+                            ((FooterHolderSevenTeen) holder).binding.callIcon.setVisibility(View.GONE);
                         }
+//                        if (!activeBrand.getName().isEmpty()) {
+//                            ((FooterHolderSevenTeen) holder).binding.mobileNo.setText(activeBrand.getName());
+//                        } else {
+//                            ((FooterHolderSevenTeen) holder).binding.mobileNo.setVisibility(View.GONE);
+//                        }
+//                        if (!activeBrand.getPhonenumber().isEmpty()) {
+//                            ((FooterHolderSevenTeen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+//                        } else {
+//                            ((FooterHolderSevenTeen) holder).binding.mobileNo.setVisibility(View.GONE);
+//                        }
                     }
 
                     if (checkedPosition == position) {
@@ -1176,10 +1188,12 @@ public class FooterAdapter extends RecyclerView.Adapter {
                             ((FooterHolderFEighteen) holder).binding.address.setVisibility(View.GONE);
                         }
 
-                        if (!activeBrand.getPhonenumber().isEmpty()) {
-                            ((FooterHolderFEighteen) holder).binding.mobileNo.setText(activeBrand.getPhonenumber());
+                        if (!preafManager.getUserName().isEmpty()) {
+                            ((FooterHolderFEighteen) holder).binding.mobileNo.setText(preafManager.getUserName());
                         } else {
                             ((FooterHolderFEighteen) holder).binding.mobileNo.setVisibility(View.GONE);
+                            ((FooterHolderFEighteen) holder).binding.callIcon.setVisibility(View.GONE);
+
                         }
                     }
                     if (checkedPosition == position) {

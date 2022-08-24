@@ -197,10 +197,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public static final int ADDFAV = 3;
     public static final int REMOVEFAV = 3;
     private String is_frame = "";
-
-
     Gson gson;
-
     private ImageList selectedObject;
     AlertDialog.Builder alertDialogBuilder;
     File new_file;
@@ -212,7 +209,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     private int yDelta;
     private ViewGroup mainLayout;
     private boolean isUserFree = true;
-
 
     private boolean isUsingCustomFrame = true;
     private ImageList selectedBackendFrame = null;
@@ -361,49 +357,64 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 if (manuallyEnablePermission(2)) {
 
                     if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
-
-                        if (!prefManager.getLoginDate().isEmpty()) {
-                            //For Seven Day Image Download for free User in a day
-                            Utility.Log("ImageConuter:::", prefManager.getDaysCounter());
-                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getDaysCounter())) {
-
-                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                    askForUpgradeToEnterpisePackage();
-                                    return;
-                                }
-                                if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                    //for Image download
-                                    getImageDownloadRights("Share");
-                                } else {
-                                    String SubscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate();
-                                    Utility.Log("getSubscriptionDate", SubscriptionDate);
-                                    if (SubscriptionDate.isEmpty()) {
-                                        alertOffer("Kindly upgrade your package to use video and gif feature.");
-                                    } else {
-                                        //for gif/video download
-                                        checkForDownload();
-                                    }
-                                }
-
-                            } else {
-
-                                if (selectedObject.isImageFree()) {
-                                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                        askForUpgradeToEnterpisePackage();
-                                        return;
-                                    }
-                                    if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                        getImageDownloadRights("Share");
-                                    } else {
-                                        checkForDownload();
-                                    }
-                                } else {
-                                    askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
-                                }
-
+                        // For normal Flow
+                        //free User
+                        if (selectedObject.isImageFree()) {
+                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                askForUpgradeToEnterpisePackage();
+                                return;
                             }
-
+                            if (selectedObject.getImageType() == ImageList.IMAGE) {
+                                getImageDownloadRights("Share");
+                            } else {
+                                checkForDownload();
+                            }
+                        } else {
+                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
+
+//                        if (!prefManager.getLoginDate().isEmpty()) {
+//                            //For Seven Day Image Download for free User in a day
+//                            Utility.Log("ImageConuter:::", prefManager.getDaysCounter());
+//                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getDaysCounter())) {
+//
+//                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                                    askForUpgradeToEnterpisePackage();
+//                                    return;
+//                                }
+//                                if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                                    //for Image download
+//                                    getImageDownloadRights("Share");
+//                                } else {
+//                                    String SubscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate();
+//                                    //Utility.Log("getSubscriptionDate", SubscriptionDate);
+//                                    if (SubscriptionDate.isEmpty()) {
+//                                        alertOffer("Kindly upgrade your package to use video and gif feature.");
+//                                    } else {
+//                                        //for gif/video download
+//                                        checkForDownload();
+//                                    }
+//                                }
+//
+//                            } else {
+//
+//                                if (selectedObject.isImageFree()) {
+//                                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                                        askForUpgradeToEnterpisePackage();
+//                                        return;
+//                                    }
+//                                    if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                                        getImageDownloadRights("Share");
+//                                    } else {
+//                                        checkForDownload();
+//                                    }
+//                                } else {
+//                                    askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                                }
+//
+//                            }
+//
+//                        }
 
                         //For normal Flow
 
@@ -566,11 +577,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
         if (prefManager.getActiveBrand() == null && prefManager.getAddBrandList() != null && prefManager.getAddBrandList().size() != 0)
             prefManager.setActiveBrand(prefManager.getAddBrandList().get(0));
-
         prefManager = new PreafManager(this);
-        if (prefManager.getActiveBrand() != null) {
-
-        }
     }
 
 
@@ -580,7 +587,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             binding.logoEmptyState.setVisibility(View.GONE);
             binding.logoCustom.setVisibility(View.VISIBLE);
             binding.logoCustom.setVisibility(View.VISIBLE);
-            Glide.with(act)
+
+            Glide.with(getApplicationContext())
                     .load(prefManager.getActiveBrand().getLogo())
                     .override(1600, 1600)
                     .into(binding.logoCustom);
@@ -647,9 +655,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     private void getBrandList() {
         Utility.Log("API : ", APIs.GET_BRAND);
-
         binding.simpleProgressBar.setVisibility(View.VISIBLE);
-        //binding.scrollView.setVisibility(View.GONE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_BRAND, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -677,7 +683,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     }
                     setLogo();
                     setActiveBrand();
-                    loadFirstImage();
+                    if (layoutIndex != -1) {
+                        addDynamicFooter(layoutIndex, false);
+                        loadSameColorToBackgroundAndTextAgain();
+                    }
+                    // addDynamicFooter();
+                    //loadFirstImage();
                     binding.simpleProgressBar.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
@@ -1202,7 +1213,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         saveVideo();
     }
 
-
     DialogUpgradeLayoutPackegeExpiredBindingImpl expriredBinding;
 
     public void askForUpgradeToEnterpisePackaged() {
@@ -1212,16 +1222,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.setContentView(expriredBinding.getRoot());
 
-        expriredBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
+        expriredBinding.viewPackage.setOnClickListener((View.OnClickListener) v -> {
+            alertDialog.dismiss();
 
-                Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile", "1");
-                act.startActivity(intent);
-                act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-            }
+            Intent intent = new Intent(act, PackageActivity.class);
+            intent.putExtra("Profile", "1");
+            act.startActivity(intent);
+            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
         expriredBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1515,7 +1522,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     public void onDialogDismissed(int dialogId) {
     }
 
-
     private void removeFromFavourite(final int removeFav) {
         Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.REMOVE_FAVOURIT);
@@ -1606,7 +1612,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             }
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[],
@@ -1837,14 +1842,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             }
         });
-
         enterpriseBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
             }
         });
-
         enterpriseBinding.element3.setText("You have selected premium footer design. To use this design please upgrade your package");
         //alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -2121,13 +2124,14 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
     //for adding footer dynamically
     int footerLayout = 1;
     LayoutModelClass layoutModelClass;
+    int layoutIndex = -1;
 
     private void addDynamicFooter(int layoutType, boolean isReload) {
         layoutModelClass = new LayoutModelClass();
         binding.elementFooter.removeAllViews();
         footerLayout = layoutType;
         if (layoutType == FooterModel.LAYOUT_FRAME_ONE) {
-
+            layoutIndex = layoutType;
             LayoutForLoadOneBinding oneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_one, null, false);
             binding.elementFooter.addView(oneBinding.getRoot());
             if (prefManager.getActiveBrand() != null)
@@ -2135,6 +2139,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             mainLayout = (RelativeLayout) findViewById(R.id.main);
             layoutModelClass.setOneBinding(oneBinding);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWO) {
+            layoutIndex = layoutType;
             LayoutForLoadTwoBinding twoBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_two, null, false);
             binding.elementFooter.addView(twoBinding.getRoot());
             layoutModelClass.setTwoBinding(twoBinding);
@@ -2142,6 +2147,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameTwoData(act, twoBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.firstView);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THREE) {
+            layoutIndex = layoutType;
             LayoutForLoadThreeBinding threeBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_three, null, false);
             binding.elementFooter.addView(threeBinding.getRoot());
             layoutModelClass.setThreeBinding(threeBinding);
@@ -2149,6 +2155,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameThreeData(act, threeBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOUR) {
+            layoutIndex = layoutType;
             LayoutForLoadFourBinding fourBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_four, null, false);
             binding.elementFooter.addView(fourBinding.getRoot());
             layoutModelClass.setFourBinding(fourBinding);
@@ -2156,6 +2163,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameFourData(act, fourBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.section1);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIVE) {
+            layoutIndex = layoutType;
             LayoutForLoadFiveBinding fiveBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_five, null, false);
             binding.elementFooter.addView(fiveBinding.getRoot());
             layoutModelClass.setFiveBinding(fiveBinding);
@@ -2163,6 +2171,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameFiveData(act, fiveBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.main);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIX) {
+            layoutIndex = layoutType;
             LayoutForLoadSixBinding sixBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_six, null, false);
             binding.elementFooter.addView(sixBinding.getRoot());
             layoutModelClass.setSixBinding(sixBinding);
@@ -2170,6 +2179,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameSixData(act, sixBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.containerElement);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVEN) {
+            layoutIndex = layoutType;
             LayoutForLoadSevenBinding sevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_seven, null, false);
             binding.elementFooter.addView(sevenBinding.getRoot());
             layoutModelClass.setSevenBinding(sevenBinding);
@@ -2178,6 +2188,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             mainLayout = (RelativeLayout) findViewById(R.id.element0);
 
         } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHT) {
+            layoutIndex = layoutType;
             LayoutForLoadEightBinding eightBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_eight, null, false);
             binding.elementFooter.addView(eightBinding.getRoot());
             layoutModelClass.setEightBinding(eightBinding);
@@ -2185,6 +2196,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameEightData(act, eightBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.element1);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_NINE) {
+            layoutIndex = layoutType;
             LayoutForLoadNineBinding nineBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_nine, null, false);
             binding.elementFooter.addView(nineBinding.getRoot());
             layoutModelClass.setNineBinding(nineBinding);
@@ -2192,6 +2204,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameNineData(act, nineBinding);
             //mainLayout = (RelativeLayout) findViewById(R.id.firstLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TEN) {
+            layoutIndex = layoutType;
             LayoutForLoadTenBinding tenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_for_load_ten, null, false);
             binding.elementFooter.addView(tenBinding.getRoot());
             layoutModelClass.setTenBinding(tenBinding);
@@ -2199,6 +2212,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameTenData(act, tenBinding);
             mainLayout = (RelativeLayout) findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_ELEVEN) {
+            layoutIndex = layoutType;
             LayoutFooterElevenBinding elevenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eleven, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2213,6 +2227,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameElevenData(act, elevenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWELVE) {
+            layoutIndex = layoutType;
             LayoutFooterTweloneBinding tweloneBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twelone, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2227,6 +2242,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameTweloneData(act, tweloneBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_THIRTEEN) {
+            layoutIndex = layoutType;
             LayoutFooterThirteenBinding thirteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_thirteen, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2241,6 +2257,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameThirteenData(act, thirteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FOURTEEN) {
+            layoutIndex = layoutType;
             LayoutFooterFourteenBinding fourteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fourteen, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2257,6 +2274,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameFourteenData(act, fourteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_FIFTEEN) {
+            layoutIndex = layoutType;
             LayoutFooterFifteenBinding fifteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_fifteen, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2273,6 +2291,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrameFifteenData(act, fifteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SIXTEEN) {
+            layoutIndex = layoutType;
             LayoutFooterSixteenBinding sixteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_sixteen, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2289,6 +2308,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrame16Data(act, sixteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_SEVENTEEN) {
+            layoutIndex = layoutType;
             LayoutFooterSeventeenBinding seventeenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_seventeen, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2305,6 +2325,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrame17Data(act, seventeenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_EIGHTEEN) {
+            layoutIndex = layoutType;
             LayoutFooterEightteenBinding eighteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_eightteen, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2321,6 +2342,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrame18Data(act, eighteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_NINETEEN) {
+            layoutIndex = layoutType;
             LayoutFooterNineteenBinding nineteenBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_nineteen, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2337,6 +2359,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 FooterHelper.loadFrame19Data(act, nineteenBinding);
             mainLayout = findViewById(R.id.addressLayout);
         } else if (layoutType == FooterModel.LAYOUT_FRAME_TWENTY) {
+            layoutIndex = layoutType;
             LayoutFooterTwentyBinding twentyBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.layout_footer_twenty, null, false);
 
             binding.elementFooter.getLayoutParams().height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -2677,6 +2700,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
+                        String massage = ResponseHandler.getString(dataJson.getJSONObject(0), "message");
+
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
 
                             if (Utility.isUserPaid(prefManager.getActiveBrand())) {
@@ -2691,7 +2716,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                         } else {
                                             saveGif();
                                         }*/
-
                                         saveImageToGallery(true, false);
                                     }
                                 } else {
@@ -2713,7 +2737,11 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             }
 
                         } else {
-                            downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for a week.To get more images please upgrade your package");
+                            if (!massage.isEmpty()) {
+                                downloadLimitExpireDialog(massage);
+                            } else {
+                                downloadLimitExpireDialog("You have already used one image for today, As you are free user you can download or share only one image in a day for a week.To get more images please upgrade your package");
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -2730,7 +2758,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                     public void onErrorResponse(VolleyError error) {
                         Utility.dismissLoadingTran();
                         error.printStackTrace();
-
                     }
                 }
         ) {

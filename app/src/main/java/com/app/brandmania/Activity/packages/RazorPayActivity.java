@@ -1,7 +1,12 @@
 package com.app.brandmania.Activity.packages;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,7 +32,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
@@ -142,7 +150,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 }
             }
 
-
             binding.actualPriceTxt.setText(act.getString(R.string.Rs) + sliderItemList.getPriceForPay());
             calculateAmount = sliderItemList.getPriceForPay();
 
@@ -249,33 +256,119 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
     }
 
     File new_file;
+    File imagePath;
 
     public void downloadQrCode() {
-        HELPER._INIT_FOLDER(Constant.ROOT);
-        HELPER._INIT_FOLDER(Constant.DATA);
-        HELPER._INIT_FOLDER(Constant.IMAGES);
-        Bitmap ImageDrawable;
-        ImageDrawable = getResizedBitmap(((BitmapDrawable) (BitmapDrawable) binding.qrCodeImg.getDrawable()).getBitmap(), 1280, 908);
-        FileOutputStream fileOutputStream;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
-        String date = simpleDateFormat.format(new Date());
-        String name = "BM-QRCode" + System.currentTimeMillis() + ".jpg";
-        String file_name = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.IMAGES + "/" + name;
-        new_file = new File(file_name);
+        Utility.showLoadingTran(act);
 
-        try {
-            fileOutputStream = new FileOutputStream(new_file);
-            ImageDrawable.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (manuallyEnablePermission()) {
+                HELPER._INIT_FOLDER(Constant.ROOT);
+                HELPER._INIT_FOLDER(Constant.DATA);
+                HELPER._INIT_FOLDER(Constant.IMAGES);
+                Bitmap ImageDrawable;
+                ImageDrawable = getResizedBitmap(((BitmapDrawable) (BitmapDrawable) binding.qrCodeImg.getDrawable()).getBitmap(), 1280, 908);
+                FileOutputStream fileOutputStream;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
+                String date = simpleDateFormat.format(new Date());
+                String name = "BM-QRCode" + System.currentTimeMillis() + ".jpg";
+                String file_name = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.IMAGES + "/" + name;
+                new_file = new File(file_name);
+                imagePath = new File(act.getCacheDir(), file_name);
+                Utility.Log("ImagePAth:::", new_file);
+                Utility.Log("ImagePAth:::", imagePath);
+
+                try {
+                    fileOutputStream = new FileOutputStream(new_file);
+                    ImageDrawable.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                triggerShareIntent(new_file);
+            }
         }
-        triggerShareIntent(new_file, ImageDrawable);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CodeReUse.ASK_PERMISSSION: {
+
+                if (grantResults.length > 0) {
+                    boolean cameraGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeStorageGrant = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean readStorageGrant = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+
+                    if (cameraGrant && writeStorageGrant && readStorageGrant) {
+                        //downloadQrCode();
+                        Utility.Log("Permisstion Granted", "Yesssss");
+                    }
+                } else {
+                    Toast.makeText(act, "You need to allow permission for better performance", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public boolean manuallyEnablePermission() {
+        if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                new android.app.AlertDialog.Builder(act)
+                        .setMessage("Allow BrandMania to access photos, files to download and share images ")
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                        Uri.fromParts("package", act.getPackageName(), null)));
+                            }
+                        })
+                        .show();
+                return false;
+            } else {
+                return true;
+            }
+
+        } else {
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                new android.app.AlertDialog.Builder(act)
+                        .setMessage("Allow BrandMania to access photos, files to download and share images ")
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                ActivityCompat.requestPermissions(act,
+                                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                                Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        CodeReUse.ASK_PERMISSSION);
+                            }
+                        })
+                        .show();
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+    private void requestAgain() {
+        ActivityCompat.requestPermissions(act,
+                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE},
+                CodeReUse.ASK_PERMISSSION);
     }
 
     //fire intent for share
-    public void triggerShareIntent(File new_file, Bitmap merged) {
+    public void triggerShareIntent(File new_file) {
+
+        Utility.dismissLoadingTran();
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
 
@@ -285,11 +378,13 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
             act.grantUriPermission(packageName, Uri.fromFile(new_file), Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
         Uri uri = Uri.fromFile(new_file);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new_file));
         shareIntent.setDataAndType(uri, "image/*");
+        shareIntent.setClipData(ClipData.newRawUri("", uri));
         shareIntent.setType("image/*");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         act.startActivity(Intent.createChooser(shareIntent, "Share Image to.."));
+        Toast.makeText(act, "QR code has been saved.\n Scan and Pay", Toast.LENGTH_SHORT).show();
     }
 
     public void showReferrer() {

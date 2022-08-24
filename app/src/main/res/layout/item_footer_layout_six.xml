@@ -103,14 +103,13 @@
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:orientation="horizontal">
 
-
                         <ImageView
                             android:id="@+id/contactImage"
                             android:layout_width="@dimen/_6sdp"
                             android:layout_height="@dimen/_6sdp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_5sdp"
-                            android:src="@drawable/ic_phone"
+                            android:src="@drawable/ic_userrr"
                             app:tint="@color/white" />
 
                         <TextView
@@ -121,7 +120,7 @@
                             android:layout_marginStart="@dimen/_2sdp"
                             android:fontFamily="@font/inter_regular"
                             android:gravity="center_vertical"
-                            android:text="@string/hint_mobile"
+                            android:text="@string/hint_userName"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_5sdp" />
 

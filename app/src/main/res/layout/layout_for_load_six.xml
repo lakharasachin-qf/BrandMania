@@ -96,13 +96,13 @@
 
 
                     <ImageView
-                        android:layout_centerVertical="true"
                         android:id="@+id/contactImage"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
+                        android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:padding="@dimen/_4sdp"
-                        android:src="@drawable/ic_phone"
+                        android:src="@drawable/ic_userrr"
                         app:tint="@color/white" />
 
                     <TextView
@@ -114,7 +114,7 @@
                         android:layout_toEndOf="@+id/contactImage"
                         android:fontFamily="@font/inter_regular"
                         android:gravity="center_vertical"
-                        android:text="@string/hint_mobile"
+                        android:text="@string/hint_userName"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 

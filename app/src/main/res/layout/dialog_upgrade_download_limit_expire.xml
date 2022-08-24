@@ -1,83 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<RelativeLayout android:paddingStart="@dimen/_20sdp"
-    android:background="@color/white"
-    android:paddingEnd="@dimen/_20sdp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:layout_marginTop="@dimen/_5sdp"
-        android:id="@+id/closeBtn"
-        android:src="@drawable/ic_baseline_close_24"
-        android:layout_alignParentEnd="true"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_25sdp"
-        app:tint="@color/colorthird" />
-    <androidx.cardview.widget.CardView
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_below="@+id/closeBtn"
-        app:cardCornerRadius="@dimen/_7sdp"
-        android:id="@+id/element1"
-        android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/_50sdp"
-        app:cardUseCompatPadding="true"
-        android:layout_height="@dimen/_50sdp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingEnd="@dimen/_20sdp">
 
         <ImageView
-            android:padding="@dimen/_7sdp"
+            android:id="@+id/closeBtn"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/ic_baseline_close_24"
+            app:tint="@color/colorthird" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/element1"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_below="@+id/closeBtn"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_download"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </androidx.cardview.widget.CardView>
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_7sdp"
+            app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/element2"
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:padding="@dimen/_7sdp"
+                android:src="@drawable/ic_download" />
+        </androidx.cardview.widget.CardView>
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/element1"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/inter_medium"
-        android:text="Download Limit Expired"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_14sdp" />
+        <TextView
+            android:id="@+id/element2"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/element1"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/inter_medium"
+            android:text="Download Limit Expired"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
 
 
+        <TextView
+            android:id="@+id/element3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/element2"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/inter_regular"
+            android:text="Your daily download limit expired. if you want to download more image please upgrade your package."
+            android:textAlignment="center"
+            android:textSize="@dimen/_10sdp" />
 
-    <TextView
-        android:id="@+id/element3"
-        android:layout_below="@+id/element2"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:textSize="@dimen/_10sdp"
-        android:textAlignment="center"
-        android:fontFamily="@font/inter_regular"
-        android:text="Your daily download limit expired. if you want to download more image please upgrade your package."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/viewPackage"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_below="@id/element3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:background="@drawable/buttoncornar"
+            android:backgroundTint="@color/colorthird"
+            android:fontFamily="@font/inter_regular"
+            android:gravity="center"
+            android:paddingStart="@dimen/_14sdp"
+            android:paddingEnd="@dimen/_14sdp"
+            android:text="View Packages"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="@dimen/_8sdp" />
 
-    <TextView
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/colorthird"
-        android:background="@drawable/buttoncornar"
-        android:layout_below="@id/element3"
-        android:id="@+id/viewPackage"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_28sdp"
-        android:paddingStart="@dimen/_14sdp"
-        android:paddingEnd="@dimen/_14sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
-        android:fontFamily="@font/inter_regular"
-        android:text="View Packages"
-        android:textColor="#FFF"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textSize="@dimen/_8sdp"
-        />
-
-</RelativeLayout>
+    </RelativeLayout>
 </layout>

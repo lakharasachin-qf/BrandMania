@@ -61,16 +61,24 @@ public class EditActivity extends BaseActivity {
         //CodeReUse.RemoveError(binding.lastNameTxt, binding.lastNameTxtLayout);
         CodeReUse.RemoveError(binding.emailIdEdt, binding.emailIdEdtLayout);
         CodeReUse.RemoveError(binding.phoneTxt, binding.phoneTxtLayout);
+        Utility.Log("getUserEmail_Id", preafManager.getUserEmail_Id());
 
-        if (preafManager.getUserEmail_Id() != null && !preafManager.getUserEmail_Id().isEmpty()) {
-            binding.emailIdEdt.setText(preafManager.getUserEmail_Id());
-        }
+
         if (preafManager.getUserMobileNumber() != null && !preafManager.getUserMobileNumber().isEmpty()) {
             binding.phoneTxt.setText(preafManager.getUserMobileNumber());
         }
 
         if (preafManager.getUserName() != null && !preafManager.getUserName().isEmpty()) {
             binding.nameTxt.setText(preafManager.getUserName());
+        }
+
+        if (preafManager.getUserEmail_Id() != null && !preafManager.getUserEmail_Id().isEmpty()) {
+
+            if (preafManager.getUserEmail_Id().equalsIgnoreCase("0")) {
+                binding.emailIdEdt.setText("");
+            } else {
+                binding.emailIdEdt.setText(preafManager.getUserEmail_Id());
+            }
         }
 //        if (preafManager.getUserName().split("\\w+").length > 1) {
 //
