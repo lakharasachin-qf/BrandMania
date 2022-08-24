@@ -6,6 +6,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -506,6 +507,13 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         preafManager.loginStep(is_completed);
                                         if (is_completed.equals("2")) {
+
+                                            progressDialog = new ProgressDialog(act);
+                                            progressDialog.setMessage("Please Wait.....");
+                                            progressDialog.setCancelable(true);
+                                            progressDialog.setCanceledOnTouchOutside(false);
+                                            if (progressDialog != null && !progressDialog.isShowing())
+                                                progressDialog.show();
                                             getBrandList(ResponseHandler.getString(jsonArray, "brand_id"));
                                         }
                                     }
@@ -536,6 +544,8 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 });
 
     }
+
+    ProgressDialog progressDialog;
 
     private void getBrandList(String brand_id) {
         Utility.Log("API : ", APIs.GET_BRAND);
@@ -652,10 +662,10 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                         preafManager.setActiveBrand(brandListItems.get(toSetActiveBrand));
                     }
                     //  MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.JUSTBRAND);
-
                     if (isImageFromCat) {
                         MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_IMAGE_CATEGORY_DATA);
-                        //MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_HOME_FRAGMENT);
+                        if(progressDialog.isShowing())
+                        progressDialog.dismiss();
                         onBackPressed();
                         return;
                     }

@@ -131,7 +131,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
 
         binding.BackButtonMember.setOnClickListener(v -> onBackPressed());
         calculateAmount = sliderItemList.getPriceForPay();
-        //createPayment();
+        createPayment();
         binding.proceedToPayment.setOnClickListener(v -> generateOrderID());
 
         showReferrer();
@@ -289,7 +289,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
                 triggerShareIntent(new_file);
             }
         }
-
     }
 
     @Override
@@ -359,7 +358,6 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         }
     }
 
-
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -386,8 +384,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         shareIntent.setType("image/*");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         act.startActivity(Intent.createChooser(shareIntent, "Share Image to.."));
-        Toast.makeText(act, "QR code saved to your gallery", Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(act, "QR code has been saved.\n Scan and Pay", Toast.LENGTH_SHORT).show();
     }
 
     public void showReferrer() {

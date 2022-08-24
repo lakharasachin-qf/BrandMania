@@ -136,6 +136,11 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         act = getActivity();
         assert act != null;
         preafManager = new PreafManager(act);
+        if (userRegistrationFragment != null) {
+            if (userRegistrationFragment.isVisible()) {
+                userRegistrationFragment.dismiss();
+            }
+        }
         super.onResume();
     }
 
@@ -301,12 +306,13 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     public void newUserRegistration() {
+
         if (userRegistrationFragment != null) {
             if (userRegistrationFragment.isVisible()) {
                 userRegistrationFragment.dismiss();
             }
-        }
 
+        }
         userRegistrationFragment = new UserNewRegistrationFragment();
         userRegistrationFragment.show(getParentFragmentManager(), "");
     }
@@ -323,9 +329,10 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     public void addBrandList() {
         if (addBrandFragment != null) {
-            if (addBrandFragment.isVisible()) {
-                addBrandFragment.dismiss();
+            if (bottomSheetFragment.isVisible()) {
+                bottomSheetFragment.dismiss();
             }
+
         }
         addBrandFragment = new AddBrandFragment();
         addBrandFragment.show(getParentFragmentManager(), "");
