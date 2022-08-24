@@ -383,7 +383,7 @@ public class RazorPayActivity extends BaseActivity implements PaymentResultWithD
         shareIntent.setClipData(ClipData.newRawUri("", uri));
         shareIntent.setType("image/*");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        act.startActivity(Intent.createChooser(shareIntent, "Share Image to.."));
+      //  act.startActivity(Intent.createChooser(shareIntent, "Share Image to.."));
         Toast.makeText(act, "QR code has been saved.\n Scan and Pay", Toast.LENGTH_SHORT).show();
     }
 
