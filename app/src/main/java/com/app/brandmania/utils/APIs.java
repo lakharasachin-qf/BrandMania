@@ -49,4 +49,6 @@ public class APIs {
     public static final String ADD_BUSS_ACTIVITY = URL + "addBussCardActivity";
     public static final String PRE_LOGIN_DATA = URL + "userPreLoginData";
     public static final String EDIT_BRAND_PROFILE = URL + "editProfile";
+    public static final String DELETE_ACCOUNT = URL + "deleteAccount";
+
 }

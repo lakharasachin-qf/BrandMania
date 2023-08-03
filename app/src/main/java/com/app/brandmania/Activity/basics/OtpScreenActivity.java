@@ -1,6 +1,7 @@
 package com.app.brandmania.Activity.basics;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.os.CountDownTimer;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -99,9 +101,8 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         mAuth.getFirebaseAuthSettings().forceRecaptchaFlowForTesting(true);
         NumberShow = getIntent().getStringExtra(Constant.MOBILE_NUMBER);
         //sendVerificationCode("+91" + NumberShow);
-
-        binding.otpTxtLayout.setVisibility(View.GONE);
-        binding.CouterText.setVisibility(View.VISIBLE);
+        binding.otpTxtLayout.setVisibility(View.VISIBLE);
+        binding.CouterText.setVisibility(View.GONE);
         binding.otpOne.setText("");
         binding.otpTwo.setText("");
         binding.otpThree.setText("");
@@ -149,25 +150,21 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             @Override
             public void onClick(View v) {
                 if (!isNormalLogin) {
+                    //Phone Auth Flow
                     if (binding.otpTxt.getText().toString().length() != 0) {
                         verifyVerificationCode(binding.otpTxt.getText().toString());
                     } else {
                         Toast.makeText(act, "Enter otp", Toast.LENGTH_SHORT).show();
                     }
-
-
                 } else {
+                    //Normal Flow
                     String OtpString = binding.otpOne.getText().toString() + binding.otpTwo.getText().toString() + binding.otpThree.getText().toString() + binding.otpFour.getText().toString();
-
                     if (!OtpString.isEmpty()) {
-
                         VerificationOtp(OtpString, NumberShow);
                     } else {
                         Toast.makeText(act, "Enter otp", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-
             }
         });
 
@@ -223,17 +220,17 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
 
     private void verifyVerificationCode(String code) {
         Utility.showProgress(act);
-        if(code.isEmpty()){
-            Utility.error(act,"Otp is empty");
+        if (code.isEmpty()) {
+            Utility.error(act, "Otp is empty");
             return;
         }
         try {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
             signInWithPhoneAuthCredential(credential);
-        }catch (Exception e){
+        } catch (Exception e) {
             Utility.dismissProgress();
             e.printStackTrace();
-            Utility.error(act,"Entered otp is not valid");
+            Utility.error(act, "Entered otp is not valid");
         }
     }
 
@@ -286,8 +283,11 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             super.onCodeSent(s, forceResendingToken);
             mVerificationId = s;
             resendingToken = forceResendingToken;
-            binding.CouterText.setVisibility(View.VISIBLE);
-            counter();
+            binding.counterLayout.setVisibility(View.GONE);
+            binding.noteLayout.setVisibility(View.VISIBLE);
+            binding.otpTxt.requestFocus();
+            InputMethodManager imm = (InputMethodManager) act.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(binding.otpTxt, InputMethodManager.SHOW_IMPLICIT);
             //Log.e("onCodeSent", "s" + mVerificationId);
         }
 
@@ -295,7 +295,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
         public void onCodeAutoRetrievalTimeOut(String s) {
             Utility.dismissProgress();
             super.onCodeAutoRetrievalTimeOut(s);
-           // Log.e("Time", "Out" + s);
+            // Log.e("Time", "Out" + s);
         }
     };
 
@@ -335,7 +335,8 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Otp Dose Not Match", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), jObject.getString("message"), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "Otp Dose Not Match", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -408,30 +409,45 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
             public void onResponse(String response) {
                 isLoading = false;
                 Utility.dismissProgress();
-                Utility.Log("OTP", response.toString());
                 prefManager.loginStep("2");
+                HELPER.print("RESPONSE", response);
                 if (ResponseHandler.isSuccess(response, null)) {
                     isNormalLogin = ResponseHandler.getBool(ResponseHandler.createJsonObject(response), "is_normal_login");
+                    //isNormalLogin = true;
                     if (!isNormalLogin) {
                         responseOTP = ResponseHandler.getString(ResponseHandler.createJsonObject(response), "data");
+                        //OLD LOGIC
                         binding.otpTxtLayout.setVisibility(View.VISIBLE);
-                        binding.CouterText.setVisibility(View.GONE);
                         binding.otpOne.setVisibility(View.GONE);
                         binding.otpTwo.setVisibility(View.GONE);
                         binding.otpThree.setVisibility(View.GONE);
                         binding.otpFour.setVisibility(View.GONE);
+                        binding.counterLayout.setVisibility(View.GONE);
+                        binding.noteLayout.setVisibility(View.VISIBLE);
+                        //NEW LOGIC
+//                        binding.otpTxtLayout.setVisibility(View.GONE);
+//                        binding.CouterText.setVisibility(View.GONE);
+//                        binding.otpOne.setVisibility(View.VISIBLE);
+//                        binding.otpTwo.setVisibility(View.VISIBLE);
+//                        binding.otpThree.setVisibility(View.VISIBLE);
+//                        binding.otpFour.setVisibility(View.VISIBLE);
                         sendVerificationCode("+91" + NumberShow);
                         return;
                     }
 
                     binding.otpTxtLayout.setVisibility(View.GONE);
+                    binding.noteLayout.setVisibility(View.GONE);
+                    binding.otpOne.setVisibility(View.VISIBLE);
+                    binding.otpTwo.setVisibility(View.VISIBLE);
+                    binding.otpThree.setVisibility(View.VISIBLE);
+                    binding.otpFour.setVisibility(View.VISIBLE);
+                    binding.counterLayout.setVisibility(View.VISIBLE);
                     binding.CouterText.setVisibility(View.VISIBLE);
                     binding.otpOne.setText("");
                     binding.otpTwo.setText("");
                     binding.otpThree.setText("");
                     binding.otpFour.setText("");
                     binding.otpOne.requestFocus();
-
                     counter();
                 } else {
                     JSONObject responseJson = ResponseHandler.createJsonObject(response);

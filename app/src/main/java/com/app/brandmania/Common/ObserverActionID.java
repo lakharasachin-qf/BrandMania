@@ -19,4 +19,7 @@ public class ObserverActionID {
     public static final int REFRESH_IMAGE_CATEGORY_DATA = 9;
     public static final int REFRESH_HOME_FRAGMENT = 10;
     public  static final int LOAD_TEXT_BG_COLOUR = 11;
+    public static final int DOWNLOAD_FRAGMENT = 12;
+    public static final int DELETE_ACCOUNT_OBSERVER = 13;
+
 }

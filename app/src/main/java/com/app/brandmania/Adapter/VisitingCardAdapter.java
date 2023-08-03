@@ -118,72 +118,71 @@ public class VisitingCardAdapter extends RecyclerView.Adapter {
             switch (model.getLayoutType()) {
 
                 case LAYOUT_ONE:
-                    ((CardHolderOne) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
-                            Picasso.get().load(activeBrand.getLogo()).into(((CardHolderOne) holder).binding.logo);
-                            ((CardHolderOne) holder).binding.brandName.setText(activeBrand.getName());
-                        }
+                    ((CardHolderOne) holder).binding.itemLayout.setOnClickListener(v -> {
+                        cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                        Picasso.get().load(activeBrand.getLogo()).into(((CardHolderOne) holder).binding.logo);
+                        ((CardHolderOne) holder).binding.brandName.setText(activeBrand.getName());
                     });
-                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
-                        ((CardHolderOne) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+                    if (!preafManager.getAllFreeImage()) {
+                        if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                            ((CardHolderOne) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+                        }
                     }
+//                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+//                        ((CardHolderOne) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+//                    }
+
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderOne) holder).binding.logo);
                     ((CardHolderOne) holder).binding.brandName.setText(activeBrand.getName());
                     break;
                 case LAYOUT_TWO:
-                    ((CardHolderTwo) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                    ((CardHolderTwo) holder).binding.itemLayout.setOnClickListener(v -> cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position)));
 
+//                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+//                        ((CardHolderTwo) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+//                    }
+
+                    if (!preafManager.getAllFreeImage()) {
+                        if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                            ((CardHolderTwo) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                         }
-                    });
-
-                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
-                        ((CardHolderTwo) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                     }
+
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderTwo) holder).binding.logo);
                     ((CardHolderTwo) holder).binding.webTxt.setText(activeBrand.getWebsite());
                     break;
                 case LAYOUT_THREE:
-                    ((CardHolderThree) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
-
+                    ((CardHolderThree) holder).binding.itemLayout.setOnClickListener(v -> cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position)));
+                    if (!preafManager.getAllFreeImage()) {
+                        if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                            ((CardHolderThree) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                         }
-                    });
-                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
-                        ((CardHolderThree) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                     }
-
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderThree) holder).binding.logo);
                     break;
                 case LAYOUT_FOUR:
-                    ((CardHolderFour) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                    ((CardHolderFour) holder).binding.itemLayout.setOnClickListener(v -> cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position)));
+                    if (!preafManager.getAllFreeImage()) {
+                        if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                            ((CardHolderFour) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                         }
-                    });
-                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
-                        ((CardHolderFour) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                     }
+//                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+//                        ((CardHolderFour) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+//                    }
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderFour) holder).binding.logo);
                     ((CardHolderFour) holder).binding.brandName.setText(activeBrand.getName());
                     break;
                 case LAYOUT_FIVE:
-                    ((CardHolderFive) holder).binding.itemLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position));
+                    ((CardHolderFive) holder).binding.itemLayout.setOnClickListener(v -> cardListener.onCardChoose(footerModels.get(position).getLayoutType(), footerModels.get(position)));
+                    if (!preafManager.getAllFreeImage()) {
+                        if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+                            ((CardHolderFive) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                         }
-                    });
-                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
-                        ((CardHolderFive) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
                     }
+//                    if (activeBrand.getIs_payment_pending().equalsIgnoreCase("1") || Utility.isPackageExpired(activity)) {
+//                        ((CardHolderFive) holder).binding.paidUserCard.setVisibility(View.VISIBLE);
+//                    }
                     Picasso.get().load(activeBrand.getLogo()).into(((CardHolderFive) holder).binding.logo);
                     ((CardHolderFive) holder).binding.brandName.setText(activeBrand.getName());
                     break;

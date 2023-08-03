@@ -250,40 +250,32 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         setIconForAlignment();
         binding.logoCustom.setOnTouchListener(onTouchListener());
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
-        binding.downloadIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (prefManager.getActiveBrand() != null) {
-                    if (manuallyEnablePermission(1)) {
-                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                            askForUpgradeToEnterpisePackage();
-                            return;
-                        }
-                        requestAgain();
-                        saveImageToGallery(false, false);
+        binding.downloadIcon.setOnClickListener(v -> {
+            if (prefManager.getActiveBrand() != null) {
+                if (manuallyEnablePermission(1)) {
+                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                        askForUpgradeToEnterpisePackage();
+                        return;
                     }
-                } else {
-                    addBrandList();
+                    requestAgain();
+                    saveImageToGallery(false, false);
                 }
+            } else {
+                addBrandList();
             }
         });
-        binding.backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        binding.fabroutIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.backImage.setRotation(binding.backImage.getRotation() + 90);
-            }
-        });
-        binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (prefManager.getActiveBrand() != null) {
+        binding.backIcon.setOnClickListener(v -> onBackPressed());
+        binding.fabroutIcon.setOnClickListener(v -> binding.backImage.setRotation(binding.backImage.getRotation() + 90));
+        binding.shareIcon.setOnClickListener(v -> {
+            if (prefManager.getActiveBrand() != null) {
+                //NEW LOGIC [07-07-2023]-MJ
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                        askForUpgradeToEnterpisePackage();
+                        return;
+                    }
+                    saveImageToGallery(true, false);
+                } else {
                     if (manuallyEnablePermission(2)) {
                         if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                             askForUpgradeToEnterpisePackage();
@@ -293,9 +285,19 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
                         saveImageToGallery(true, false);
                     }
 
-                } else {
-                    addBrandList();
                 }
+                //OLD LOGIC
+//                if (manuallyEnablePermission(2)) {
+//                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                        askForUpgradeToEnterpisePackage();
+//                        return;
+//                    }
+//                    requestAgain();
+//                    saveImageToGallery(true, false);
+//                }
+
+            } else {
+                addBrandList();
             }
         });
 
@@ -313,49 +315,43 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         loadFirstImage();
 
 
-        binding.done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isTextEditing) {
-                    binding.textEditorView.setVisibility(View.GONE);
-                    binding.contentView.setEnabled(true);
-                    binding.contentView.setClickable(true);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
-                    if (binding.editingBox.getText().toString().trim().length() != 0) {
-                        selectedTextView.setText(binding.editingBox.getText().toString());
-                        selectedTextView.setTextAlignment(selectedTextAlignment);
-                    } else {
-                        binding.CustomImageMain.removeView(selectedTextView);
-                        selectedTextView = null;
-                    }
+        binding.done.setOnClickListener(v -> {
+            if (isTextEditing) {
+                binding.textEditorView.setVisibility(View.GONE);
+                binding.contentView.setEnabled(true);
+                binding.contentView.setClickable(true);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+                if (binding.editingBox.getText().toString().trim().length() != 0) {
+                    selectedTextView.setText(binding.editingBox.getText().toString());
+                    selectedTextView.setTextAlignment(selectedTextAlignment);
                 } else {
-                    binding.textEditorView.setVisibility(View.GONE);
-                    binding.contentView.setEnabled(true);
-                    binding.contentView.setClickable(true);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
-                    addTextViewToLayout(binding.editingBox.getText().toString());
+                    binding.CustomImageMain.removeView(selectedTextView);
+                    selectedTextView = null;
                 }
-                binding.editingBox.setText("");
+            } else {
+                binding.textEditorView.setVisibility(View.GONE);
+                binding.contentView.setEnabled(true);
+                binding.contentView.setClickable(true);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+                addTextViewToLayout(binding.editingBox.getText().toString());
             }
+            binding.editingBox.setText("");
         });
 
-        binding.CustomImageCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedTextView = null;
-                selectedForEdit = null;
-                for (int i = 0; i < binding.CustomImageMain.getChildCount(); i++) {
-                    if (binding.CustomImageMain.getChildAt(i) instanceof TextView) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
-                        TextView textView = (TextView) binding.CustomImageMain.getChildAt(i);
-                        textView.setBackground(null);
-                    }
+        binding.CustomImageCardView.setOnClickListener(v -> {
+            selectedTextView = null;
+            selectedForEdit = null;
+            for (int i = 0; i < binding.CustomImageMain.getChildCount(); i++) {
+                if (binding.CustomImageMain.getChildAt(i) instanceof TextView) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+                    TextView textView = (TextView) binding.CustomImageMain.getChildAt(i);
+                    textView.setBackground(null);
                 }
-
             }
+
         });
 
         binding.logoCustom.setTag("0");
@@ -1399,12 +1395,12 @@ public class CustomViewAllActivit extends BaseActivity implements FrameInterFace
         }
         request.addMultipartParameter("type", String.valueOf(download));
         request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-                //Log.e("byupload", String.valueOf(totalBytes));
-            }
-        })
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                        //Log.e("byupload", String.valueOf(totalBytes));
+                    }
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {

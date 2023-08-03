@@ -71,7 +71,11 @@ public class ViewBrandActivity extends BaseActivity {
         Utility.isLiveModeOff(act);
         if (prefManager.getActiveBrand() != null) {
 
-            binding.addBrandImage.setVisibility(View.VISIBLE);
+            if(!prefManager.getAllFreeImage()){
+                binding.addBrandImage.setVisibility(View.VISIBLE);
+            }else{
+                binding.addBrandImage.setVisibility(View.GONE);
+            }
             binding.swipeContainer.setVisibility(View.VISIBLE);
             binding.addBrandImage.setOnClickListener(new View.OnClickListener() {
                 @Override

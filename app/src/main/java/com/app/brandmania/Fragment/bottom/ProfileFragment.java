@@ -37,7 +37,8 @@ import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
-import com.app.brandmania.LetterHead.LetterHeadActivity;
+import com.app.brandmania.Fragment.DeleteAccountFragment;
+import com.app.brandmania.Interface.onDeleteAccountClickListener;
 import com.app.brandmania.Model.BrandListItem;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.DialogFacebookLikesBinding;
@@ -54,7 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 
-public class ProfileFragment extends BaseFragment {
+public class ProfileFragment extends BaseFragment implements onDeleteAccountClickListener {
     private Activity act;
     private FragmentProfileBinding binding;
 
@@ -71,6 +72,15 @@ public class ProfileFragment extends BaseFragment {
 //            startActivity(i);
 //            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 //        });
+
+        if (prefManager.getAllFreeImage()) {
+            binding.packageRelativeView.setVisibility(View.GONE);
+            binding.packageRelative.setVisibility(View.GONE);
+            binding.referEarnView.setVisibility(View.GONE);
+            binding.referNEarnLayout.setVisibility(View.GONE);
+            binding.reportbugsLayout.setVisibility(View.GONE);
+            binding.reportBugView.setVisibility(View.GONE);
+        }
 
         binding.editProfile.setOnClickListener(v -> {
             Intent i = new Intent(act, EditActivity.class);
@@ -95,14 +105,12 @@ public class ProfileFragment extends BaseFragment {
         }
         binding.logoutRelative.setOnClickListener(v -> {
             prefManager.Logout();
-
             Intent i = new Intent(act, LoginActivity.class);
             i.addCategory(Intent.CATEGORY_HOME);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             act.finish();
-
         });
 
         if (prefManager.getActiveBrand() != null) {
@@ -144,6 +152,7 @@ public class ProfileFragment extends BaseFragment {
                 e.printStackTrace();
             }
         });
+
         binding.reportbugsLayout.setOnClickListener(view -> HELPER.ROUTE(act, AddReportAndBug.class));
         binding.appVersionTxt.setText("App Version " + Constant.F_VERSION);
 
@@ -171,7 +180,82 @@ public class ProfileFragment extends BaseFragment {
             startActivity(i);
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
+
+        binding.deleteAccountLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteAccount();
+            }
+        });
         return binding.getRoot();
+    }
+
+    DeleteAccountFragment deleteAccountFragment;
+
+
+    public void deleteAccount() {
+        try {
+            if (deleteAccountFragment != null) {
+                if (deleteAccountFragment.isVisible()) {
+                    deleteAccountFragment.dismiss();
+                }
+            }
+            deleteAccountFragment = new DeleteAccountFragment();
+            deleteAccountFragment.setActivity(act);
+            DeleteAccountFragment.DeleteAccountInterface onLetterHeadListener = (layout) -> {
+                apiForDeleteAccountRequest();
+            };
+            deleteAccountFragment.setClickListener(onLetterHeadListener);
+            deleteAccountFragment.show(getParentFragmentManager(), "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void apiForDeleteAccountRequest() {
+        Utility.showProgress(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.DELETE_ACCOUNT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Utility.dismissProgress();
+                Utility.Log("RESPONSE:", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    prefManager.Logout();
+                    Intent i = new Intent(act, LoginActivity.class);
+                    i.addCategory(Intent.CATEGORY_HOME);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                    act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    act.finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Utility.dismissProgress();
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("status", "1"); //1 FOR DELETE ACCOUNT
+                return hashMap;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
     }
 
     public static String FACEBOOK_URL = "https://www.facebook.com/brandmania2020";
@@ -252,10 +336,11 @@ public class ProfileFragment extends BaseFragment {
 
     @Override
     public void update(Observable observable, Object data) {
-
+        if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.DELETE_ACCOUNT_OBSERVER) {
+            HELPER.print("ISUpdate", "Done");
+        }
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.REFRESH_BRAND_NAME) {
             getBrandList();
-
         }
         if (MakeMyBrandApp.getInstance().getObserver().getValue() == ObserverActionID.APP_INTRO_REFRESH) {
             prefManager = new PreafManager(act);
@@ -295,5 +380,10 @@ public class ProfileFragment extends BaseFragment {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
 
+    }
+
+    @Override
+    public void onDeleteBtnClick(int layoutType) {
+        HELPER.print("Layout", String.valueOf(layoutType));
     }
 }

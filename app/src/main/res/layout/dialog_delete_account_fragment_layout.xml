@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/addbrand_bottomsheet_background"
@@ -14,14 +15,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
             app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/montserrat_extrabold"
+                android:includeFontPadding="false"
+                android:text="Delete Account"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_16sdp" />
 
             <ImageView
                 android:id="@+id/cancelBtn"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_23sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_centerInParent="true"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:background="@drawable/ic_baseline_close_24"
                 android:src="@drawable/ic_editor_cancel"
@@ -29,71 +42,49 @@
 
         </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/viewColor" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_120sdp"
+                    android:src="@drawable/delete_account_img" />
+            </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="@dimen/_120sdp"
+                android:layout_width="@dimen/_140sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:minHeight="@dimen/_200sdp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="Add "
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_extrabold"
-                        android:text="Your"
-                        android:textColor="@color/colorPrimary" />
-
-                </LinearLayout>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_extrabold"
-                    android:includeFontPadding="false"
-                    android:text="Brand"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_26sdp" />
-
-                <View
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_2sdp"
-                    android:background="@drawable/addbrandview"
-                    android:backgroundTint="#D5D5D5" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Currently you have no brand for your account. Please add brand and enjoy using our app."
-                    android:textSize="@dimen/_8sdp" />
-
+                    android:text="Are You sure you want to delete your account?"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_10sdp" />
 
                 <RelativeLayout
                     android:id="@+id/continueBtn"
                     android:layout_width="@dimen/_105sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/banner_button_backgroundshap"
                     android:backgroundTint="@color/colorthird">
 
@@ -105,11 +96,11 @@
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
                         android:letterSpacing="0"
-                        android:text="     Continue"
+                        android:text="      Delete"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textDirection="ltr"
-                        android:textSize="@dimen/_11sdp" />
+                        android:textSize="@dimen/_13sdp" />
 
                     <ImageView
                         android:layout_width="@dimen/_22sdp"
@@ -126,18 +117,6 @@
                 </RelativeLayout>
 
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_150sdp"
-                    android:src="@drawable/ic_add_brand_illustration" />
-            </RelativeLayout>
-
 
         </LinearLayout>
 

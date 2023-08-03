@@ -19,11 +19,17 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.R;
 import com.google.gson.Gson;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -72,8 +78,6 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         gson = new Gson();
         myBrandApp = (MakeMyBrandApp) this.getApplication();
         myBrandApp.getObserver().addObserver(this);
-
-
         noconnectionAlertDialog = new Dialog(this);
         noconnectionAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
@@ -85,7 +89,6 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         if (LIVE_MODE) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         }
-
     }
 
     private void registerNetworkBroadcastForNougat() {

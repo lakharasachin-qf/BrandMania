@@ -20,6 +20,9 @@ public class PreafManager {
 
     private static final String ViewAllActivityIntro = "viewAllActivityIntro";
     private static final String ViewAllFrameActivityIntro = "viewAllFrameActivityIntro";
+
+    private static final String IsFreeImage = "isAllFree";
+
     private static final String ViewAllCustomeImageActivityIntro = "viewAllCustomeImageActivityIntro";
     private static final String FORCUSTOMEFRAME = "FORCUSTOMEFRAME";
     private static final String appTutorial = "appTutorial";
@@ -58,6 +61,7 @@ public class PreafManager {
         pref.edit().putString("SplashReferrer", parameters).apply();
         return parameters;
     }
+
     public String getImageCounter() {
         return pref.getString("ImageCounter", "");
     }
@@ -66,6 +70,7 @@ public class PreafManager {
         pref.edit().putString("ImageCounter", parameters).apply();
         return parameters;
     }
+
     public String getDaysCounter() {
         return pref.getString("DaysCounter", "");
     }
@@ -130,13 +135,20 @@ public class PreafManager {
         editor = pref.edit();
     }
 
+
     public void Logout() {
+        String isValid = getCurrentDate();
+        String isCount = getCount();
+        String isCurrentPath = getCurrentImagePath();
         editor.clear();
         editor.commit();
         editor.putBoolean(IS_FIRST_TIME_LAUNCH, false);
         setUserToken("");
         editor.commit();
         editor.apply();
+        setCurrentDate(isValid);
+        setCount(isCount);
+        setCurrentPath(isCurrentPath);
     }
 
 //    public String getUserName() {
@@ -178,6 +190,14 @@ public class PreafManager {
 
     public void setViewAllFrameActivityIntro(Boolean parameters) {
         pref.edit().putBoolean(ViewAllFrameActivityIntro, parameters).apply();
+    }
+
+    public Boolean getAllFreeImage() {
+        return pref.getBoolean(IsFreeImage, true);
+    }
+
+    public void setAllFreeImage(Boolean parameters) {
+        pref.edit().putBoolean(IsFreeImage, parameters).apply();
     }
 
 
@@ -378,5 +398,50 @@ public class PreafManager {
 
     public boolean IsFreeUserDownloadForOneWeak() {
         return pref.getBoolean("isUserFree", false);
+    }
+
+    private static final String KEY_DOWNLOAD_IMAGE_TIMESTAMP = "once_download_img";
+
+    public long getLastApiCallTimestamp() {
+        return pref.getLong(KEY_DOWNLOAD_IMAGE_TIMESTAMP, 0);
+    }
+
+    public void setOnlyOneImageDownload(long timestamp) {
+        editor.putLong(KEY_DOWNLOAD_IMAGE_TIMESTAMP, timestamp);
+        editor.apply();
+    }
+
+    public void setNewOnceApiCall(boolean token) {
+        editor.putBoolean("allFreeImg", token);
+        editor.commit();
+        editor.apply();
+    }
+
+    public boolean getNewOnceApiCall() {
+        return pref.getBoolean("allFreeImg", false);
+    }
+
+    public String getCurrentDate() {
+        return pref.getString("currentDate", "");
+    }
+
+    public void setCurrentDate(String parameters) {
+        pref.edit().putString("currentDate", parameters).apply();
+    }
+
+    public String getCurrentImagePath() {
+        return pref.getString("currentPath", "");
+    }
+
+    public void setCurrentPath(String parameters) {
+        pref.edit().putString("currentPath", parameters).apply();
+    }
+
+    public String getCount() {
+        return pref.getString("count", "0");
+    }
+
+    public void setCount(String parameters) {
+        pref.edit().putString("count", parameters).apply();
     }
 }

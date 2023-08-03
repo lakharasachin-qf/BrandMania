@@ -87,6 +87,11 @@ public class SelectBrandListBottomFragment extends BottomSheetDialogFragment {
         fragment = this;
         preafManager = new PreafManager(act);
 
+        if (!preafManager.getAllFreeImage()) {
+            binding.addBrandLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.addBrandLayout.setVisibility(View.GONE);
+        }
         listModels = preafManager.getAddBrandList();
         binding.titleText.setText("Your Brands");
         if (listModels != null) {

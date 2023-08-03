@@ -88,9 +88,7 @@ public class FrameTab extends BaseFragment {
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
         binding = DataBindingUtil.inflate(inflater, R.layout.frame_tab, parent, false);
-
         setFootersData();
-
         return binding.getRoot();
     }
 
@@ -100,6 +98,14 @@ public class FrameTab extends BaseFragment {
             getFrame();
         }
 
+        binding.subscribeFreePlaneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (prefManager.getActiveBrand() != null) {
+                    HELPER.WHATSAPP_REDIRECTION(act, prefManager.getActiveBrand().getName(), prefManager.getMobileNumber());
+                }
+            }
+        });
         binding.subscribePlaneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,13 +234,20 @@ public class FrameTab extends BaseFragment {
                             if (prefManager.getActiveBrand().getIs_frame().equalsIgnoreCase("1")) {
                                 binding.subscribePlaneBtn.setVisibility(View.GONE);
                             }
-
-
                         } else {
-                            binding.text1.setVisibility(View.VISIBLE);
                             binding.frameRecycler.setVisibility(View.GONE);
-                            binding.subscribePlaneBtn.setText("Request For Frame");
-                            binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
+                            if (prefManager.getAllFreeImage()) {
+                                binding.allFreeImage.setVisibility(View.VISIBLE);
+                                binding.frameRequestLayout.setVisibility(View.GONE);
+                                binding.text1.setVisibility(View.GONE);
+                                binding.subscribePlaneBtn.setVisibility(View.GONE);
+                            } else {
+                                binding.allFreeImage.setVisibility(View.GONE);
+                                binding.text1.setVisibility(View.VISIBLE);
+                                binding.subscribePlaneBtn.setText("Request For Frame");
+                                binding.subscribePlaneBtn.setVisibility(View.VISIBLE);
+                                binding.frameRequestLayout.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else {
                         // Toast.makeText(act, "Null", Toast.LENGTH_SHORT).show();
@@ -243,7 +256,6 @@ public class FrameTab extends BaseFragment {
                         binding.frameRecycler.setVisibility(View.GONE);
                         binding.addbrandTag.setVisibility(View.VISIBLE);
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
