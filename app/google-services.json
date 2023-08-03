@@ -100,6 +100,14 @@
           }
         },
         {
+          "client_id": "562383081173-g7tfsrh6252hpn563gdbt9802drt3eql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.make.mybrand",
+            "certificate_hash": "3f6852c55f855a5da9aaa625a7cf6a77bf06c38a"
+          }
+        },
+        {
           "client_id": "562383081173-tv8t3buva99ifos526p2ohrdjshdrn0f.apps.googleusercontent.com",
           "client_type": 3
         }

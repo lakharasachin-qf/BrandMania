@@ -1,6 +1,8 @@
 package com.app.brandmania.Activity.brand;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.Manifest.permission.READ_MEDIA_VIDEO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import android.Manifest;
@@ -75,6 +77,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AddBranddActivity extends BaseActivity implements ItemSelectionInterface, alertListenerCallback, PopupMenu.OnMenuItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     Activity act;
@@ -107,6 +110,12 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
     private ArrayList<CommonListModel> countryList = new ArrayList<>();
     private ArrayList<CommonListModel> stateList = new ArrayList<>();
     private ArrayList<CommonListModel> cityList = new ArrayList<>();
+
+    private final int REQUESTED_STORAGE_FOR_ALL_VERSION = 100;
+    public static String[] storage_permissions_33 = {
+            READ_MEDIA_IMAGES,
+            READ_MEDIA_VIDEO
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,21 +151,13 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         binding.phoneTxt.setText(preafManager.getMobileNumber());
         binding.emailIdEdt.setText(preafManager.getEMAIL_Id());
         menuOtpion = findViewById(R.id.menuOtpion);
-        menuOtpion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popup = new PopupMenu(AddBranddActivity.this, view);
-                popup.setOnMenuItemClickListener(AddBranddActivity.this);
-                popup.inflate(R.menu.menu);
-                popup.show();
-            }
+        menuOtpion.setOnClickListener(view -> {
+            PopupMenu popup = new PopupMenu(AddBranddActivity.this, view);
+            popup.setOnMenuItemClickListener(AddBranddActivity.this);
+            popup.inflate(R.menu.menu);
+            popup.show();
         });
-        binding.addExpenceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Validation();
-            }
-        });
+        binding.addExpenceBtn.setOnClickListener(v -> Validation());
         getBrandCategory(BRAND_CATEGORY);
         CodeReUse.RemoveError(binding.categoryEdt, binding.categoryEdtLayout);
         CodeReUse.RemoveError(binding.nameTxt, binding.nameTxtLayout);
@@ -172,63 +173,53 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
         CodeReUse.RemoveError(binding.stateEdt, binding.stateLayout);
         CodeReUse.RemoveError(binding.cityEdt, binding.cityLayout);
 
-        binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList);
+        binding.categoryEdt.setOnClickListener(v -> showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList));
+
+        binding.stateEdt.setOnClickListener(v -> {
+            if (stateList != null)
+                chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
+        });
+        binding.cityEdt.setOnClickListener(v -> {
+            if (Objects.requireNonNull(binding.stateEdt.getText()).length() != 0) {
+                if (cityList != null)
+                    chooseFragment(CITY, cityTitle, cityList, Objects.requireNonNull(binding.cityEdt.getText()).toString());
             }
         });
-
-
-        binding.stateEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (stateList != null)
-                    chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
-            }
-        });
-        binding.cityEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (binding.stateEdt.getText().length() != 0) {
-                    if (cityList != null)
-                        chooseFragment(CITY, cityTitle, cityList, binding.cityEdt.getText().toString());
-                } else {
-
-                }
-            }
-        });
-
-
         binding.viewImgFirst.setTag("0");
 
-
-        binding.imgCardFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        binding.imgCardFirst.setOnClickListener(v -> {
 //                onSelectImageClick(v);
-
-                if (!isEditModeEnable) {
-                    if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
-                        pickerView(Constant.PICKER_FIRST, true, selectedLogo);
-                    else
-                        pickerView(Constant.PICKER_FIRST, false, null);
-                }
+            if (!isEditModeEnable) {
+                if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
+                    pickerView(Constant.PICKER_FIRST, true, selectedLogo);
+                else
+                    pickerView(Constant.PICKER_FIRST, false, null);
             }
         });
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            askPermissions();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getApplicationContext(), READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                askPermissionsForUpperVersion();
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                askPermissions();
+            }
         }
-
     }
 
     public void askPermissions() {
         ActivityCompat.requestPermissions(act,
                 new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                 1110);
+    }
+
+    public void askPermissionsForUpperVersion() {
+        ActivityCompat.requestPermissions(act,
+                storage_permissions_33,
+                REQUESTED_STORAGE_FOR_ALL_VERSION);
     }
 
     @Override
@@ -252,6 +243,15 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     targetSetting = true;
                 }
             }
+        } else if (requestCode == REQUESTED_STORAGE_FOR_ALL_VERSION) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(READ_MEDIA_IMAGES) || shouldShowRequestPermissionRationale(READ_MEDIA_VIDEO)) {
+                    showMessageOKCancel("You need to allow access to the permissions", (dialog, which) -> requestPermissions(storage_permissions_33, REQUESTED_STORAGE_FOR_ALL_VERSION));
+                } else {
+                    targetSetting = ContextCompat.checkSelfPermission(getApplicationContext(), READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+                            ContextCompat.checkSelfPermission(getApplicationContext(), READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED;
+                }
+            }
         }
         if (targetSetting) {
             showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
@@ -260,7 +260,11 @@ public class AddBranddActivity extends BaseActivity implements ItemSelectionInte
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", getPackageName(), null);
                     intent.setData(uri);
-                    startActivityForResult(intent, 1010);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        act.startActivityForResult(intent, REQUESTED_STORAGE_FOR_ALL_VERSION);
+                    } else {
+                        act.startActivityForResult(intent, 1010);
+                    }
                 }
             });
         }

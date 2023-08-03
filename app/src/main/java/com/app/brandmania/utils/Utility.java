@@ -146,7 +146,6 @@ public class Utility {
                 Date convertedExpireDate = formatter.parse(expireDate);
                 Date convertedCurrentDate = formatter.parse(currentDate);
 
-
                 if (convertedExpireDate.compareTo(convertedCurrentDate) < 0) {
                     return true;
                 }

@@ -2,6 +2,9 @@ package com.app.brandmania.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Interface.FrameCateItemeInterFace;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
 import com.app.brandmania.R;
@@ -18,6 +22,7 @@ import com.app.brandmania.databinding.ItemDownloadGridBinding;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -43,6 +48,8 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
     }
 
     private onShareImageClick onShareImageClick;
+    private onShareVideoClick onShareVideoClick;
+
 
     public DownloadFavoriteAdapter.onShareImageClick getOnShareImageClick() {
         return onShareImageClick;
@@ -52,9 +59,18 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
         this.onShareImageClick = onShareImageClick;
     }
 
+    public void setOnShareVideoClick(DownloadFavoriteAdapter.onShareVideoClick onShareVideoClick) {
+        this.onShareVideoClick = onShareVideoClick;
+    }
+
     public interface onShareImageClick {
         public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position);
     }
+
+    public interface onShareVideoClick {
+        public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position);
+    }
+
 
     int layoutType;
 
@@ -120,8 +136,9 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
         if (model != null) {
             switch (model.getLayoutType()) {
                 case LAYOUT_DOWNLOAD:
+                    HELPER.print("DOWNLOAD_RESPONSE::", gson.toJson(downloadFavoriteItemLists.get(position)));
                     ((DownloadHolder) holder).binding.downloadListName.setText(downloadFavoriteItemLists.get(position).getName());
-                    if(downloadFavoriteItemLists.get(position).getName().contains("custom_default_placeholder")){
+                    if (downloadFavoriteItemLists.get(position).getName().contains("custom_default_placeholder")) {
                         String url = downloadFavoriteItemLists.get(position).getImage();
                         URL urlObj = null;
                         try {
@@ -134,6 +151,7 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
                         }
 
                     }
+
                     Glide.with(context)
                             .load(downloadFavoriteItemLists.get(position).getImage())
                             .placeholder(R.drawable.placeholder)
@@ -148,8 +166,11 @@ public class DownloadFavoriteAdapter extends RecyclerView.Adapter {
                     ((DownloadHolder) holder).binding.shareIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onShareImageClick.onShareClick(model, position);
-
+                            if (downloadFavoriteItemLists.get(position).getImage().endsWith(".mp4")) {
+                                onShareVideoClick.onShareClick(model, position);
+                            } else {
+                                onShareImageClick.onShareClick(model, position);
+                            }
                         }
                     });
 

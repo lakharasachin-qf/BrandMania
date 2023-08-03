@@ -34,7 +34,6 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -99,6 +98,7 @@ import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
 import com.app.brandmania.databinding.ActivityViewAllImageBinding;
+import com.app.brandmania.databinding.DialogAlertOneImageDayBinding;
 import com.app.brandmania.databinding.DialogDiscardImageBinding;
 import com.app.brandmania.databinding.DialogUpgradeDownloadLimitExpireBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutEnterpriseBinding;
@@ -168,10 +168,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
@@ -288,10 +291,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                     }
                     selectedObject.setCustom(isUsingCustomFrame);
-
                     prefManager.AddToMyFavorites(selectedObject);
-
-                    if (manuallyEnablePermission(0)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
                             binding.fabroutIcon.setVisibility(View.GONE);
                             binding.addfabroutIcon.setVisibility(View.VISIBLE);
@@ -299,7 +300,18 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
                         saveImageToGallery(false, true);
                         Toast.makeText(act, "Added to Favourite", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (manuallyEnablePermission(0)) {
+                            if (binding.fabroutIcon.getVisibility() == View.VISIBLE) {
+                                binding.fabroutIcon.setVisibility(View.GONE);
+                                binding.addfabroutIcon.setVisibility(View.VISIBLE);
+                            }
+                            saveImageToGallery(false, true);
+                            Toast.makeText(act, "Added to Favourite", Toast.LENGTH_SHORT).show();
+                        }
                     }
+
+
                 } else {
                     addBrandList();
                 }
@@ -338,12 +350,12 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                 askForUpgradeToEnterpisePackage();
                                 return;
                             }
-                            getImageDownloadRights("Download");
+                            getImageDownloadRights("Download", null);
                         } else {
                             askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
                     } else {
-                        getImageDownloadRights("Download");
+                        getImageDownloadRights("Download", null);
                     }
                 }
             } else {
@@ -352,100 +364,163 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         });
 
         binding.shareIcon.setOnClickListener(v -> {
-
             if (prefManager.getActiveBrand() != null) {
-                if (manuallyEnablePermission(2)) {
-
-                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
-                        // For normal Flow
-                        //free User
-                        if (selectedObject.isImageFree()) {
-                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-                                askForUpgradeToEnterpisePackage();
-                                return;
-                            }
-                            if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                getImageDownloadRights("Share");
+                //NEW LOGIC [07-07-2023]-MJ
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (!prefManager.getAllFreeImage()) {
+                        if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                            if (selectedObject.isImageFree()) {
+                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                    askForUpgradeToEnterpisePackage();
+                                    return;
+                                }
+                                getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
                             } else {
-                                checkForDownload();
+                                askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                             }
                         } else {
-                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                            HELPER.print("IS_PAID", "DONE");
+                            if (!Utility.isPackageExpired(act)) {
+                                getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+                            } else {
+                                askForUpgradeToEnterpisePackaged();
+                            }
                         }
-
-//                        if (!prefManager.getLoginDate().isEmpty()) {
-//                            //For Seven Day Image Download for free User in a day
-//                            Utility.Log("ImageConuter:::", prefManager.getDaysCounter());
-//                            if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getDaysCounter())) {
-//
-//                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-//                                    askForUpgradeToEnterpisePackage();
-//                                    return;
-//                                }
-//                                if (selectedObject.getImageType() == ImageList.IMAGE) {
-//                                    //for Image download
-//                                    getImageDownloadRights("Share");
-//                                } else {
-//                                    String SubscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate();
-//                                    //Utility.Log("getSubscriptionDate", SubscriptionDate);
-//                                    if (SubscriptionDate.isEmpty()) {
-//                                        alertOffer("Kindly upgrade your package to use video and gif feature.");
-//                                    } else {
-//                                        //for gif/video download
-//                                        checkForDownload();
-//                                    }
-//                                }
-//
-//                            } else {
-//
-//                                if (selectedObject.isImageFree()) {
-//                                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-//                                        askForUpgradeToEnterpisePackage();
-//                                        return;
-//                                    }
-//                                    if (selectedObject.getImageType() == ImageList.IMAGE) {
-//                                        getImageDownloadRights("Share");
-//                                    } else {
-//                                        checkForDownload();
-//                                    }
-//                                } else {
-//                                    askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
-//                                }
-//
-//                            }
-//
-//                        }
-
-                        //For normal Flow
-
-////                        if (selectedObject.isImageFree()) {
-//                        if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
-//                            askForUpgradeToEnterpisePackage();
-//                            return;
-//                        }
-//                        if (selectedObject.getImageType() == ImageList.IMAGE) {
-//                            getImageDownloadRights("Share");
-//                        } else {
-//                            checkForDownload();
-//                        }
-////                        } else {
-////                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
-////                        }
                     } else {
-
-                        if (!Utility.isPackageExpired(act)) {
-                            if (selectedObject.getImageType() == ImageList.IMAGE) {
-                                getImageDownloadRights("Share");
-                            } else {
-                                checkForDownload();
-                            }
-                        } else {
-                            askForUpgradeToEnterpisePackaged();
-                        }
-
+                        HELPER.print("SHARE_IMAGE", "DONE");
+                        getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
                     }
 
+                } else {
+                    //OLD Logic
+//                    if (manuallyEnablePermission(2)) {
+//                        if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                            getImageDownloadRights("Share","IMAGE");
+//                        } else {
+//                           // checkForDownload(true);
+//                        }
+//                    }
+                    //New Logic
+                    if (manuallyEnablePermission(2)) {
+                        if (!prefManager.getAllFreeImage()) {
+                            if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                                //free User
+                                if (selectedObject.isImageFree()) {
+                                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                        askForUpgradeToEnterpisePackage();
+                                        return;
+                                    }
+                                    getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+                                } else {
+                                    askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                                }
+
+                            } else {
+                                if (!Utility.isPackageExpired(act)) {
+                                    getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+                                } else {
+                                    askForUpgradeToEnterpisePackaged();
+                                }
+                            }
+                        } else {
+                            getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+                        }
+                    }
                 }
+                //OLD LOGIC
+//                if (manuallyEnablePermission(2)) {
+//
+//                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+//                        // For normal Flow
+//                        //free User
+//                        if (selectedObject.isImageFree()) {
+//                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                                askForUpgradeToEnterpisePackage();
+//                                return;
+//                            }
+////                            if (selectedObject.getImageType() == ImageList.IMAGE) {
+////                                getImageDownloadRights("Share");
+////                            } else {
+////                                checkForDownload();
+////                            }
+//                            getImageDownloadRights("Share",selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+//                        } else {
+//                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                        }
+//
+//                        // if (!prefManager.getLoginDate().isEmpty()) {
+//                        //  //For Seven Day Image Download for free User in a day
+//                        //  Utility.Log("ImageConuter:::", prefManager.getDaysCounter());
+//                        //  if (HELPER.IsTwoDateComparison(prefManager.getLoginDate(), act, prefManager.getDaysCounter())) {
+//                        //
+//                        //  if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                        //  askForUpgradeToEnterpisePackage();
+//                        //  return;
+//                        //   }
+//                        //   if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                        //   //for Image download
+//                        //   getImageDownloadRights("Share");
+//                        //   } else {
+//                        //    String SubscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate();
+//                        //     //Utility.Log("getSubscriptionDate", SubscriptionDate);
+//                        //     if (SubscriptionDate.isEmpty()) {
+//                        //     alertOffer("Kindly upgrade your package to use video and gif feature.");
+//                        //     } else {
+//                        //      //for gif/video download
+//                        //       checkForDownload();
+//                        //        }
+//                        //       }
+//                        //       } else {
+//                        //       if (selectedObject.isImageFree()) {
+//                        //       if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                        //        askForUpgradeToEnterpisePackage();
+//                        //        return;
+//                        //        }
+//                        //         if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                        //          getImageDownloadRights("Share");
+//                        //          } else {
+//                        //          checkForDownload();
+//                        //          }
+//                        //          } else {
+//                        //          askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                        //          }
+//                        //          }
+//                        //          }
+//
+//                        //For normal Flow
+//
+//                        // if (selectedObject.isImageFree()) {
+//                        // if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                        //  askForUpgradeToEnterpisePackage();
+//                        //  return;
+//                        //  }
+//                        //  if (selectedObject.getImageType() == ImageList.IMAGE) {
+//                        //  getImageDownloadRights("Share");
+//                        //  } else {
+//                        //   checkForDownload();
+//                        //   }
+//                        //   } else {
+//                        //  askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                        //   }
+//                    } else {
+//
+//                        if (!Utility.isPackageExpired(act)) {
+////                            if (selectedObject.getImageType() == ImageList.IMAGE) {
+////                                getImageDownloadRights("Share");
+////                            } else {
+////                                checkForDownload();
+////                            }
+//
+//                            getImageDownloadRights("Share",selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+//
+//                        } else {
+//                            askForUpgradeToEnterpisePackaged();
+//                        }
+//
+//                    }
+//
+//                }
+
             } else {
                 addBrandList();
             }
@@ -741,13 +816,22 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     }
 
-    public void checkForDownload() {
+    public void checkForDownload(boolean isAllFreeLogic) {
 
         try {
+            if (prefManager.getAllFreeImage()) {
+
+                if (selectedObject.getImageType() == ImageList.GIF) {
+                    saveGif();
+                } else if (selectedObject.getImageType() == ImageList.VIDEO) {
+                    saveVideo();
+                }
+                return;
+            }
 
             String subscriptionDate = new PreafManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
 
-            Log.e("subscriptionDate::::::", subscriptionDate);
+            HELPER.print("subscriptionDate::::::", subscriptionDate);
             String currentDateStr = "01/11/2021";  //new prefManager(act).getActiveBrand().getSubscriptionDate().replace('-', '/');
             @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date convertedExpireDate = formatter.parse(subscriptionDate);
@@ -788,18 +872,33 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         canDownloads = false;
                         alertOffer("Your offer was limited to Diwali only. Kindly upgrade your package to enjoy video and gif feature");
                     }
-
                 }
-
             }
 
+            //NEW LOGIC
             if (canDownloads) {
                 if (selectedObject.getImageType() == ImageList.GIF) {
                     saveGif();
                 } else if (selectedObject.getImageType() == ImageList.VIDEO) {
+                    HELPER.print("VIDEO", "DONE");
+
                     saveVideo();
                 }
             }
+
+            //OLD LOGIC
+//            if (isAllFreeLogic) {
+//                canDownloads = true;
+//            }
+//            if (canDownloads) {
+//                if (selectedObject.getImageType() == ImageList.GIF) {
+//                    saveGif();
+//                } else if (selectedObject.getImageType() == ImageList.VIDEO) {
+//                    HELPER.print("VIDEO","DONE");
+//
+//                    saveVideo();
+//                }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1199,7 +1298,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 file = new File(framePath);
                 if (file.exists())
                     file.delete();
-
+                HELPER.print("IS_DONE", "TSTTTTTTT");
                 downloadAndShareApi(DOWLOAD, null);
             }
         });
@@ -1442,6 +1541,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         binding.viewRecoRecycler.setAdapter(menuAddaptor);
     }
 
+
+    String isCurrentImage = "";
+    String isDifferentImage = "";
+
     //For Image Select Interface
     @Override
     public void ImageCateonItemSelection(int position, ImageList listModel) {
@@ -1654,7 +1757,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                     askForUpgradeToEnterpisePackage();
                                     return;
                                 }
-                                getImageDownloadRights("Download");
+                                getImageDownloadRights("Download", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+
                             } else {
                                 askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                             }
@@ -1664,7 +1768,7 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                             askForUpgradeToEnterpisePackage();
                             return;
                         }*/
-                            getImageDownloadRights("Download");
+                            getImageDownloadRights("Download", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
                         }
                     }
                     //for share
@@ -1676,12 +1780,13 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                                     askForUpgradeToEnterpisePackage();
                                     return;
                                 }
-                                getImageDownloadRights("Share");
+                                getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+
                             } else {
                                 askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                             }
                         } else {
-                            getImageDownloadRights("Share");
+                            getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
                         }
                     }
                 }
@@ -1703,7 +1808,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
 
     //fire intent for share
     public void triggerShareIntent(File new_file, Bitmap merged) {
-        //Log.e("shareIntent", "yes");
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1815,6 +1919,52 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         });
         offerBinding.element2.setText("Upgrade Package");
         offerBinding.element3.setText(detailsMsg);
+        //alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
+    DialogAlertOneImageDayBinding alertBinding;
+
+    public void alertDialogForExpireLimitPackage(boolean isAlreadyDownload) {
+        alertBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_alert_one_image_day, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(alertBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(alertBinding.getRoot());
+        if (isAlreadyDownload) {
+            alertBinding.element3.setText("Your daily download limit expired. if you want to download your image then go to download page.");
+        } else {
+            alertBinding.element3.setText("As You are free user you can download or share only one image in a day.");
+        }
+        if (isAlreadyDownload) {
+            alertBinding.viewPackage.setText("Open Download");
+        } else {
+            alertBinding.viewPackage.setText("Close");
+        }
+        alertBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                if (isAlreadyDownload) {
+                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.DOWNLOAD_FRAGMENT);
+                    Intent intent = new Intent(act, HomeActivity.class);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    finish();
+                }
+
+            }
+        });
+        alertBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        //alertBinding.element3.setText("You have selected premium footer design. To use this design please upgrade your package");
         //alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
@@ -2042,7 +2192,6 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                 Glide.with(getApplicationContext()).load(selectedObject.getFrame()).into(binding.recoImage);
                 Utility.showLoadingTran(act);
                 isShareIntentVisisble = true;
-
                 triggerShareIntent(new_file, merged);
 
             } else {
@@ -2581,16 +2730,18 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         }
         request.addMultipartParameter("type", String.valueOf(download));
         request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
-        })
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                    }
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
                         //Utility.dismissLoadingTran();
-
+//                        if (prefManager.getAllFreeImage()) {
+//                            prefManager.setOnlyOneImageDownload(System.currentTimeMillis());
+//                        }
 
                         if (updateLogo && selectedLogo != null)
                             uploadLogoForBrand(selectedLogo);
@@ -2672,7 +2823,10 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         } catch (Exception ignored) {
         }
 
-        System.out.println("SHARED");
+        HELPER.print("VIDEO_SHARE", "DONE");
+//        if (prefManager.getAllFreeImage()) {
+//            prefManager.setOnlyOneImageDownload(System.currentTimeMillis());
+//        }
         if (isItGIF)
             shareGIF(finalOutputFile);
         else
@@ -2681,8 +2835,101 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         isItGIF = false;
     }
 
+    protected void storeCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dateString = sdf.format(currentDate);
+        prefManager.setCurrentDate(dateString);
+    }
+
+    private boolean validateDate() {
+
+        if (prefManager.getCurrentDate().isEmpty()) {
+            HELPER.print("IS_count::::", prefManager.getCurrentDate());
+            prefManager.setCount("1");
+            storeCurrentDate();
+            return true;
+        }
+
+        String previousDate = prefManager.getCurrentDate();
+        HELPER.print("Count::::::::::", prefManager.getCount());
+        HELPER.print("CurrrentDate::::::::::", previousDate);
+
+        Calendar calendar = Calendar.getInstance();
+        Date cDate = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String storeCurrentDate = sdf.format(cDate);
+        //String storeCurrentDate = "2023-08-03";
+
+        try {
+            Date CurrDate = sdf.parse(storeCurrentDate);
+            Date PreDate = sdf.parse(previousDate);
+
+            HELPER.print("Current_DATE", CurrDate.toString());
+            HELPER.print("DIfferent_DATE", PreDate.toString());
+
+
+            Calendar cal1 = Calendar.getInstance();
+            if (CurrDate != null) {
+                cal1.setTime(CurrDate);
+            }
+            Calendar cal2 = Calendar.getInstance();
+            if (PreDate != null) {
+                cal2.setTime(PreDate);
+            }
+            // Compare the two dates
+            if (cal1.equals(cal2)) {
+                HELPER.print("IS_AFTER", "equals");
+                if (prefManager.getCount().equals("0")) {
+                    prefManager.setCount("1");
+                    storeCurrentDate();
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                HELPER.print("IS_AFTER", "after");
+                prefManager.setCount("1");
+                storeCurrentDate();
+                return true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void validateToDownloadOneItemPerDay(String isImage, String flag) {
+        // this function checks for only one image or video can be download per day
+        if (validateDate()) {
+            HELPER.print("CUrrentPAth", selectedObject.getFrame());
+            prefManager.setCurrentPath(selectedObject.getFrame());
+            // Update the last API call timestamp
+            if (isImage == "IMAGE") {
+                if (flag.equalsIgnoreCase("Download"))
+                    askForDownloadImage();
+                else {
+                    requestAgain();
+                    saveImageToGallery(true, false);
+                }
+            } else {
+                checkForDownload(true);
+            }
+
+        } else {
+            if (prefManager.getCurrentImagePath().equalsIgnoreCase(selectedObject.getFrame())) {
+                alertDialogForExpireLimitPackage(true);
+                return;
+            } else {
+                alertDialogForExpireLimitPackage(false);
+                return;
+            }
+        }
+    }
+
     //api for access rights
-    private void getImageDownloadRights(String flag) {
+    private void getImageDownloadRights(String flag, String isImage) {
         Utility.showLoadingTran(act);
         Utility.Log("API : ", APIs.CUSTOM_FRAME_ACCESS);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.CUSTOM_FRAME_ACCESS, new Response.Listener<String>() {
@@ -2701,28 +2948,37 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
                         int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
                         String massage = ResponseHandler.getString(dataJson.getJSONObject(0), "message");
-
+                        // boolean isValid =ResponseHandler.getBool(dataJson.getJSONObject(0), "isAllFree")==false?true:false;
+                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "isAllFree")) {
+                            validateToDownloadOneItemPerDay(isImage, flag);
+                            return;
+                        }
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
 
                             if (Utility.isUserPaid(prefManager.getActiveBrand())) {
-
+                                HELPER.print("IFFFFFFFFF", "DONE");
                                 if (imageCounter == -1 || used_img_counter <= imageCounter) {
-                                    if (flag.equalsIgnoreCase("Download"))
-                                        askForDownloadImage();
-                                    else {
-                                        requestAgain();
+                                    if (isImage == "IMAGE") {
+                                        if (flag.equalsIgnoreCase("Download"))
+                                            askForDownloadImage();
+                                        else {
+                                            requestAgain();
                                        /* if (selectedObject.getImageType() == ImageList.IMAGE) {
                                             saveImageToGallery(false, true);
                                         } else {
                                             saveGif();
                                         }*/
-                                        saveImageToGallery(true, false);
+                                            saveImageToGallery(true, false);
+                                        }
+                                    } else {
+                                        checkForDownload(false);
                                     }
                                 } else {
                                     downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
                                 }
 
                             } else {
+                                HELPER.print("ELSE_DONE", "DONE");
                                 if (flag.equalsIgnoreCase("Download"))
                                     askForDownloadImage();
                                 else {
@@ -2801,8 +3057,8 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
             request.addMultipartFile("br_logo", img1File);
         }
         request.build().setUploadProgressListener((bytesUploaded, totalBytes) -> {
-            // do anything with progress
-        })
+                    // do anything with progress
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {

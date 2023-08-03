@@ -47,20 +47,12 @@ public class BusinessCategoryListActivity extends BaseActivity {
         setTheme(R.style.AppTheme_material_theme);
         act = this;
         binding = DataBindingUtil.setContentView(act, R.layout.activity_view_business_category);
-        binding.BackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        binding.BackButton.setOnClickListener(v -> onBackPressed());
 
         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
-        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                startAnimation();
-                getBusinessCategory();
-            }
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            startAnimation();
+            getBusinessCategory();
         });
 
         startAnimation();

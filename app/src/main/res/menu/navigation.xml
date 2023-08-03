@@ -3,31 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-        <item
+    <item
 
-            app:itemTextAppearance="@style/Style_TextView"
-            android:id="@+id/navigation_home"
-            android:icon="@drawable/home_select"
-            android:title="@string/title_home" />
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home_select"
+        android:title="@string/title_home"
+        app:itemTextAppearance="@style/Style_TextView" />
 
-        <item
-            app:itemTextAppearance="@style/Style_TextView"
-            android:id="@+id/navigation_custom"
-            android:icon="@drawable/custome_select"
-            android:title="@string/title_custom" />
-        <item
-            app:itemTextAppearance="@style/Style_TextView"
-            android:id="@+id/navigation_download"
-            android:icon="@drawable/download_select"
-            android:title="@string/title_download" />
+    <item
+        android:id="@+id/navigation_custom"
+        android:icon="@drawable/custome_select"
+        android:title="@string/title_custom"
+        app:itemTextAppearance="@style/Style_TextView" />
+    <item
+        android:id="@+id/navigation_download"
+        android:icon="@drawable/download_select"
+        android:title="@string/title_download"
+        app:itemTextAppearance="@style/Style_TextView" />
 
-        <item
-            app:itemTextAppearance="@style/Style_TextView"
-            android:id="@+id/navigation_profile"
-            android:icon="@drawable/profile_select"
-            android:title="@string/title_profile" />
-
-
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/profile_select"
+        android:title="@string/title_profile"
+        app:itemTextAppearance="@style/Style_TextView" />
 
 
 </menu>

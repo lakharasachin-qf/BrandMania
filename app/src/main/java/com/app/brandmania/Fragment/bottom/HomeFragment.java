@@ -84,6 +84,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Timer;
@@ -126,7 +127,6 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if (task.isSuccessful())
                 deviceToken = task.getResult();
-
             UpdateToken();
         });
     }
@@ -151,6 +151,8 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, parent, false);
         homeFragment = this;
         fiveStarsDialog = new FiveStarsDialog(act, "brandmania@gmail.com");
+        //prefManager.setCurrentDate("");
+        //prefManager.setCurrentDate("2023-08-01");
         homeLoad();
         return binding.getRoot();
     }
@@ -171,6 +173,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
             Glide.with(act).load(preafManager.getActiveBrand().getLogo());
             binding.businessName.setText(preafManager.getActiveBrand().getName());
         }
+
         if (ContextCompat.checkSelfPermission(act, CAMERA) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(act, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(act, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -270,15 +273,16 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                 e.printStackTrace();
             }
         }
-
-        if (preafManager.getActiveBrand() != null) {
-            if (preafManager.getActiveBrand().getExpiery_date() != null && !preafManager.getActiveBrand().getExpiery_date().isEmpty() && Utility.isPackageExpired(act)) {
-                binding.infoMsg.setText("                           Dear user, your current package is expired on date " + preafManager.getActiveBrand().getExpiery_date() + ". Please Upgrade your plan and enjoy downloading image, GIF and videos.");
-                binding.tapActionBtn.setVisibility(View.VISIBLE);
-                binding.easyMessage.setVisibility(View.VISIBLE);
-                binding.easyMessage.setOnClickListener(v -> {
-                    HELPER.ROUTE(act, PackageActivity.class);
-                });
+        if (!prefManager.getAllFreeImage()) {
+            if (preafManager.getActiveBrand() != null) {
+                if (preafManager.getActiveBrand().getExpiery_date() != null && !preafManager.getActiveBrand().getExpiery_date().isEmpty() && Utility.isPackageExpired(act)) {
+                    binding.infoMsg.setText("                           Dear user, your current package is expired on date " + preafManager.getActiveBrand().getExpiery_date() + ". Please Upgrade your plan and enjoy downloading image, GIF and videos.");
+                    binding.tapActionBtn.setVisibility(View.VISIBLE);
+                    binding.easyMessage.setVisibility(View.VISIBLE);
+                    binding.easyMessage.setOnClickListener(v -> {
+                        HELPER.ROUTE(act, PackageActivity.class);
+                    });
+                }
             }
         }
         setActiveBrandText();
@@ -328,14 +332,17 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
     }
 
     public void addBrandList() {
-        if (addBrandFragment != null) {
-            if (bottomSheetFragment.isVisible()) {
-                bottomSheetFragment.dismiss();
+        try {
+            if (addBrandFragment != null && bottomSheetFragment != null) {
+                if (bottomSheetFragment.isVisible()) {
+                    bottomSheetFragment.dismiss();
+                }
             }
-
+            addBrandFragment = new AddBrandFragment();
+            addBrandFragment.show(getParentFragmentManager(), "");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        addBrandFragment = new AddBrandFragment();
-        addBrandFragment.show(getParentFragmentManager(), "");
     }
 
     UserRegistrationFragment registrationFragment;
@@ -531,6 +538,7 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
                     preafManager.setUserMobileNumber(jsonArray1.getString("phone"));
                     preafManager.setWallet(jsonArray1.getString("user_total_coin"));
                     preafManager.setReferCode(jsonArray1.getString("referal_code"));
+                    preafManager.setAllFreeImage(jsonArray1.getBoolean("isAllFree"));
                     popupImg = jsonArray1.getString("popup_img");
                     isActivityStatus = jsonArray1.getString("is_activity");
                     targetLink = jsonArray1.getString("target_link");
@@ -549,17 +557,20 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
                     MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.APP_INTRO_REFRESH);
                     setupReferralCode();
-                    if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed) {
-                        if (popupImg != null && !popupImg.isEmpty()) {
-                            Handler handler = null;
-                            handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                public void run() {
-                                    // Utility.Log("OfferDialog","yessssssss");
-                                    setOfferCode();
-                                }
-                            }, 10000);
+                    if (!prefManager.getAllFreeImage()) {
+                        HELPER.print("ISValidate", "DONE");
+                        if (!act.isFinishing() && !act.isDestroyed() && homeFragment.isVisible() && !HomeActivity.isAlreadyDisplayed) {
+                            if (popupImg != null && !popupImg.isEmpty()) {
+                                Handler handler = null;
+                                handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    public void run() {
+                                        // Utility.Log("OfferDialog","yessssssss");
+                                        setOfferCode();
+                                    }
+                                }, 10000);
 
+                            }
                         }
                     }
                 }
@@ -618,11 +629,17 @@ public class HomeFragment extends BaseFragment implements ItemMultipleSelectionI
 
     public void setupReferralCode() {
         binding.referralcodeTxt.setText(preafManager.getReferCode());
-
-        if (preafManager.getReferCode() != null && preafManager.getReferCode().isEmpty()) {
+        //boolean isValid = prefManager.getAllFreeImage() == false ? true : false;
+        if (prefManager.getAllFreeImage()) {
+            binding.allFreeImage.setVisibility(View.VISIBLE);
             binding.referralCardView.setVisibility(View.GONE);
         } else {
-            binding.referralCardView.setVisibility(View.VISIBLE);
+            binding.allFreeImage.setVisibility(View.GONE);
+            if (preafManager.getReferCode() != null && preafManager.getReferCode().isEmpty()) {
+                binding.referralCardView.setVisibility(View.GONE);
+            } else {
+                binding.referralCardView.setVisibility(View.VISIBLE);
+            }
         }
     }
 

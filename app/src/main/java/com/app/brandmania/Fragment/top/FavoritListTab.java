@@ -16,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -71,15 +72,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FavoritListTab extends BaseFragment {
-     private FavoritItemListBinding binding;
+    private FavoritItemListBinding binding;
     ArrayList<DownloadFavoriteItemList> menuModels = new ArrayList<>();
 
 
     @Override
     public View provideFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         act = getActivity();
-        binding= DataBindingUtil.inflate(inflater, R.layout.favorit_item_list,parent,false);
-         binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
+        binding = DataBindingUtil.inflate(inflater, R.layout.favorit_item_list, parent, false);
+        binding.swipeContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorsecond, R.color.colorthird);
 
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -98,46 +99,65 @@ public class FavoritListTab extends BaseFragment {
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.favoritRecycler.setVisibility(View.GONE);
     }
+
     public void setAdapter() {
 
 
-
         DownloadFavoriteAdapter menuAddaptor = new DownloadFavoriteAdapter(menuModels, act);
-        DownloadFavoriteAdapter.onShareImageClick onShareImageClick=new DownloadFavoriteAdapter.onShareImageClick() {
+        DownloadFavoriteAdapter.onShareImageClick onShareImageClick = new DownloadFavoriteAdapter.onShareImageClick() {
             @Override
             public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
-                if (manuallyEnablePermission()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     downloadingOject = favoriteItemList;
-                    if (!Utility.isUserPaid(prefManager.getActiveBrand())){
-                        if (favoriteItemList.isImageFree()){
+                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                        if (favoriteItemList.isImageFree()) {
                             getImageDownloadRights();
-                        }else {
+                        } else {
                             askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
                         }
-                    }else {
+                    } else {
                         getImageDownloadRights();
                     }
+                } else {
+                    if (manuallyEnablePermission()) {
+                        downloadingOject = favoriteItemList;
+                        if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                            if (favoriteItemList.isImageFree()) {
+                                getImageDownloadRights();
+                            } else {
+                                askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                            }
+                        } else {
+                            getImageDownloadRights();
+                        }
+                    }
                 }
+
             }
         };
         menuAddaptor.setOnShareImageClick(onShareImageClick);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         binding.favoritRecycler.setLayoutManager(mLayoutManager);
         binding.favoritRecycler.setHasFixedSize(true);
         binding.favoritRecycler.setAdapter(menuAddaptor);
     }
+
     DownloadFavoriteItemList downloadingOject;
+
     private void requestAgain() {
         ActivityCompat.requestPermissions(act,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE},
                 CodeReUse.ASK_PERMISSSION);
     }
+
     private class FavouritImageTaskFrame extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
+
         public FavouritImageTaskFrame(String url) {
             this.url = url;
         }
+
         protected BitmapDrawable doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -158,17 +178,20 @@ public class FavoritListTab extends BaseFragment {
 
         protected void onPostExecute(BitmapDrawable result) {
             //bmImage.setImageBitmap(result);
-            FrameDrawbable=result;
+            FrameDrawbable = result;
             Utility.dismissLoadingTran();
             new FavouritImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
 
         }
     }
+
     private class FavouritImageTaskImage extends AsyncTask<String, Void, BitmapDrawable> {
         String url;
+
         public FavouritImageTaskImage(String url) {
             this.url = url;
         }
+
         protected BitmapDrawable doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -180,9 +203,10 @@ public class FavoritListTab extends BaseFragment {
             }
             return new BitmapDrawable(getResources(), mIcon11);
         }
+
         protected void onPostExecute(BitmapDrawable result) {
             //bmImage.setImageBitmap(result);
-            backgroundImageDrable=result;
+            backgroundImageDrable = result;
             startsShare();
             Utility.dismissLoadingTran();
 
@@ -193,18 +217,20 @@ public class FavoritListTab extends BaseFragment {
             Utility.showLoadingTran(act);
         }
     }
+
     //For Create File Disc For Download Image.........................
     private File getDisc() {
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         return new File(file, "BrandMania");
     }
+
     File new_file;
     BitmapDrawable FrameDrawbable;
     BitmapDrawable backgroundImageDrable;
 
     public boolean manuallyEnablePermission() {
         if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(act)
                         .setMessage("Allow BrandMania to access photos, files to download and share images ")
                         .setCancelable(true)
@@ -218,12 +244,12 @@ public class FavoritListTab extends BaseFragment {
                         })
                         .show();
                 return false;
-            }else {
+            } else {
                 return true;
             }
 
-        }else {
-            if (ContextCompat.checkSelfPermission(act,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+        } else {
+            if (ContextCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(act)
                         .setMessage("Allow BrandMania to access photos, files to download and share images ")
                         .setCancelable(true)
@@ -239,7 +265,7 @@ public class FavoritListTab extends BaseFragment {
                         })
                         .show();
                 return false;
-            }else {
+            } else {
 
                 return true;
             }
@@ -249,7 +275,6 @@ public class FavoritListTab extends BaseFragment {
 
 
     }
-
 
 
     public void startShare(File new_file) {
@@ -263,23 +288,24 @@ public class FavoritListTab extends BaseFragment {
     }
 
     //fire intent for share
-    public void triggerShareIntent(File new_file,Bitmap merged) {
+    public void triggerShareIntent(File new_file, Bitmap merged) {
         //  Uri uri = Uri.parse();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act,merged));
+        share.putExtra(Intent.EXTRA_STREAM, getImageUri(act, merged));
         startActivity(Intent.createChooser(share, "Share Image"));
     }
+
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,"IMG_" + Calendar.getInstance().getTime(), null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "IMG_" + Calendar.getInstance().getTime(), null);
         return Uri.parse(path);
     }
 
     public void startsShare() {
         Drawable d = FrameDrawbable;
-        Drawable ImageDrawable =backgroundImageDrable;
+        Drawable ImageDrawable = backgroundImageDrable;
 
         if (downloadingOject.isCustom()) {
             d = backgroundImageDrable;
@@ -315,12 +341,12 @@ public class FavoritListTab extends BaseFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        triggerShareIntent(new_file,merged);
+        triggerShareIntent(new_file, merged);
     }
 
     private void getFavoritListItem() {
         Utility.Log("API : ", APIs.GET_FAVORITLIST_ITEM);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FAVORITLIST_ITEM , new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.GET_FAVORITLIST_ITEM, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 binding.swipeContainer.setRefreshing(false);
@@ -336,7 +362,8 @@ public class FavoritListTab extends BaseFragment {
                         binding.shimmerViewContainer.setVisibility(View.GONE);
                         binding.favoritRecycler.setVisibility(View.VISIBLE);
                         binding.emptyStateLayout.setVisibility(View.GONE);
-                    }   if (menuModels == null || menuModels.size() == 0) {
+                    }
+                    if (menuModels == null || menuModels.size() == 0) {
                         binding.emptyStateLayout.setVisibility(View.VISIBLE);
                         binding.favoritRecycler.setVisibility(View.GONE);
                         binding.shimmerViewContainer.stopShimmer();
@@ -369,7 +396,7 @@ public class FavoritListTab extends BaseFragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("id",prefManager.getActiveBrand().getId());
+                params.put("id", prefManager.getActiveBrand().getId());
 //                if (imageList != null)
 //                    params.put("image_category_id", imageList.getId());
 //                else
@@ -451,22 +478,22 @@ public class FavoritListTab extends BaseFragment {
                     try {
                         String frameCount = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? "0" : ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter");
 
-                        int imageCounter=Integer.parseInt( ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter").equalsIgnoreCase("Unlimited") ?"-1": ResponseHandler.getString(dataJson.getJSONObject(0),"total_img_counter"));
+                        int imageCounter = Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter").equalsIgnoreCase("Unlimited") ? "-1" : ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter"));
 
-                        int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0  : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
+                        int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
 
 
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
-                            if (Utility.isUserPaid(prefManager.getActiveBrand())){
-                                if (imageCounter==-1 || used_img_counter <= imageCounter) {
+                            if (Utility.isUserPaid(prefManager.getActiveBrand())) {
+                                if (imageCounter == -1 || used_img_counter <= imageCounter) {
                                     if (!downloadingOject.isCustom())
                                         new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
                                     else
                                         new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
-                                }else {
+                                } else {
                                     downloadLimitExpireDialog("Your download limit is expired for your current package. To get more images please upgrade your package");
                                 }
-                            }else {
+                            } else {
                                 if (!downloadingOject.isCustom())
                                     new FavouritImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
                                 else
@@ -533,7 +560,7 @@ public class FavoritListTab extends BaseFragment {
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent intent = new Intent(act, PackageActivity.class);
-                intent.putExtra("Profile","1");
+                intent.putExtra("Profile", "1");
 
                 act.startActivity(intent);
                 act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
