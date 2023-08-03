@@ -135,68 +135,117 @@ public class PdfActivity extends BaseActivity {
 
             digitalCardList = new ArrayList<>();
             digitalCardList.addAll(VisitingCardHelper.getDigitalCardList());
-            binding.saveIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
+            binding.saveIcon.setOnClickListener(v -> {
+                //New Update[07/07/2023]
+                if (prefManager.getAllFreeImage()) {
+                    frontPageLayoutImage(false);
+                } else {
                     if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
-
-                        askForUpgradeToEnterpisePackage();
-
-
-//                        if (CurrentSelectedCard.isFree()) {
-//                            isUserPaid = true;
-//                            frontPageLayoutImage(false);
-//                        } else {
-//                            isUserPaid = false;
-//                        }
+                        askForUpgradeToEnterprisePackage();
+                        // if (CurrentSelectedCard.isFree()) {
+                        // isUserPaid = true;
+                        // frontPageLayoutImage(false);
+                        // } else {
+                        // isUserPaid = false;
+                        // }
 
                     } else {
                         if (Utility.isPackageExpired(act)) {
-//                            if (CurrentSelectedCard.isFree()) {
-//                                isUserPaid = true;
-//                                frontPageLayoutImage(false);
-//                            } else {
-//                                isUserPaid = false;
-//
-//                            }
-                            askForUpgradeToEnterpisePackage();
+                            // if (CurrentSelectedCard.isFree()) {
+                            // isUserPaid = true;
+                            // frontPageLayoutImage(false);
+                            // } else {
+                            // isUserPaid = false;
+                            // }
+                            askForUpgradeToEnterprisePackage();
                         } else {
                             frontPageLayoutImage(false);
                         }
                     }
                 }
-            });
-            binding.exportIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 
-//                        if (CurrentSelectedCard.isFree()) {
-//                            isUserPaid = true;
-//                            frontPageLayoutImage(true);
-//                        } else {
-//                            isUserPaid = false;
+                //Old Update
+//                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
 //
+//                        askForUpgradeToEnterprisePackage();
+//                        // if (CurrentSelectedCard.isFree()) {
+//                        // isUserPaid = true;
+//                        // frontPageLayoutImage(false);
+//                        // } else {
+//                        // isUserPaid = false;
+//                        // }
+//
+//                    } else {
+//                        if (Utility.isPackageExpired(act)) {
+//                            // if (CurrentSelectedCard.isFree()) {
+//                            // isUserPaid = true;
+//                            // frontPageLayoutImage(false);
+//                            // } else {
+//                            // isUserPaid = false;
+//                            // }
+//                            askForUpgradeToEnterprisePackage();
+//                        } else {
+//                            frontPageLayoutImage(false);
 //                        }
-                        askForUpgradeToEnterpisePackage();
+//                    }
+            });
+            binding.exportIcon.setOnClickListener(v -> {
+                //New Update[07/07/2023]
+                // frontPageLayoutImage(true);
+
+                if (prefManager.getAllFreeImage()) {
+                    frontPageLayoutImage(true);
+                } else {
+                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                        // if (CurrentSelectedCard.isFree()) {
+                        // isUserPaid = true;
+                        // frontPageLayoutImage(true);
+                        // } else {
+                        // isUserPaid = false;
+                        // }
+                        askForUpgradeToEnterprisePackage();
 
                     } else {
                         if (Utility.isPackageExpired(act)) {
-//                            if (CurrentSelectedCard.isFree()) {
-//                                isUserPaid = true;
-//                                frontPageLayoutImage(true);
-//                            } else {
-//                                isUserPaid = false;
-//                                askForUpgradeToEnterpisePackage();
-//                            }
-                            askForUpgradeToEnterpisePackage();
+                            // if (CurrentSelectedCard.isFree()) {
+                            // isUserPaid = true;
+                            // frontPageLayoutImage(true);
+                            // } else {
+                            // isUserPaid = false;
+                            // askForUpgradeToEnterpisePackage();
+                            // }
+                            askForUpgradeToEnterprisePackage();
                         } else {
                             frontPageLayoutImage(true);
                         }
-
                     }
                 }
+
+                //Old Update
+//                if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+//
+//                    // if (CurrentSelectedCard.isFree()) {
+//                    // isUserPaid = true;
+//                    // frontPageLayoutImage(true);
+//                    // } else {
+//                    // isUserPaid = false;
+//                    // }
+//                    askForUpgradeToEnterpisePackage();
+//
+//                } else {
+//                    if (Utility.isPackageExpired(act)) {
+//                        // if (CurrentSelectedCard.isFree()) {
+//                        // isUserPaid = true;
+//                        // frontPageLayoutImage(true);
+//                        // } else {
+//                        // isUserPaid = false;
+//                        // askForUpgradeToEnterpisePackage();
+//                        // }
+//                        askForUpgradeToEnterpisePackage();
+//                    } else {
+//                        frontPageLayoutImage(true);
+//                    }
+//                }
             });
 
             activity(0);
@@ -859,18 +908,14 @@ public class PdfActivity extends BaseActivity {
 
         String FilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + Constant.ROOT + "/" + Constant.DOCUMENT + "/" + name + ".pdf";
         //Log.e("FilePath", "New Path: " + FilePath);
-
         File file;
-
         Intent intent = new Intent(Intent.ACTION_SEND);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-
             file = new File(FilePath);
             Uri apkURI = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", file);
             intent.setDataAndType(apkURI, "application/pdf");
             intent.putExtra(Intent.EXTRA_STREAM, apkURI);
         } else {
-
             file = new File(Environment.getExternalStorageDirectory() + "/" + outputFile);
             Uri apkURI = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", file);
             intent.setDataAndType(apkURI, "application/pdf");
@@ -883,7 +928,7 @@ public class PdfActivity extends BaseActivity {
     // ask to upgrade package to 999 for use all frames
     DialogUpgradeLayoutSecondBinding layoutSecondBinding;
 
-    public void askForUpgradeToEnterpisePackage() {
+    public void askForUpgradeToEnterprisePackage() {
         layoutSecondBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_upgrade_layout_second, null, false);
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
         builder.setView(layoutSecondBinding.getRoot());
@@ -950,7 +995,6 @@ public class PdfActivity extends BaseActivity {
             error.printStackTrace();
             isLoading = false;
             Utility.dismissLoadingTran();
-
             binding.loader.setVisibility(View.GONE);
             binding.scrollView.setVisibility(View.VISIBLE);
         }) {

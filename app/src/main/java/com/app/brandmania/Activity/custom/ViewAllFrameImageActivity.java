@@ -60,6 +60,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Activity.about_us.AppIntroActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.FooterModel;
@@ -68,6 +69,7 @@ import com.app.brandmania.Adapter.MultiListItem;
 import com.app.brandmania.Adapter.ViewAllTopCustomeFrameTabAdapter;
 import com.app.brandmania.Common.Constant;
 import com.app.brandmania.Common.FooterHelper;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
@@ -102,6 +104,7 @@ import com.app.brandmania.Model.ImageFromGalaryModel;
 import com.app.brandmania.Model.ImageList;
 import com.app.brandmania.Model.LayoutModelClass;
 import com.app.brandmania.R;
+import com.app.brandmania.databinding.DialogAlertOneImageDayBinding;
 import com.app.brandmania.databinding.DialogUpgradeLayoutPackegeExpiredBindingImpl;
 import com.app.brandmania.databinding.LayoutFooterEightteenBinding;
 import com.app.brandmania.databinding.LayoutFooterElevenBinding;
@@ -151,11 +154,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 
@@ -282,7 +287,6 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
 
         setIconForAlignment();
 
-
         CreateTabs();
 
         DefaultScaleY = binding.editableImageview.getScaleY();
@@ -334,16 +338,18 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
             }
         });
 
+        binding.shareIcon.setOnClickListener(v -> {
+            if (prefManager.getActiveBrand() != null) {
+                //NEW LOGIC [07-07-2023]-MJ
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
-        binding.shareIcon.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) {
-                if (prefManager.getActiveBrand() != null) {
-                    if (manuallyEnablePermission(1)) {
-
+                    //OLD LOGIC
+//                    saveImageToGallery(true, false);
+//                    if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
+//                        uploadLogoForBrand(selectedLogo);
+//                    }
+                    if (!new PreafManager(act).getAllFreeImage()) {
                         if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
-
                             if (selectedObject.isImageFree()) {
                                 if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
                                     askForUpgradeToEnterpisePackage();
@@ -368,11 +374,121 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                                 askForUpgradeToEnterpisePackaged();
                             }
                         }
+
+                    } else {
+                        getImageDownloadRights("Share");
+//                        if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+//                            if (selectedObject.isImageFree()) {
+//                                if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                                    askForUpgradeToEnterpisePackage();
+//                                    return;
+//                                }
+//                                getImageDownloadRights("Share");
+//                            } else {
+//                                askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                            }
+//                        } else {
+//                            if (!Utility.isPackageExpired(act)) {
+//                                getImageDownloadRights("Share");
+//                            } else {
+//                                askForUpgradeToEnterpisePackaged();
+//                            }
+//                        }
                     }
 
                 } else {
-                    addBrandList();
+
+                    //OLD LOGIC
+//                    if (manuallyEnablePermission(1)) {
+//                        requestAgain();
+//                        saveImageToGallery(true, false);
+//                        if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
+//                            uploadLogoForBrand(selectedLogo);
+//                        }
+//                    }
+                    if (!new PreafManager(act).getAllFreeImage()) {
+                        if (manuallyEnablePermission(1)) {
+                            if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+                                if (selectedObject.isImageFree()) {
+                                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+                                        askForUpgradeToEnterpisePackage();
+                                        return;
+                                    }
+                                    requestAgain();
+                                    saveImageToGallery(true, false);
+                                    if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
+                                        uploadLogoForBrand(selectedLogo);
+                                    }
+                                } else {
+                                    askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+                                }
+                            } else {
+                                if (!Utility.isPackageExpired(act)) {
+                                    requestAgain();
+                                    saveImageToGallery(true, false);
+                                    if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
+                                        uploadLogoForBrand(selectedLogo);
+                                    }
+                                } else {
+                                    askForUpgradeToEnterpisePackaged();
+                                }
+                            }
+                        }
+
+                    } else {
+                        if (manuallyEnablePermission(1)) {
+                            getImageDownloadRights("Share");
+//                            if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+//                                if (selectedObject.isImageFree()) {
+//                                    if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                                        askForUpgradeToEnterpisePackage();
+//                                        return;
+//                                    }
+//                                    getImageDownloadRights("Share");
+//                                } else {
+//                                    askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                                }
+//                            } else {
+//                                if (!Utility.isPackageExpired(act)) {
+//                                    getImageDownloadRights("Share");
+//                                } else {
+//                                    askForUpgradeToEnterpisePackaged();
+//                                }
+//                            }
+                        }
+                    }
                 }
+                //OLD LOGIC
+//                if (manuallyEnablePermission(1)) {
+//                    if (!Utility.isUserPaid(prefManager.getActiveBrand())) {
+//                        if (selectedObject.isImageFree()) {
+//                            if (isUsingCustomFrame && selectedFooterModel != null && !selectedFooterModel.isFree()) {
+//                                askForUpgradeToEnterpisePackage();
+//                                return;
+//                            }
+//                            requestAgain();
+//                            saveImageToGallery(true, false);
+//                            if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
+//                                uploadLogoForBrand(selectedLogo);
+//                            }
+//                        } else {
+//                            askForPayTheirPayment("You have selected premium design. To use this design please upgrade your package");
+//                        }
+//                    } else {
+//                        if (!Utility.isPackageExpired(act)) {
+//                            requestAgain();
+//                            saveImageToGallery(true, false);
+//                            if (prefManager.getActiveBrand().getLogo().isEmpty() && selectedLogo != null) {
+//                                uploadLogoForBrand(selectedLogo);
+//                            }
+//                        } else {
+//                            askForUpgradeToEnterpisePackaged();
+//                        }
+//                    }
+//                }
+
+            } else {
+                addBrandList();
             }
         });
         LoadDataToUI();
@@ -411,31 +527,28 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         if (!getIntent().hasExtra("viewAll"))
             LoadDataToUI();
 
-        binding.done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isTextEditing) {
-                    binding.textEditorView.setVisibility(View.GONE);
-                    binding.contentView.setEnabled(true);
-                    binding.contentView.setClickable(true);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
-                    if (binding.editingBox.getText().toString().trim().length() != 0) {
-                        selectedTextView.setText(binding.editingBox.getText().toString());
-                        selectedTextView.setTextAlignment(selectedTextAlignment);
-                    } else {
-                        binding.CustomImageMain.removeView(selectedTextView);
-                    }
+        binding.done.setOnClickListener(v -> {
+            if (isTextEditing) {
+                binding.textEditorView.setVisibility(View.GONE);
+                binding.contentView.setEnabled(true);
+                binding.contentView.setClickable(true);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+                if (binding.editingBox.getText().toString().trim().length() != 0) {
+                    selectedTextView.setText(binding.editingBox.getText().toString());
+                    selectedTextView.setTextAlignment(selectedTextAlignment);
                 } else {
-                    binding.textEditorView.setVisibility(View.GONE);
-                    binding.contentView.setEnabled(true);
-                    binding.contentView.setClickable(true);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
-                    addTextViewToLayout(binding.editingBox.getText().toString());
+                    binding.CustomImageMain.removeView(selectedTextView);
                 }
-                binding.editingBox.setText("");
+            } else {
+                binding.textEditorView.setVisibility(View.GONE);
+                binding.contentView.setEnabled(true);
+                binding.contentView.setClickable(true);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.rootBackground.getWindowToken(), 0);
+                addTextViewToLayout(binding.editingBox.getText().toString());
             }
+            binding.editingBox.setText("");
         });
         binding.recommendation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1630,11 +1743,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
         request.addMultipartParameter("type", String.valueOf(download));
         request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
-        })
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                    }
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -2207,6 +2320,132 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
     }
 
+    protected void storeCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dateString = sdf.format(currentDate);
+        prefManager.setCurrentDate(dateString);
+    }
+
+    private boolean validateDate() {
+
+        if (prefManager.getCurrentDate().isEmpty()) {
+            HELPER.print("IS_count::::", prefManager.getCurrentDate());
+            prefManager.setCount("1");
+            storeCurrentDate();
+            return true;
+        }
+
+        String previousDate = prefManager.getCurrentDate();
+
+        Calendar calendar = Calendar.getInstance();
+        Date cDate = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String storeCurrentDate = sdf.format(cDate);
+        //String storeCurrentDate = "2023-08-03";
+
+        try {
+            Date CurrDate = sdf.parse(storeCurrentDate);
+            Date PreDate = sdf.parse(previousDate);
+
+            Calendar cal1 = Calendar.getInstance();
+            if (CurrDate != null) {
+                cal1.setTime(CurrDate);
+            }
+            Calendar cal2 = Calendar.getInstance();
+            if (PreDate != null) {
+                cal2.setTime(PreDate);
+            }
+            // Compare the two dates
+            if (cal1.equals(cal2)) {
+                HELPER.print("IS_AFTER", "equals");
+                if (prefManager.getCount().equals("0")) {
+                    prefManager.setCount("1");
+                    storeCurrentDate();
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                HELPER.print("IS_AFTER", "after");
+                prefManager.setCount("1");
+                storeCurrentDate();
+                return true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void validateToDownloadOneItemPerDay(String flag) {
+        // this function checks for only one iamge or video can be download per day
+        if (validateDate()) {
+            // Update the last API call timestamp
+            prefManager.setCurrentPath(selectedObject.getFrame());
+            if (flag.equalsIgnoreCase("Download"))
+                askForDownloadImage();
+            else {
+                requestAgain();
+                saveImageToGallery(true, false);
+            }
+        } else {
+            if (prefManager.getCurrentImagePath().equalsIgnoreCase(selectedObject.getFrame())) {
+                alertDialogForExpireLimitPackage(true);
+                return;
+            } else {
+                alertDialogForExpireLimitPackage(false);
+            }
+        }
+    }
+
+    DialogAlertOneImageDayBinding alertBinding;
+
+    public void alertDialogForExpireLimitPackage(boolean isAlreadyDownload) {
+        alertBinding = DataBindingUtil.inflate(LayoutInflater.from(act), R.layout.dialog_alert_one_image_day, null, false);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act, R.style.MyAlertDialogStyle_extend);
+        builder.setView(alertBinding.getRoot());
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setContentView(alertBinding.getRoot());
+        if (isAlreadyDownload) {
+            alertBinding.element3.setText("Your daily download limit expired. if you want to download your image then go to download page.");
+        } else {
+            alertBinding.element3.setText("As You are free user you can download or share only one image in a day.");
+        }
+        if (isAlreadyDownload) {
+            alertBinding.viewPackage.setText("Open Download");
+        } else {
+            alertBinding.viewPackage.setText("Close");
+        }
+        alertBinding.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                if (isAlreadyDownload) {
+                    Intent intent = new Intent(act, HomeActivity.class);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                    finish();
+                    MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.DOWNLOAD_FRAGMENT);
+                }
+
+            }
+        });
+        alertBinding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        //alertBinding.element3.setText("You have selected premium footer design. To use this design please upgrade your package");
+        //alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
     //API CALLS---------------------
 
     //api for access rights
@@ -2225,7 +2464,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
                         int imageCounter = Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter").equalsIgnoreCase("Unlimited") ? "-1" : ResponseHandler.getString(dataJson.getJSONObject(0), "total_img_counter"));
 
                         int used_img_counter = ResponseHandler.getString(dataJson.getJSONObject(0), "frame_counter").equals("") ? 0 : Integer.parseInt(ResponseHandler.getString(dataJson.getJSONObject(0), "used_img_counter"));
-
+                        if (ResponseHandler.getBool(dataJson.getJSONObject(0), "isAllFree")) {
+                            //condition to by pass image counter
+                            validateToDownloadOneItemPerDay(flag);
+                            return;
+                        }
 
                         if (ResponseHandler.getBool(dataJson.getJSONObject(0), "status")) {
 
@@ -2327,11 +2570,11 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
         }
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
-        })
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                    }
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {

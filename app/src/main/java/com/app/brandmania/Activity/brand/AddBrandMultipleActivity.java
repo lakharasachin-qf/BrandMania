@@ -1,6 +1,9 @@
 package com.app.brandmania.Activity.brand;
 
+import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.Manifest.permission.READ_MEDIA_VIDEO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import android.Manifest;
@@ -43,6 +46,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Activity.HomeActivity;
 import com.app.brandmania.Common.Constant;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.MakeMyBrandApp;
 import com.app.brandmania.Common.ObserverActionID;
 import com.app.brandmania.Common.PreafManager;
@@ -72,6 +76,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AddBrandMultipleActivity extends BaseActivity implements ItemSelectionInterface, alertListenerCallback {
     Activity act;
@@ -103,6 +108,12 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
     private ArrayList<CommonListModel> stateList = new ArrayList<>();
     private ArrayList<CommonListModel> cityList = new ArrayList<>();
 
+    private final int REQUESTED_STORAGE_FOR_ALL_VERSION = 100;
+    public static String[] storage_permissions_33 = {
+            READ_MEDIA_IMAGES,
+            READ_MEDIA_VIDEO
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -113,25 +124,10 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         alertDialogBuilder = new AlertDialog.Builder(act);
         binding.websiteEdt.setText("https://");
         Utility.isLiveModeOff(act);
-        binding.BackButtonMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        binding.addExpenceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Validation();
-            }
-        });
+        binding.BackButtonMember.setOnClickListener(v -> onBackPressed());
+        binding.addExpenceBtn.setOnClickListener(v -> Validation());
         getBrandCategory(BRAND_CATEGORY);
-        binding.categoryEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList);
-            }
-        });
+        binding.categoryEdt.setOnClickListener(v -> showFragmentList(BRAND_CATEGORY, BrandTitle, BRANDTypeList));
         if (act.getIntent().hasExtra("fromImageCat")) {
             isImageFromCat = true;
         }
@@ -144,23 +140,15 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
 //                    chooseFragment(COUNTRY, countryTitle, countryList, binding.countryEdt.getText().toString());
 //            }
 //        });
-        binding.stateEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (stateList != null)
-                    chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
+        binding.stateEdt.setOnClickListener(v -> {
+            if (stateList != null)
+                chooseFragment(STATE, stateTtitle, stateList, binding.stateEdt.getText().toString());
 
-            }
         });
-        binding.cityEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (binding.stateEdt.getText().length() != 0) {
-                    if (cityList != null)
-                        chooseFragment(CITY, cityTitle, cityList, binding.cityEdt.getText().toString());
-                } else {
-
-                }
+        binding.cityEdt.setOnClickListener(v -> {
+            if (Objects.requireNonNull(binding.stateEdt.getText()).length() != 0) {
+                if (cityList != null)
+                    chooseFragment(CITY, cityTitle, cityList, binding.cityEdt.getText().toString());
             }
         });
 
@@ -177,24 +165,28 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         CodeReUse.RemoveError(binding.cityEdt, binding.cityLayout);
 
         binding.viewImgFirst.setTag("0");
-        binding.imgCardFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //onSelectImageClick(v);
-                if (!isEditModeEnable) {
-                    if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
-                        pickerView(Constant.PICKER_FIRST, true, selectedLogo);
-                    else
-                        pickerView(Constant.PICKER_FIRST, false, null);
-                }
+        binding.imgCardFirst.setOnClickListener(v -> {
+            //onSelectImageClick(v);
+            if (!isEditModeEnable) {
+                if (binding.viewImgFirst.getTag().toString().equalsIgnoreCase("1"))
+                    pickerView(Constant.PICKER_FIRST, true, selectedLogo);
+                else
+                    pickerView(Constant.PICKER_FIRST, false, null);
             }
         });
-
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            askPermissions();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            HELPER.print("IS", "TIRAMISU");
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getApplicationContext(), READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                askPermissionsForUpperVersion();
+            }
+        } else {
+            HELPER.print("IS", "DOWN");
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                askPermissions();
+            }
         }
-
     }
 
     public void askPermissions() {
@@ -203,25 +195,34 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                 1110);
     }
 
+    public void askPermissionsForUpperVersion() {
+        ActivityCompat.requestPermissions(act,
+                storage_permissions_33,
+                REQUESTED_STORAGE_FOR_ALL_VERSION);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         boolean targetSetting = false;
         if (requestCode == 1110) {
-
             boolean readStorageGrant = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             boolean writeStorageGrant = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
-                    showMessageOKCancel("You need to allow access to the permissions", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, requestCode);
-                        }
-                    });
+                    showMessageOKCancel("You need to allow access to the permissions", (dialog, which) -> requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, requestCode));
                 } else {
                     targetSetting = true;
+                }
+            }
+        } else if (requestCode == REQUESTED_STORAGE_FOR_ALL_VERSION) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(READ_MEDIA_IMAGES) || shouldShowRequestPermissionRationale(READ_MEDIA_VIDEO)) {
+                    showMessageOKCancel("You need to allow access to the permissions", (dialog, which) -> requestPermissions(storage_permissions_33, REQUESTED_STORAGE_FOR_ALL_VERSION));
+                } else {
+                    targetSetting = ContextCompat.checkSelfPermission(getApplicationContext(), READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+                            ContextCompat.checkSelfPermission(getApplicationContext(), READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED;
                 }
             }
         }
@@ -232,7 +233,11 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", getPackageName(), null);
                     intent.setData(uri);
-                    startActivityForResult(intent, 1010);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        act.startActivityForResult(intent, REQUESTED_STORAGE_FOR_ALL_VERSION);
+                    } else {
+                        act.startActivityForResult(intent, 1010);
+                    }
                 }
             });
         }
@@ -482,11 +487,11 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         Utility.Log("data", gson.toJson(request));
 
         request.build().setUploadProgressListener(new UploadProgressListener() {
-            @Override
-            public void onProgress(long bytesUploaded, long totalBytes) {
-                // do anything with progress
-            }
-        })
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                    }
+                })
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -664,8 +669,8 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
                     //  MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.JUSTBRAND);
                     if (isImageFromCat) {
                         MakeMyBrandApp.getInstance().getObserver().setValue(ObserverActionID.REFRESH_IMAGE_CATEGORY_DATA);
-                        if(progressDialog.isShowing())
-                        progressDialog.dismiss();
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
                         onBackPressed();
                         return;
                     }

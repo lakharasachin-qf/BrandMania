@@ -50,6 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -63,7 +64,9 @@ public class HELPER {
         act.startActivity(i);
         act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
-
+    public static void print(String tag, String message) {
+        Log.e(tag, message);
+    }
 
     /**
      * HOME FRAGMENT *
@@ -689,6 +692,54 @@ public class HELPER {
                 baseFolder.mkdirs();
             }
 
+        }
+    }
+
+    public static  boolean canCallApiToday(Activity act) {
+        long lastApiCallTimestamp = new PreafManager(act).getLastApiCallTimestamp();
+        long currentTime = System.currentTimeMillis();
+        long oneDayInMillis = 24 * 60 * 60 * 1000; // One day in milliseconds
+        return currentTime - lastApiCallTimestamp >= oneDayInMillis;
+    }
+
+    protected void compareDates(PreafManager prefManager) {
+        String previousDate = prefManager.getCurrentDate();
+        Calendar calendar = Calendar.getInstance();
+        Date cDate = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String currentDate = sdf.format(cDate);
+
+        // String previousDate = "2023-08-02";
+        // String currentDate = "2023-08-03";
+
+        HELPER.print("previousDate::::", previousDate);
+        HELPER.print("currentDate::::", currentDate);
+
+        try {
+            Date CurrDate = sdf.parse(currentDate);
+            Date PreDate = sdf.parse(previousDate);
+
+            Calendar cal1 = Calendar.getInstance();
+            if (CurrDate != null) {
+                cal1.setTime(CurrDate);
+            }
+            Calendar cal2 = Calendar.getInstance();
+            if (PreDate != null) {
+                cal2.setTime(PreDate);
+            }
+            // Compare the two dates
+            if (cal1.equals(cal2)) {
+                prefManager.setNewOnceApiCall(true);
+                HELPER.print("Date 1 is equal to Date 2.", "DONE");
+            } else if (cal1.before(cal2)) {
+                prefManager.setNewOnceApiCall(false);
+                HELPER.print("Date 1 is before Date 2.", "DONE");
+            } else {
+                prefManager.setNewOnceApiCall(true);
+                HELPER.print("Date 1 is after to Date 2.", "DONE");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 }

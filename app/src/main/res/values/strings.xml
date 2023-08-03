@@ -33,7 +33,7 @@
     <string name="helpandsupport_text">Help Support</string>
     <string name="privacypolicy_text">Privacy Policy</string>
     <string name="qr_code">If you are facing some issue with payment then  scan QR code and pay with<font color="#FF0000"> GOOGLE PAY</font></string>
-    <string name = "Qr_code"><font color="#FF0000">GOOGLE PAY</font> is available now, scan code below and share receipt to active your account.</string>
+    <string name="Qr_code"><font color="#FF0000">GOOGLE PAY</font> is available now, scan code below and share receipt to active your account.</string>
     <string name="shareapp_text">Share App</string>
     <string name="logout">Logout</string>
     <string name="opps_no_connection">Opps, No Connection</string>
@@ -97,5 +97,8 @@
     <string name="hint_userName">User Name</string>
     <string name="_91_xxxx_xxxx_xx_n_business_gmail_com">+91 XXXX XXXX XX\n business@gmail.com</string>
 
+    <string name="notificationPermissionRequiredMsg">It looks like your privacy settings are preventing us from accessing your notification. You can fix this by doing the following:\n
+        1. Touch the Go button below to open the Settings app.\n
+        2. Turn the Notification on.</string>
 
 </resources>

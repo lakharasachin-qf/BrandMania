@@ -77,10 +77,7 @@ public class CustomFragment extends BaseFragment implements SwipeRefreshLayout.O
                 getImageCtegory();
             }
         });
-
-
         return binding.getRoot();
-
     }
 
     public void setAdapter() {

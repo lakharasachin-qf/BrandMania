@@ -4,20 +4,18 @@ import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.ANRequest;
+import com.androidnetworking.common.ANRequest.MultiPartBuilder;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.app.brandmania.Common.Constant;
-import com.app.brandmania.Common.PreafManager;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Connection.BaseActivity;
 import com.app.brandmania.Fragment.bottom.PickerFragment;
@@ -31,6 +29,7 @@ import com.app.brandmania.databinding.ActivityAddReportAndBugBinding;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.Objects;
 
 public class AddReportAndBug extends BaseActivity implements alertListenerCallback {
 
@@ -165,13 +164,13 @@ public class AddReportAndBug extends BaseActivity implements alertListenerCallba
             img1File = CodeReUse.createFileFromBitmap(act, "reportBugs.jpeg", img1);
         }
 
-        ANRequest.MultiPartBuilder request = AndroidNetworking.upload(APIs.REPORT_BUG)
+        MultiPartBuilder request = AndroidNetworking.upload(APIs.REPORT_BUG)
                 .addHeaders("Accept", "application/x-www-form-urlencoded")
                 .addHeaders("Content-Type", "application/x-www-form-urlencoded")
                 .addHeaders("token", prefManager.getUserToken())
-                .addMultipartParameter("contact_no", binding.contactEdt.getText().toString())
-                .addMultipartParameter("email", binding.emailEdt.getText().toString())
-                .addMultipartParameter("problem", binding.bugsEdt.getText().toString())
+                .addMultipartParameter("contact_no", Objects.requireNonNull(binding.contactEdt.getText()).toString())
+                .addMultipartParameter("email", Objects.requireNonNull(binding.emailEdt.getText()).toString())
+                .addMultipartParameter("problem", Objects.requireNonNull(binding.bugsEdt.getText()).toString())
                 .setTag("Add Report Bugs")
                 .setPriority(Priority.HIGH);
 

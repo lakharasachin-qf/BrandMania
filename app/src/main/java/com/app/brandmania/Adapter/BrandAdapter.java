@@ -167,7 +167,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         if (brandListItems.get(position).getIs_payment_pending().equalsIgnoreCase("0")) {
                             //((BrandHolder)holder).binding.warning.setText("Please create your frame!!");
 
-                           // brandListItems.get(position).setNo_of_frame("0");
+                            // brandListItems.get(position).setNo_of_frame("0");
 
                             if (brandListItems.get(position).getNo_of_frame().equalsIgnoreCase("0")) {
                                 Utility.Log("NoOfFrames", "0");
@@ -201,7 +201,12 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         else {
                             ((BrandHolder) holder).binding.warning.setVisibility(View.GONE);
                             //((BrandHolder) holder).binding.warning.setText("You haven't selected any package yet!");
-                            ((BrandHolder) holder).binding.selectPlane.setVisibility(View.VISIBLE);
+                            HELPER.print("FREE_IMAGE-1", preafManager.getAllFreeImage().toString());
+                            if (!preafManager.getAllFreeImage()) {
+                                ((BrandHolder) holder).binding.selectPlane.setVisibility(View.VISIBLE);
+                            } else {
+                                ((BrandHolder) holder).binding.selectPlane.setVisibility(View.GONE);
+                            }
                             ((BrandHolder) holder).binding.view.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.showImage.setVisibility(View.GONE);
                             ((BrandHolder) holder).binding.makePayment.setVisibility(View.GONE);
@@ -256,7 +261,11 @@ public class BrandAdapter extends RecyclerView.Adapter {
                         else {
                             ((BrandHolder) holder).binding.warning.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.warning.setText("You haven't selected any package yet!");
-                            ((BrandHolder) holder).binding.selectPlane.setVisibility(View.VISIBLE);
+                            if (!preafManager.getAllFreeImage()) {
+                                ((BrandHolder) holder).binding.selectPlane.setVisibility(View.VISIBLE);
+                            } else {
+                                ((BrandHolder) holder).binding.selectPlane.setVisibility(View.GONE);
+                            }
                             ((BrandHolder) holder).binding.view.setVisibility(View.VISIBLE);
                             ((BrandHolder) holder).binding.showImage.setVisibility(View.GONE);
                             ((BrandHolder) holder).binding.makePayment.setVisibility(View.GONE);
@@ -288,15 +297,19 @@ public class BrandAdapter extends RecyclerView.Adapter {
                             }
                         }
                     }
-
-                    if (!Utility.isUserPaid(brandListItems.get(position))) {
+                    if (preafManager.getAllFreeImage()) {
                         ((BrandHolder) holder).binding.msg.setVisibility(View.VISIBLE);
+                        ((BrandHolder) holder).binding.msg.setText("As you are free user you can download or share only one image in a day");
+                    } else {
+                        if (!Utility.isUserPaid(brandListItems.get(position))) {
+                            ((BrandHolder) holder).binding.msg.setVisibility(View.VISIBLE);
+                        }
                     }
                     break;
                 case LAYOUT_NOTIFICATIONlIST:
                     ((NotificationHolder) holder).binding.messgae.setText(model.getMessage());
                     ((NotificationHolder) holder).binding.date.setText(model.getDate());
-                    ((NotificationHolder) holder).binding.time.setText(model.getTime());
+                    ((NotificationHolder) holder).binding.time.setText(" " + model.getTime());
             }
 
         }
@@ -323,7 +336,7 @@ public class BrandAdapter extends RecyclerView.Adapter {
     }
 
     public void showDialog(int position) {
-        Utility.Log("brandListItems",   gson.toJson(brandListItems.get(position)) );
+        Utility.Log("brandListItems", gson.toJson(brandListItems.get(position)));
 
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity, R.style.MyAlertDialogStyle_extend2);
         PackageDetailAlertDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.package_detail_alert_dialog, null, false);

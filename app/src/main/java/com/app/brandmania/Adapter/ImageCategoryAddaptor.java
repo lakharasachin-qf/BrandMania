@@ -206,7 +206,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                         }
                     });
 
-
                     if (!model.isImageFree()) {
                         ((ImageCategoryHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);
                     } else {
@@ -390,7 +389,6 @@ public class ImageCategoryAddaptor extends RecyclerView.Adapter {
                             .load(model.getFrame())
                             .placeholder(R.drawable.placeholder)
                             .into(((FrameCategoryByIdHolder) holder).binding.image);
-
 
                     if (!model.isImageFree()) {
                         ((FrameCategoryByIdHolder) holder).binding.elementPremium.setVisibility(View.VISIBLE);

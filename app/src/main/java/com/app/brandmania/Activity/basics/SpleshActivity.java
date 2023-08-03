@@ -55,7 +55,6 @@ public class SpleshActivity extends BaseActivity implements alertListenerCallbac
     PreafManager preafManager;
     AnimatorSet animatorSet1;
     private String referrerCode = "";
-    //app updates
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

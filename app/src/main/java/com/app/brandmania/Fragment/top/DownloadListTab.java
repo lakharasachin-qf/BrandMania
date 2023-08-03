@@ -4,9 +4,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,15 +21,18 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,8 +45,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.brandmania.Activity.details.ImageCategoryDetailActivity;
 import com.app.brandmania.Activity.packages.PackageActivity;
 import com.app.brandmania.Adapter.DownloadFavoriteAdapter;
+import com.app.brandmania.BuildConfig;
+import com.app.brandmania.Common.HELPER;
 import com.app.brandmania.Common.ResponseHandler;
 import com.app.brandmania.Fragment.BaseFragment;
 import com.app.brandmania.Model.DownloadFavoriteItemList;
@@ -152,24 +162,134 @@ public class DownloadListTab extends BaseFragment {
             @Override
             public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
                 //requestAgain();
-                if (manuallyEnablePermission()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     downloadingOject = favoriteItemList;
                     if (!downloadingOject.isCustom())
                         new DownloadImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
                     else
                         new DownloadImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
+                } else {
+                    if (manuallyEnablePermission()) {
+                        downloadingOject = favoriteItemList;
+                        if (!downloadingOject.isCustom())
+                            new DownloadImageTaskFrame(downloadingOject.getFrame()).execute(downloadingOject.getFrame());
+                        else
+                            new DownloadImageTaskImage(downloadingOject.getImage()).execute(downloadingOject.getImage());
 
+                    }
+                }
+            }
+        };
+
+        DownloadFavoriteAdapter.onShareVideoClick onShareVideoClick = new DownloadFavoriteAdapter.onShareVideoClick() {
+            @Override
+            public void onShareClick(DownloadFavoriteItemList favoriteItemList, int position) {
+                //requestAgain();
+                downloadingOject = favoriteItemList;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    new AsyncTaskRunner().execute();
+                } else {
+                    new AsyncTaskRunner().execute();
                 }
             }
         };
         menuAddaptor.setOnShareImageClick(onShareImageClick);
+        menuAddaptor.setOnShareVideoClick(onShareVideoClick);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         binding.DownloadRecycler.setLayoutManager(mLayoutManager);
         binding.DownloadRecycler.setHasFixedSize(true);
         binding.DownloadRecycler.setAdapter(menuAddaptor);
     }
 
+    ProgressDialog progressDialog;
 
+    @SuppressLint("StaticFieldLeak")
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+        private String resp;
+
+        @Override
+        protected String doInBackground(String... params) {
+            publishProgress("Sleeping...");
+            saveVideoInCatch();
+            return resp;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            return;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(act);
+            progressDialog.setMessage("Please Wait...");
+            progressDialog.setCancelable(true);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+
+        }
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+        }
+    }
+
+    DownloadManager manager;
+    boolean isVideoIsDownloading = false;
+    String framePath = "";
+    String finalVideoPath = "";
+    long downloadID;
+    String videoUrl;
+
+    public void saveVideoInCatch() {
+        if (!isVideoIsDownloading) {
+            String url = String.valueOf(downloadingOject.getImage());
+            DownloadManager.Request request;
+            request = new DownloadManager.Request(Uri.parse(url));
+            videoUrl = URLUtil.guessFileName(url, null, null).replace("0", System.currentTimeMillis() + "");
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+            request.setDescription("Downloading Please wait...");
+            request.setTitle(videoUrl);
+            request.setVisibleInDownloadsUi(true);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, videoUrl);
+            request.allowScanningByMediaScanner();
+            manager = (DownloadManager) act.getSystemService(Context.DOWNLOAD_SERVICE);
+            downloadID = manager.enqueue(request);
+            act.registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+            isVideoIsDownloading = true;
+        }
+    }
+
+    private final BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            if (downloadID == id) {
+                //Log.e("Download-Process", "Done");
+                File outputFrameFile = new File(act.getCacheDir() + File.separator);
+                String vdPaths = outputFrameFile.getAbsolutePath();
+
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + File.separator);
+                if (!file.exists()) {
+                    file.mkdir();
+                }
+
+                String path = file.getAbsolutePath();
+                file = new File(path + "/" + videoUrl);
+                String vdPath = file.getAbsolutePath();
+                file = new File(vdPaths + "/" + videoUrl);
+                if (!vdPath.isEmpty()) {
+                    finalVideoPath = vdPath;
+                }
+                progressDialog.dismiss();
+                shareVideo(finalVideoPath);
+                isVideoIsDownloading = false;
+            }
+        }
+    };
 
     @SuppressLint("StaticFieldLeak")
     private class DownloadImageTaskFrame extends AsyncTask<String, Void, BitmapDrawable> {
@@ -251,12 +371,24 @@ public class DownloadListTab extends BaseFragment {
     BitmapDrawable backgroundImageDrable;
 
     //fire intent for share
+
+
     public void triggerShareIntent(File new_file, Bitmap merged) {
         //  Uri uri = Uri.parse();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/*");
         share.putExtra(Intent.EXTRA_STREAM, getImageUri(act, merged));
         startActivity(Intent.createChooser(share, "Share Image"));
+    }
+
+    public void shareVideo(String finalVideoPath) {
+        File videoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), finalVideoPath.substring(finalVideoPath.lastIndexOf('/') + 1));
+        Uri videoUri = FileProvider.getUriForFile(act, BuildConfig.APPLICATION_ID + ".provider", videoFile);
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("video/mp4");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, videoUri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(shareIntent, "Share Video"));
     }
 
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -314,7 +446,7 @@ public class DownloadListTab extends BaseFragment {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(String response) {
-                Utility.Log("download",response);
+                Utility.Log("download", response);
                 binding.swipeContainer.setRefreshing(false);
 
                 try {
@@ -370,7 +502,6 @@ public class DownloadListTab extends BaseFragment {
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-
 
 
 }

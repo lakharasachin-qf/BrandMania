@@ -437,127 +437,151 @@
                             android:layout_marginBottom="@dimen/_1sdp"
                             android:clipToPadding="false" />
 
-
                     </RelativeLayout>
 
-                    <LinearLayout
-                        android:id="@+id/referralCardView"
+                    <RelativeLayout
+                        android:id="@+id/imageCardWithOfferPageLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/recommendationRelativ"
-                        android:layout_marginStart="@dimen/_9sdp"
-                        android:layout_marginTop="@dimen/_7sdp"
-                        android:layout_marginEnd="@dimen/_9sdp"
-                        android:background="@color/white"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
+                        android:layout_below="@+id/recommendationRelativ">
 
-                        <ImageView
-                            android:id="@+id/voucher"
-                            android:layout_width="@dimen/_80sdp"
-                            android:layout_height="@dimen/_80sdp"
-                            android:src="@drawable/ic_referrel_illustration" />
-
-                        <LinearLayout
-                            android:id="@+id/referCodeLayout"
+                        <androidx.cardview.widget.CardView
+                            android:visibility="gone"
+                            android:id="@+id/allFreeImage"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_7sdp"
-                            android:background="@drawable/referral_background_home_fragment"
-                            android:orientation="vertical"
-                            android:paddingTop="@dimen/_12sdp"
-                            android:paddingBottom="@dimen/_12sdp">
+                            android:layout_height="match_parent"
+                            android:focusable="true"
+                            card_view:cardCornerRadius="@dimen/_7sdp"
+                            card_view:cardElevation="@dimen/_7sdp"
+                            card_view:cardPreventCornerOverlap="true"
+                            card_view:cardUseCompatPadding="true">
 
                             <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_gravity="end"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                android:padding="@dimen/_4sdp"
-                                android:src="@drawable/ic_next"
-                                card_view:tint="@color/colorPrimary" />
+                                android:id="@+id/freeOfferImg"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_130sdp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/app_banner" />
+                        </androidx.cardview.widget.CardView>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_10sdp"
-                                android:layout_marginTop="-20dp"
-                                android:fontFamily="@font/montserrat_bold"
-                                android:text="Refer &amp; Earn"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_10sdp" />
-                            <!--android:text="Invite your friends to pay later and earn bonus amount in wallet"-->
-                            <TextView
-                                android:id="@+id/inviteTxt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_10sdp"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:layout_marginEnd="@dimen/_10sdp"
-                                android:fontFamily="@font/montserrat_semibold"
-                                android:text="Invite your friends and get discount in your next payment also your friend will get assured discount in their first payment."
+                        <LinearLayout
+                            android:id="@+id/referralCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_9sdp"
+                            android:layout_marginEnd="@dimen/_9sdp"
+                            android:background="@color/white"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
 
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_8sdp" />
+                            <ImageView
+                                android:id="@+id/voucher"
+                                android:layout_width="@dimen/_80sdp"
+                                android:layout_height="@dimen/_80sdp"
+                                android:src="@drawable/ic_referrel_illustration" />
 
-                            <RelativeLayout
+                            <LinearLayout
+                                android:id="@+id/referCodeLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_7sdp"
+                                android:background="@drawable/referral_background_home_fragment"
+                                android:orientation="vertical"
+                                android:paddingTop="@dimen/_12sdp"
+                                android:paddingBottom="@dimen/_12sdp">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_15sdp"
+                                    android:layout_height="@dimen/_15sdp"
+                                    android:layout_gravity="end"
+                                    android:layout_marginEnd="@dimen/_7sdp"
+                                    android:padding="@dimen/_4sdp"
+                                    android:src="@drawable/ic_next"
+                                    card_view:tint="@color/colorPrimary" />
 
                                 <TextView
-                                    android:id="@+id/codeLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentLeft="true"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:layout_marginTop="-20dp"
+                                    android:fontFamily="@font/montserrat_bold"
+                                    android:text="Refer &amp; Earn"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/_10sdp" />
+                                <!--android:text="Invite your friends to pay later and earn bonus amount in wallet"-->
+                                <TextView
+                                    android:id="@+id/inviteTxt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/_10sdp"
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:layout_marginEnd="@dimen/_10sdp"
-                                    android:layout_toStartOf="@id/codeLayout"
                                     android:fontFamily="@font/montserrat_semibold"
-                                    android:text="Referral Code : "
+                                    android:text="Invite your friends and get discount in your next payment also your friend will get assured discount in their first payment."
+
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_8sdp" />
 
                                 <RelativeLayout
-                                    android:id="@+id/codeLayout"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:background="@drawable/refer_rectangle_shape_home_fragment">
+                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginEnd="@dimen/_7sdp"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
 
                                     <TextView
-                                        android:id="@+id/referralcodeTxt"
+                                        android:id="@+id/codeLabel"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/_15sdp"
+                                        android:layout_alignParentLeft="true"
+                                        android:layout_marginStart="@dimen/_10sdp"
                                         android:layout_marginTop="@dimen/_5sdp"
-                                        android:layout_marginEnd="@dimen/_15sdp"
-                                        android:layout_marginBottom="@dimen/_5sdp"
-                                        android:fontFamily="@font/montserrat_bold"
-                                        android:gravity="center"
-                                        android:includeFontPadding="false"
-                                        android:text="#BRAND@2345"
+                                        android:layout_marginEnd="@dimen/_10sdp"
+                                        android:layout_toStartOf="@id/codeLayout"
+                                        android:fontFamily="@font/montserrat_semibold"
+                                        android:text="Referral Code : "
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/_7sdp" />
+                                        android:textSize="@dimen/_8sdp" />
+
+                                    <RelativeLayout
+                                        android:id="@+id/codeLayout"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:background="@drawable/refer_rectangle_shape_home_fragment">
+
+                                        <TextView
+                                            android:id="@+id/referralcodeTxt"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/_15sdp"
+                                            android:layout_marginTop="@dimen/_5sdp"
+                                            android:layout_marginEnd="@dimen/_15sdp"
+                                            android:layout_marginBottom="@dimen/_5sdp"
+                                            android:fontFamily="@font/montserrat_bold"
+                                            android:gravity="center"
+                                            android:includeFontPadding="false"
+                                            android:text="#BRAND@2345"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/_7sdp" />
+                                    </RelativeLayout>
+
                                 </RelativeLayout>
 
-                            </RelativeLayout>
+                            </LinearLayout>
 
                         </LinearLayout>
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/requestBusLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/referralCardView"
+                        android:layout_below="@+id/imageCardWithOfferPageLayout"
                         android:focusable="true"
                         card_view:cardCornerRadius="@dimen/_7sdp"
                         card_view:cardElevation="@dimen/_7sdp"
@@ -674,7 +698,6 @@
                         </RelativeLayout>
 
                     </androidx.cardview.widget.CardView>
-
 
                 </RelativeLayout>
             </androidx.core.widget.NestedScrollView>

@@ -72,6 +72,15 @@ public class ProfileFragment extends BaseFragment {
 //            act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
 //        });
 
+        if (prefManager.getAllFreeImage()) {
+            binding.packageRelativeView.setVisibility(View.GONE);
+            binding.packageRelative.setVisibility(View.GONE);
+            binding.referEarnView.setVisibility(View.GONE);
+            binding.referNEarnLayout.setVisibility(View.GONE);
+            binding.reportbugsLayout.setVisibility(View.GONE);
+            binding.reportBugView.setVisibility(View.GONE);
+        }
+
         binding.editProfile.setOnClickListener(v -> {
             Intent i = new Intent(act, EditActivity.class);
             startActivity(i);
@@ -95,14 +104,12 @@ public class ProfileFragment extends BaseFragment {
         }
         binding.logoutRelative.setOnClickListener(v -> {
             prefManager.Logout();
-
             Intent i = new Intent(act, LoginActivity.class);
             i.addCategory(Intent.CATEGORY_HOME);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
             act.finish();
-
         });
 
         if (prefManager.getActiveBrand() != null) {
@@ -144,6 +151,7 @@ public class ProfileFragment extends BaseFragment {
                 e.printStackTrace();
             }
         });
+
         binding.reportbugsLayout.setOnClickListener(view -> HELPER.ROUTE(act, AddReportAndBug.class));
         binding.appVersionTxt.setText("App Version " + Constant.F_VERSION);
 

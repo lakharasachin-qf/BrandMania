@@ -1,0 +1,35 @@
+
+API : getCustomFrameAccess
+- Field:- isAllFree[By-Default=true]==If True Then All Image Free
+
+API : updateToken
+- Field:- isAllFree[By-Default=true]==If True Then All Image Free
+
+API : sendOtp
+- Field:- is_normal_login:- false = Firebase auth otp, True= Normal Otp
+
+API : getCustomFrameAccess:- total_img_counter = set "Unlimited" for download all image free
+
+APIS NAME FOR HIDE PREMIUM TAG: Static Pass Field:- is_free = "1" = All Free
+   1- getImageCategoryImageLang
+   2- getCustomeImageCategory
+   3- getCustomImageCategoryImage
+
+Changes:
+
+1- Only One Image Download per Day
+2- In Frame Tab :- Set Frame Request Banner And On Click redirect to whatsapp
+3- Home Screen:- Remove refer&Earn Banner and set All Free banner and remove expire text
+4- Remove Multibrand Button in whole App
+5- Profile Screen:- Remove refer&earn and package Screen
+6- if image download once in a day then show dialog and set message"Your download image limit is expire if you download your last image then click below button and download image"
+7- Fire Notification Everyday
+8- dashboard offer popup dialog hide
+
+
+
+
+
+
+
+
