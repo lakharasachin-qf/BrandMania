@@ -12,23 +12,18 @@ android {
         applicationId "com.make.mybrand"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 41
-        versionName "2.3.3"
+        versionCode 49
+        versionName "2.4.9"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-//        release {
-        // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            9
         }
-
         release {
             shrinkResources true
             minifyEnabled true
@@ -65,19 +60,19 @@ android {
 
 dependencies {
     implementation fileTree(dir: "lib", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.gms:play-services-appinvite:18.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.github.duanhong169:drawabletoolbox:1.0.7"
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
     // dependencies for legacy-support
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
@@ -90,7 +85,7 @@ dependencies {
 
     //for pending intent
 
-    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
     // dependencies for facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
@@ -103,7 +98,7 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
 
     // dependency file for gson
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.9.0'
     // dependency file for permission
     implementation 'com.karumi:dexter:6.2.2'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
@@ -114,10 +109,10 @@ dependencies {
      implementation 'ja.burhanrashid52:photoeditor:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test:rules:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.github.clans:fab:1.6.4'
@@ -166,11 +161,6 @@ dependencies {
     implementation 'com.github.HaarigerHarald:android-youtubeExtractor:v1.7.0'
     implementation 'com.github.ksoichiro:android-observablescrollview:1.5.2'
 
-
-    //for FFmpeg
-//    implementation 'nl.bravobit:android-ffmpeg:1.1.7'
-//    implementation project(':android-ffmpeg')
-
     implementation 'com.github.virtualvivek:BlurShadowImageView:2.1'
 
     implementation 'com.github.mmin18:realtimeblurview:1.2.1'
@@ -181,22 +171,22 @@ dependencies {
     implementation 'commons-validator:commons-validator:1.6'
 
     // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:28.4.0')
-    implementation 'com.google.firebase:firebase-messaging:23.2.0'
+    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
+    implementation 'com.google.firebase:firebase-messaging:23.2.1'
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-dynamic-links'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
-
+    implementation ("com.google.firebase:firebase-appcheck-playintegrity")
 
     implementation 'com.arthenica:mobile-ffmpeg-full:4.4.LTS'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.10"
 
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.woxingxiao:BounceScrollView:1.4-androidx'
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
-    implementation "androidx.work:work-runtime:2.7.0"
+    implementation "androidx.recyclerview:recyclerview:1.3.1"
+    implementation "androidx.work:work-runtime:2.8.1"
 
 }

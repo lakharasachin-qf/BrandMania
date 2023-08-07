@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.app.brandmania">
+    package="com.make.mybrand">
+
+    
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -15,138 +14,140 @@
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+
    <!-- <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />-->
 
     <application
-        android:exported="true"
-        android:name=".Common.MakeMyBrandApp"
+        android:name="com.make.mybrand.Common.MakeMyBrandApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
+
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
         <activity
-            android:name=".LetterHead.LetterHeadActivity"
+            android:name="com.make.mybrand.LetterHead.LetterHeadActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.brand.EditActivity"
+            android:name="com.make.mybrand.Activity.brand.EditActivity"
             android:exported="false" />
 
-        <activity android:name=".Activity.basics.ReferNEarnActivity" android:exported="false" />
+        <activity android:name="com.make.mybrand.Activity.basics.ReferNEarnActivity" android:exported="false" />
 
         <activity
             android:exported="false"
-            android:name=".Activity.PdfActivity"
+            android:name="com.make.mybrand.Activity.PdfActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.custom.ViewAllFrameImageActivity"
+            android:name="com.make.mybrand.Activity.custom.ViewAllFrameImageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.about_us.AppIntroActivity"
+            android:name="com.make.mybrand.Activity.about_us.AppIntroActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.custom.CustomViewAllActivit"
+            android:name="com.make.mybrand.Activity.custom.CustomViewAllActivit"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.packages.RazorPayActivity"
+            android:name="com.make.mybrand.Activity.packages.RazorPayActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:exported="false"
-            android:name=".Activity.ViewNotificationActivity"
+            android:name="com.make.mybrand.Activity.ViewNotificationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.details.DailyCategoryListActivity"
+            android:name="com.make.mybrand.Activity.details.DailyCategoryListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.basics.LoadingHomeActivity"
+            android:name="com.make.mybrand.Activity.basics.LoadingHomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.packages.PackageActivity"
+            android:name="com.make.mybrand.Activity.packages.PackageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.brand.AddBrandMultipleActivity"
+            android:name="com.make.mybrand.Activity.brand.AddBrandMultipleActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.about_us.AboutUsActivity"
+            android:name="com.make.mybrand.Activity.about_us.AboutUsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.details.BusinessCategoryListActivity"
+            android:name="com.make.mybrand.Activity.details.BusinessCategoryListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.about_us.AddReportAndBug"
+            android:name="com.make.mybrand.Activity.about_us.AddReportAndBug"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.about_us.FaqActivity"
+            android:name="com.make.mybrand.Activity.about_us.FaqActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.packages.SubscriptionActivity"
+            android:name="com.make.mybrand.Activity.packages.SubscriptionActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.about_us.HelpAndSupport"
+            android:name="com.make.mybrand.Activity.about_us.HelpAndSupport"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.about_us.PartnerProgramActivity"
+            android:name="com.make.mybrand.Activity.about_us.PartnerProgramActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.brand.ViewBrandActivity"
+            android:name="com.make.mybrand.Activity.brand.ViewBrandActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.brand.AddBranddActivity"
+            android:name="com.make.mybrand.Activity.brand.AddBranddActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.brand.UpdateBandList"
+            android:name="com.make.mybrand.Activity.brand.UpdateBandList"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.basics.RegistrationActivity"
+            android:name="com.make.mybrand.Activity.basics.RegistrationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            android:name=".Activity.basics.OtpScreenActivity"
+            android:name="com.make.mybrand.Activity.basics.OtpScreenActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.basics.LoginActivity"
+            android:name="com.make.mybrand.Activity.basics.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_material_theme" />
         <activity
             android:exported="false"
-            android:name=".Activity.details.ImageCategoryDetailActivity"
+            android:name="com.make.mybrand.Activity.details.ImageCategoryDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:exported="false"
-            android:name=".Activity.HomeActivity"
+            android:name="com.make.mybrand.Activity.HomeActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:exported="true"
-            android:name=".Activity.basics.SpleshActivity"
+            android:name="com.make.mybrand.Activity.basics.SpleshActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -180,7 +181,7 @@
 
         <service
             android:exported="true"
-            android:name=".Connection.MyFirebaseMessagingService"
+            android:name="com.make.mybrand.Connection.MyFirebaseMessagingService"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
