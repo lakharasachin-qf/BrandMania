@@ -2900,8 +2900,29 @@ public class ImageCategoryDetailActivity extends BaseActivity implements ImageCa
         return false;
     }
 
+    // this function checks for only one image or video can be download per day
     private void validateToDownloadOneItemPerDay(String isImage, String flag) {
-        // this function checks for only one image or video can be download per day
+
+        //if user premium then can download image without one day image count condition
+        if (Utility.isUserPaid(prefManager.getActiveBrand())) {
+            if (!Utility.isPackageExpired(act)) {
+                //getImageDownloadRights("Share", selectedObject.getImageType() == ImageList.IMAGE ? "IMAGE" : "VIDEO");
+                //can download image or video
+                if (isImage == "IMAGE") {
+                    if (flag.equalsIgnoreCase("Download"))
+                        askForDownloadImage();
+                    else {
+                        requestAgain();
+                        saveImageToGallery(true, false);
+                    }
+                } else {
+                    checkForDownload(true);
+                }
+              return;
+            }
+        }
+
+
         if (validateDate()) {
             HELPER.print("CUrrentPAth", selectedObject.getFrame());
             prefManager.setCurrentPath(selectedObject.getFrame());

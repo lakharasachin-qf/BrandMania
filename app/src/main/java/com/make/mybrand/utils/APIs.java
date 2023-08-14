@@ -29,6 +29,9 @@ public class APIs {
     public static final String VERIFY_OTP = URL + "otpVerify";
     public static final String SEND_OTP = URL + "sendOtp";
     public static final String SEND_OTP_CLONE = URL + "sendOtpClone";
+    public static final String loginWithPassword = URL + "loginWithPassword";
+    public static final String checkPassword = URL + "checkPassword";
+    public static final String updatePassword = URL + "updatePassword";
     public static final String MAKE_PAYMENT = URL + "makePaymentTest"; //current payment api
     public static final String CREATE_PAYMENT = URL + "createPayment";
     public static final String GENERATE_ORDER_ID = URL + "createOrder";

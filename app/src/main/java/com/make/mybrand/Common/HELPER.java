@@ -63,7 +63,7 @@ public class HELPER {
         act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
     public static void print(String tag, String message) {
-       // Log.e(tag, message);
+         Log.e(tag, message);
     }
 
     /**

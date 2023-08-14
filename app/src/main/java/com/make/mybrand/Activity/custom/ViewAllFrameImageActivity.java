@@ -2380,7 +2380,18 @@ public class ViewAllFrameImageActivity extends BaseActivity implements FrameInte
     }
 
     private void validateToDownloadOneItemPerDay(String flag) {
-        // this function checks for only one iamge or video can be download per day
+        // this function checks for only one iamge  can be download per day
+
+        //if user premium then can download image without one day image count condition
+        if (Utility.isUserPaid(prefManager.getActiveBrand())) {
+            if (!Utility.isPackageExpired(act)) {
+                requestAgain();
+                saveImageToGallery(true, false);
+                return;
+            }
+        }
+
+
         if (validateDate()) {
             // Update the last API call timestamp
             prefManager.setCurrentPath(selectedObject.getFrame());

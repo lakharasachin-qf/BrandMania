@@ -333,6 +333,7 @@ public class OtpScreenActivity extends BaseActivity implements alertListenerCall
                         prefManager.setUserToken(jsonArray.getString("token"));
                         prefManager.isLoginDate(jsonArray.getString("created_at"));
                         prefManager.setLogin(true);
+
                         ArrayList<BrandListItem> brands = ResponseHandler.handleLogin(jObject);
                         if (brands != null && brands.size() != 0) {
                             prefManager.setAddBrandList(brands);

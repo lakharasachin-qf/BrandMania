@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/login_screen"
+
         android:theme="@style/AppTheme_material_theme"
         tools:context=".Activity.basics.LoginActivity">
 
@@ -28,6 +29,34 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/_10sdp"
                 android:inputType="number"
+                android:maxEms="13"
+                android:maxLength="10"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:textCursorDrawable="@drawable/cursordesign"
+                android:textSize="@dimen/_10sdp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordTextLayout"
+            style="@style/LoginTextInputLayoutStyle"
+            android:layout_below="@+id/userNameTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:hint="Password"
+            android:visibility="gone"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordNumber"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/_10sdp"
+                android:inputType="text"
                 android:maxEms="13"
                 android:maxLength="10"
                 android:paddingStart="@dimen/_20sdp"
@@ -68,7 +97,7 @@
             android:id="@+id/loginBtn"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_below="@+id/userNameTextLayout"
+            android:layout_below="@+id/passwordTextLayout"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/_20sdp"
