@@ -46,6 +46,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.make.mybrand.Activity.HomeActivity;
+import com.make.mybrand.Activity.brand.AddBrandMultipleActivity;
 import com.make.mybrand.Common.HELPER;
 import com.make.mybrand.Common.PreafManager;
 import com.make.mybrand.Common.ResponseHandler;
@@ -80,6 +81,8 @@ public class LoginActivity extends BaseActivity {
 
     boolean isNoPassword=false;
     boolean isValided=false;
+
+    boolean isDirectLogin = true;
     private String deviceToken = "";
 
     private ActivityResultLauncher<String> requestPermissionLauncher;
@@ -132,6 +135,13 @@ public class LoginActivity extends BaseActivity {
             binding.welcome.setText(Html.fromHtml(WELCOME));
         }
 
+        binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HELPER.ROUTE(act, ForgotPasswordActivity.class);
+            }
+        });
+
         binding.mobileNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -140,8 +150,11 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
                 if(binding.mobileNumber.getText().toString().length()>9) {
-                    checkForPassword();
+                    if(!isDirectLogin){
+                        checkForPassword();
+                    }
                 }
             }
 
@@ -164,45 +177,131 @@ param:
 2. passeword*/
 
         binding.loginBtn.setOnClickListener(v -> {
-            if(isValided) {
-                String ContactNO = Objects.requireNonNull(binding.mobileNumber.getText()).toString();
-                String password = Objects.requireNonNull(binding.passwordNumber.getText()).toString();
-                HELPER.print("isNoPassword", String.valueOf(isNoPassword));
-                if (isNoPassword) {
-                    if (ContactNO.isEmpty()) {
-                        binding.mobileNumber.setError("Enter Mobile Number");
-                        binding.mobileNumber.requestFocus();
-                    } else if (ContactNO.length() < 10) {
-                        binding.mobileNumber.setError("Enter Valid Mobile Number");
-                        binding.mobileNumber.requestFocus();
-                    } else {
-                        callsigninapicall();
-                    }
-                } else {
-                    if (ContactNO.isEmpty()) {
-                        binding.mobileNumber.setError("Enter Mobile Number");
-                        binding.mobileNumber.requestFocus();
-                    } else if (ContactNO.length() < 10) {
-                        binding.mobileNumber.setError("Enter Valid Mobile Number");
-                        binding.mobileNumber.requestFocus();
-                    } else if (password.isEmpty()) {
-                        binding.passwordNumber.setError("Enter password");
-                        binding.passwordNumber.requestFocus();
-                    } else if (password.length() < 6) {
-                        binding.passwordNumber.setError("Password should be at least 6 digit long");
-                        binding.passwordNumber.requestFocus();
-                    } else {
-                        passwordData = binding.passwordNumber.getText().toString();
-                        callsigninapicall();
-                    }
-                }
-
-
+            if(isDirectLogin){
+                getDirectLogin();
             }else{
-                checkForPassword();
+                if(isValided) {
+                    String ContactNO = Objects.requireNonNull(binding.mobileNumber.getText()).toString();
+                    String password = Objects.requireNonNull(binding.passwordNumber.getText()).toString();
+                    HELPER.print("isNoPassword", String.valueOf(isNoPassword));
+                    if (isNoPassword) {
+                        if (ContactNO.isEmpty()) {
+                            binding.mobileNumber.setError("Enter Mobile Number");
+                            binding.mobileNumber.requestFocus();
+                        } else if (ContactNO.length() < 10) {
+                            binding.mobileNumber.setError("Enter Valid Mobile Number");
+                            binding.mobileNumber.requestFocus();
+                        } else {
+                            callsigninapicall();
+                        }
+                    } else {
+                        if (ContactNO.isEmpty()) {
+                            binding.mobileNumber.setError("Enter Mobile Number");
+                            binding.mobileNumber.requestFocus();
+                        } else if (ContactNO.length() < 10) {
+                            binding.mobileNumber.setError("Enter Valid Mobile Number");
+                            binding.mobileNumber.requestFocus();
+                        } else if (password.isEmpty()) {
+                            binding.passwordNumber.setError("Enter password");
+                            binding.passwordNumber.requestFocus();
+                        } else if (password.length() < 6) {
+                            binding.passwordNumber.setError("Password should be at least 6 digit long");
+                            binding.passwordNumber.requestFocus();
+                        } else {
+                            passwordData = binding.passwordNumber.getText().toString();
+                            callsigninapicall();
+                        }
+                    }
+
+
+                }else{
+                    checkForPassword();
+                }
             }
         });
     }
+
+    private void getDirectLogin(){
+        if (isLoading)
+            return;
+        isLoading = true;
+        Utility.showProgress(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.LOGIN_WITHOUT_VALIDATE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                Utility.dismissProgress();
+                HELPER.print("RESPONSE", response);
+                try {
+                    JSONObject  jObject= null;
+                    jObject = new JSONObject(response);
+
+                    if (ResponseHandler.isSuccess(response, null)) {
+                        JSONObject jsonArray = jObject.getJSONObject("data");
+                        prefManager.setUserName(jsonArray.getString("name"));
+                        prefManager.setUserMobileNumber(jsonArray.getString("phone"));
+                        prefManager.setUserEmail_Id(jsonArray.getString("email"));
+                        prefManager.setUserToken(jsonArray.getString("token"));
+                        prefManager.isLoginDate(jsonArray.getString("created_at"));
+                        prefManager.setLogin(true);
+
+                        ArrayList<BrandListItem> brands = ResponseHandler.handleLogin(jObject);
+                        if (brands != null && brands.size() != 0) {
+                            prefManager.setAddBrandList(brands);
+                            prefManager.setActiveBrand(brands.get(0));
+                        }
+                        Intent i = new Intent(act, HomeActivity.class);
+                        i.putExtra("FirstLogin", "1");
+                        i.addCategory(Intent.CATEGORY_HOME);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        finish();
+                    } else {
+                        alertDialogBuilder.setMessage(ResponseHandler.getString(jObject, "message"));
+                        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                            }
+                        });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                isLoading = false;
+                Utility.dismissProgress();
+                volleyError.printStackTrace();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("phone", binding.mobileNumber.getText().toString());
+                params.put("firebase_token", deviceToken);
+               // params.put("deviceInfo", HELPER.deviceINFO());
+                HELPER.print("params",params.toString());
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
+
+
+    }
+
     private void checkForPassword(){
         if (isLoading)
             return;
@@ -312,7 +411,9 @@ param:
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
-    }    private AlertDialog.Builder alertDialogBuilder;
+    }
+
+    private AlertDialog.Builder alertDialogBuilder;
 
     private void callsigninapicall(){
             if (isLoading)

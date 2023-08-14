@@ -32,6 +32,7 @@ public class APIs {
     public static final String loginWithPassword = URL + "loginWithPassword";
     public static final String checkPassword = URL + "checkPassword";
     public static final String updatePassword = URL + "updatePassword";
+    public static final String changePassword = URL + "reqForgotPassword";
     public static final String MAKE_PAYMENT = URL + "makePaymentTest"; //current payment api
     public static final String CREATE_PAYMENT = URL + "createPayment";
     public static final String GENERATE_ORDER_ID = URL + "createOrder";
@@ -54,5 +55,8 @@ public class APIs {
     public static final String PRE_LOGIN_DATA = URL + "userPreLoginData";
     public static final String EDIT_BRAND_PROFILE = URL + "editProfile";
     public static final String DELETE_ACCOUNT = URL + "deleteAccount";
+    public static final String REGISTER_EMAIL = URL + "registerWithEmail";
+    public static final String LOGIN_EMAIL = URL + "loginWithEmail";
+    public static final String LOGIN_WITHOUT_VALIDATE = URL + "loginWithoutCondition";
 
 }

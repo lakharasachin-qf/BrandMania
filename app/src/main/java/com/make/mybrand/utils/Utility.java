@@ -367,7 +367,7 @@ public class Utility {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        ((alertListenerCallback) act).alertListenerClick();
+                        //((alertListenerCallback) act).alertListenerClick();
                     }
                 })
                 .show();

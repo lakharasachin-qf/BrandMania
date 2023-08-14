@@ -19,12 +19,12 @@
             android:layout_marginTop="@dimen/_325sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:hint="Mobile no"
+            android:visibility="visible"
             app:errorEnabled="true"
             app:hintTextColor="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mobileNumber"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/_10sdp"
@@ -66,6 +66,15 @@
                 android:textSize="@dimen/_10sdp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.gms.common.SignInButton
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/signInBtn"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_325sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/signupText"
@@ -92,7 +101,6 @@
             android:textColor="@color/colorNavText"
             android:textSize="@dimen/_20sdp" />
 
-
         <ImageView
             android:id="@+id/loginBtn"
             android:layout_width="@dimen/_40sdp"
@@ -105,6 +113,20 @@
             android:padding="@dimen/_12sdp"
             android:src="@drawable/ic_right_arrow" />
 
+        <TextView
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:id="@+id/forgotPassword"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:text="Forgot Password?"
+            android:fontFamily="@font/inter_extrabold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_12sdp" />
 
     </RelativeLayout>
 </layout>

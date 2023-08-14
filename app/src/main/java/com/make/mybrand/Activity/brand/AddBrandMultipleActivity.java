@@ -415,7 +415,6 @@ public class AddBrandMultipleActivity extends BaseActivity implements ItemSelect
         }
     }
 
-
     CountrySelectionFragment countrySelectionFragment;
 
     public void chooseFragment(int callingFlag, String title, ArrayList<CommonListModel> datalist, String alreadySelectedData) {
