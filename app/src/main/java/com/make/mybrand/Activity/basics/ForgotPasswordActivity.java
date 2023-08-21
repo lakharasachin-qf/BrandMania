@@ -86,11 +86,13 @@ public class ForgotPasswordActivity extends BaseActivity {
                         alertDialogBuilder.setMessage("Your request has been received, Admin will inform you by resetting password,kindly update your password once you login with new password.");
                         alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> onBackPressed());
                         AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.setCancelable(false);
                         alertDialog.show();
                     }else{
                         alertDialogBuilder.setMessage(ResponseHandler.getString(responseData, "message"));
                         alertDialogBuilder.setPositiveButton("Ok", (arg0, arg1) -> onBackPressed());
                         AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.setCancelable(false);
                         alertDialog.show();
                     }
 

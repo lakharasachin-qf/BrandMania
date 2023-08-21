@@ -52,13 +52,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordNumber"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/_10sdp"
                 android:inputType="text"
                 android:maxEms="13"
-                android:maxLength="10"
                 android:paddingStart="@dimen/_20sdp"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"

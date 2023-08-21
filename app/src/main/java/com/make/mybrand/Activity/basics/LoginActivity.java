@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity {
     boolean isNoPassword=false;
     boolean isValided=false;
 
-    boolean isDirectLogin = true;
+    boolean isDirectLogin = false;
     private String deviceToken = "";
 
     private ActivityResultLauncher<String> requestPermissionLauncher;
@@ -178,7 +178,16 @@ param:
 
         binding.loginBtn.setOnClickListener(v -> {
             if(isDirectLogin){
-                getDirectLogin();
+                String ContactNO = Objects.requireNonNull(binding.mobileNumber.getText()).toString();
+                if (ContactNO.isEmpty()) {
+                    binding.mobileNumber.setError("Enter Mobile Number");
+                    binding.mobileNumber.requestFocus();
+                } else if (ContactNO.length() < 10) {
+                    binding.mobileNumber.setError("Enter Valid Mobile Number");
+                    binding.mobileNumber.requestFocus();
+                } else {
+                    getDirectLogin();
+                }
             }else{
                 if(isValided) {
                     String ContactNO = Objects.requireNonNull(binding.mobileNumber.getText()).toString();
@@ -212,8 +221,6 @@ param:
                             callsigninapicall();
                         }
                     }
-
-
                 }else{
                     checkForPassword();
                 }
