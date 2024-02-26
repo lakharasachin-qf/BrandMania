@@ -79,14 +79,15 @@ public class LoginActivity extends BaseActivity {
     String ContactNO;
     String referrerCode = "";
 
-    boolean isNoPassword=false;
-    boolean isValided=false;
+    boolean isNoPassword = false;
+    boolean isValided = false;
 
     boolean isDirectLogin = false;
     private String deviceToken = "";
 
     private ActivityResultLauncher<String> requestPermissionLauncher;
-    String passwordData="";
+    String passwordData = "";
+
     public String getDeviceToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
@@ -99,6 +100,7 @@ public class LoginActivity extends BaseActivity {
 
         return deviceToken;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_material_theme);
@@ -117,7 +119,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onComplete(@NonNull Task<String> task) {
                 if (task != null && task.isSuccessful() && task.getResult() != null) {
-                     Log.e( "TOKEN",task.getResult().toString());
+                    Log.e("TOKEN", task.getResult().toString());
                 }
             }
         });
@@ -151,8 +153,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                if(binding.mobileNumber.getText().toString().length()>9) {
-                    if(!isDirectLogin){
+                if (binding.mobileNumber.getText().toString().length() > 9) {
+                    if (!isDirectLogin) {
                         checkForPassword();
                     }
                 }
@@ -177,7 +179,7 @@ param:
 2. passeword*/
 
         binding.loginBtn.setOnClickListener(v -> {
-            if(isDirectLogin){
+            if (isDirectLogin) {
                 String ContactNO = Objects.requireNonNull(binding.mobileNumber.getText()).toString();
                 if (ContactNO.isEmpty()) {
                     binding.mobileNumber.setError("Enter Mobile Number");
@@ -188,8 +190,8 @@ param:
                 } else {
                     getDirectLogin();
                 }
-            }else{
-                if(isValided) {
+            } else {
+                if (isValided) {
                     String ContactNO = Objects.requireNonNull(binding.mobileNumber.getText()).toString();
                     String password = Objects.requireNonNull(binding.passwordNumber.getText()).toString();
                     HELPER.print("isNoPassword", String.valueOf(isNoPassword));
@@ -221,14 +223,14 @@ param:
                             callsigninapicall();
                         }
                     }
-                }else{
+                } else {
                     checkForPassword();
                 }
             }
         });
     }
 
-    private void getDirectLogin(){
+    private void getDirectLogin() {
         if (isLoading)
             return;
         isLoading = true;
@@ -240,7 +242,7 @@ param:
                 Utility.dismissProgress();
                 HELPER.print("RESPONSE", response);
                 try {
-                    JSONObject  jObject= null;
+                    JSONObject jObject = null;
                     jObject = new JSONObject(response);
 
                     if (ResponseHandler.isSuccess(response, null)) {
@@ -297,8 +299,8 @@ param:
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("phone", binding.mobileNumber.getText().toString());
                 params.put("firebase_token", deviceToken);
-               // params.put("deviceInfo", HELPER.deviceINFO());
-                HELPER.print("params",params.toString());
+                // params.put("deviceInfo", HELPER.deviceINFO());
+                HELPER.print("params", params.toString());
                 return params;
             }
         };
@@ -309,7 +311,7 @@ param:
 
     }
 
-    private void checkForPassword(){
+    private void checkForPassword() {
         if (isLoading)
             return;
         isLoading = true;
@@ -323,8 +325,8 @@ param:
 
                 if (!ResponseHandler.isSuccess(response, null)) {
                     JSONObject responseJson = ResponseHandler.createJsonObject(response);
-                    if(ResponseHandler.getString(responseJson, "message").contains("deleted") || ResponseHandler.getString(responseJson, "message").contains("blocked")){
-                        isNoPassword=false;
+                    if (ResponseHandler.getString(responseJson, "message").contains("deleted") || ResponseHandler.getString(responseJson, "message").contains("blocked")) {
+                        isNoPassword = false;
                         alertDialogBuilder.setMessage(ResponseHandler.getString(responseJson, "message"));
                         alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
@@ -335,20 +337,19 @@ param:
                         alertDialog.show();
                         binding.passwordTextLayout.setVisibility(View.GONE);
                         return;
-
                     }
 
-                    if(ResponseHandler.getString(responseJson, "message").contains("update")){
+                    if (ResponseHandler.getString(responseJson, "message").contains("update")) {
                         //show dialog
-                        isNoPassword=true;
+                        isNoPassword = true;
                         askPassordDialog();
                         binding.passwordTextLayout.setVisibility(View.GONE);
                         return;
                     }
 
-                    if(ResponseHandler.getString(responseJson, "message").contains("USER_EXIST") || ResponseHandler.getString(responseJson, "message").contains("USER_NOT_FOUND")){
-                        isNoPassword=false;
-                        isValided=true;
+                    if (ResponseHandler.getString(responseJson, "message").contains("USER_EXIST") || ResponseHandler.getString(responseJson, "message").contains("USER_NOT_FOUND")) {
+                        isNoPassword = false;
+                        isValided = true;
                         binding.passwordTextLayout.setVisibility(View.VISIBLE);
                     }
                 }
@@ -378,7 +379,8 @@ param:
         RequestQueue queue = Volley.newRequestQueue(act);
         queue.add(stringRequest);
     }
-    private void updatePassword(String newPassword){
+
+    private void updatePassword(String newPassword) {
         if (isLoading)
             return;
         isLoading = true;
@@ -411,7 +413,7 @@ param:
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("phone", binding.mobileNumber.getText().toString());
                 params.put("passeword", newPassword);
-                HELPER.print("params",params.toString());
+                HELPER.print("params", params.toString());
                 return params;
             }
         };
@@ -422,84 +424,84 @@ param:
 
     private AlertDialog.Builder alertDialogBuilder;
 
-    private void callsigninapicall(){
-            if (isLoading)
-                return;
-            isLoading = true;
-            Utility.showProgress(act);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.loginWithPassword, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    isLoading = false;
-                    Utility.dismissProgress();
-                    HELPER.print("RESPONSE", response);
-                    try {
-                        JSONObject  jObject= null;
-                        jObject = new JSONObject(response);
+    private void callsigninapicall() {
+        if (isLoading)
+            return;
+        isLoading = true;
+        Utility.showProgress(act);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIs.loginWithPassword, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isLoading = false;
+                Utility.dismissProgress();
+                HELPER.print("RESPONSE", response);
+                try {
+                    JSONObject jObject = null;
+                    jObject = new JSONObject(response);
 
-                        if (ResponseHandler.isSuccess(response, null)) {
-                            JSONObject jsonArray = jObject.getJSONObject("data");
-                            prefManager.setUserName(jsonArray.getString("name"));
-                            prefManager.setUserMobileNumber(jsonArray.getString("phone"));
-                            prefManager.setUserEmail_Id(jsonArray.getString("email"));
-                            prefManager.setUserToken(jsonArray.getString("token"));
-                            prefManager.isLoginDate(jsonArray.getString("created_at"));
-                            prefManager.setLogin(true);
+                    if (ResponseHandler.isSuccess(response, null)) {
+                        JSONObject jsonArray = jObject.getJSONObject("data");
+                        prefManager.setUserName(jsonArray.getString("name"));
+                        prefManager.setUserMobileNumber(jsonArray.getString("phone"));
+                        prefManager.setUserEmail_Id(jsonArray.getString("email"));
+                        prefManager.setUserToken(jsonArray.getString("token"));
+                        prefManager.isLoginDate(jsonArray.getString("created_at"));
+                        prefManager.setLogin(true);
 
-                            ArrayList<BrandListItem> brands = ResponseHandler.handleLogin(jObject);
-                            if (brands != null && brands.size() != 0) {
-                                prefManager.setAddBrandList(brands);
-                                prefManager.setActiveBrand(brands.get(0));
-                            }
-                            Intent i = new Intent(act, HomeActivity.class);
-                            i.putExtra("FirstLogin", "1");
-                            i.addCategory(Intent.CATEGORY_HOME);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(i);
-                            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                            finish();
+                        ArrayList<BrandListItem> brands = ResponseHandler.handleLogin(jObject);
+                        if (brands != null && brands.size() != 0) {
+                            prefManager.setAddBrandList(brands);
+                            prefManager.setActiveBrand(brands.get(0));
+                        }
+                        Intent i = new Intent(act, HomeActivity.class);
+                        i.putExtra("FirstLogin", "1");
+                        i.addCategory(Intent.CATEGORY_HOME);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                        finish();
                     } else {
-                            alertDialogBuilder.setMessage(ResponseHandler.getString(jObject, "message"));
-                            alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                }
-                            });
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
+                        alertDialogBuilder.setMessage(ResponseHandler.getString(jObject, "message"));
+                        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                            }
+                        });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
                     }
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    isLoading = false;
-                    Utility.dismissProgress();
-                    volleyError.printStackTrace();
-                }
-            }) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                isLoading = false;
+                Utility.dismissProgress();
+                volleyError.printStackTrace();
+            }
+        }) {
 
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    return getHeader(CodeReUse.GET_FORM_HEADER);
-                }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeader(CodeReUse.GET_FORM_HEADER);
+            }
 
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("phone", binding.mobileNumber.getText().toString());
-                    params.put("passeword", passwordData);
-                    params.put("firebase_token", deviceToken);
-                    params.put("deviceInfo", HELPER.deviceINFO());
-                    HELPER.print("params",params.toString());
-                    return params;
-                }
-            };
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            RequestQueue queue = Volley.newRequestQueue(act);
-            queue.add(stringRequest);
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("phone", binding.mobileNumber.getText().toString());
+                params.put("passeword", passwordData);
+                params.put("firebase_token", deviceToken);
+                params.put("deviceInfo", HELPER.deviceINFO());
+                HELPER.print("params", params.toString());
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue queue = Volley.newRequestQueue(act);
+        queue.add(stringRequest);
 
 
     }
@@ -545,7 +547,9 @@ param:
             }
         }
     }
+
     AskPasswordFragment askPasswordFragment;
+
     public void askPassordDialog() {
         try {
             if (askPasswordFragment != null) {
@@ -556,8 +560,8 @@ param:
             askPasswordFragment = new AskPasswordFragment();
             askPasswordFragment.setActivity(act);
             askPasswordFragment.setCanCancel(false);
-            AskPasswordFragment.AskPasswordInterface onLetterHeadListener = (layout,password) -> {
-                isValided=true;
+            AskPasswordFragment.AskPasswordInterface onLetterHeadListener = (layout, password) -> {
+                isValided = true;
                 updatePassword(password);
 
             };

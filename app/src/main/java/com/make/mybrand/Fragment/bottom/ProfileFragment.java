@@ -164,14 +164,11 @@ public class ProfileFragment extends BaseFragment implements onDeleteAccountClic
             }
         });
         binding.visitFacebook.setOnClickListener(v -> facebookPageDialog());
-        binding.websiteLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri webpage = Uri.parse("http://brandmaniaapp.in");
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                //intent.setPackage("com.android.chrome");
-                startActivity(intent);
-            }
+        binding.websiteLayout.setOnClickListener(v -> {
+            Uri webpage = Uri.parse("http://brandmaniaapp.in");
+            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+            //intent.setPackage("com.android.chrome");
+            startActivity(intent);
         });
 
         binding.privacyPolicy.setOnClickListener(v -> {
@@ -181,12 +178,7 @@ public class ProfileFragment extends BaseFragment implements onDeleteAccountClic
             act.overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         });
 
-        binding.deleteAccountLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteAccount();
-            }
-        });
+        binding.deleteAccountLayout.setOnClickListener(view -> deleteAccount());
         return binding.getRoot();
     }
 
